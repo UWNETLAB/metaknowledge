@@ -9,6 +9,16 @@ isiList = ['SOURCEAUTHORNAME', 'SOURCETYPE','AU', 'AF', 'TI', 'SO','ID', 'AB', '
 outfile = "CompiledData.csv"  #Name of output file
 stringOfThreeSpaces = '   ' #What it says on the tin
 
+"""
+ignoreotherfiles = True
+isiList = ['SOURCEAUTHORNAME', 'SOURCETYPE','AU', 'AF', 'TI', 'SO','ID', 'AB', 'C1', 'RP', 'CR', 'DE', 'TC', 'SC', 'J9', 'JI', 'PY', 'UT', 'FU', 'FX']
+outfile = "CompiledData.csv"  #Name of output file
+
+ignoreotherfiles = False #produce two csvs
+isiList = ['Filesname','AU', 'AF', 'TI', 'SO','ID', 'AB', 'C1', 'RP', 'CR', 'DE', 'TC', 'SC', 'J9', 'JI', 'PY', 'UT', 'FU', 'FX']
+outfile = "CompiledData.csv"  #Name of output file
+"""
+
 class BadPaper(Exception):
     pass
         
@@ -75,7 +85,9 @@ def csvPaperList(paperls, csvout):
             fdict[isiList[0]] = namesplit[0] + '_' + namesplit[1]
             fdict[isiList[1]] = ''.join(namesplit[2:])
             readisi = open(fname,"r").readlines()
-            if "VR 1.0" not in readisi[1] and "VR 1.0" not in readisi[0]:
+            if len(readisi) < 2:
+                print fname + " is one line long it will be skipped"
+            elif "VR 1.0" not in readisi[1] and "VR 1.0" not in readisi[0]:
                 #checks that the txt has the right header
                 print "Wrong header in found in " + fname 
                 print readisi[0],
@@ -124,12 +136,13 @@ if __name__ == "__main__":
         print "Starting reads"
         csvPaperList(flist, ocsv)
     except Exception as e:
-        #IF any exceptions are raised cleans up and prints them
+        #If any exceptions are raised cleans up and prints them
         of.close()
         print 'Exception:'
         print e
         print "Deleting " + outfile
         os.remove(outfile)
+        raise
     else:
         of.close()
     finally:

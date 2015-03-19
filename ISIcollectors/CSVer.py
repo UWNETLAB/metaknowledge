@@ -9,16 +9,6 @@ isiList = ['SOURCEAUTHORNAME', 'SOURCETYPE','AU', 'AF', 'TI', 'SO','ID', 'AB', '
 outfile = "CompiledData.csv"  #Name of output file
 stringOfThreeSpaces = '   ' #What it says on the tin
 
-"""
-ignoreotherfiles = True
-isiList = ['SOURCEAUTHORNAME', 'SOURCETYPE','AU', 'AF', 'TI', 'SO','ID', 'AB', 'C1', 'RP', 'CR', 'DE', 'TC', 'SC', 'J9', 'JI', 'PY', 'UT', 'FU', 'FX']
-outfile = "CompiledData.csv"  #Name of output file
-
-ignoreotherfiles = False #produce two csvs
-isiList = ['Filesname','AU', 'AF', 'TI', 'SO','ID', 'AB', 'C1', 'RP', 'CR', 'DE', 'TC', 'SC', 'J9', 'JI', 'PY', 'UT', 'FU', 'FX']
-outfile = "CompiledData.csv"  #Name of output file
-"""
-
 class BadPaper(Exception):
     pass
         
@@ -40,7 +30,7 @@ def readPaper(index, flines, rowDict, csvOut):
     loc = index
     currentVal = ''
     if 'PT' not in flines[loc]:
-        raise BadPaper("bad paper at line " + str(loc + 1) + " " + flines[loc][:-1])
+        raise BadPaper("bad first field at line " + str(loc + 1) + " " + flines[loc][:-1])
     try:
         while 'ER' not in flines[loc][:2]:
             if stringOfThreeSpaces not in flines[loc][:3]: #if the first three characters of flines[loc] are not three spaces
@@ -86,7 +76,7 @@ def csvPaperList(paperls, csvout):
             fdict[isiList[1]] = ''.join(namesplit[2:])
             readisi = open(fname,"r").readlines()
             if len(readisi) < 2:
-                print fname + " is one line long it will be skipped"
+                print fname + " is one or less lines long it will be skipped."
             elif "VR 1.0" not in readisi[1] and "VR 1.0" not in readisi[0]:
                 #checks that the txt has the right header
                 print "Wrong header in found in " + fname 

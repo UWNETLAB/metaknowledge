@@ -7,7 +7,7 @@ import csv
 outputFile = "SubjectCounts.csv"
 
 #The title of the csv's header
-csvHeader = ['Author', 'Subject', 'Count', 'File_Type']
+csvHeader = ['Author', 'Subject', 'Count', 'File_Type', 'WOS_ID']
 fileTypes = ['PUBS', 'CITED', 'UNDEFINED']
 
 #Tag in the second column
@@ -89,12 +89,12 @@ def addAuthToDict(f, adict):
                 if auth not in adict:
                     adict[auth] = {}
                 if subjectTag in p:
-                    for subs in p[subjectTag]:
-                        for sub in subs.split('; '):
-                            if sub in adict[auth]:
-                                adict[auth][sub] += 1
-                            else:
-                                adict[auth][sub] = 1
+                    for sub in ' '.join(p[subjectTag]).split('; '):
+                        if sub in adict[auth]:
+                            adict[auth][sub][0] += 1
+                            adict[auth][sub][1] += '|' + p['UT'][0]
+                        else:
+                            adict[auth][sub] = [1, p['UT'][0]]
                 else:
                     print "No " + subjectTag + " field in " + f,
                     print "paper number " + p['UT'][0]
@@ -164,6 +164,7 @@ if __name__ == '__main__':
                 csvDict[csvHeader[0]] = auth
                 for sub in authSubs.keys():
                     csvDict[csvHeader[1]] = sub
-                    csvDict[csvHeader[2]] = authSubs[sub]
+                    csvDict[csvHeader[2]] = authSubs[sub][0]
+                    csvDict[csvHeader[4]] = authSubs[sub][1]
                     csvOut.writerow(csvDict)
     print "Exiting"

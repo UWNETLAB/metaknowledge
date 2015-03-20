@@ -4,16 +4,16 @@ import sys
 import csv
 
 #output file name
-outputFile = "SubjectList.csv"
+outputFile = "SubjectCounts.csv"
 
 #The title of the csv's header
-csvHeader = ['Article', 'Subject']
+csvHeader = ['Author', 'Subject', 'Count']
 
 #Tag in the second column
 subjectTag = 'SC'
 
-#Fields in first column
-articleTags = ['TI', 'SO', 'UT']
+#Author field used
+authorTag = 'AF'
 
 #Type of file the script looks for
 inputSuffix = ".txt"
@@ -95,47 +95,41 @@ def getFiles(suffix):
         print "Found " + str(len(fls)) + suffix + "  files"
     return fls
 
-def getRowsfromFile(f, csvFile):
-    """
-    getRowsfromFile uses isiParser to parse the file f, then it adds every field
-    in articleTags it can find to the first column of csvFile. For each separate
-    tag in subjectTag it creates an entry in csvFile with the tag in the second
-    column.
-    """
+def addAuthToDict(f, adict):
     plst = isiParser(f)
     for p in plst:
-        pdict = {}
-        for tag in articleTags:
-            if csvHeader[0] in pdict:
-                if tag in p:
-                    pdict[csvHeader[0]] += '|' + ' '.join(p[tag])
-            else:
-                if tag in p:
-                    pdict[csvHeader[0]] =' '.join(p[tag])
-        if subjectTag in p:
-            for sub in '; '.join(p[subjectTag]).split('; '): 
-                #The join is in case the field is spans multiple lines
-                pdict[csvHeader[1]] = sub
-                csvFile.writerow(pdict)
+        if authorTag in p:
+            for auth in p[authorTag]:
+                if auth not in adict:
+                    adict[auth] = {}
+                if subjectTag in p:
+                    for sub in p[subjectTag]:
+                        if sub in adict[auth]:
+                            adict[auth][sub] += 1
+                        else:
+                            adict[auth][sub] = 1
+                else:
+                    print "No " + subjectTag + " field in " + f,
+                    print "paper number " + p['UT'][0]
         else:
-            print "No " + subjectTag + " field in " + f,
+            print "No " + authorTag + " field in " + f,
             print "paper number " + p['UT'][0]
-            pdict[csvHeader[1]] = ''
 
 if __name__ == '__main__':
     if os.path.isfile(outputFile):
         #Checks if the output outputFile already exists and terminates if so
         print outputFile +  " already exists\nexisting"
-        sys.exit()
-        #os.remove(outputFile)
+        #sys.exit()
+        os.remove(outputFile)
     flist = getFiles(inputSuffix)
     csvOut = csv.DictWriter(open(outputFile, 'w'), csvHeader, quotechar='"', quoting=csv.QUOTE_ALL)
     csvOut.writeheader()
+    authDict = {}
     try:
         for isi in flist:
                 try:
                     print "Reading " + isi
-                    getRowsfromFile(isi, csvOut)
+                    addAuthToDict(isi, authDict)
                 except BadPaper as b:
                     print b
                 except Exception, e:
@@ -146,5 +140,14 @@ if __name__ == '__main__':
         print e
         print "Deleting " + outputFile
         os.remove(outputFile)
+    else:
+        csvDict = {}
+        for auth in authDict.keys():
+            authSubs = authDict[auth] #not sure if this is better than accessing the authDict for each subject
+            csvDict[csvHeader[0]] = auth
+            for sub in authSubs.keys():
+                csvDict[csvHeader[1]] = sub
+                csvDict[csvHeader[2]] = authSubs[sub]
+                csvOut.writerow(csvDict)
     finally:
         print "Exiting"

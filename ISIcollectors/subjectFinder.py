@@ -115,6 +115,7 @@ def getRowsfromFile(f, csvFile):
         if subjectTag in p:
             for sub in '; '.join(p[subjectTag]).split('; '): 
                 #The join is in case the field is spans multiple lines
+                if 'NA'
                 pdict[csvHeader[1]] = sub
                 csvFile.writerow(pdict)
         else:

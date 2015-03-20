@@ -103,11 +103,12 @@ def addAuthToDict(f, adict):
                 if auth not in adict:
                     adict[auth] = {}
                 if subjectTag in p:
-                    for sub in p[subjectTag]:
-                        if sub in adict[auth]:
-                            adict[auth][sub] += 1
-                        else:
-                            adict[auth][sub] = 1
+                    for subs in p[subjectTag]:
+                        for sub in subs.split('; '):
+                            if sub in adict[auth]:
+                                adict[auth][sub] += 1
+                            else:
+                                adict[auth][sub] = 1
                 else:
                     print "No " + subjectTag + " field in " + f,
                     print "paper number " + p['UT'][0]
@@ -142,6 +143,7 @@ if __name__ == '__main__':
         os.remove(outputFile)
     else:
         csvDict = {}
+        print "Writing " + outputFile
         for auth in authDict.keys():
             authSubs = authDict[auth] #not sure if this is better than accessing the authDict for each subject
             csvDict[csvHeader[0]] = auth

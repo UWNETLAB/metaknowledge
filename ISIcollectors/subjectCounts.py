@@ -7,7 +7,8 @@ import csv
 outputFile = "SubjectCounts.csv"
 
 #The title of the csv's header
-csvHeader = ['Author', 'Subject', 'Count']
+csvHeader = ['Author', 'Subject', 'Count', 'File_Type']
+fileTypes = ['PUBS', 'CITED', 'UNDEFINED']
 
 #Tag in the second column
 subjectTag = 'SC'
@@ -80,21 +81,6 @@ def isiParser(isifile):
     finally:
         return plst
 
-def getFiles(suffix):
-    """
-    getFiles reads the current directory and returns all files ending with
-    suffix. Terminates the program if none are found, no exceptions thrown.
-    """
-    fls = sys.argv[1:] if sys.argv[1:] else [f for f in os.listdir(".") if f.endswith(suffix)]
-    if len(fls) == 0:
-        #checks for any valid files
-        print "No " + suffix + " Files"
-        sys.exit()
-    else:
-        #Tells how many files were found
-        print "Found " + str(len(fls)) + suffix + "  files"
-    return fls
-
 def addAuthToDict(f, adict):
     plst = isiParser(f)
     for p in plst:
@@ -116,6 +102,34 @@ def addAuthToDict(f, adict):
             print "No " + authorTag + " field in " + f,
             print "paper number " + p['UT'][0]
 
+def getFiles(suffix):
+    """
+    getFiles reads the current directory and returns all files ending with
+    suffix. Terminates the program if none are found, no exceptions thrown.
+    """
+    fls = sys.argv[1:] if sys.argv[1:] else [f for f in os.listdir(".") if f.endswith(suffix)]
+    if len(fls) == 0:
+        #checks for any valid files
+        print "No " + suffix + " Files"
+        sys.exit()
+    pubFormatFiles = [] 
+    citeFormatFiles = []
+    miscFiles = []
+    for fname in fls:
+        slst = fname.split('_')
+        if len(slst) < 3:
+            miscFiles.append(fname)
+        elif "cited" in slst[2].lower():
+            citeFormatFiles.append(fname)
+        elif "pubs" in slst[2][:4].lower():
+            pubFormatFiles.append(fname)
+        else:
+            miscFiles.append(fname)
+    else:
+        #Tells how many files were found
+        print str(len(pubFormatFiles)) + " PUBS, " + str(len(citeFormatFiles)) + " CITED and " + str(len(miscFiles)) + " miscellaneous files found."
+    return [pubFormatFiles, citeFormatFiles, miscFiles]
+
 if __name__ == '__main__':
     if os.path.isfile(outputFile):
         #Checks if the output outputFile already exists and terminates if so
@@ -126,30 +140,30 @@ if __name__ == '__main__':
     csvOut = csv.DictWriter(open(outputFile, 'w'), csvHeader, quotechar='"', quoting=csv.QUOTE_ALL)
     csvOut.writeheader()
     authDict = {}
-    try:
-        for isi in flist:
-                try:
-                    print "Reading " + isi
-                    addAuthToDict(isi, authDict)
-                except BadPaper as b:
-                    print b
-                except Exception, e:
-                    print type(e)
-    except Exception, e:
-        #IF any exceptions are raised cleans up and prints them
-        print 'Exception:'
-        print e
-        print "Deleting " + outputFile
-        os.remove(outputFile)
-    else:
-        csvDict = {}
-        print "Writing " + outputFile
-        for auth in authDict.keys():
-            authSubs = authDict[auth] #not sure if this is better than accessing the authDict for each subject
-            csvDict[csvHeader[0]] = auth
-            for sub in authSubs.keys():
-                csvDict[csvHeader[1]] = sub
-                csvDict[csvHeader[2]] = authSubs[sub]
-                csvOut.writerow(csvDict)
-    finally:
-        print "Exiting"
+    for i in range(3):
+        try:
+            for isi in flist[i]:
+                    try:
+                        print "Reading " + isi
+                        addAuthToDict(isi, authDict)
+                    except BadPaper as b:
+                        print b
+                    except Exception, e:
+                        print type(e)
+        except Exception, e:
+            #IF any exceptions are raised cleans up and prints them
+            print 'Exception:'
+            print e
+            print "Deleting " + outputFile
+            os.remove(outputFile)
+        else:
+            csvDict = {csvHeader[3] : fileTypes[i]}
+            print "Writing " + outputFile
+            for auth in authDict.keys():
+                authSubs = authDict[auth] #not sure if this is better than accessing the authDict for each subject
+                csvDict[csvHeader[0]] = auth
+                for sub in authSubs.keys():
+                    csvDict[csvHeader[1]] = sub
+                    csvDict[csvHeader[2]] = authSubs[sub]
+                    csvOut.writerow(csvDict)
+    print "Exiting"

@@ -120,8 +120,8 @@ if __name__ == '__main__':
     if os.path.isfile(outputFile):
         #Checks if the output outputFile already exists and terminates if so
         print outputFile +  " already exists\nexisting"
-        #sys.exit()
-        os.remove(outputFile)
+        sys.exit()
+        #os.remove(outputFile)
     flist = getFiles(inputSuffix)
     csvOut = csv.DictWriter(open(outputFile, 'w'), csvHeader, quotechar='"', quoting=csv.QUOTE_ALL)
     csvOut.writeheader()

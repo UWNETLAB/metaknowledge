@@ -89,13 +89,12 @@ def addAuthToDict(f, adict):
                 if auth not in adict:
                     adict[auth] = {}
                 if subjectTag in p:
-                    for subs in p[subjectTag]:
-                        for sub in subs.split('; '):
-                            if sub in adict[auth]:
-                                adict[auth][sub][0] += 1
-                                adict[auth][sub][1] += '|' + p['UT'][0]
-                            else:
-                                adict[auth][sub] = [1, p['UT'][0]]
+                    for sub in ' '.join(p[subjectTag]).split('; '):
+                        if sub in adict[auth]:
+                            adict[auth][sub][0] += 1
+                            adict[auth][sub][1] += '|' + p['UT'][0]
+                        else:
+                            adict[auth][sub] = [1, p['UT'][0]]
                 else:
                     print "No " + subjectTag + " field in " + f,
                     print "paper number " + p['UT'][0]

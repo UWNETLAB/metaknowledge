@@ -7,6 +7,7 @@ import networkx as nx
 #output file name
 graphOutFile = "co-CiteNetwork.graphml"
 
+#cutoff for edges to be written weight must be >= cutoff
 cutoff = 0
 
 #Type of file the script looks for
@@ -142,8 +143,8 @@ if __name__ == '__main__':
     if os.path.isfile(graphOutFile):
         #Checks if the output outputFile already exists and terminates if so
         print graphOutFile +  " already exists\nexisting"
-        #sys.exit()
-        os.remove(graphOutFile)
+        sys.exit()
+        #os.remove(graphOutFile)
     flist = getFiles(inputSuffix)
     G = nx.Graph()
     for isi in flist:

@@ -4,7 +4,7 @@ import sys
 import csv
 
 #output file name
-outputFile = "SubjectCounts.csv"
+outputFile = "SourceCounts.csv"
 
 #The title of the csv's header
 csvHeader = ['Author', 'Subject', 'Count', 'File_Type', 'WOS_ID']
@@ -56,7 +56,10 @@ def isiParser(isifile):
     notEnd = True
     plst = []
     while notEnd:
-        l = f.next()
+        try:
+            l = f.next()
+        except StopIteration as e:
+            raise BadPaper("File ends before EF found")
         if not l:
             raise BadPaper("No ER found in " + isifile)
         elif l.isspace():
@@ -75,6 +78,7 @@ def isiParser(isifile):
             except Exception as e:
                  raise e
     try:
+        f.next()
         print "EF not at end of " + isifile
     except StopIteration as e:
         pass
@@ -150,11 +154,13 @@ if __name__ == '__main__':
                         print b
                     except Exception, e:
                         print type(e)
+                        raise
         except Exception, e:
             #IF any exceptions are raised cleans up and prints them
             print 'Exception:'
             print e
             print "Deleting " + outputFile
+            raise
             os.remove(outputFile)
         else:
             csvDict = {csvHeader[3] : fileTypes[i]}

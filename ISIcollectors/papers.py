@@ -1,9 +1,10 @@
 #Written by Reid McIlroy-Young
 #Useful functions for parsing isi files
 
-
-
 class BadPaper(Warning):
+    """
+    Exception thrown by paperParser and isiParser for mis-formated papers
+    """
     pass
 
 def paperParser(paper):
@@ -37,7 +38,10 @@ def isiParser(isifile):
     notEnd = True
     plst = []
     while notEnd:
-        l = f.next()
+        try:
+            l = f.next()
+        except StopIteration as e:
+            raise BadPaper("File ends before EF found")
         if not l:
             raise BadPaper("No ER found in " + isifile)
         elif l.isspace():
@@ -73,7 +77,20 @@ def getFiles(suffix):
         #checks for any valid files
         print "No " + suffix + " Files"
         sys.exit()
+    pubFormatFiles = [] 
+    citeFormatFiles = []
+    miscFiles = []
+    for fname in fls:
+        slst = fname.split('_')
+        if len(slst) < 3:
+            miscFiles.append(fname)
+        elif "cited" in slst[2].lower():
+            citeFormatFiles.append(fname)
+        elif "pubs" in slst[2][:4].lower():
+            pubFormatFiles.append(fname)
+        else:
+            miscFiles.append(fname)
     else:
         #Tells how many files were found
-        print "Found " + str(len(fls)) + suffix + "  files"
-    return fls
+        print str(len(pubFormatFiles)) + " PUBS, " + str(len(citeFormatFiles)) + " CITED and " + str(len(miscFiles)) + " miscellaneous files found."
+    return [pubFormatFiles, citeFormatFiles, miscFiles]

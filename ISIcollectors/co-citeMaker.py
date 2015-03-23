@@ -23,7 +23,7 @@ def paperParser(paper):
     """
     paperParser reads paper until it reaches 'EF' for each field tag it adds an
     entry to the returned dict with the tag as the key and a list of the entries
-    for the tag as the value, the list has each line as an entry.   
+    for the tag as the value, the list has each line as an entry.
     """
     tdict = {}
     currentTag = ''
@@ -126,7 +126,7 @@ def getCoauths(f, grph):
                         cId2 = splitCit2[0].replace(' ',' ').replace('.','').upper() + ' ' + splitCit2[1]
                     else:
                         cId2 = p['CR'][j].upper()
-                    if not grph.has_node(cId2): 
+                    if not grph.has_node(cId2):
                         if len(splitCit2) < 3:
                             cExtra2 = ''
                         elif len(splitCit2[-1]) > 3 and 'DOI ' in splitCit2[-1][:4].upper():

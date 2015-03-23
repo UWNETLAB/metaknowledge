@@ -1,5 +1,8 @@
-#Written by Reid McIlroy-Young
+#Written by Reid McIlroy-Young for John McLevey
 #Useful functions for parsing isi files
+
+import os
+import sys
 
 class BadPaper(Warning):
     """
@@ -11,7 +14,7 @@ def paperParser(paper):
     """
     paperParser reads paper until it reaches 'EF' for each field tag it adds an
     entry to the returned dict with the tag as the key and a list of the entries
-    for the tag as the value, the list has each line as an entry.   
+    for the tag as the value, the list has each line as an entry.
     """
     tdict = {}
     currentTag = ''
@@ -77,7 +80,7 @@ def getFiles(suffix):
         #checks for any valid files
         print "No " + suffix + " Files"
         sys.exit()
-    pubFormatFiles = [] 
+    pubFormatFiles = []
     citeFormatFiles = []
     miscFiles = []
     for fname in fls:

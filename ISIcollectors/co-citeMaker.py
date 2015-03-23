@@ -158,7 +158,6 @@ if __name__ == '__main__':
             print 'Exception:'
             print e
             print "Deleting " + graphOutFile
-            raise
             os.remove(graphOutFile)
     print "Trimming"
     for ed in G.edges():

@@ -68,8 +68,9 @@ def exportInLinks(pap, session):
     except Warning as w:
         os.chdir('..')
         raise w
-    except Exception:
+    except Exception as e:
         os.chdir('..')
+        raise e
     if makeSeparateDirs:
         os.chdir('..')
 

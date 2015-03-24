@@ -4,13 +4,21 @@ import isi_scrape
 import csv
 import sys
 import os
+import math
+import time
 import argparse
 
 #output files extension
 outputExt = '.txt'
 
 #Controls if each author get their own directory
-makeSeparateDirs = False
+makeSeparateDirs = True
+
+logFile = "inLinkCollectorLog.log"
+
+testNumber = "WOS:000189249800003"
+
+testFileName = "inLinkCollectorTestFile" + outputExt
 
 def getLogin(s):
     """
@@ -45,7 +53,7 @@ def exportInLinks(pap, session):
     """
     pap is a triple of author name, paper name and WOS number queries the database for all inlinks to that WOS number
     """
-    print("Getting: " + pap[2])
+    writeToLog("Getting: " + pap[2])
     query = session.inlinks(pap[2])
     fname = pap[0] + "_cite_" + pap[1].replace('|', '-').replace(' ','-').replace('/', '') + outputExt
     if makeSeparateDirs:
@@ -56,11 +64,16 @@ def exportInLinks(pap, session):
         else:
             os.chdir(writeDir)
     try:
-        query.rip(fname)
+        query.rip(fname[:200])
     except Warning as w:
         raise w
     if makeSeparateDirs:
         os.chdir('..')
+
+def writeToLog(s):
+    log = open(logFile, 'a')
+    log.write(time.strftime("%Y-%m-%d %H:%M:%S: ") + s + '\n')
+    log.close()
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -70,12 +83,41 @@ if __name__ == '__main__':
     print("Reading " + args.inputcsv)
     papersList = getPapers(args.inputcsv)
     userDat = getLogin(args.login)
-    print("Logging in as " + userDat[0].split(' ')[0])
-    S = isi_scrape.AnonymizedUWISISession()
-    S.login(userDat[0], userDat[1])
-    for p in papersList:
+    backOff = 0
+    writeToLog("Starting Run")
+    writeToLog("Reading " + args.inputcsv)
+    totPapers = len(papersList)
+    print(str(totPapers) + " papers found")
+    writeToLog(str(totPapers) + " papers found")
+    exceptionCount = 0
+    warningCount = 0
+    while papersList:
+        writeToLog("Logging in as " + userDat[0].split('\n')[0])
+        S = isi_scrape.AnonymizedUWISISession()
+        S.login(userDat[0], userDat[1])
         try:
-            exportInLinks(p, S)
-        except Warning as w:
-            print(w)
+            query = S.inlinks(testNumber)
+            query.rip(testFileName)
+        except Exception:
+            print("Login failed")
+            writeToLog("Attempted to login failed, trying again")
+            time.sleep(math.pow(2, backOff))
+            backOff += 1
+        else:
+            writeToLog("Login successful")
+            try:
+                while papersList:
+                    print (str((1 - len(papersList) / totPapers) * 100) + "% done " + str(len(papersList)) + " remaining")
+                    try:
+                        exportInLinks(papersList.pop(), S)
+                    except Warning as w:
+                        writeToLog("Warning: " + str(w))
+                        warningCount += 1
+            except Exception as e:
+                print("Major Error")
+                backOff = 0
+                writeToLog("Exception")
+                exceptionCount += 1
+    writeToLog(str(totPapers - exceptionCount - warningCount) + " extracted, " + str(exceptionCount) + "Major issues, " + str(warningCount) + " Minor issues")
+    writeToLog("Finished")
     print("done")

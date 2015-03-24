@@ -66,13 +66,17 @@ def exportInLinks(pap, session):
     try:
         query.rip(fname[:200])
     except Warning as w:
+        os.chdir('..')
         raise w
+    except Exception:
+        os.chdir('..')
     if makeSeparateDirs:
         os.chdir('..')
 
 def writeToLog(s):
     log = open(logFile, 'a')
     log.write(time.strftime("%Y-%m-%d %H:%M:%S: ") + s + '\n')
+    log.flush()
     log.close()
 
 if __name__ == '__main__':
@@ -91,7 +95,9 @@ if __name__ == '__main__':
     writeToLog(str(totPapers) + " papers found")
     exceptionCount = 0
     warningCount = 0
+    currentDir = os.getcwd()
     while papersList:
+        os.chdir(currentDir)
         writeToLog("Logging in as " + userDat[0].split('\n')[0])
         S = isi_scrape.AnonymizedUWISISession()
         S.login(userDat[0], userDat[1])
@@ -116,8 +122,9 @@ if __name__ == '__main__':
             except Exception as e:
                 print("Major Error")
                 backOff = 0
-                writeToLog("Exception")
+                writeToLog("Exception:" + str(e))
                 exceptionCount += 1
+
     writeToLog(str(totPapers - exceptionCount - warningCount) + " extracted, " + str(exceptionCount) + "Major issues, " + str(warningCount) + " Minor issues")
     writeToLog("Finished")
     print("done")

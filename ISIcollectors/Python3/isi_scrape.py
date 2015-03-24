@@ -456,7 +456,10 @@ class ISISession(requests.Session):
 
         # there is no way to go for the jugular with this one
         # so, first we do once search, then extract the magic link, then hit that
-        soup = self._generalSearch(("UT", document))
+        try:
+            soup = self._generalSearch(("UT", document))
+        except:
+            raise Warning("probably to to many citations")
 
         records = soup(class_="search-results-item")
         assert len(records) == 1, "Since we searched by WOS number, we should only have one result"
@@ -559,9 +562,9 @@ class ISIQuery:
         """
         r = self._export(start, end, format)
         print("Exporting records [%d,%d) to %s" % (start, end, fname), file=sys.stderr) #TODO: if we start multiprocessing with this, we should print the query in here to distinguish who is doing what. Though I suppose printing the filename is equally good.
-        with open(fname,"wb") as w:
+        with open(fname,"wb",0) as w:
             w.write(r.content) #.content == binary => "wb"; .text would => "w"
-
+            w.close()
     def _export(self, start, end, format="fieldtagged"):
         """
         backend for export()

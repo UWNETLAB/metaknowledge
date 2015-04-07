@@ -18,6 +18,9 @@ notInCiteOut = "NonePhilJournalsCompiled.csv"
 #Type of file the script looks for
 inputSuffix = ".txt"
 
+#Set True to list files as they are read
+Displayfiles = False
+
 class BadPaper(Warning):
     """
     Exception thrown by paperParser and isiParser for mis-formated papers
@@ -33,15 +36,15 @@ def paperParser(paper):
     tdict = {}
     currentTag = ''
     for l in paper:
-        if 'ER' in l[:2]:
+        if 'ER' in l[1][:2]:
             return tdict
-        elif '   ' in l[:3]: #the string is three spaces in row
-            tdict[currentTag].append(l[3:-1])
-        elif l[2] == ' ':
-            currentTag = l[:2]
-            tdict[currentTag] = [l[3:-1]]
+        elif '   ' in l[1][:3]: #the string is three spaces in row
+            tdict[currentTag].append(l[1][3:-1])
+        elif l[1][2] == ' ':
+            currentTag = l[1][:2]
+            tdict[currentTag] = [l[1][3:-1]]
         else:
-            raise BadPaper("Field tag not formed correctly: " + l)
+            raise BadPaper("Field tag not formed correctly: " + l[1])
     raise BadPaper("End of file reached before EF")
 
 def isiParser(isifile):
@@ -49,14 +52,14 @@ def isiParser(isifile):
     isiParser reads a file, checks that the header is correct then reads each
     paper returning a list of of dicts keyed with the field tags.
     """
-    f = open(isifile, 'r')
-    if "VR 1.0" not in f.readline() and "VR 1.0" not in f.readline():
+    f = enumerate(open(isifile, 'r'), start = 0)
+    if "VR 1.0" not in f.next()[1] and "VR 1.0" not in f.next()[1]:
         raise BadPaper(isifile + " Does not have a valid header")
     notEnd = True
     plst = []
     while notEnd:
         try:
-            l = f.next()
+            l = f.next()[1]
         except StopIteration as e:
             raise BadPaper("File ends before EF found")
         if not l:
@@ -69,11 +72,11 @@ def isiParser(isifile):
         else:
             try:
                 if l[:2] != 'PT':
-                    raise BadPaper("Paper does not start with PT tag")
+                    raise BadPaper("Paper does not start with PT tag at line " + str(f.next()[0]) + ' ')
                 plst.append(paperParser(f))
                 plst[-1][l[:2]] = l[3:-1]
             except Warning as w:
-                raise BadPaper(str(w.message) + "In " + isifile)
+                raise BadPaper(str(w.message) + "in " + isifile)
             except Exception as e:
                  raise e
     try:
@@ -152,18 +155,21 @@ if __name__ == "__main__":
     notCSV.writeheader()
     for isi in flist:
         try:
-            print isi,
+            if Displayfiles:
+                print isi,
             authDat = isiParser(isi)
             if authInJourn(authDat):
-                print "has a Philosophy Journal"
+                if Displayfiles:
+                    print "has a Philosophy Journal"
                 makeCSV(authDat, isi, inCSV)
             else:
-                print "does not have a Philosophy Journal"
+                if Displayfiles:
+                    print "does not have a Philosophy Journal"
                 makeCSV(authDat, isi, notCSV)
         except BadPaper as b:
             print b
         except Exception as e:
-            print 'Exception:'
+            print 'Major Exception:'
             print e
             print "Cleaning up, deleting outputs"
             os.remove(inCiteOut)

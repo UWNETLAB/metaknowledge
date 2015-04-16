@@ -26,7 +26,7 @@ print("no. of edges:")
 length(E(net)) # no. of edges
 
 print("no. of isolates:")
-sum(degree(g18)==0)
+sum(degree(net)==0)
 
   # test for power law distribution 
 pdf("log_log_deg_dist.pdf")

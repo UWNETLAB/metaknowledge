@@ -4,7 +4,6 @@
 
 # note: this script is intended to be run from the command line (Rscript *.R) 
 # to get a quick look at a graphml file created by RMY's co-citeMaker.py
-# hence all the print() 
 
 library(igraph)
 library(dplyr)

@@ -158,7 +158,7 @@ def getCoauths(f, grph):
                             cExtra1 = ''
                         elif len(splitCit1[-1]) > 3 and 'DOI' in splitCit1[-1][:3].upper():
                             cExtra1 = ', '.join(splitCit1[2:-1])
-                        else:r
+                        else:
                             cExtra1 = ', '.join(splitCit1[2:])
                         grph.add_node(cId1, val = cExtra1, count = 1)
                     for j in range(i + 1, len(p['CR'])):

@@ -5,7 +5,7 @@
 library(igraph)
 library(dplyr)
 
-setwd("~/Desktop/can_soc_kyle_comments/british/")
+setwd("/Users/johnmclevey/Dropbox/Projects/writing/crs/porter_to_bourdieu/v2/data/canadian/split_years/t5")
 
 net <- read.graph("co-CiteNetwork.graphml", format = "graphml")
 net <- simplify(net, remove.multiple = TRUE, remove.loops = TRUE) 
@@ -24,6 +24,9 @@ length(V(net)) # no. of vertices
 
 print("no. of edges:")
 length(E(net)) # no. of edges
+
+print("no. of isolates:")
+sum(degree(g18)==0)
 
   # test for power law distribution 
 pdf("log_log_deg_dist.pdf")
@@ -108,29 +111,31 @@ wc <- walktrap.community(net)
 # modularity(wc)
 # membership(wc)
 
+V(net)$walktrap <- membership(wc)
+
 # quick plot
 
-print("time for fg layout")
+#print("time for fg layout")
 
 #lay <- layout.fruchterman.reingold(net, niter=1000, coolexp=0.5,
 #                                   area=vcount(net)^2.3,
 #                                   repulserad=vcount(net)^2.8)
 
-lay <- layout.fruchterman.reingold(net, niter=1000, coolexp=0.5,
-                                   area=vcount(net)^2.3,
-                                   repulserad=vcount(net)^2.8)
+#lay <- layout.fruchterman.reingold(net, niter=1000, coolexp=0.5,
+#                                   area=vcount(net)^2.3,
+#                                   repulserad=vcount(net)^2.8)
 
-pdf(file="net_walktrap.pdf")
-plot(net, layout = lay, vertex.size = 2, edge.width = .5, 
-     vertex.label = NA, vertex.color = membership(wc), vertex.frame.color = NA)
-dev.off()
+#pdf(file="net_walktrap.pdf")
+#plot(net, layout = lay, vertex.size = 2, edge.width = .5, 
+#     vertex.label = NA, vertex.color = membership(wc), vertex.frame.color = NA)
+#dev.off()
 
-pdf(file = "net_fastgreedy.pdf")
-set.seed(3952)
-par(mar=c(0,0,0,0)+.1) # reduce extra whitespace
-plot(net, layout = lay, vertex.size = 2, edge.width = .5, 
-     vertex.label = NA, vertex.color = col, vertex.frame.color = NA)
-dev.off()
+#pdf(file = "net_fastgreedy.pdf")
+#set.seed(3952)
+#par(mar=c(0,0,0,0)+.1) # reduce extra whitespace
+#plot(net, layout = lay, vertex.size = 2, edge.width = .5, 
+#     vertex.label = NA, vertex.color = col, vertex.frame.color = NA)
+#dev.off()
 
 # for visone 
 

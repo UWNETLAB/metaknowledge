@@ -3,12 +3,20 @@
 import os
 import sys
 
+
+
+#List of tags in isi files ored based on their occurence in other isi files
 tags = ['PT', 'AU', 'AF', 'TI', 'SO', 'LA', 'DT', 'DE', 'ID', 'AB', 'C1', 'RP', 'CR', 'NR', 'TC', 'Z9', 'PU', 'PI', 'PA', 'SN', 'J9', 'JI', 'PD', 'PY', 'VL', 'IS', 'BP', 'EP', 'PG', 'WC', 'SC', 'GA', 'UT', 'PM']
 
+
+#Set false to produce one file per year in each input
 oneFilePerYear = True
 
+
+#If true the progarm will quit whenever it thinks there is duplication
 aggresiveExiting = True
 
+#The suffix of the isi files
 inputSuffix = '.txt'
 
 class BadPaper(Warning):
@@ -125,7 +133,7 @@ def makeFilesPerPaper(pDat, name):
     """
     Creates files for each year found and writes the corresponding
     """
-    #print "Writing files for " + name
+    print "Writing files for " + name
     newFiles = {}
     for p in pDat:
         if 'PY' in p:
@@ -143,7 +151,11 @@ def makeFilesPerPaper(pDat, name):
         newF.close()
 
 def makeFilesPerYear(pDat, name, yDict):
-    #print "Writing files for " + name
+    """
+    For each paper in pdat writes it to the corresponding year in the dict of
+    files yDict. If the year is missing it creates it with the name of the file
+    currently being read
+    """
     for p in pDat:
         if 'PY' in p:
             year = p['PY'][0]

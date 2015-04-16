@@ -159,6 +159,7 @@ if __name__ == '__main__':
             print e
             print "Deleting " + graphOutFile
             os.remove(graphOutFile)
+            raise
     print "Trimming"
     for ed in G.edges():
             if G.edge[ed[0]][ed[1]]['weight'] <= cutoff:

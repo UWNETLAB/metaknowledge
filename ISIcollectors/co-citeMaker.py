@@ -8,7 +8,10 @@ import networkx as nx
 graphOutFile = "co-CiteNetwork.graphml"
 
 #cutoff for edges to be written weight must be >= cutoff
-cutoff = 2
+edgeCutoff = 2
+
+#cutoff for nodes to be written weight must be >= cutoff
+nodeCutoff = 9
 
 #Type of file the script looks for
 inputSuffix = ".txt"
@@ -112,28 +115,32 @@ def getCoauths(f, grph):
                     cId1 = splitCit1[0].replace(' ',' ').replace('.','').upper() + ' ' + splitCit1[1]
                 else:
                     cId1 = p['CR'][i].upper()
-                if not grph.has_node(cId1):
+                if grph.has_node(cId1):
+                    grph.node[cId1]['count'] += 1
+                else:
                     if len(splitCit1) < 3:
                         cExtra1 = ''
                     elif len(splitCit1[-1]) > 3 and 'DOI' in splitCit1[-1][:3].upper():
                         cExtra1 = ', '.join(splitCit1[2:-1])
                     else:
                         cExtra1 = ', '.join(splitCit1[2:])
-                    grph.add_node(cId1, val = cExtra1)
+                    grph.add_node(cId1, val = cExtra1, count = 1)
                 for j in range(i + 1, len(p['CR'])):
                     splitCit2 = p['CR'][j].split(', ')
                     if len(splitCit2) > 1:
                         cId2 = splitCit2[0].replace(' ',' ').replace('.','').upper() + ' ' + splitCit2[1]
                     else:
                         cId2 = p['CR'][j].upper()
-                    if not grph.has_node(cId2):
+                    if grph.has_node(cId2):
+                        grph.node[cId2]['count'] += 1
+                    else:
                         if len(splitCit2) < 3:
                             cExtra2 = ''
                         elif len(splitCit2[-1]) > 3 and 'DOI ' in splitCit2[-1][:4].upper():
                             cExtra2 = ', '.join(splitCit2[2:-1])
                         else:
                             cExtra2 = ', '.join(splitCit2[2:])
-                        grph.add_node(cId2, val = cExtra2)
+                        grph.add_node(cId2, val = cExtra2, count = 1)
                     if grph.has_edge(cId1, cId2):
                         grph.edge[cId1][cId2]['weight'] += 1
                     else:
@@ -161,9 +168,13 @@ if __name__ == '__main__':
             if os.path.isfile(graphOutFile):
                 os.remove(graphOutFile)
             raise
-    print "Trimming"
+    print "Trimming nodes"
+    for n in G.nodes():
+            if G.node[n]['count'] <= nodeCutoff:
+                  G.remove_node(n)
+    print "Trimming edges"
     for ed in G.edges():
-            if G.edge[ed[0]][ed[1]]['weight'] <= cutoff:
+            if G[ed[0]][ed[1]]['weight'] <= edgeCutoff:
                   G.remove_edge(ed[0],ed[1])
     print "Writing " + graphOutFile
     nx.write_graphml(G, graphOutFile)

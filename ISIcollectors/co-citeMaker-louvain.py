@@ -11,7 +11,7 @@ graphOutFile = "co-CiteNetwork.graphml"
 #cutoff for edges to be written weight must be >= cutoff
 edgeCutoff = 2
 
-#cutoff for nodes to be written weight must be >= cutoff
+#cutoff for nodes to be written times cited must be >= cutoff
 nodeCutoff = 9
 
 #Type of file the script looks for

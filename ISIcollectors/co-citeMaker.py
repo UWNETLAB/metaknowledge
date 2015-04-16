@@ -8,7 +8,7 @@ import networkx as nx
 graphOutFile = "co-CiteNetwork.graphml"
 
 #cutoff for edges to be written weight must be >= cutoff
-cutoff = 0
+cutoff = 2
 
 #Type of file the script looks for
 inputSuffix = ".txt"
@@ -32,7 +32,7 @@ def paperParser(paper):
             return tdict
         elif '   ' in l[:3]: #the string is three spaces in row
             tdict[currentTag].append(l[3:-1])
-        elif l[2] == ' ':
+        elif len(l) > 2 and l[2] == ' ':
             currentTag = l[:2]
             tdict[currentTag] = [l[3:-1]]
         else:
@@ -60,7 +60,7 @@ def isiParser(isifile):
             continue
         elif 'EF' in l[:2]:
             notEnd = False
-            break
+            continue
         else:
             try:
                 if l[:2] != 'PT':
@@ -70,7 +70,7 @@ def isiParser(isifile):
             except Warning as w:
                 raise BadPaper(str(w.message) + "In " + isifile)
             except Exception as e:
-                 raise e
+                 raise
     try:
         f.next()
         print "EF not at end of " + isifile

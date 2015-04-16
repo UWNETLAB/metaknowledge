@@ -5,6 +5,9 @@ import sys
 
 tags = ['PT', 'AU', 'AF', 'TI', 'SO', 'LA', 'DT', 'DE', 'ID', 'AB', 'C1', 'RP', 'CR', 'NR', 'TC', 'Z9', 'PU', 'PI', 'PA', 'SN', 'J9', 'JI', 'PD', 'PY', 'VL', 'IS', 'BP', 'EP', 'PG', 'WC', 'SC', 'GA', 'UT', 'PM']
 
+oneFilePerYear = True
+
+aggresiveExiting = True
 
 inputSuffix = '.txt'
 
@@ -87,12 +90,20 @@ def getFiles(suffix):
     return fls
 
 def nameMatchCheck(n, nlst):
+    """
+    checks if the n is in the list of strings, if it is ouputs the string,
+    if not ouputs False
+    """
     for name in nlst:
         if n in name:
             return name
     return False
 
 def writeISI(f, paper):
+    """
+    Writes a paper to f tags are ordered by the tags valaible with extra ones
+    put afterword
+    """
     for t in tags:
         if t in paper:
             val = paper[t]
@@ -110,9 +121,11 @@ def writeISI(f, paper):
         del paper[t]
     f.write('ER\n\n')
 
-
-def makeFiles(pDat, name):
-    print "Writing files for " + name
+def makeFilesPerPaper(pDat, name):
+    """
+    Creates files for each year found and writes the corresponding
+    """
+    #print "Writing files for " + name
     newFiles = {}
     for p in pDat:
         if 'PY' in p:
@@ -122,31 +135,60 @@ def makeFiles(pDat, name):
             if year in newFiles:
                 writeISI(newFiles[year], p)
             else:
-                newFiles[year] = open(name + '-' + year + inputSuffix, 'w')
+                newFiles[year] = open(year + '-' + name + inputSuffix, 'w')
                 newFiles[year].write("FN Thomson Reuters Web of Science\nVR 1.0\n")
                 writeISI(newFiles[year], p)
     for newF in newFiles.values():
         newF.write('EF')
         newF.close()
 
+def makeFilesPerYear(pDat, name, yDict):
+    #print "Writing files for " + name
+    for p in pDat:
+        if 'PY' in p:
+            year = p['PY'][0]
+            if len(year) != 4:
+                print "Badly formated Year field " + year + ' ' + p['UT'][0] + " will be skipped"
+            if year in yDict:
+                writeISI(yDict[year], p)
+            else:
+                print year + '-' + name + inputSuffix + " created"
+                yDict[year] = open(year + '-' + name + inputSuffix, 'w')
+                yDict[year].write("FN Thomson Reuters Web of Science\nVR 1.0\n")
+                writeISI(yDict[year], p)
+
+
 if __name__ == "__main__":
     fileNameList = os.listdir(".")
     flist = getFiles(inputSuffix)
+    if oneFilePerYear:
+        yearFiles = {}
     for isi in flist:
         localName = isi.split('/')[-1]
         if isi in fileNameList:
             fileNameList.remove(localName)
         nameCheck = nameMatchCheck(localName[:-len(inputSuffix)], fileNameList)
         if nameCheck:
-            print nameCheck + " found " + localName +  " already split, skipping"
+            print nameCheck + " found " + localName +  " already split,",
+            if oneFilePerYear and aggresiveExiting:
+                print "quitting"
+                sys.exit()
+            else:
+                print "skipping"
         else:
             try:
                 paperDat = isiParser(isi)
-                makeFiles(paperDat, localName[:-len(inputSuffix)])
+                if oneFilePerYear:
+                    makeFilesPerYear(paperDat, localName[:-len(inputSuffix)], yearFiles)
+                makeFilesPerPaper(paperDat, localName[:-len(inputSuffix)])
             except BadPaper as b:
                 print b
             except Exception as e:
                 print 'Major Exception:'
                 print e
                 raise
+    if oneFilePerYear:
+            for newF in yearFiles.values():
+                newF.write('EF')
+                newF.close()
     print "Done"

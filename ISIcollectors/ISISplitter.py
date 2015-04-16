@@ -122,10 +122,10 @@ def writeISI(f, paper):
             del paper[t]
     for t in paper.keys():
         val = paper[t]
-        f.write(t + ' ' + val[0])
+        f.write(t + ' ' + val[0] + '\n')
         if len(val) > 1:
             for line in val[1:]:
-                f.write(line + '\n')
+                f.write('   ' + line + '\n')
         del paper[t]
     f.write('ER\n\n')
 
@@ -192,7 +192,8 @@ if __name__ == "__main__":
                 paperDat = isiParser(isi)
                 if oneFilePerYear:
                     makeFilesPerYear(paperDat, localName[:-len(inputSuffix)], yearFiles)
-                makeFilesPerPaper(paperDat, localName[:-len(inputSuffix)])
+                else:
+                    makeFilesPerPaper(paperDat, localName[:-len(inputSuffix)])
             except BadPaper as b:
                 print b
             except Exception as e:

@@ -17,6 +17,9 @@ nodeCutoff = 9
 #Type of file the script looks for
 inputSuffix = ".txt"
 
+#If True removes Anonymous from citations
+dropAnonsAndStars = True
+
 class BadPaper(Warning):
     """
     Exception thrown by paperParser and isiParser for mis-formated papers
@@ -112,40 +115,48 @@ def getCoauths(f, grph):
         if 'CR' in p and len(p['CR']) > 1:
             for i in range(len(p['CR'])):
                 splitCit1 = p['CR'][i].split(', ')
-                if len(splitCit1) > 1:
-                    cId1 = splitCit1[0].replace(' ',' ').replace('.','').upper() + ' ' + splitCit1[1]
+                if dropAnonsAndStars and (splitCit1[0].upper() == '[ANONYMOUS]' or splitCit1[0][0] == '*'):
+                    pass
                 else:
-                    cId1 = p['CR'][i].upper()
-                if grph.has_node(cId1):
-                    grph.node[cId1]['count'] += 1
-                else:
-                    if len(splitCit1) < 3:
-                        cExtra1 = ''
-                    elif len(splitCit1[-1]) > 3 and 'DOI' in splitCit1[-1][:3].upper():
-                        cExtra1 = ', '.join(splitCit1[2:-1])
+                    if len(splitCit1) > 1:
+                        cId1 = splitCit1[0].replace(' ',' ').replace('.','').upper() + ' ' + splitCit1[1]
                     else:
-                        cExtra1 = ', '.join(splitCit1[2:])
-                    grph.add_node(cId1, val = cExtra1, louvain = 0, count = 1)
-                for j in range(i + 1, len(p['CR'])):
-                    splitCit2 = p['CR'][j].split(', ')
-                    if len(splitCit2) > 1:
-                        cId2 = splitCit2[0].replace(' ',' ').replace('.','').upper() + ' ' + splitCit2[1]
+                        cId1 = p['CR'][i].upper()
+                    if grph.has_node(cId1):
+                        if cId1[1] == '[':
+                            print cId1
+                        grph.node[cId1]['count'] += 1
                     else:
-                        cId2 = p['CR'][j].upper()
-                    if grph.has_node(cId2):
-                        grph.node[cId2]['count'] += 1
-                    else:
-                        if len(splitCit2) < 3:
-                            cExtra2 = ''
-                        elif len(splitCit2[-1]) > 3 and 'DOI ' in splitCit2[-1][:4].upper():
-                            cExtra2 = ', '.join(splitCit2[2:-1])
+                        if len(splitCit1) < 3:
+                            cExtra1 = ''
+                        elif len(splitCit1[-1]) > 3 and 'DOI' in splitCit1[-1][:3].upper():
+                            cExtra1 = ', '.join(splitCit1[2:-1])
                         else:
-                            cExtra2 = ', '.join(splitCit2[2:])
-                        grph.add_node(cId2, val = cExtra2, louvain = 0, count = 1)
-                    if grph.has_edge(cId1, cId2):
-                        grph.edge[cId1][cId2]['weight'] += 1
-                    else:
-                        grph.add_edge(cId1, cId2, weight = 1)
+                            cExtra1 = ', '.join(splitCit1[2:])
+                        grph.add_node(cId1, val = cExtra1, louvain = 0, count = 1)
+                    for j in range(i + 1, len(p['CR'])):
+                        splitCit2 = p['CR'][j].split(', ')
+                        if dropAnonsAndStars and (splitCit2[0].upper() == '[ANONYMOUS]' or splitCit2[0][0] == '*'):
+                            pass
+                        else:
+                            if len(splitCit2) > 1:
+                                cId2 = splitCit2[0].replace(' ',' ').replace('.','').upper() + ' ' + splitCit2[1]
+                            else:
+                                cId2 = p['CR'][j].upper()
+                            if grph.has_node(cId2):
+                                grph.node[cId2]['count'] += 1
+                            else:
+                                if len(splitCit2) < 3:
+                                    cExtra2 = ''
+                                elif len(splitCit2[-1]) > 3 and 'DOI ' in splitCit2[-1][:4].upper():
+                                    cExtra2 = ', '.join(splitCit2[2:-1])
+                                else:
+                                    cExtra2 = ', '.join(splitCit2[2:])
+                                grph.add_node(cId2, val = cExtra2, louvain = 0, count = 1)
+                            if grph.has_edge(cId1, cId2):
+                                grph.edge[cId1][cId2]['weight'] += 1
+                            else:
+                                grph.add_edge(cId1, cId2, weight = 1)
 
 if __name__ == '__main__':
     if os.path.isfile(graphOutFile):
@@ -169,6 +180,11 @@ if __name__ == '__main__':
             if os.path.isfile(graphOutFile):
                 os.remove(graphOutFile)
             raise
+    print "Partioning"
+    partition=community.best_partition(G)
+    for n in G.nodes():
+        G.node[n]['louvain'] = partition[n]
+    print str(len(partition)) + " communities found"
     print "Trimming nodes"
     for n in G.nodes():
             if G.node[n]['count'] <= nodeCutoff:
@@ -177,11 +193,7 @@ if __name__ == '__main__':
     for ed in G.edges():
             if G[ed[0]][ed[1]]['weight'] <= edgeCutoff:
                   G.remove_edge(ed[0],ed[1])
-    print "Partioning"
-    partition=community.best_partition(G)
-    for n in G.nodes():
-        G.node[n]['louvain'] = partition[n]
-    print str(len(partition)) + " communities found"
+
     print "Writing " + graphOutFile
     nx.write_graphml(G, graphOutFile)
     print "Done"

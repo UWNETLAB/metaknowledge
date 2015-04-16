@@ -17,8 +17,18 @@ nodeCutoff = 9
 #Type of file the script looks for
 inputSuffix = ".txt"
 
-#If True removes Anonymous from citations
-dropAnonsAndStars = True
+#If True removes Anonymous from citations as well as things in the next two lists
+dropStuff = True
+
+#The map and lambda is to make things uppercase add new drop conditions two the
+#inner list
+
+#This list is the string looked for in citations to remove them
+droppedJournalSources = map(lambda x: x.upper(), ["SCI EXPLANATION CAUS", "ANIMAL"])
+
+#this list is the journal name looked for in the SO field of papers to drop them
+#Before there citations are analysed
+droppedSOFields = map(lambda x: x.upper(), ["ANTHROZOOS","ANIMAL"])
 
 class BadPaper(Warning):
     """
@@ -101,6 +111,24 @@ def getFiles(suffix):
         print str(len(fls)) + " files found."
     return fls
 
+def excludedSO(slst):
+    if slst[0].upper() in droppedSOFields:
+        return True
+    else:
+        return False
+
+def excludedSource(s):
+    if s[0].upper() == '[ANONYMOUS]' or s[0][0] == '*':
+        return True
+    elif len(s) < 3:
+        return False
+    else:
+        for droppedSource in droppedJournalSources:
+            for source in s[2:]:
+                if droppedSource in source.upper():
+                    return True
+    return False
+
 def getCoauths(f, grph):
     """
     getCoauths reads f with isiParser. Then reads the CR field if there are more
@@ -112,10 +140,12 @@ def getCoauths(f, grph):
     """
     plst = isiParser(f)
     for p in plst:
-        if 'CR' in p and len(p['CR']) > 1:
+        if dropStuff and 'SO' in p and excludedSO(p['SO']):
+            pass
+        elif 'CR' in p and len(p['CR']) > 1:
             for i in range(len(p['CR'])):
                 splitCit1 = p['CR'][i].split(', ')
-                if dropAnonsAndStars and (splitCit1[0].upper() == '[ANONYMOUS]' or splitCit1[0][0] == '*'):
+                if dropStuff and excludedSource(splitCit1):
                     pass
                 else:
                     if len(splitCit1) > 1:
@@ -123,8 +153,6 @@ def getCoauths(f, grph):
                     else:
                         cId1 = p['CR'][i].upper()
                     if grph.has_node(cId1):
-                        if cId1[1] == '[':
-                            print cId1
                         grph.node[cId1]['count'] += 1
                     else:
                         if len(splitCit1) < 3:
@@ -136,7 +164,7 @@ def getCoauths(f, grph):
                         grph.add_node(cId1, val = cExtra1, louvain = 0, count = 1)
                     for j in range(i + 1, len(p['CR'])):
                         splitCit2 = p['CR'][j].split(', ')
-                        if dropAnonsAndStars and (splitCit2[0].upper() == '[ANONYMOUS]' or splitCit2[0][0] == '*'):
+                        if dropStuff and excludedSource(splitCit2):
                             pass
                         else:
                             if len(splitCit2) > 1:

@@ -9,10 +9,10 @@ import networkx as nx
 graphOutFile = "co-CiteNetwork.graphml"
 
 #cutoff for edges to be written weight must be >= cutoff
-edgeCutoff = 2
+edgeCutoff = 4
 
 #cutoff for nodes to be written times cited must be >= cutoff
-nodeCutoff = 9
+nodeCutoff = 6
 
 #Type of file the script looks for
 inputSuffix = ".txt"
@@ -24,7 +24,7 @@ dropStuff = True
 #inner list
 
 #This list is the string looked for in citations to remove them
-droppedJournalSources = map(lambda x: x.upper(), ["SCI EXPLANATION CAUS", "ANIMAL"])
+droppedJournalSources = map(lambda x: x.upper(), ["Society of Obstetricians and Gynecologists of Canada", "GLOBE MAIL", "Reynolds RJ", "Rio2016", "NY TIMES", "LOS ANGELES TIM", "WASHINGTON POST", "TORONTO SUN", "TORONTO DAILY"])
 
 #this list is the journal name looked for in the SO field of papers to drop them
 #Before there citations are analysed

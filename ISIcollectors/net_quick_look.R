@@ -8,6 +8,7 @@
 
 library(igraph)
 library(dplyr)
+options(scipen=20)
 
 wd <- getwd()
 setwd(wd)

@@ -123,7 +123,7 @@ def excludedSource(s):
         return False
     else:
         for droppedSource in droppedJournalSources:
-            for source in s[2:]:
+            for source in s:
                 if droppedSource in source.upper():
                     return True
     return False
@@ -158,7 +158,7 @@ def getCoauths(f, grph):
                             cExtra1 = ''
                         elif len(splitCit1[-1]) > 3 and 'DOI' in splitCit1[-1][:3].upper():
                             cExtra1 = ', '.join(splitCit1[2:-1])
-                        else:
+                        else:r
                             cExtra1 = ', '.join(splitCit1[2:])
                         grph.add_node(cId1, val = cExtra1, count = 1)
                     for j in range(i + 1, len(p['CR'])):

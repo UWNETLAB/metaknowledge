@@ -123,7 +123,7 @@ def excludedSource(s):
         return False
     else:
         for droppedSource in droppedJournalSources:
-            for source in s[2:]:
+            for source in s:
                 if droppedSource in source.upper():
                     return True
     return False

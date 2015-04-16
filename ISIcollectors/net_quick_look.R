@@ -90,11 +90,11 @@ V(net)$eigenvector.R <- igraph::evcent(net)$vector
 
 # restrict to giant component 
 
-print("pulling out the giant component...")
+#print("pulling out the giant component...")
 
-g_net <- clusters(net)
-net <- induced.subgraph(net, which(g_net$membership == which.max(g_net$csize)))
-summary(net)
+#g_net <- clusters(net)
+#net <- induced.subgraph(net, which(g_net$membership == which.max(g_net$csize)))
+#summary(net)
 
 # fast and greedy community detection 
 

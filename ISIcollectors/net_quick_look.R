@@ -2,10 +2,15 @@
 # University of Waterloo
 # April 14, 2015
 
+# note: this script is intended to be run from the command line (Rscript *.R) 
+# to get a quick look at a graphml file created by RMY's co-citeMaker.py
+
 library(igraph)
 library(dplyr)
+options(scipen=20)
 
-setwd("/Users/johnmclevey/Dropbox/Projects/writing/crs/porter_to_bourdieu/v2/data/canadian/split_years/t5")
+wd <- getwd()
+setwd(wd)
 
 net <- read.graph("co-CiteNetwork.graphml", format = "graphml")
 net <- simplify(net, remove.multiple = TRUE, remove.loops = TRUE) 
@@ -15,47 +20,39 @@ sum(degree(net)==0) # no. of isolates
 net <- delete.vertices(net, which(degree(net)<1)) # delete isolates
 
 # quick look  
+nodes <- length(V(net))
+edges <- length(E(net))
+isolates <- sum(degree(net)==0)
+components <- no.clusters(net) 
 
-print("no. of components:")
-no.clusters(net) # no. of components 
+  # size of the two largest components 
+net_num.components <- clusters(net)$no
+net_components <- clusters(net, mode="weak")
+net_compsize <- sort(net_components$csize, decreasing=TRUE)
+comp1 <- net_compsize[1] 
+comp2 <- net_compsize[2]
 
-print("no. of nodes:")
-length(V(net)) # no. of vertices
+  # cohesion 
+density <- graph.density(net)
+diameter <- diameter(net)
+average_path_length <- average.path.length(net) 
+degree_centralization <- centralization.degree(net)$centralization 
+eigenvector_centralization <- centralization.evcent(net, directed=FALSE)$centralization
+transitivity <- transitivity(net, type="global")
+cliques <- clique.number(net)
 
-print("no. of edges:")
-length(E(net)) # no. of edges
+wholenet_stats <- rbind(nodes, edges, isolates, components, comp1, comp2, cliques,
+                        density, diameter, average_path_length, degree_centralization,
+                        eigenvector_centralization, transitivity)
+wholenet_stats
+write.csv(wholenet_stats, "wholenet_stats.csv")
 
-print("no. of isolates:")
-sum(degree(net)==0)
-
-  # test for power law distribution 
+# test for power law distribution 
 pdf("log_log_deg_dist.pdf")
 plot(degree.distribution(net, cumulative = TRUE), 
-     log="xy", xlab = "Degree", ylab = "Cumulative Probability",
-     col = "red", type = "o")
+	log="xy", col = rgb(0, 0, .5, .5), 
+	xlab = "Degree", ylab = "Cumulative Probability") 
 dev.off()
-
-# cohesion 
-print("density:")
-graph.density(net)
-
-print("diameter:")
-diameter(net)
-
-print("average path length:")
-average.path.length(net) 
-
-print("degree centralization:")
-centralization.degree(net)$centralization 
-
-print("eigenvector centralization:")
-centralization.evcent(net, directed=FALSE)$centralization
-
-print("transitivity:")
-transitivity(net, type="global")
-
-print("number of cliques:")
-clique.number(net)
 
 # centralities 
 
@@ -91,16 +88,20 @@ V(net)$degree.R <- degree(net)
 V(net)$betweenness.R <- betweenness(net)
 V(net)$eigenvector.R <- igraph::evcent(net)$vector
 
+# restrict to giant component 
+
+#print("pulling out the giant component...")
+
+#g_net <- clusters(net)
+#net <- induced.subgraph(net, which(g_net$membership == which.max(g_net$csize)))
+#summary(net)
+
 # fast and greedy community detection 
 
 fg <- fastgreedy.community(simplify(as.undirected(net)))
-print("fast and greedy community detection, number of communities:")
-length(fg)
+fast_greedy <- length(fg)
 
 memb <- community.to.membership(net, fg$merges, steps=which.max(fg$modularity)-1)
-#memb
-
-#plot(fg, net, vertex.label = NA)
 
 colbar <- rainbow(length(fg))
 col <- colbar[memb$membership+1]
@@ -108,10 +109,14 @@ col <- colbar[memb$membership+1]
 # walk trap community detection
 
 wc <- walktrap.community(net)
+walktrap <- length(wc)
 # modularity(wc)
 # membership(wc)
 
 V(net)$walktrap <- membership(wc)
+
+community_detection <- rbind(fast_greedy, walktrap)
+community_detection
 
 # quick plot
 

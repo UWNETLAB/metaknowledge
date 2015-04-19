@@ -117,7 +117,9 @@ def excludedSO(slst):
         return False
 
 def excludedSource(s):
-    if s[0].upper() == '[ANONYMOUS]' or s[0][0] == '*':
+    if not dropStuff:
+        return False
+    elif s[0].upper() == '[ANONYMOUS]' or s[0][0] == '*':
         return True
     elif len(s) < 3:
         return False
@@ -127,6 +129,27 @@ def excludedSource(s):
                 if droppedSource in source.upper():
                     return True
     return False
+
+def getIDs(clst):
+    """
+    Creates a dict of the ID-extra information pairs for a CR tag.
+    """
+    idDict = {}
+    for c in clst:
+        splitCit = c.split(', ')
+        if len(splitCit) > 1:
+            cId = splitCit[0].replace(' ',' ').replace('.','').upper() + ' ' + splitCit[1]
+        else:
+            cId = c.upper()
+        if cId not in idDict and not excludedSource(splitCit):
+            if len(splitCit) < 3:
+                cExtra = ''
+            elif len(splitCit[-1]) > 3 and 'DOI' in splitCit[-1][:3].upper():
+                cExtra = ', '.join(splitCit[2:-1])
+            else:
+                cExtra = ', '.join(splitCit[2:])
+            idDict[cId] = cExtra
+    return idDict
 
 def getCoauths(f, grph):
     """
@@ -142,48 +165,25 @@ def getCoauths(f, grph):
         if dropStuff and 'SO' in p and excludedSO(p['SO']):
             pass
         elif 'CR' in p and len(p['CR']) > 1:
-            for i in range(len(p['CR'])):
-                splitCit1 = p['CR'][i].split(', ')
-                if dropStuff and excludedSource(splitCit1):
-                    pass
-                else:
-                    if len(splitCit1) > 1:
-                        cId1 = splitCit1[0].replace(' ',' ').replace('.','').upper() + ' ' + splitCit1[1]
-                    else:
-                        cId1 = p['CR'][i].upper()
+            pDict = getIDs(p['CR'])
+            pIDs = pDict.keys()
+            if len(pIDs) > 1:
+                for i in range(len(pIDs)):
+                    cId1 = pIDs[i]
                     if grph.has_node(cId1):
                         grph.node[cId1]['count'] += 1
                     else:
-                        if len(splitCit1) < 3:
-                            cExtra1 = ''
-                        elif len(splitCit1[-1]) > 3 and 'DOI' in splitCit1[-1][:3].upper():
-                            cExtra1 = ', '.join(splitCit1[2:-1])
+                        grph.add_node(cId1, val = pDict[cId1], count = 1)
+                    for j in range(i + 1, len(pIDs)):
+                        cId2 = pIDs[j]
+                        if grph.has_node(cId2):
+                            grph.node[cId2]['count'] += 1
                         else:
-                            cExtra1 = ', '.join(splitCit1[2:])
-                        grph.add_node(cId1, val = cExtra1, count = 1)
-                    for j in range(i + 1, len(p['CR'])):
-                        splitCit2 = p['CR'][j].split(', ')
-                        if dropStuff and excludedSource(splitCit2):
-                            pass
+                            grph.add_node(cId2, val = pDict[cId2], count = 1)
+                        if grph.has_edge(cId1, cId2):
+                            grph.edge[cId1][cId2]['weight'] += 1
                         else:
-                            if len(splitCit2) > 1:
-                                cId2 = splitCit2[0].replace(' ',' ').replace('.','').upper() + ' ' + splitCit2[1]
-                            else:
-                                cId2 = p['CR'][j].upper()
-                            if grph.has_node(cId2):
-                                grph.node[cId2]['count'] += 1
-                            else:
-                                if len(splitCit2) < 3:
-                                    cExtra2 = ''
-                                elif len(splitCit2[-1]) > 3 and 'DOI ' in splitCit2[-1][:4].upper():
-                                    cExtra2 = ', '.join(splitCit2[2:-1])
-                                else:
-                                    cExtra2 = ', '.join(splitCit2[2:])
-                                grph.add_node(cId2, val = cExtra2, count = 1)
-                            if grph.has_edge(cId1, cId2):
-                                grph.edge[cId1][cId2]['weight'] += 1
-                            else:
-                                grph.add_edge(cId1, cId2, weight = 1)
+                            grph.add_edge(cId1, cId2, weight = 1)
 
 if __name__ == '__main__':
     if os.path.isfile(graphOutFile):

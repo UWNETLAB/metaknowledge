@@ -4,8 +4,21 @@ import sys
 import csv
 import networkx as nx
 
-#output file name
+#output file names and atributtes
+
+writeGraphml = True
+writeCSV = True
+
+#graphml
 graphOutFile = "co-CiteNetwork.graphml"
+
+#edge list
+edgeListOutFile = "co-CiteEdgeList.csv"
+edgeHeader = ["Source", "Target", "Weight"]
+
+#Node attribute list
+attributeListOutFile = "co-CiteAttributeList.csv"
+attributeHeader = ["Name", "Value", "Count", "Community"]
 
 #cutoff for edges to be written weight must be >= cutoff
 edgeCutoff = 2
@@ -185,12 +198,32 @@ def getCoauths(f, grph):
                         else:
                             grph.add_edge(cId1, cId2, weight = 1)
 
+def csvWriteOut(Grph):
+    edgeCSV = csv.writer(open(edgeListOutFile, 'w'),quotechar='"', quoting=csv.QUOTE_ALL)
+    edgeCSV.writerow(edgeHeader)
+    for e in Grph.edges():
+        edgeCSV.writerow([e[0], e[1], Grph.edge[e[0]][e[1]]['weight']])
+    attributeCSV = csv.writer(open(attributeListOutFile, 'w'),quotechar='"', quoting=csv.QUOTE_ALL)
+    attributeCSV.writerow(attributeHeader)
+    for n in Grph.nodes():
+        attributeCSV.writerow([n, G.node[n]['val'], G.node[n]['count']])
+
 if __name__ == '__main__':
-    if os.path.isfile(graphOutFile):
-        #Checks if the output outputFile already exists and terminates if so
+    if writeGraphml and os.path.isfile(graphOutFile):
+        #Checks if the output grpahml File already exists and terminates if so
         print graphOutFile +  " already exists\nexisting"
         sys.exit()
         #os.remove(graphOutFile)
+    if writeCSV:
+        #Checks if the output csv File already exists and terminates if so
+        if os.path.isfile(attributeListOutFile):
+            print attributeListOutFile +  " already exists\nexisting"
+            sys.exit()
+            #os.remove(graphOutFile)
+        if os.path.isfile(edgeListOutFile):
+            print edgeListOutFile +  " already exists\nexisting"
+            sys.exit()
+            #os.remove(graphOutFile)
     flist = getFiles(inputSuffix)
     G = nx.Graph()
     for isi in flist:
@@ -215,6 +248,10 @@ if __name__ == '__main__':
     for ed in G.edges():
             if G[ed[0]][ed[1]]['weight'] <= edgeCutoff:
                   G.remove_edge(ed[0],ed[1])
-    print "Writing " + graphOutFile
-    nx.write_graphml(G, graphOutFile)
+    if writeGraphml:
+        print "Writing graphml " + graphOutFile
+        nx.write_graphml(G, graphOutFile)
+    if writeCSV:
+        print "Writing CSVs " + edgeListOutFile + " and " + attributeListOutFile
+        csvWriteOut(G)
     print "Done"

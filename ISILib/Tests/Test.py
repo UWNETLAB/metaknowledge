@@ -1,8 +1,8 @@
 #Written by Reid McIlroy-Young for Dr. John McLevey, University of Waterloo 2015
-from RecordCollection import *
+from ..RecordCollection import RecordCollection
 
 if __name__ == '__main__':
-    R = RecordCollection("Imbert_C_CITED.txt")
+    R = RecordCollection("testFile.isi")
     print(R)
     print(R._Records)
     for r in R._Records:

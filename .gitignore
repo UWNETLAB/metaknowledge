@@ -2,7 +2,6 @@
 *.txt
 *.sh
 *.graphml
-*.isi
 *.csv
 *_cites/ #<----------------------------------------------This might cause issues
 *.log

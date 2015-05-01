@@ -55,7 +55,6 @@ class Record(object):
             return self._fieldDict['PY'][0]
         else:
             return None
-
     @lazy
     def month(self):
         if 'PD' in self._fieldDict:

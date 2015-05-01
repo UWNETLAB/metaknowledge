@@ -12,5 +12,7 @@ if __name__ == '__main__':
             print(r.authors())
             print(r.year())
             print(r.month())
+            print(r.citations())
+            print(r.title())
     print("Network")
     print(R.coAuthNetwork().edges())

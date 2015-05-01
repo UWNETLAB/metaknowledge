@@ -62,7 +62,18 @@ class Record(object):
             return self._fieldDict['PD'][0]
         else:
             return None
-
+    @lazy
+    def title(self):
+        if 'TI' in self._fieldDict:
+            return ' '.join(self._fieldDict['TI'])
+        else:
+            return None
+    @lazy
+    def citations(self):
+        if 'CR' in self._fieldDict:
+            return self._fieldDict['CR']
+        else:
+            return None
 
 def recordParser(paper):
     """

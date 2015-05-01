@@ -1,21 +1,35 @@
+#Written by Reid McIlroy-Young for Dr. John McLevey, University of Waterloo 2015
+
 import itertools
 import io
 
 class BadISIRecord(Warning):
     """
-    Exception thrown by paperParser and isiParser for mis-formated papers
+    Exception thrown by recordParser for mis-formated papers
     """
     pass
 
 class BadISIFile(Warning):
     """
-    Exception thrown by paperParser and isiParser for mis-formated papers
+    Exception thrown by isiParser for mis-formated files
     """
     pass
 
+def lazy(f):
+    def wrapper(self, *arg, **kwargs):
+        if self.bad:
+            return None
+        if not hasattr(self, "_" + f.__name__):
+            setattr(self, "_" + f.__name__, f(self, *arg, **kwargs))
+        return getattr(self, "_" + f.__name__)
+    return wrapper
+
 class Record(object):
-    def __init__(self, inRecord):
+    def __init__(self, inRecord, sFile = '', sLine = 0):
         self.bad = False
+        self.error = None
+        self._sourceFile = sFile
+        self._sourceLine = sLine
         if isinstance(inRecord, dict):
             self._fieldDict = inRecord
         elif isinstance(inRecord, io.IOBase) or isinstance(inRecord, itertools.chain):
@@ -26,30 +40,29 @@ class Record(object):
                 self.error = b
         else:
             raise TypeError
-
-class RecordCollection(object):
-    def __init__(self, inCollection):
-        if type(inCollection) == str:
-            try:
-                self._Records = isiParser(inCollection)
-            except:
-                raise
-        else:
-            raise TypeError
-
-"""
+    @lazy
     def authors(self):
-        Uses AF then AU fields
-
-        print "SEGDRDGGFGDFGD"
         if 'AF' in self._fieldDict:
-            self._authors = self._fieldDict['AF']
+            return self._fieldDict['AF']
         elif 'AU' in self._fieldDict:
-            self._authors = self._fieldDict['AU']
+            return self._fieldDict['AU']
         else:
-            self._authors = None
-        return self._authors
-"""
+            return None
+
+    @lazy
+    def year(self):
+        if 'PY' in self._fieldDict:
+            return self._fieldDict['PY'][0]
+        else:
+            return None
+
+    @lazy
+    def month(self):
+        if 'PD' in self._fieldDict:
+            return self._fieldDict['PD'][0]
+        else:
+            return None
+
 
 def recordParser(paper):
     """
@@ -69,38 +82,3 @@ def recordParser(paper):
         else:
             raise BadISIRecord("Field tag not formed correctly on line " + str(l[0]) + " : " + l[1])
     raise BadISIRecord("End of file reached before EF on line " + str(l[0]))
-
-def isiParser(isifile):
-    """
-    isiParser() reads the file given by the path isifile, checks that the header is correct then reads until it reachs EF.
-    Each it finds is used to initilize a Record then all Record are returned as a list.
-    """
-    f = enumerate(open(isifile, 'r'), start = 0)
-    if "VR 1.0" not in f.__next__()[1] and "VR 1.0" not in f.__next__()[1]:
-        raise BadISIFile(isifile + " Does not have a valid header, 'VR 1.0' not in first two lines")
-    notEnd = True
-    plst = []
-    while notEnd:
-        try:
-            line = f.__next__()
-        except StopIteration as e:
-            raise BadISIFile("File ends before EF found")
-        if not line[1]:
-            raise BadISIFile("No ER found in " + isifile)
-        elif line[1].isspace():
-            continue
-        elif 'EF' in line[1][:2]:
-            notEnd = False
-            continue
-        else:
-            try:
-                plst.append(Record(itertools.chain([line], f)))
-            except Exception as e:
-                 raise e
-    try:
-        f.next()
-        raise BadISIFile("EF not at end of " + isifile)
-    except StopIteration as e:
-        pass
-    finally:
-        return plst

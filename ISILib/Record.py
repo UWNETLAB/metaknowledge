@@ -35,6 +35,25 @@ class Record(object):
                 self.error = b
         else:
             raise TypeError
+
+    def __str__(self):
+        if self.title():
+            return self.title()
+        else:
+            return "Untitled record"
+
+    def __eq__(self, other):
+        if self.bad or other.bad:
+            return False
+        else:
+            return self._fieldDict == other._fieldDict
+
+    def __ne__(self, other):
+        return not self == other
+
+    def __hash__(self):
+        return hash(self.title())
+
     @lazy
     def authors(self):
         if 'AF' in self._fieldDict:
@@ -47,7 +66,11 @@ class Record(object):
     @lazy
     def year(self):
         if 'PY' in self._fieldDict:
-            return self._fieldDict['PY'][0]
+            yearField = self._fieldDict['PY'][0]
+            if len(yearField) == 4:
+                return int(yearField)
+            else:
+                raise Exception
         else:
             return None
     @lazy
@@ -56,7 +79,6 @@ class Record(object):
             return self._fieldDict['PD'][0]
         else:
             return None
-
     @lazy
     def title(self):
         if 'TI' in self._fieldDict:
@@ -67,6 +89,13 @@ class Record(object):
     def citations(self):
         if 'CR' in self._fieldDict:
             return self._fieldDict['CR']
+        else:
+            return None
+
+    @lazy
+    def wosString(self):
+        if 'UT' in self._fieldDict:
+            return self._fieldDict['UT'][0]
         else:
             return None
 

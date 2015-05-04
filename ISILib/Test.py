@@ -17,6 +17,7 @@ if __name__ == '__main__':
             print(r.month())
             print(r.citations())
             print(r.title())
+            print(r.month())
     print("Network")
     print(R1.coAuthNetwork().edges())
     R3 = R1 + R2
@@ -28,6 +29,8 @@ if __name__ == '__main__':
     r1 = R3._Records.pop()
     for r in R3._Records:
         if r.wosString():
-            print(r.wosString(), end = '')
+            print(r.wosString(), end = ': \t')
+            print(r.month(), end = ',\t')
+            print(r.year())
         else:
             print(r)

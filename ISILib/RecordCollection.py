@@ -24,7 +24,7 @@ class RecordCollection(object):
             self._Records = inCollection
         else:
             raise TypeError
-            
+
     def __add__(self, other):
         if self.bad or other.bad:
             raise Exception
@@ -84,10 +84,10 @@ class RecordCollection(object):
                                 grph.add_edge(cId1, cId2, weight = 1)
 
     def yearSplit(startYear, endYear):
-        recordsInRange = []
+        recordsInRange = set()
         for R in self._Records:
             if R.year() >= startYear and R.year() <= endYear:
-                recordsInRange.append(R)
+                recordsInRange.add(R)
         return RecordCollection(recordsInRange)
 
 

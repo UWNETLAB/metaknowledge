@@ -4,16 +4,29 @@ from Record import Record, lazy
 import itertools
 import networkx as nx
 
+class BadISIFile(Warning):
+    """
+    Exception thrown by isiParser for mis-formated files
+    """
+    pass
+
 class RecordCollection(object):
     def __init__(self, inCollection):
         self.bad = False
-        if type(inCollection) == str:
+        if isinstance(inCollection, str):
             try:
                 self._Records = isiParser(inCollection)
             except:
                 raise
+        elif isinstance(inCollection, list):
+            self._Records = inCollection
         else:
             raise TypeError
+    def __add__(self, other):
+        if self.bad or other.bad:
+            raise Exception
+        else:
+            return RecordCollection(self._Records + other._Records)
 
     @lazy
     def coAuthNetwork(self):
@@ -35,12 +48,6 @@ class RecordCollection(object):
                         else:
                             grph.add_edge(auth1, auth2, weight = 1)
         return grph
-
-
-
-
-
-
 
 def isiParser(isifile):
     """

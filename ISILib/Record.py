@@ -9,11 +9,6 @@ class BadISIRecord(Warning):
     """
     pass
 
-class BadISIFile(Warning):
-    """
-    Exception thrown by isiParser for mis-formated files
-    """
-    pass
 
 def lazy(f):
     def wrapper(self, *arg, **kwargs):
@@ -61,6 +56,7 @@ class Record(object):
             return self._fieldDict['PD'][0]
         else:
             return None
+
     @lazy
     def title(self):
         if 'TI' in self._fieldDict:

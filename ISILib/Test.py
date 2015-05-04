@@ -1,11 +1,12 @@
 #Written by Reid McIlroy-Young for Dr. John McLevey, University of Waterloo 2015
-from ..RecordCollection import RecordCollection
+from RecordCollection import *
 
 if __name__ == '__main__':
-    R = RecordCollection("testFile.isi")
-    print(R)
-    print(R._Records)
-    for r in R._Records:
+    R1 = RecordCollection("Tests/testFile.isi")
+    R2 = RecordCollection("Tests/OnePaper.isi")
+    print(R1)
+    print(R1._Records)
+    for r in R1._Records:
         if r.bad:
             print(r.error)
         else:
@@ -15,4 +16,7 @@ if __name__ == '__main__':
             print(r.citations())
             print(r.title())
     print("Network")
-    print(R.coAuthNetwork().edges())
+    print(R1.coAuthNetwork().edges())
+    R3 = R1 + R2
+    print(R3._Records)
+    print(R3.coAuthNetwork().edges())

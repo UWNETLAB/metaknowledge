@@ -73,6 +73,3 @@ Sci^2 is capable of burst detection, which was originally implemented in C, and 
 * burst detection for authors
 * burst detection for documents
 * burst detection for references
-
-##Notes
-* Record class uses WOS number as unique ID

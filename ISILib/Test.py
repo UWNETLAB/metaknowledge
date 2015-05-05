@@ -1,10 +1,12 @@
 #Written by Reid McIlroy-Young for Dr. John McLevey, University of Waterloo 2015
-from RecordCollection import *
+from Classes.RecordCollection import RecordCollection
+import os.path
 from IPython import embed
 
 if __name__ == '__main__':
-    R1 = RecordCollection("Tests/testFile.isi")
-    R2 = RecordCollection("Tests/ManyAuthors.isi")
+    currentPath = os.path.dirname(os.path.realpath(__file__))
+    R1 = RecordCollection(currentPath + "/Tests/testFile.isi")
+    R2 = RecordCollection(currentPath + "/Tests/ManyAuthors.isi")
     print(R1)
     print(R1._Records)
     for r in R1._Records:

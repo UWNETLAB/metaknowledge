@@ -1,5 +1,5 @@
 #Written by Reid McIlroy-Young for Dr. John McLevey, University of Waterloo 2015
-from Record import Record
+from Classes.Record import Record
 
 import itertools
 import networkx as nx
@@ -60,7 +60,7 @@ class RecordCollection(object):
 
     def __ne__(self, other):
         return not self == other
-        
+
     def getBadRecords(self):
         badRecords = set()
         for R in self._Records:

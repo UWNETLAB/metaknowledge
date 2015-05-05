@@ -1,1 +1,1 @@
-__all__ = ["Record", "RecordCollection"]
+from .Record import Record

@@ -43,3 +43,4 @@ if __name__ == '__main__':
     print(R2 + R2)
     print(R2 ^ R1)
     print(R3 & R1)
+    R1.writeFile('output.isi')

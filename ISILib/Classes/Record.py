@@ -117,6 +117,19 @@ class Record(object):
     def wosString(self):
         return self._wosNum
 
+    def writeRecord(self, infile):
+        if self.bad:
+            raise exception
+        else:
+            for tag in self._fieldDict.keys():
+                for i, value in enumerate(self._fieldDict[tag]):
+                    if i == 0:
+                        infile.write(tag + ' ')
+                    else:
+                        infile.write('   ')
+                    infile.write(value + '\n')
+            infile.write("ER\n")
+
 def recordParser(paper):
     """
     recordParser() reads the file paper until it reaches 'EF'.

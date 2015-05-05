@@ -73,6 +73,16 @@ class RecordCollection(object):
             if R.bad:
                 self._Records.remove(R)
 
+    def writeFile(self, fname):
+        f = open(fname, mode = 'w', encoding = 'utf-8')
+        f.write("FN Thomson Reuters Web of Science\n")
+        f.write("VR 1.0\n")
+        for R in self._Records:
+            R.writeRecord(f)
+            f.write('\n')
+        f.write('ER')
+
+
     def coAuthNetwork(self):
         grph = nx.Graph()
         for R in self._Records:
@@ -123,6 +133,8 @@ class RecordCollection(object):
             if R.year() >= startYear and R.year() <= endYear:
                 recordsInRange.add(R)
         return RecordCollection(recordsInRange)
+
+
 
 
 

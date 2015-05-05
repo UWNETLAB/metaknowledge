@@ -2,7 +2,7 @@
 
 ## Implementation
 ### Add more documentation
-
+###remove general exceptions
 ### Record class
 * add methods for every tag
    - Make a general tag method
@@ -11,6 +11,7 @@
 ### RecordCollection class
 * extract subset from range
 * add more methods to create networks
+* Consider what the header will be for output isi files
 
 ## Output files
 * Make a method of RecordCollection or separate function

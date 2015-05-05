@@ -144,7 +144,8 @@ def isiParser(isifile):
     isiParser() reads the file given by the path isifile, checks that the header is correct then reads until it reachs EF.
     Each it finds is used to initilize a Record then all Record are returned as a list.
     """
-    f = enumerate(open(isifile, 'r'), start = 0)
+    openfile = open(isifile, 'r')
+    f = enumerate(openfile, start = 0)
     if "VR 1.0" not in f.__next__()[1] and "VR 1.0" not in f.__next__()[1]:
         raise BadISIFile(isifile + " Does not have a valid header, 'VR 1.0' not in first two lines")
     notEnd = True
@@ -172,6 +173,7 @@ def isiParser(isifile):
     except StopIteration as e:
         pass
     finally:
+        openfile.close()
         return plst
 
 def getCoCiteIDs(clst):

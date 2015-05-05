@@ -1,12 +1,11 @@
 #Written by Reid McIlroy-Young for Dr. John McLevey, University of Waterloo 2015
-from .RecordCollection import RecordCollection
+from .recordCollection import RecordCollection
 import os.path
-from IPython import embed
 
 def btest():
     currentPath = os.path.dirname(os.path.realpath(__file__))
-    R1 = RecordCollection(currentPath + "/testFile.isi")
-    R2 = RecordCollection(currentPath + "/ManyAuthors.isi")
+    R1 = RecordCollection(currentPath + "/../tests/testFile.isi")
+    R2 = RecordCollection(currentPath + "/../tests/ManyAuthors.isi")
     print(R1)
     print(R1._Records)
     for r in R1._Records:

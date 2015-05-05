@@ -36,6 +36,13 @@ class Record(object):
             except BadISIRecord as b:
                 self.bad = True
                 self.error = b
+            finally:
+                if 'UT' in self._fieldDict:
+                    self._wosNum = self._fieldDict['UT'][0]
+                else:
+                    self._wosNum = None
+                    self.bad = True
+                    self.error = BadISIRecord("Missing WOS number")
         else:
             raise TypeError
 
@@ -49,13 +56,25 @@ class Record(object):
         if self.bad or other.bad:
             return False
         else:
-            return self._fieldDict == other._fieldDict
+            return self.wosString() == other.wosString()
 
     def __ne__(self, other):
         return not self == other
 
     def __hash__(self):
-        return hash(self._fieldDict.values())
+        if self.bad:
+            return hash(self._fieldDict.values())
+        return hash(self._wosNum)
+
+    def __getstate__(self):
+        return (self.bad, self.error, self._sourceFile, self._sourceLine, self._fieldDict)
+
+    def __setstate__(self, state):
+        self.bad = state[0]
+        self.error = stae[1]
+        self._sourceFile = state[2]
+        self._sourceLine = state[3]
+        self._fieldDict = state[4]
 
     @lazy
     def authors(self):
@@ -95,12 +114,8 @@ class Record(object):
         else:
             return None
 
-    @lazy
     def wosString(self):
-        if 'UT' in self._fieldDict:
-            return self._fieldDict['UT'][0]
-        else:
-            return None
+        return self._wosNum
 
 def recordParser(paper):
     """

@@ -1,5 +1,5 @@
 #Written by Reid McIlroy-Young for Dr. John McLevey, University of Waterloo 2015
-from Record import Record, lazy
+from Record import Record
 
 import itertools
 import networkx as nx
@@ -31,13 +31,48 @@ class RecordCollection(object):
         else:
             return RecordCollection(self._Records | other._Records)
 
+    def __and__(self, other):
+        if self.bad or other.bad:
+            raise Exception
+        else:
+            return RecordCollection(self._Records & other._Records)
+
+    def __sub__(self, other):
+        if self.bad or other.bad:
+            raise Exception
+        else:
+            return RecordCollection(self._Records - other._Records)
+
+    def __xor__(self, other):
+        if self.bad or other.bad:
+            raise Exception
+        else:
+            return RecordCollection(self._Records ^ other._Records)
+
+    def __str__(self):
+        return "Collection of " + str(len(self._Records)) + " records"
+
     def __eq__(self, other):
         if self.bad or other.bad:
             return False
         else:
             return self._Records == other._Records
 
-    @lazy
+    def __ne__(self, other):
+        return not self == other
+        
+    def getBadRecords(self):
+        badRecords = set()
+        for R in self._Records:
+            if R.bad:
+                badRecords.add(R)
+        return RecordCollection(badRecords)
+
+    def dropBadRecords(self):
+        for R in self._Records:
+            if R.bad:
+                self._Records.remove(R)
+
     def coAuthNetwork(self):
         grph = nx.Graph()
         for R in self._Records:
@@ -58,7 +93,6 @@ class RecordCollection(object):
                             grph.add_edge(auth1, auth2, weight = 1)
         return grph
 
-    @lazy
     def coCiteNetwork(self):
         grph = nx.Graph()
         for R in self._Records:

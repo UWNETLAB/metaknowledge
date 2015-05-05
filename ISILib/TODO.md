@@ -7,10 +7,10 @@
 * add methods for every tag
    - Make a general tag method
 
+
 ### RecordCollection class
-* add merge, copy, delete, split, etc
-   - extract subset from range
-* add methods to create networks
+* extract subset from range
+* add more methods to create networks
 
 ## Output files
 * Make a method of RecordCollection or separate function
@@ -73,3 +73,6 @@ Sci^2 is capable of burst detection, which was originally implemented in C, and 
 * burst detection for authors
 * burst detection for documents
 * burst detection for references
+
+##Notes
+* Record class uses WOS number as unique ID

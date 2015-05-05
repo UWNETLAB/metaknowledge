@@ -34,3 +34,10 @@ if __name__ == '__main__':
             print(r.year())
         else:
             print(r)
+    print(R3)
+    print(R2)
+    print(R1)
+    print(R2 & R1)
+    print(R2 + R2)
+    print(R2 ^ R1)
+    print(R3 & R1)

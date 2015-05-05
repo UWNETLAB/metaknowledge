@@ -1,5 +1,5 @@
 #Written by Reid McIlroy-Young for Dr. John McLevey, University of Waterloo 2015
-from Classes.Record import Record
+from .Record import Record
 
 import itertools
 import networkx as nx

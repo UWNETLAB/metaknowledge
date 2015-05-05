@@ -1,5 +1,6 @@
-from setuptools import setup, find_packages
-setup(name='ISILib',
+from setuptools import setup
+setup(name='isilib',
       version='.01',
-      packages=find_packages(),
+      packages=["isilib"],
+      scripts=['bin/isilib-test']
       )

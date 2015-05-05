@@ -30,12 +30,26 @@ class Record(object):
         self._sourceLine = sLine
         if isinstance(inRecord, dict):
             self._fieldDict = inRecord
-        elif isinstance(inRecord, io.IOBase) or isinstance(inRecord, itertools.chain):
+        elif isinstance(inRecord, itertools.chain):
             try:
                 self._fieldDict = recordParser(inRecord)
             except BadISIRecord as b:
                 self.bad = True
                 self.error = b
+            finally:
+                if 'UT' in self._fieldDict:
+                    self._wosNum = self._fieldDict['UT'][0]
+                else:
+                    self._wosNum = None
+                    self.bad = True
+                    self.error = BadISIRecord("Missing WOS number")
+        elif isinstance(inRecord, io.IOBase):
+            try:
+                self._fieldDict = recordParser(enumerate(inRecord))
+            except BadISIRecord as b:
+                self.bad = True
+                self.error = b
+                self._fieldDict = {}
             finally:
                 if 'UT' in self._fieldDict:
                     self._wosNum = self._fieldDict['UT'][0]

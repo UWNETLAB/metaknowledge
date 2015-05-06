@@ -6,6 +6,6 @@ setup(name='isilib',
     keywords= 'isi wos',
     install_requires= ['networkx'],
     packages=['isilib'],
-    scripts=['bin/isilib-test'],
+    #scripts=['bin/isilib-test'],
     test_suite='tests',
 )

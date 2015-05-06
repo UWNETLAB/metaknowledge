@@ -63,6 +63,7 @@ class Record(object):
                     for s in lst:
                         yield s + '\n'
                 self._fieldDict = recordParser(enumerate(addChartoEnd(inRecord.split('\n'))))
+                #string io
             except BadISIRecord as b:
                 self.bad = True
                 self.error = b
@@ -74,8 +75,6 @@ class Record(object):
                     self._wosNum = None
                     self.bad = True
                     self.error = BadISIRecord("Missing WOS number")
-
-
         else:
             raise TypeError
 

@@ -57,6 +57,25 @@ class Record(object):
                     self._wosNum = None
                     self.bad = True
                     self.error = BadISIRecord("Missing WOS number")
+        elif isinstance(inRecord, str):
+            try:
+                def addChartoEnd(lst):
+                    for s in lst:
+                        yield s + '\n'
+                self._fieldDict = recordParser(enumerate(addChartoEnd(inRecord.split('\n'))))
+            except BadISIRecord as b:
+                self.bad = True
+                self.error = b
+                self._fieldDict = {}
+            finally:
+                if 'UT' in self._fieldDict:
+                    self._wosNum = self._fieldDict['UT'][0]
+                else:
+                    self._wosNum = None
+                    self.bad = True
+                    self.error = BadISIRecord("Missing WOS number")
+
+
         else:
             raise TypeError
 
@@ -85,7 +104,7 @@ class Record(object):
 
     def __setstate__(self, state):
         self.bad = state[0]
-        self.error = stae[1]
+        self.error = state[1]
         self._sourceFile = state[2]
         self._sourceLine = state[3]
         self._fieldDict = state[4]

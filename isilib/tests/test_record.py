@@ -4,11 +4,7 @@ import os.path
 
 class TestRecord(unittest.TestCase):
     def setUp(self):
-        currentPath = os.path.dirname(os.path.realpath(__file__))
-        f = open(currentPath + "/SimplePaper.isi")
-        self.R = isilib.Record(f)
-        f.close()
-
+        self.R = isilib.Record(simplePaperString)
     def test_isRecord(self):
         self.assertTrue(isinstance(self.R, isilib.Record))
     def test_title(self):
@@ -23,3 +19,24 @@ class TestRecord(unittest.TestCase):
         self.assertEqual(self.R.citations(), ["John D. 1999, TOPICS IN COGNITIVE SCIENCE"])
     def test_WOS(self):
         self.assertEqual(self.R.wosString(), 'WOS:123317623000007')
+
+simplePaperString = """PT J
+AU John, D
+AF John, Doe
+TI Example Paper
+SO TOPICS IN COGNITIVE SCIENCE
+LA English
+DT Article
+DE Example; testing
+ID REAL; TIME
+AB This is a test.
+C1 UW, Ontario, Canada.
+RP John, D (reprint author), UW, Ontario, Canada.
+CR John D. 1999, TOPICS IN COGNITIVE SCIENCE
+J9 EXAMPLE
+JI examaple
+PD APR
+PY 2015
+UT WOS:123317623000007
+ER
+"""

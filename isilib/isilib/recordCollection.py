@@ -134,11 +134,6 @@ class RecordCollection(object):
                 recordsInRange.add(R)
         return RecordCollection(recordsInRange)
 
-
-
-
-
-
 def isiParser(isifile):
     """
     isiParser() reads the file given by the path isifile, checks that the header is correct then reads until it reachs EF.

@@ -12,10 +12,14 @@ class BadISIFile(Warning):
     pass
 
 class RecordCollection(object):
-    def __init__(self, inCollection, name = ''):
+    def __init__(self, inCollection = None, name = ''):
         self.bad = False
         self._repr = name
-        if isinstance(inCollection, str):
+        if not inCollection:
+            if not name:
+                self._repr = "empty"
+            self._Records = set()
+        elif isinstance(inCollection, str):
             try:
                 self._repr = os.path.splitext(os.path.split(inCollection)[1])[0]
                 self._Records = set(isiParser(inCollection))
@@ -81,9 +85,9 @@ class RecordCollection(object):
 
     def writeFile(self, fname = None):
         if fname:
-            f = open(fname, mode = 'w', encoding = 'utf-8')
+            f = open(fname, mode = 'wb', encoding = 'utf-8')
         else:
-            f = open(repr(self)[:200] + '.isi', mode = 'wb', encoding = 'utf-8')
+            f = open(repr(self)[:200] + '.isi', mode = 'w', encoding = 'utf-8')
         f.write("\ufeffFN Thomson Reuters Web of Science\u2122\n")
         f.write("VR 1.0\n")
         for R in self._Records:
@@ -91,7 +95,6 @@ class RecordCollection(object):
             f.write('\n')
         f.write('EF')
         f.close()
-
 
     def coAuthNetwork(self):
         grph = nx.Graph()

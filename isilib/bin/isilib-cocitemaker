@@ -26,7 +26,7 @@ if __name__ == "__main__":
             print("Reading " + file)
             RC += isilib.RecordCollection(file)
     else:
-        flist = [f for f in os.listdir(".") if f.endswith(".isi")]
+        flist = [f for f in os.listdir(".") if f.endswith(".txt")]
         RC = isilib.RecordCollection(flist[0])
         for file in flist[1:]:
             RC += isilib.RecordCollection(file)

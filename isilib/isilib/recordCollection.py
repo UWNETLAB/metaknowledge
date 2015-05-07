@@ -72,7 +72,7 @@ class RecordCollection(object):
         for R in self._Records:
             if R.bad:
                 badRecords.add(R)
-        return RecordCollection(badRecords)
+        return RecordCollection(badRecords, repr(self) + '_badRecords')
 
     def dropBadRecords(self):
         for R in self._Records:
@@ -142,7 +142,7 @@ class RecordCollection(object):
         for R in self._Records:
             if R.year() >= startYear and R.year() <= endYear:
                 recordsInRange.add(R)
-        return RecordCollection(recordsInRange)
+        return RecordCollection(recordsInRange, repr(self) + "_(" + str(startYear) + " ," + str(endYear) + ")")
 
 def isiParser(isifile):
     """

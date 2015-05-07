@@ -2,6 +2,7 @@
 from .record import Record
 
 import itertools
+import os.path
 import networkx as nx
 
 class BadISIFile(Warning):
@@ -11,10 +12,12 @@ class BadISIFile(Warning):
     pass
 
 class RecordCollection(object):
-    def __init__(self, inCollection):
+    def __init__(self, inCollection, name = ''):
         self.bad = False
+        self._repr = name
         if isinstance(inCollection, str):
             try:
+                self._repr = os.path.splitext(os.path.split(inCollection)[1])[0]
                 self._Records = set(isiParser(inCollection))
             except:
                 raise
@@ -29,28 +32,31 @@ class RecordCollection(object):
         if self.bad or other.bad:
             raise Exception
         else:
-            return RecordCollection(self._Records | other._Records)
+            return RecordCollection(self._Records | other._Records, repr(self) + '_plus_' + repr(other))
 
     def __and__(self, other):
         if self.bad or other.bad:
             raise Exception
         else:
-            return RecordCollection(self._Records & other._Records)
+            return RecordCollection(self._Records & other._Records, repr(self) + '_and_' + repr(other))
 
     def __sub__(self, other):
         if self.bad or other.bad:
             raise Exception
         else:
-            return RecordCollection(self._Records - other._Records)
+            return RecordCollection(self._Records - other._Records, repr(self) + '_diff_' + repr(other))
 
     def __xor__(self, other):
         if self.bad or other.bad:
             raise Exception
         else:
-            return RecordCollection(self._Records ^ other._Records)
+            return RecordCollection(self._Records ^ other._Records, repr(self) + '_symdiff_' + repr(other))
 
     def __str__(self):
         return "Collection of " + str(len(self._Records)) + " records"
+
+    def __repr__(self):
+        return self._repr
 
     def __eq__(self, other):
         if self.bad or other.bad:
@@ -73,8 +79,11 @@ class RecordCollection(object):
             if R.bad:
                 self._Records.remove(R)
 
-    def writeFile(self, fname):
-        f = open(fname, mode = 'w', encoding = 'utf-8')
+    def writeFile(self, fname = None):
+        if fname:
+            f = open(fname, mode = 'w', encoding = 'utf-8')
+        else:
+            f = open(repr(self)[:200] + '.isi', mode = 'w', encoding = 'utf-8')
         f.write("FN Thomson Reuters Web of Science\n")
         f.write("VR 1.0\n")
         for R in self._Records:

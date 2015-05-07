@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 setup(name='isilib',
-    version='0.01',
+    version='0.0.1',
     author="Reid McIlroy-Young",
     url="https://github.com/mclevey/web_of_science_isi",
     keywords= 'isi wos',
@@ -8,4 +8,5 @@ setup(name='isilib',
     packages=['isilib'],
     scripts=['bin/isilib-test'],
     test_suite='tests',
+    #data_files= [('/tests', ["testFile.isi", "OnePaper.isi", "ManyAuthors.isi"])]
 )

@@ -1,6 +1,7 @@
 #Written by Reid McIlroy-Young for Dr. John McLevey, University of Waterloo 2015
 from isilib import RecordCollection
 import os.path
+import os
 
 def btest():
     currentPath = os.path.dirname(os.path.realpath(__file__))
@@ -42,3 +43,6 @@ def btest():
     print(R2 + R2)
     print(R2 ^ R1)
     print(R3 & R1)
+    print(repr(R1))
+    print(repr(R3 + R2 - R3 & R1))
+    R3.writeFile()

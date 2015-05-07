@@ -6,7 +6,7 @@ setup(name='isilib',
     keywords= 'isi wos',
     install_requires= ['networkx'],
     packages=['isilib'],
-    scripts=['bin/isilib-test', 'bin/isilib-coauthmaker'],
+    scripts=['bin/isilib-test', 'bin/isilib-coauthmaker', 'bin/isilib-cocitemaker'],
     test_suite='tests',
     #data_files= [('/tests', ["testFile.isi", "OnePaper.isi", "ManyAuthors.isi"])]
 )

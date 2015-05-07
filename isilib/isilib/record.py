@@ -71,7 +71,7 @@ class Record(object):
                 def addChartoEnd(lst):
                     for s in lst:
                         yield s + '\n'
-                self._fieldDict = recordParser(enumerate(addChartoEnd(inRecord.split('\n'))))
+                self._fieldDict = recordParser(enumerate(addChartoEnd(inRecord.split('\n')), start = 1))
                 #string io
             except BadISIRecord as b:
                 self.bad = True
@@ -220,7 +220,9 @@ def recordParser(paper):
     """
     tagList = []
     for l in paper:
-        if 'ER' in l[1][:2]:
+        if len(l[1]) < 3:
+            raise BadISIRecord("Missing field on line " + str(l[0]) + " : " + l[1])
+        elif 'ER' in l[1][:2]:
             return  collections.OrderedDict(tagList)
         elif '   ' in l[1][:3]: #the string is three spaces in row
             tagList[-1][1].append(l[1][3:-1])

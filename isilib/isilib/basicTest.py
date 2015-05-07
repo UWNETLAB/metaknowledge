@@ -4,9 +4,9 @@ import os.path
 import os
 
 def btest():
-    currentPath = os.path.dirname(os.path.realpath(__file__))
-    R1 = RecordCollection(currentPath + "/../tests/testFile.isi")
-    R2 = RecordCollection(currentPath + "/../tests/ManyAuthors.isi")
+    currentPath = '.' #os.path.dirname(os.path.realpath(__file__))
+    R1 = RecordCollection(currentPath + "/tests/testFile.isi")
+    R2 = RecordCollection(currentPath + "/tests/ManyAuthors.isi")
     print(R1)
     print(R1._Records)
     for r in R1._Records:
@@ -45,4 +45,3 @@ def btest():
     print(R3 & R1)
     print(repr(R1))
     print(repr(R3 + R2 - R3 & R1))
-    R1.writeFile()

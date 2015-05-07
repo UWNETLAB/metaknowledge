@@ -85,7 +85,7 @@ class RecordCollection(object):
 
     def writeFile(self, fname = None):
         if fname:
-            f = open(fname, mode = 'wb', encoding = 'utf-8')
+            f = open(fname, mode = 'w', encoding = 'utf-8')
         else:
             f = open(repr(self)[:200] + '.isi', mode = 'w', encoding = 'utf-8')
         f.write("\ufeffFN Thomson Reuters Web of Science\u2122\n")

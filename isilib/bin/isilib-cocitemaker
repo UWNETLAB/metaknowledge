@@ -14,7 +14,7 @@ import networkx as nx
 fileName = "somefile.isi"
 outputName = "somefile.graphml"
 RC = isilib.RecordCollection(fileName)
-G = RC.coAuthNetwork()
+G = RC.coCiteNetwork()
 nx.write_graphml(G)
 
 """
@@ -35,4 +35,4 @@ if __name__ == "__main__":
         print(repr(RC) + ".graphml already exists")
     else:
         print("Writing " + repr(RC) + ".graphml")
-        nx.write_graphml(RC.coAuthNetwork(), repr(RC) + ".graphml")
+        nx.write_graphml(RC.coCiteNetwork(), repr(RC) + ".graphml")

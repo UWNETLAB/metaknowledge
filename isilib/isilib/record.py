@@ -126,14 +126,14 @@ class Record(object):
         """
         returns the minimum amount of information to recreate a Record
         """
-        return (self.bad, self.error, self._sourceFile, self._sourceLine, self._fieldDict)
+        sDict = self.__dict__
+        for k in sDict:
+            if k not in ['bad', 'error', '_sourceFile', '_sourceLine', '_fieldDict', '_wosNum']:
+                del sDict[k]
+        return sDict
 
     def __setstate__(self, state):
-        self.bad = state[0]
-        self.error = state[1]
-        self._sourceFile = state[2]
-        self._sourceLine = state[3]
-        self._fieldDict = state[4]
+        self.__dict__ = state
 
     @lazy
     def authors(self):
@@ -193,6 +193,36 @@ class Record(object):
         else:
             return None
 
+    @lazy
+    def getTag(self, tag):
+        """
+        returns a list containing the raw data of the record assocaited ith tag.
+        Each line of the record is one string in the list.
+        """
+        if tag in self._fieldDict:
+            return self._fieldDict[tag]
+        else:
+            return None
+
+    def getTagsList(self, taglst):
+        """"
+        returns a list of the results of getTag for each tag in taglist, it has the same order as the original.
+        """
+        retList = []
+        for tag in taglst:
+            retList.append(self.getTag(tag))
+        return retList
+
+    def getTagsDict(self, taglst):
+        """"
+        returns a dict of the results of getTag, with the elements of taglist as the keys and the results as the values.
+        """
+        retDict = {}
+        for tag in taglst:
+            retDict[tag] = self.getTag(tag)
+        return retDict
+
+
     def wosString(self):
         """
         returns the WOS number of the record as a string preceeded by "WOS:""
@@ -201,6 +231,9 @@ class Record(object):
         return self._wosNum
 
     def writeRecord(self, infile):
+        """
+        writes to infile the origninal contents of the Record
+        """
         if self.bad:
             raise exception
         else:

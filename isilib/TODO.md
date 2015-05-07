@@ -4,24 +4,13 @@
 ### Add more documentation
 ###remove general exceptions
 ### Record class
-* add methods for every tag
-   - Make a general tag method
-
+* add methods for every important tag
 
 ### RecordCollection class
-* extract subset from range
+* extract subset from more ranges
 * add more methods to create networks
-* Consider what the header will be for output isi files
-
-## Output files
-* Make a method of RecordCollection or separate function
 
 ## Cleaning and Preprocessing WOS data
-
-* detect duplicate WOS records
-* merge identical records or delete duplicates leaving 1 copy
-
-* split records based on field "Publication Year" (e.g. select records from 2003-2006 for a co-citation network analysis)
 
 * [reconcile journal names](http://cishell.wiki.cns.iu.edu/Reconcile+Journal+Names). link includes a link to the source code, and a download to an Excel file with journal names.
 

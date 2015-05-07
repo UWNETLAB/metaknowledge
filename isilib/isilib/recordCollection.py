@@ -83,13 +83,14 @@ class RecordCollection(object):
         if fname:
             f = open(fname, mode = 'w', encoding = 'utf-8')
         else:
-            f = open(repr(self)[:200] + '.isi', mode = 'w', encoding = 'utf-8')
-        f.write("FN Thomson Reuters Web of Science\n")
+            f = open(repr(self)[:200] + '.isi', mode = 'wb', encoding = 'utf-8')
+        f.write("\ufeffFN Thomson Reuters Web of Science\u2122\n")
         f.write("VR 1.0\n")
         for R in self._Records:
             R.writeRecord(f)
             f.write('\n')
-        f.write('ER')
+        f.write('EF')
+        f.close()
 
 
     def coAuthNetwork(self):

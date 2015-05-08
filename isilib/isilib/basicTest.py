@@ -9,17 +9,7 @@ def btest():
     R2 = RecordCollection(currentPath + "/tests/ManyAuthors.isi")
     print(R1)
     print(R1._Records)
-    for r in R1._Records:
-        if r.bad:
-            print(r.error)
-        else:
-            print(r)
-            print(r.authors())
-            print(r.year())
-            print(r.month())
-            print(r.citations())
-            print(r.title())
-            print(r.month())
+
     print("Network")
     print(R1.coAuthNetwork().edges())
     R3 = R1 + R2
@@ -45,3 +35,16 @@ def btest():
     print(R3 & R1)
     print(repr(R1))
     print(repr(R3 + R2 - R3 & R1))
+    for r in R1._Records:
+        if r.bad:
+            print(r.error)
+        else:
+            print(r)
+            print(r.authors())
+            print(r.year())
+            print(r.month())
+            print(r.citations())
+            print(r.title())
+            print(r.month())
+            print(r.wosString())
+            print(r.getDOI())

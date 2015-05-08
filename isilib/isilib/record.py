@@ -337,8 +337,9 @@ class Citation(object):
             return self.author + ', ' + self.year
         elif hasattr(self, 'author'):
             retid = self.author
-            if hasattr(self, year):
+            if hasattr(self, 'year'):
                 retid += ', '  + self.year
+            return retid
         else:
             return self.misc
 

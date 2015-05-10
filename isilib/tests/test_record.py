@@ -16,7 +16,8 @@ class TestRecord(unittest.TestCase):
     def test_month(self):
         self.assertEqual(self.R.month(), 4)
     def test_cites(self):
-        self.assertEqual(self.R.citations(), ["John D. 1999, TOPICS IN COGNITIVE SCIENCE"])
+        self.assertEqual(str(self.R.citations()[0]), "John D. 1999, TOPICS IN COGNITIVE SCIENCE")
+        self.assertEqual(len(self.R.citations()), 1)
     def test_WOS(self):
         self.assertEqual(self.R.wosString(), 'WOS:123317623000007')
 

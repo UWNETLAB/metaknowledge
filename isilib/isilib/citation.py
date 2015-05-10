@@ -36,6 +36,9 @@ class Citation(object):
                     else:
                         self.misc = field
 
+    def __str__(self):
+        return self.original
+
     def getID(self):
         if not self.bad:
             return self.author + ', ' + self.year

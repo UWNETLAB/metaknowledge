@@ -43,8 +43,9 @@ def btest():
             print(r.authors())
             print(r.year())
             print(r.month())
-            print(r.citations())
+
             print(r.title())
             print(r.month())
             print(r.wosString())
             print(r.getDOI())
+            print(r.citations())

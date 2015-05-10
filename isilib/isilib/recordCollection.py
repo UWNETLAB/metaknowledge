@@ -190,17 +190,7 @@ def getCoCiteIDs(clst):
     """
     idDict = {}
     for c in clst:
-        splitCit = c.split(', ')
-        if len(splitCit) > 1:
-            cId = splitCit[0].replace(' ',' ').replace('.','').upper() + ' ' + splitCit[1]
-        else:
-            cId = c.upper()
-        if cId not in idDict and not excludedSource(splitCit):
-            if len(splitCit) < 3:
-                cExtra = ''
-            elif len(splitCit[-1]) > 3 and 'DOI' in splitCit[-1][:3].upper():
-                cExtra = ', '.join(splitCit[2:-1])
-            else:
-                cExtra = ', '.join(splitCit[2:])
-            idDict[cId] = cExtra
+        cId = c.getID()
+        if cId not in idDict:
+            idDict[cId] = c.getExtra()
     return idDict

@@ -4,18 +4,14 @@ import itertools
 import io
 import collections
 
+from .citation import Citation
+
 monthDict = {'SPR': 3, 'SUM': 6, 'FAL': 9, 'WIN': 12, 'JAN' : 1, 'FEB' : 2, 'MAR' : 3, 'APR' : 4, 'MAY' : 5, 'JUN' : 6 , 'JUL' : 7, 'AUG' : 8, 'SEP' : 9, 'OCT' : 10, 'NOV' : 11, 'DEC' : 12}
 
 
 class BadISIRecord(Warning):
     """
     Exception thrown by recordParser for mis-formated papers
-    """
-    pass
-
-class BadCitation(Warning):
-    """
-    Exception thrown by Citation
     """
     pass
 
@@ -195,7 +191,10 @@ class Record(object):
         CR tag
         """
         if 'CR' in self._fieldDict:
-            return self._fieldDict['CR']
+            retCites = []
+            for c in self._fieldDict['CR']:
+                retCites.append(Citation(c))
+            return retCites
         else:
             return None
 
@@ -238,7 +237,6 @@ class Record(object):
         for tag in taglst:
             retDict[tag] = self.getTag(tag)
         return retDict
-
 
     def wosString(self):
         """
@@ -299,57 +297,3 @@ def getMonth(s):
         return monthDict[monthOrSeason]
     else:
         raise ValueError("Month format not recognized: " + s)
-
-class Citation(object):
-    def __init__(self, cite):
-        self.original = cite
-        self.bad = False
-        c = cite.upper().replace(' ',' ').split(', ')
-        if 'DOI' in c[-1][:3]:
-            self.DOI = c.pop().split(' ')[-1]
-        if len(c) < 3:
-            self.bad = True
-            self.error = BadCitation("Too few elemets")
-            self.misc = ', '.join(c)
-        else:
-            self.author = c.pop(0).replace('.','')
-            if c[0].isnumeric():
-                self.year = c.pop(0)
-            if not c[0].isnumeric():
-                self.journal = c.pop(0)
-            else:
-                self.misc = c.pop(0)
-                self.bad = True
-                self.error = BadCitation("Too many numbers")
-            for field in c:
-                if 'V' == field[0] and field[1:].isnumeric():
-                    self.V = field
-                elif 'P' == field[0] and field[1:].isnumeric():
-                    self.P = field
-                else:
-                    if hasattr(self, 'misc'):
-                        self.misc += ', ' + field
-                    else:
-                        self.misc = field
-
-    def getID(self):
-        if not self.bad:
-            return self.author + ', ' + self.year
-        elif hasattr(self, 'author'):
-            retid = self.author
-            if hasattr(self, 'year'):
-                retid += ', '  + self.year
-            return retid
-        else:
-            return self.misc
-
-    def getExtra(self):
-        extraTags = ['journal','V', 'P', 'misc']
-        retVal = ""
-        for tag in extraTags:
-            if hasattr(self, tag):
-                retVal += getattr(self, tag) + ', '
-        if len(retVal) > 2:
-            return retVal[:-2]
-        else:
-            return retVal

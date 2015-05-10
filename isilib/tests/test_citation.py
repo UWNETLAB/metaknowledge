@@ -35,6 +35,10 @@ class TestCitation(unittest.TestCase):
     def test_citation_badDetection(self):
         self.assertTrue(isilib.Citation("").bad)
 
+    def test_citation_equality(self):
+        c = isilib.Citation("John D., 2015, TOPICS IN COGNITIVE SCIENCE, V1, P1, DOI 0.1063/1.1695064")
+        self.assertTrue(c == self.Cite)
+
     def test_citation_badLength(self):
         c = isilib.Citation("a, b")
         self.assertTrue(c.bad)
@@ -42,8 +46,14 @@ class TestCitation(unittest.TestCase):
         self.assertEqual(c.getExtra(),'A, B')
         self.assertEqual(c.getID(),'A, B')
 
-    def test_citation_badNumbers(self):
-        c = isilib.Citation("1, 2, 3, 4")
+    def test_citation_badAuthor(self):
+        c = isilib.Citation("a b c, 1999, fskhsdjgdhjkgdh")
         self.assertTrue(c.bad)
-        self.assertEqual(c.getID(), '1, 2')
+        self.assertEqual(str(c.error), "Strange author name") 
+
+
+    def test_citation_badNumbers(self):
+        c = isilib.Citation("1 2, 2, 3, 4")
+        self.assertTrue(c.bad)
+        self.assertEqual(c.getID(), '1 2, 2')
         self.assertEqual(str(c.error), "Too many numbers")

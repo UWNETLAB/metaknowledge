@@ -16,7 +16,11 @@ class Citation(object):
             self.error = BadCitation("Too few elemets")
             self.misc = ', '.join(c)
         else:
-            self.author = c.pop(0).replace('.','')
+            if c[0].count(' ') == 1:
+                self.author = c.pop(0).replace('.','')
+            else:
+                self.bad = True
+                self.error = BadCitation("Strange author name")
             if c[0].isnumeric():
                 self.year = c.pop(0)
             if not c[0].isnumeric():
@@ -38,6 +42,24 @@ class Citation(object):
 
     def __str__(self):
         return self.original
+
+    def __eq__(self, other):
+        if getattr(self, 'DOI', None) == getattr(other, 'DOI', None):
+            return True
+        elif getattr(self, 'author', None) != getattr(other, 'author', None):
+            return False
+        elif getattr(self, 'year', None) != getattr(other, 'year', None):
+            return False
+        elif getattr(self, 'journal', None) != getattr(other, 'journal', None):
+            return False
+        elif getattr(self, 'V', None) != getattr(other, 'V', None):
+            return False
+        elif getattr(self, 'P', None) != getattr(other, 'P', None):
+            return False
+        elif slef.bad and other.bad and getattr(self, 'misc', None) != getattr(other, 'misc', None):
+            return False
+        else:
+            return True
 
     def getID(self):
         if not self.bad:

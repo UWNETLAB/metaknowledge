@@ -20,6 +20,8 @@ class TestRecord(unittest.TestCase):
         self.assertEqual(len(self.R.citations()), 1)
     def test_WOS(self):
         self.assertEqual(self.R.wosString(), 'WOS:123317623000007')
+    def test_citationGen(self):
+        self.assertTrue(self.R.createCitation() == isilib.Citation("John, Doe, 2015, EXAMPLE, V1, P1, DOI 10.1111"))
 
 simplePaperString = """PT J
 AU John, D
@@ -38,6 +40,10 @@ J9 EXAMPLE
 JI examaple
 PD APR
 PY 2015
+VL 1
+BP 1
+EP 2
+DI 10.1111
 UT WOS:123317623000007
 ER
 """

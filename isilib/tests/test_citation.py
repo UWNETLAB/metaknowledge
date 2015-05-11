@@ -49,8 +49,7 @@ class TestCitation(unittest.TestCase):
     def test_citation_badAuthor(self):
         c = isilib.Citation("a b c, 1999, fskhsdjgdhjkgdh")
         self.assertTrue(c.bad)
-        self.assertEqual(str(c.error), "Strange author name") 
-
+        self.assertEqual(str(c.error), "Strange author name")
 
     def test_citation_badNumbers(self):
         c = isilib.Citation("1 2, 2, 3, 4")

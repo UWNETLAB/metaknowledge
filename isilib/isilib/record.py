@@ -138,12 +138,13 @@ class Record(object):
         self.__dict__ = state
 
     @lazy
-    def authors(self):
+    def authors(self, full = True):
         """
         returns a list of authors
+        The optional argument full(defaults to True) if True will cause the AF field to be checked first if False AU is used
         AF or AU tag
         """
-        if 'AF' in self._fieldDict:
+        if 'AF' in self._fieldDict and full:
             return self._fieldDict['AF']
         elif 'AU' in self._fieldDict:
             return self._fieldDict['AU']
@@ -199,6 +200,61 @@ class Record(object):
             return None
 
     @lazy
+    def journal(self):
+        """
+        returns the full name of the publication
+        SO tag
+        """
+        if 'SO' in self._fieldDict:
+            return ' '.join(self._fieldDict['SO'])
+        else:
+            return None
+
+    @lazy
+    def j9(self):
+        """
+        returns the J9 (29-Character Source Abbreviation) of the publication
+        J9 tag
+        """
+        if 'J9' in self._fieldDict:
+            return self._fieldDict['J9'][0]
+        else:
+            return None
+
+    @lazy
+    def beginningPage(self):
+        """
+        returns the first page the record occurs on
+        BP tag
+        """
+        if 'BP' in self._fieldDict:
+            return int(self._fieldDict['BP'][0])
+        else:
+            return None
+
+    @lazy
+    def endingPage(self):
+        """
+        return the last page the record occurs on
+        EP tag
+        """
+        if 'EP' in self._fieldDict:
+            return int(self._fieldDict['EP'][0])
+        else:
+            return None
+
+    @lazy
+    def volume(self):
+        """
+        return the volume the record is in
+        VL tag
+        """
+        if 'VL' in self._fieldDict:
+            return int(self._fieldDict['VL'][0])
+        else:
+            return None
+
+    @lazy
     def getTag(self, tag):
         """
         returns a list containing the raw data of the record assocaited ith tag.
@@ -210,7 +266,7 @@ class Record(object):
             return None
 
     @lazy
-    def getDOI(self):
+    def DOI(self):
         """
         return the DOI number of the record
         DI tag
@@ -219,6 +275,22 @@ class Record(object):
             return self._fieldDict['DI'][0]
         else:
             return None
+
+    def createCitation(self):
+        valsLst = []
+        if self.authors():
+            valsLst.append(self.authors(full = False)[0])
+        if self.year():
+            valsLst.append(str(self.year()))
+        if self.j9():
+            valsLst.append(self.j9())
+        if self.volume():
+            valsLst.append('V' + str(self.volume()))
+        if self.beginningPage():
+            valsLst.append('P' + str(self.beginningPage()))
+        if self.DOI():
+            valsLst.append('DOI ' + self.DOI())
+        return Citation(', '.join(valsLst))
 
     def getTagsList(self, taglst):
         """"

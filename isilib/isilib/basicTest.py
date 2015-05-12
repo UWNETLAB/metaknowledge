@@ -19,7 +19,7 @@ def btest():
     print(R3._Records.pop())
     print(dir(R3))
     r1 = R3._Records.pop()
-    for r in R3._Records:
+    for r in R3:
         if r.wosString():
             print(r.wosString(), end = ': \t')
             print(r.month(), end = ',\t')
@@ -35,7 +35,7 @@ def btest():
     print(R3 & R1)
     print(repr(R1))
     print(repr(R3 + R2 - R3 & R1))
-    for r in R1._Records:
+    for r in R1:
         if r.bad:
             print(r.error)
         else:
@@ -47,5 +47,6 @@ def btest():
             print(r.title())
             print(r.month())
             print(r.wosString())
-            print(r.getDOI())
+            print(r.DOI())
             print(r.citations())
+    print(R3.pop())

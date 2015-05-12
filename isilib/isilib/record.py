@@ -278,6 +278,13 @@ class Record(object):
         else:
             return None
 
+    @lazy
+    def abstract(self):
+        if 'AB' in self._fieldDict:
+            return '\n'.join(self._fieldDict['AB'])
+        else:
+            return None
+
     def createCitation(self):
         valsLst = []
         if self.authors():

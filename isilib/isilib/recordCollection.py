@@ -76,6 +76,21 @@ class RecordCollection(object):
     def __ne__(self, other):
         return not self == other
 
+    def __len__(self):
+        return len(self._Records)
+
+    def __iter__(self):
+        for R in self._Records:
+            yield R
+
+    def pop(self):
+        if len(self._Records) > 0:
+            self._repr = "Pop " + self._repr
+            return self._Records.pop()
+        else:
+            return None
+
+
     def getBadRecords(self):
         badRecords = set()
         for R in self._Records:

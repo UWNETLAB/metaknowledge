@@ -43,6 +43,22 @@ class Citation(object):
     def __str__(self):
         return self.original
 
+    def __hash__(self):
+        """
+        A hash for Citation that should be equal to the hash of other citaions that are equal to it
+        """
+        if hasattr(self, 'DOI'):
+            return hash(self.DOI)
+        elif self.bad and getattr(self, 'misc', False):
+            return getattr(self, 'misc')
+        else:
+            hashedString = getattr(self, 'author', '')
+            hashedString += getattr(self, 'year', '')
+            hashedString += getattr(self, 'journal', '')
+            hashedString += getattr(self, 'V', '')
+            hashedString += getattr(self, 'P', '')
+            return hash(hashedString)
+
     def __eq__(self, other):
         if getattr(self, 'DOI', None) == getattr(other, 'DOI', None):
             return True

@@ -280,6 +280,10 @@ class Record(object):
 
     @lazy
     def abstract(self):
+        """
+        return abstract of the record, with newlines hopefully in the correct places
+        AB tag
+        """
         if 'AB' in self._fieldDict:
             return '\n'.join(self._fieldDict['AB'])
         else:
@@ -363,7 +367,6 @@ def recordParser(paper):
 
 def getMonth(s):
     """
-
     Known formats:
     Month ("%b")
     Month Day ("%b %d")
@@ -371,7 +374,6 @@ def getMonth(s):
     Season ("%s") --- this gets coerced to use the first month of the given season
     Month Day Year ("%b %d %Y")
     Month Year ("%b %Y")
-
     """
     monthOrSeason = s.split(' ')[0].split('-')[0].upper()
     if monthOrSeason in monthDict:

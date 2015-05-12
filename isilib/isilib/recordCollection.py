@@ -23,8 +23,9 @@ class RecordCollection(object):
             try:
                 self._repr = os.path.splitext(os.path.split(inCollection)[1])[0]
                 self._Records = set(isiParser(inCollection))
-            except:
-                raise
+            except BadISIFile as w:
+                self.bad = True
+                self.error = w
         elif isinstance(inCollection, list):
             self._Records = set(inCollection)
         elif isinstance(inCollection, set):
@@ -33,8 +34,12 @@ class RecordCollection(object):
             raise TypeError
 
     def __add__(self, other):
-        if self.bad or other.bad:
-            raise Exception
+        if self.bad and other.bad:
+            return RecordCollection(set(), '[BAD ' + repr(self) + ']'+ '_plus_' + '[BAD ' +  repr(other) + ']')
+        if self.bad:
+            return RecordCollection(other._Records, '[BAD ' + repr(self) + ']' + '_plus_' + repr(other))
+        elif other.bad:
+            return RecordCollection(self._Records,  repr(self) + '[BAD ' + repr(other) + ']')
         else:
             return RecordCollection(self._Records | other._Records, repr(self) + '_plus_' + repr(other))
 

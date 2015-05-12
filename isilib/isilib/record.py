@@ -48,7 +48,7 @@ class Record(object):
                 self.bad = True
                 self.error = b
             finally:
-                if 'UT' in self._fieldDict:
+                if hasattr(self, '_fieldDict') and 'UT' in self._fieldDict:
                     self._wosNum = self._fieldDict['UT'][0]
                 else:
                     self._wosNum = None
@@ -121,6 +121,8 @@ class Record(object):
         bad Records are likely to cause hash collisions
         """
         if self.bad:
+            print(self)
+            print(self._sourceLine)
             return hash(self._fieldDict.values())
         return hash(self._wosNum)
 

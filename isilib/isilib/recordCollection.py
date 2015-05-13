@@ -158,7 +158,6 @@ class RecordCollection(object):
                     grph.add_edge(hash(nodeTuple[0]), hash(n))
         return grph
 
-
     def citationNetwork(self):
         tmpgrph = nx.DiGraph()
         for R in self:
@@ -169,7 +168,7 @@ class RecordCollection(object):
                     tmpgrph.add_edge(reRef, c)
         grph = nx.DiGraph()
         for nodeTuple in tmpgrph.adjacency_iter():
-            if nodeTuple[0] not in grph:
+            if hash(nodeTuple[0]) not in grph:
                 grph.add_node(hash(nodeTuple[0]), label = str(nodeTuple[0]))
             for n in nodeTuple[1].keys():
                 if hash(n) not in grph:

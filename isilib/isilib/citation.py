@@ -16,11 +16,8 @@ class Citation(object):
             self.error = BadCitation("Too few elemets")
             self.misc = ', '.join(c)
         else:
-            if c[0].count(' ') == 1:
+            if not c[0].isnumeric():
                 self.author = c.pop(0).replace('.','')
-            else:
-                self.bad = True
-                self.error = BadCitation("Strange author name")
             if c[0].isnumeric():
                 self.year = c.pop(0)
             if not c[0].isnumeric():
@@ -41,6 +38,9 @@ class Citation(object):
                         self.misc = field
 
     def __str__(self):
+        """
+        returns the original string
+        """
         return self.original
 
     def __hash__(self):
@@ -60,17 +60,20 @@ class Citation(object):
             return hash(hashedString)
 
     def __eq__(self, other):
-        if getattr(self, 'DOI', None) == getattr(other, 'DOI', None):
+        """
+        First checks DOI for equality then checks each attribute if any are not equal False is returned
+        """
+        if getattr(self, 'DOI', None) == getattr(other, 'DOI', False):
             return True
-        elif getattr(self, 'author', None) != getattr(other, 'author', None):
+        elif getattr(self, 'author', None) != getattr(other, 'author', None) and getattr(self, 'author') != '[ANONYMOUS]' and getattr(other, 'author') != '[ANONYMOUS]':
             return False
         elif getattr(self, 'year', None) != getattr(other, 'year', None):
             return False
         elif getattr(self, 'journal', None) != getattr(other, 'journal', None):
             return False
-        elif getattr(self, 'V', None) != getattr(other, 'V', None):
+        elif getattr(self, 'V', None) != getattr(other, 'V', False):
             return False
-        elif getattr(self, 'P', None) != getattr(other, 'P', None):
+        elif getattr(self, 'P', None) != getattr(other, 'P', False):
             return False
         elif self.bad and other.bad and getattr(self, 'misc', None) != getattr(other, 'misc', None):
             return False

@@ -50,7 +50,7 @@ class Citation(object):
         if hasattr(self, 'DOI'):
             return hash(self.DOI)
         elif self.bad and getattr(self, 'misc', False):
-            return getattr(self, 'misc')
+            return hash(getattr(self, 'misc'))
         else:
             hashedString = getattr(self, 'author', '')
             hashedString += getattr(self, 'year', '')
@@ -72,10 +72,13 @@ class Citation(object):
             return False
         elif getattr(self, 'P', None) != getattr(other, 'P', None):
             return False
-        elif slef.bad and other.bad and getattr(self, 'misc', None) != getattr(other, 'misc', None):
+        elif self.bad and other.bad and getattr(self, 'misc', None) != getattr(other, 'misc', None):
             return False
         else:
             return True
+
+    def __ne__(self, other):
+        return not self == other
 
     def getID(self):
         if not self.bad:

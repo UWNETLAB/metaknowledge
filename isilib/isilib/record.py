@@ -226,33 +226,33 @@ class Record(object):
     @lazy
     def beginningPage(self):
         """
-        returns the first page the record occurs on
+        returns the first page the record occurs on as a string not an int
         BP tag
         """
         if 'BP' in self._fieldDict:
-            return int(self._fieldDict['BP'][0])
+            return self._fieldDict['BP'][0].strip()
         else:
             return None
 
     @lazy
     def endingPage(self):
         """
-        return the last page the record occurs on
+        return the last page the record occurs on as a string not an int
         EP tag
         """
         if 'EP' in self._fieldDict:
-            return int(self._fieldDict['EP'][0])
+            return self._fieldDict['EP'][0].strip()
         else:
             return None
 
     @lazy
     def volume(self):
         """
-        return the volume the record is in
+        return the volume the record is in as a string not an int
         VL tag
         """
         if 'VL' in self._fieldDict:
-            return int(self._fieldDict['VL'][0])
+            return self._fieldDict['VL'][0].strip()
         else:
             return None
 

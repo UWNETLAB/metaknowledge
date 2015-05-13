@@ -160,24 +160,25 @@ class RecordCollection(object):
                             else:
                                 grph.add_edge(cId1, cId2, weight = 1)
 
-
-    """
-    In progress
     def citationNetwork(self):
-        grph = nx.DiGraph()
-        tmpCiteDict = {}
-        tmpRecsList = []
+        tmpgrph = nx.DiGraph()
         for R in self:
-            tmpRecsList.append(R.createCitation())
+            reRef= R.createCitation()
             rCites = R.citations()
-            for c in rCites:
-                tmpCiteDict[c] = tmpRecsList[-1]
-        for rRef in tmpRecsList:
-            if rRef in tmpCitedDict.keys():
-                rRef = tmpCitedDict.keys()[tmpCitedDict.keys().index[rRef]]
-    """
+            if rCites:
+                for c in rCites:
+                    tmpgrph.add_edge(reRef, c)
+        grph = nx.DiGraph()
+        for nodeTuple in tmpgrph.adjacency_iter():
+            if nodeTuple[0] not in grph:
+                grph.add_node(hash(nodeTuple[0]), label = str(nodeTuple[0]))
+            for n in nodeTuple[1].keys():
+                if hash(n) not in grph:
+                    grph.add_node(hash(n), label = str(n))
+                grph.add_edge(hash(nodeTuple[0]), hash(n))
+        return grph
 
-
+        return grph
 
     def yearSplit(startYear, endYear):
         recordsInRange = set()

@@ -5,6 +5,7 @@
 ###remove general exceptions
 ### Record class
 * add methods for every important tag
+* maybe do geocoding
 
 ### RecordCollection class
 * extract subset from more ranges

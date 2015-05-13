@@ -137,28 +137,27 @@ class RecordCollection(object):
         return grph
 
     def coCiteNetwork(self):
-        grph = nx.Graph()
-        for R in self._Records:
-            if R.citations() and len(R.citations()) > 1:
-                idDict = getCoCiteIDs(R.citations())
-                idList = idDict.keys()
-                if len(idList) > 1:
-                    for i in range(len(pIDs)):
-                        cId1 = pIDs[i]
-                        if grph.has_node(cId1):
-                            grph.node[cId1]['count'] += 1
-                        else:
-                            grph.add_node(cId1, val = pDict[cId1], count = 1)
-                        for j in range(i + 1, len(pIDs)):
-                            cId2 = pIDs[j]
-                            if grph.has_node(cId2):
-                                grph.node[cId2]['count'] += 1
-                            else:
-                                grph.add_node(cId2, val = pDict[cId2], count = 1)
-                            if grph.has_edge(cId1, cId2):
-                                grph.edge[cId1][cId2]['weight'] += 1
-                            else:
-                                grph.add_edge(cId1, cId2, weight = 1)
+        tmpgrph = nx.Graph()
+        for R in self:
+            Cites = R.citations()
+            if Cites and len(Cites) > 1:
+                for n, c1 in enumerate(Cites):
+                    if c1 not in tmpgrph:
+                        tmpgrph.add_node(c1)
+                    for c2 in Cites[n:]:
+                        if c2 not in tmpgrph:
+                            tmpgrph.add_node(c2)
+                        tmpgrph.add_edge(c1, c2)
+            grph = nx.DiGraph()
+            for nodeTuple in tmpgrph.adjacency_iter():
+                if nodeTuple[0] not in grph:
+                    grph.add_node(hash(nodeTuple[0]), label = str(nodeTuple[0]))
+                for n in nodeTuple[1].keys():
+                    if hash(n) not in grph:
+                        grph.add_node(hash(n), label = str(n))
+                    grph.add_edge(hash(nodeTuple[0]), hash(n))
+        return grph
+
 
     def citationNetwork(self):
         tmpgrph = nx.DiGraph()
@@ -178,9 +177,7 @@ class RecordCollection(object):
                 grph.add_edge(hash(nodeTuple[0]), hash(n))
         return grph
 
-        return grph
-
-    def yearSplit(startYear, endYear):
+    def yearSplit(self, startYear, endYear):
         recordsInRange = set()
         for R in self._Records:
             if R.year() >= startYear and R.year() <= endYear:

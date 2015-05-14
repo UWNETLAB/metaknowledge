@@ -24,7 +24,7 @@ if __name__ == "__main__":
             print("Reading " + file)
             RC += isilib.RecordCollection(file)
     for R in RC._Records:
-        cits = R.citations()
+        cits = R.citations
         if cits:
             for cit in cits:
                 f.write(str(cit) + '\n')

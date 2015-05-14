@@ -94,8 +94,8 @@ class Record(object):
         """
         returns a string with the title of the file as given by self.title(), if there is not one it returns "Untitled record"
         """
-        if self.title():
-            return self.title()
+        if self.title:
+            return self.title
         else:
             return "Untitled record"
 
@@ -107,7 +107,7 @@ class Record(object):
         if self.bad or other.bad:
             return False
         else:
-            return self.wosString() == other.wosString()
+            return self.wosString == other.wosString
 
     def __ne__(self, other):
         """
@@ -140,20 +140,31 @@ class Record(object):
     def __setstate__(self, state):
         self.__dict__ = state
 
+    @property
     @lazy
-    def authors(self, full = True):
+    def authorsFull(self, full = True):
         """
-        returns a list of authors
-        The optional argument full(defaults to True) if True will cause the AF field to be checked first if False AU is used
-        AF or AU tag
+        returns a list of authors full names
+        AF tag
         """
-        if 'AF' in self._fieldDict and full:
+        if 'AF' in self._fieldDict:
             return self._fieldDict['AF']
-        elif 'AU' in self._fieldDict:
+        else:
+            return None
+
+    @property
+    @lazy
+    def authorsShort(self, full = True):
+        """
+        returns a list of authors shortend names
+        AU tag
+        """
+        if 'AU' in self._fieldDict:
             return self._fieldDict['AU']
         else:
             return None
 
+    @property
     @lazy
     def year(self):
         """
@@ -168,6 +179,7 @@ class Record(object):
                 raise Exception
         else:
             return None
+    @property
     @lazy
     def month(self):
         """
@@ -178,6 +190,7 @@ class Record(object):
             return getMonth(self._fieldDict['PD'][0])
         else:
             return None
+    @property
     @lazy
     def title(self):
         """
@@ -188,6 +201,7 @@ class Record(object):
             return ' '.join(self._fieldDict['TI'])
         else:
             return None
+    @property
     @lazy
     def citations(self):
         """
@@ -201,7 +215,7 @@ class Record(object):
             return retCites
         else:
             return None
-
+    @property
     @lazy
     def journal(self):
         """
@@ -212,7 +226,7 @@ class Record(object):
             return ' '.join(self._fieldDict['SO'])
         else:
             return None
-
+    @property
     @lazy
     def j9(self):
         """
@@ -245,7 +259,7 @@ class Record(object):
             return self._fieldDict['EP'][0].strip()
         else:
             return None
-
+    @property
     @lazy
     def volume(self):
         """
@@ -267,7 +281,7 @@ class Record(object):
             return self._fieldDict[tag]
         else:
             return None
-
+    @property
     @lazy
     def DOI(self):
         """
@@ -278,7 +292,7 @@ class Record(object):
             return self._fieldDict['DI'][0]
         else:
             return None
-
+    @property
     @lazy
     def abstract(self):
         """
@@ -292,18 +306,18 @@ class Record(object):
 
     def createCitation(self):
         valsLst = []
-        if self.authors():
-            valsLst.append(self.authors(full = False)[0])
-        if self.year():
-            valsLst.append(str(self.year()))
-        if self.j9():
-            valsLst.append(self.j9())
-        if self.volume():
-            valsLst.append('V' + str(self.volume()))
-        if self.beginningPage():
-            valsLst.append('P' + str(self.beginningPage()))
-        if self.DOI():
-            valsLst.append('DOI ' + self.DOI())
+        if self.authorsShort:
+            valsLst.append(self.authorsShort[0])
+        if self.year:
+            valsLst.append(str(self.year))
+        if self.j9:
+            valsLst.append(self.j9)
+        if self.volume:
+            valsLst.append('V' + str(self.volume))
+        if self.beginningPage:
+            valsLst.append('P' + str(self.beginningPage))
+        if self.DOI:
+            valsLst.append('DOI ' + self.DOI)
         return Citation(', '.join(valsLst))
 
     def getTagsList(self, taglst):
@@ -324,6 +338,7 @@ class Record(object):
             retDict[tag] = self.getTag(tag)
         return retDict
 
+    @property
     def wosString(self):
         """
         returns the WOS number of the record as a string preceeded by "WOS:""

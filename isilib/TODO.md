@@ -10,7 +10,6 @@
 ### RecordCollection class
 * extract subset from more ranges
 * add more methods to create networks
-* coCite needs work
 * look a error handling
    - addition needs work
 

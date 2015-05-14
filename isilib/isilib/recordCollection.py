@@ -119,13 +119,13 @@ class RecordCollection(object):
     def coAuthNetwork(self):
         grph = nx.Graph()
         for R in self._Records:
-            if R.authors() and len(R.authors()) > 1:
-                for i, auth1 in enumerate(R.authors()):
+            if R.authorsFull and len(R.authorsFull) > 1:
+                for i, auth1 in enumerate(R.authorsFull):
                     if auth1 not in grph:
                         grph.add_node(auth1, count = 1)
                     else:
                         grph.node[auth1]['count'] += 1
-                    for auth2 in R.authors()[i + 1:]:
+                    for auth2 in R.authorsFull[i + 1:]:
                         if auth2 not in grph:
                             grph.add_node(auth2, count = 1)
                         else:
@@ -139,7 +139,7 @@ class RecordCollection(object):
     def coCiteNetwork(self):
         tmpgrph = nx.Graph()
         for R in self:
-            Cites = R.citations()
+            Cites = R.citations
             if Cites and len(Cites) > 1:
                 for n, c1 in enumerate(Cites):
                     if c1 not in tmpgrph:
@@ -162,7 +162,7 @@ class RecordCollection(object):
         tmpgrph = nx.DiGraph()
         for R in self:
             reRef= R.createCitation()
-            rCites = R.citations()
+            rCites = R.citations
             if rCites:
                 for c in rCites:
                     tmpgrph.add_edge(reRef, c)
@@ -191,7 +191,7 @@ class RecordCollection(object):
     def yearSplit(self, startYear, endYear):
         recordsInRange = set()
         for R in self._Records:
-            if R.year() >= startYear and R.year() <= endYear:
+            if R.year >= startYear and R.year <= endYear:
                 recordsInRange.add(R)
         return RecordCollection(recordsInRange, repr(self) + "_(" + str(startYear) + " ," + str(endYear) + ")")
 

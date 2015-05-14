@@ -11,19 +11,19 @@ def btest():
     print(R1._Records)
 
     print("Network")
-    print(R1.coAuthNetwork().edges())
+    print(R1.coAuthNetwork().edges)
     R3 = R1 + R2
     print(R3._Records)
     print(R3.coAuthNetwork().edges())
-    print(R3._Records.pop().year())
+    print(R3._Records.pop().year)
     print(R3._Records.pop())
     print(dir(R3))
     r1 = R3._Records.pop()
     for r in R3:
-        if r.wosString():
-            print(r.wosString(), end = ': \t')
-            print(r.month(), end = ',\t')
-            print(r.year())
+        if r.wosString:
+            print(r.wosString, end = ': \t')
+            print(r.month, end = ',\t')
+            print(r.year)
         else:
             print(r)
     print(R3)
@@ -40,13 +40,13 @@ def btest():
             print(r.error)
         else:
             print(r)
-            print(r.authors())
-            print(r.year())
-            print(r.month())
+            print(r.authorsFull)
+            print(r.year)
+            print(r.month)
 
-            print(r.title())
-            print(r.month())
-            print(r.wosString())
-            print(r.DOI())
-            print(r.citations())
+            print(r.title)
+            print(r.month)
+            print(r.wosString)
+            print(r.DOI)
+            print(r.citations)
     print(R3.pop())

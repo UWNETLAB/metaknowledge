@@ -8,6 +8,7 @@
 * uses WOS number as unique id
 * are considered bad if the original record threw and error during parse or was missing WOS number
 * meant to be immutable
+* can be tagged by any number of strings
 
 ###Builtins
 * \_\_str\_\_ gives title of record

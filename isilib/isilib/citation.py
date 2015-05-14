@@ -69,13 +69,13 @@ class Citation(object):
             return False
         elif getattr(self, 'year', None) != getattr(other, 'year', None):
             return False
-        elif getattr(self, 'journal', None) != getattr(other, 'journal', None):
+        elif  getattr(self, 'journal', None) != getattr(other, 'journal', None):
             return False
-        elif getattr(self, 'V', None) != getattr(other, 'V', False):
+        elif getattr(self, 'V', None) and getattr(other, 'V', False) and getattr(self, 'V', None) != getattr(other, 'V', False):
             return False
-        elif getattr(self, 'P', None) != getattr(other, 'P', False):
+        elif getattr(self, 'P', False) and getattr(other, 'P', False) and getattr(self, 'P', None) != getattr(other, 'P', False):
             return False
-        elif self.bad and other.bad and getattr(self, 'misc', None) != getattr(other, 'misc', None):
+        elif self.bad and other.bad and not getattr(self, 'misc', None) == getattr(other, 'misc', None):
             return False
         else:
             return True

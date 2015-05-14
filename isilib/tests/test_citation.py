@@ -36,8 +36,20 @@ class TestCitation(unittest.TestCase):
         self.assertTrue(isilib.Citation("").bad)
 
     def test_citation_equality(self):
-        c = isilib.Citation("John D., 2015, TOPICS IN COGNITIVE SCIENCE, V1, P1, DOI 0.1063/1.1695064")
-        self.assertTrue(c == self.Cite)
+        c1 = isilib.Citation("John D., 2015, TOPICS IN COGNITIVE SCIENCE, P1, DOI 0.1063/1.1695064")
+        c2 = isilib.Citation("John D., 2015, TOPICS IN COGNITIVE SCIENCE, V1, P1")
+        c3 = isilib.Citation("John D., 2015, TOPICS IN COGNITIVE SCIENCE, V1, P2")
+        self.assertTrue(c1 == self.Cite)
+        self.assertTrue(c2 == self.Cite)
+        self.assertFalse(c1 != c2)
+        self.assertFalse(c3 == c1)
+
+    def test_citation_hash(self):
+        self.assertTrue(bool(hash(self.Cite)))
+        self.assertTrue(bool(hash(isilib.Citation("John D., 2015, TOPICS IN COGNITIVE SCIENCE, V1, P1"))))
+        self.assertTrue(bool(hash(isilib.Citation("John D., 2015"))))
+
+
 
     def test_citation_badLength(self):
         c = isilib.Citation("a, b")

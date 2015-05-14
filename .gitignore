@@ -5,6 +5,7 @@
 *.csv
 *_cites/ #<----------------------------------------------This might cause issues
 *.log
+cover/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

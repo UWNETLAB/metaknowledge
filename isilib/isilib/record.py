@@ -34,9 +34,10 @@ class Record(object):
     class for containig full ISI records
     It requires that the record contains a WOS number and have tags for each field.
     """
-    def __init__(self, inRecord, sFile = '', sLine = 0):
+    def __init__(self, inRecord, taglist = [], sFile = '', sLine = 0):
         self.bad = False
         self.error = None
+        self.tags = taglist
         self._sourceFile = sFile
         self._sourceLine = sLine
         if isinstance(inRecord, dict):

@@ -176,6 +176,18 @@ class RecordCollection(object):
                 grph.add_edge(hash(nodeTuple[0]), hash(n))
         return grph
 
+    def extractTagged(self, taglist):
+        recordsWithTags = set()
+        for R in self:
+            for t in taglist:
+                hasTags = True
+                if t not in R.tags:
+                    hasTags = False
+                    break
+            if hasTags:
+                recordsWithTags.add(R)
+        return RecordCollection(recordsWithTags, repr(self) + "_tags(" + ','.join(taglist) + ')')
+
     def yearSplit(self, startYear, endYear):
         recordsInRange = set()
         for R in self._Records:

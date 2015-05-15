@@ -14,7 +14,7 @@ import networkx as nx
 fileName = "somefile.isi"
 outputName = "somefile.graphml"
 RC = isilib.RecordCollection(fileName)
-G = RC.citationNetwork()
+G = RC.citationNetwork(authorship = True)
 nx.write_graphml(G)
 """
 
@@ -35,4 +35,4 @@ if __name__ == "__main__":
     else:
         RC.dropBadRecords()
         print("Writing " + repr(RC) + ".graphml")
-        nx.write_graphml(RC.citationNetwork(), repr(RC)[:200] + ".graphml")
+        nx.write_graphml(RC.citationNetwork(authorship = True), repr(RC)[:200] + ".graphml")

@@ -142,15 +142,16 @@ class RecordCollection(object):
             Cites = R.citations
             if Cites and len(Cites) > 1:
                 for n, c1 in enumerate(Cites):
-                    if c1 not in tmpgrph:
-                        tmpgrph.add_node(c1)
                     for c2 in Cites[n:]:
-                        if c2 not in tmpgrph:
-                            tmpgrph.add_node(c2)
                         tmpgrph.add_edge(c1, c2)
+            elif Cites and len(Cites) == 1:
+                if Cites[0] not in tmpgrph:
+                    tmpgrph.add_node(Cites[0])
+            else:
+                pass
             grph = nx.DiGraph()
             for nodeTuple in tmpgrph.adjacency_iter():
-                if nodeTuple[0] not in grph:
+                if hash(nodeTuple[0]) not in grph:
                     grph.add_node(hash(nodeTuple[0]), label = str(nodeTuple[0]))
                 for n in nodeTuple[1].keys():
                     if hash(n) not in grph:

@@ -12,6 +12,7 @@
 * add more methods to create networks
 * look a error handling
    - addition needs work
+* Consider making network checks more in depth
 
 ## Cleaning and Preprocessing WOS data
 

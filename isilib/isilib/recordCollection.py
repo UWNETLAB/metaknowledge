@@ -134,6 +134,13 @@ class RecordCollection(object):
                             grph.edge[auth1][auth2]['weight'] += 1
                         else:
                             grph.add_edge(auth1, auth2, weight = 1)
+            if R.authorsFull and len(R.authorsFull) == 1:
+                auth1 = R.authorsFull[0]
+                if auth1 not in grph:
+                    grph.add_node(auth1, count = 1)
+                else:
+                    grph.node[auth1]['count'] += 1
+
         return grph
 
     def coCiteNetwork(self):
@@ -164,10 +171,10 @@ class RecordCollection(object):
         for R in self:
             reRef = R.createCitation()
             rCites = R.citations
-            if dropAnon and getattr(reRef, 'author', False) == "[ANONYMOUS]":
+            if dropAnon and reRef.isAnonymous():
                 continue
             if rCites:
-                rCites = filter(lambda x: getattr(x, 'author', True) != "[ANONYMOUS]", rCites) if dropAnon else rCites
+                rCites = filter(lambda x: not x.isAnonymous(), rCites) if dropAnon else rCites
                 for c in rCites:
                     tmpgrph.add_edge(reRef, c)
         grph = nx.DiGraph()

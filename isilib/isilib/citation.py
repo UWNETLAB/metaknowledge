@@ -83,6 +83,12 @@ class Citation(object):
     def __ne__(self, other):
         return not self == other
 
+    def isAnonymous(self):
+        if hasattr(self, 'author'):
+            return self.author == "[ANONYMOUS]"
+        else:
+            return True
+
     def getID(self):
         if not self.bad:
             return self.author + ', ' + self.year

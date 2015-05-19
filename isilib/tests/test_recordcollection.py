@@ -24,9 +24,13 @@ class TestRecordCollection(unittest.TestCase):
 
     def test_coCite(self):
         G = self.RC.coCiteNetwork()
+        Gauths = self.RC.coCiteNetwork(authorship = True, dropAnon = False)
+        nx.write_graphml(Gauths, 'dfjsfgdhdf.graphml')
         self.assertIsInstance(G, nx.classes.graph.Graph)
-        self.assertEqual(len(G.nodes()), 526)
-        self.assertEqual(len(G.edges()), 29297)
+        self.assertEqual(len(G.nodes()), 508)
+        self.assertEqual(len(G.edges()), 14351)
+        self.assertEqual(len(Gauths.nodes()), 316)
+        self.assertEqual(len(Gauths.edges()), 6872)
 
     def test_coAuth(self):
         G = self.RC.coAuthNetwork()

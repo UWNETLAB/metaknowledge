@@ -169,27 +169,41 @@ class RecordCollection(object):
 
         return grph
 
-    def coCiteNetwork(self):
+    def coCiteNetwork(self, dropAnon = True, authorship = False):
         tmpgrph = nx.Graph()
         for R in self:
             Cites = R.citations
-            if Cites and len(Cites) > 1:
-                for n, c1 in enumerate(Cites):
-                    for c2 in Cites[n:]:
-                        tmpgrph.add_edge(c1, c2)
-            elif Cites and len(Cites) == 1:
-                if Cites[0] not in tmpgrph:
-                    tmpgrph.add_node(Cites[0])
-            else:
-                pass
-            grph = nx.DiGraph()
-            for nodeTuple in tmpgrph.adjacency_iter():
-                if hash(nodeTuple[0]) not in grph:
-                    grph.add_node(hash(nodeTuple[0]), label = str(nodeTuple[0]))
-                for n in nodeTuple[1].keys():
-                    if hash(n) not in grph:
-                        grph.add_node(hash(n), label = str(n))
-                    grph.add_edge(hash(nodeTuple[0]), hash(n))
+            if Cites:
+                Cites = [c for c in Cites if not c.isAnonymous()]
+                if len(Cites) > 1:
+                    for n, c1 in enumerate(Cites):
+                        for c2 in Cites[n:]:
+                            tmpgrph.add_edge(c1, c2)
+                elif len(Cites) == 1:
+                    if Cites[0] not in tmpgrph:
+                        tmpgrph.add_node(Cites[0])
+
+        grph = nx.Graph()
+        nodesIter = tmpgrph.adjacency_iter()
+        if authorship:
+            authsIter = filter(lambda x: hasattr(x[0], 'author'), nodesIter)
+            for nodeTuple in authsIter:
+                a1 = getattr(nodeTuple[0], 'author')
+                if a1 not in grph:
+                    grph.add_node(a1, label = str(nodeTuple[0]))
+                for n in filter(lambda x: hasattr(x, 'author'), nodeTuple[1].keys()):
+                    a2 = getattr(n, 'author')
+                    if a2 not in grph:
+                        grph.add_node(a2, label = str(n))
+                    grph.add_edge(a1, a2)
+        else:
+            for nodeTuple in nodesIter:
+                    if hash(nodeTuple[0]) not in grph:
+                        grph.add_node(hash(nodeTuple[0]), label = str(nodeTuple[0]))
+                    for n in nodeTuple[1].keys():
+                        if hash(n) not in grph:
+                            grph.add_node(hash(n), label = str(n))
+                        grph.add_edge(hash(nodeTuple[0]), hash(n))
         return grph
 
     def citationNetwork(self, dropAnon = True, authorship = False):

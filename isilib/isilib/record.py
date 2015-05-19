@@ -238,6 +238,7 @@ class Record(object):
         else:
             return None
 
+    @property
     @lazy
     def beginningPage(self):
         """
@@ -248,7 +249,8 @@ class Record(object):
             return self._fieldDict['BP'][0].strip()
         else:
             return None
-
+    
+    @property
     @lazy
     def endingPage(self):
         """
@@ -307,7 +309,7 @@ class Record(object):
     def createCitation(self):
         valsLst = []
         if self.authorsShort:
-            valsLst.append(self.authorsShort[0])
+            valsLst.append(self.authorsShort[0].replace(',', ''))
         if self.year:
             valsLst.append(str(self.year))
         if self.j9:

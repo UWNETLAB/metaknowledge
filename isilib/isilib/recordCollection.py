@@ -30,15 +30,19 @@ class RecordCollection(object):
                     self.bad = True
                     self.error = w
             elif os.path.isdir(inCollection):
-                if extension:
+                if extension and not name:
                     if extension[0] == '.':
                         self._repr = extension[1:] + "-files-from-" + inCollection
                     else:
                         self._repr = extension + "-files-from-" + inCollection
-                else:
+                elif not name:
                     self._repr = "files-from-" + inCollection
                 self._Records = set()
-                flist = [f for f in os.listdir(".") if f.endswith(extension)]
+                flist = []
+                for f in os.listdir(inCollection):
+                    fullF = inCollection + f
+                    if fullF.endswith(extension) and os.path.isfile(fullF):
+                        flist.append(fullF)
                 for file in flist:
                     try:
                         self._Records |= set(isiParser(file))
@@ -248,8 +252,11 @@ def isiParser(isifile):
     """
     openfile = open(isifile, 'r')
     f = enumerate(openfile, start = 0)
-    if "VR 1.0" not in f.__next__()[1] and "VR 1.0" not in f.__next__()[1]:
-        raise BadISIFile(isifile + " Does not have a valid header, 'VR 1.0' not in first two lines")
+    try:
+        if "VR 1.0" not in f.__next__()[1] and "VR 1.0" not in f.__next__()[1]:
+            raise BadISIFile(isifile + " Does not have a valid header, 'VR 1.0' not in first two lines")
+    except StopIteration as e:
+        raise BadISIFile("File ends before EF found")
     notEnd = True
     plst = []
     while notEnd:

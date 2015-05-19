@@ -8,9 +8,31 @@ class TestRecordCollection(unittest.TestCase):
 
     def setUp(self):
         self.RC = isilib.RecordCollection("tests/testFile.isi")
+        self.RCbad = isilib.RecordCollection("tests/badFile.isi")
 
     def test_iscollection(self):
         self.assertIsInstance(self.RC, isilib.RecordCollection)
+        self.assertEqual(repr(isilib.RecordCollection()), "empty")
+        self.assertTrue(self.RC == self.RC)
+
+    def test_bad(self):
+        self.assertTrue(isilib.RecordCollection('tests/badFile.isi').bad)
+        with self.assertRaises(TypeError):
+            isilib.RecordCollection('tests/testFile.isi', extension= '.txt')
+        self.assertTrue(self.RCbad + self.RC <= self.RC + self.RCbad)
+        self.assertTrue(len(self.RCbad + self.RCbad) == 0)
+        self.assertFalse(self.RCbad == self.RC)
+
+    def test_badRecords(self):
+        badRecs = self.RC.getBadRecords()
+        self.assertTrue(badRecs <= self.RC)
+        self.assertTrue(badRecs.pop().bad)
+        self.RC.dropBadRecords()
+
+    def test_directoryRead(self):
+        self.assertEqual(len(isilib.RecordCollection('.')), 0)
+        self.assertTrue(isilib.RecordCollection('tests/') >= self.RC)
+        self.assertTrue(isilib.RecordCollection('tests/', extension= '.txt') <= self.RC)
 
     def test_write(self):
         fileName = 'OnePaper2.isi'
@@ -37,7 +59,6 @@ class TestRecordCollection(unittest.TestCase):
         self.assertIsInstance(G, nx.classes.graph.Graph)
         self.assertEqual(len(G.nodes()), 45)
         self.assertEqual(len(G.edges()), 46)
-
 
     def test_Cite(self):
         Gdefault = self.RC.citationNetwork()

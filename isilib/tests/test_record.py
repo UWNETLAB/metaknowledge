@@ -5,10 +5,27 @@ import os.path
 class TestRecord(unittest.TestCase):
     def setUp(self):
         self.R = isilib.Record(simplePaperString)
+        self.Rbad = isilib.Record(simplePaperString[:-3])
     def test_isRecord(self):
         self.assertTrue(isinstance(self.R, isilib.Record))
+        isilib.btest()
+    def test_bad(self):
+        self.assertTrue(self.Rbad.bad)
+        with self.assertRaises(TypeError):
+            isilib.Record(set('a','b'))
+    def test_equality(self):
+        self.assertEqual(self.R, self.R)
+        self.assertTrue(self.R != self.Rbad)
+    def test_hash(self):
+        self.assertNotEqual(hash(self.R), hash(self.Rbad))
+    def test_state(self):
+        state = self.R.__getstate__()
+        Rtmp = isilib.Record('PT J')
+        Rtmp.__setstate__(state)
+        self.assertEqual(self.R, Rtmp)
     def test_title(self):
         self.assertEqual(self.R.title, "Example Paper")
+        self.assertEqual(str(self.R), "Example Paper")
     def test_author(self):
         self.assertEqual(self.R.authorsFull, ["John, Doe"])
     def test_year(self):
@@ -22,6 +39,10 @@ class TestRecord(unittest.TestCase):
         self.assertEqual(self.R.wosString, 'WOS:123317623000007')
     def test_citationGen(self):
         self.assertTrue(self.R.createCitation() == isilib.Citation("John, Doe, 2015, EXAMPLE, V1, P1, DOI 10.1111"))
+    def test_journal(self):
+        self.assertEqual(self.R.journal, 'TOPICS IN COGNITIVE SCIENCE')
+    def test_tags(self):
+        self.assertEqual(self.R.getTagsDict(['a', 'b']), {'a': None, 'b': None})
 
 simplePaperString = """PT J
 AU John, D

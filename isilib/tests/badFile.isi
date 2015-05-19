@@ -1,5 +1,4 @@
 FN Thomson Reuters Web of Science™
-VR 1.0
 PT J
 AU BREVIK, I
 AF BREVIK, I
@@ -411,60 +410,6 @@ UT WOS:000177484300017
 PM 18026466
 ER
 
-
-PT J
-AUGilles, H
-   Girard, S
-   Hamel, J
-AF Gilles, H
-   Girard, S
-   Hamel, J
-TI Simple technique for measuring the Goos-Hanchen effect with polarization
-   modulation and a position-sensitive detector
-SO OPTICS LETTERS
-LA English
-DT Article
-ID REFLECTION
-AB An original approach to directly measuring the Goos-Hanchen longitudinal shift between TE and TM polarization states during a total internal reflection is introduced. The technique is based on the modulation of the polarization state of a laser by an electro-optic modulator combined with a precise measurement of the resulting spatial displacement with a position-sensitive detector. This method presents many advantages over other techniques and allows measurements at different wavelengths over a broad range for the incident angle. (C) 2002 Optical Society of America.
-C1 Ctr Interdisciplinaire Rech Ions Lasers, Equipe Phys Atom & Canteurs, F-14050 Caen, France.
-RP Gilles, H (reprint author), Ctr Interdisciplinaire Rech Ions Lasers, Equipe Phys Atom & Canteurs, 6 Blvd Marechal Juin, F-14050 Caen, France.
-CR ARTMANN K, 1948, ANN PHYS-BERLIN, V2, P87
-   BRETENAKER F, 1992, PHYS REV LETT, V68, P931, DOI 10.1103/PhysRevLett.68.931
-   CHERON B, 1999, B UNION PHYSICIENS F, V93, P37
-   FEDOROV FI, 1955, DOKL AKAD NAUK SSSR+, V105, P465
-   Gilles H, 2001, OPT COMMUN, V190, P179, DOI 10.1016/S0030-4018(01)01070-7
-   GOOS F, 1949, ANN PHYS-LEIPZIG, V2, P87
-   GOOS F, 1947, ANN PHYS-BERLIN, V1, P333
-   HUGONIN JP, 1977, J OPT, V8, P73, DOI 10.1088/0150-536X/8/2/001
-   IMBERT C, 1972, PHYS REV D, V5, P787, DOI 10.1103/PhysRevD.5.787
-   LEVY Y, 1975, OPT COMMUN, V13, P43, DOI 10.1016/0030-4018(75)90153-4
-   RENARD RH, 1964, J OPT SOC AM, V54, P1190, DOI 10.1364/JOSA.54.001190
-   1999, OPTICAL COMPONENTS G
-NR 12
-TC 40
-Z9 43
-PU OPTICAL SOC AMER
-PI WASHINGTON
-PA 2010 MASSACHUSETTS AVE NW, WASHINGTON, DC 20036 USA
-SN 0146-9592
-J9 OPT LETT
-JI Opt. Lett.
-PD AUG 15
-PY 2002
-VL 27
-IS 16
-BP 1421
-EP 1423
-DI 10.1364/OL.27.001421
-PG 3
-WC Optics
-SC Optics
-GA 584TF
-UT WOS:000177484FG0017
-PM 18026466
-ER
-
-
 PT J
 AU Pillon, F
    Gilles, H
@@ -529,72 +474,6 @@ SC Optics
 GA 934GB
 UT WOS:000229693800018
 ER
-
-
-PT J
-AU Pillon, F
-   Gilles, H
-   Girard, S
-   Laroche, M
-   Kaiser, R
-   Gazibegovic, A
-AF Pillon, F
-   Gilles, H
-   Girard, S
-   Laroche, M
-   Kaiser, R
-   Gazibegovic, A
-TI Goos-Hanchen and Imbert-Fedorov shifts for leaky guided modes
-SO JOURNAL OF THE OPTICAL SOCIETY OF AMERICA B-OPTICAL PHYSICS
-LA English
-DT Article
-ID TOTAL-REFLECTION
-AB The Goos-Hanchen shift for a light beam totally reflected on the external interface of a dielectric thin film deposited on a high-index substrate can be strongly enhanced through some specific incidence angles corresponding to the leaky guided modes into the layer. Because the resonant eigenstates are polarization dependent, it has been possible to observe such resonance with an experimental setup based on a periodic modulation of the polarization state combined with position-sensitive detection. Classical models usually used for a single interface (Artmann's model based on phase argument and Renard's model based on an energetic interpretation) have been re-adapted to describe the behavior of the entire layer. Good agreement is obtained between theory and experimental results. (C) 2005 Optical Society of America.
-C1 Ecole Natl Super Ingn Caen, Ctr Interdisciplinaire Rech Ions Laser, CNRS, Commiss Energie Atom,UMR 6637, F-14050 Caen, France.
-   CNRS, Inst Nonlinear Nice, UMR 6618, F-06560 Valbonne, France.
-   Prirodno Matemat Fak, Sarajevo, Bosnia & Herceg.
-RP Girard, S (reprint author), Ecole Natl Super Ingn Caen, Ctr Interdisciplinaire Rech Ions Laser, CNRS, Commiss Energie Atom,UMR 6637, 6 Blvd Marechal Juin, F-14050 Caen, France.
-EM sylvain.girard@ensicaen.fr
-RI kaiser, robin/J-3641-2014
-OI kaiser, robin/0000-0001-5194-3680
-CR ARTMANN K, 1948, ANN PHYS-BERLIN, V2, P87
-   Berman PR, 2002, PHYS REV E, V66, DOI 10.1103/PhysRevE.66.067603
-   Born M., 1999, PRINCIPLES OPTICS
-   BRETENAKER F, 1992, PHYS REV LETT, V68, P931, DOI 10.1103/PhysRevLett.68.931
-   FEDOROV FI, 1955, DOKL AKAD NAUK SSSR+, V105, P465
-   Gilles H, 2002, OPT LETT, V27, P1421, DOI 10.1364/OL.27.001421
-   GOOS F, 1949, ANN PHYS-LEIPZIG, V2, P87
-   GOOS F, 1947, ANN PHYS-BERLIN, V1, P333
-   Imbert C., 1972, Nouvelle Revue d'Optique Appliquee, V3, DOI 10.1088/0029-4780/3/4/304
-   KAISER R, 1994, OPT COMMUN, V104, P234, DOI 10.1016/0030-4018(94)90548-7
-   Kaiser R., 1996, Pure and Applied Optics, V5, DOI 10.1088/0963-9659/5/6/015
-   Levy Y., 1977, PHYS REV D, V15, P3553, DOI 10.1103/PhysRevD.15.3553
-   LEVY Y, 1975, OPT COMMUN, V13, P43, DOI 10.1016/0030-4018(75)90153-4
-   Pillon F, 2004, APPL OPTICS, V43, P1863, DOI 10.1364/AO.43.001863
-   RENARD RH, 1964, J OPT SOC AM, V54, P1190, DOI 10.1364/JOSA.54.001190
-   Shadrivov IV, 2003, APPL PHYS LETT, V83, P2713, DOI 10.1063/1.1615678
-NR 16
-TC 37
-Z9 39
-PU OPTICAL SOC AMER
-PI WASHINGTON
-PA 2010 MASSACHUSETTS AVE NW, WASHINGTON, DC 20036 USA
-SN 0740-3224
-J9 J OPT SOC AM B
-JI J. Opt. Soc. Am. B-Opt. Phys.
-PD JUN
-PY 2005
-VL 22
-IS 6
-BP 1290
-EP 1299
-DI 10.1364/JOSAB.22.001290
-PG 10
-WC Optics
-SC Optics
-GA 934GB
-ER
-
 
 PT J
 AU Flory, F

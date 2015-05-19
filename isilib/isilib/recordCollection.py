@@ -1,15 +1,11 @@
 #Written by Reid McIlroy-Young for Dr. John McLevey, University of Waterloo 2015
-from .record import Record
+from .record import Record, BadISIRecord, BadISIFile
 
 import itertools
 import os.path
 import networkx as nx
 
-class BadISIFile(Warning):
-    """
-    Exception thrown by isiParser for mis-formated files
-    """
-    pass
+
 
 class RecordCollection(object):
     def __init__(self, inCollection = None, name = '', extension = ''):
@@ -93,6 +89,27 @@ class RecordCollection(object):
     def __repr__(self):
         return self._repr
 
+    def __lt__(self, other):
+        if self.bad or other.bad:
+            return False
+        else:
+            return len(self) < len(other)
+    def __le__(self, other):
+        if self.bad or other.bad:
+            return False
+        else:
+            return len(self) <= len(other)
+    def __gt__(self, other):
+        if self.bad or other.bad:
+            return False
+        else:
+            return len(self) > len(other)
+    def __ge__(self, other):
+        if self.bad or other.bad:
+            return False
+        else:
+            return len(self) >= len(other)
+
     def __eq__(self, other):
         if self.bad or other.bad:
             return False
@@ -125,9 +142,7 @@ class RecordCollection(object):
         return RecordCollection(badRecords, repr(self) + '_badRecords')
 
     def dropBadRecords(self):
-        for R in self._Records:
-            if R.bad:
-                self._Records.remove(R)
+        self._Records = {r for r in self._Records if not r.bad}
 
     def writeFile(self, fname = None):
         if fname:
@@ -166,7 +181,6 @@ class RecordCollection(object):
                     grph.add_node(auth1, count = 1)
                 else:
                     grph.node[auth1]['count'] += 1
-
         return grph
 
     def coCiteNetwork(self, dropAnon = True, authorship = False):
@@ -288,8 +302,15 @@ def isiParser(isifile):
         else:
             try:
                 plst.append(Record(itertools.chain([line], f), isifile, line[0]))
+            except BadISIFile as w:
+                try:
+                    s = f.__next__()[1]
+                    while s[:2] != 'ER':
+                        s = f.__next__()[1]
+                except:
+                    raise BadISIFile(str(w) + " could not be resolved")
             except Exception as e:
-                 raise e
+                raise e
     try:
         f.next()
         raise BadISIFile("EF not at end of " + isifile)

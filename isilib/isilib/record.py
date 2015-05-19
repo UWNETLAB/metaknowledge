@@ -15,6 +15,12 @@ class BadISIRecord(Warning):
     """
     pass
 
+class BadISIFile(Warning):
+    """
+    Exception thrown by isiParser for mis-formated files
+    """
+    pass
+
 def lazy(f):
     """
     A decorator that makes the function be only evaluated once.
@@ -122,8 +128,6 @@ class Record(object):
         bad Records are likely to cause hash collisions
         """
         if self.bad:
-            print(self)
-            print(self._sourceLine)
             return hash(self._fieldDict.values())
         return hash(self._wosNum)
 
@@ -132,7 +136,8 @@ class Record(object):
         returns the minimum amount of information to recreate a Record
         """
         sDict = self.__dict__
-        for k in sDict:
+        keys = list(sDict.keys())
+        for k in keys:
             if k not in ['bad', 'error', '_sourceFile', '_sourceLine', '_fieldDict', '_wosNum']:
                 del sDict[k]
         return sDict
@@ -249,7 +254,7 @@ class Record(object):
             return self._fieldDict['BP'][0].strip()
         else:
             return None
-    
+
     @property
     @lazy
     def endingPage(self):
@@ -375,12 +380,12 @@ def recordParser(paper):
             raise BadISIRecord("Missing field on line " + str(l[0]) + " : " + l[1])
         elif 'ER' in l[1][:2]:
             return  collections.OrderedDict(tagList)
+        elif l[1][2] != ' ':
+            raise BadISIFile("Field tag not formed correctly on line " + str(l[0]) + " : " + l[1])
         elif '   ' in l[1][:3]: #the string is three spaces in row
             tagList[-1][1].append(l[1][3:-1])
-        elif l[1][2] == ' ':
-            tagList.append((l[1][:2], [l[1][3:-1]]))
         else:
-            raise BadISIRecord("Field tag not formed correctly on line " + str(l[0]) + " : " + l[1])
+            tagList.append((l[1][:2], [l[1][3:-1]]))
     raise BadISIRecord("End of file reached before EF on line " + str(l[0]))
 
 def getMonth(s):

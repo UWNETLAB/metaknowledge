@@ -40,7 +40,7 @@ class RecordCollection(object):
                 self._Records = set()
                 flist = []
                 for f in os.listdir(inCollection):
-                    fullF = inCollection + f
+                    fullF = os.path.join(os.path.abspath(inCollection), f)
                     if fullF.endswith(extension) and os.path.isfile(fullF):
                         flist.append(fullF)
                 for file in flist:

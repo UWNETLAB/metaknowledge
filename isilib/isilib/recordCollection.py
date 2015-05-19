@@ -12,7 +12,7 @@ class BadISIFile(Warning):
     pass
 
 class RecordCollection(object):
-    def __init__(self, inCollection = None, name = ''):
+    def __init__(self, inCollection = None, name = '', extension = ''):
         self.bad = False
         self._repr = name
         if not inCollection:
@@ -20,12 +20,34 @@ class RecordCollection(object):
                 self._repr = "empty"
             self._Records = set()
         elif isinstance(inCollection, str):
-            try:
-                self._repr = os.path.splitext(os.path.split(inCollection)[1])[0]
-                self._Records = set(isiParser(inCollection))
-            except BadISIFile as w:
-                self.bad = True
-                self.error = w
+            if os.path.isfile(inCollection):
+                try:
+                    if not inCollection.endswith(extension):
+                        raise TypeError("extension of input file doess not match requested extension")
+                    self._repr = os.path.splitext(os.path.split(inCollection)[1])[0]
+                    self._Records = set(isiParser(inCollection))
+                except BadISIFile as w:
+                    self.bad = True
+                    self.error = w
+            elif os.path.isdir(inCollection):
+                if extension:
+                    if extension[0] == '.':
+                        self._repr = extension[1:] + "-files-from-" + inCollection
+                    else:
+                        self._repr = extension + "-files-from-" + inCollection
+                else:
+                    self._repr = "files-from-" + inCollection
+                self._Records = set()
+                flist = [f for f in os.listdir(".") if f.endswith(extension)]
+                for file in flist:
+                    try:
+                        self._Records |= set(isiParser(file))
+                    except BadISIFile:
+                        pass
+                    except UnicodeDecodeError:
+                        pass
+            else:
+                raise TypeError("inCollection is not a directory or a file")
         elif isinstance(inCollection, list):
             self._Records = set(inCollection)
         elif isinstance(inCollection, set):

@@ -13,6 +13,7 @@
 * look a error handling
    - addition needs work
 * Consider making network checks more in depth
+* reconsider how directories are handled
 
 ## Cleaning and Preprocessing WOS data
 

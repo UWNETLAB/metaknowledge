@@ -63,7 +63,9 @@ class Citation(object):
         """
         First checks DOI for equality then checks each attribute if any are not equal False is returned
         """
-        if getattr(self, 'DOI', None) == getattr(other, 'DOI', False):
+        if not isinstance(other, Citation):
+            return NotImplemented
+        elif getattr(self, 'DOI', None) == getattr(other, 'DOI', False):
             return True
         elif getattr(self, 'author', None) != getattr(other, 'author', None) and getattr(self, 'author') != '[ANONYMOUS]' and getattr(other, 'author') != '[ANONYMOUS]':
             return False

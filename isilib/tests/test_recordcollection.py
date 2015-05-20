@@ -69,7 +69,7 @@ class TestRecordCollection(unittest.TestCase):
         self.assertGreater(len(Ganon.nodes()), len(Gdefault.nodes()))
         self.assertEqual(len(Gdefault.nodes()), 524)
         self.assertEqual(len(Ganon.nodes()), 543)
-        self.assertEqual(len(Gauths.nodes()), 319)
+        self.assertEqual(len(Gauths.nodes()), 320)
         self.assertEqual(len(Gdefault.edges()), 832)
         self.assertEqual(len(Ganon.edges()), 853)
         self.assertEqual(len(Gauths.edges()), 561)

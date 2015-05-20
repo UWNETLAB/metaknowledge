@@ -6,6 +6,13 @@ import os.path
 import networkx as nx
 
 
+def runningInteractive():
+    try:
+        from sys import ps1
+    except ImportError:
+        return False
+    finally:
+        return True
 
 class RecordCollection(object):
     def __init__(self, inCollection = None, name = '', extension = ''):
@@ -220,7 +227,56 @@ class RecordCollection(object):
                         grph.add_edge(hash(nodeTuple[0]), hash(n))
         return grph
 
-    def citationNetwork(self, dropAnon = True, authorship = False):
+    def citationNetwork(self, dropAnon = True, authorship = False, extraInfo = True):
+        tmpgrph = nx.DiGraph()
+        if authorship:
+            for R in self:
+                reRef = R.createCitation()
+                if hasattr(reRef, 'author'):
+                    authRef = reRef.author
+                    if extraInfo:
+                        tmpgrph.add_node(authRef, info = str(reRef))
+                    else:
+                        tmpgrph.add_node(authRef)
+                else:
+                    continue
+                rCites = R.citations
+                if rCites:
+                    rCites = [c for c in R.citations if hasattr(c, 'author')]
+                    for c in rCites:
+                        if extraInfo and c.author not in tmpgrph:
+                            tmpgrph.add_node(c.author, info=str(c))
+                        tmpgrph.add_edge(authRef, c.author)
+            if dropAnon:
+                tmpgrph.remove_node("[ANONYMOUS]")
+        else:
+            for R in self:
+                reRef = R.createCitation()
+                rCites = R.citations
+                if dropAnon and reRef.isAnonymous():
+                    continue
+                if rCites:
+                    rCites = filter(lambda x: not x.isAnonymous(), rCites) if dropAnon else rCites
+                    for c in rCites:
+                        tmpgrph.add_edge(reRef, c)
+            for n in tmpgrph.nodes():
+                newN = hash(n)
+                if extraInfo:
+                    tmpgrph.add_node(newN, info=str(n))
+                else:
+                    tmpgrph.add_node(newN)
+                for edg in tmpgrph.predecessors_iter(n):
+                    tmpgrph.add_edge(edg, newN)
+                for edg in tmpgrph.successors_iter(n):
+                    tmpgrph.add_edge(newN, edg)
+                tmpgrph.remove_node(n)
+        return tmpgrph
+
+
+
+
+    """
+
         tmpgrph = nx.DiGraph()
         for R in self:
             reRef = R.createCitation()
@@ -253,7 +309,7 @@ class RecordCollection(object):
                             grph.add_node(hash(n), label = str(n))
                         grph.add_edge(hash(nodeTuple[0]), hash(n))
         return grph
-
+    """
     def extractTagged(self, taglist):
         recordsWithTags = set()
         for R in self:

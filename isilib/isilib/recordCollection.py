@@ -190,44 +190,61 @@ class RecordCollection(object):
                     grph.node[auth1]['count'] += 1
         return grph
 
-    def coCiteNetwork(self, dropAnon = True, authorship = False):
+    def coCiteNetwork(self, dropAnon = True, authorship = False, extraInfo = True, weighted = True):
         tmpgrph = nx.Graph()
-        for R in self:
-            Cites = R.citations
-            if Cites:
-                Cites = [c for c in Cites if not c.isAnonymous()]
-                if len(Cites) > 1:
-                    for n, c1 in enumerate(Cites):
-                        for c2 in Cites[n:]:
-                            tmpgrph.add_edge(c1, c2)
-                elif len(Cites) == 1:
-                    if Cites[0] not in tmpgrph:
-                        tmpgrph.add_node(Cites[0])
-
-        grph = nx.Graph()
-        nodesIter = tmpgrph.adjacency_iter()
         if authorship:
-            authsIter = filter(lambda x: hasattr(x[0], 'author'), nodesIter)
-            for nodeTuple in authsIter:
-                a1 = getattr(nodeTuple[0], 'author')
-                if a1 not in grph:
-                    grph.add_node(a1, label = str(nodeTuple[0]))
-                for n in filter(lambda x: hasattr(x, 'author'), nodeTuple[1].keys()):
-                    a2 = getattr(n, 'author')
-                    if a2 not in grph:
-                        grph.add_node(a2, label = str(n))
-                    grph.add_edge(a1, a2)
+            for R in self:
+                Cites = R.citations
+                if Cites:
+                    if dropAnon:
+                        Cites = [c for c in Cites if not c.isAnonymous() and hasattr(c, 'author')]
+                    else:
+                        Cites = [c for c in Cites if hasattr(c, 'author')]
+                    if len(Cites) > 1:
+                        for n, c1 in enumerate(Cites):
+                            c1Auth = c1.author
+                            c2Auths = [c.author for c in Cites[n:]]
+                            if weighted:
+                                tmpgrph.add_weighted_edges_from(edgeBunchGenerator(c1Auth, c2Auths, weighted = True))
+                            else:
+                                tmpgrph.add_edges_from(edgeBunchGenerator(c1Auth, c2Auths))
+                            if extraInfo and not hasattr(tmpgrph.node[c1Auth], 'val'):
+                                tmpgrph.node[c1Auth]['val'] = str(c1)
+                    elif len(Cites) == 1:
+                        if Cites[0] not in tmpgrph and extraInfo:
+                            tmpgrph.add_node(Cites[0].author, val = str(Cites[0]))
+                        elif Cites[0] not in tmpgrph:
+                            tmpgrph.add_node(Cites[0].author)
         else:
-            for nodeTuple in nodesIter:
-                    if hash(nodeTuple[0]) not in grph:
-                        grph.add_node(hash(nodeTuple[0]), label = str(nodeTuple[0]))
-                    for n in nodeTuple[1].keys():
-                        if hash(n) not in grph:
-                            grph.add_node(hash(n), label = str(n))
-                        grph.add_edge(hash(nodeTuple[0]), hash(n))
-        return grph
+            for R in self:
+                Cites = R.citations
+                if Cites:
+                    if dropAnon:
+                        Cites = [c for c in Cites if not c.isAnonymous()]
+                    if len(Cites) > 1:
+                        if weighted:
+                            for n, c1 in enumerate(Cites):
+                                tmpgrph.add_weighted_edges_from(edgeBunchGenerator(c1, Cites[n:], weighted = True))
+                        else:
+                            for n, c1 in enumerate(Cites):
+                                tmpgrph.add_edges_from(edgeBunchGenerator(c1, Cites[n:]))
+                    elif len(Cites) == 1:
+                        if Cites[0] not in tmpgrph:
+                            tmpgrph.add_node(Cites[0])
+            for n in tmpgrph.nodes():
+                newN = hash(n)
+                if extraInfo:
+                    tmpgrph.add_node(newN, info=str(n))
+                else:
+                    tmpgrph.add_node(newN)
+                if weighted:
+                    tmpgrph.add_weighted_edges_from(edgeCopierGenerator(newN, tmpgrph.edges(n, data = True), weighted = True))
+                else:
+                    tmpgrph.add_edges_from(edgeBunchGenerator(newN, tmpgrph.edges(n)))
+                tmpgrph.remove_node(n)
+        return tmpgrph
 
-    def citationNetwork(self, dropAnon = True, authorship = False, extraInfo = True):
+    def citationNetwork(self, dropAnon = True, authorship = False, extraInfo = True, weighted = True):
         tmpgrph = nx.DiGraph()
         if authorship:
             for R in self:
@@ -243,10 +260,14 @@ class RecordCollection(object):
                 rCites = R.citations
                 if rCites:
                     rCites = [c for c in R.citations if hasattr(c, 'author')]
-                    for c in rCites:
-                        if extraInfo and c.author not in tmpgrph:
-                            tmpgrph.add_node(c.author, info=str(c))
-                        tmpgrph.add_edge(authRef, c.author)
+                    rCitesAuths = [c.author for c in rCites]
+                    for i in range(len(rCites)):
+                        if extraInfo and rCitesAuths[i] not in tmpgrph:
+                            tmpgrph.add_node(rCitesAuths[i], info=str(rCites[i]))
+                        if weighted:
+                            tmpgrph.add_weighted_edges_from(edgeBunchGenerator(authRef, rCitesAuths, weighted = True))
+                        else:
+                            tmpgrph.add_edges_from(edgeBunchGenerator(authRef, rCitesAuths))
             if dropAnon:
                 tmpgrph.remove_node("[ANONYMOUS]")
         else:
@@ -256,60 +277,31 @@ class RecordCollection(object):
                 if dropAnon and reRef.isAnonymous():
                     continue
                 if rCites:
-                    rCites = filter(lambda x: not x.isAnonymous(), rCites) if dropAnon else rCites
-                    for c in rCites:
-                        tmpgrph.add_edge(reRef, c)
+                    rCites = [c for c in rCites if not c.isAnonymous()] if dropAnon else rCites
+                    if weighted:
+                        tmpgrph.add_weighted_edges_from(edgeBunchGenerator(reRef, rCites, weighted = True))
+                    else:
+                        tmpgrph.add_edges_from(edgeBunchGenerator(reRef, rCites))
             for n in tmpgrph.nodes():
                 newN = hash(n)
                 if extraInfo:
                     tmpgrph.add_node(newN, info=str(n))
                 else:
                     tmpgrph.add_node(newN)
-                for edg in tmpgrph.predecessors_iter(n):
-                    tmpgrph.add_edge(edg, newN)
-                for edg in tmpgrph.successors_iter(n):
-                    tmpgrph.add_edge(newN, edg)
+                if weighted:
+                    for edg in tmpgrph.in_edges(n, data = True):
+                        tmpgrph.add_edge(edg[0], newN, weight = edg[2]['weight'])
+                    for edg in tmpgrph.out_edges(n, data = True):
+                        tmpgrph.add_edge(newN, edg[1], weight = edg[2]['weight'])
+                else:
+                    for edg in tmpgrph.in_edges(n, data = True):
+                        tmpgrph.add_edge(edg[0], newN)
+                    for edg in tmpgrph.out_edges(n, data = True):
+                        tmpgrph.add_edge(newN, edg[1])
+
                 tmpgrph.remove_node(n)
         return tmpgrph
 
-
-
-
-    """
-
-        tmpgrph = nx.DiGraph()
-        for R in self:
-            reRef = R.createCitation()
-            rCites = R.citations
-            if dropAnon and reRef.isAnonymous():
-                continue
-            if rCites:
-                rCites = filter(lambda x: not x.isAnonymous(), rCites) if dropAnon else rCites
-                for c in rCites:
-                    tmpgrph.add_edge(reRef, c)
-        grph = nx.DiGraph()
-        nodesIter = tmpgrph.adjacency_iter()
-        if authorship:
-            authsIter = filter(lambda x: hasattr(x[0], 'author'), nodesIter)
-            for nodeTuple in authsIter:
-                a1 = getattr(nodeTuple[0], 'author')
-                if a1 not in grph:
-                    grph.add_node(a1, label = str(nodeTuple[0]))
-                for n in filter(lambda x: hasattr(x, 'author'), nodeTuple[1].keys()):
-                    a2 = getattr(n, 'author')
-                    if a2 not in grph:
-                        grph.add_node(a2, label = str(n))
-                    grph.add_edge(a1, a2)
-        else:
-            for nodeTuple in nodesIter:
-                    if hash(nodeTuple[0]) not in grph:
-                        grph.add_node(hash(nodeTuple[0]), label = str(nodeTuple[0]))
-                    for n in nodeTuple[1].keys():
-                        if hash(n) not in grph:
-                            grph.add_node(hash(n), label = str(n))
-                        grph.add_edge(hash(nodeTuple[0]), hash(n))
-        return grph
-    """
     def extractTagged(self, taglist):
         recordsWithTags = set()
         for R in self:
@@ -334,13 +326,22 @@ def isiParser(isifile):
     isiParser() reads the file given by the path isifile, checks that the header is correct then reads until it reachs EF.
     Each it finds is used to initilize a Record then all Record are returned as a list.
     """
-    openfile = open(isifile, 'r')
+    try:
+        openfile = open(isifile, 'r')
+    except UnicodeDecodeError as e:
+        openfile.close()
+        raise e
     f = enumerate(openfile, start = 0)
     try:
         if "VR 1.0" not in f.__next__()[1] and "VR 1.0" not in f.__next__()[1]:
+            openfile.close()
             raise BadISIFile(isifile + " Does not have a valid header, 'VR 1.0' not in first two lines")
     except StopIteration as e:
+        openfile.close()
         raise BadISIFile("File ends before EF found")
+    except UnicodeDecodeError as e:
+        openfile.close()
+        raise e
     notEnd = True
     plst = []
     while notEnd:
@@ -366,6 +367,7 @@ def isiParser(isifile):
                 except:
                     raise BadISIFile(str(w) + " could not be resolved")
             except Exception as e:
+                openfile.close()
                 raise e
     try:
         f.next()
@@ -386,3 +388,44 @@ def getCoCiteIDs(clst):
         if cId not in idDict:
             idDict[cId] = c.getExtra()
     return idDict
+
+def edgeBunchGenerator(base, nodes, weighted = False, reverse = False):
+    """
+    A helper function for generating a bunch of edges from 1 node base to a list of nodes nodes.
+    """
+    if weighted and reverse:
+        for n in nodes:
+            yield (n, base, 1)
+    elif weighted:
+        for n in nodes:
+            yield (base, n, 1)
+    elif reverse:
+        for n in nodes:
+            yield (n, base)
+    else:
+        for n in nodes:
+            yield (base, n)
+
+
+def edgeCopierGenerator(base, nodes, weighted = False, reverse = False):
+    """
+    A helper function for generating a bunch of weighted edges from 1 node, base, to an iterator of nodes and weight dicts, nodes.
+    """
+    if weighted and reverse:
+        for n in nodes:
+            yield (n[1], base, n[2]['weight'])
+    elif reverse:
+        for n in nodes:
+            yield (n[1], base)
+    elif weighted:
+        for n in nodes:
+            yield (base, n[1], n[2]['weight'])
+    else:
+        for n in nodes:
+            yield (base, n[1])
+
+def edgeNodeReplacerGenerator(base, nodes, loc):
+    for n in nodes:
+        tmpN = n
+        tmpN[loc] = base
+        yield tmpN

@@ -8,7 +8,7 @@ class TestRecord(unittest.TestCase):
         self.Rbad = isilib.Record(simplePaperString[:-3])
     def test_isRecord(self):
         self.assertTrue(isinstance(self.R, isilib.Record))
-        isilib.btest()
+        #isilib.btest()
     def test_bad(self):
         self.assertTrue(self.Rbad.bad)
         with self.assertRaises(TypeError):

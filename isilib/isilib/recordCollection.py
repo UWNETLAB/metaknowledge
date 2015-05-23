@@ -208,11 +208,11 @@ class RecordCollection(object):
                                 tmpgrph.add_weighted_edges_from(edgeBunchGenerator(c1Auth, c2Auths, weighted = True))
                             else:
                                 tmpgrph.add_edges_from(edgeBunchGenerator(c1Auth, c2Auths))
-                            if extraInfo and not hasattr(tmpgrph.node[c1Auth], 'val'):
-                                tmpgrph.node[c1Auth]['val'] = str(c1)
+                            if extraInfo and not hasattr(tmpgrph.node[c1Auth], 'info'):
+                                tmpgrph.node[c1Auth]['info'] = str(c1)
                     elif len(Cites) == 1:
                         if Cites[0] not in tmpgrph and extraInfo:
-                            tmpgrph.add_node(Cites[0].author, val = str(Cites[0]))
+                            tmpgrph.add_node(Cites[0].author, info = str(Cites[0]))
                         elif Cites[0] not in tmpgrph:
                             tmpgrph.add_node(Cites[0].author)
         else:
@@ -238,9 +238,9 @@ class RecordCollection(object):
                 else:
                     tmpgrph.add_node(newN)
                 if weighted:
-                    tmpgrph.add_weighted_edges_from(edgeCopierGenerator(newN, tmpgrph.edges(n, data = True), weighted = True))
+                    tmpgrph.add_weighted_edges_from(edgeNodeReplacerGenerator(newN, tmpgrph.edges(n, data = True), 0))
                 else:
-                    tmpgrph.add_edges_from(edgeBunchGenerator(newN, tmpgrph.edges(n)))
+                    tmpgrph.add_edges_from(edgeNodeReplacerGenerator(newN, tmpgrph.edges(n, data = True), 0))
                 tmpgrph.remove_node(n)
         return tmpgrph
 
@@ -406,26 +406,11 @@ def edgeBunchGenerator(base, nodes, weighted = False, reverse = False):
         for n in nodes:
             yield (base, n)
 
-
-def edgeCopierGenerator(base, nodes, weighted = False, reverse = False):
-    """
-    A helper function for generating a bunch of weighted edges from 1 node, base, to an iterator of nodes and weight dicts, nodes.
-    """
-    if weighted and reverse:
-        for n in nodes:
-            yield (n[1], base, n[2]['weight'])
-    elif reverse:
-        for n in nodes:
-            yield (n[1], base)
-    elif weighted:
-        for n in nodes:
-            yield (base, n[1], n[2]['weight'])
-    else:
-        for n in nodes:
-            yield (base, n[1])
-
 def edgeNodeReplacerGenerator(base, nodes, loc):
+    """
+    A helper function for replacing an element of nodes at loc with base
+    """
     for n in nodes:
-        tmpN = n
+        tmpN = list(n)
         tmpN[loc] = base
         yield tmpN

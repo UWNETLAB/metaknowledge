@@ -1,9 +1,13 @@
 #Written by Reid McIlroy-Young for Dr. John McLevey, University of Waterloo 2015
 from isilib import RecordCollection
-import os.path
 import os
+import sys
+import io
 
-def btest():
+def btest(quite = False):
+    if quite:
+        stdOut = sys.stdout
+        sys.stdout = io.StringIO()
     currentPath = '.' #os.path.dirname(os.path.realpath(__file__))
     R1 = RecordCollection(currentPath + "/tests/testFile.isi")
     R2 = RecordCollection(currentPath + "/tests/ManyAuthors.isi")
@@ -50,3 +54,5 @@ def btest():
             print(r.DOI)
             print(r.citations)
     print(R3.pop())
+    if quite:
+        sys.stdout = stdOut

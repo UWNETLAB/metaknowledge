@@ -15,6 +15,10 @@
 * Consider making network checks more in depth
 * reconsider how directories are handled
 
+### Citation
+* example edge case
+   - Centraal Bureau voor de Statistiek, 2010, 200 JAAR STAT TIJDR
+
 ## Cleaning and Preprocessing WOS data
 
 * [reconcile journal names](http://cishell.wiki.cns.iu.edu/Reconcile+Journal+Names). link includes a link to the source code, and a download to an Excel file with journal names.

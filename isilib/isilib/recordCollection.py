@@ -261,13 +261,16 @@ class RecordCollection(object):
                 if rCites:
                     rCites = [c for c in R.citations if hasattr(c, 'author')]
                     rCitesAuths = [c.author for c in rCites]
-                    for i in range(len(rCites)):
-                        if extraInfo and rCitesAuths[i] not in tmpgrph:
-                            tmpgrph.add_node(rCitesAuths[i], info=str(rCites[i]))
-                        if weighted:
-                            tmpgrph.add_weighted_edges_from(edgeBunchGenerator(authRef, rCitesAuths, weighted = True))
-                        else:
-                            tmpgrph.add_edges_from(edgeBunchGenerator(authRef, rCitesAuths))
+                    if extraInfo:
+                        for i in range(len(rCites)):
+                            if rCitesAuths[i] not in tmpgrph:
+                                tmpgrph.add_node(rCitesAuths[i], info = str(rCites[i]))
+                    if weighted:
+                        tmpgrph.add_weighted_edges_from(edgeBunchGenerator(authRef, rCitesAuths, weighted = True))
+                    else:
+                        tmpgrph.add_edges_from(edgeBunchGenerator(authRef, rCitesAuths))
+
+
             if dropAnon:
                 tmpgrph.remove_node("[ANONYMOUS]")
         else:

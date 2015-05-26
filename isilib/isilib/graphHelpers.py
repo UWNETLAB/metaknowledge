@@ -2,7 +2,6 @@ import networkx as nx
 import csv
 import os.path
 
-
 def write_graph(grph, name, edgeInfo = True, typing = True, suffix = 'csv', overwrite = False):
     """
     Writes both the edge list and the node attribute list of grph.
@@ -18,8 +17,19 @@ def write_graph(grph, name, edgeInfo = True, typing = True, suffix = 'csv', over
             grphType = "_undirected"
     else:
         grphType = ''
-    edgeListName = name +"_edgeList"+ grphType + '.' + suffix
-    nodesAtrName = name +"_nodeAttributes"+ grphType + '.' + suffix
+    nameCompts = os.path.split(os.path.expanduser(os.path.normpath(name)))
+    if nameCompts[0] == '' and nameCompts[1] == '':
+        edgeListName = "edgeList"+ grphType + '.' + suffix
+        nodesAtrName = "nodeAttributes"+ grphType + '.' + suffix
+    elif nameCompts[0] == '':
+        edgeListName = nameCompts[1] + "_edgeList"+ grphType + '.' + suffix
+        nodesAtrName = nameCompts[1] + "_nodeAttributes"+ grphType + '.' + suffix
+    elif nameCompts[1] == '':
+        edgeListName = os.path.join(nameCompts[0], "edgeList"+ grphType + '.' + suffix)
+        nodesAtrName = os.path.join(nameCompts[0], "nodeAttributes"+ grphType + '.' + suffix)
+    else:
+        edgeListName = os.path.join(nameCompts[0], nameCompts[1] + "_edgeList"+ grphType + '.' + suffix)
+        nodesAtrName = os.path.join(nameCompts[0], nameCompts[1] + "_nodeAttributes"+ grphType + '.' + suffix)
     if not overwrite:
         if os.path.isfile(edgeListName):
             raise OSError(edgeListName+ " already exists")

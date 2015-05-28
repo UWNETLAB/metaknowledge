@@ -140,7 +140,6 @@ class RecordCollection(object):
         else:
             return None
 
-
     def getBadRecords(self):
         badRecords = set()
         for R in self._Records:

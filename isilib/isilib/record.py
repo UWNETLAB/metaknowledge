@@ -138,7 +138,7 @@ class Record(object):
         sDict = self.__dict__
         keys = list(sDict.keys())
         for k in keys:
-            if k not in ['bad', 'error', '_sourceFile', '_sourceLine', '_fieldDict', '_wosNum']:
+            if k not in ['bad', 'error', '_sourceFile', '_sourceLine', '_fieldDict', '_wosNum', 'tags']:
                 del sDict[k]
         return sDict
 

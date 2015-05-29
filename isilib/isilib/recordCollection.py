@@ -3,6 +3,7 @@ from .record import Record, BadISIRecord, BadISIFile
 
 import itertools
 import os.path
+import sys
 import networkx as nx
 
 
@@ -13,6 +14,54 @@ def runningInteractive():
         return False
     finally:
         return True
+
+class progressBar(object):
+    difTermAndBar = 8 #the number of characters difference between the bar's lenght anf the terminal's width
+    def __init__(self, initPer, initString = ' ', output = sys.stdout):
+        self.per = initPer
+        self.out = output
+        try:
+            self.barMaxLength = os.get_terminal_size(output.fileno()).columns - self.difTermAndBar
+        except OSError:
+            self.barMaxLength = 80 - self.difTermAndBar
+        self.dString = self.prepString(initString, self.barMaxLength + self.difTermAndBar)
+        self.out.write('[' + ' ' * self.barMaxLength + ']' + '{:.1%}'.format(self.per) + '\n')
+        self.out.write(self.dString + '\033[F')
+        self.out.flush()
+    def __del__(self):
+        self.out.write('\n\n')
+        self.out.flush()
+
+    def updateVal(self, inputPer, inputString = None):
+        self.out.write('\r')
+        self.per = inputPer
+        percentString = '{:.1%}'.format(self.per).rjust(6, ' ')
+        barLength = int(self.per * self.barMaxLength)
+        if inputString:
+            self.dString = self.prepString(inputString, self.barMaxLength + self.difTermAndBar)
+            if barLength >= self.barMaxLength:
+                self.out.write('[' + '=' * barLength + ']' + percentString)
+                self.out.write('\n' + self.dString + '\033[F')
+            else:
+                self.out.write('[' + '=' * barLength + '>' + ' ' * (self.barMaxLength - barLength - 1) + ']' + percentString)
+                self.out.write('\n' + self.dString + '\033[F')
+        else:
+            if barLength >= self.barMaxLength:
+                self.out.write('[' + '=' * barLength + ']' + percentString)
+            else:
+                self.out.write('[' + '=' * barLength + '>' + ' ' * (self.barMaxLength - barLength - 1) + ']' + percentString)
+        self.out.flush()
+
+    @staticmethod
+    def prepString(s, maxLength):
+        sString = str(s)
+        if len(sString) <= maxLength:
+            return sString.ljust(maxLength, ' ')
+        else:
+            if maxLength % 2 == 0:
+                return sString[:int(maxLength/2 - 3)] + '...' + sString[int(-maxLength/2):]
+            else:
+                return sString[:int(maxLength/2 - 2)] + '...' + sString[int(-maxLength/2):]
 
 class RecordCollection(object):
     def __init__(self, inCollection = None, name = '', extension = ''):
@@ -300,7 +349,6 @@ class RecordCollection(object):
                         tmpgrph.add_edge(edg[0], newN)
                     for edg in tmpgrph.out_edges(n, data = True):
                         tmpgrph.add_edge(newN, edg[1])
-
                 tmpgrph.remove_node(n)
         return tmpgrph
 

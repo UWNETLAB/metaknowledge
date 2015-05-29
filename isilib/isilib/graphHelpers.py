@@ -93,3 +93,11 @@ def write_nodeAttributeFile(grph, name):
             except ValueError:
                 raise ValueError("Some nodes in " + str(grph) + " do not have the same attributes")
         f.close()
+
+"""
+def drop_edges
+
+def drop_nodes
+
+def louvain
+"""

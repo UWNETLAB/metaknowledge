@@ -1,8 +1,11 @@
 def isInteractive():
     import sys
     try:
-        sys.ps1
-        return True
+        s = sys.ps1
+        if isinstance(str, s):
+            return True
+        else:
+            return False
     except AttributeError:
         return False
 

@@ -2,8 +2,50 @@ import isilib
 
 import networkx as nx
 import csv
-import os.path
+import os
 import sys
+
+def read_graph(edgeList, nodeList = None, directed = False, idKey = 'ID', eSource = 'From', eDest = 'To'):
+    if isilib.VERBOSE_MODE:
+        PBar = ProgressBar(0, "Starting to reading graphs")
+    else:
+        PBar = None
+    if directed:
+        grph = nx.DiGraph()
+    else:
+        grph = nx.Graph()
+    if nodeList:
+        if PBar:
+            PBar.updateVal(0, "Reading " + nodeList)
+        f = open(nodeList)
+        nFile = csv.DictReader(f)
+        for line in nFile:
+            vals = line
+            ndID = vals[idKey]
+            del vals[idKey]
+            if len(vals) > 0:
+                grph.add_node(ndID, attr_dict=vals)
+            else:
+                grph.add_node(ndID)
+        f.close()
+    if PBar:
+        PBar.updateVal(.5, "Reading " + edgeList)
+    f = open(edgeList)
+    eFile = csv.DictReader(f)
+    for line in eFile:
+        vals = line
+        eFrom = vals[eSource]
+        eTo = vals[eDest]
+        del vals[eSource]
+        del vals[eDest]
+        if len(vals) > 0:
+            grph.add_edge(eFrom, eTo, attr_dict = vals)
+        else:
+            grph.add_edge(eFrom, eTo)
+    if PBar:
+        PBar.updateVal(1, str(len(grph.nodes())) + " nodes and " + str(len(grph.edges()) + " edges found"))
+    f.close()
+    return grph
 
 def write_graph(grph, name, edgeInfo = True, typing = True, suffix = 'csv', overwrite = False):
     """

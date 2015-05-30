@@ -1,7 +1,5 @@
-"""
 import unittest
 import isilib
-import filecmp
 import os
 
 class TestHelpers(unittest.TestCase):
@@ -14,8 +12,8 @@ class TestHelpers(unittest.TestCase):
         fileEName = 'testNetworks_edgeList_undirected.tst'
         fileNName = 'testNetworks_nodeAttributes_undirected.tst'
         isilib.write_graph(self.G, fileShortName, suffix = 'tst')
-        self.assertTrue(filecmp.cmp('tests/' + fileEName,  fileEName))
-        self.assertTrue(filecmp.cmp('tests/' + fileNName,  fileNName))
+        tmpG = isilib.read_graph(fileEName, fileNName)
+        self.assertEqual(len(tmpG.edges()), len(self.G.edges()))
+        self.assertEqual(len(tmpG.nodes()), len(self.G.nodes()))
         os.remove(fileEName)
         os.remove(fileNName)
-"""

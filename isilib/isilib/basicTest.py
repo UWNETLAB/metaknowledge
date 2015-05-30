@@ -12,17 +12,14 @@ def btest(quite = False):
     R1 = RecordCollection(currentPath + "/tests/testFile.isi")
     R2 = RecordCollection(currentPath + "/tests/ManyAuthors.isi")
     print(R1)
-    print(R1._Records)
-
     print("Network")
     print(R1.coAuthNetwork().edges)
     R3 = R1 + R2
-    print(R3._Records)
     print(R3.coAuthNetwork().edges())
-    print(R3._Records.pop().year)
-    print(R3._Records.pop())
+    print(R3.pop().year)
+    print(R3.pop())
     print(dir(R3))
-    r1 = R3._Records.pop()
+    r1 = R3.pop()
     print(r1)
     for r in R3:
         if r.wosString:

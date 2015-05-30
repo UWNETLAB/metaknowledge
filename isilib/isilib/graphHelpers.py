@@ -1,3 +1,5 @@
+import isilib
+
 import networkx as nx
 import csv
 import os.path
@@ -11,6 +13,10 @@ def write_graph(grph, name, edgeInfo = True, typing = True, suffix = 'csv', over
     If edgeInfo is true the extra information about the edges will be included in their list, i.e. their weight will be given
     If overwrite is False write_graph will throw an exception if either of the files it is attempting to write exist
     """
+    if isilib.VERBOSE_MODE:
+        PBar = ProgressBar(0, "Writing graphs: " + name)
+    else:
+        PBar = None
     if typing:
         if isinstance(grph, nx.classes.digraph.DiGraph) or isinstance(grph, nx.classes.multidigraph.MultiDiGraph):
             grphType = "_directed"
@@ -36,18 +42,24 @@ def write_graph(grph, name, edgeInfo = True, typing = True, suffix = 'csv', over
             raise OSError(edgeListName+ " already exists")
         if os.path.isfile(nodesAtrName):
             raise OSError(nodesAtrName + " already exists")
-    write_edgeList(grph, edgeListName, extraInfo = edgeInfo)
-    write_nodeAttributeFile(grph, nodesAtrName)
+    write_edgeList(grph, edgeListName, extraInfo = edgeInfo, progBar = PBar)
+    write_nodeAttributeFile(grph, nodesAtrName, progBar = PBar)
 
-def write_edgeList(grph, name, extraInfo = True):
+def write_edgeList(grph, name, extraInfo = True, progBar = None):
     """
     writes an edge list of grph with filename name, if extraInfo is true the additional information about the edges, e.g. weight, will be written.
     All edges must have the same tags
     """
+    if progBar:
+        count = 0
+        eMax = len(grph.edges(data = True))
+        progBar.updateVal(0, "Writing edge list " + name)
     if len(grph.edges(data = True)) < 1:
         outFile = open(name, 'w')
         outFile.write('"From","To"\n')
         outFile.close()
+        if progBar:
+            progBar.updateVal(1, "Done edge list " + name + ", 0 edges written.")
     else:
         if extraInfo:
             csvDict = ['From'] +  ['To'] + list(grph.edges_iter(data = True).__next__()[2].keys())
@@ -58,6 +70,10 @@ def write_edgeList(grph, name, extraInfo = True):
         outFile.writeheader()
         if extraInfo:
             for e in grph.edges_iter(data = True):
+                if progBar:
+                    count += 1
+                    if count % 10000 == 0:
+                        progBar.updateVal(count / eMax)
                 eDict = e[2].copy()
                 eDict['From'] = e[0]
                 eDict['To'] = e[1]
@@ -67,32 +83,50 @@ def write_edgeList(grph, name, extraInfo = True):
                     raise ValueError("Some edges in " + str(grph) + " do not have the same attributes")
         else:
             for e in grph.edges_iter():
+                if progBar:
+                    count += 1
+                    if count % 100 == 0:
+                        progBar.updateVal(count / eMax)
                 eDict['From'] = e[0]
                 eDict['To'] = e[1]
                 outFile.writerow(eDict)
+        if progBar:
+            progBar.updateVal(1, "Done edge list " + name + ", " + str(count) + " edges written.")
         f.close()
 
-def write_nodeAttributeFile(grph, name):
+def write_nodeAttributeFile(grph, name, progBar = None):
     """
     writes a node attribute list of grph with filename name, the first column is the node's ID then all after it are its associated information.
     All nodes must have the same tags.
     """
+    if progBar:
+        count = 0
+        nMax = len(grph.nodes())
+        progBar.updateVal(0, "Writing edgelist " + name)
     if len(grph.nodes(data = True)) < 1:
         outFile = open(name, 'w')
         outFile.write('ID\n')
         outFile.close()
+        if progBar:
+            progBar.updateVal(1, "Done node attribute list: " + name + ", 0 nodes written.")
     else:
         csvDict = ['ID'] + list(grph.nodes_iter(data = True).__next__()[1].keys())
         f = open(name, 'w')
         outFile = csv.DictWriter(f, csvDict, delimiter = ',', quotechar = '"', quoting=csv.QUOTE_ALL)
         outFile.writeheader()
         for n in grph.nodes_iter(data = True):
+            if progBar:
+                count += 1
+                if count % 50 == 0:
+                    progBar.updateVal(count / nMax)
             nDict = n[1].copy()
             nDict['ID'] = n[0]
             try:
                 outFile.writerow(nDict)
             except ValueError:
                 raise ValueError("Some nodes in " + str(grph) + " do not have the same attributes")
+        if progBar:
+            progBar.updateVal(1, "Done node attribute list: " + name + ", " + str(count) + " nodes written.")
         f.close()
 
 """
@@ -110,6 +144,8 @@ class ProgressBar(object):
         self.out = output
         try:
             self.barMaxLength = os.get_terminal_size(self.out.fileno()).columns - self.difTermAndBar
+            if self.barMaxLength < 0:
+                self.barMaxLength = 0
         except OSError:
             self.barMaxLength = 80 - self.difTermAndBar
         self.dString = self.prepString(initString, self.barMaxLength + self.difTermAndBar)
@@ -119,10 +155,11 @@ class ProgressBar(object):
     def __del__(self):
         self.out.write('\n\n')
         self.out.flush()
-
     def updateVal(self, inputPer, inputString = None):
         try:
             self.barMaxLength = os.get_terminal_size(self.out.fileno()).columns - self.difTermAndBar
+            if self.barMaxLength < 0:
+                self.barMaxLength = 0
         except OSError:
             self.barMaxLength = 80 - self.difTermAndBar
         self.out.write('\r')

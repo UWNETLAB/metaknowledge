@@ -1,6 +1,6 @@
 #Written by Reid McIlroy-Young for Dr. John McLevey, University of Waterloo 2015
 import isilib
-from .record import Record, BadISIRecord, BadISIFile
+from .record import Record, BadISIFile
 from .graphHelpers import ProgressBar
 
 import itertools
@@ -426,13 +426,13 @@ def isiParser(isifile):
                 openfile.close()
                 raise e
     try:
-        f.next()
+        f.__next__()
         raise BadISIFile("EF not at end of " + isifile)
     except StopIteration as e:
         pass
     finally:
         openfile.close()
-        return plst
+    return plst
 
 def getCoCiteIDs(clst):
     """

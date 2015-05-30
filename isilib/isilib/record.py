@@ -147,7 +147,7 @@ class Record(object):
 
     @property
     @lazy
-    def authorsFull(self, full = True):
+    def authorsFull(self):
         """
         returns a list of authors full names
         AF tag
@@ -159,7 +159,7 @@ class Record(object):
 
     @property
     @lazy
-    def authorsShort(self, full = True):
+    def authorsShort(self):
         """
         returns a list of authors shortend names
         AU tag
@@ -358,7 +358,7 @@ class Record(object):
         writes to infile the origninal contents of the Record
         """
         if self.bad:
-            raise exception
+            raise Exception
         else:
             for tag in self._fieldDict.keys():
                 for i, value in enumerate(self._fieldDict[tag]):
@@ -386,7 +386,7 @@ def recordParser(paper):
             tagList[-1][1].append(l[1][3:-1])
         else:
             tagList.append((l[1][:2], [l[1][3:-1]]))
-    raise BadISIRecord("End of file reached before EF on line " + str(l[0]))
+    raise BadISIRecord("End of file reached before EF")
 
 def getMonth(s):
     """

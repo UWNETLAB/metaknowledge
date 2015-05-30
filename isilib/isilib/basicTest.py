@@ -1,8 +1,6 @@
 #Written by Reid McIlroy-Young for Dr. John McLevey, University of Waterloo 2015
 from .recordCollection import RecordCollection
 
-
-import os
 import sys
 import io
 
@@ -25,6 +23,7 @@ def btest(quite = False):
     print(R3._Records.pop())
     print(dir(R3))
     r1 = R3._Records.pop()
+    print(r1)
     for r in R3:
         if r.wosString:
             print(r.wosString, end = ': \t')

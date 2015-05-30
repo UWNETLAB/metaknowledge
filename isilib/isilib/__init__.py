@@ -1,5 +1,6 @@
 from .record import Record, recordParser, BadISIRecord
 from .citation import Citation, BadCitation
-from .recordCollection import RecordCollection, isiParser, progressBar
+from .recordCollection import RecordCollection, isiParser
 from .basicTest import btest
-from .graphHelpers import write_edgeList, write_nodeAttributeFile, write_graph
+from .graphHelpers import write_edgeList, write_nodeAttributeFile, write_graph, ProgressBar
+from .constants import VERBOSE_MODE

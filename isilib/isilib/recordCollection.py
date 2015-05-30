@@ -1,67 +1,12 @@
 #Written by Reid McIlroy-Young for Dr. John McLevey, University of Waterloo 2015
+import isilib
 from .record import Record, BadISIRecord, BadISIFile
+from .graphHelpers import ProgressBar
 
 import itertools
 import os.path
-import sys
+
 import networkx as nx
-
-
-def runningInteractive():
-    try:
-        from sys import ps1
-    except ImportError:
-        return False
-    finally:
-        return True
-
-class progressBar(object):
-    difTermAndBar = 8 #the number of characters difference between the bar's lenght anf the terminal's width
-    def __init__(self, initPer, initString = ' ', output = sys.stdout):
-        self.per = initPer
-        self.out = output
-        try:
-            self.barMaxLength = os.get_terminal_size(output.fileno()).columns - self.difTermAndBar
-        except OSError:
-            self.barMaxLength = 80 - self.difTermAndBar
-        self.dString = self.prepString(initString, self.barMaxLength + self.difTermAndBar)
-        self.out.write('[' + ' ' * self.barMaxLength + ']' + '{:.1%}'.format(self.per) + '\n')
-        self.out.write(self.dString + '\033[F')
-        self.out.flush()
-    def __del__(self):
-        self.out.write('\n\n')
-        self.out.flush()
-
-    def updateVal(self, inputPer, inputString = None):
-        self.out.write('\r')
-        self.per = inputPer
-        percentString = '{:.1%}'.format(self.per).rjust(6, ' ')
-        barLength = int(self.per * self.barMaxLength)
-        if inputString:
-            self.dString = self.prepString(inputString, self.barMaxLength + self.difTermAndBar)
-            if barLength >= self.barMaxLength:
-                self.out.write('[' + '=' * barLength + ']' + percentString)
-                self.out.write('\n' + self.dString + '\033[F')
-            else:
-                self.out.write('[' + '=' * barLength + '>' + ' ' * (self.barMaxLength - barLength - 1) + ']' + percentString)
-                self.out.write('\n' + self.dString + '\033[F')
-        else:
-            if barLength >= self.barMaxLength:
-                self.out.write('[' + '=' * barLength + ']' + percentString)
-            else:
-                self.out.write('[' + '=' * barLength + '>' + ' ' * (self.barMaxLength - barLength - 1) + ']' + percentString)
-        self.out.flush()
-
-    @staticmethod
-    def prepString(s, maxLength):
-        sString = str(s)
-        if len(sString) <= maxLength:
-            return sString.ljust(maxLength, ' ')
-        else:
-            if maxLength % 2 == 0:
-                return sString[:int(maxLength/2 - 3)] + '...' + sString[int(-maxLength/2):]
-            else:
-                return sString[:int(maxLength/2 - 2)] + '...' + sString[int(-maxLength/2):]
 
 class RecordCollection(object):
     def __init__(self, inCollection = None, name = '', extension = ''):
@@ -82,9 +27,14 @@ class RecordCollection(object):
                     self.bad = True
                     self.error = w
             elif os.path.isdir(inCollection):
+                if isilib.VERBOSE_MODE:
+                    PBar = ProgressBar(0, "Reading files from " + str(inCollection))
+                    count = 0
+                else:
+                    PBar = None
                 if extension and not name:
                     if extension[0] == '.':
-                        self._repr = extension[1:] + "-files-from-" + inCollection
+                        self._repr = extension[1:] + "-files-from-" + os.path.dirname(inCollection)
                     else:
                         self._repr = extension + "-files-from-" + inCollection
                 elif not name:
@@ -96,6 +46,11 @@ class RecordCollection(object):
                     if fullF.endswith(extension) and os.path.isfile(fullF):
                         flist.append(fullF)
                 for file in flist:
+                    if PBar:
+                        count += 1
+                        PBar.updateVal(count / len(flist), "Reading records from: " + file)
+                    else:
+                        PBar = None
                     try:
                         self._Records |= set(isiParser(file))
                     except BadISIFile:
@@ -214,7 +169,15 @@ class RecordCollection(object):
 
     def coAuthNetwork(self):
         grph = nx.Graph()
-        for R in self._Records:
+        if isilib.VERBOSE_MODE:
+            PBar = ProgressBar(0, "Starting to make a co-authorship network")
+            count = 0
+        else:
+            PBar = None
+        for R in self:
+            if PBar:
+                count += 1
+                PBar.updateVal(count/ len(self), "Analysing: " + str(R))
             if R.authorsFull and len(R.authorsFull) > 1:
                 for i, auth1 in enumerate(R.authorsFull):
                     if auth1 not in grph:
@@ -236,12 +199,23 @@ class RecordCollection(object):
                     grph.add_node(auth1, count = 1)
                 else:
                     grph.node[auth1]['count'] += 1
+        if PBar:
+            PBar.updateVal(1, "Done making a co-authorship network")
+        del PBar
         return grph
 
     def coCiteNetwork(self, dropAnon = True, authorship = False, extraInfo = True, weighted = True):
         tmpgrph = nx.Graph()
+        if isilib.VERBOSE_MODE:
+            PBar = ProgressBar(0, "Starting to make a co-citation network")
+            count = 0
+        else:
+            PBar = None
         if authorship:
             for R in self:
+                if PBar:
+                    count += 1
+                    PBar.updateVal(count / len(self), "Analysing: " + str(R))
                 Cites = R.citations
                 if Cites:
                     if dropAnon:
@@ -265,6 +239,9 @@ class RecordCollection(object):
                             tmpgrph.add_node(Cites[0].author)
         else:
             for R in self:
+                if PBar:
+                    count += 1
+                    PBar.updateVal((count/ len(self) * .5), "Analysing: " + str(R))
                 Cites = R.citations
                 if Cites:
                     if dropAnon:
@@ -279,7 +256,14 @@ class RecordCollection(object):
                     elif len(Cites) == 1:
                         if Cites[0] not in tmpgrph:
                             tmpgrph.add_node(Cites[0])
+            if PBar:
+                count = 0
+                cMax = len(tmpgrph.nodes())
             for n in tmpgrph.nodes():
+                if PBar:
+                    count += 1
+                    if count % 50 == 0:
+                        PBar.updateVal((count/cMax) *.5 + .5, "Hashing: " + str(n))
                 newN = hash(n)
                 if extraInfo:
                     tmpgrph.add_node(newN, info=str(n))
@@ -290,12 +274,23 @@ class RecordCollection(object):
                 else:
                     tmpgrph.add_edges_from(edgeNodeReplacerGenerator(newN, tmpgrph.edges(n, data = True), 0))
                 tmpgrph.remove_node(n)
+        if PBar:
+            PBar.updateVal(1, "Done making a co-citation network.")
+        del PBar
         return tmpgrph
 
     def citationNetwork(self, dropAnon = True, authorship = False, extraInfo = True, weighted = True):
         tmpgrph = nx.DiGraph()
+        if isilib.VERBOSE_MODE:
+            PBar = ProgressBar(0, "Starting to make a citation network")
+            count = 0
+        else:
+            PBar = None
         if authorship:
             for R in self:
+                if PBar:
+                    count += 1
+                    PBar.updateVal(count/ len(self), "Analysing: " + str(R))
                 reRef = R.createCitation()
                 if hasattr(reRef, 'author'):
                     authRef = reRef.author
@@ -317,12 +312,13 @@ class RecordCollection(object):
                         tmpgrph.add_weighted_edges_from(edgeBunchGenerator(authRef, rCitesAuths, weighted = True))
                     else:
                         tmpgrph.add_edges_from(edgeBunchGenerator(authRef, rCitesAuths))
-
-
             if dropAnon:
                 tmpgrph.remove_node("[ANONYMOUS]")
         else:
             for R in self:
+                if PBar:
+                    count += 1
+                    PBar.updateVal(count / len(self) * .5, "Analysing: " + str(R))
                 reRef = R.createCitation()
                 rCites = R.citations
                 if dropAnon and reRef.isAnonymous():
@@ -333,7 +329,14 @@ class RecordCollection(object):
                         tmpgrph.add_weighted_edges_from(edgeBunchGenerator(reRef, rCites, weighted = True))
                     else:
                         tmpgrph.add_edges_from(edgeBunchGenerator(reRef, rCites))
+            if PBar:
+                count = 0
+                cMax = len(tmpgrph.nodes())
             for n in tmpgrph.nodes():
+                if PBar:
+                    count += 1
+                    if count % 50 == 0:
+                        PBar.updateVal((count/cMax) *.5 + .5, "Hashing: " + str(n))
                 newN = hash(n)
                 if extraInfo:
                     tmpgrph.add_node(newN, info=str(n))
@@ -350,6 +353,9 @@ class RecordCollection(object):
                     for edg in tmpgrph.out_edges(n, data = True):
                         tmpgrph.add_edge(newN, edg[1])
                 tmpgrph.remove_node(n)
+        if PBar:
+            PBar.updateVal(1, "Done making a citation network")
+            del PBar
         return tmpgrph
 
     def extractTagged(self, taglist):

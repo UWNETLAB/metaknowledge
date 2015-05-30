@@ -1,6 +1,7 @@
 import networkx as nx
 import csv
 import os.path
+import sys
 
 def write_graph(grph, name, edgeInfo = True, typing = True, suffix = 'csv', overwrite = False):
     """
@@ -101,3 +102,55 @@ def drop_nodes
 
 def louvain
 """
+
+class ProgressBar(object):
+    difTermAndBar = 8 #the number of characters difference between the bar's lenght anf the terminal's width
+    def __init__(self, initPer, initString = ' ', output = sys.stdout):
+        self.per = initPer
+        self.out = output
+        try:
+            self.barMaxLength = os.get_terminal_size(self.out.fileno()).columns - self.difTermAndBar
+        except OSError:
+            self.barMaxLength = 80 - self.difTermAndBar
+        self.dString = self.prepString(initString, self.barMaxLength + self.difTermAndBar)
+        self.out.write('[' + ' ' * self.barMaxLength + ']' + '{:.1%}'.format(self.per) + '\n')
+        self.out.write(self.dString + '\033[F')
+        self.out.flush()
+    def __del__(self):
+        self.out.write('\n\n')
+        self.out.flush()
+
+    def updateVal(self, inputPer, inputString = None):
+        try:
+            self.barMaxLength = os.get_terminal_size(self.out.fileno()).columns - self.difTermAndBar
+        except OSError:
+            self.barMaxLength = 80 - self.difTermAndBar
+        self.out.write('\r')
+        self.per = inputPer
+        percentString = '{:.1%}'.format(self.per).rjust(6, ' ')
+        barLength = int(self.per * self.barMaxLength)
+        if inputString:
+            self.dString = self.prepString(inputString, self.barMaxLength + self.difTermAndBar)
+            if barLength >= self.barMaxLength:
+                self.out.write('[' + '=' * barLength + ']' + percentString)
+                self.out.write('\n' + self.dString + '\033[F')
+            else:
+                self.out.write('[' + '=' * barLength + '>' + ' ' * (self.barMaxLength - barLength - 1) + ']' + percentString)
+                self.out.write('\n' + self.dString + '\033[F')
+        else:
+            if barLength >= self.barMaxLength:
+                self.out.write('[' + '=' * barLength + ']' + percentString + '\r')
+            else:
+                self.out.write('[' + '=' * barLength + '>' + ' ' * (self.barMaxLength - barLength - 1) + ']' + percentString + '\r')
+        self.out.flush()
+
+    @staticmethod
+    def prepString(s, maxLength):
+        sString = str(s)
+        if len(sString) <= maxLength:
+            return sString.ljust(maxLength, ' ')
+        else:
+            if maxLength % 2 == 0:
+                return sString[:int(maxLength/2 - 3)] + '...' + sString[int(-maxLength/2):]
+            else:
+                return sString[:int(maxLength/2 - 2)] + '...' + sString[int(-maxLength/2):]

@@ -1,5 +1,7 @@
 #Written by Reid McIlroy-Young for Dr. John McLevey, University of Waterloo 2015
-from isilib import RecordCollection
+from .recordCollection import RecordCollection
+
+
 import os
 import sys
 import io

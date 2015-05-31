@@ -7,6 +7,7 @@ import networkx as nx
 class TestRecordCollection(unittest.TestCase):
 
     def setUp(self):
+        isilib.VERBOSE_MODE = False
         self.RC = isilib.RecordCollection("tests/testFile.isi")
         self.RCbad = isilib.RecordCollection("tests/badFile.isi")
 

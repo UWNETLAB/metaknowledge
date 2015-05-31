@@ -95,7 +95,10 @@ def write_edgeList(grph, name, extraInfo = True, progBar = None):
     if progBar:
         count = 0
         eMax = len(grph.edges(data = True))
-        progBar.updateVal(0, "Writing edge list " + name)
+        if isinstance(progBar, ProgressBar):
+            progBar.updateVal(0, "Writing edge list " + name)
+        else:
+            progBar = ProgressBar(0, "Writing edge list " + name)
     if len(grph.edges(data = True)) < 1:
         outFile = open(name, 'w')
         outFile.write('"From","To"\n')
@@ -144,7 +147,10 @@ def write_nodeAttributeFile(grph, name, progBar = None):
     if progBar:
         count = 0
         nMax = len(grph.nodes())
-        progBar.updateVal(0, "Writing edgelist " + name)
+        if isinstance(progBar, ProgressBar):
+            progBar.updateVal(0, "Writing edgelist " + name)
+        else:
+            progBar = ProgressBar(0, "Writing edgelist " + name)
     if len(grph.nodes(data = True)) < 1:
         outFile = open(name, 'w')
         outFile.write('ID\n')

@@ -1,9 +1,9 @@
 import unittest
 import isilib
-import os.path
 
 class TestRecord(unittest.TestCase):
     def setUp(self):
+        isilib.VERBOSE_MODE = False
         self.R = isilib.Record(simplePaperString)
         self.Rbad = isilib.Record(simplePaperString[:-3])
     def test_isRecord(self):

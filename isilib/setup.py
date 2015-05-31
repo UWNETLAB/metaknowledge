@@ -1,6 +1,6 @@
-from setuptools import setup, find_packages
+from setuptools import setup
 setup(name='isilib',
-    version='0.0.1',
+    version='0.2',
     author="Reid McIlroy-Young",
     url="https://github.com/mclevey/web_of_science_isi",
     keywords= 'isi wos',

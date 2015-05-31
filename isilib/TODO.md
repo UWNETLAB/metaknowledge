@@ -1,5 +1,12 @@
 #TODO
 
+##Unknown tags
+- GP
+   + Group?
+- BF
+   + book something
+- GA might have two meanings, groupAuthors or documentDeliveryNumber
+
 ## Implementation
 ### Add more documentation
 ###remove general exceptions

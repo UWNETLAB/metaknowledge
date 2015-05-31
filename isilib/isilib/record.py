@@ -5,9 +5,7 @@ import io
 import collections
 
 from .citation import Citation
-
-monthDict = {'SPR': 3, 'SUM': 6, 'FAL': 9, 'WIN': 12, 'JAN' : 1, 'FEB' : 2, 'MAR' : 3, 'APR' : 4, 'MAY' : 5, 'JUN' : 6 , 'JUL' : 7, 'AUG' : 8, 'SEP' : 9, 'OCT' : 10, 'NOV' : 11, 'DEC' : 12}
-
+from .constants import monthDict, tagToFull
 
 class BadISIRecord(Warning):
     """
@@ -184,6 +182,7 @@ class Record(object):
                 raise Exception
         else:
             return None
+
     @property
     @lazy
     def month(self):

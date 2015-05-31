@@ -13,7 +13,7 @@
 ### Record class
 * add methods for every important tag
 * maybe do geocoding
-
+* Fix Lazy eval
 ### RecordCollection class
 * extract subset from more ranges
 * add more methods to create networks

@@ -93,6 +93,15 @@ class Record(object):
                     self.error = BadISIRecord("Missing WOS number")
         else:
             raise TypeError
+        for tag in self._fieldDict:
+            try:
+                if hasattr(self, tagToFull[tag]):
+                    setattr(self, tag, getattr(self, tagToFull[tag]))
+                else:
+                    setattr(self, tag, self._fieldDict[tag])
+                    setattr(self, tagToFull[tag], self._fieldDict[tag])
+            except KeyError:
+                setattr(self, tag, self._fieldDict[tag])
 
     def __str__(self):
         """

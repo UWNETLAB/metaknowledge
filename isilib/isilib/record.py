@@ -24,11 +24,11 @@ def lazy(f):
     A decorator that makes the function be only evaluated once.
     It does this by creating an attribute in the class with the same name as the function and referencing that on successive calls.
     """
-
     def wrapper(self, *arg, **kwargs):
         if self.bad:
             return None
         if not hasattr(self, "_" + f.__name__):
+            #print(f.__name__)
             setattr(self, "_" + f.__name__, f(self, *arg, **kwargs))
         return getattr(self, "_" + f.__name__)
     return wrapper
@@ -93,9 +93,13 @@ class Record(object):
                     self.error = BadISIRecord("Missing WOS number")
         else:
             raise TypeError
+        self.wosTags = self._fieldDict.keys()
+        self.wosTagNames = []
         for tag in self._fieldDict:
+            self.wosTagNames.append(tagToFull[tag])
             try:
                 if hasattr(self, tagToFull[tag]):
+                    #self.__dict__[tag] = self.__dict__[tagToFull[tag]]
                     setattr(self, tag, getattr(self, tagToFull[tag]))
                 else:
                     setattr(self, tag, self._fieldDict[tag])
@@ -387,6 +391,9 @@ def recordParser(paper):
         if len(l[1]) < 3:
             raise BadISIRecord("Missing field on line " + str(l[0]) + " : " + l[1])
         elif 'ER' in l[1][:2]:
+            for t in tagList:
+                if t[0] not in tagToFull:
+                    print(t[0])
             return  collections.OrderedDict(tagList)
         elif l[1][2] != ' ':
             raise BadISIFile("Field tag not formed correctly on line " + str(l[0]) + " : " + l[1])

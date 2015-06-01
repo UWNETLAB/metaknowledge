@@ -4,6 +4,8 @@ import networkx as nx
 import csv
 import os
 import sys
+import time
+import math
 
 def read_graph(edgeList, nodeList = None, directed = False, idKey = 'ID', eSource = 'From', eDest = 'To'):
     if isilib.VERBOSE_MODE:
@@ -43,7 +45,7 @@ def read_graph(edgeList, nodeList = None, directed = False, idKey = 'ID', eSourc
         else:
             grph.add_edge(eFrom, eTo)
     if PBar:
-        PBar.updateVal(1, str(len(grph.nodes())) + " nodes and " + str(len(grph.edges()) + " edges found"))
+        PBar.finish(str(len(grph.nodes())) + " nodes and " + str(len(grph.edges()) + " edges found"))
     f.close()
     return grph
 
@@ -85,7 +87,10 @@ def write_graph(grph, name, edgeInfo = True, typing = True, suffix = 'csv', over
         if os.path.isfile(nodesAtrName):
             raise OSError(nodesAtrName + " already exists")
     write_edgeList(grph, edgeListName, extraInfo = edgeInfo, progBar = PBar)
+    PBar.jumpUp
     write_nodeAttributeFile(grph, nodesAtrName, progBar = PBar)
+    if PBar:
+        PBar.finish(str(len(grph.nodes())) + " nodes and " + str(len(grph.edges())) + " edges writen to file")
 
 def write_edgeList(grph, name, extraInfo = True, progBar = None):
     """
@@ -136,7 +141,7 @@ def write_edgeList(grph, name, extraInfo = True, progBar = None):
                 eDict['To'] = e[1]
                 outFile.writerow(eDict)
         if progBar:
-            progBar.updateVal(1, "Done edge list " + name + ", " + str(count) + " edges written.")
+            progBar.finish("Done edge list " + name + ", " + str(count) + " edges written.")
         f.close()
 
 def write_nodeAttributeFile(grph, name, progBar = None):
@@ -187,22 +192,28 @@ def louvain
 
 class ProgressBar(object):
     difTermAndBar = 8 #the number of characters difference between the bar's lenght anf the terminal's width
+    timeLength = 6 # width of elapse time display
     def __init__(self, initPer, initString = ' ', output = sys.stdout):
+        self.finished = False
         self.per = initPer
         self.out = output
+        self.sTime = time.time()
         try:
             self.barMaxLength = os.get_terminal_size(self.out.fileno()).columns - self.difTermAndBar
             if self.barMaxLength < 0:
                 self.barMaxLength = 0
         except OSError:
             self.barMaxLength = 80 - self.difTermAndBar
-        self.dString = self.prepString(initString, self.barMaxLength + self.difTermAndBar)
-        self.out.write('[' + ' ' * self.barMaxLength + ']' + '{:.1%}'.format(self.per) + '\n')
+        self.dString = self.prepString(initString, self.barMaxLength + self.difTermAndBar - self.timeLength) + self.prepTime(time.time() - self.sTime, self.timeLength)
+        self.out.write('[' + ' ' * self.barMaxLength + ']' + '{:.1%}'.format(self.per).rjust(6, ' ') + '\n')
         self.out.write(self.dString + '\033[F')
         self.out.flush()
+
     def __del__(self):
-        self.out.write('\n\n')
-        self.out.flush()
+        if not self.finished:
+            self.out.write('\n\n')
+            self.out.flush()
+
     def updateVal(self, inputPer, inputString = None):
         try:
             self.barMaxLength = os.get_terminal_size(self.out.fileno()).columns - self.difTermAndBar
@@ -215,7 +226,7 @@ class ProgressBar(object):
         percentString = '{:.1%}'.format(self.per).rjust(6, ' ')
         barLength = int(self.per * self.barMaxLength)
         if inputString:
-            self.dString = self.prepString(inputString, self.barMaxLength + self.difTermAndBar)
+            self.dString = self.prepString(inputString, self.barMaxLength + self.difTermAndBar - self.timeLength) + self.prepTime(time.time() - self.sTime, self.timeLength)
             if barLength >= self.barMaxLength:
                 self.out.write('[' + '=' * barLength + ']' + percentString)
                 self.out.write('\n' + self.dString + '\033[F')
@@ -229,13 +240,43 @@ class ProgressBar(object):
                 self.out.write('[' + '=' * barLength + '>' + ' ' * (self.barMaxLength - barLength - 1) + ']' + percentString + '\r')
         self.out.flush()
 
+    def finish(self, inputString):
+        self.finished = True
+        inputString = str(inputString)
+        try:
+            self.barMaxLength = os.get_terminal_size(self.out.fileno()).columns - self.difTermAndBar
+            if self.barMaxLength < 0:
+                self.barMaxLength = 0
+        except OSError:
+            self.barMaxLength = 80 - self.difTermAndBar
+        self.out.write('\n' + ' ' * (self.barMaxLength + self.difTermAndBar) + '\033[F')
+        if len(inputString) < self.barMaxLength + self.difTermAndBar - self.timeLength:
+            tString = self.prepTime(time.time() - self.sTime, self.barMaxLength + self.difTermAndBar - len(inputString) - 1)
+            self.out.write(inputString + ' ' + tString)
+        else:
+            self.out.write(self.prepString(inputString, self.barMaxLength + self.difTermAndBar - self.timeLength) + self.prepTime(time.time() - self.sTime, self.timeLength))
+        self.out.write('\n')
+        self.out.flush()
+
+    @property
+    def jumpUp(self):
+        self.out.write('\033[F')
+        self.out.flush()
+
     @staticmethod
     def prepString(s, maxLength):
+        maxLength = maxLength - 1
         sString = str(s)
         if len(sString) <= maxLength:
-            return sString.ljust(maxLength, ' ')
+            return sString.ljust(maxLength, ' ') + ' '
         else:
             if maxLength % 2 == 0:
-                return sString[:int(maxLength/2 - 3)] + '...' + sString[int(-maxLength/2):]
+                return sString[:int(maxLength/2 - 3)] + '...' + sString[int(-maxLength/2):] + ' '
             else:
-                return sString[:int(maxLength/2 - 2)] + '...' + sString[int(-maxLength/2):]
+                return sString[:int(maxLength/2 - 2)] + '...' + sString[int(-maxLength/2):] + ' '
+    @staticmethod
+    def prepTime(t, maxLength):
+        if math.log10(t) + 3.01 > maxLength:
+            return "{1:{0}.0E}s".format(maxLength - 1 ,t)
+        else:
+            return "{1:{0}.1f}s".format(maxLength - 1,t)

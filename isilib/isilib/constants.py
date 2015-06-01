@@ -16,7 +16,7 @@ monthDict = {'SPR': 3, 'SUM': 6, 'FAL': 9, 'WIN': 12, 'JAN' : 1, 'FEB' : 2, 'MAR
 tagToFull = {
             'PT' : "pubType",
             'AF' : "authorsFull",
-            #'GA' : "groupAuthors",
+            #'GA' : "groupAuthors", Old usage
             'GP' : "group",
             'BE' : "editedBy",
             'AU' : "authorsShort",

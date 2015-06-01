@@ -57,6 +57,8 @@ class RecordCollection(object):
                         pass
                     except UnicodeDecodeError:
                         pass
+                if PBar:
+                    PBar.finish("Done reading records from: " + str(inCollection))
             else:
                 raise TypeError("inCollection is not a directory or a file")
         elif isinstance(inCollection, list):
@@ -200,8 +202,7 @@ class RecordCollection(object):
                 else:
                     grph.node[auth1]['count'] += 1
         if PBar:
-            PBar.updateVal(1, "Done making a co-authorship network")
-        del PBar
+            PBar.finish("Done making a co-authorship network")
         return grph
 
     def coCiteNetwork(self, dropAnon = True, authorship = False, extraInfo = True, weighted = True):
@@ -275,8 +276,7 @@ class RecordCollection(object):
                     tmpgrph.add_edges_from(edgeNodeReplacerGenerator(newN, tmpgrph.edges(n, data = True), 0))
                 tmpgrph.remove_node(n)
         if PBar:
-            PBar.updateVal(1, "Done making a co-citation network.")
-        del PBar
+            PBar.finish("Done making a co-citation network of " + repr(self))
         return tmpgrph
 
     def citationNetwork(self, dropAnon = True, authorship = False, extraInfo = True, weighted = True):
@@ -354,8 +354,7 @@ class RecordCollection(object):
                         tmpgrph.add_edge(newN, edg[1])
                 tmpgrph.remove_node(n)
         if PBar:
-            PBar.updateVal(1, "Done making a citation network")
-            del PBar
+            PBar.finish("Done making a citation network of " + repr(self))
         return tmpgrph
 
     def extractTagged(self, taglist):

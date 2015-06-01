@@ -87,7 +87,8 @@ def write_graph(grph, name, edgeInfo = True, typing = True, suffix = 'csv', over
         if os.path.isfile(nodesAtrName):
             raise OSError(nodesAtrName + " already exists")
     write_edgeList(grph, edgeListName, extraInfo = edgeInfo, progBar = PBar)
-    PBar.jumpUp
+    if PBar:
+        PBar.jumpUp()
     write_nodeAttributeFile(grph, nodesAtrName, progBar = PBar)
     if PBar:
         PBar.finish(str(len(grph.nodes())) + " nodes and " + str(len(grph.edges())) + " edges writen to file")
@@ -258,7 +259,6 @@ class ProgressBar(object):
         self.out.write('\n')
         self.out.flush()
 
-    @property
     def jumpUp(self):
         self.out.write('\033[F')
         self.out.flush()

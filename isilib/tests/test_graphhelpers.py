@@ -31,7 +31,8 @@ class TestHelpers(unittest.TestCase):
         isilib.write_edgeList(self.G, fileEName, progBar = P)
         tmpIO.seek(0)
         s = ''.join(tmpIO.readlines())
-        self.assertTrue(
-        "[========================================================================]100.0%" in s and "Writing edge list testNetworks_edgeList_undirected.tst" in s)
+        self.assertFalse(
+        "==================================================]100.0%" in s)
+        self.assertTrue("Writing edge list testNetworks_edgeList_undirected.tst" in s)
         os.remove(fileEName)
         isilib.VERBOSE_MODE = False

@@ -29,7 +29,6 @@ def lazy(f):
         if self.bad:
             return None
         if not hasattr(self, "_" + f.__name__):
-            #print(f.__name__)
             setattr(self, "_" + f.__name__, f(self, *arg, **kwargs))
         return getattr(self, "_" + f.__name__)
     return wrapper
@@ -40,6 +39,7 @@ class Record(object):
     It requires that the record contains a WOS number and have tags for each field.
     """
     def __init__(self, inRecord, taglist = [], sFile = '', sLine = 0):
+        self._unComputedTags = set()
         self.bad = False
         self.error = None
         self.tags = taglist
@@ -92,13 +92,17 @@ class Record(object):
                     self._wosNum = None
                     self.bad = True
                     self.error = BadISIRecord("Missing WOS number")
-        else:
-            raise TypeError
-        self.wosTags = self._fieldDict.keys()
-        self.wosTagNames = []
         for tag in self._fieldDict:
-            self.wosTagNames.append(tagToFull[tag])
-            self.__dict__[tag] = tagWrapper(self, tag)
+            if tag != 'UT':
+                self.__dict__[tag] = None
+                self._unComputedTags.add(tag)
+                try:
+                    fullName = tagToFull[tag]
+                except KeyError:
+                    pass
+                else:
+                    self.__dict__[fullName] = None
+                    self._unComputedTags.add(fullName)
             """
             try:
                 setattr(self, tag, tagToFunc[tag](self._fieldDict[tag]))
@@ -113,6 +117,37 @@ class Record(object):
                                 setattr(self, tag, self._fieldDict[tag])
                                 setattr(self, tagToFull[tag], self._fieldDict[tag])
             """
+
+    def __getattribute__(self, name):
+        if name == '_unComputedTags':
+            return object.__getattribute__(self, '_unComputedTags')
+        if name in self._unComputedTags:
+            try:
+                otherName = tagToFull[name]
+            except KeyError:
+                try:
+                    tagVal = tagToFunc[name](self._fieldDict[name])
+                except KeyError:
+                    tagVal = self._fieldDict[name]
+                setattr(self, name, tagVal)
+                self._unComputedTags.remove(name)
+            else:
+                try:
+                    prossFunc = tagToFunc[name]
+                except KeyError:
+                    try:
+                        prossFunc = tagToFunc[otherName]
+                    except KeyError:
+                        prossFunc = lambda x: x
+                try:
+                    tagVal = prossFunc(self._fieldDict[name])
+                except KeyError:
+                    tagVal = prossFunc(self._fieldDict[otherName])
+                object.__setattr__(self, name, tagVal)
+                object.__setattr__(self, otherName, tagVal)
+                self._unComputedTags.remove(name)
+                self._unComputedTags.remove(otherName)
+        return object.__getattribute__(self, name)
 
     def __str__(self):
         """
@@ -152,152 +187,26 @@ class Record(object):
     def __getstate__(self):
         """
         returns the minimum amount of information to recreate a Record
-        """
+
         sDict = self.__dict__
         keys = list(sDict.keys())
         for k in keys:
             if k not in ['bad', 'error', '_sourceFile', '_sourceLine', '_fieldDict', '_wosNum', 'tags']:
                 del sDict[k]
-        return sDict
+        """
+        return self.__dict__
 
     def __setstate__(self, state):
         self.__dict__ = state
 
     @property
-    @lazy
-    def authorsFull(self):
-        """
-        returns a list of authors full names
-        AF tag
-        """
-        if 'AF' in self._fieldDict:
-            return self._fieldDict['AF']
-        else:
-            return None
+    def wosString(self):
+        return self._wosNum
 
     @property
-    @lazy
-    def authorsShort(self):
-        """
-        returns a list of authors shortened names
-        AU tag
-        """
-        if 'AU' in self._fieldDict:
-            return self._fieldDict['AU']
-        else:
-            return None
+    def UT(self):
+        return self._wosNum
 
-    @property
-    @lazy
-    def year(self):
-        """
-        returns the year the record was published in as an int
-        PY tag
-        """
-        if 'PY' in self._fieldDict:
-            yearField = self._fieldDict['PY'][0]
-            if len(yearField) == 4:
-                return int(yearField)
-            else:
-                raise Exception
-        else:
-            return None
-
-    @property
-    @lazy
-    def month(self):
-        """
-        returns the month the record was published in as an int with January as 1, February 2, ...
-        PD tag
-        """
-        if 'PD' in self._fieldDict:
-            return getMonth(self._fieldDict['PD'][0])
-        else:
-            return None
-    @property
-    @lazy
-    def title(self):
-        """
-        returns the title of the record
-        TI tag
-        """
-        if 'TI' in self._fieldDict:
-            return ' '.join(self._fieldDict['TI'])
-        else:
-            return None
-    @property
-    @lazy
-    def citations(self):
-        """
-        returns a list of all the citations in the record
-        CR tag
-        """
-        if 'CR' in self._fieldDict:
-            retCites = []
-            for c in self._fieldDict['CR']:
-                retCites.append(Citation(c))
-            return retCites
-        else:
-            return None
-    @property
-    @lazy
-    def journal(self):
-        """
-        returns the full name of the publication
-        SO tag
-        """
-        if 'SO' in self._fieldDict:
-            return ' '.join(self._fieldDict['SO'])
-        else:
-            return None
-    @property
-    @lazy
-    def j9(self):
-        """
-        returns the J9 (29-Character Source Abbreviation) of the publication
-        J9 tag
-        """
-        if 'J9' in self._fieldDict:
-            return self._fieldDict['J9'][0]
-        else:
-            return None
-
-    @property
-    @lazy
-    def beginningPage(self):
-        """
-        returns the first page the record occurs on as a string not an int
-        BP tag
-        """
-        if 'BP' in self._fieldDict:
-            return self._fieldDict['BP'][0].strip()
-        else:
-            return None
-
-    @property
-    @lazy
-    def endingPage(self):
-        """
-        return the last page the record occurs on as a string not an int
-        EP tag
-        """
-        if 'EP' in self._fieldDict:
-            return self._fieldDict['EP'][0].strip()
-        else:
-            return None
-    @property
-    @lazy
-    def volume(self):
-        """
-        return the volume the record is in as a string not an int
-        VL tag
-        """
-        if 'VL' in self._fieldDict:
-            return self._fieldDict['VL'][0].strip()
-        else:
-            return None
-
-    @lazy
     def getTag(self, tag):
         """
         returns a list containing the raw data of the record associated with tag.
@@ -307,42 +216,20 @@ class Record(object):
             return self._fieldDict[tag]
         else:
             return None
-    @property
-    @lazy
-    def DOI(self):
-        """
-        return the DOI number of the record
-        DI tag
-        """
-        if 'DI' in self._fieldDict:
-            return self._fieldDict['DI'][0]
-        else:
-            return None
-    @property
-    @lazy
-    def abstract(self):
-        """
-        return abstract of the record, with newlines hopefully in the correct places
-        AB tag
-        """
-        if 'AB' in self._fieldDict:
-            return '\n'.join(self._fieldDict['AB'])
-        else:
-            return None
 
     def createCitation(self):
         valsLst = []
         if self.authorsShort:
             valsLst.append(self.authorsShort[0].replace(',', ''))
-        if self.year:
+        if getattr(self, "year", False):
             valsLst.append(str(self.year))
-        if self.j9:
+        if getattr(self, "j9", False):
             valsLst.append(self.j9)
-        if self.volume:
+        if getattr(self, "volume", False):
             valsLst.append('V' + str(self.volume))
-        if self.beginningPage:
+        if getattr(self, "beginningPage", False):
             valsLst.append('P' + str(self.beginningPage))
-        if self.DOI:
+        if getattr(self, "DOI", False):
             valsLst.append('DOI ' + self.DOI)
         return Citation(', '.join(valsLst))
 
@@ -363,14 +250,6 @@ class Record(object):
         for tag in taglst:
             retDict[tag] = self.getTag(tag)
         return retDict
-
-    @property
-    def wosString(self):
-        """
-        returns the WOS number of the record as a string preceded by "WOS:""
-        UT tag
-        """
-        return self._wosNum
 
     def writeRecord(self, infile):
         """
@@ -398,9 +277,6 @@ def recordParser(paper):
         if len(l[1]) < 3:
             raise BadISIRecord("Missing field on line " + str(l[0]) + " : " + l[1])
         elif 'ER' in l[1][:2]:
-            for t in tagList:
-                if t[0] not in tagToFull:
-                    print(t[0])
             return  collections.OrderedDict(tagList)
         elif l[1][2] != ' ':
             raise BadISIFile("Field tag not formed correctly on line " + str(l[0]) + " : " + l[1])
@@ -409,19 +285,3 @@ def recordParser(paper):
         else:
             tagList.append((l[1][:2], [l[1][3:-1]]))
     raise BadISIRecord("End of file reached before EF")
-
-def getMonth(s):
-    """
-    Known formats:
-    Month ("%b")
-    Month Day ("%b %d")
-    Month-Month ("%b-%b") --- this gets coerced to the first %b, dropping the month range
-    Season ("%s") --- this gets coerced to use the first month of the given season
-    Month Day Year ("%b %d %Y")
-    Month Year ("%b %Y")
-    """
-    monthOrSeason = s.split(' ')[0].split('-')[0].upper()
-    if monthOrSeason in monthDict:
-        return monthDict[monthOrSeason]
-    else:
-        raise ValueError("Month format not recognized: " + s)

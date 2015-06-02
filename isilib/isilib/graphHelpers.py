@@ -91,7 +91,7 @@ def write_graph(grph, name, edgeInfo = True, typing = True, suffix = 'csv', over
         PBar.jumpUp()
     write_nodeAttributeFile(grph, nodesAtrName, progBar = PBar)
     if PBar:
-        PBar.finish(str(len(grph.nodes())) + " nodes and " + str(len(grph.edges())) + " edges writen to file")
+        PBar.finish(str(len(grph.nodes())) + " nodes and " + str(len(grph.edges())) + " edges written to file")
 
 def write_edgeList(grph, name, extraInfo = True, progBar = None):
     """
@@ -183,6 +183,58 @@ def write_nodeAttributeFile(grph, name, progBar = None):
             progBar.updateVal(1, "Done node attribute list: " + name + ", " + str(count) + " nodes written.")
         f.close()
 
+def drop_edges(grph, minVal = 1, maxVal = None, parameterName = 'weight'):
+    """
+    returns a graph with edges removed that do not meet the input conditions.
+    parameterName specifies the property of the node that is checked, by default it is 'weight'
+    minVal is the lowest values that will not be filtered
+    maxVal is the highest values that will not be filtered
+    either of these can be set to None, if so they will not be checked
+    """
+    for e in grph.edges_iter():
+        try:
+            val = e[2][parameterName]
+        except KeyError:
+            pass
+        else:
+            if minVal and minVal > val:
+                grph.remove_edge(e[0], e[1])
+            elif maxVal and maxVal < val:
+                grph.remove_edge(e[0], e[1])
+    return grph
+
+def getTotal(grph, node, parameter = 'weight'):
+    """
+    Helper function to get the total weight of all edges into node in grph
+    parameter is the name of what is checked
+    """
+    w = 0
+    for e in grph.edges_iter(node, data =True):
+        w += e[2][parameter]
+    return w
+
+def drop_nodes(grph, minVal = 1, maxVal = None, parameterFunction = getTotal):
+    """
+    returns a graph with nodes that do not meet the input conditions.
+    parameterFunction must be function that takes two arguments, first a graph and second a node in the graph. It returns a number, the number is what is checked.
+    By default getTotal is used, which adds up the weight of each adjacent edge.
+    minVal is the lowest values that will not be filtered
+    maxVal is the highest values that will not be filtered
+    either of these can be set to None, if so they will not be checked
+    """
+    keepNodes = []
+    for n in grph.nodes_iter():
+        val = parameterFunction(grph, n)
+        if minVal and minVal > val:
+            pass
+        elif maxVal and maxVal < val:
+            pass
+        else:
+            keepNodes.append(n)
+    return grph.subgraph(keepNodes)
+
+
+
 """
 def drop_edges
 
@@ -192,7 +244,7 @@ def louvain
 """
 
 class ProgressBar(object):
-    difTermAndBar = 8 #the number of characters difference between the bar's lenght anf the terminal's width
+    difTermAndBar = 8 #the number of characters difference between the bar's length and the terminal's width
     timeLength = 6 # width of elapse time display
     def __init__(self, initPer, initString = ' ', output = sys.stdout):
         self.finished = False

@@ -20,7 +20,7 @@ class RecordCollection(object):
             if os.path.isfile(inCollection):
                 try:
                     if not inCollection.endswith(extension):
-                        raise TypeError("extension of input file doess not match requested extension")
+                        raise TypeError("extension of input file does not match requested extension")
                     self._repr = os.path.splitext(os.path.split(inCollection)[1])[0]
                     self._Records = set(isiParser(inCollection))
                 except BadISIFile as w:
@@ -179,7 +179,7 @@ class RecordCollection(object):
         for R in self:
             if PBar:
                 count += 1
-                PBar.updateVal(count/ len(self), "Analysing: " + str(R))
+                PBar.updateVal(count/ len(self), "Analyzing: " + str(R))
             if R.authorsFull and len(R.authorsFull) > 1:
                 for i, auth1 in enumerate(R.authorsFull):
                     if auth1 not in grph:
@@ -216,7 +216,7 @@ class RecordCollection(object):
             for R in self:
                 if PBar:
                     count += 1
-                    PBar.updateVal(count / len(self), "Analysing: " + str(R))
+                    PBar.updateVal(count / len(self), "Analyzing: " + str(R))
                 Cites = R.citations
                 if Cites:
                     if dropAnon:
@@ -242,7 +242,7 @@ class RecordCollection(object):
             for R in self:
                 if PBar:
                     count += 1
-                    PBar.updateVal((count/ len(self) * .5), "Analysing: " + str(R))
+                    PBar.updateVal((count/ len(self) * .5), "Analyzing: " + str(R))
                 Cites = R.citations
                 if Cites:
                     if dropAnon:
@@ -290,7 +290,7 @@ class RecordCollection(object):
             for R in self:
                 if PBar:
                     count += 1
-                    PBar.updateVal(count/ len(self), "Analysing: " + str(R))
+                    PBar.updateVal(count/ len(self), "Analyzing: " + str(R))
                 reRef = R.createCitation()
                 if hasattr(reRef, 'author'):
                     authRef = reRef.author
@@ -318,7 +318,7 @@ class RecordCollection(object):
             for R in self:
                 if PBar:
                     count += 1
-                    PBar.updateVal(count / len(self) * .5, "Analysing: " + str(R))
+                    PBar.updateVal(count / len(self) * .5, "Analyzing: " + str(R))
                 reRef = R.createCitation()
                 rCites = R.citations
                 if dropAnon and reRef.isAnonymous():
@@ -378,8 +378,8 @@ class RecordCollection(object):
 
 def isiParser(isifile):
     """
-    isiParser() reads the file given by the path isifile, checks that the header is correct then reads until it reachs EF.
-    Each it finds is used to initilize a Record then all Record are returned as a list.
+    isiParser() reads the file given by the path isifile, checks that the header is correct then reads until it reaches EF.
+    Each it finds is used to initialize a Record then all Record are returned as a list.
     """
     try:
         openfile = open(isifile, 'r')

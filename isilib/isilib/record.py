@@ -6,6 +6,7 @@ import collections
 
 from .citation import Citation
 from .constants import monthDict, tagToFull
+from .recordTagFunctions import tagToFunc, tagWrapper
 
 class BadISIRecord(Warning):
     """
@@ -35,7 +36,7 @@ def lazy(f):
 
 class Record(object):
     """
-    class for containig full ISI records
+    class for containing full ISI records
     It requires that the record contains a WOS number and have tags for each field.
     """
     def __init__(self, inRecord, taglist = [], sFile = '', sLine = 0):
@@ -97,15 +98,21 @@ class Record(object):
         self.wosTagNames = []
         for tag in self._fieldDict:
             self.wosTagNames.append(tagToFull[tag])
+            self.__dict__[tag] = tagWrapper(self, tag)
+            """
             try:
-                if hasattr(self, tagToFull[tag]):
-                    #self.__dict__[tag] = self.__dict__[tagToFull[tag]]
-                    setattr(self, tag, getattr(self, tagToFull[tag]))
-                else:
-                    setattr(self, tag, self._fieldDict[tag])
-                    setattr(self, tagToFull[tag], self._fieldDict[tag])
+                setattr(self, tag, tagToFunc[tag](self._fieldDict[tag]))
+                setattr(self, tagToFull[tag], getattr(self, tag))
             except KeyError:
                 setattr(self, tag, self._fieldDict[tag])
+
+                            if hasattr(self, tagToFull[tag]):
+                                #self.__dict__[tag] = self.__dict__[tagToFull[tag]]
+                                setattr(self, tag, getattr(self, tagToFull[tag]))
+                            else:
+                                setattr(self, tag, self._fieldDict[tag])
+                                setattr(self, tagToFull[tag], self._fieldDict[tag])
+            """
 
     def __str__(self):
         """
@@ -172,7 +179,7 @@ class Record(object):
     @lazy
     def authorsShort(self):
         """
-        returns a list of authors shortend names
+        returns a list of authors shortened names
         AU tag
         """
         if 'AU' in self._fieldDict:
@@ -293,7 +300,7 @@ class Record(object):
     @lazy
     def getTag(self, tag):
         """
-        returns a list containing the raw data of the record assocaited ith tag.
+        returns a list containing the raw data of the record associated with tag.
         Each line of the record is one string in the list.
         """
         if tag in self._fieldDict:
@@ -360,14 +367,14 @@ class Record(object):
     @property
     def wosString(self):
         """
-        returns the WOS number of the record as a string preceeded by "WOS:""
+        returns the WOS number of the record as a string preceded by "WOS:""
         UT tag
         """
         return self._wosNum
 
     def writeRecord(self, infile):
         """
-        writes to infile the origninal contents of the Record
+        writes to infile the original contents of the Record
         """
         if self.bad:
             raise Exception
@@ -384,7 +391,7 @@ class Record(object):
 def recordParser(paper):
     """
     recordParser() reads the file paper until it reaches 'EF'.
-    For each field tag it adds an entry to the returned dict with the tag as the key and a list of the entries as the value, the list has each line seperately
+    For each field tag it adds an entry to the returned dict with the tag as the key and a list of the entries as the value, the list has each line separately
     """
     tagList = []
     for l in paper:

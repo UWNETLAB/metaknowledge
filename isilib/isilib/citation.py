@@ -13,7 +13,7 @@ class Citation(object):
             self.DOI = c.pop().split(' ')[-1]
         if len(c) < 3:
             self.bad = True
-            self.error = BadCitation("Too few elemets")
+            self.error = BadCitation("Too few elements")
             self.misc = ', '.join(c)
         else:
             if not c[0].isnumeric():
@@ -45,7 +45,7 @@ class Citation(object):
 
     def __hash__(self):
         """
-        A hash for Citation that should be equal to the hash of other citaions that are equal to it
+        A hash for Citation that should be equal to the hash of other citations that are equal to it
         """
         if hasattr(self, 'DOI'):
             return hash(self.DOI)

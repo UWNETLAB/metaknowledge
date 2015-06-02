@@ -54,7 +54,7 @@ class TestCitation(unittest.TestCase):
     def test_citation_badLength(self):
         c = isilib.Citation("a, b")
         self.assertTrue(c.bad)
-        self.assertEqual(str(c.error), "Too few elemets")
+        self.assertEqual(str(c.error), "Too few elements")
         self.assertEqual(c.getExtra(),'A, B')
         self.assertEqual(c.getID(),'A, B')
 

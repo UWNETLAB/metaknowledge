@@ -89,7 +89,7 @@ class Record(object):
                 if 'UT' in self._fieldDict:
                     self._wosNum = self._fieldDict['UT'][0]
                 else:
-                    self._wosNum = None
+                    self._wosNum = "NO WOS NUMBER"
                     self.bad = True
                     self.error = BadISIRecord("Missing WOS number")
         for tag in self._fieldDict:
@@ -103,51 +103,47 @@ class Record(object):
                 else:
                     self.__dict__[fullName] = None
                     self._unComputedTags.add(fullName)
-            """
-            try:
-                setattr(self, tag, tagToFunc[tag](self._fieldDict[tag]))
-                setattr(self, tagToFull[tag], getattr(self, tag))
-            except KeyError:
-                setattr(self, tag, self._fieldDict[tag])
-
-                            if hasattr(self, tagToFull[tag]):
-                                #self.__dict__[tag] = self.__dict__[tagToFull[tag]]
-                                setattr(self, tag, getattr(self, tagToFull[tag]))
-                            else:
-                                setattr(self, tag, self._fieldDict[tag])
-                                setattr(self, tagToFull[tag], self._fieldDict[tag])
-            """
 
     def __getattribute__(self, name):
-        if name == '_unComputedTags':
-            return object.__getattribute__(self, '_unComputedTags')
-        if name in self._unComputedTags:
-            try:
-                otherName = tagToFull[name]
-            except KeyError:
-                try:
-                    tagVal = tagToFunc[name](self._fieldDict[name])
-                except KeyError:
-                    tagVal = self._fieldDict[name]
-                setattr(self, name, tagVal)
-                self._unComputedTags.remove(name)
+        try:
+            val = object.__getattribute__(self, name)
+        except AttributeError:
+            if name in tagToFull:
+                return None
             else:
-                try:
-                    prossFunc = tagToFunc[name]
-                except KeyError:
+                raise
+        else:
+            if val != None:
+                return val
+            else:
+                if name in self._unComputedTags:
                     try:
-                        prossFunc = tagToFunc[otherName]
+                        otherName = tagToFull[name]
                     except KeyError:
-                        prossFunc = lambda x: x
-                try:
-                    tagVal = prossFunc(self._fieldDict[name])
-                except KeyError:
-                    tagVal = prossFunc(self._fieldDict[otherName])
-                object.__setattr__(self, name, tagVal)
-                object.__setattr__(self, otherName, tagVal)
-                self._unComputedTags.remove(name)
-                self._unComputedTags.remove(otherName)
-        return object.__getattribute__(self, name)
+                        try:
+                            tagVal = tagToFunc[name](self._fieldDict[name])
+                        except KeyError:
+                            tagVal = self._fieldDict[name]
+                        setattr(self, name, tagVal)
+                        self._unComputedTags.remove(name)
+                    else:
+                        try:
+                            prossFunc = tagToFunc[name]
+                        except KeyError:
+                            try:
+                                prossFunc = tagToFunc[otherName]
+                            except KeyError:
+                                prossFunc = lambda x: x
+                        try:
+                            tagVal = prossFunc(self._fieldDict[name])
+                        except KeyError:
+                            tagVal = prossFunc(self._fieldDict[otherName])
+                        object.__setattr__(self, name, tagVal)
+                        object.__setattr__(self, otherName, tagVal)
+                        self._unComputedTags.remove(name)
+                        self._unComputedTags.remove(otherName)
+                return object.__getattribute__(self, name)
+
 
     def __str__(self):
         """

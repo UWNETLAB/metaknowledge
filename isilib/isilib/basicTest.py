@@ -21,7 +21,6 @@ def btest(quite = False):
     print(dir(R3))
     r1 = R3.pop()
     print(r1)
-    """
     for r in R3:
         if r.wosString:
             print(r.wosString, end = ': \t')
@@ -29,7 +28,6 @@ def btest(quite = False):
             print(r.year)
         else:
             print(r)
-    """
     print(R3)
     print(R2)
     print(R1)
@@ -40,7 +38,6 @@ def btest(quite = False):
     print(repr(R1))
     print(repr(R3 + R2 - R3 & R1))
 
-    """
     for r in R1:
         if r.bad:
             print(r.error)
@@ -55,7 +52,6 @@ def btest(quite = False):
             print(r.wosString)
             print(r.DOI)
             print(r.citations)
-    """
     print(R3.pop())
     if quite:
         sys.stdout = stdOut

@@ -5,8 +5,8 @@ import io
 import collections
 
 from .citation import Citation
-from .constants import monthDict, tagToFull
-from .recordTagFunctions import tagToFunc, tagWrapper
+from .constants import tagToFull
+from .recordTagFunctions import tagToFunc
 
 class BadISIRecord(Warning):
     """
@@ -38,7 +38,7 @@ class Record(object):
     class for containing full ISI records
     It requires that the record contains a WOS number and have tags for each field.
     """
-    def __init__(self, inRecord, taglist = [], sFile = '', sLine = 0):
+    def __init__(self, inRecord, taglist = (), sFile = '', sLine = 0):
         self._unComputedTags = set()
         self.bad = False
         self.error = None
@@ -181,19 +181,14 @@ class Record(object):
         return hash(self._wosNum)
 
     def __getstate__(self):
-        """
-        returns the minimum amount of information to recreate a Record
-
-        sDict = self.__dict__
-        keys = list(sDict.keys())
-        for k in keys:
-            if k not in ['bad', 'error', '_sourceFile', '_sourceLine', '_fieldDict', '_wosNum', 'tags']:
-                del sDict[k]
-        """
         return self.__dict__
 
     def __setstate__(self, state):
-        self.__dict__ = state
+        """
+        This is nessary because __getattribute__ is overwritten
+        """
+        for k in state:
+            object.__setattr__(self, k, state[k])
 
     @property
     def wosString(self):

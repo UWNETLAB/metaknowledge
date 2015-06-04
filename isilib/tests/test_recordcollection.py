@@ -91,3 +91,20 @@ class TestRecordCollection(unittest.TestCase):
         self.assertEqual(len(Gdefault.edges()), 832)
         self.assertEqual(len(Ganon.edges()), 853)
         self.assertEqual(len(Gauths.edges()), 561)
+
+
+    def test_oneMode(self):
+        Gcr  = self.RC.oneModeNetwork('CR')
+        Gcite = self.RC.oneModeNetwork('citations', nodeCount = False, edgeWeight = False)
+        GcoCit = self.RC.coCiteNetwork()
+        Gtit = self.RC.oneModeNetwork('title')
+        self.assertEqual(len(Gcite.edges()), len(Gcr.edges()))
+        self.assertEqual(len(Gcite.nodes()), len(Gcr.nodes()))
+        self.assertAlmostEqual(len(Gcite.nodes()), len(GcoCit.nodes()), delta = 50)
+        self.assertEqual(len(self.RC.oneModeNetwork('D2').nodes()), 0)
+        self.assertEqual(len(Gtit.nodes()), 31)
+        self.assertEqual(len(Gtit.edges()), 0)
+        self.assertEqual(len(self.RC.oneModeNetwork('email').edges()), 0)
+        with self.assertRaises(TypeError):
+            G = self.RC.oneModeNetwork('Not a Tag')
+            del G

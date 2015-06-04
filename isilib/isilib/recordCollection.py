@@ -2,6 +2,7 @@
 import isilib
 from .record import Record, BadISIFile
 from .graphHelpers import ProgressBar
+from .constants import tagToFull
 
 import itertools
 import os.path
@@ -377,6 +378,67 @@ class RecordCollection(object):
             if R.year >= startYear and R.year <= endYear:
                 recordsInRange.add(R)
         return RecordCollection(recordsInRange, repr(self) + "_(" + str(startYear) + " ," + str(endYear) + ")")
+
+    def oneModeNetwork(self, mode, nodeCount = True, edgeWeight = True):
+        if mode not in tagToFull:
+            raise TypeError(mode + "is not a known tag, or the name of a known tag.")
+        if isilib.VERBOSE_MODE:
+            PBar = ProgressBar(0, "Starting to make a one mode network with " + mode)
+            count = 0
+        else:
+            PBar = None
+        grph = nx.Graph()
+        for R in self:
+            if PBar:
+                count += 1
+                PBar.updateVal(count / len(self), "Analyzing: " + str(R))
+            contents = getattr(R, mode, False)
+            if contents:
+                if isinstance(contents, list):
+                    tmplst = [str(n) for n in contents]
+                    if len(tmplst) > 1:
+                        for i, node1 in enumerate(tmplst):
+                            for node2 in tmplst[i + 1:]:
+                                if edgeWeight:
+                                    try:
+                                        grph.edge[node1][node2]['weight'] += 1
+                                    except KeyError:
+                                        grph.add_edge(node1, node2, weight = 1)
+                                else:
+                                    if not grph.has_edge(node1, node2):
+                                        grph.add_edge(node1, node2)
+                            if nodeCount:
+                                try:
+                                    grph.node[node1]['count'] += 1
+                                except KeyError:
+                                    grph.node[node1]['count'] = 1
+                            else:
+                                if not grph.has_node(node1):
+                                    grph.add_node(node1)
+                    elif len(tmplst) == 1:
+                        if nodeCount:
+                            try:
+                                grph.node[tmplst[0]]['count'] += 1
+                            except KeyError:
+                                grph.add_node(tmplst[0], count = 1)
+                        else:
+                            if not grph.has_node(tmplst[0]):
+                                grph.add_node(tmplst[0])
+                    else:
+                        pass
+                else:
+                    nodeVal = str(contents)
+                    if nodeCount:
+                        try:
+                            grph.node[nodeVal]['count'] += 1
+                        except KeyError:
+                            grph.add_node(nodeVal, count = 1)
+                    else:
+                        if not grph.has_node(nodeVal):
+                            grph.add_node(nodeVal)
+        if PBar:
+            PBar.finish("Done making a one mode network with " + mode)
+        return grph
 
 def isiParser(isifile):
     """

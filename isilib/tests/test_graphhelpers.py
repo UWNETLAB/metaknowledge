@@ -14,9 +14,7 @@ class TestHelpers(unittest.TestCase):
         isilib.VERBOSE_MODE = False
         self.RC = isilib.RecordCollection("tests/testFile.isi")
         self.G = self.RC.coCiteNetwork()
-
     def test_graphwrite(self):
-
         isilib.write_graph(self.G, fileShortName, suffix = filesuffix)
         tmpG = isilib.read_graph(fileEName, fileNName)
         self.assertEqual(len(tmpG.edges()), len(self.G.edges()))
@@ -36,3 +34,12 @@ class TestHelpers(unittest.TestCase):
         self.assertTrue("Writing edge list testNetworks_edgeList_undirected.tst" in s)
         os.remove(fileEName)
         isilib.VERBOSE_MODE = False
+    """
+    def test_dropEdges(self):
+        tmpG = isilib.drop_edges(self.G, 4)
+        self.assertEqual(len(tmpG.edges()), len(self.G.edges()))
+
+    def test_dropNodes(self):
+        tmpG = isilib.drop_nodes(self.G, 4)
+        self.assertEqual(len(tmpG.nodes()), len(self.G.nodes()))
+    """

@@ -271,9 +271,11 @@ class RecordCollection(object):
                 else:
                     tmpgrph.add_node(newN)
                 if weighted:
-                    tmpgrph.add_weighted_edges_from(edgeNodeReplacerGenerator(newN, tmpgrph.edges(n, data = True), 0))
+                    for edg in tmpgrph.edges(n, data = True):
+                        tmpgrph.add_edge(edg[1], newN, weight = edg[2]['weight'])
                 else:
-                    tmpgrph.add_edges_from(edgeNodeReplacerGenerator(newN, tmpgrph.edges(n, data = True), 0))
+                    for edg in tmpgrph.edges(n):
+                        tmpgrph.add_edge(edg[1], newN)
                 tmpgrph.remove_node(n)
         if PBar:
             PBar.finish("Done making a co-citation network of " + repr(self))

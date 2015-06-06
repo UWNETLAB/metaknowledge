@@ -6,7 +6,8 @@
 *_cites/ #<----------------------------------------------This might cause issues
 *.log
 cover/
-*special.py #Simple test scripts, they will be made into unitTests so no need to clutter the repo
+profiling/
+special.py
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

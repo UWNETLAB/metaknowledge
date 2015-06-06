@@ -111,3 +111,7 @@
 * writeFile() writes the RecordCollection as an WOS file
    - The output is usually bit for bit identical to a file download from WOS, although record order is not maintained
 * pop, returns a random record and removes it from the collection
+
+
+##Profiling
+- in progress

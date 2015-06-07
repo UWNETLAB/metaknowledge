@@ -105,6 +105,22 @@ class TestRecordCollection(unittest.TestCase):
         self.assertEqual(len(Gtit.nodes()), 31)
         self.assertEqual(len(Gtit.edges()), 0)
         self.assertEqual(len(self.RC.oneModeNetwork('email').edges()), 0)
+        self.assertEqual(len(self.RC.oneModeNetwork('UT').nodes()), len(self.RC) - 1)
         with self.assertRaises(TypeError):
             G = self.RC.oneModeNetwork('Not a Tag')
             del G
+
+    def test_twoMode(self):
+        self.RC.dropBadRecords()
+        Gutti = self.RC.twoModeNetwork('UT', 'title', directed = True, recordType = False)
+        Gafwc = self.RC.twoModeNetwork('AF', 'WC', nodeCount = False, edgeWeight = False)
+        Gd2em = self.RC.twoModeNetwork('D2', 'email')
+        Gemd2 = self.RC.twoModeNetwork('email', 'D2')
+        self.assertIsInstance(Gutti, nx.classes.digraph.DiGraph)
+        self.assertIsInstance(Gafwc, nx.classes.graph.Graph)
+        self.assertEqual(Gutti.edges('WOS:A1979GV55600001')[0][1][:31], "EXPERIMENTS IN PHENOMENOLOGICAL")
+        self.assertEqual(len(Gutti.nodes()), 2 * len(self.RC) - 1)
+        with self.assertRaises(TypeError):
+            G = self.RC.oneModeNetwork('Not a Tag', 'TI')
+            del G
+        self.assertTrue(nx.is_isomorphic(Gd2em, Gemd2))

@@ -392,7 +392,7 @@ class RecordCollection(object):
             if PBar:
                 count += 1
                 PBar.updateVal(count / len(self), "Analyzing: " + str(R))
-            contents = getattr(R, mode, False)
+            contents = getattr(R, mode, None)
             if contents:
                 if isinstance(contents, list):
                     tmplst = [str(n) for n in contents]
@@ -438,6 +438,97 @@ class RecordCollection(object):
                             grph.add_node(nodeVal)
         if PBar:
             PBar.finish("Done making a one mode network with " + mode)
+        return grph
+
+    def twoModeNetwork(self, tag1, tag2, directed = False, recordType = True, nodeCount = True, edgeWeight = True):
+        if (not tag1 in tagToFull) or (not tag2 in tagToFull):
+            raise TypeError(tag1 + " or " + tag2 + "is not a known tag, or the name of a known tag.")
+        if isilib.VERBOSE_MODE:
+            PBar = ProgressBar(0, "Starting to make a two mode network of " + tag1 + " and " + tag2)
+            count = 0
+        else:
+            PBar = None
+        if directed:
+            grph = nx.DiGraph()
+        else:
+            grph = nx.Graph()
+        for R in self:
+            if PBar:
+                count += 1
+                PBar.updateVal(count / len(self), "Analyzing: " + str(R))
+            contents1 = getattr(R, tag1, None)
+            contents2 = getattr(R, tag2, None)
+            if isinstance(contents1, list):
+                contents1 = [str(v) for v in contents1]
+            elif contents1 == None:
+                contents1 = []
+            else:
+                contents1 = [str(contents1)]
+            if isinstance(contents2, list):
+                contents2 = [str(v) for v in contents2]
+            elif contents2 == None:
+                contents2 = []
+            else:
+                contents2 = [str(contents2)]
+            for node1 in contents1:
+                for node2 in contents2:
+                    if edgeWeight:
+                        try:
+                            grph.edge[node1][node2]['weight'] += 1
+                        except KeyError:
+                            grph.add_edge(node1, node2, weight = 1)
+                    else:
+                        if not grph.has_edge(node1, node2):
+                            grph.add_edge(node1, node2)
+                if nodeCount:
+                    try:
+                        grph.node[node1]['count'] += 1
+                    except KeyError:
+                        try:
+                            grph.node[node1]['count'] = 1
+                            if recordType:
+                                grph.node[node1]['type'] = tag1
+                        except KeyError:
+                            if recordType:
+                                grph.add_node(node1, type = tag1)
+                            else:
+                                grph.add_node(node1)
+                else:
+                    if not grph.has_node(node1):
+                        if recordType:
+                            grph.add_node(node1, type = tag1)
+                        else:
+                            grph.add_node(node1)
+                    elif recordType:
+                        try:
+                            grph.node[node1]['type'] += tag1
+                        except KeyError:
+                            grph.node[node1]['type'] = tag1
+
+            for node2 in contents2:
+                if nodeCount:
+                    try:
+                        grph.node[node2]['count'] = 1
+                    except KeyError:
+                        try:
+                            grph.node[node2]['count'] = 1
+                        except KeyError:
+                            grph.add_node(node2, count = 1)
+                            if recordType:
+                                grph.node[node2]['type'] = tag2
+                else:
+                    if not grph.has_node(node2):
+                        if recordType:
+                            grph.add_node(node2, type = tag2)
+                        else:
+                            grph.add_node(node2)
+                    elif recordType:
+                        try:
+                            grph.node[node2]['type'] = tag2
+                        except KeyError:
+                            grph.node[node2]['type'] = tag2
+        if PBar:
+            PBar.finish("Done making a two mode network of " + tag1 + " and " + tag2)
         return grph
 
 def isiParser(isifile):

@@ -124,3 +124,8 @@ class TestRecordCollection(unittest.TestCase):
             G = self.RC.oneModeNetwork('Not a Tag', 'TI')
             del G
         self.assertTrue(nx.is_isomorphic(Gd2em, Gemd2))
+
+    def test_nMode(self):
+        G = self.RC.nModeNetwork(isilib.tagToFull.keys())
+        self.assertEqual(len(G.nodes()), 1156)
+        self.assertEqual(len(G.edges()), 56821)

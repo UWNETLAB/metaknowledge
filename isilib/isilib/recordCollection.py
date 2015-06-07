@@ -442,7 +442,7 @@ class RecordCollection(object):
 
     def twoModeNetwork(self, tag1, tag2, directed = False, recordType = True, nodeCount = True, edgeWeight = True):
         if (not tag1 in tagToFull) or (not tag2 in tagToFull):
-            raise TypeError(tag1 + " or " + tag2 + "is not a known tag, or the name of a known tag.")
+            raise TypeError(str(tag1) + " or " + str(tag2) + "is not a known tag, or the name of a known tag.")
         if isilib.VERBOSE_MODE:
             PBar = ProgressBar(0, "Starting to make a two mode network of " + tag1 + " and " + tag2)
             count = 0
@@ -529,6 +529,68 @@ class RecordCollection(object):
                             grph.node[node2]['type'] = tag2
         if PBar:
             PBar.finish("Done making a two mode network of " + tag1 + " and " + tag2)
+        return grph
+
+    def nModeNetwork(self, tags, recordType = True, nodeCount = True, edgeWeight = True):
+        for t in tags:
+            if t not in tagToFull:
+                raise TypeError(str(t) + " is not a known tag, or the name of a known tag.")
+        if isilib.VERBOSE_MODE:
+            PBar = ProgressBar(0, "Starting to make a " + str(len(tags)) + "-mode network of: " + ', '.join(tags))
+            count = 0
+        else:
+            PBar = None
+        grph = nx.Graph()
+        for R in self:
+            if PBar:
+                count += 1
+                PBar.updateVal(count / len(self), "Analyzing: " + str(R))
+            contents = []
+            for t in tags:
+                tmpVal = getattr(R, t, None)
+                if tmpVal:
+                    if isinstance(tmpVal, list):
+                        contents.append((t, [str(v) for v in tmpVal]))
+                    else:
+                        contents.append((t, [str(tmpVal)]))
+            for i, vlst1 in enumerate(contents):
+                for node1 in vlst1[1]:
+                    for vlst2 in contents[i + 1:]:
+                        for node2 in vlst2[1]:
+                            if edgeWeight:
+                                try:
+                                    grph.edge[node1][node2]['weight'] += 1
+                                except KeyError:
+                                    grph.add_edge(node1, node2, weight = 1)
+                            else:
+                                if not grph.has_edge(node1, node2):
+                                    grph.add_edge(node1, node2)
+                    if nodeCount:
+                        try:
+                            grph.node[node1]['count'] += 1
+                        except KeyError:
+                            try:
+                                grph.node[node1]['count'] = 1
+                                if recordType:
+                                    grph.node[node1]['type'] = vlst1[0]
+                            except KeyError:
+                                if recordType:
+                                    grph.add_node(node1, type = vlst1[0])
+                                else:
+                                    grph.add_node(node1)
+                    else:
+                        if not grph.has_node(node1):
+                            if recordType:
+                                grph.add_node(node1, type = vlst1[0])
+                            else:
+                                grph.add_node(node1)
+                        elif recordType:
+                            try:
+                                grph.node[node1]['type'] += vlst1[0]
+                            except KeyError:
+                                grph.node[node1]['type'] = vlst1[0]
+        if PBar:
+            PBar.finish("Done making a " + str(len(tags)) + "-mode network of: " +  ', '.join(tags))
         return grph
 
 def isiParser(isifile):

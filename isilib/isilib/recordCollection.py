@@ -271,27 +271,6 @@ class RecordCollection(object):
                         else:
                             for n, c1 in enumerate(citeHashList):
                                 tmpgrph.add_edges_from(edgeBunchGenerator(c1, citeHashList[n:]))
-            """
-            if PBar:
-                count = 0
-                cMax = len(tmpgrph.nodes())
-            for n in tmpgrph.nodes():
-                if PBar:
-                    count += 1
-                    if count % 50 == 0:
-                        PBar.updateVal((count/cMax) *.5 + .5, "Hashing: " + str(n))
-                newN = hash(n)
-                if extraInfo:
-                    tmpgrph.add_node(newN, info=str(n))
-                else:
-                    tmpgrph.add_node(newN)
-                if weighted:
-                    for edg in tmpgrph.edges(n, data = True):
-                        tmpgrph.add_edge(edg[1], newN, weight = edg[2]['weight'])
-                else:
-                    for edg in tmpgrph.edges(n):
-                        tmpgrph.add_edge(edg[1], newN)
-                tmpgrph.remove_node(n)"""
         if PBar:
             PBar.finish("Done making a co-citation network of " + repr(self))
         return tmpgrph
@@ -374,30 +353,6 @@ class RecordCollection(object):
                         tmpgrph.add_weighted_edges_from(edgeBunchGenerator(recHash, citeHashs, weighted = True))
                     else:
                         tmpgrph.add_edges_from(edgeBunchGenerator(recHash, citeHashs))
-            """if PBar:
-                count = 0
-                cMax = len(tmpgrph.nodes())
-            for n in tmpgrph.nodes():
-                if PBar:
-                    count += 1
-                    if count % 50 == 0:
-                        PBar.updateVal((count/cMax) *.5 + .5, "Hashing: " + str(n))
-                newN = hash(n)
-                if extraInfo:
-                    tmpgrph.add_node(newN, info=str(n))
-                else:
-                    tmpgrph.add_node(newN)
-                if weighted:
-                    for edg in tmpgrph.in_edges(n, data = True):
-                        tmpgrph.add_edge(edg[0], newN, weight = edg[2]['weight'])
-                    for edg in tmpgrph.out_edges(n, data = True):
-                        tmpgrph.add_edge(newN, edg[1], weight = edg[2]['weight'])
-                else:
-                    for edg in tmpgrph.in_edges(n, data = True):
-                        tmpgrph.add_edge(edg[0], newN)
-                    for edg in tmpgrph.out_edges(n, data = True):
-                        tmpgrph.add_edge(newN, edg[1])
-                tmpgrph.remove_node(n)"""
         if PBar:
             PBar.finish("Done making a citation network of " + repr(self))
         return tmpgrph

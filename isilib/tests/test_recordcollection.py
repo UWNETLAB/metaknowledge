@@ -59,7 +59,7 @@ class TestRecordCollection(unittest.TestCase):
         self.assertTrue('info' in Gdefault.nodes(data = True)[0][1])
         self.assertFalse('weight' in Gunwei.edges(data = True)[0][2])
         self.assertEqual(len(Gdefault.nodes()), 508)
-        self.assertEqual(len(Gdefault.edges()), 13843)
+        self.assertEqual(len(Gdefault.edges()), 14351)
         self.assertEqual(len(Gauths.nodes()), 317)
         self.assertEqual(len(Gauths.edges()), 6872)
 
@@ -85,7 +85,7 @@ class TestRecordCollection(unittest.TestCase):
         self.assertFalse('weight' in Gunwei.edges(data = True)[0][2])
         self.assertGreater(len(Gdefault.nodes()), len(Gauths.nodes()))
         self.assertGreater(len(Ganon.nodes()), len(Gdefault.nodes()))
-        self.assertEqual(len(Gdefault.nodes()), 524)
+        self.assertEqual(len(Gdefault.nodes()), 525)
         self.assertEqual(len(Ganon.nodes()), 543)
         self.assertEqual(len(Gauths.nodes()), 320)
         self.assertEqual(len(Gdefault.edges()), 832)

@@ -318,21 +318,45 @@ class RecordCollection(object):
             if dropAnon:
                 tmpgrph.remove_node("[ANONYMOUS]")
         else:
+            citesDict= {}
             for R in self:
                 if PBar:
                     count += 1
                     PBar.updateVal(count / len(self) * .5, "Analyzing: " + str(R))
                 reRef = R.createCitation()
+                recHash = hash(reRef)
                 rCites = R.citations
                 if dropAnon and reRef.isAnonymous():
                     continue
+                if recHash not in tmpgrph:
+                    if reRef in citesDict:
+                        recHash = citesDict[reRef]
+                    else:
+                        citesDict[reRef] = recHash
+                        if extraInfo:
+                            tmpgrph.add_node(recHash, info = str(reRef))
+                        else:
+                            tmpgrph.add_node(recHash)
                 if rCites:
                     rCites = [c for c in rCites if not c.isAnonymous()] if dropAnon else rCites
+                    citeHashs = []
+                    for refCite in rCites:
+                        citeHash = hash(refCite)
+                        if citeHash not in tmpgrph:
+                            if refCite in citesDict:
+                                citeHash = citesDict[refCite]
+                            else:
+                                citesDict[refCite] = citeHash
+                                if extraInfo:
+                                    tmpgrph.add_node(citeHash, info = str(refCite))
+                                else:
+                                    tmpgrph.add_node(citeHash)
+                        citeHashs.append(citeHash)
                     if weighted:
-                        tmpgrph.add_weighted_edges_from(edgeBunchGenerator(reRef, rCites, weighted = True))
+                        tmpgrph.add_weighted_edges_from(edgeBunchGenerator(recHash, citeHashs, weighted = True))
                     else:
-                        tmpgrph.add_edges_from(edgeBunchGenerator(reRef, rCites))
-            if PBar:
+                        tmpgrph.add_edges_from(edgeBunchGenerator(recHash, citeHashs))
+            """if PBar:
                 count = 0
                 cMax = len(tmpgrph.nodes())
             for n in tmpgrph.nodes():
@@ -355,7 +379,7 @@ class RecordCollection(object):
                         tmpgrph.add_edge(edg[0], newN)
                     for edg in tmpgrph.out_edges(n, data = True):
                         tmpgrph.add_edge(newN, edg[1])
-                tmpgrph.remove_node(n)
+                tmpgrph.remove_node(n)"""
         if PBar:
             PBar.finish("Done making a citation network of " + repr(self))
         return tmpgrph

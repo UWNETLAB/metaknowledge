@@ -240,24 +240,36 @@ class RecordCollection(object):
                         elif Cites[0] not in tmpgrph:
                             tmpgrph.add_node(Cites[0].author)
         else:
+            citesDict = {}
             for R in self:
                 if PBar:
                     count += 1
-                    PBar.updateVal((count/ len(self) * .5), "Analyzing: " + str(R))
+                    PBar.updateVal((count/ len(self)), "Analyzing: " + str(R))
                 Cites = R.citations
                 if Cites:
                     if dropAnon:
                         Cites = [c for c in Cites if not c.isAnonymous()]
-                    if len(Cites) > 1:
+                    citeHashList = []
+                    for cite in Cites:
+                        citeHash = hash(cite)
+                        if citeHash not in tmpgrph:
+                            if cite in citesDict:
+                                citeHash = citesDict[cite]
+                            else:
+                                citesDict[cite] = citeHash
+                                if extraInfo:
+                                    tmpgrph.add_node(citeHash, info = str(cite))
+                                else:
+                                    tmpgrph.add_node(citeHash)
+                        citeHashList.append(citeHash)
+                    if len(citeHashList) > 1:
                         if weighted:
-                            for n, c1 in enumerate(Cites):
-                                tmpgrph.add_weighted_edges_from(edgeBunchGenerator(c1, Cites[n:], weighted = True))
+                            for n, c1 in enumerate(citeHashList):
+                                tmpgrph.add_weighted_edges_from(edgeBunchGenerator(c1, citeHashList[n:], weighted = True))
                         else:
-                            for n, c1 in enumerate(Cites):
-                                tmpgrph.add_edges_from(edgeBunchGenerator(c1, Cites[n:]))
-                    elif len(Cites) == 1:
-                        if Cites[0] not in tmpgrph:
-                            tmpgrph.add_node(Cites[0])
+                            for n, c1 in enumerate(citeHashList):
+                                tmpgrph.add_edges_from(edgeBunchGenerator(c1, citeHashList[n:]))
+            """
             if PBar:
                 count = 0
                 cMax = len(tmpgrph.nodes())
@@ -277,7 +289,7 @@ class RecordCollection(object):
                 else:
                     for edg in tmpgrph.edges(n):
                         tmpgrph.add_edge(edg[1], newN)
-                tmpgrph.remove_node(n)
+                tmpgrph.remove_node(n)"""
         if PBar:
             PBar.finish("Done making a co-citation network of " + repr(self))
         return tmpgrph
@@ -318,11 +330,11 @@ class RecordCollection(object):
             if dropAnon:
                 tmpgrph.remove_node("[ANONYMOUS]")
         else:
-            citesDict= {}
+            citesDict = {}
             for R in self:
                 if PBar:
                     count += 1
-                    PBar.updateVal(count / len(self) * .5, "Analyzing: " + str(R))
+                    PBar.updateVal(count / len(self), "Analyzing: " + str(R))
                 reRef = R.createCitation()
                 recHash = hash(reRef)
                 rCites = R.citations

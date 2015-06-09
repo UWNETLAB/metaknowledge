@@ -240,7 +240,7 @@ class RecordCollection(object):
                         elif Cites[0] not in tmpgrph:
                             tmpgrph.add_node(Cites[0].author)
         else:
-            citesDict = {}
+            citesList = []
             for R in self:
                 if PBar:
                     count += 1
@@ -253,14 +253,16 @@ class RecordCollection(object):
                     for cite in Cites:
                         citeHash = hash(cite)
                         if citeHash not in tmpgrph:
-                            if cite in citesDict:
-                                citeHash = citesDict[cite]
-                            else:
-                                citesDict[cite] = citeHash
+                            try:
+                                indx = citesList.index(cite)
+                            except ValueError:
+                                citesList.append(cite)
                                 if extraInfo:
                                     tmpgrph.add_node(citeHash, info = str(cite))
                                 else:
                                     tmpgrph.add_node(citeHash)
+                            else:
+                                citeHash = hash(citesList[indx])
                         citeHashList.append(citeHash)
                     if len(citeHashList) > 1:
                         if weighted:

@@ -240,7 +240,7 @@ class RecordCollection(object):
                         elif Cites[0] not in tmpgrph:
                             tmpgrph.add_node(Cites[0].author)
         else:
-            citesList = []
+            citesSet = set()
             for R in self:
                 if PBar:
                     count += 1
@@ -253,16 +253,16 @@ class RecordCollection(object):
                     for cite in Cites:
                         citeHash = hash(cite)
                         if citeHash not in tmpgrph:
-                            try:
-                                indx = citesList.index(cite)
-                            except ValueError:
-                                citesList.append(cite)
+                            if cite in citesSet:
+                                for c in citesSet:
+                                    if cite == c:
+                                        citeHash = hash(c)
+                            else:
+                                citesSet.add(cite)
                                 if extraInfo:
                                     tmpgrph.add_node(citeHash, info = str(cite))
                                 else:
                                     tmpgrph.add_node(citeHash)
-                            else:
-                                citeHash = hash(citesList[indx])
                         citeHashList.append(citeHash)
                     if len(citeHashList) > 1:
                         if weighted:
@@ -332,7 +332,7 @@ class RecordCollection(object):
             if dropAnon:
                 tmpgrph.remove_node("[ANONYMOUS]")
         else:
-            citesDict = {}
+            citesSet = set()
             for R in self:
                 if PBar:
                     count += 1
@@ -343,10 +343,12 @@ class RecordCollection(object):
                 if dropAnon and reRef.isAnonymous():
                     continue
                 if recHash not in tmpgrph:
-                    if reRef in citesDict:
-                        recHash = citesDict[reRef]
+                    if reRef in citesSet:
+                        for c in citesSet:
+                            if reRef == c:
+                                recHash = hash(c)
                     else:
-                        citesDict[reRef] = recHash
+                        citesSet.add(reRef)
                         if extraInfo:
                             tmpgrph.add_node(recHash, info = str(reRef))
                         else:
@@ -357,10 +359,12 @@ class RecordCollection(object):
                     for refCite in rCites:
                         citeHash = hash(refCite)
                         if citeHash not in tmpgrph:
-                            if refCite in citesDict:
-                                citeHash = citesDict[refCite]
+                            if refCite in citesSet:
+                                for c in citesSet:
+                                    if refCite == c:
+                                        citeHash = hash(c)
                             else:
-                                citesDict[refCite] = citeHash
+                                citesSet.add(refCite)
                                 if extraInfo:
                                     tmpgrph.add_node(citeHash, info = str(refCite))
                                 else:

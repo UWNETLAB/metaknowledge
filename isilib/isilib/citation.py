@@ -67,7 +67,7 @@ class Citation(object):
             return NotImplemented
         elif getattr(self, 'DOI', None) == getattr(other, 'DOI', False):
             return True
-        elif getattr(self, 'author', None) != getattr(other, 'author', None) and getattr(self, 'author') != '[ANONYMOUS]' and getattr(other, 'author') != '[ANONYMOUS]':
+        elif getattr(self, 'author', None) != getattr(other, 'author', None) and getattr(self, 'author', None) != '[ANONYMOUS]' and getattr(other, 'author', False) != '[ANONYMOUS]':
             return False
         elif getattr(self, 'year', None) != getattr(other, 'year', None):
             return False

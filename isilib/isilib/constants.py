@@ -19,7 +19,13 @@ def makeBiDirectional(d):
         dTmp[d[k]] = k
     return dTmp
 
-tagToFull = makeBiDirectional({
+def reverseDict(d):
+    retD = {}
+    for k in d:
+        retD[d[k]] = k
+    return retD
+
+tagToFull = {
             'PT' : "pubType",
             'AF' : "authorsFull",
             #'GA' : "groupAuthors", Old usage
@@ -82,4 +88,10 @@ tagToFull = makeBiDirectional({
             'GA' : "documentDeliveryNumber",
             'UT' : "wosString",
             'PM' : "pubMedID",
-            })
+            }
+
+fullToTag = reverseDict(tagToFull)
+
+tagNameConverter = makeBiDirectional(tagToFull)
+
+tagsAndNames = set(tagNameConverter.keys())

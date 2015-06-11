@@ -1,4 +1,4 @@
-from .constants import tagToFull, monthDict
+from .constants import tagNameConverter, monthDict
 from .citation import Citation
 
 class tagWrapper(object):
@@ -6,7 +6,7 @@ class tagWrapper(object):
         self.tag = tag
         self.data = None
         try:
-            self.name = tagToFull[tag]
+            self.name = tagNameConverter[tag]
             setattr(parent, self.name, self)
         except KeyError:
             pass
@@ -142,7 +142,7 @@ def makeReversed(d):
     dTmp = d.copy()
     for k in d.keys():
         try:
-            dTmp[tagToFull[k]] = dTmp[k]
+            dTmp[tagNameConverter[k]] = dTmp[k]
         except KeyError:
             raise Exception("Something is wrong with the tag to full name mappings")
     return dTmp

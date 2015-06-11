@@ -5,7 +5,7 @@ import io
 import collections
 
 from .citation import Citation
-from .constants import tagToFull
+from .constants import tagNameConverter, tagsAndNames
 from .recordTagFunctions import tagToFunc
 
 class BadISIRecord(Warning):
@@ -97,7 +97,7 @@ class Record(object):
                 self.__dict__[tag] = None
                 self._unComputedTags.add(tag)
                 try:
-                    fullName = tagToFull[tag]
+                    fullName = tagNameConverter[tag]
                 except KeyError:
                     pass
                 else:
@@ -108,7 +108,7 @@ class Record(object):
         try:
             val = object.__getattribute__(self, name)
         except AttributeError:
-            if name in tagToFull:
+            if name in tagsAndNames:
                 return None
             else:
                 raise
@@ -118,7 +118,7 @@ class Record(object):
             else:
                 if name in self._unComputedTags:
                     try:
-                        otherName = tagToFull[name]
+                        otherName = tagNameConverter[name]
                     except KeyError:
                         try:
                             tagVal = tagToFunc[name](self._fieldDict[name])

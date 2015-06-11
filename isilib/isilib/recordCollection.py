@@ -2,7 +2,7 @@
 import isilib
 from .record import Record, BadISIFile
 from .graphHelpers import ProgressBar
-from .constants import tagToFull
+from .constants import tagNameConverter, tagsAndNames
 
 import itertools
 import os.path
@@ -144,6 +144,12 @@ class RecordCollection(object):
         if len(self._Records) > 0:
             self._repr = "Pop " + self._repr
             return self._Records.pop()
+        else:
+            return None
+
+    def peak(self):
+        if len(self._Records) > 0:
+            return self._Records.__iter__().__next__()
         else:
             return None
 
@@ -377,7 +383,7 @@ class RecordCollection(object):
         return RecordCollection(recordsInRange, repr(self) + "_(" + str(startYear) + " ," + str(endYear) + ")")
 
     def oneModeNetwork(self, mode, nodeCount = True, edgeWeight = True):
-        if mode not in tagToFull:
+        if mode not in tagsAndNames:
             raise TypeError(mode + "is not a known tag, or the name of a known tag.")
         if isilib.VERBOSE_MODE:
             PBar = ProgressBar(0, "Starting to make a one mode network with " + mode)
@@ -438,7 +444,7 @@ class RecordCollection(object):
         return grph
 
     def twoModeNetwork(self, tag1, tag2, directed = False, recordType = True, nodeCount = True, edgeWeight = True):
-        if (not tag1 in tagToFull) or (not tag2 in tagToFull):
+        if (not tag1 in tagsAndNames) or (not tag2 in tagsAndNames):
             raise TypeError(str(tag1) + " or " + str(tag2) + "is not a known tag, or the name of a known tag.")
         if isilib.VERBOSE_MODE:
             PBar = ProgressBar(0, "Starting to make a two mode network of " + tag1 + " and " + tag2)
@@ -530,7 +536,7 @@ class RecordCollection(object):
 
     def nModeNetwork(self, tags, recordType = True, nodeCount = True, edgeWeight = True):
         for t in tags:
-            if t not in tagToFull:
+            if t not in tagsAndNames:
                 raise TypeError(str(t) + " is not a known tag, or the name of a known tag.")
         if isilib.VERBOSE_MODE:
             PBar = ProgressBar(0, "Starting to make a " + str(len(tags)) + "-mode network of: " + ', '.join(tags))

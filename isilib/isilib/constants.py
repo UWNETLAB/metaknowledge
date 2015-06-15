@@ -2,7 +2,7 @@ def isInteractive():
     import sys
     try:
         s = sys.ps1
-        if isinstance(s, str):
+        if isinstance(s, str) and sys.stdout.isatty():
             return True
         else:
             return False

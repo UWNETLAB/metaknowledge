@@ -384,7 +384,7 @@ class RecordCollection(object):
 
     def oneModeNetwork(self, mode, nodeCount = True, edgeWeight = True):
         if mode not in tagsAndNames:
-            raise TypeError(mode + "is not a known tag, or the name of a known tag.")
+            raise TypeError(mode + " is not a known tag, or the name of a known tag.")
         if isilib.VERBOSE_MODE:
             PBar = ProgressBar(0, "Starting to make a one mode network with " + mode)
             count = 0
@@ -445,7 +445,7 @@ class RecordCollection(object):
 
     def twoModeNetwork(self, tag1, tag2, directed = False, recordType = True, nodeCount = True, edgeWeight = True):
         if (not tag1 in tagsAndNames) or (not tag2 in tagsAndNames):
-            raise TypeError(str(tag1) + " or " + str(tag2) + "is not a known tag, or the name of a known tag.")
+            raise TypeError(str(tag1) + " or " + str(tag2) + " is not a known tag, or the name of a known tag.")
         if isilib.VERBOSE_MODE:
             PBar = ProgressBar(0, "Starting to make a two mode network of " + tag1 + " and " + tag2)
             count = 0

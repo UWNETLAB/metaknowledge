@@ -503,18 +503,18 @@ class RecordCollection(object):
                         else:
                             grph.add_node(node1)
                     elif recordType:
-                        try:
-                            grph.node[node1]['type'] += tag1
-                        except KeyError:
+                        if 'type' not in grph.node[node1]:
                             grph.node[node1]['type'] = tag1
 
             for node2 in contents2:
                 if nodeCount:
                     try:
-                        grph.node[node2]['count'] = 1
+                        grph.node[node2]['count'] += 1
                     except KeyError:
                         try:
                             grph.node[node2]['count'] = 1
+                            if recordType:
+                                grph.node[node2]['type'] = tag2
                         except KeyError:
                             grph.add_node(node2, count = 1)
                             if recordType:
@@ -526,9 +526,7 @@ class RecordCollection(object):
                         else:
                             grph.add_node(node2)
                     elif recordType:
-                        try:
-                            grph.node[node2]['type'] = tag2
-                        except KeyError:
+                        if 'type' not in grph.node[node2]:
                             grph.node[node2]['type'] = tag2
         if PBar:
             PBar.finish("Done making a two mode network of " + tag1 + " and " + tag2)

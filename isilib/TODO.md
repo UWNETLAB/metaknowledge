@@ -23,6 +23,7 @@
 * reconsider how directories are handled
 
 ### Citation
+* mark paper's citaions in CiteNetwork
 * example edge case
    - Centraal Bureau voor de Statistiek, 2010, 200 JAAR STAT TIJDR
 

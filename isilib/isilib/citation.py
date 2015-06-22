@@ -5,6 +5,13 @@ class BadCitation(Warning):
     pass
 
 class Citation(object):
+    """
+    A object to hold citation strings and allow for comparsion between them.
+    It takes in a citation string from the CR tag of a WOS record then attempts to extract the DOI ,author, year, journal, Volume (V) and Page (P) of the citation string, any extra values are put in misc.
+    If the citation string does not have 3 comman space seperated elements or has 2 or more only numeric elements it is flagged as bad and all of the string is stroed in misc
+
+    """
+
     def __init__(self, cite):
         self.original = cite
         self.bad = False
@@ -83,15 +90,25 @@ class Citation(object):
             return True
 
     def __ne__(self, other):
+        """
+        Returns the inverse of equality
+        """
         return not self == other
 
     def isAnonymous(self):
+        """
+        checks if the author is given as "[ANONYMOUS]" and returns True if so
+        """
         if hasattr(self, 'author'):
             return self.author == "[ANONYMOUS]"
         else:
             return True
 
     def getID(self):
+        """
+        Returns "author, year" if both avaible "author" if year is not avaible and "misc" otherwise
+        Use for shortening labels
+        """
         if not self.bad:
             return self.author + ', ' + self.year
         elif hasattr(self, 'author'):
@@ -103,6 +120,9 @@ class Citation(object):
             return self.misc
 
     def getExtra(self):
+        """
+        Returns any journal, V, P or misc values as a string
+         """
         extraTags = ['journal','V', 'P', 'misc']
         retVal = ""
         for tag in extraTags:

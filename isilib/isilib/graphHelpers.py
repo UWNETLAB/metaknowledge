@@ -8,6 +8,14 @@ import time
 import math
 
 def read_graph(edgeList, nodeList = None, directed = False, idKey = 'ID', eSource = 'From', eDest = 'To'):
+    """
+    Reads the files given by edgeList and if given nodeList and produces a networkx graph
+    This is designed only for the files produced by isilib and is menat to be the reverse of write_graph()
+
+    nodeList must be given if any of the attributes of the node are needed
+    directed controls if the resultant grpah is directional eSource and eDest control the direction
+    iDKey, eSource and  eDest are the lables for the edge's id, source and destination respectivley, they must match headers in the file or a keyError excetion will be thrown
+    """
     if isilib.VERBOSE_MODE:
         PBar = ProgressBar(0, "Starting to reading graphs")
     else:

@@ -127,5 +127,5 @@ class TestRecordCollection(unittest.TestCase):
 
     def test_nMode(self):
         G = self.RC.nModeNetwork(isilib.tagToFull.keys())
-        self.assertEqual(len(G.nodes()), 1156)
-        self.assertEqual(len(G.edges()), 35852)
+        self.assertEqual(len(G.nodes()), 1155)
+        self.assertEqual(len(G.edges()), 34697)

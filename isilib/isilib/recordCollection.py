@@ -2,7 +2,7 @@
 import isilib
 from .record import Record, BadISIFile
 from .graphHelpers import ProgressBar
-from .constants import tagNameConverter, tagsAndNames
+from .constants import tagsAndNames
 
 import itertools
 import os.path
@@ -10,6 +10,21 @@ import os.path
 import networkx as nx
 
 class RecordCollection(object):
+    """
+    A way of containing a large number of Record objects, it provides ways of creating them from an isi file, string, list of records or directory containing isi files. The Records are containing within a set and as such many of the set operations are defined, pop, union, in ... also records are hashed with their WOS string so no duplication can occur.
+    The comparison operators <, <=, >, >= are based strictly on the number of Records within the collection, while equality looks for an exact match on the Records
+
+    When being created if there are issues the Record collection will be declared bad (self.bad = True) it will then mostly return nothing or False. The error attribute contains the exception that occurred.
+
+    They also possess a name accessed with repr(), this is used to auto generate the names of files and can be set at creation, note though that any operations that modify the RecordCollection's contents will update the name to include what occurred, read __repr__'s doc string for more information
+
+    inCollection is the object containing the information about the Records to be constructed it can be an isi file, string, list of records or directory containing isi files
+
+    name sets the name of the of the record if left blank name will be generated based on the object that created the Recordcollection
+
+    extension controls the extension that __init__ looks for when reading a directory, set it to the extension on the isi files you wish to load, if left blank all files will be tried and any that are not isi files will be silently skipped
+    """
+
     def __init__(self, inCollection = None, name = '', extension = ''):
         self.bad = False
         self._repr = name
@@ -55,7 +70,10 @@ class RecordCollection(object):
                     try:
                         self._Records |= set(isiParser(file))
                     except BadISIFile:
-                        pass
+                        if extension != '':
+                            raise
+                        else:
+                            pass
                     except UnicodeDecodeError:
                         pass
                 if PBar:
@@ -70,6 +88,9 @@ class RecordCollection(object):
             raise TypeError
 
     def __add__(self, other):
+        """
+        returns the union of the two RecordCollections
+        """
         if self.bad and other.bad:
             return RecordCollection(set(), '[BAD ' + repr(self) + ']'+ '_plus_' + '[BAD ' +  repr(other) + ']')
         if self.bad:
@@ -80,27 +101,50 @@ class RecordCollection(object):
             return RecordCollection(self._Records | other._Records, repr(self) + '_plus_' + repr(other))
 
     def __and__(self, other):
+        """
+        returns the intersection of the two RecordCollections
+        """
         if self.bad or other.bad:
             raise Exception
         else:
             return RecordCollection(self._Records & other._Records, repr(self) + '_and_' + repr(other))
 
     def __sub__(self, other):
+        """
+        returns the difference of the two RecordCollections
+        """
         if self.bad or other.bad:
             raise Exception
         else:
             return RecordCollection(self._Records - other._Records, repr(self) + '_diff_' + repr(other))
 
     def __xor__(self, other):
+        """
+        returns the symmetric difference of the two RecordCollections
+        """
         if self.bad or other.bad:
             raise Exception
         else:
             return RecordCollection(self._Records ^ other._Records, repr(self) + '_symdiff_' + repr(other))
 
     def __str__(self):
+        """
+        Returns a string giving the the number Records in a sentence:
+        "Collection of # records"
+        """
         return "Collection of " + str(len(self._Records)) + " records"
 
     def __repr__(self):
+        """
+        The name of the RecordCollection, this used to identify the Collection when it is written as a file by writeFile() or in some of CL scripts
+        It is updated when some modification of the RecordCollection occurs i.e.
+        >>> RC = isilib.RecordCollection('.', extension = 'isi')
+        >>> repr(RC)
+        isi-files-from-.
+        >>> R = RC.pop()
+        >>> repr(RC)
+        pop-isi-files-from-.
+        """
         return self._repr
 
     def __lt__(self, other):
@@ -134,26 +178,56 @@ class RecordCollection(object):
         return not self == other
 
     def __len__(self):
+        """
+        returns the number or Records
+        """
         return len(self._Records)
 
     def __iter__(self):
+        """
+        iterates over the Records
+        """
         for R in self._Records:
             yield R
 
+    def __contains__(self, item):
+        """
+        Returns True if the item is a WOS string of one of the Records containing or if item is a Record checks if the record is in the RecordCollection, otherwise returns False
+        """
+        if isinstance(item, str):
+            for R in self:
+                if R.UT == item:
+                    return True
+            return False
+        elif isinstance(item, Record):
+            return item in self._Records
+        else:
+            return False
+
+
     def pop(self):
+        """
+        Returns a random Record from the recordCollection, the Record is deleted from the collection, use peak for nondestructive access
+        """
         if len(self._Records) > 0:
-            self._repr = "Pop " + self._repr
+            self._repr = "Pop-" + self._repr
             return self._Records.pop()
         else:
             return None
 
     def peak(self):
+        """
+        Returns a random Record from the recordCollection, the Record is kept in the collection, use pop for faster destructive access
+        """
         if len(self._Records) > 0:
             return self._Records.__iter__().__next__()
         else:
             return None
 
     def getBadRecords(self):
+        """
+        returns RecordCollection containing all the Record which have their bad flag set to True, i.e. all those removed by dropBadRecords()
+        """
         badRecords = set()
         for R in self._Records:
             if R.bad:
@@ -161,9 +235,18 @@ class RecordCollection(object):
         return RecordCollection(badRecords, repr(self) + '_badRecords')
 
     def dropBadRecords(self):
+        """
+        Removes all Records with bad attributes == True from the collection
+        """
         self._Records = {r for r in self._Records if not r.bad}
+        self._repr = repr(self) + '_badRecordsDropped'
 
     def writeFile(self, fname = None):
+        """
+        Writes the RecordCollection to a file, the written file is identical to those download from WOS. The order of Records written is random.
+
+        fname set the name of the file, if blank the RecordCollection's name's first 200 characters are use with the suffix .isi
+        """
         if fname:
             f = open(fname, mode = 'w', encoding = 'utf-8')
         else:

@@ -6,9 +6,9 @@ class BadCitation(Warning):
 
 class Citation(object):
     """
-    A object to hold citation strings and allow for comparsion between them.
+    A object to hold citation strings and allow for comparison between them.
     It takes in a citation string from the CR tag of a WOS record then attempts to extract the DOI ,author, year, journal, Volume (V) and Page (P) of the citation string, any extra values are put in misc.
-    If the citation string does not have 3 comman space seperated elements or has 2 or more only numeric elements it is flagged as bad and all of the string is stroed in misc
+    If the citation string does not have 3 comma space separated elements or has 2 or more only numeric elements it is flagged as bad and all of the string is stored in misc
 
     """
 
@@ -106,7 +106,7 @@ class Citation(object):
 
     def getID(self):
         """
-        Returns "author, year" if both avaible "author" if year is not avaible and "misc" otherwise
+        Returns "author, year" if both available "author" if year is not available and "misc" otherwise
         Use for shortening labels
         """
         if not self.bad:

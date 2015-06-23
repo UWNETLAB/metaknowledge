@@ -33,7 +33,7 @@ def makeBiDirectional(d):
 def reverseDict(d):
     """
     Helper for generating fullToTag
-    Makes dict of vlaue to key
+    Makes dict of value to key
     """
     retD = {}
     for k in d:
@@ -42,7 +42,7 @@ def reverseDict(d):
 
 tagToFull = {
         """
-        Converts WOS tags to more descritive names
+        Converts WOS tags to more descriptive names
         This is all tags known about and is mostly likely not a complete list
         The names are not official and are added by the author
         """
@@ -112,6 +112,6 @@ tagToFull = {
 
 fullToTag = reverseDict(tagToFull) #Reverses tagToFull
 
-tagNameConverter = makeBiDirectional(tagToFull) #tagToFull made revesible
+tagNameConverter = makeBiDirectional(tagToFull) #tagToFull made reversible
 
 tagsAndNames = set(tagNameConverter.keys()) #set of WOS tags ad their names

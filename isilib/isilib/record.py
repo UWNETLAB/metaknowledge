@@ -105,6 +105,9 @@ class Record(object):
                     self._unComputedTags.add(fullName)
 
     def __getattribute__(self, name):
+        """
+        Hack to get the attributes correct
+        """
         try:
             val = object.__getattribute__(self, name)
         except AttributeError:
@@ -181,21 +184,30 @@ class Record(object):
         return hash(self._wosNum)
 
     def __getstate__(self):
+        """
+        gets the __dict__ of the Record
+        """
         return self.__dict__
 
     def __setstate__(self, state):
         """
-        This is nessary because __getattribute__ is overwritten
+        This is necessary because __getattribute__ is overwritten
         """
         for k in state:
             object.__setattr__(self, k, state[k])
 
     @property
     def wosString(self):
+        """
+        Returns the WOS number (UT tag) of the record
+        """
         return self._wosNum
 
     @property
     def UT(self):
+        """
+        Returns the UT tag (WOS number) of the record
+        """
         return self._wosNum
 
     def getTag(self, tag):
@@ -209,6 +221,9 @@ class Record(object):
             return None
 
     def createCitation(self):
+        """
+        Creates a citation string for the Record by reading the relevant tags(year, j9, volume, beginningPage, DOI) and using it to start a Citation object
+        """
         valsLst = []
         if self.authorsShort:
             valsLst.append(self.authorsShort[0].replace(',', ''))

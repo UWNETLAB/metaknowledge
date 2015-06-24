@@ -282,6 +282,84 @@ class ProgressBar(object):
             return "{1:{0}.1f}s".format(maxLength - 1,t)
 
 
+def drop_edges(grph, minWeight = -float('inf'), maxWeight = float('inf'), parameterName = 'weight', ignoreUnweighted = False):
+    """
+    Returns a graph with edges whose weight is within the inclusive bounds of minWeight and maxWeight, i.e minWeight <= edges weight <= maxWeight, will throw a Keyerror if the graph is unweighted
+
+    minWeight and maxWeight default to negative and positive infinity respectively so without specifying either the output should be the input
+
+    parameterName is key to weight field in the edge's dictionary, default is weight as that is almost always correct
+
+    ignoreUnweighted can be set False to suppress the KeyError and make unweighted edges be ignored
+    """
+    if isilib.VERBOSE_MODE:
+        PBar = ProgressBar(0, "Dropping edges")
+        count = 0
+        total = len(grph.edges())
+    else:
+        PBar = None
+    tmpGrph = grph.copy()
+    for e in grph.edges_iter(data = True):
+        try:
+            val = e[2][parameterName]
+        except KeyError:
+            if not ignoreUnweighted:
+                raise KeyError("One or more Edges do not have weight or " + str(parameterName), " is not the name of the weight")
+            else:
+                pass
+        else:
+            if PBar:
+                count += 1
+                if count % 100000 == 0:
+                    PBar.updateVal(count/ total, str(count) + " edges analysed and " + str(total -len(tmpGrph.edges())) + " edges dropped")
+            if val > maxWeight or  val < minWeight:
+                tmpGrph.remove_edge(e[0], e[1])
+    if PBar:
+        PBar.finish(str(total -len(tmpGrph.edges())) + " edges out of " + str(total) + " dropped, " + str(len(tmpGrph.edges())) + " returned")
+    return tmpGrph
+
+def drop_nodesByDegree(grph, minDegree = -float('inf'), maxDegree = float('inf'), useWeight = False, parameterName = 'weight', ignoreUnweighted = False):
+    """
+    Returns a graph whose nodes have a degree that is within inclusive bounds of minDegree and maxDegree, i.e minDegree <= degree <= maxDegree. Degree can be determined in two ways by default it is the total number of edges touching a node, alternative if useWeight is True it is the sum of the weight of all the edges touching a node.
+
+    minDegree and maxDegree default to negative and positive infinity respectively so without specifying either the output should be the input
+
+    useWeight can be set True to use an alternative method for calculating degree, the total weight of all edges
+
+    parameterName is key to weight field in the edge's dictionary, default is weight as that is almost always correct, only used if useWeight is True
+
+    ignoreUnweighted can be set False to suppress the KeyError and make unweighted edges be not counted, only used if useWeight is True
+    """
+    if isilib.VERBOSE_MODE:
+        PBar = ProgressBar(0, "Dropping nodes by degree")
+        count = 0
+        total = len(grph.nodes())
+    else:
+        PBar = None
+    goodNodes = []
+    for n in grph.nodes_iter():
+        if PBar:
+            count += 1
+            if count % 10000 == 0:
+                PBar.updateVal(count/ total, str(count) + "nodes analysed and " + str(total - len(goodNodes)) + " nodes dropped")
+        val = 0
+        if useWeight:
+            for e in grph.edges(n, data = True):
+                try:
+                    val += e[2][parameterName]
+                except KeyError:
+                    if not ignoreUnweighted:
+                        raise KeyError("One or more Edges do not have weight or " + str(parameterName), " is not the name of the weight")
+                    else:
+                        pass
+        else:
+            val = len(grph.edges(n))
+        if val <= maxDegree and val >= minDegree:
+            goodNodes.append(n)
+    if PBar:
+        PBar.finish(str(total - len(goodNodes)) + " nodes out of " + str(total) + " dropped, " + str(len(goodNodes)) + " returned")
+    return grph.subgraph(goodNodes)
+
 """
 NEED WORK
 def drop_edges(grph, minVal = 1, maxVal = None, parameterName = 'weight'):

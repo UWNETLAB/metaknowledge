@@ -32,7 +32,6 @@
 "THURSTON WP, 1994, B AM MATH SOC, V30, P161, DOI 10.1090/S0273-0979-1994-00502-6"
 ````
 
-
 ##Record Class
 * If classified as bad most functions will not work, i.e. return None
    - Might be worth reconsidering this
@@ -51,31 +50,9 @@
 * Can be initialized with tags
 
 ###Methods
-(Function return what they stay they return)
-* functions that attempt to return clean data:
-   - title
-   - wosString
-   - year
-   - month
-   - authors
-      + full name
-      + shortend name
-   - citations
-   - journal
-      + full name
-      + J9
-   - first page
-   - last page
-   - volume number
-   - DOI
-   - abstract
-
-* general WOS tag extraction:
-   - Needs a better wrapper but works
-   - individual
-   - by list, returns a dict or list
+* Two ways to get tags call the tags two letter code as an attribute or call the longer form given in tagToFull, e.g. R.TI == R.title, None is returned if the tag is not present
+* Tags are evaluated lazily so the first call of them results in the information being extracted from the Record objects store of the raw data then stored for subsequent use
 * writeRecord() writes the file exactly as it was given
-
 
 ##RecordCollection Class
 * a set of unique papers
@@ -108,10 +85,21 @@
       + use authorship instead of citations
       + write full citations as extra information
       + can be weighted
+   - one-mode, two-mode, n-mode
+      + allow creation of cooccurrence networks between tags
+      + Extra information in the form of node occurrence counts and edge weight is store by default but can be disabled
+      + The implementations are general and as such are not as good as ones designed for the specific case, i.e, co-citation is better than a one-mode of the CR tag
 * writeFile() writes the RecordCollection as an WOS file
    - The output is usually bit for bit identical to a file download from WOS, although record order is not maintained
 * pop, returns a random record and removes it from the collection
+* peak, returns a random record
 
+##WOS
+- 61 tags found so far
+   + most still need functions
+
+##Lessons
+- 2 Done
 
 ##Profiling
-- in progress...
+- Currently run each commit

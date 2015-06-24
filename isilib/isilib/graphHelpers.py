@@ -360,72 +360,41 @@ def drop_nodesByDegree(grph, minDegree = -float('inf'), maxDegree = float('inf')
         PBar.finish(str(total - len(goodNodes)) + " nodes out of " + str(total) + " dropped, " + str(len(goodNodes)) + " returned")
     return grph.subgraph(goodNodes)
 
-"""
-NEED WORK
-def drop_edges(grph, minVal = 1, maxVal = None, parameterName = 'weight'):
-    "
-    returns a graph with edges removed that do not meet the input conditions.
-    parameterName specifies the property of the node that is checked, by default it is 'weight'
-    minVal is the lowest values that will not be filtered
-    maxVal is the highest values that will not be filtered
-    either of these can be set to None, if so they will not be checked
-    "
-    for e in grph.edges(data = True):
-        print(str(e[0]) + ', ' + str(e[1]) + "edge", end = ', ')
-        try:
-            val = e[2][parameterName]
-        except KeyError:
-            pass
-        else:
-            print('val is ' + str(val), end = ', ')
-            if minVal and minVal > val:
-                grph.remove_edge(e[0], e[1])
-                print("Dropping")
-            elif maxVal and maxVal < val:
-                grph.remove_edge(e[0], e[1])
-                print("Dropping")
-    return grph
 
-def getTotal(grph, node, parameter = 'weight'):
-    ""
-    Helper function to get the total weight of all edges into node in grph
-    parameter is the name of what is checked
-    ""
-    w = 0
-    for e in grph.edges_iter(node, data =True):
-        w += e[2][parameter]
-    return w
+def drop_nodesByCount(grph, minCount = -float('inf'), maxCount = float('inf'), parameterName = 'count', ignoreMissing = False):
+    """
+    Returns a graph whose nodes have a occurrence count that is within inclusive bounds of minCount and maxCount, i.e minCount <= count <= maxCount. Occurrence count is determined by reading the variable associated with the node named parameterName.
 
-def drop_nodes(grph, minVal = 1, maxVal = None, parameterFunction = getTotal):
-    ""
-    returns a graph with nodes that do not meet the input conditions.
-    parameterFunction must be function that takes two arguments, first a graph and second a node in the graph. It returns a number, the number is what is checked.
-    By default getTotal is used, which adds up the weight of each adjacent edge.
-    minVal is the lowest values that will not be filtered
-    maxVal is the highest values that will not be filtered
-    either of these can be set to None, if so they will not be checked
-    ""
-    keepNodes = []
+    minCount and maxCount default to negative and positive infinity respectively so without specifying either the output should be the input
+
+
+    parameterName is key to count field in the node's dictionary, default is count as that is often correct
+
+    ignoreMissing can be set False to suppress the KeyError and make nodes missing counts be dropped instead of throwing errors
+    """
+    if isilib.VERBOSE_MODE:
+        PBar = ProgressBar(0, "Dropping nodes by count")
+        count = 0
+        total = len(grph.nodes())
+    else:
+        PBar = None
+    goodNodes = []
     for n in grph.nodes_iter(data = True):
-        print("Working on " + str(n[0]), end = ', ')
+        if PBar:
+            count += 1
+            if count % 10000 == 0:
+                PBar.updateVal(count/ total, str(count) + "nodes analysed and " + str(total - len(goodNodes)) + " nodes dropped")
+
         try:
-            val = parameterFunction(grph, n)
-            print("val is: " + str(val), end = ', ')
+            val = n[1][parameterName]
         except KeyError:
-            pass
-        else:
-            if minVal and minVal > val:
-                print("Dropping")
-                pass
-            elif maxVal and maxVal < val:
-                print("Dropping")
-                pass
+            if not ignoreMissing:
+                raise KeyError("One or more nodes do not have counts or " + str(parameterName), " is not the name of the count parameter")
             else:
-                print("keeping")
-                keepNodes.append(n)
-    print("done")
-    return grph.subgraph(keepNodes)
-
-
-def louvain
-"""
+                pass
+        else:
+            if val <= maxCount and val >= minCount:
+                goodNodes.append(n[0])
+    if PBar:
+        PBar.finish(str(total - len(goodNodes)) + " nodes out of " + str(total) + " dropped, " + str(len(goodNodes)) + " returned")
+    return grph.subgraph(goodNodes)

@@ -69,7 +69,7 @@
 * inequalities use number of records for comparison
 * work as iterators, iterating over the records
 
-##Methods
+###Methods
 * dropBadRecords() and getBadRecords() allow removal or analysis of bad records
 * yearSplit gets papers with some range of years
 * extracttagged allows removing records with some tag
@@ -94,12 +94,20 @@
 * pop, returns a random record and removes it from the collection
 * peak, returns a random record
 
-##WOS
+##Other
+###Graph functions
+   + Drop edges
+      - by weight
+   + Drop nodes
+      - by degree
+      - by count
+
+###WOS
 - 61 tags found so far
    + most still need functions
 
-##Lessons
+###Lessons
 - 2 Done
 
-##Profiling
+###Profiling
 - Currently run each commit

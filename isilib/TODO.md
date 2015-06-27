@@ -16,10 +16,6 @@
 
 * [reconcile journal names](http://cishell.wiki.cns.iu.edu/Reconcile+Journal+Names). link includes a link to the source code, and a download to an Excel file with journal names.
 
-* Add graph handling helper functions
- + Drop edges
- + drop nodes
-
 ### citation, co-citation, co-author, bibliographic coupling, etc.  
 
 + Make output networks from subsets of Collection

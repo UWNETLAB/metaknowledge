@@ -104,7 +104,7 @@ class TestRecordCollection(unittest.TestCase):
         self.assertEqual(len(self.RC.oneModeNetwork('D2').nodes()), 0)
         self.assertEqual(len(Gtit.nodes()), 31)
         self.assertEqual(len(Gtit.edges()), 0)
-        self.assertEqual(len(self.RC.oneModeNetwork('email').edges()), 0)
+        self.assertEqual(len(self.RC.oneModeNetwork('email').edges()), 3)
         self.assertEqual(len(self.RC.oneModeNetwork('UT').nodes()), len(self.RC) - 1)
         with self.assertRaises(TypeError):
             G = self.RC.oneModeNetwork('Not a Tag')
@@ -127,5 +127,5 @@ class TestRecordCollection(unittest.TestCase):
 
     def test_nMode(self):
         G = self.RC.nModeNetwork(isilib.tagToFull.keys())
-        self.assertEqual(len(G.nodes()), 1156)
-        self.assertEqual(len(G.edges()), 34697)
+        self.assertEqual(len(G.nodes()), 1185)
+        self.assertEqual(len(G.edges()), 38557)

@@ -59,10 +59,11 @@ def blondel(G, weightParameter = None, communityParameter = 'community'):
         workingGrph = newGrph
     workingGrph = G.copy()
     if PBar:
-        PBar.updateVal(1, "Done updateing graph")
+        PBar.updateVal(1, "Done, updating graph")
+    comNumList = list(communityToNode.keys())
     for ndcom, ndlst in communityToNode.items():
         for n in ndlst:
-            workingGrph.node[n][communityParameter] = ndcom
+            workingGrph.node[n][communityParameter] = str(comNumList.index(ndcom))
     if PBar:
         PBar.finish("Done detecting communities in " + str(iterations) + " sweeps")
     return workingGrph

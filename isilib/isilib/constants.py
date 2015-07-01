@@ -4,7 +4,7 @@ def isInteractive():
     """
     import sys
     try:
-        s = sys.ps1
+        s = sys.ps1 #pylint: disable=all
         if isinstance(s, str) and sys.stdout.isatty():
             return True
         else:
@@ -40,12 +40,13 @@ def reverseDict(d):
         retD[d[k]] = k
     return retD
 
+"""
+Converts WOS tags to more descriptive names
+This is all tags known about and is mostly likely not a complete list
+The names are not official and are added by the author
+"""
 tagToFull = {
-        """
-        Converts WOS tags to more descriptive names
-        This is all tags known about and is mostly likely not a complete list
-        The names are not official and are added by the author
-        """
+
             'PT' : "pubType",
             'AF' : "authorsFull",
             #'GA' : "groupAuthors", Old usage

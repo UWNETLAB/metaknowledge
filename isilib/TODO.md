@@ -3,14 +3,20 @@
 ## Implementation
 ### Add more documentation
 ###remove general exceptions
-### Record class
+
+##Performance Improvements
+* blondel
+* network Gen
+
+## Record class
 
 * maybe do geocoding
 
-### RecordCollection class
+## RecordCollection class
 * extract subset from more ranges
 * add more methods to create networks
 * extract Locations
+* output C++ format [findcommunities](https://sites.google.com/site/findcommunities/)
 
 ## Cleaning and Preprocessing WOS data
 
@@ -25,8 +31,6 @@
     - to get institutional collaboration networks
     - to group records based on similar bibliographies (this is less important to me than getting institutional networks)
 
-* community detection for all ^ networks
-   - Blondel community detection algorithm seems to be the best
 
 * whenever a new network is created, print info:
     - whether directed or undirected
@@ -47,8 +51,16 @@ Sci^2 is capable of burst detection, which was originally implemented in C, and 
 
 ##Make Lessons
 - Write more lessons
+- one per feature
+- intro to python lesson
+- scale free properties in networks
+- reading files
+   + reading in data, and reading in graphml files, etc.
+
+###Make Vagrant File
 
 ##WOS
-- 61 tags found so far
-   + most still need functions
 - Write up known information about each in some user friendly way, i.e. md or pdf of all the tags
+
+##D3
+- make interface

@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+
+apt-get update
+apt-get install -y git python3 python3 libfreetype6-dev libpng12-dev python3-setuptools python3-dev pkg-config python3-numpy python3-scipy
+sudo easy_install3 pip
+echo "alias python='python3'" >> ~/.bashrc
+echo "alias pip='pip3'" >> ~/.bashrc
+echo "alias ipython='ipython3'" >> ~/.bashrc
+echo "alias easy_install='easy_install3'" >> ~/.bashrc
+source ~/.bashrc
+
+echo "alias python='python3'" >> /home/vagrant/.bashrc
+echo "alias pip='pip3'" >> /home/vagrant/.bashrc
+echo "alias ipython='ipython3'" >> /home/vagrant/.bashrc
+echo "alias easy_install='easy_install3'" >> /home/vagrant/.bashrc
+
+easy_install -U distribute
+pip3 install networkx "ipython[notebook]" matplotlib
+git clone https://github.com/mclevey/web_of_science_isi.git
+cd web_of_science_isi/isilib/
+python3 setup.py install
+cd ../..
+
+cp -r /vagrant/profile_wosserver /home/vagrant/.ipython/
+chown vagrant /home/vagrant/.ipython/ -R
+
+echo "ipython3 notebook --profile=wosserver --no-browser " > /home/vagrant/ipythonStartup.sh
+echo "echo 'Starting ipython server'" >> /home/vagrant/ipythonStartup.sh
+chmod +x /home/vagrant/ipythonStartup.sh
+
+
+mkdir -p /home/vagrant/.crontab
+echo "@reboot /home/vagrant/ipythonStartup.sh" > /home/vagrant/.crontab/vagrant.cron
+
+#crontab -u vagrant /home/vagrant/.crontab/vagrant.cron
+#crontab -u root /home/vagrant/.crontab/vagrant.cron
+
+
+#/home/vagrant/ipythonStartup.sh

@@ -24,13 +24,13 @@ cd ../..
 cp -r /vagrant/profile_wosserver /home/vagrant/.ipython/
 chown vagrant /home/vagrant/.ipython/ -R
 
-echo "ipython3 notebook --profile=wosserver --no-browser " > /home/vagrant/ipythonStartup.sh
+echo "ipython3 notebook --profile=wosserver --no-browser" > /home/vagrant/ipythonStartup.sh
 echo "echo 'Starting ipython server'" >> /home/vagrant/ipythonStartup.sh
 chmod +x /home/vagrant/ipythonStartup.sh
 
 
-mkdir -p /home/vagrant/.crontab
-echo "@reboot /home/vagrant/ipythonStartup.sh" > /home/vagrant/.crontab/vagrant.cron
+#mkdir -p /home/vagrant/.crontab
+#echo "@reboot /home/vagrant/ipythonStartup.sh" > /home/vagrant/.crontab/vagrant.cron
 
 #crontab -u vagrant /home/vagrant/.crontab/vagrant.cron
 #crontab -u root /home/vagrant/.crontab/vagrant.cron

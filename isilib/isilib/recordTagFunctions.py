@@ -358,7 +358,7 @@ def supplement(val):
     returns the supplemtn number
     SU tag
     """
-    return int(val[0])
+    return ' '.join(val)
 
 def confHost(val):
     """

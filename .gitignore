@@ -9,6 +9,7 @@ cover/
 profiling/
 special.py
 .ipynb_checkpoints/
+.vagrant/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

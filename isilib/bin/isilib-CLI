@@ -12,7 +12,7 @@ args = argparse.Namespace()
 def argumentParser():
     parser = argparse.ArgumentParser(description="isilib's simple command line interface")
     parser.add_argument("files", default = [], nargs = '*')
-    parser.add_argument("--verbose", "-v", action = 'store_true' ,default = False, help = "Verbose mode, every step is printed")
+    parser.add_argument("--verbose", "-v", action = 'store_true' , default = False, help = "Verbose mode, every step is printed")
     parser.add_argument("--progress", "-p", action = 'store_true' ,default = False, help = "Progress bar mode, shows progress bars where appropriate")
     parser.add_argument("--suffix", "-s", default = '', help = "Progress bar mode, shows progress bars where appropriate")
     return parser.parse_args()

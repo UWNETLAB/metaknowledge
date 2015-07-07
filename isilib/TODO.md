@@ -61,6 +61,6 @@ Sci^2 is capable of burst detection, which was originally implemented in C, and 
 
 ##WOS
 - Write up known information about each in some user friendly way, i.e. md or pdf of all the tags
-
+[3]a = 2
 ##D3
 - make interface

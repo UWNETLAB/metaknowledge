@@ -11,6 +11,7 @@ special.py
 .ipynb_checkpoints/
 .vagrant/
 .ipython/
+ipython/security
 !vagrant/*.sh
 
 # Byte-compiled / optimized / DLL files

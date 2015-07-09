@@ -25,16 +25,16 @@ mkdir -p /home/vagrant/.ipython/
 cp -r /vagrant/profile_wosserver /home/vagrant/.ipython/
 chown vagrant /home/vagrant/.ipython/ -R
 
-cp /home/vagrant/.ipython/ /root/
+cp -r /home/vagrant/.ipython/ /root/
 chown root /root/.ipython/ -R
 
-echo "ipython3 notebook --profile=wosserver --no-browser" > /home/vagrant/ipythonStartup.sh
+echo "/usr/local/bin/ipython3 notebook --no-browser --ProfileDir.location=/vagrant/profile_wosserver --profile=wosserver" > /home/vagrant/ipythonStartup.sh
 echo "echo 'Starting ipython server'" >> /home/vagrant/ipythonStartup.sh
 chmod +x /home/vagrant/ipythonStartup.sh
 
 
 echo "#!/bin/bash" > /etc/rc.local
-echo "/usr/local/bin/ipython3 --profile=wosserver --no-browser" >> /etc/rc.local
+echo "/usr/local/bin/ipython3 notebook --no-browser --ProfileDir.location=/vagrant/profile_wosserver --profile=wosserver 1> /vagrant/ipythonstout.log 2>/vagrant/ipythonsterr.log" >> /etc/rc.local
 echo "exit 0" >> /etc/rc.local
 
 #mkdir -p /home/vagrant/.crontab

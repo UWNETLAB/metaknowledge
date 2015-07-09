@@ -14,20 +14,28 @@ echo "alias pip='pip3'" >> /home/vagrant/.bashrc
 echo "alias ipython='ipython3'" >> /home/vagrant/.bashrc
 echo "alias easy_install='easy_install3'" >> /home/vagrant/.bashrc
 
-easy_install -U distribute
+#easy_install -U distribute
 pip3 install networkx "ipython[notebook]" matplotlib
 git clone https://github.com/mclevey/web_of_science_isi.git
 cd web_of_science_isi/isilib/
 python3 setup.py install
 cd ../..
 
+mkdir -p /home/vagrant/.ipython/
 cp -r /vagrant/profile_wosserver /home/vagrant/.ipython/
 chown vagrant /home/vagrant/.ipython/ -R
+
+cp /home/vagrant/.ipython/ /root/
+chown root /root/.ipython/ -R
 
 echo "ipython3 notebook --profile=wosserver --no-browser" > /home/vagrant/ipythonStartup.sh
 echo "echo 'Starting ipython server'" >> /home/vagrant/ipythonStartup.sh
 chmod +x /home/vagrant/ipythonStartup.sh
 
+
+echo "#!/bin/bash" > /etc/rc.local
+echo "/usr/local/bin/ipython3 --profile=wosserver --no-browser" >> /etc/rc.local
+echo "exit 0" >> /etc/rc.local
 
 #mkdir -p /home/vagrant/.crontab
 #echo "@reboot /home/vagrant/ipythonStartup.sh" > /home/vagrant/.crontab/vagrant.cron

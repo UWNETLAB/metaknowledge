@@ -73,7 +73,7 @@ def convertString(file):
             else:
                 if currentBufferType == 'md':
                     if line == '\n' and stringBuffer[-2:] == '\n\n':
-                        stringResult.append(writeMDcell(stringBuffer[:-2]))
+                        stringResult.append(writeMDcell(stringBuffer[:-1]))
                         stringBuffer = ''
                         currentBufferType = ''
                     else:
@@ -97,6 +97,7 @@ def convert(file):
 
 
 def stringPreprossesing(s):
+    s = s.lstrip('\n')
     s = s.replace(r'"', r'\"')
     s = s.replace('\n', '\\n",\n     "')[:-11]
     return s
@@ -113,7 +114,6 @@ def writeMDcell(s):
 """.format(stringPreprossesing(s))
 
 def writePYcell(s, excount = ''):
-    print(s)
     return """{{
     "cell_type": "code",
     "execution_count": {0},

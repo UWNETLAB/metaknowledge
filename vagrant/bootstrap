@@ -28,16 +28,19 @@ chown vagrant /home/vagrant/.ipython/ -R
 cp -r /home/vagrant/.ipython/ /root/
 chown root /root/.ipython/ -R
 
-echo "/usr/local/bin/ipython3 notebook --no-browser --ProfileDir.location=/vagrant/profile_wosserver --profile=wosserver" > /home/vagrant/ipythonStartup.sh
+chmod +x /etc/rc.local
+echo "#!/bin/bash" > /etc/rc.local
+echo "/usr/local/bin/ipython3 notebook --no-browser --ProfileDir.location=/vagrant/profile_wosserver --profile=wosserver 2>&1 | tee /vagrant/ipythonNoteBook.log" >> /etc/rc.local
+echo "exit 0" >> /etc/rc.local
+
+echo "#!/bin/bash" > /home/vagrant/ipythonStartup.sh
+echo "/etc/rc.local" >> /home/vagrant/ipythonStartup.sh
 echo "echo 'Starting ipython server'" >> /home/vagrant/ipythonStartup.sh
 chmod +x /home/vagrant/ipythonStartup.sh
 
-chmod +x /etc/rc.local
-echo "#!/bin/bash" > /etc/rc.local
-echo "/usr/local/bin/ipython3 notebook --no-browser --ProfileDir.location=/vagrant/profile_wosserver --profile=wosserver 1> /vagrant/ipythonstout.log 2>/vagrant/ipythonsterr.log" >> /etc/rc.local
-echo "exit 0" >> /etc/rc.local
+/etc/rc.local &
 
-/etc/rc.local
+echo "provisioning done"
 
 #mkdir -p /home/vagrant/.crontab
 #echo "@reboot /home/vagrant/ipythonStartup.sh" > /home/vagrant/.crontab/vagrant.cron

@@ -4,7 +4,7 @@ BASEDIR=$(dirname $0)
 cd $BASEDIR
 
 vagrant up
-vagrant provision
-vagrant ssh -c ./ipythonStartup.sh &
+#vagrant provision
+#vagrant ssh -c ./ipythonStartup.sh &
 sleep 1
 open http://localhost:8888

@@ -32,10 +32,12 @@ echo "/usr/local/bin/ipython3 notebook --no-browser --ProfileDir.location=/vagra
 echo "echo 'Starting ipython server'" >> /home/vagrant/ipythonStartup.sh
 chmod +x /home/vagrant/ipythonStartup.sh
 
-
+chmod +x /etc/rc.local
 echo "#!/bin/bash" > /etc/rc.local
 echo "/usr/local/bin/ipython3 notebook --no-browser --ProfileDir.location=/vagrant/profile_wosserver --profile=wosserver 1> /vagrant/ipythonstout.log 2>/vagrant/ipythonsterr.log" >> /etc/rc.local
 echo "exit 0" >> /etc/rc.local
+
+/etc/rc.local
 
 #mkdir -p /home/vagrant/.crontab
 #echo "@reboot /home/vagrant/ipythonStartup.sh" > /home/vagrant/.crontab/vagrant.cron

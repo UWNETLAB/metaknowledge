@@ -21,6 +21,9 @@ Vagrant.configure(2) do |config|
    #config.ssh.username = "vagrant"
    #config.ssh.password = "password"
    config.ssh.insert_key = false
+   config.vm.synced_folder ".", "/vagrant", disabled: true
+   config.vm.synced_folder '..',"/vagrant"
+   config.vm.synced_folder '../notebooks',"/notebooks"
    #config.ssh.private_key_path = "isilib"
    config.vm.provision :shell, path: "bootstrap"
 

@@ -1,9 +1,0 @@
-{
-  "hostname": "localhost",
-  "pid": 1236,
-  "port": 8888,
-  "secure": false,
-  "base_url": "/",
-  "url": "http://localhost:8888/",
-  "notebook_dir": "/vagrant"
-}

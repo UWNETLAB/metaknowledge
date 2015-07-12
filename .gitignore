@@ -13,6 +13,9 @@ special.py
 .ipython/
 security/
 !vagrant/*.sh
+vagrant/logs/
+profile_wosserver/
+!profile_wosserver/ipython_*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

@@ -683,7 +683,7 @@ def isiParser(isifile):
     Each it finds is used to initialize a Record then all Record are returned as a list.
     """
     try:
-        openfile = open(isifile, 'r', encoding='utf-8')
+        openfile = open(isifile, 'r', encoding='utf-8-sig')
     except UnicodeDecodeError as e:
         openfile.close()
         raise e

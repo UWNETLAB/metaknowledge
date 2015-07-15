@@ -1,7 +1,8 @@
-#A short Introduction to python
+#A short Introduction to Python Part 1
+
 
 ##Notebooks
-I front of you right now is a python notebook, it contains two different types of text. The first is plain text, which is what you are reading, it does not do anything besides be displayed. The second is code, the next cell is one containing python code, the code is run on the computer and can have many different effects such as doing math, creating images or displaying text. The code is run by something called an interpreter. The interpreter, translates code, that humans can read into machine language that the computer can understand.
+In front of you right now is a python notebook, it contains two different types of text. The first is plain text, which is what you are reading, it does not do anything besides be displayed. The second is code, the next cell is one containing python code, the code is run on the computer and can have many different effects such as doing math, creating images or displaying text. The code is run by something called an interpreter. The interpreter, translates code, that humans can read into machine language that the computer can understand.
 
 [1]#This cell contains python code, it is printing the result of adding two numbers
 [1]print(2 + 3)
@@ -16,7 +17,7 @@ Now that you know how to do some math, lets look at words. A sequence of of char
 [2]print("This is a string with double quotes")
 [2]print('This is a string with single quotes')
 
-As you can seePython automatically puts each newly printed string on a newline. Try playing with printing strings, see what happens if you add them together, or if you do not include a quotation mark.
+As you can seePython automatically puts each newly printed string on a new line. Try playing with printing strings, see what happens if you add them together, or if you do not include a quotation mark.
 
 
 ##Types
@@ -30,7 +31,7 @@ The function `type()` will tell you the type of an object, here it is a on a few
 [4]type(2)
 [5]type(print)
 
-In the above code there are no `print()` statements an in fact if that was run in an interactive way like this there would not be anything outputted. The notebook tells you that by putting <font color=red>Out[4]:</font> next to the output.
+In the above code there are no `print()` statements, in fact if that was run in the notebook there would not be anything outputted. The notebook tells you that by putting <font color=red>Out[4]:</font> next to the output.
 
 
 ##Exceptions

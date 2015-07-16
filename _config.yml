@@ -13,7 +13,7 @@ title:               isilib
 tagline:             'A Python library for simplifying bibliometric research of Web of Science data'
 description:         'Reid McIlroy-Young and John McLevey'
 url:                 www.networkslab.org
-baseurl:             ''
+baseurl:             '/isilib'
 paginate:            5
 
 # About/contact

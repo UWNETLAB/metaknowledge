@@ -8,6 +8,14 @@ Computers store information in many different ways, but they all are based on bi
 
 It is very rare that people directly deal with the binary of a file, instead they deal with the characters and/or bytes it is composed of. A character is a single letter or symbol, like `a` or `&`. In most files containing latin characters (english and most programing languages) the characters are each assigned a pattern of eight bits. So `a` is the pattern `01100001` or the number 97 while `&` is `00100110` or the number 38. You can find a table of all the printing characters [here](https://en.wikipedia.org/wiki/ASCII#ASCII_printable_characters).
 
+
+##Files
+
+
+Although you can view all files as a string of characters, it only makes sense for some. In Unix there are two types of file, binary and text. Binary files are ones meant to be directly read by the computer like,
+
+
+
 Since binary is a number system you can translate decimal numbers (the number system most people use) into binary. This is a simple process, you simply add up the values of every digit just like you do with decimal numbers. For example lets break up one hundred and twenty three:
 `
 123 can be broken down into 100 + 20 + 3

@@ -10,7 +10,7 @@ relative_permalinks: true
 title:            isilib
 tagline:          
 description:      Reid McIlroy-Young and John McLevey
-url:              isilib.github.io
+url:              http://networks-lab.github.io/
 baseurl:          /
 
 author:

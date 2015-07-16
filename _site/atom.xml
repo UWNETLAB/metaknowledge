@@ -2,13 +2,13 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
  <title>isilib</title>
- <link href="http://lanyon.getpoole.com/atom.xml" rel="self"/>
- <link href="http://lanyon.getpoole.com/"/>
- <updated>2015-07-16T02:07:26-05:00</updated>
- <id>http://lanyon.getpoole.com</id>
+ <link href="www.networkslab.org/isilib/atom.xml" rel="self"/>
+ <link href="www.networkslab.org/isilib/"/>
+ <updated>2015-07-16T19:36:54-04:00</updated>
+ <id>www.networkslab.org</id>
  <author>
-   <name>Mark Otto</name>
-   <email>markdotto@gmail.com</email>
+   <name>KI Networks Lab</name>
+   <email>john.mclevey@uwaterloo.ca</email>
  </author>
 
  

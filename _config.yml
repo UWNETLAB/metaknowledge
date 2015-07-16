@@ -1,3 +1,7 @@
+# Dependencies
+markdown:         redcarpet
+highlighter:      pygments
+
 # Permalinks
 #
 # Use of `relative_permalinks` ensures post links from the index work properly.
@@ -7,7 +11,7 @@ relative_permalinks: true
 # Setup
 title:               isilib
 tagline:             'A Python library for simplifying bibliometric research of Web of Science data'
-description:         'A Python library for simplifying bibliometric research of Web of Science data'
+description:         'Reid McIlroy-Young and John McLevey'
 url:                 http://lanyon.getpoole.com
 baseurl:             ''
 paginate:            5

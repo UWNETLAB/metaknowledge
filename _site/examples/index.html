@@ -11,7 +11,7 @@
 
   <title>
     
-      About &middot; isilib
+      Examples &middot; isilib
     
   </title>
 
@@ -30,7 +30,7 @@
 </head>
 
 
-  <body>
+  <body class="theme-base-08">
 
     <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
      styles, `#sidebar-checkbox` for behavior. -->
@@ -39,7 +39,7 @@
 <!-- Toggleable sidebar -->
 <div class="sidebar" id="sidebar">
   <div class="sidebar-item">
-    <p>A Python library for simplifying bibliometric research of Web of Science data</p>
+    <p>Reid McIlroy-Young and John McLevey</p>
   </div>
 
   <nav class="sidebar-nav">
@@ -58,11 +58,17 @@
       
     
       
+    
+      
         
-          <a class="sidebar-nav-item active" href="/about/">About</a>
+          <a class="sidebar-nav-item active" href="/examples/">Examples</a>
         
       
     
+      
+        
+          <a class="sidebar-nav-item" href="/installation/">Installation</a>
+        
       
     
 
@@ -93,36 +99,37 @@
 
       <div class="container content">
         <div class="page">
-  <h1 class="page-title">About</h1>
-  <p class="message">
-  Hey there! This page is included as an example. Feel free to customize it for your own use upon downloading. Carry on!
-</p>
+  <h1 class="page-title">Examples</h1>
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">isilib</span>
+<span class="kn">import</span> <span class="nn">networkx</span> <span class="kn">as</span> <span class="nn">nx</span>
 
-<p>In the novel, <em>The Strange Case of Dr. Jeykll and Mr. Hyde</em>, Mr. Poole is Dr. Jekyll’s virtuous and loyal butler. Similarly, Poole is an upstanding and effective butler that helps you build Jekyll themes. It’s made by <a href="https://twitter.com/mdo">@mdo</a>.</p>
+<span class="n">RC</span> <span class="o">=</span> <span class="n">isilib</span><span class="o">.</span><span class="n">RecordCollection</span><span class="p">(</span><span class="s">&quot;example_file.isi&quot;</span><span class="p">)</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">RC</span><span class="p">)</span>
 
-<p>There are currently two themes built on Poole:</p>
+<span class="n">G</span> <span class="o">=</span> <span class="n">RC</span><span class="o">.</span><span class="n">twoModeNetwork</span><span class="p">(</span><span class="s">&#39;title&#39;</span><span class="p">,</span> <span class="s">&#39;CR&#39;</span><span class="p">,</span> <span class="n">recordType</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
+<span class="n">nx</span><span class="o">.</span><span class="n">draw_spring</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+</code></pre></div>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 
-<ul>
-  <li><a href="http://hyde.getpoole.com">Hyde</a></li>
-  <li><a href="http://lanyon.getpoole.com">Lanyon</a></li>
-</ul>
+<h2>Command Line Tool</h2>
 
-<p>Learn more and contribute on <a href="https://github.com/poole">GitHub</a>.</p>
-
-<h2 id="setup">Setup</h2>
-
-<p>Some fun facts about the setup of this project include:</p>
-
-<ul>
-  <li>Built for <a href="http://jekyllrb.com">Jekyll</a></li>
-  <li>Developed on GitHub and hosted for free on <a href="https://pages.github.com">GitHub Pages</a></li>
-  <li>Coded with <a href="http://sublimetext.com">Sublime Text 2</a>, an amazing code editor</li>
-  <li>Designed and developed while listening to music like <a href="https://soundcloud.com/maddecent/sets/blood-bros-series">Blood Bros Trilogy</a></li>
-</ul>
-
-<p>Have questions or suggestions? Feel free to <a href="https://github.com/poole/issues/new">open an issue on GitHub</a> or <a href="https://twitter.com/mdo">ask me on Twitter</a>.</p>
-
-<p>Thanks for reading!</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 
 </div>
 

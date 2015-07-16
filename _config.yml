@@ -1,0 +1,29 @@
+# Dependencies
+markdown:         redcarpet
+highlighter:      pygments
+
+# Permalinks
+permalink:        pretty
+relative_permalinks: true
+
+# Setup
+title:            isilib
+tagline:          
+description:      Reid McIlroy-Young and John McLevey
+url:              isilib.github.io
+baseurl:          /
+
+author:
+  name:           'isilib'
+  url:            
+  email:		  john.mclevey@uwaterloo.ca
+  github: 		  mclevey/isilib
+  bio: 			  A Python Library for Analyzing Web of Science Data
+
+paginate:         5
+
+# Custom vars
+version:          2.1.0
+
+github:			  
+  repo:           https://github.com/mclevey/web_of_science_isi

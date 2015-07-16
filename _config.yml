@@ -18,9 +18,9 @@ paginate:            5
 
 # About/contact
 author:
-  name:              Mark Otto
-  url:               https://twitter.com/mdo
-  email:             markdotto@gmail.com
+  name:              KI Networks Lab
+  url:               https://twitter.com/johnmclevey.com
+  email:             john.mclevey@uwaterloo.ca
 
 # Custom vars
 version:             1.0.0

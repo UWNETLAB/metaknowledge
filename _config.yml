@@ -19,7 +19,7 @@ paginate:            5
 # About/contact
 author:
   name:              KI Networks Lab
-  url:               https://twitter.com/johnmclevey.com
+  url:               https://twitter.com/johnmclevey
   email:             john.mclevey@uwaterloo.ca
 
 # Custom vars

@@ -1,6 +1,6 @@
 from setuptools import setup
 setup(name='isilib',
-    version='0.2',
+    version='0.1.0',
     author="Reid McIlroy-Young",
     url="https://github.com/mclevey/web_of_science_isi",
     keywords= 'isi wos',

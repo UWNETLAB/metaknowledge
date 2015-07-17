@@ -115,28 +115,21 @@
       <div class="container content">
         <div class="page">
   <h1 class="page-title">Installation</h1>
-  <p>The <a href="https://github.com/mclevey/web_of_science_isi">download</a> from Github includes a customized <a href="https://www.vagrantup.com">Vagrant</a> file that installs <a href="https://github.com/mclevey/web_of_science_isi">isilib</a> and other useful Python libraries. It is currently the easiest way of getting isilib working if you are not already using Python. Of course it is also possible to install isilib without using Vagrant. </p>
+  <p>The <a href="https://github.com/mclevey/web_of_science_isi">download</a> from Github includes a customized <a href="https://www.vagrantup.com">Vagrant</a> file that installs <a href="https://github.com/mclevey/web_of_science_isi">isilib</a> and other useful Python libraries into a virtual machine. It is currently the easiest way of getting isilib working if you are not already using Python. Alternatively you can run <code>setup.py install</code> to install locally</p>
+
+<p>Please note that isilib is under active development and these instructions may be out of date.</p>
 
 <h2>Install with Vagrant</h2>
 
-<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+<p>The vagrant method is intended for students and those not familiar with python it creates a virtual machine with isilib installed. It also contains the python scientific stack numpy, scipy and matplotlib as well a series of iPython notebooks for teaching people to use isilib and python.</p>
 
-<ol>
-<li>download isilib from github...</li>
-<li>download Vagrant and VirtualBox...</li>
-<li>cd to directory...</li>
-<li>vargrant up...</li>
-<li>etc. </li>
-</ol>
+<p>Once vagrant and a hypervisor(<a href="https://www.virtualbox.org/">virtualBox</a> is the default) are installed, download isilib, click <a href="https://github.com/mclevey/web_of_science_isi/archive/master.zip">here</a> to download it as a zip file. Go to the vagrant subdirectory and run <code>vagrant up</code> or if you are using OS X double click the file mac_run. This will initialize the virtual machine and install all the required software on it.</p>
+
+<p>Now the virtual machine is hosting a iPython notebook on port 8888 you can access it by going to <a href="http://localhost:8888/">http://localhost:8888/</a> or if you used mac_run a window will appear at it. You can also use <code>vagrant ssh</code> to access the virtual machine.</p>
 
 <h2>Install without Vagrant</h2>
 
-<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+<p>Installing without Vagrant is done with <a href="https://pypi.python.org/pypi/setuptools">setuptools</a>. Go to the isilib directory and run <code>python3 setup.py install</code></p>
 
 </div>
 

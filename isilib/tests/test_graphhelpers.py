@@ -12,7 +12,7 @@ filesuffix = 'tst'
 class TestHelpers(unittest.TestCase):
     def setUp(self):
         isilib.VERBOSE_MODE = False
-        self.RC = isilib.RecordCollection("tests/testFile.isi")
+        self.RC = isilib.RecordCollection("isilib/tests/testFile.isi")
         self.G = self.RC.coCiteNetwork()
     def test_graphwrite(self):
         isilib.write_graph(self.G, fileShortName, suffix = filesuffix)

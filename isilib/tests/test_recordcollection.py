@@ -8,8 +8,8 @@ class TestRecordCollection(unittest.TestCase):
 
     def setUp(self):
         isilib.VERBOSE_MODE = False
-        self.RC = isilib.RecordCollection("tests/testFile.isi")
-        self.RCbad = isilib.RecordCollection("tests/badFile.isi")
+        self.RC = isilib.RecordCollection("isilib/tests/testFile.isi")
+        self.RCbad = isilib.RecordCollection("isilib/tests/badFile.isi")
 
     def test_iscollection(self):
         self.assertIsInstance(self.RC, isilib.RecordCollection)
@@ -17,9 +17,9 @@ class TestRecordCollection(unittest.TestCase):
         self.assertTrue(self.RC == self.RC)
 
     def test_bad(self):
-        self.assertTrue(isilib.RecordCollection('tests/badFile.isi').bad)
+        self.assertTrue(isilib.RecordCollection('isilib/tests/badFile.isi').bad)
         with self.assertRaises(TypeError):
-            isilib.RecordCollection('tests/testFile.isi', extension= '.txt')
+            isilib.RecordCollection('isilib/tests/testFile.isi', extension= '.txt')
         self.assertTrue(self.RCbad + self.RC <= self.RC + self.RCbad)
         self.assertTrue(len(self.RCbad + self.RCbad) == 0)
         self.assertFalse(self.RCbad == self.RC)
@@ -32,16 +32,16 @@ class TestRecordCollection(unittest.TestCase):
 
     def test_directoryRead(self):
         self.assertEqual(len(isilib.RecordCollection('.')), 0)
-        self.assertTrue(isilib.RecordCollection('tests/') >= self.RC)
-        self.assertTrue(isilib.RecordCollection('tests/', extension= '.txt') <= self.RC)
+        self.assertTrue(isilib.RecordCollection('isilib/tests/') >= self.RC)
+        self.assertTrue(isilib.RecordCollection('isilib/tests/', extension= '.txt') <= self.RC)
 
     def test_write(self):
         fileName = 'OnePaper2.isi'
-        RC = isilib.RecordCollection('tests/' + fileName)
+        RC = isilib.RecordCollection('isilib/tests/' + fileName)
         RC.writeFile(fileName + '.tmp')
         RC.writeFile()
-        self.assertTrue(filecmp.cmp('tests/' + fileName, fileName + '.tmp'))
-        self.assertTrue(filecmp.cmp('tests/' + fileName, repr(RC)[:200] + '.isi'))
+        self.assertTrue(filecmp.cmp('isilib/tests/' + fileName, fileName + '.tmp'))
+        self.assertTrue(filecmp.cmp('isilib/tests/' + fileName, repr(RC)[:200] + '.isi'))
         os.remove(fileName + '.tmp')
         os.remove(repr(RC)[:200] + '.isi')
 

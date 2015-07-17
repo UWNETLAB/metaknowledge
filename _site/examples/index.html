@@ -115,36 +115,17 @@
       <div class="container content">
         <div class="page">
   <h1 class="page-title">Examples</h1>
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+  <p>isilib is intended to be user friendly and most arguments have many default options  </p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">isilib</span>
-<span class="kn">import</span> <span class="nn">networkx</span> <span class="kn">as</span> <span class="nn">nx</span>
 
-<span class="n">RC</span> <span class="o">=</span> <span class="n">isilib</span><span class="o">.</span><span class="n">RecordCollection</span><span class="p">(</span><span class="s">&quot;example_file.isi&quot;</span><span class="p">)</span>
-<span class="nb">len</span><span class="p">(</span><span class="n">RC</span><span class="p">)</span>
-
-<span class="n">G</span> <span class="o">=</span> <span class="n">RC</span><span class="o">.</span><span class="n">twoModeNetwork</span><span class="p">(</span><span class="s">&#39;title&#39;</span><span class="p">,</span> <span class="s">&#39;CR&#39;</span><span class="p">,</span> <span class="n">recordType</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
-<span class="n">nx</span><span class="o">.</span><span class="n">draw_spring</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+<span class="n">RC</span> <span class="o">=</span> <span class="n">isilib</span><span class="o">.</span><span class="n">RecordCollection</span><span class="p">(</span><span class="s">&quot;example_file.isi&quot;</span><span class="p">)</span> <span class="c">#loading an WOS file</span>
+<span class="k">print</span><span class="p">(</span><span class="n">RC</span><span class="p">)</span> <span class="c">#Collection of 100 records</span>
+<span class="n">G</span> <span class="o">=</span> <span class="n">RC</span><span class="o">.</span><span class="n">twoModeNetwork</span><span class="p">(</span><span class="s">&#39;title&#39;</span><span class="p">,</span> <span class="s">&#39;CR&#39;</span><span class="p">)</span> <span class="c">#Generating a title-citation</span>
+<span class="n">isilib</span><span class="o">.</span><span class="n">write_graph</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="s">&quot;title-citation_Network&quot;</span><span class="p">)</span> <span class="c">#Writing the edge list and the node attribute file of the network</span>
 </code></pre></div>
-<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-
 <h2>Command Line Tool</h2>
 
-<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+<p>In progress</p>
 
 </div>
 

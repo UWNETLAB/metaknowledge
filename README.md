@@ -1,6 +1,3 @@
 #isilib
-Python3 and R scripts for extracting data from raw ISI files
 
-Install by running `python3 setup.py install`
-
-More documentation at [networkslab.org/isilib/](http://networkslab.org/isilib/)
+isilib is a Python3 library that simplifies bibliometric research using Web of Science data. It reads a directory of plain text files containing meta-data on publications and citations, and writes to a variety of data structures that are suitable for quantitative, network, and text analyses. It handles large datasets (e.g. several million records) efficiently,

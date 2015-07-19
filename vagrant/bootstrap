@@ -15,7 +15,7 @@ echo "alias ipython='ipython3'" >> /home/vagrant/.bashrc
 echo "alias easy_install='easy_install3'" >> /home/vagrant/.bashrc
 
 pip3 install networkx "ipython[notebook]" matplotlib pandas #Add to pip here
-cd /vagrant/isilib
+cd /vagrant
 python3 setup.py develop
 
 mkdir -p /home/vagrant/.ipython/

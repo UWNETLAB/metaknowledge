@@ -3,7 +3,7 @@ layout: page
 title: Installation
 ---
 
-The [download](https://github.com/mclevey/web_of_science_isi) from Github includes a customized [Vagrant](https://www.vagrantup.com) file that installs [isilib](https://github.com/mclevey/web_of_science_isi) and other useful Python libraries into a virtual machine. It is currently the easiest way of getting isilib working if you are not already using Python. Alternatively you can run `setup.py install` to install locally
+The [download](https://github.com/networks-lab/isilib) from Github includes a customized [Vagrant](https://www.vagrantup.com) file that installs [isilib](https://github.com/networks-lab/isilib/archive/master.zip) and other useful Python libraries into a virtual machine. It is currently the easiest way of getting isilib working if you are not already using Python. Alternatively you can run `setup.py install` to install locally
 
 Please note that isilib is under active development and these instructions may be out of date.
 

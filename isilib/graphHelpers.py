@@ -282,6 +282,55 @@ class ProgressBar(object):
             return "{1:{0}.1f}s".format(maxLength - 1,t)
 
 
+def getWeight(grph, nd1, nd2, weightString = "weight", returnType = int):
+    """
+    A way of getting the weight of an edge with or without weight as a parameter
+    returns a the value of the weight parameter converted to returnType if it is given or 1 (also converted) if not
+    """
+    if not weightString:
+        return returnType(1)
+    else:
+        return returnType(grph.edge[nd1][nd2][weightString])
+
+def getNodeDegrees(grph, weightString = "weight", returnType = int, edgeType = 'bi'):
+    """
+    Retunrs a dictionary of nodes to their degrees, the degree is determined by adding the weight of edge with the weight being the string weightString that gives the name of the attribute of each edge containng thier weight. The Weights are then converted to the type returnType. If weightString is give as False instead each edge is counted as 1.
+
+    edgeType, takes in one of three strings: 'bi', 'in', 'out'. 'bi' means both nodes on the edge count it, 'out' mans only the one the edge comes form counts it and 'in' means only the node the edge goes to counts it. 'bi' is the default. Use only on directoinal graphs as otherwise the selected nodes is random.
+    """
+    ndsDict = {}
+    for nd in grph.nodes_iter():
+        ndsDict[nd] = returnType(0)
+    for e in grph.edges_iter(data = True):
+        if weightString:
+            try:
+                edgVal = returnType(e[2][weightString])
+            except KeyError:
+                raise KeyError("The edge from " + str(e[0]) + " to " + str(e[1]) + " does not have the attribute: " + str(weightString))
+        else:
+            edgVal = returnType(1)
+        if edgeType == 'bi':
+            ndsDict[e[0]] += edgVal
+            ndsDict[e[1]] += edgVal
+        elif edgeType == 'in':
+            ndsDict[e[1]] += edgVal
+        elif edgeType == 'out':
+            ndsDict[e[0]] += edgVal
+        else:
+            raise ValueError("edgeType must be 'bi', 'in', or 'out'")
+    return ndsDict
+"""
+IN PROGRESS
+def getDegreeDistribution(grph, weightParameter = "weight", weightType = int, directionalType = 'bi'):
+    if directionalType != float or directionalType != int:
+        raise ValueError("Unsupported type for weights, only int and float are supported")
+    ndsDict = getNodeDegrees(grph, weightString = weightParameter, returnType = weightType, edgeType = directionalType)
+    if directionalType == int:
+"""
+
+
+
+
 def drop_edges(grph, minWeight = -float('inf'), maxWeight = float('inf'), parameterName = 'weight', ignoreUnweighted = False):
     """
     Returns a graph with edges whose weight is within the inclusive bounds of minWeight and maxWeight, i.e minWeight <= edges weight <= maxWeight, will throw a Keyerror if the graph is unweighted

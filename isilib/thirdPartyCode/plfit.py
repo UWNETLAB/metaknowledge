@@ -1,26 +1,29 @@
+#From http://tuvalu.santafe.edu/~aaronc/powerlaws/ used under GPL
+#Modified by Reid McIlroy-Young for John Mclevey
+
 from math import *
 
 # function [alpha, xmin, L]=plfit(x, varargin)
 # PLFIT fits a power-law distributional model to data.
 #    Source: http://www.santafe.edu/~aaronc/powerlaws/
-# 
+#
 #    PLFIT(x) estimates x_min and alpha according to the goodness-of-fit
-#    based method described in Clauset, Shalizi, Newman (2007). x is a 
-#    vector of observations of some quantity to which we wish to fit the 
+#    based method described in Clauset, Shalizi, Newman (2007). x is a
+#    vector of observations of some quantity to which we wish to fit the
 #    power-law distribution p(x) ~  x^-alpha for x >= xmin.
 #    PLFIT automatically detects whether x is composed of real or integer
 #    values, and applies the appropriate method. For discrete data, if
-#    min(x) > 1000, PLFIT uses the continuous approximation, which is 
+#    min(x) > 1000, PLFIT uses the continuous approximation, which is
 #    a reliable in this regime.
-#   
+#
 #    The fitting procedure works as follows:
-#    1) For each possible choice of x_min, we estimate alpha via the 
+#    1) For each possible choice of x_min, we estimate alpha via the
 #       method of maximum likelihood, and calculate the Kolmogorov-Smirnov
 #       goodness-of-fit statistic D.
 #    2) We then select as our estimate of x_min, the value that gives the
 #       minimum value D over all values of x_min.
 #
-#    Note that this procedure gives no estimate of the uncertainty of the 
+#    Note that this procedure gives no estimate of the uncertainty of the
 #    fitted parameters, nor of the validity of the fit.
 #
 #    Example:
@@ -32,7 +35,7 @@ from math import *
 #    exponent, 'xmin' is the estimate of the lower bound of the power-law
 #    behavior, and L is the log-likelihood of the data x>=xmin under the
 #    fitted power law.
-#    
+#
 #    For more information, try 'type plfit'
 #
 #    See also PLVAR, PLPVA
@@ -47,58 +50,58 @@ from math import *
 # http://www.gnu.org/copyleft/gpl.html
 # PLFIT comes with ABSOLUTELY NO WARRANTY
 #
-# 
+#
 # The 'zeta' helper function is modified from the open-source library 'mpmath'
 #   mpmath: a Python library for arbitrary-precision floating-point arithmetic
 #   http://code.google.com/p/mpmath/
 #   version 0.17 (February 2011) by Fredrik Johansson and others
-# 
+#
 
 # Notes:
-# 
+#
 # 1. In order to implement the integer-based methods in Matlab, the numeric
 #    maximization of the log-likelihood function was used. This requires
 #    that we specify the range of scaling parameters considered. We set
-#    this range to be 1.50 to 3.50 at 0.01 intervals by default. 
+#    this range to be 1.50 to 3.50 at 0.01 intervals by default.
 #    This range can be set by the user like so,
-#    
+#
 #       a = plfit(x,'range',[1.50,3.50,0.01])
-#    
+#
 # 2. PLFIT can be told to limit the range of values considered as estimates
 #    for xmin in three ways. First, it can be instructed to sample these
 #    possible values like so,
-#    
+#
 #       a = plfit(x,'sample',100)
-#    
+#
 #    which uses 100 uniformly distributed values on the sorted list of
 #    unique values in the data set. Second, it can simply omit all
 #    candidates above a hard limit, like so
-#    
+#
 #       a = plfit(x,'limit',3.4)
-#    
+#
 #    Finally, it can be forced to use a fixed value, like so
-#    
+#
 #       a = plfit(x,'xmin',3.4)
-#    
+#
 #    In the case of discrete data, it rounds the limit to the nearest
 #    integer.
-# 
-# 3. When the input sample size is small (e.g., < 100), the continuous 
+#
+# 3. When the input sample size is small (e.g., < 100), the continuous
 #    estimator is slightly biased (toward larger values of alpha). To
 #    explicitly use an experimental finite-size correction, call PLFIT like
 #    so
-#    
+#
 #       a = plfit(x,'finite')
-#    
+#
 #    which does a small-size correction to alpha.
 #
-# 4. For continuous data, PLFIT can return erroneously large estimates of 
-#    alpha when xmin is so large that the number of obs x >= xmin is very 
-#    small. To prevent this, we can truncate the search over xmin values 
+# 4. For continuous data, PLFIT can return erroneously large estimates of
+#    alpha when xmin is so large that the number of obs x >= xmin is very
+#    small. To prevent this, we can truncate the search over xmin values
 #    before the finite-size bias becomes significant by calling PLFIT as
-#    
+#
 #       a = plfit(x,'nosmall')
-#    
+#
 #    which skips values xmin with finite size bias > 0.1.
 
 def plfit(x, *varargin):
@@ -111,10 +114,10 @@ def plfit(x, *varargin):
     nowarn  = False
 
     # parse command-line parameters trap for bad input
-    i=0 
-    while i<len(varargin): 
-        argok = 1 
-        if type(varargin[i])==str: 
+    i=0
+    while i<len(varargin):
+        argok = 1
+        if type(varargin[i])==str:
             if varargin[i]=='range':
                 Range = varargin[i+1]
                 if Range[1]>Range[0]:
@@ -123,12 +126,12 @@ def plfit(x, *varargin):
                 try:
                     vec=map(lambda X:X*float(Range[2])+Range[0],\
                             range(int((Range[1]-Range[0])/Range[2])))
-                    
-                    
+
+
                 except:
                     argok=0
                     vec=[]
-                    
+
 
                 if Range[0]>=Range[1]:
                     argok=0
@@ -136,8 +139,8 @@ def plfit(x, *varargin):
                     i-=1
 
                 i+=1
-                    
-                            
+
+
             elif varargin[i]== 'sample':
                 sample  = varargin[i+1]
                 i = i + 1
@@ -147,60 +150,60 @@ def plfit(x, *varargin):
             elif varargin[i]==  'xmin':
                 xminx   = varargin[i+1]
                 i = i + 1
-            elif varargin[i]==  'finite':       finite  = True    
-            elif varargin[i]==  'nowarn':       nowarn  = True    
-            elif varargin[i]==  'nosmall':      nosmall = True    
-            else: argok=0 
-        
-      
+            elif varargin[i]==  'finite':       finite  = True
+            elif varargin[i]==  'nowarn':       nowarn  = True
+            elif varargin[i]==  'nosmall':      nosmall = True
+            else: argok=0
+
+
         if not argok:
-            print '(PLFIT) Ignoring invalid argument #',i+1 
-      
-        i = i+1 
+            print '(PLFIT) Ignoring invalid argument #',i+1
+
+        i = i+1
 
     if vec!=[] and (type(vec)!=list or min(vec)<=1):
-        print '(PLFIT) Error: ''range'' argument must contain a vector or minimum <= 1. using default.\n'                        
-              
+        print '(PLFIT) Error: ''range'' argument must contain a vector or minimum <= 1. using default.\n'
+
         vec = []
-    
+
     if sample!=[] and sample<2:
         print'(PLFIT) Error: ''sample'' argument must be a positive integer > 1. using default.\n'
         sample = []
-    
+
     if limit!=[] and limit<min(x):
         print'(PLFIT) Error: ''limit'' argument must be a positive value >= 1. using default.\n'
         limit = []
-    
+
     if xminx!=[] and xminx>=max(x):
         print'(PLFIT) Error: ''xmin'' argument must be a positive value < max(x). using default behavior.\n'
         xminx = []
-    
+
 
 
     # select method (discrete or continuous) for fitting
     if     reduce(lambda X,Y:X==True and floor(Y)==float(Y),x,True): f_dattype = 'INTS'
     elif reduce(lambda X,Y:X==True and (type(Y)==int or type(Y)==float or type(Y)==long),x,True):    f_dattype = 'REAL'
     else:                 f_dattype = 'UNKN'
-    
+
     if f_dattype=='INTS' and min(x) > 1000 and len(x)>100:
         f_dattype = 'REAL'
-    
+
 
     # estimate xmin and alpha, accordingly
-        
+
     if f_dattype== 'REAL':
         xmins = unique(x)
         xmins.sort()
         xmins = xmins[0:-1]
         if xminx!=[]:
-            
+
             xmins = [min(filter(lambda X: X>=xminx,xmins))]
-            
-        
+
+
         if limit!=[]:
             xmins=filter(lambda X: X<=limit,xmins)
             if xmins==[]: xmins = [min(x)]
-            
+
         if sample!=[]:
             step = float(len(xmins))/(sample-1)
             index_curr=0
@@ -211,16 +214,16 @@ def plfit(x, *varargin):
                 index_curr+=step
             xmins = unique(new_xmins)
             xmins.sort()
-            
-            
-        
+
+
+
         dat   = []
         z     = sorted(x)
-        
+
         for xm in range(0,len(xmins)):
             xmin = xmins[xm]
             z    = filter(lambda X:X>=xmin,z)
-            
+
             n    = len(z)
             # estimate alpha using direct MLE
 
@@ -229,8 +232,8 @@ def plfit(x, *varargin):
                 if (a-1)/sqrt(n) > 0.1 and dat!=[]:
                     xm = len(xmins)+1
                     break
-                
-            
+
+
             # compute KS statistic
             #cx   = map(lambda X:float(X)/n,range(0,n))
             cf   = map(lambda X:1-pow((float(xmin)/X),a),z)
@@ -239,33 +242,33 @@ def plfit(x, *varargin):
         xmin  = xmins[dat.index(D)]
         z     = filter(lambda X:X>=xmin,x)
         z.sort()
-        n     = len(z) 
+        n     = len(z)
         alpha = 1 + n / sum(map(lambda X: log(float(X)/xmin),z))
         if finite: alpha = alpha*float(n-1)/n+1./n  # finite-size correction
         if n < 50 and not finite and not nowarn:
             print '(PLFIT) Warning: finite-size bias may be present.\n'
-        
+
         L = n*log((alpha-1)/xmin) - alpha*sum(map(lambda X: log(float(X)/xmin),z))
     elif f_dattype== 'INTS':
-        
+
         x=map(int,x)
         if vec==[]:
             for X in range(150,351):
-                vec.append(X/100.)    # covers range of most practical 
+                vec.append(X/100.)    # covers range of most practical
                                     # scaling parameters
         zvec = map(zeta, vec)
-        
+
         xmins = unique(x)
         xmins.sort()
         xmins = xmins[0:-1]
         if xminx!=[]:
             xmins = [min(filter(lambda X: X>=xminx,xmins))]
-        
+
         if limit!=[]:
             limit = round(limit)
             xmins=filter(lambda X: X<=limit,xmins)
             if xmins==[]: xmins = [min(x)]
-        
+
         if sample!=[]:
             step = float(len(xmins))/(sample-1)
             index_curr=0
@@ -276,16 +279,16 @@ def plfit(x, *varargin):
                 index_curr+=step
             xmins = unique(new_xmins)
             xmins.sort()
-        
+
         if xmins==[]:
             print '(PLFIT) Error: x must contain at least two unique values.\n'
             alpha = 'Not a Number'
             xmin = x[0]
             D = 'Not a Number'
             return [alpha,xmin,D]
-        
+
         xmax   = max(x)
-        
+
         z      = x
         z.sort()
         datA=[]
@@ -297,14 +300,14 @@ def plfit(x, *varargin):
             n    = len(z)
             # estimate alpha via direct maximization of likelihood function
 
-            # force iterative calculation 
+            # force iterative calculation
             L       = []
             slogz   = sum(map(log,z))
             xminvec = map(float,range(1,xmin))
             for k in range(0,len(vec)):
                 L.append(-vec[k]*float(slogz) - float(n)*log(float(zvec[k]) - sum(map(lambda X:pow(float(X),-vec[k]),xminvec))))
-            
-            
+
+
             I = L.index(max(L))
             # compute KS statistic
             fit = reduce(lambda X,Y: X+[Y+X[-1]],\
@@ -312,7 +315,7 @@ def plfit(x, *varargin):
             cdi=[]
             for XM in range(xmin,xmax+1):
                 cdi.append(len(filter(lambda X: floor(X)<=XM,z))/float(n))
-            
+
             datA.append(max( map(lambda X: abs(fit[X] - cdi[X]),range(0,xmax-xmin+1))))
             datB.append(vec[I])
         # select the index for the minimum value of D
@@ -324,7 +327,7 @@ def plfit(x, *varargin):
         if finite: alpha = alpha*(n-1.)/n+1./n  # finite-size correction
         if n < 50 and not finite and not nowarn:
             print '(PLFIT) Warning: finite-size bias may be present.\n'
-        
+
         L     = -alpha*sum(map(log,z)) - n*log(zvec[vec.index(max(filter(lambda X:X<=alpha,vec)))] - \
                                               sum(map(lambda X: pow(X,-alpha),range(1,xmin))))
     else:
@@ -339,10 +342,10 @@ def plfit(x, *varargin):
 # helper functions (unique and zeta)
 
 
-def unique(seq): 
-    # not order preserving 
-    set = {} 
-    map(set.__setitem__, seq, []) 
+def unique(seq):
+    # not order preserving
+    set = {}
+    map(set.__setitem__, seq, [])
     return set.keys()
 
 def _polyval(coeffs, x):
@@ -420,7 +423,3 @@ def zeta(s):
         return _polyval(_zeta_1,s)/(s-1)
     z = _polyval(_zeta_P,s) / _polyval(_zeta_Q,s)
     return 1.0 + 2.0**(-s) + 3.0**(-s) + 4.0**(-s)*z
-
-
-
-    

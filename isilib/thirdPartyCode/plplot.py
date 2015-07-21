@@ -1,3 +1,6 @@
+#From http://tuvalu.santafe.edu/~aaronc/powerlaws/ used under GPL
+#Modified by Reid McIlroy-Young for John Mclevey
+
 import matplotlib.pyplot as plt
 from math import *
 
@@ -7,14 +10,14 @@ from math import *
 #
 #    PLPLOT  REQUIRES  the use of the free library: matplotlib
 #
-#    PLPLOT(x, xmin, alpha) plots (on log axes) the data contained in x 
-#    and a power-law distribution of the form p(x) ~ x^-alpha for 
-#    x >= xmin. For additional customization, PLPLOT returns a pair of 
-#    handles, one to the empirical and one to the fitted data series. By 
+#    PLPLOT(x, xmin, alpha) plots (on log axes) the data contained in x
+#    and a power-law distribution of the form p(x) ~ x^-alpha for
+#    x >= xmin. For additional customization, PLPLOT returns a pair of
+#    handles, one to the empirical and one to the fitted data series. By
 #    default, the empirical data is plotted as 'bo' and the fitted form is
-#    plotted as 'k--'. PLPLOT automatically detects whether x is composed 
-#    of real or integer values, and applies the appropriate plotting 
-#    method. For discrete data, if min(x) > 50, PLFIT uses the continuous 
+#    plotted as 'k--'. PLPLOT automatically detects whether x is composed
+#    of real or integer values, and applies the appropriate plotting
+#    method. For discrete data, if min(x) > 50, PLFIT uses the continuous
 #    approximation, which is a reliable in this regime.
 #
 #    Example:
@@ -35,12 +38,12 @@ from math import *
 # Distributed under GPL 2.0
 # http://www.gnu.org/copyleft/gpl.html
 # PLFIT comes with ABSOLUTELY NO WARRANTY
-# 
+#
 # The 'zeta' helper function is modified from the open-source library 'mpmath'
 #   mpmath: a Python library for arbitrary-precision floating-point arithmetic
 #   http://code.google.com/p/mpmath/
 #   version 0.17 (February 2011) by Fredrik Johansson and others
-# 
+#
 # No Notes
 #
 
@@ -49,7 +52,7 @@ def plplot(x,xmin,alpha):
     if     reduce(lambda X,Y:X==True and floor(Y)==float(Y),x,True): f_dattype = 'INTS'
     elif reduce(lambda X,Y:X==True and (type(Y)==int or type(Y)==float or type(Y)==long),x,True):    f_dattype = 'REAL'
     else:                 f_dattype = 'UNKN'
-    
+
     if f_dattype=='INTS' and min(x) > 1000 and len(x)>100:
         f_dattype = 'REAL'
     plt.close()
@@ -66,18 +69,18 @@ def plplot(x,xmin,alpha):
 
         h[0]=plt.loglog(c1, c2, 'bo',markersize=8,markerfacecolor=[1,1,1],markeredgecolor=[0,0,1])
         h[1]=plt.loglog(q, cf, 'k--',linewidth=2)
-        
+
         xr1 = pow(10,floor(log(min(x),10)))
         xr2 = pow(10,ceil(log(min(x),10)))
         yr1 = pow(10,floor(log(1./n,10)))
         yr2 = 1
-        
+
 
         plt.axhspan(ymin=yr1,ymax=yr2,xmin=xr1,xmax=xr2)
         plt.ylabel('Pr(X >= x)',fontsize=16);
         plt.xlabel('x',fontsize=16)
         plt.draw()
-        
+
     elif f_dattype== 'INTS':
         n = len(x)
         q = sorted(unique(x))
@@ -95,7 +98,7 @@ def plplot(x,xmin,alpha):
 
         h[0]=plt.loglog(c1, c2, 'bo',markersize=8,markerfacecolor=[1,1,1],markeredgecolor=[0,0,1])
         h[1]=plt.loglog(cf1, cf2, 'k--',linewidth=2)
-        
+
         xr1 = pow(10,floor(log(min(x),10)))
         xr2 = pow(10,ceil(log(min(x),10)))
         yr1 = pow(10,floor(log(1./n,10)))
@@ -106,18 +109,18 @@ def plplot(x,xmin,alpha):
         plt.ylabel('Pr(X >= x)',fontsize=16);
         plt.xlabel('x',fontsize=16)
         plt.draw()
-                 
-          
+
+
 
     return h
 
 # helper functions (unique and zeta)
 
 
-def unique(seq): 
-    # not order preserving 
-    set = {} 
-    map(set.__setitem__, seq, []) 
+def unique(seq):
+    # not order preserving
+    set = {}
+    map(set.__setitem__, seq, [])
     return set.keys()
 
 def _polyval(coeffs, x):
@@ -195,7 +198,3 @@ def zeta(s):
         return _polyval(_zeta_1,s)/(s-1)
     z = _polyval(_zeta_P,s) / _polyval(_zeta_Q,s)
     return 1.0 + 2.0**(-s) + 3.0**(-s) + 4.0**(-s)*z
-
-
-
-    

@@ -5,5 +5,5 @@ cd $BASEDIR
 
 vagrant up
 sleep 1
-open http://localhost:8888
+open http://localhost:1159
 exit 0

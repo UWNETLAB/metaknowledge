@@ -16,7 +16,7 @@ The instructions for those familiar with the command line use the advanced instr
 
 First you need to install [Vagrant](https://www.vagrantup.com/downloads.html) and [VirtualBox](https://www.virtualbox.org/wiki/Downloads) before you can install isilib.
 
-Once vagrant and virtualBox are installed, download [isilib](https://github.com/mclevey/web_of_science_isi/archive/master.zip). Unzip the file, if you do not have a tool to do this you can download [7-Zip](http://www.7-zip.org/) and use it.
+Once vagrant and virtualBox are installed, download [isilib](https://github.com/networks-lab/isilib/archive/master.zip). Unzip the file, if you do not have a tool to do this you can download [7-Zip](http://www.7-zip.org/) and use it.
 
 Open the directory isilib then go to the vagrant subdirectory. If you are using windows double click on win\_run or if you are using a Macintosh double click on mac\_run, if you are using Linux you will need to read the advanced instructions.
 

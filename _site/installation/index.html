@@ -115,17 +115,59 @@
       <div class="container content">
         <div class="page">
   <h1 class="page-title">Installation</h1>
-  <p>The <a href="https://github.com/networks-lab/isilib">download</a> from Github includes a customized <a href="https://www.vagrantup.com">Vagrant</a> file that installs <a href="https://github.com/networks-lab/isilib/archive/master.zip">isilib</a> and other useful Python libraries into a virtual machine. It is currently the easiest way of getting isilib working if you are not already using Python. Alternatively you can run <code>setup.py install</code> to install locally</p>
+  <p>The <a href="https://github.com/networks-lab/isilib">download</a> from Github includes a customized <a href="https://www.vagrantup.com">Vagrant</a> file that installs <a href="https://github.com/networks-lab/isilib/archive/master.zip">isilib</a> and other useful Python libraries into a virtual machine. It is currently the easiest way of getting isilib working if you are not already familiar with Python. Alternatively you can run <code>setup.py install</code> to install locally</p>
 
 <p>Please note that isilib is under active development and these instructions may be out of date.</p>
 
 <h2>Install with Vagrant</h2>
 
-<p>The vagrant method is intended for students and those not familiar with python it creates a virtual machine with isilib installed. It also contains the python scientific stack numpy, scipy and matplotlib as well a series of iPython notebooks for teaching people to use isilib and python.</p>
+<p>The vagrant method is intended for students and those not familiar with python it creates a virtual machine with isilib installed, also the python scientific stack numpy, scipy and matplotlib as well a series of iPython notebooks for teaching people to use isilib and python.</p>
 
-<p>Once vagrant and a hypervisor(<a href="https://www.virtualbox.org/">virtualBox</a> is the default) are installed, download isilib, click <a href="https://github.com/mclevey/web_of_science_isi/archive/master.zip">here</a> to download it as a zip file. Go to the vagrant subdirectory and run <code>vagrant up</code> or if you are using OS X double click the file mac_run. This will initialize the virtual machine and install all the required software on it.</p>
+<p>The instructions for those familiar with the command line use the advanced instructions otherwise use the easy instructions.</p>
 
-<p>Now the virtual machine is hosting a iPython notebook on port 8888 you can access it by going to <a href="http://localhost:8888/">http://localhost:8888/</a> or if you used mac_run a window will appear at it. You can also use <code>vagrant ssh</code> to access the virtual machine.</p>
+<h3>Easy instructions</h3>
+
+<p>First you need to install <a href="https://www.vagrantup.com/downloads.html">Vagrant</a> and <a href="https://www.virtualbox.org/wiki/Downloads">VirtualBox</a> before you can install isilib.</p>
+
+<p>Once vagrant and virtualBox are installed, download <a href="https://github.com/mclevey/web_of_science_isi/archive/master.zip">isilib</a>. Unzip the file, if you do not have a tool to do this you can download <a href="http://www.7-zip.org/">7-Zip</a> and use it.</p>
+
+<p>Open the directory isilib then go to the vagrant subdirectory. If you are using windows double click on win_run or if you are using a Macintosh double click on mac_run, if you are using Linux you will need to read the advanced instructions.</p>
+
+<p>A window should pop up and say something like:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">Bringing machine &#39;default&#39; up with &#39;virtualbox&#39; provider...
+==&gt; default: Importing base box &#39;ubuntu/trusty64&#39;...
+</code></pre></div>
+<p>It will also tell how long it will take, which is usually around 20 minutes. Now you just have to wait for it to finish. Once that is done a bunch of green, and occasionally red, text will appear, it should take another 10 minutes. Then a browser window will appear at the notebooks and everthing is done. If a browser window opens and it is showing <code>No data received</code> hit refresh a couple times.</p>
+
+<p>If you see:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">Lesson-0
+Lesson-1
+Lesson-2
+...
+</code></pre></div>
+<p>You have installed everything successfully.</p>
+
+<p>To open the page again just double click on which ever of mac_run and win_run you used. It should take less than a minute the second time.</p>
+
+<h3>Advanced Instructions</h3>
+
+<ol>
+<li>Install <a href="https://www.vagrantup.com/downloads.html">Vagrant</a> and <a href="https://www.virtualbox.org/wiki/Downloads">VirtualBox</a></li>
+<li>Clone the git <a href="https://github.com/networks-lab/isilib.git">repo</a></li>
+<li>Go to the vagrant directory</li>
+<li>Run <code>vagrant up</code></li>
+<li>Once vagrant has finished go to <a href="http://localhost:1159/">http://localhost:1159/</a></li>
+</ol>
+
+<p>What you are doing by running <code>vagrant up</code> is creating an Ubuntu VM and provisioning it with the script bootstrap also in vagrant. If you run<code>vagrant up</code> again it only starts the VM. So to access the VM once it is created:</p>
+
+<ol>
+<li>Go to the vagrant directory</li>
+<li>Run <code>vagrant up</code></li>
+<li>Once vagrant has finished go to <a href="http://localhost:1159/">http://localhost:1159/</a></li>
+</ol>
+
+<p>You can also use <code>vagrant ssh</code> to ssh into the VM or <code>vagrant provision</code> to rerun bootstrap.</p>
 
 <h2>Install without Vagrant</h2>
 

@@ -6,4 +6,5 @@ cd $BASEDIR
 vagrant up
 sleep 1
 open http://localhost:1159
-exit 0
+tput bel
+vagrant ssh

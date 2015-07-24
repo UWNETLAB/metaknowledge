@@ -324,12 +324,13 @@ def getNodeDegrees(grph, weightString = "weight", strictMode = False,  returnTyp
     return ndsDict
 
 def getDegreeDistribution(grph, weightParameter = "weight", strictWeightNames = False,  weightType = int, directionalType = 'bi'):
-    if weightType != float and weightType != int:
-        raise ValueError("Unsupported type for weights, only int and float are supported")
+    if weightType != int:
+        raise ValueError("Unsupported type for weights, only ints are supported")
     ndsDict = getNodeDegrees(grph, weightString = weightParameter, strictMode = strictWeightNames, returnType = weightType, edgeType = directionalType)
-    return list(ndsDict.values())
-
-
+    distVec = [0] * (max(ndsDict.values()) + 1)
+    for v in ndsDict.values():
+        distVec[v] += 1
+    return distVec
 
 def drop_edges(grph, minWeight = -float('inf'), maxWeight = float('inf'), parameterName = 'weight', ignoreUnweighted = False):
     """

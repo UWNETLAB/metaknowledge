@@ -2,6 +2,7 @@
 #Modified by Reid McIlroy-Young for John Mclevey
 
 from math import *
+from functools import reduce
 
 # function [alpha, xmin, L]=plfit(x, varargin)
 # PLFIT fits a power-law distributional model to data.
@@ -124,8 +125,7 @@ def plfit(x, *varargin):
                     argok=0
                     vec=[]
                 try:
-                    vec=map(lambda X:X*float(Range[2])+Range[0],\
-                            range(int((Range[1]-Range[0])/Range[2])))
+                    vec=[X*float(Range[2])+Range[0] for X in range(int((Range[1]-Range[0])/Range[2]))]
 
 
                 except:
@@ -157,32 +157,32 @@ def plfit(x, *varargin):
 
 
         if not argok:
-            print '(PLFIT) Ignoring invalid argument #',i+1
+            print('(PLFIT) Ignoring invalid argument #',i+1)
 
         i = i+1
 
     if vec!=[] and (type(vec)!=list or min(vec)<=1):
-        print '(PLFIT) Error: ''range'' argument must contain a vector or minimum <= 1. using default.\n'
+        print('(PLFIT) Error: ''range'' argument must contain a vector or minimum <= 1. using default.\n')
 
         vec = []
 
     if sample!=[] and sample<2:
-        print'(PLFIT) Error: ''sample'' argument must be a positive integer > 1. using default.\n'
+        print('(PLFIT) Error: ''sample'' argument must be a positive integer > 1. using default.\n')
         sample = []
 
     if limit!=[] and limit<min(x):
-        print'(PLFIT) Error: ''limit'' argument must be a positive value >= 1. using default.\n'
+        print('(PLFIT) Error: ''limit'' argument must be a positive value >= 1. using default.\n')
         limit = []
 
     if xminx!=[] and xminx>=max(x):
-        print'(PLFIT) Error: ''xmin'' argument must be a positive value < max(x). using default behavior.\n'
+        print('(PLFIT) Error: ''xmin'' argument must be a positive value < max(x). using default behavior.\n')
         xminx = []
 
 
 
     # select method (discrete or continuous) for fitting
     if     reduce(lambda X,Y:X==True and floor(Y)==float(Y),x,True): f_dattype = 'INTS'
-    elif reduce(lambda X,Y:X==True and (type(Y)==int or type(Y)==float or type(Y)==long),x,True):    f_dattype = 'REAL'
+    elif reduce(lambda X,Y:X==True and (type(Y)==int or type(Y)==float or type(Y)==int),x,True):    f_dattype = 'REAL'
     else:                 f_dattype = 'UNKN'
 
     if f_dattype=='INTS' and min(x) > 1000 and len(x)>100:
@@ -197,11 +197,11 @@ def plfit(x, *varargin):
         xmins = xmins[0:-1]
         if xminx!=[]:
 
-            xmins = [min(filter(lambda X: X>=xminx,xmins))]
+            xmins = [min([X for X in xmins if X>=xminx])]
 
 
         if limit!=[]:
-            xmins=filter(lambda X: X<=limit,xmins)
+            xmins=[X for X in xmins if X<=limit]
             if xmins==[]: xmins = [min(x)]
 
         if sample!=[]:
@@ -222,12 +222,12 @@ def plfit(x, *varargin):
 
         for xm in range(0,len(xmins)):
             xmin = xmins[xm]
-            z    = filter(lambda X:X>=xmin,z)
+            z    = [X for X in z if X>=xmin]
 
             n    = len(z)
             # estimate alpha using direct MLE
 
-            a    = float(n) / sum(map(lambda X: log(float(X)/xmin),z))
+            a    = float(n) / sum([log(float(X)/xmin) for X in z])
             if nosmall:
                 if (a-1)/sqrt(n) > 0.1 and dat!=[]:
                     xm = len(xmins)+1
@@ -236,37 +236,37 @@ def plfit(x, *varargin):
 
             # compute KS statistic
             #cx   = map(lambda X:float(X)/n,range(0,n))
-            cf   = map(lambda X:1-pow((float(xmin)/X),a),z)
-            dat.append( max( map(lambda X: abs(cf[X]-float(X)/n),range(0,n))))
+            cf   = [1-pow((float(xmin)/X),a) for X in z]
+            dat.append( max( [abs(cf[X]-float(X)/n) for X in range(0,n)]))
         D     = min(dat)
         xmin  = xmins[dat.index(D)]
-        z     = filter(lambda X:X>=xmin,x)
+        z     = [X for X in x if X>=xmin]
         z.sort()
         n     = len(z)
-        alpha = 1 + n / sum(map(lambda X: log(float(X)/xmin),z))
+        alpha = 1 + n / sum([log(float(X)/xmin) for X in z])
         if finite: alpha = alpha*float(n-1)/n+1./n  # finite-size correction
         if n < 50 and not finite and not nowarn:
-            print '(PLFIT) Warning: finite-size bias may be present.\n'
+            print('(PLFIT) Warning: finite-size bias may be present.\n')
 
-        L = n*log((alpha-1)/xmin) - alpha*sum(map(lambda X: log(float(X)/xmin),z))
+        L = n*log((alpha-1)/xmin) - alpha*sum([log(float(X)/xmin) for X in z])
     elif f_dattype== 'INTS':
 
-        x=map(int,x)
+        x=list(map(int,x))
         if vec==[]:
             for X in range(150,351):
                 vec.append(X/100.)    # covers range of most practical
                                     # scaling parameters
-        zvec = map(zeta, vec)
+        zvec = list(map(zeta, vec))
 
         xmins = unique(x)
         xmins.sort()
         xmins = xmins[0:-1]
         if xminx!=[]:
-            xmins = [min(filter(lambda X: X>=xminx,xmins))]
+            xmins = [min([X for X in xmins if X>=xminx])]
 
         if limit!=[]:
             limit = round(limit)
-            xmins=filter(lambda X: X<=limit,xmins)
+            xmins=[X for X in xmins if X<=limit]
             if xmins==[]: xmins = [min(x)]
 
         if sample!=[]:
@@ -281,7 +281,7 @@ def plfit(x, *varargin):
             xmins.sort()
 
         if xmins==[]:
-            print '(PLFIT) Error: x must contain at least two unique values.\n'
+            print('(PLFIT) Error: x must contain at least two unique values.\n')
             alpha = 'Not a Number'
             xmin = x[0]
             D = 'Not a Number'
@@ -296,42 +296,42 @@ def plfit(x, *varargin):
 
         for xm in range(0,len(xmins)):
             xmin = xmins[xm]
-            z    = filter(lambda X:X>=xmin,z)
+            z    = [X for X in z if X>=xmin]
             n    = len(z)
             # estimate alpha via direct maximization of likelihood function
 
             # force iterative calculation
             L       = []
             slogz   = sum(map(log,z))
-            xminvec = map(float,range(1,xmin))
+            xminvec = list(map(float,list(range(1,xmin))))
             for k in range(0,len(vec)):
-                L.append(-vec[k]*float(slogz) - float(n)*log(float(zvec[k]) - sum(map(lambda X:pow(float(X),-vec[k]),xminvec))))
+                L.append(-vec[k]*float(slogz) - float(n)*log(float(zvec[k]) - sum([pow(float(X),-vec[k]) for X in xminvec])))
 
 
             I = L.index(max(L))
             # compute KS statistic
             fit = reduce(lambda X,Y: X+[Y+X[-1]],\
-                         (map(lambda X: pow(X,-vec[I])/(float(zvec[I])-sum(map(lambda X: pow(X,-vec[I]),map(float,range(1,xmin))))),range(xmin,xmax+1))),[0])[1:]
+                         ([pow(X,-vec[I])/(float(zvec[I])-sum([pow(X,-vec[I]) for X in list(map(float,list(range(1,xmin))))])) for X in range(xmin,xmax+1)]),[0])[1:]
             cdi=[]
             for XM in range(xmin,xmax+1):
-                cdi.append(len(filter(lambda X: floor(X)<=XM,z))/float(n))
+                cdi.append(len([X for X in z if floor(X)<=XM])/float(n))
 
-            datA.append(max( map(lambda X: abs(fit[X] - cdi[X]),range(0,xmax-xmin+1))))
+            datA.append(max( [abs(fit[X] - cdi[X]) for X in range(0,xmax-xmin+1)]))
             datB.append(vec[I])
         # select the index for the minimum value of D
         I = datA.index(min(datA))
         xmin  = xmins[I]
-        z     = filter(lambda X:X>=xmin,x)
+        z     = [X for X in x if X>=xmin]
         n     = len(z)
         alpha = datB[I]
         if finite: alpha = alpha*(n-1.)/n+1./n  # finite-size correction
         if n < 50 and not finite and not nowarn:
-            print '(PLFIT) Warning: finite-size bias may be present.\n'
+            print('(PLFIT) Warning: finite-size bias may be present.\n')
 
-        L     = -alpha*sum(map(log,z)) - n*log(zvec[vec.index(max(filter(lambda X:X<=alpha,vec)))] - \
-                                              sum(map(lambda X: pow(X,-alpha),range(1,xmin))))
+        L     = -alpha*sum(map(log,z)) - n*log(zvec[vec.index(max([X for X in vec if X<=alpha]))] - \
+                                              sum([pow(X,-alpha) for X in range(1,xmin)]))
     else:
-        print '(PLFIT) Error: x must contain only reals or only integers.\n'
+        print('(PLFIT) Error: x must contain only reals or only integers.\n')
         alpha = []
         xmin  = []
         L     = []
@@ -345,8 +345,8 @@ def plfit(x, *varargin):
 def unique(seq):
     # not order preserving
     set = {}
-    map(set.__setitem__, seq, [])
-    return set.keys()
+    list(map(set.__setitem__, seq, []))
+    return list(set.keys())
 
 def _polyval(coeffs, x):
     p = coeffs[0]

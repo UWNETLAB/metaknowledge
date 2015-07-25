@@ -135,9 +135,12 @@
 
 <p>A window should pop up and say something like:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">Bringing machine &#39;default&#39; up with &#39;virtualbox&#39; provider...
-==&gt; default: Importing base box &#39;ubuntu/trusty64&#39;...
+==&gt; default: Box &#39;ubuntu/trusty64&#39; could not be found. Attempting to find and in
+stall...
+default: Box Provider: virtualbox
+default: Box Version: &gt;= 0
 </code></pre></div>
-<p>It will also tell how long it will take, which is usually around 20 minutes. Now you just have to wait for it to finish. Once that is done a bunch of green, and occasionally red, text will appear, it should take another 10 minutes. Then a browser window will appear at the notebooks and everthing is done. If a browser window opens and it is showing <code>No data received</code> hit refresh a couple times.</p>
+<p>It will also tell how long it will take, which is usually around 20 minutes. Now you just have to wait for it to finish. Once that is done a bunch of text will appear, it should take another 10 minutes. Then a browser window will appear at the notebooks and everthing is done. If a browser window opens and it is showing <code>No data received</code> hit refresh a couple times.</p>
 
 <p>If you see:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">Lesson-0
@@ -167,7 +170,7 @@ Lesson-2
 <li>Once vagrant has finished go to <a href="http://localhost:1159/">http://localhost:1159/</a></li>
 </ol>
 
-<p>You can also use <code>vagrant ssh</code> to ssh into the VM or <code>vagrant provision</code> to rerun bootstrap.</p>
+<p>You can also use <code>vagrant ssh</code> to ssh into the VM or <code>vagrant provision</code> to rerun bootstrap. If you want to access the vm directly you can open VirtualBox and run the VM called Networks_Lab, the user name is vagrant and the password is password.</p>
 
 <h2>Install without Vagrant</h2>
 

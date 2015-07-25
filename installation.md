@@ -29,7 +29,7 @@ A window should pop up and say something like:
     default: Box Provider: virtualbox
     default: Box Version: >= 0
 
-It will also tell how long it will take, which is usually around 20 minutes. Now you just have to wait for it to finish. Once that is done a bunch of green, and occasionally red, text will appear, it should take another 10 minutes. Then a browser window will appear at the notebooks and everthing is done. If a browser window opens and it is showing `No data received` hit refresh a couple times.
+It will also tell how long it will take, which is usually around 20 minutes. Now you just have to wait for it to finish. Once that is done a bunch of text will appear, it should take another 10 minutes. Then a browser window will appear at the notebooks and everthing is done. If a browser window opens and it is showing `No data received` hit refresh a couple times.
 
 If you see:
 
@@ -55,7 +55,7 @@ What you are doing by running `vagrant up` is creating an Ubuntu VM and provisio
 2. Run `vagrant up`
 3. Once vagrant has finished go to [http://localhost:1159/](http://localhost:1159/)
 
-You can also use `vagrant ssh` to ssh into the VM or `vagrant provision` to rerun bootstrap.
+You can also use `vagrant ssh` to ssh into the VM or `vagrant provision` to rerun bootstrap. If you want to access the vm directly you can open VirtualBox and run the VM called Networks_Lab, the user name is vagrant and the password is password.
 
 ## Install without Vagrant
 

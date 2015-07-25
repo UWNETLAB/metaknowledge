@@ -24,7 +24,10 @@ A window should pop up and say something like:
 
 
     Bringing machine 'default' up with 'virtualbox' provider...
-    ==> default: Importing base box 'ubuntu/trusty64'...
+    ==> default: Box 'ubuntu/trusty64' could not be found. Attempting to find and in
+    stall...
+    default: Box Provider: virtualbox
+    default: Box Version: >= 0
 
 It will also tell how long it will take, which is usually around 20 minutes. Now you just have to wait for it to finish. Once that is done a bunch of green, and occasionally red, text will appear, it should take another 10 minutes. Then a browser window will appear at the notebooks and everthing is done. If a browser window opens and it is showing `No data received` hit refresh a couple times.
 

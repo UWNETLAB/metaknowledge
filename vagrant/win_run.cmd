@@ -1,5 +1,5 @@
-DHDIR %~dp0
+@Echo OFF
 vagrant up
 ping localhost
 start "" http://localhost:1159
-vagrant ssh
+pause

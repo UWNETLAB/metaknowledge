@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 apt-get update
-apt-get install -y git python3 python3 libfreetype6-dev libpng12-dev python3-setuptools python3-dev pkg-config python3-numpy python3-scipy
+apt-get install -y git python3 libfreetype6-dev libpng12-dev python3-setuptools python3-dev pkg-config python3-numpy python3-scipy r-base
 sudo easy_install3 pip
 echo "alias python='python3'" >> ~/.bashrc
 echo "alias pip='pip3'" >> ~/.bashrc
@@ -14,7 +14,7 @@ echo "alias pip='pip3'" >> /home/vagrant/.bashrc
 echo "alias ipython='ipython3'" >> /home/vagrant/.bashrc
 echo "alias easy_install='easy_install3'" >> /home/vagrant/.bashrc
 
-pip3 install networkx "ipython[notebook]" matplotlib pandas #Add to pip here
+pip3 install networkx "ipython[notebook]" matplotlib pandas seaborn igraph #Add to pip here
 cd /vagrant
 python3 setup.py develop
 

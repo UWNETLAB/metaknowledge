@@ -5,12 +5,9 @@ Vagrant.configure(2) do |config|
 
 
    config.vm.provider "virtualbox" do |vb, override|
-      config.vm.box = "ubuntu/trusty64"
-      override.vm.box_url = "https://atlas.hashicorp.com/ubuntu/trusty64"
-      vb.name = "Network_Labs"
-     # Display the VirtualBox GUI when booting the machine
-     #vb.gui = true
-     # Customize the amount of memory on the VM:
+     config.vm.box = "ubuntu/trusty64"
+     override.vm.box_url = "https://atlas.hashicorp.com/ubuntu/trusty64"
+     vb.name = "Networks_Labs"
      vb.memory = "1024"
      override.vm.network :forwarded_port, host: 1159, guest: 8888, auto_correct: true
    end

@@ -42,3 +42,4 @@ chmod +x /home/vagrant/ipythonStartup.sh
 /etc/rc.local
 
 echo "provisioning done"
+echo "Notebook Server running at http://localhost:1159"

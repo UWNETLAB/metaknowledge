@@ -1,7 +1,6 @@
 #!/bin/bash -e
 
-BASEDIR=$(dirname $0)
-cd $BASEDIR
+cd "$(dirname "$0")"
 
 vagrant up
 sleep 1

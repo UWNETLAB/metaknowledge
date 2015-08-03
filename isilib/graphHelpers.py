@@ -53,7 +53,7 @@ def read_graph(edgeList, nodeList = None, directed = False, idKey = 'ID', eSourc
         else:
             grph.add_edge(eFrom, eTo)
     if PBar:
-        PBar.finish(str(len(grph.nodes())) + " nodes and " + str(len(grph.edges()) + " edges found"))
+        PBar.finish(str(len(grph.nodes())) + " nodes and " + str(len(grph.edges())) + " edges found")
     f.close()
     return grph
 

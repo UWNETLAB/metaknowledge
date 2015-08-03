@@ -58,10 +58,10 @@ class TestRecordCollection(unittest.TestCase):
         self.assertTrue('weight' in Gdefault.edges(data = True)[0][2])
         self.assertTrue('info' in Gdefault.nodes(data = True)[0][1])
         self.assertFalse('weight' in Gunwei.edges(data = True)[0][2])
-        self.assertEqual(len(Gdefault.nodes()), 508)
-        self.assertEqual(len(Gdefault.edges()), 14351)
-        self.assertEqual(len(Gauths.nodes()), 317)
-        self.assertEqual(len(Gauths.edges()), 6872)
+        self.assertEqual(len(Gdefault.nodes()), 518)
+        self.assertEqual(len(Gdefault.edges()), 14775)
+        self.assertEqual(len(Gauths.nodes()), 322)
+        self.assertEqual(len(Gauths.edges()), 6996)
 
     def test_coAuth(self):
         Gdefault = self.RC.coAuthNetwork()
@@ -85,12 +85,12 @@ class TestRecordCollection(unittest.TestCase):
         self.assertFalse('weight' in Gunwei.edges(data = True)[0][2])
         self.assertGreater(len(Gdefault.nodes()), len(Gauths.nodes()))
         self.assertGreater(len(Ganon.nodes()), len(Gdefault.nodes()))
-        self.assertEqual(len(Gdefault.nodes()), 525)
-        self.assertEqual(len(Ganon.nodes()), 543)
-        self.assertEqual(len(Gauths.nodes()), 320)
-        self.assertEqual(len(Gdefault.edges()), 832)
-        self.assertEqual(len(Ganon.edges()), 853)
-        self.assertEqual(len(Gauths.edges()), 561)
+        self.assertEqual(len(Gdefault.nodes()), 535)
+        self.assertEqual(len(Ganon.nodes()), 536)
+        self.assertEqual(len(Gauths.nodes()), 325)
+        self.assertEqual(len(Gdefault.edges()), 847)
+        self.assertEqual(len(Ganon.edges()), 848)
+        self.assertEqual(len(Gauths.edges()), 569)
 
 
     def test_oneMode(self):
@@ -129,3 +129,17 @@ class TestRecordCollection(unittest.TestCase):
         G = self.RC.nModeNetwork(isilib.tagToFull.keys())
         self.assertEqual(len(G.nodes()), 1185)
         self.assertEqual(len(G.edges()), 38557)
+
+    def test_citeFilter(self):
+        RCmin = self.RC.citeFilter('', reverse = True)
+        RCmax = self.RC.citeFilter('')
+        RCanon = self.RC.citeFilter('', 'anonymous')
+        RC1970 = self.RC.citeFilter('1970', 'year')
+        RCno1970 = self.RC.citeFilter(1970, 'year', reverse = True)
+        RCMELLER = self.RC.citeFilter('meller', 'author')
+        self.assertEqual(len(RCmin), 0)
+        self.assertEqual(len(RCmax), len(self.RC))
+        self.assertEqual(len(RCanon), 1)
+        self.assertEqual(len(RC1970), 15)
+        self.assertEqual(len(RC1970) + len(RCno1970), len(self.RC))
+        self.assertEqual(len(RCMELLER), 1)

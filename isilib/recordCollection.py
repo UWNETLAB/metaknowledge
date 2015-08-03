@@ -677,6 +677,110 @@ class RecordCollection(object):
             PBar.finish("Done making a " + str(len(tags)) + "-mode network of: " +  ', '.join(tags))
         return grph
 
+    def citeFilter(self, keyString = '', field = 'all', reverse = False, caseSensitive = False):
+        """
+        Filters Records by some string, keyString, in all of their citations.
+        Returns all Records with at least one citation possessing keyString in the field given by field.
+
+        keyString give the string to be searched for if it is is blank then all citations with the specified field will be matched
+
+        field give the component of the citation to be looked at, it is one of a few strings. The default is 'all' which will cause the entire original citation to be searched. It can be used to search across fields, e.g. '1970, V2' is a valid keystring
+        The other options are:
+        author, searches the author field
+        year, searches the year field
+        journal, searches the journal field
+        V, searches the volume field
+        P, searches the page field
+        misc, searches all the remaining uncategorized information
+        anonymous, searches for anonymous citations, keyString is not used
+        bad, searches for bad citations, keyString is not used
+
+        reverse being True causes all Records not matching the query to be returned, default is False
+
+        caseSensitive if True causes the search across the original to be case sensitive, only the 'all' option can be case sensitive
+
+        """
+        retRecs = []
+        keyString = str(keyString)
+        for R in self:
+            if field == 'all':
+                for cite in R.citations:
+                    if caseSensitive:
+                        if keyString in cite.original:
+                            retRecs.append(R)
+                            break
+                    else:
+                        if keyString.upper() in cite.original.upper():
+                            retRecs.append(R)
+                            break
+            elif field == 'author':
+                for cite in R.citations:
+                    try:
+                        if keyString.upper() in cite.author:
+                            retRecs.append(R)
+                            break
+                    except AttributeError:
+                        pass
+            elif field == 'journal':
+                for cite in R.citations:
+                    try:
+                        if keyString.upper() in cite.journal:
+                            retRecs.append(R)
+                            break
+                    except AttributeError:
+                        pass
+            elif field == 'year':
+                for cite in R.citations:
+                    try:
+                        if keyString.upper() in cite.year:
+                            retRecs.append(R)
+                            break
+                    except AttributeError:
+                        pass
+            elif field == 'V':
+                for cite in R.citations:
+                    try:
+                        if keyString.upper() in cite.V:
+                            retRecs.append(R)
+                            break
+                    except AttributeError:
+                        pass
+            elif field == 'P':
+                for cite in R.citations:
+                    try:
+                        if keyString.upper() in cite.P:
+                            retRecs.append(R)
+                            break
+                    except AttributeError:
+                        pass
+            elif field == 'misc':
+                for cite in R.citations:
+                    try:
+                        if keyString.upper() in cite.misc:
+                            retRecs.append(R)
+                            break
+                    except AttributeError:
+                        pass
+            elif field == 'anonymous':
+                for cite in R.citations:
+                    if cite.isAnonymous():
+                        retRecs.append(R)
+                        break
+            elif field == 'bad':
+                for cite in R.citations:
+                    if cite.bad:
+                        retRecs.append(R)
+                        break
+        if reverse:
+            excluded = []
+            for R in self:
+                if R not in retRecs:
+                    excluded.append(R)
+            return RecordCollection(inCollection = excluded, name = self._repr + '_subsetByNotCite')
+        else:
+            return RecordCollection(inCollection = retRecs, name = self._repr + '_subsetByCite')
+
+
 def isiParser(isifile):
     """
     isiParser() reads the file given by the path isifile, checks that the header is correct then reads until it reaches EF.

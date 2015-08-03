@@ -55,8 +55,9 @@ class TestCitation(unittest.TestCase):
         c = isilib.Citation("a, b")
         self.assertTrue(c.bad)
         self.assertEqual(str(c.error), "Too few elements")
-        self.assertEqual(c.getExtra(),'A, B')
-        self.assertEqual(c.getID(),'A, B')
+        self.assertEqual(c.getExtra(),'B')
+        self.assertEqual(c.author,'A')
+        self.assertEqual(c.getID(),'A')
 
     def test_citation_badNumbers(self):
         c = isilib.Citation("1 2, 2, 3, 4")

@@ -7,8 +7,6 @@ import os
 import sys
 import readline
 
-args = argparse.Namespace()
-
 def argumentParser():
     parser = argparse.ArgumentParser(description="isilib's simple command line interface")
     parser.add_argument("files", default = [], nargs = '*')
@@ -30,6 +28,7 @@ def inputMenu(inputDict, header = None, footer = None, errorMsg = 'That is not a
     if selection in inputDict:
         return selection
     else:
+        print('\033[93m\a' + errorMsg + '\033[0m') #Not windows compatible
         return inputMenu(inputDict, header = header, footer = footer, errorMsg = errorMsg, promptMsg = promptMsg)
 
 def controlledPrint(s):
@@ -38,11 +37,10 @@ def controlledPrint(s):
     else:
         pass
 
-
-def getFiles(flist):
+def getFiles(args):
     tmpRC = isilib.RecordCollection(name = '')
-    if len(flist) > 0:
-        for f in flist:
+    if len(args.files) > 0:
+        for f in args.files:
             path = os.path.abspath(os.path.expanduser(f))
             if os.path.exists(path):
                 tmpRC = tmpRC + isilib.RecordCollection(path, extension = args.suffix)
@@ -55,29 +53,29 @@ def getFiles(flist):
         badPaths = [f for f in paths if not os.path.exists(f)]
         if len(badPaths) > 1:
             print(', '.join(badPaths[:-1]) + " and " + badPaths[-1] + " are not existing files or directorys")
-            return(getFiles([]))
+            args.files = []
+            return getFiles(args)
         elif len(badPaths) == 1:
             print(badPaths[0] + " is not an existing file or directory")
-            return(getFiles([]))
+            args.files = []
+            return getFiles(args)
         else:
-            return(getFiles(paths))
+            args.files = paths
+            return getFiles(args)
 
-def getNetwork(inRC):
-    print("""What type of network do you wish to create?
-1) a one-mode network
-2) a two-mode network
-3) an n-mode network
-4) a citation network
-5) a co-citation network
-6) a co-authorship network""")
-    netType = input("Input the number corresponding to the type of network you wish to generate: ")
+def getNetwork(clargs, inRC):
+    netsDict = {
+    '1': "a one-mode network",
+    '2': "a two-mode network",
+    '3': "an n-mode network",
+    '4': "a citation network",
+    '5': "a co-citation network",
+    '6': "a co-authorship network",
+    }
     try:
-        netID = int(netType)
-        if netID > 7 or netID < 1:
-            raise ValueError
-    except ValueError:
-        print("Not a valid selection")
-        return getNetwork(inRC)
+        netID = int(inputMenu(netsDict, header = "What type of network do you wish to create?", promptMsg = "Input the number corresponding to the type of network you wish to generate: "))
+    except:
+        pass
     else:
         if netID == 4:
             print("Generating citation network")
@@ -120,13 +118,10 @@ def  outputNetwork(grph):
             return outputNetwork(grph)
 
 def main():
-    global args
     args = argumentParser()
     RC = getFiles(args)
     G = getNetwork(args, RC)
     outputNetwork(args, G)
-
-
 
 
 

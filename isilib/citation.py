@@ -9,9 +9,7 @@ class Citation(object):
     A object to hold citation strings and allow for comparison between them.
     It takes in a citation string from the CR tag of a WOS record then attempts to extract the DOI ,author, year, journal, Volume (V) and Page (P) of the citation string, any extra values are put in misc.
     If the citation string does not have 3 comma space separated elements or has 2 or more only numeric elements it is flagged as bad and all of the string is stored in misc
-
     """
-
     def __init__(self, cite):
         self.original = cite
         self.bad = False
@@ -21,6 +19,8 @@ class Citation(object):
         if len(c) < 3:
             self.bad = True
             self.error = BadCitation("Too few elements")
+            if len(c) == 2:
+                self.author = c.pop(0).replace('.','')
             self.misc = ', '.join(c)
         else:
             if not c[0].isnumeric():
@@ -95,6 +95,12 @@ class Citation(object):
         """
         return not self == other
 
+    def __repr__(self):
+        """
+        the representation of the Citation is its original form
+        """
+        return self.original
+
     def isAnonymous(self):
         """
         checks if the author is given as "[ANONYMOUS]" and returns True if so
@@ -102,7 +108,7 @@ class Citation(object):
         if hasattr(self, 'author'):
             return self.author == "[ANONYMOUS]"
         else:
-            return True
+            return False
 
     def getID(self):
         """

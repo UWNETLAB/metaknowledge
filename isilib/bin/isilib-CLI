@@ -17,6 +17,21 @@ def argumentParser():
     parser.add_argument("--suffix", "-s", default = '', help = "Progress bar mode, shows progress bars where appropriate")
     return parser.parse_args()
 
+def inputMenu(inputDict, header = None, footer = None, errorMsg = 'That is not an option please select a different value.', promptMsg = 'What is your selection: '):
+    s = ''
+    if header:
+        s += '{}\n'.format(header)
+    for k in inputDict.keys():
+        s += '{0}) {1}\n'.format(k,inputDict[k])
+    if footer:
+        s += '{}\n'.format(footer)
+    print(s, end = '')
+    selection = input(promptMsg)
+    if selection in inputDict:
+        return selection
+    else:
+        return inputMenu(inputDict, header = header, footer = footer, errorMsg = errorMsg, promptMsg = promptMsg)
+
 def controlledPrint(s):
     if args.verbose:
         print(s)
@@ -104,8 +119,18 @@ def  outputNetwork(grph):
             print("Not a valid selection")
             return outputNetwork(grph)
 
-if __name__ == "__main__":
+def main():
+    global args
     args = argumentParser()
+    RC = getFiles(args)
+    G = getNetwork(args, RC)
+    outputNetwork(args, G)
+
+
+
+
+
+    """
     if args.progress:
         setattr(isilib, 'VERBOSE_MODE', True)
     controlledPrint(args.__dict__)
@@ -117,3 +142,9 @@ if __name__ == "__main__":
         sys.exit()
     G = getNetwork(RC)
     outputNetwork(G)
+    """
+
+
+
+if __name__ == "__main__":
+    main()

@@ -2,10 +2,11 @@
 import isilib
 from .record import Record, BadISIFile
 from .graphHelpers import ProgressBar
-from .constants import tagsAndNames
+from .constants import tagsAndNames, tagToFull
 
 import itertools
 import os.path
+import csv
 
 import networkx as nx
 
@@ -258,6 +259,38 @@ class RecordCollection(object):
             f.write('\n')
         f.write('EF')
         f.close()
+
+    def writeCSV(self, fname = None, onlyTheseTags = None, longNames = False, firstTags = ['UT', 'PT', 'TI', 'AF', 'CR'], csvDelimiter = ',', csvQuote = '"', listDelimiter = '|'):
+        if onlyTheseTags:
+            retrievedFields = [t for t in firstTags if t in onlyTheseTags] + [t for t in onlyTheseTags if t not in firstTags]
+        else:
+            retrievedFields = firstTags
+            for R in self:
+                tagsLst = [t for t in R.activeTags() if t not in retrievedFields]
+                retrievedFields += tagsLst
+        if longNames:
+            retrievedFields = [tagToFull[t] for t in retrievedFields]
+        if fname:
+            f = open(fname, mode = 'w', encoding = 'utf-8')
+        else:
+            f = open(repr(self)[:200] + '.csv', mode = 'w', encoding = 'utf-8')
+        csvWriter = csv.DictWriter(f, retrievedFields, delimiter = csvDelimiter, quotechar = csvQuote, quoting=csv.QUOTE_ALL)
+        csvWriter.writeheader()
+        for R in self:
+            recDict = R.getTagsDict(retrievedFields)
+            for k in recDict.keys():
+                value = recDict[k]
+                if hasattr(value, '__iter__'):
+                    recDict[k] = listDelimiter.join([str(v) for v in value])
+                elif recDict[k] == None:
+                    recDict[k] = ''
+                else:
+                    recDict[k] = str(value)
+            csvWriter.writerow(recDict)
+        f.close()
+
+
+
 
     def coAuthNetwork(self):
         grph = nx.Graph()

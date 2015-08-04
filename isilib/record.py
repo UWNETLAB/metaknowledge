@@ -5,7 +5,7 @@ import io
 import collections
 
 from .citation import Citation
-from .constants import tagNameConverter, tagsAndNames
+from .constants import tagNameConverter, tagsAndNames, fullToTag
 from .recordTagFunctions import tagToFunc
 
 class BadISIRecord(Warning):
@@ -217,6 +217,8 @@ class Record(object):
         """
         if tag in self._fieldDict:
             return self._fieldDict[tag]
+        elif tag in fullToTag and fullToTag[tag] in self._fieldDict:
+            return self._fieldDict[fullToTag[tag]]
         else:
             return None
 
@@ -256,6 +258,12 @@ class Record(object):
         for tag in taglst:
             retDict[tag] = self.getTag(tag)
         return retDict
+
+    def activeTags(self):
+        """
+        Returns a list of all the tags the original isi record had
+        """
+        return list(self._fieldDict.keys())
 
     def writeRecord(self, infile):
         """

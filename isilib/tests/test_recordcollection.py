@@ -45,6 +45,20 @@ class TestRecordCollection(unittest.TestCase):
         os.remove(fileName + '.tmp')
         os.remove(repr(RC)[:200] + '.isi')
 
+    def test_writeCSV(self):
+        filename = "test_writeCSV_temporaryFile.csv"
+        if os.path.isfile(filename):
+            os.remove(filename)
+        self.RC.writeCSV(filename, onlyTheseTags=['UT', 'PT', 'TI', 'AF','J9' ,'CR'], firstTags = ['CR', 'UT', 'J9'], csvDelimiter = '∂', csvQuote='≠', listDelimiter= '«', longNames=True)
+        self.assertTrue(os.path.isfile(filename))
+        self.assertEqual(os.path.getsize(filename), 56183)
+        os.remove(filename)
+        self.RC.writeCSV(filename)
+        self.assertTrue(os.path.isfile(filename))
+        self.assertEqual(os.path.getsize(filename), 88201)
+        os.remove(filename)
+
+
     def test_coCite(self):
         Gdefault = self.RC.coCiteNetwork()
         Gauths = self.RC.coCiteNetwork(authorship = True, dropAnon = False)

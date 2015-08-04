@@ -2,7 +2,7 @@
 import isilib
 from .record import Record, BadISIFile
 from .graphHelpers import ProgressBar
-from .constants import tagsAndNames, tagToFull
+from .constants import tagsAndNames, tagToFull, fullToTag
 
 import itertools
 import os.path
@@ -261,7 +261,33 @@ class RecordCollection(object):
         f.close()
 
     def writeCSV(self, fname = None, onlyTheseTags = None, longNames = False, firstTags = ['UT', 'PT', 'TI', 'AF', 'CR'], csvDelimiter = ',', csvQuote = '"', listDelimiter = '|'):
+        """
+        Writes all the Records from the collection into a csv file with each row a record and each column a tag
+
+        fname is the name of the file to write to, if none is given it uses the Collections name suffixed by .csv
+
+        onlyTheseTags lets you specify which tags to use, if not given then all tags in the records are given.
+        If you want to use all known tags the use onlyTheseTags = isilib.knownTagsList
+
+        longNames if set to True will convert the tags to their longer names, otherwise the short 2 character ones will be used
+
+        firstTags is the column's tags, it is set by default to ['UT', 'PT', 'TI', 'AF', 'CR'] so those will be written first if given by onlyTheseTags.
+        Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will override onlyTheseTags
+
+        csvDelimiter is the delimiter used for the cells of the csv file, default is the comma (,)
+
+        csvQuote is  the quote character used for the csv, default is the double quote (")
+
+        listDelimiter is the delimiter used between values of the same cell if the tag for that record has multiple outputs, default is the pipe (|)
+        """
+        for i in range(len(firstTags)):
+            if firstTags[i] in fullToTag:
+                firstTags[i] = fullToTag[firstTags[i]]
         if onlyTheseTags:
+            shortenedTags = []
+            for i in range(len(onlyTheseTags)):
+                if onlyTheseTags[i] in fullToTag:
+                    onlyTheseTags[i] = fullToTag[onlyTheseTags[i]]
             retrievedFields = [t for t in firstTags if t in onlyTheseTags] + [t for t in onlyTheseTags if t not in firstTags]
         else:
             retrievedFields = firstTags
@@ -269,7 +295,10 @@ class RecordCollection(object):
                 tagsLst = [t for t in R.activeTags() if t not in retrievedFields]
                 retrievedFields += tagsLst
         if longNames:
-            retrievedFields = [tagToFull[t] for t in retrievedFields]
+            try:
+                retrievedFields = [tagToFull[t] for t in retrievedFields]
+            except KeyError:
+                raise KeyError("One of the tags could not be converted to a long name.")
         if fname:
             f = open(fname, mode = 'w', encoding = 'utf-8')
         else:

@@ -15,8 +15,6 @@ def isInteractive():
 
 VERBOSE_MODE = isInteractive()
 
-
-
 #maps three letter combinations to numbers for use in Record.month
 monthDict = {'SPR': 3, 'SUM': 6, 'FAL': 9, 'WIN': 12, 'JAN' : 1, 'FEB' : 2, 'MAR' : 3, 'APR' : 4, 'MAY' : 5, 'JUN' : 6 , 'JUL' : 7, 'AUG' : 8, 'SEP' : 9, 'OCT' : 10, 'NOV' : 11, 'DEC' : 12}
 
@@ -116,3 +114,5 @@ fullToTag = reverseDict(tagToFull) #Reverses tagToFull
 tagNameConverter = makeBiDirectional(tagToFull) #tagToFull made reversible
 
 tagsAndNames = set(tagNameConverter.keys()) #set of WOS tags ad their names
+
+knownTagsList = list(tagToFull.keys()) #list of all the known tags

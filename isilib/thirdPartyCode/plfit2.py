@@ -157,7 +157,7 @@ def plfit(x, *varargin):
 
 
         if not argok:
-            print(('(PLFIT) Ignoring invalid argument #',i+1))
+            print('(PLFIT) Ignoring invalid argument #',i+1)
 
         i = i+1
 
@@ -343,7 +343,10 @@ def plfit(x, *varargin):
 
 
 def unique(seq):
-    return list(set(seq))
+    # not order preserving
+    set = {}
+    list(map(set.__setitem__, seq, []))
+    return list(set.keys())
 
 def _polyval(coeffs, x):
     p = coeffs[0]

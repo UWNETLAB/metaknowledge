@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module graphHelpers</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>graphHelpers</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/Users/Reid/Dropbox/Documents/Work/Network%20Makers/isilib/isilib/graphHelpers.py">/Users/Reid/Dropbox/Documents/Work/Network Makers/isilib/isilib/graphHelpers.py</a></font></td></tr></table>
+    <p></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="csv.html">csv</a><br>
+<a href="isilib.html">isilib</a><br>
+</td><td width="25%" valign=top><a href="math.html">math</a><br>
+<a href="networkx.html">networkx</a><br>
+</td><td width="25%" valign=top><a href="os.html">os</a><br>
+<a href="sys.html">sys</a><br>
+</td><td width="25%" valign=top><a href="time.html">time</a><br>
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="builtins.html#object">builtins.object</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="graphHelpers.html#ProgressBar">ProgressBar</a>
+</font></dt></dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="ProgressBar">class <strong>ProgressBar</strong></a>(<a href="builtins.html#object">builtins.object</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="ProgressBar-__del__"><strong>__del__</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="ProgressBar-__init__"><strong>__init__</strong></a>(self, initPer, initString=' ', output=&lt;_io.TextIOWrapper name='&lt;stdout&gt;' mode='w' encoding='UTF-8'&gt;)</dt></dl>
+
+<dl><dt><a name="ProgressBar-finish"><strong>finish</strong></a>(self, inputString)</dt></dl>
+
+<dl><dt><a name="ProgressBar-jumpUp"><strong>jumpUp</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="ProgressBar-updateVal"><strong>updateVal</strong></a>(self, inputPer, inputString=None)</dt></dl>
+
+<hr>
+Static methods defined here:<br>
+<dl><dt><a name="ProgressBar-prepString"><strong>prepString</strong></a>(s, maxLength)</dt></dl>
+
+<dl><dt><a name="ProgressBar-prepTime"><strong>prepTime</strong></a>(t, maxLength)</dt></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>difTermAndBar</strong> = 8</dl>
+
+<dl><dt><strong>timeLength</strong> = 6</dl>
+
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-drop_edges"><strong>drop_edges</strong></a>(grph, minWeight=-inf, maxWeight=inf, parameterName='weight', ignoreUnweighted=False)</dt><dd><tt>Returns&nbsp;a&nbsp;graph&nbsp;with&nbsp;edges&nbsp;whose&nbsp;weight&nbsp;is&nbsp;within&nbsp;the&nbsp;inclusive&nbsp;bounds&nbsp;of&nbsp;minWeight&nbsp;and&nbsp;maxWeight,&nbsp;i.e&nbsp;minWeight&nbsp;&lt;=&nbsp;edges&nbsp;weight&nbsp;&lt;=&nbsp;maxWeight,&nbsp;will&nbsp;throw&nbsp;a&nbsp;Keyerror&nbsp;if&nbsp;the&nbsp;graph&nbsp;is&nbsp;unweighted<br>
+&nbsp;<br>
+minWeight&nbsp;and&nbsp;maxWeight&nbsp;default&nbsp;to&nbsp;negative&nbsp;and&nbsp;positive&nbsp;infinity&nbsp;respectively&nbsp;so&nbsp;without&nbsp;specifying&nbsp;either&nbsp;the&nbsp;output&nbsp;should&nbsp;be&nbsp;the&nbsp;input<br>
+&nbsp;<br>
+parameterName&nbsp;is&nbsp;key&nbsp;to&nbsp;weight&nbsp;field&nbsp;in&nbsp;the&nbsp;edge's&nbsp;dictionary,&nbsp;default&nbsp;is&nbsp;weight&nbsp;as&nbsp;that&nbsp;is&nbsp;almost&nbsp;always&nbsp;correct<br>
+&nbsp;<br>
+ignoreUnweighted&nbsp;can&nbsp;be&nbsp;set&nbsp;False&nbsp;to&nbsp;suppress&nbsp;the&nbsp;KeyError&nbsp;and&nbsp;make&nbsp;unweighted&nbsp;edges&nbsp;be&nbsp;ignored</tt></dd></dl>
+ <dl><dt><a name="-drop_nodesByCount"><strong>drop_nodesByCount</strong></a>(grph, minCount=-inf, maxCount=inf, parameterName='count', ignoreMissing=False)</dt><dd><tt>Returns&nbsp;a&nbsp;graph&nbsp;whose&nbsp;nodes&nbsp;have&nbsp;a&nbsp;occurrence&nbsp;count&nbsp;that&nbsp;is&nbsp;within&nbsp;inclusive&nbsp;bounds&nbsp;of&nbsp;minCount&nbsp;and&nbsp;maxCount,&nbsp;i.e&nbsp;minCount&nbsp;&lt;=&nbsp;count&nbsp;&lt;=&nbsp;maxCount.&nbsp;Occurrence&nbsp;count&nbsp;is&nbsp;determined&nbsp;by&nbsp;reading&nbsp;the&nbsp;variable&nbsp;associated&nbsp;with&nbsp;the&nbsp;node&nbsp;named&nbsp;parameterName.<br>
+&nbsp;<br>
+minCount&nbsp;and&nbsp;maxCount&nbsp;default&nbsp;to&nbsp;negative&nbsp;and&nbsp;positive&nbsp;infinity&nbsp;respectively&nbsp;so&nbsp;without&nbsp;specifying&nbsp;either&nbsp;the&nbsp;output&nbsp;should&nbsp;be&nbsp;the&nbsp;input<br>
+&nbsp;<br>
+&nbsp;<br>
+parameterName&nbsp;is&nbsp;key&nbsp;to&nbsp;count&nbsp;field&nbsp;in&nbsp;the&nbsp;node's&nbsp;dictionary,&nbsp;default&nbsp;is&nbsp;count&nbsp;as&nbsp;that&nbsp;is&nbsp;often&nbsp;correct<br>
+&nbsp;<br>
+ignoreMissing&nbsp;can&nbsp;be&nbsp;set&nbsp;False&nbsp;to&nbsp;suppress&nbsp;the&nbsp;KeyError&nbsp;and&nbsp;make&nbsp;nodes&nbsp;missing&nbsp;counts&nbsp;be&nbsp;dropped&nbsp;instead&nbsp;of&nbsp;throwing&nbsp;errors</tt></dd></dl>
+ <dl><dt><a name="-drop_nodesByDegree"><strong>drop_nodesByDegree</strong></a>(grph, minDegree=-inf, maxDegree=inf, useWeight=False, parameterName='weight', ignoreUnweighted=False)</dt><dd><tt>Returns&nbsp;a&nbsp;graph&nbsp;whose&nbsp;nodes&nbsp;have&nbsp;a&nbsp;degree&nbsp;that&nbsp;is&nbsp;within&nbsp;inclusive&nbsp;bounds&nbsp;of&nbsp;minDegree&nbsp;and&nbsp;maxDegree,&nbsp;i.e&nbsp;minDegree&nbsp;&lt;=&nbsp;degree&nbsp;&lt;=&nbsp;maxDegree.&nbsp;Degree&nbsp;can&nbsp;be&nbsp;determined&nbsp;in&nbsp;two&nbsp;ways&nbsp;by&nbsp;default&nbsp;it&nbsp;is&nbsp;the&nbsp;total&nbsp;number&nbsp;of&nbsp;edges&nbsp;touching&nbsp;a&nbsp;node,&nbsp;alternative&nbsp;if&nbsp;useWeight&nbsp;is&nbsp;True&nbsp;it&nbsp;is&nbsp;the&nbsp;sum&nbsp;of&nbsp;the&nbsp;weight&nbsp;of&nbsp;all&nbsp;the&nbsp;edges&nbsp;touching&nbsp;a&nbsp;node.<br>
+&nbsp;<br>
+minDegree&nbsp;and&nbsp;maxDegree&nbsp;default&nbsp;to&nbsp;negative&nbsp;and&nbsp;positive&nbsp;infinity&nbsp;respectively&nbsp;so&nbsp;without&nbsp;specifying&nbsp;either&nbsp;the&nbsp;output&nbsp;should&nbsp;be&nbsp;the&nbsp;input<br>
+&nbsp;<br>
+useWeight&nbsp;can&nbsp;be&nbsp;set&nbsp;True&nbsp;to&nbsp;use&nbsp;an&nbsp;alternative&nbsp;method&nbsp;for&nbsp;calculating&nbsp;degree,&nbsp;the&nbsp;total&nbsp;weight&nbsp;of&nbsp;all&nbsp;edges<br>
+&nbsp;<br>
+parameterName&nbsp;is&nbsp;key&nbsp;to&nbsp;weight&nbsp;field&nbsp;in&nbsp;the&nbsp;edge's&nbsp;dictionary,&nbsp;default&nbsp;is&nbsp;weight&nbsp;as&nbsp;that&nbsp;is&nbsp;almost&nbsp;always&nbsp;correct,&nbsp;only&nbsp;used&nbsp;if&nbsp;useWeight&nbsp;is&nbsp;True<br>
+&nbsp;<br>
+ignoreUnweighted&nbsp;can&nbsp;be&nbsp;set&nbsp;False&nbsp;to&nbsp;suppress&nbsp;the&nbsp;KeyError&nbsp;and&nbsp;make&nbsp;unweighted&nbsp;edges&nbsp;be&nbsp;not&nbsp;counted,&nbsp;only&nbsp;used&nbsp;if&nbsp;useWeight&nbsp;is&nbsp;True</tt></dd></dl>
+ <dl><dt><a name="-getDegreeDistribution"><strong>getDegreeDistribution</strong></a>(grph, weightParameter='weight', strictWeightNames=False, weightType=&lt;class 'int'&gt;, directionalType='bi')</dt></dl>
+ <dl><dt><a name="-getNodeDegrees"><strong>getNodeDegrees</strong></a>(grph, weightString='weight', strictMode=False, returnType=&lt;class 'int'&gt;, edgeType='bi')</dt><dd><tt>Retunrs&nbsp;a&nbsp;dictionary&nbsp;of&nbsp;nodes&nbsp;to&nbsp;their&nbsp;degrees,&nbsp;the&nbsp;degree&nbsp;is&nbsp;determined&nbsp;by&nbsp;adding&nbsp;the&nbsp;weight&nbsp;of&nbsp;edge&nbsp;with&nbsp;the&nbsp;weight&nbsp;being&nbsp;the&nbsp;string&nbsp;weightString&nbsp;that&nbsp;gives&nbsp;the&nbsp;name&nbsp;of&nbsp;the&nbsp;attribute&nbsp;of&nbsp;each&nbsp;edge&nbsp;containng&nbsp;thier&nbsp;weight.&nbsp;The&nbsp;Weights&nbsp;are&nbsp;then&nbsp;converted&nbsp;to&nbsp;the&nbsp;type&nbsp;returnType.&nbsp;If&nbsp;weightString&nbsp;is&nbsp;give&nbsp;as&nbsp;False&nbsp;instead&nbsp;each&nbsp;edge&nbsp;is&nbsp;counted&nbsp;as&nbsp;1.<br>
+&nbsp;<br>
+edgeType,&nbsp;takes&nbsp;in&nbsp;one&nbsp;of&nbsp;three&nbsp;strings:&nbsp;'bi',&nbsp;'in',&nbsp;'out'.&nbsp;'bi'&nbsp;means&nbsp;both&nbsp;nodes&nbsp;on&nbsp;the&nbsp;edge&nbsp;count&nbsp;it,&nbsp;'out'&nbsp;mans&nbsp;only&nbsp;the&nbsp;one&nbsp;the&nbsp;edge&nbsp;comes&nbsp;form&nbsp;counts&nbsp;it&nbsp;and&nbsp;'in'&nbsp;means&nbsp;only&nbsp;the&nbsp;node&nbsp;the&nbsp;edge&nbsp;goes&nbsp;to&nbsp;counts&nbsp;it.&nbsp;'bi'&nbsp;is&nbsp;the&nbsp;default.&nbsp;Use&nbsp;only&nbsp;on&nbsp;directional&nbsp;graphs&nbsp;as&nbsp;otherwise&nbsp;the&nbsp;selected&nbsp;nodes&nbsp;is&nbsp;random.</tt></dd></dl>
+ <dl><dt><a name="-getWeight"><strong>getWeight</strong></a>(grph, nd1, nd2, weightString='weight', returnType=&lt;class 'int'&gt;)</dt><dd><tt>A&nbsp;way&nbsp;of&nbsp;getting&nbsp;the&nbsp;weight&nbsp;of&nbsp;an&nbsp;edge&nbsp;with&nbsp;or&nbsp;without&nbsp;weight&nbsp;as&nbsp;a&nbsp;parameter<br>
+returns&nbsp;a&nbsp;the&nbsp;value&nbsp;of&nbsp;the&nbsp;weight&nbsp;parameter&nbsp;converted&nbsp;to&nbsp;returnType&nbsp;if&nbsp;it&nbsp;is&nbsp;given&nbsp;or&nbsp;1&nbsp;(also&nbsp;converted)&nbsp;if&nbsp;not</tt></dd></dl>
+ <dl><dt><a name="-read_graph"><strong>read_graph</strong></a>(edgeList, nodeList=None, directed=False, idKey='ID', eSource='From', eDest='To')</dt><dd><tt>Reads&nbsp;the&nbsp;files&nbsp;given&nbsp;by&nbsp;edgeList&nbsp;and&nbsp;if&nbsp;given&nbsp;nodeList&nbsp;and&nbsp;produces&nbsp;a&nbsp;networkx&nbsp;graph<br>
+This&nbsp;is&nbsp;designed&nbsp;only&nbsp;for&nbsp;the&nbsp;files&nbsp;produced&nbsp;by&nbsp;isilib&nbsp;and&nbsp;is&nbsp;meant&nbsp;to&nbsp;be&nbsp;the&nbsp;reverse&nbsp;of&nbsp;<a href="#-write_graph">write_graph</a>()<br>
+&nbsp;<br>
+nodeList&nbsp;must&nbsp;be&nbsp;given&nbsp;if&nbsp;any&nbsp;of&nbsp;the&nbsp;attributes&nbsp;of&nbsp;the&nbsp;node&nbsp;are&nbsp;needed<br>
+directed&nbsp;controls&nbsp;if&nbsp;the&nbsp;resultant&nbsp;graph&nbsp;is&nbsp;directional&nbsp;eSource&nbsp;and&nbsp;eDest&nbsp;control&nbsp;the&nbsp;direction<br>
+idKey,&nbsp;eSource&nbsp;and&nbsp;&nbsp;eDest&nbsp;are&nbsp;the&nbsp;labels&nbsp;for&nbsp;the&nbsp;edge's&nbsp;id,&nbsp;source&nbsp;and&nbsp;destination&nbsp;respectively,&nbsp;they&nbsp;must&nbsp;match&nbsp;headers&nbsp;in&nbsp;the&nbsp;file&nbsp;or&nbsp;a&nbsp;keyError&nbsp;exception&nbsp;will&nbsp;be&nbsp;thrown</tt></dd></dl>
+ <dl><dt><a name="-write_edgeList"><strong>write_edgeList</strong></a>(grph, name, extraInfo=True, progBar=None)</dt><dd><tt>writes&nbsp;an&nbsp;edge&nbsp;list&nbsp;of&nbsp;grph&nbsp;with&nbsp;filename&nbsp;name,&nbsp;if&nbsp;extraInfo&nbsp;is&nbsp;true&nbsp;the&nbsp;additional&nbsp;information&nbsp;about&nbsp;the&nbsp;edges,&nbsp;e.g.&nbsp;weight,&nbsp;will&nbsp;be&nbsp;written.<br>
+All&nbsp;edges&nbsp;must&nbsp;have&nbsp;the&nbsp;same&nbsp;tags</tt></dd></dl>
+ <dl><dt><a name="-write_graph"><strong>write_graph</strong></a>(grph, name, edgeInfo=True, typing=True, suffix='csv', overwrite=False)</dt><dd><tt>Writes&nbsp;both&nbsp;the&nbsp;edge&nbsp;list&nbsp;and&nbsp;the&nbsp;node&nbsp;attribute&nbsp;list&nbsp;of&nbsp;grph.<br>
+The&nbsp;output&nbsp;files&nbsp;start&nbsp;with&nbsp;name,&nbsp;the&nbsp;file&nbsp;type[edgeList,&nbsp;nodeAttributes]&nbsp;then&nbsp;if&nbsp;typing&nbsp;is&nbsp;True&nbsp;the&nbsp;type&nbsp;of&nbsp;graph&nbsp;(directed&nbsp;or&nbsp;undirected)&nbsp;then&nbsp;the&nbsp;suffix,&nbsp;it&nbsp;appears&nbsp;as&nbsp;follows:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name_fileType_Graphtype.suffix<br>
+If&nbsp;edgeInfo&nbsp;is&nbsp;true&nbsp;the&nbsp;extra&nbsp;information&nbsp;about&nbsp;the&nbsp;edges&nbsp;will&nbsp;be&nbsp;included&nbsp;in&nbsp;their&nbsp;list,&nbsp;i.e.&nbsp;their&nbsp;weight&nbsp;will&nbsp;be&nbsp;given<br>
+If&nbsp;overwrite&nbsp;is&nbsp;False&nbsp;write_graph&nbsp;will&nbsp;throw&nbsp;an&nbsp;exception&nbsp;if&nbsp;either&nbsp;of&nbsp;the&nbsp;files&nbsp;it&nbsp;is&nbsp;attempting&nbsp;to&nbsp;write&nbsp;exist</tt></dd></dl>
+ <dl><dt><a name="-write_nodeAttributeFile"><strong>write_nodeAttributeFile</strong></a>(grph, name, progBar=None)</dt><dd><tt>writes&nbsp;a&nbsp;node&nbsp;attribute&nbsp;list&nbsp;of&nbsp;grph&nbsp;with&nbsp;filename&nbsp;name,&nbsp;the&nbsp;first&nbsp;column&nbsp;is&nbsp;the&nbsp;node's&nbsp;ID&nbsp;then&nbsp;all&nbsp;after&nbsp;it&nbsp;are&nbsp;its&nbsp;associated&nbsp;information.<br>
+All&nbsp;nodes&nbsp;must&nbsp;have&nbsp;the&nbsp;same&nbsp;tags.</tt></dd></dl>
+</td></tr></table>
+</body></html>

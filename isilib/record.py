@@ -8,9 +8,24 @@ from .citation import Citation
 from .constants import tagNameConverter, tagsAndNames, fullToTag
 from .recordTagFunctions import tagToFunc
 
+"""
+This file contains the Record class for isilib. The record class is used to represent a single records meta-data from WOS.
+"""
+
+
 class BadISIRecord(Warning):
     """
-    Exception thrown by recordParser for mis-formated papers
+    Exception thrown by the record parser to indicate a mis-formated record.
+    this occurs when some component of the record does not parse. It will be any  of:
+        "Missing field on line (line Number):(line)", which indicates a line was to short where there should have been a tag followed by information
+
+        "End of file reached before ER", which indicates the file end before the 'ER' indicator appeared, 'ER' indicates the end of a record. This is often due to a copy and paste error.
+
+        "Duplicate tags in record", which indicates the record had 2 or more lines with the same tag. This is often due to a copy and paste error.
+
+        "Missing WOS number", which indicates the record did not have a 'UT' tag. This tag allows comparison between Record objects so if missing most comparisons will fail.
+
+    Records with a BadISIRecord error are likely incomplete or the combination of two or more single records.
     """
     pass
 
@@ -20,22 +35,14 @@ class BadISIFile(Warning):
     """
     pass
 
-def lazy(f):
-    """
-    A decorator that makes the function be only evaluated once.
-    It does this by creating an attribute in the class with the same name as the function and referencing that on successive calls.
-    """
-    def wrapper(self, *arg, **kwargs):
-        if self.bad:
-            return None
-        if not hasattr(self, "_" + f.__name__):
-            setattr(self, "_" + f.__name__, f(self, *arg, **kwargs))
-        return getattr(self, "_" + f.__name__)
-    return wrapper
-
 class Record(object):
     """
-    class for containing full ISI records
+    Class for full WOS records
+
+    It is meant to be immutable, many of the methods and attributes are evaluated when first called not when the object is created an the results are stored in a private dictionary.
+
+
+
     It requires that the record contains a WOS number and have tags for each field.
     """
     def __init__(self, inRecord, taglist = (), sFile = '', sLine = 0):
@@ -180,7 +187,7 @@ class Record(object):
         bad Records are likely to cause hash collisions
         """
         if self.bad:
-            return hash(self._fieldDict.values())
+            return hash(str(self._fieldDict.values()) + str(self.error))
         return hash(self._wosNum)
 
     def __getstate__(self):
@@ -283,19 +290,37 @@ class Record(object):
 
 def recordParser(paper):
     """
-    recordParser() reads the file paper until it reaches 'EF'.
+    recordParser() reads the file paper until it reaches 'ER'.
     For each field tag it adds an entry to the returned dict with the tag as the key and a list of the entries as the value, the list has each line separately
     """
     tagList = []
+    doneReading = False
     for l in paper:
         if len(l[1]) < 3:
+            #Line too short
             raise BadISIRecord("Missing field on line " + str(l[0]) + " : " + l[1])
         elif 'ER' in l[1][:2]:
-            return  collections.OrderedDict(tagList)
+            #Reached the end of the record
+            doneReading = True
+            break
         elif l[1][2] != ' ':
+            #Field tag longer than 2 or offset in some way
             raise BadISIFile("Field tag not formed correctly on line " + str(l[0]) + " : " + l[1])
         elif '   ' in l[1][:3]: #the string is three spaces in row
+            #No new tag append line to current tag (last tag in tagList)
             tagList[-1][1].append(l[1][3:-1])
         else:
+            #New tag create new entry at the end of tagList
             tagList.append((l[1][:2], [l[1][3:-1]]))
-    raise BadISIRecord("End of file reached before EF")
+    if not doneReading:
+        raise BadISIRecord("End of file reached before ER: " + l[1])
+    else:
+        retdict = collections.OrderedDict(tagList)
+        if len(retdict) == len(tagList):
+            return retdict
+        else:
+            dupSet = set()
+            for tupl in tagList:
+                if tupl[0] in retdict:
+                    dupSet.add(tupl[0])
+            raise BadISIRecord("Duplicate tags (" + ', '.join(dupSet) + ") in record")

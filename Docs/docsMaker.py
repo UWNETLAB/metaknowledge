@@ -8,9 +8,9 @@ documentedModules = ['tagFuncs']
 
 jekyllyHeader ="""---
 layout: page
-title: <a name="isilib"></a> isilib Docs
+title: isilib Docs
 ---
-"""
+<a name="isilib"></a>"""
 
 def argumentParser():
     parser = argparse.ArgumentParser(description="A simple script to genrate docs for isilib")

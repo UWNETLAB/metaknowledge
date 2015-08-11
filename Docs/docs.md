@@ -1,8 +1,8 @@
 ---
 layout: page
-title: <a name="isilib"></a> isilib Docs
+title: isilib Docs
 ---
-
+<a name="isilib"></a>
 Doc String
 sekljfsdkdfghkgdf
 d'dgfkgdfhjkgdfhkjgfbgjdfkhjkgd

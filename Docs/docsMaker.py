@@ -6,7 +6,11 @@ import isilib
 
 documentedModules = ['tagFuncs']
 
-
+jekyllyHeader ="""---
+layout: page
+title: <a name="isilib"></a> isilib Docs
+---
+"""
 
 def argumentParser():
     parser = argparse.ArgumentParser(description="A simple script to genrate docs for isilib")
@@ -86,7 +90,8 @@ def main(args):
         else:
             vrs.append(m)
     f = open(os.path.expanduser(os.path.normpath(args.dir + '/' + args.output)), 'w')
-    f.write('# <a name="{0}"></a> {0}\n\n'.format('isilib'))
+    f.write(jekyllyHeader)
+    #f.write('# <a name="{0}"></a> {0}\n\n'.format('isilib'))
     f.write(isilib.__doc__ + '\n')
     f.write('## Classes\n\n')
     first = True

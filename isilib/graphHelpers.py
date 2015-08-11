@@ -17,7 +17,7 @@ def read_graph(edgeList, nodeList = None, directed = False, idKey = 'ID', eSourc
     idKey, eSource and  eDest are the labels for the edge's id, source and destination respectively, they must match headers in the file or a keyError exception will be thrown
     """
     if isilib.VERBOSE_MODE:
-        PBar = ProgressBar(0, "Starting to reading graphs")
+        PBar = _ProgressBar(0, "Starting to reading graphs")
     else:
         PBar = None
     if directed:
@@ -66,7 +66,7 @@ def write_graph(grph, name, edgeInfo = True, typing = True, suffix = 'csv', over
     If overwrite is False write_graph will throw an exception if either of the files it is attempting to write exist
     """
     if isilib.VERBOSE_MODE:
-        PBar = ProgressBar(0, "Writing graphs: " + name)
+        PBar = _ProgressBar(0, "Writing graphs: " + name)
     else:
         PBar = None
     if typing:
@@ -109,10 +109,10 @@ def write_edgeList(grph, name, extraInfo = True, progBar = None):
     if progBar:
         count = 0
         eMax = len(grph.edges(data = True))
-        if isinstance(progBar, ProgressBar):
+        if isinstance(progBar, _ProgressBar):
             progBar.updateVal(0, "Writing edge list " + name)
         else:
-            progBar = ProgressBar(0, "Writing edge list " + name)
+            progBar = _ProgressBar(0, "Writing edge list " + name)
     if len(grph.edges(data = True)) < 1:
         outFile = open(name, 'w')
         outFile.write('"From","To"\n')
@@ -161,10 +161,10 @@ def write_nodeAttributeFile(grph, name, progBar = None):
     if progBar:
         count = 0
         nMax = len(grph.nodes())
-        if isinstance(progBar, ProgressBar):
+        if isinstance(progBar, _ProgressBar):
             progBar.updateVal(0, "Writing edgelist " + name)
         else:
-            progBar = ProgressBar(0, "Writing edgelist " + name)
+            progBar = _ProgressBar(0, "Writing edgelist " + name)
     if len(grph.nodes(data = True)) < 1:
         outFile = open(name, 'w')
         outFile.write('ID\n')
@@ -191,7 +191,7 @@ def write_nodeAttributeFile(grph, name, progBar = None):
             progBar.updateVal(1, "Done node attribute list: " + name + ", " + str(count) + " nodes written.")
         f.close()
 
-class ProgressBar(object):
+class _ProgressBar(object):
     difTermAndBar = 8 #the number of characters difference between the bar's length and the terminal's width
     timeLength = 6 # width of elapse time display
     def __init__(self, initPer, initString = ' ', output = sys.stdout):
@@ -343,7 +343,7 @@ def drop_edges(grph, minWeight = -float('inf'), maxWeight = float('inf'), parame
     ignoreUnweighted can be set False to suppress the KeyError and make unweighted edges be ignored
     """
     if isilib.VERBOSE_MODE:
-        PBar = ProgressBar(0, "Dropping edges")
+        PBar = _ProgressBar(0, "Dropping edges")
         count = 0
         total = len(grph.edges())
     else:
@@ -381,7 +381,7 @@ def drop_nodesByDegree(grph, minDegree = -float('inf'), maxDegree = float('inf')
     ignoreUnweighted can be set False to suppress the KeyError and make unweighted edges be not counted, only used if useWeight is True
     """
     if isilib.VERBOSE_MODE:
-        PBar = ProgressBar(0, "Dropping nodes by degree")
+        PBar = _ProgressBar(0, "Dropping nodes by degree")
         count = 0
         total = len(grph.nodes())
     else:
@@ -423,7 +423,7 @@ def drop_nodesByCount(grph, minCount = -float('inf'), maxCount = float('inf'), p
     ignoreMissing can be set False to suppress the KeyError and make nodes missing counts be dropped instead of throwing errors
     """
     if isilib.VERBOSE_MODE:
-        PBar = ProgressBar(0, "Dropping nodes by count")
+        PBar = _ProgressBar(0, "Dropping nodes by count")
         count = 0
         total = len(grph.nodes())
     else:

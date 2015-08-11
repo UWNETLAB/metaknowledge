@@ -14,16 +14,15 @@ This file contains the Record class for isilib. The record class is used to repr
 
 
 class BadISIRecord(Warning):
-    """
-    Exception thrown by the record parser to indicate a mis-formated record.
-    this occurs when some component of the record does not parse. It will be any  of:
-        "Missing field on line (line Number):(line)", which indicates a line was to short where there should have been a tag followed by information
+    """Exception thrown by the [record parser](#isilib.recordParser) to indicate a mis-formated record. This occurs when some component of the record does not parse. The messages will be any of:
 
-        "End of file reached before ER", which indicates the file end before the 'ER' indicator appeared, 'ER' indicates the end of a record. This is often due to a copy and paste error.
+        * _Missing field on line (line Number):(line)_, which indicates a line was to short where there should have been a tag followed by information
 
-        "Duplicate tags in record", which indicates the record had 2 or more lines with the same tag. This is often due to a copy and paste error.
+        * _End of file reached before ER_, which indicates the file end before the 'ER' indicator appeared, 'ER' indicates the end of a record. This is often due to a copy and paste error.
 
-        "Missing WOS number", which indicates the record did not have a 'UT' tag. This tag allows comparison between Record objects so if missing most comparisons will fail.
+        * _Duplicate tags in record_, which indicates the record had 2 or more lines with the same tag. This is often due to a copy and paste error.
+
+        * _Missing WOS number_, which indicates the record did not have a 'UT' tag. This tag allows comparison between Record objects so if missing most comparisons will fail.
 
     Records with a BadISIRecord error are likely incomplete or the combination of two or more single records.
     """
@@ -40,24 +39,40 @@ class Record(object):
     Class for full WOS records
 
     It is meant to be immutable, many of the methods and attributes are evaluated when first called not when the object is created an the results are stored in a private dictionary.
-    The record's meta-data is stored in an ordered dictionary labeled by WOS tags. To access the raw data stored in the original record the getTag() method can be used. To access data that has been processed and cleaned the attributes named after the tags are used.
-    The Record class's hashing and equality testing are based on the WOS number (the tag is UT, and is also called the accession number). They are strings starting with "WOS:" and followed by 15 or so numbers and letters, although both the length and character set are known to vary. The numbers are unique to each record so are used for comparisons. If a record is bad it likely does not have a WOS number and thus returns false on all equality checks.
-    When a record is created if the parsing of the WOS file failed it is marked as bad. The bad attribute is set to True and the error attribute is created to contain the exception object.
 
-    Accessing tag values by attributes
-    To generally to get the information from a Record its attributes can be used. Calling R.CR causes citations() from the the tagFuncs module to be called on the contents of the raw CR field. Then the result is saved and returned. In this case a list of Citation objects is returned. You can also call R.citations to get the same effect as each known field tag, currently there are 61, has a longer name. These names are meant to make accessing tags more readable and th mapping from tag to name can be found in the tagToFull dict. If a tag is known (in tagToFull) but not in the raw data None is returned instead. Most tags when cleaned return a list of strings or a string, the exact results can be found in the help for tagFuncs of the particular function.
+    The record's meta-data is stored in an ordered dictionary labeled by WOS tags. To access the raw data stored in the original record the [getTag()](#Record.getTag) method can be used. To access data that has been processed and cleaned the attributes named after the tags are used.
 
-    Init
-    Records are generally create by Recordcollections and not as individual objects. If you wish to create one on its own the __init__ method takes in:
-        inRecord, can be a files stream, a dict, a string or an itertools.chain.
-            If it is a file stream or itertools.chain the file (or chain) must be open at the location of the first tag in the record, usually 'PT', and the file will be read until 'ER' is found indicating the end of the record in the file.
-            If a dictionary is passed the dictionary is used as the database of fields and tags, so each key must be a WOS tag and each value a list of the lines of the original associated with the tag.
-            For a string the input is the raw textual data of a single record.
-        sFile, is the name of the file the raw data was in, by default it is blank. Mostly used to make error messages more informative.
-        sLine is the line the record starts on in the raw data file. Mostly used to make error messages more informative. 
+    The Record class's hashing and equality testing are based on the WOS number (the tag is 'UT', and is also called the accession number). They are strings starting with "WOS:" and followed by 15 or so numbers and letters, although both the length and character set are known to vary. The numbers are unique to each record so are used for comparisons. If a record is bad it likely does not have a WOS number and thus returns false on all equality checks.
 
+    When a record is created if the parsing of the WOS file failed it is marked as `bad`. The `bad` attribute is set to True and the `error` attribute is created to contain the exception object.
+
+    # Accessing tag values by attributes
+    To generally to get the information from a Record its attributes can be used. Calling `R.CR` causes [citations()](#isilib.tagFuncs.citations) from the the [tagFuncs](#isilib.tagFuncs) module to be called on the contents of the raw 'CR' field. Then the result is saved and returned. In this case a list of Citation objects is returned. You can also call 'R.citations' to get the same effect as each known field tag, currently there are 61, has a longer name. These names are meant to make accessing tags more readable and th mapping from tag to name can be found in the tagToFull dict. If a tag is known (in [tagToFull](#isilib)) but not in the raw data None is returned instead. Most tags when cleaned return a list of strings or a string, the exact results can be found in the help for tagFuncs of the particular function.
+
+    # Init
+    Records are generally create by [Recordcollections](#isilib.RecordCollection) and not as individual objects. If you wish to create one on its own it is possible.
+
+    ## Parameters
+
+    _inRecord_: files stream, dict, str or itertools.chain
+
+    > If it is a file stream the file must be open at the location of the first tag in the record, usually 'PT', and the file will be read until 'ER' is found, which indicates the end of the record in the file.
+
+    > If a dict is passed the dictionary is used as the database of fields and tags, so each key is considered a WOS tag and each value a list of the lines of the original associated with the tag. This is the same form of dict that [recordParser](#isilib.recordParser) returns.
+
+    > For a str the input is the raw textual data of a single record in the WOS style, ending in 'ER'.
+
+    > itertools.chain is treated indentally to a file stream an is used by [RecordCollections](#isilib.RecordCollection)
+
+    _sFile_ : optional [str]
+
+    > It is the name of the file the raw data was in, by default it is blank. Mostly used to make error messages more informative.
+
+    _sLine_ : optional [int]
+
+    > It is the line the record starts on in the raw data file. Mostly used to make error messages more informative.
     """
-    def __init__(self, inRecord, taglist = (), sFile = '', sLine = 0):
+    def __init__(self, inRecord, taglist = (), sFile = "", sLine = 0):
         self._unComputedTags = set()
         self.bad = False
         self.error = None
@@ -239,7 +254,7 @@ class Record(object):
         if auth is None:
             return self.authorsShort
         else:
-            return auth 
+            return auth
 
     def getTag(self, tag):
         """
@@ -273,7 +288,7 @@ class Record(object):
         return Citation(', '.join(valsLst))
 
     def getTagsList(self, taglst):
-        """"
+        """
         returns a list of the results of getTag for each tag in taglist, it has the same order as the original.
         """
         retList = []
@@ -282,7 +297,7 @@ class Record(object):
         return retList
 
     def getTagsDict(self, taglst):
-        """"
+        """
         returns a dict of the results of getTag, with the elements of taglist as the keys and the results as the values.
         """
         retDict = {}

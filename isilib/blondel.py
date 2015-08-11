@@ -1,5 +1,5 @@
 import isilib
-from .graphHelpers import ProgressBar
+from .graphHelpers import _ProgressBar
 
 import copy
 
@@ -7,7 +7,7 @@ import copy
 
 def blondel(G, weightParameter = None, communityParameter = 'community'):
     if isilib.VERBOSE_MODE:
-        PBar = ProgressBar(0, "Starting community detection")
+        PBar = _ProgressBar(0, "Starting community detection")
         iterations = 1
         count = 0
     else:

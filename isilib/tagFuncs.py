@@ -1,3 +1,5 @@
+"""Doc String of tagFuncs"""
+
 from .constants import tagNameConverter, monthDict
 from .citation import Citation
 

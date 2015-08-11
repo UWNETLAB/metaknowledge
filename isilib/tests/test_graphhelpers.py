@@ -2,7 +2,7 @@ import unittest
 import isilib
 import os
 import io
-from isilib.graphHelpers import ProgressBar
+from isilib.graphHelpers import _ProgressBar
 
 fileShortName = 'testNetworks'
 fileEName = 'testNetworks_edgeList_undirected.tst'
@@ -25,7 +25,7 @@ class TestHelpers(unittest.TestCase):
     def test_progress(self):
         isilib.VERBOSE_MODE = True
         tmpIO = io.StringIO()
-        P = ProgressBar(0, "testing", output = tmpIO)
+        P = _ProgressBar(0, "testing", output = tmpIO)
         isilib.write_edgeList(self.G, fileEName, progBar = P)
         tmpIO.seek(0)
         s = ''.join(tmpIO.readlines())

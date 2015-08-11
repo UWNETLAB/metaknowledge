@@ -1,7 +1,7 @@
 #Written by Reid McIlroy-Young for Dr. John McLevey, University of Waterloo 2015
 import isilib
 from .record import Record, BadISIFile
-from .graphHelpers import ProgressBar
+from .graphHelpers import _ProgressBar
 from .constants import tagsAndNames, tagToFull, fullToTag
 
 import itertools
@@ -45,7 +45,7 @@ class RecordCollection(object):
                     self.error = w
             elif os.path.isdir(inCollection):
                 if isilib.VERBOSE_MODE:
-                    PBar = ProgressBar(0, "Reading files from " + str(inCollection))
+                    PBar = _ProgressBar(0, "Reading files from " + str(inCollection))
                     count = 0
                 else:
                     PBar = None
@@ -324,7 +324,7 @@ class RecordCollection(object):
     def coAuthNetwork(self):
         grph = nx.Graph()
         if isilib.VERBOSE_MODE:
-            PBar = ProgressBar(0, "Starting to make a co-authorship network")
+            PBar = _ProgressBar(0, "Starting to make a co-authorship network")
             count = 0
         else:
             PBar = None
@@ -360,7 +360,7 @@ class RecordCollection(object):
     def coCiteNetwork(self, dropAnon = True, authorship = False, extraInfo = True, weighted = True):
         tmpgrph = nx.Graph()
         if isilib.VERBOSE_MODE:
-            PBar = ProgressBar(0, "Starting to make a co-citation network")
+            PBar = _ProgressBar(0, "Starting to make a co-citation network")
             count = 0
         else:
             PBar = None
@@ -429,7 +429,7 @@ class RecordCollection(object):
     def citationNetwork(self, dropAnon = True, authorship = False, extraInfo = True, weighted = True):
         tmpgrph = nx.DiGraph()
         if isilib.VERBOSE_MODE:
-            PBar = ProgressBar(0, "Starting to make a citation network")
+            PBar = _ProgressBar(0, "Starting to make a citation network")
             count = 0
         else:
             PBar = None
@@ -531,7 +531,7 @@ class RecordCollection(object):
         if mode not in tagsAndNames:
             raise TypeError(mode + " is not a known tag, or the name of a known tag.")
         if isilib.VERBOSE_MODE:
-            PBar = ProgressBar(0, "Starting to make a one mode network with " + mode)
+            PBar = _ProgressBar(0, "Starting to make a one mode network with " + mode)
             count = 0
         else:
             PBar = None
@@ -592,7 +592,7 @@ class RecordCollection(object):
         if (not tag1 in tagsAndNames) or (not tag2 in tagsAndNames):
             raise TypeError(str(tag1) + " or " + str(tag2) + " is not a known tag, or the name of a known tag.")
         if isilib.VERBOSE_MODE:
-            PBar = ProgressBar(0, "Starting to make a two mode network of " + tag1 + " and " + tag2)
+            PBar = _ProgressBar(0, "Starting to make a two mode network of " + tag1 + " and " + tag2)
             count = 0
         else:
             PBar = None
@@ -682,7 +682,7 @@ class RecordCollection(object):
             if t not in tagsAndNames:
                 raise TypeError(str(t) + " is not a known tag, or the name of a known tag.")
         if isilib.VERBOSE_MODE:
-            PBar = ProgressBar(0, "Starting to make a " + str(len(tags)) + "-mode network of: " + ', '.join(tags))
+            PBar = _ProgressBar(0, "Starting to make a " + str(len(tags)) + "-mode network of: " + ', '.join(tags))
             count = 0
         else:
             PBar = None

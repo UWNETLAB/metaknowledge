@@ -19,19 +19,19 @@ d'dgfkgdfhjkgdfhkjgfbgjdfkhjkgd
 
 >Exception thrown by the [record parser](#isilib.recordParser) to indicate a mis-formated record. This occurs when some component of the record does not parse. The messages will be any of:
 >
->    * _Missing field on line (line Number):(line)_, which indicates a line was to short where there should have been a tag followed by information
+>    * _Missing field on line (line Number):(line)_, which indicates a line was to short, there should have been a tag followed by information
 >
->    * _End of file reached before ER_, which indicates the file end before the 'ER' indicator appeared, 'ER' indicates the end of a record. This is often due to a copy and paste error.
+>    * _End of file reached before ER_, which indicates the file ended before the 'ER' indicator appeared, 'ER' indicates the end of a record. This is often due to a copy and paste error.
 >
->    * _Duplicate tags in record_, which indicates the record had 2 or more lines with the same tag. This is often due to a copy and paste error.
+>    * _Duplicate tags in record_, which indicates the record had 2 or more lines with the same tag.
 >
->    * _Missing WOS number_, which indicates the record did not have a 'UT' tag. This tag allows comparison between Record objects so if missing most comparisons will fail.
+>    * _Missing WOS number_, which indicates the record did not have a 'UT' tag.
 >
 >Records with a BadISIRecord error are likely incomplete or the combination of two or more single records.
 
 - - -
 
-<a name="isilib.Citation"></a>isilib.**Citation**(cite):
+<a name="isilib.Citation"></a>isilib.**Citation**(_cite_):
 
 >A object to hold citation strings and allow for comparison between them.
 >It takes in a citation string from the CR tag of a WOS record then attempts to extract the DOI ,author, year, journal, Volume (V) and Page (P) of the citation string, any extra values are put in misc.
@@ -53,72 +53,125 @@ d'dgfkgdfhjkgdfhkjgfbgjdfkhjkgd
 
 - - -
 
-<a name="isilib.Record"></a>isilib.**Record**(inRecord, taglist=(), sFile='', sLine=0):
+<a name="isilib.Record"></a>isilib.**Record**(_inRecord, taglist=(), sFile='', sLine=0_):
 
 >Class for full WOS records
 >
->It is meant to be immutable, many of the methods and attributes are evaluated when first called not when the object is created an the results are stored in a private dictionary.
+>It is meant to be immutable, many of the methods and attributes are evaluated when first called not when the object is created and the results are stored in a private dictionary.
 >
->The record's meta-data is stored in an ordered dictionary labeled by WOS tags. To access the raw data stored in the original record the [getTag()](#Record.getTag) method can be used. To access data that has been processed and cleaned the attributes named after the tags are used.
+>The record's meta-data is stored in an ordered dictionary labeled by WOS tags. To access the raw data stored in the original record the [getTag()](#Record.getTag) method can be used. To access data that has been processed and cleaned the attributes named after the tags are used, see next section.
 >
->The Record class's hashing and equality testing are based on the WOS number (the tag is 'UT', and is also called the accession number). They are strings starting with "WOS:" and followed by 15 or so numbers and letters, although both the length and character set are known to vary. The numbers are unique to each record so are used for comparisons. If a record is bad it likely does not have a WOS number and thus returns false on all equality checks.
+>The Record's hashing and equality testing are based on the WOS number (the tag is 'UT', and also called the accession number). They are strings starting with "WOS:" and followed by 15 or so numbers and letters, although both the length and character set are known to vary. The numbers are unique to each record so are used for comparisons. If a record is `bad` returns false on all equality checks.
 >
 >When a record is created if the parsing of the WOS file failed it is marked as `bad`. The `bad` attribute is set to True and the `error` attribute is created to contain the exception object.
 >
 >##### Accessing tag values by attributes
->To generally to get the information from a Record its attributes can be used. Calling `R.CR` causes [citations()](#isilib.tagFuncs.citations) from the the [tagFuncs](#isilib.tagFuncs) module to be called on the contents of the raw 'CR' field. Then the result is saved and returned. In this case a list of Citation objects is returned. You can also call 'R.citations' to get the same effect as each known field tag, currently there are 61, has a longer name. These names are meant to make accessing tags more readable and th mapping from tag to name can be found in the tagToFull dict. If a tag is known (in [tagToFull](#isilib)) but not in the raw data None is returned instead. Most tags when cleaned return a list of strings or a string, the exact results can be found in the help for tagFuncs of the particular function.
 >
->##### Init
->Records are generally create by [Recordcollections](#isilib.RecordCollection) and not as individual objects. If you wish to create one on its own it is possible.
+>Generally to get the information from a Record its attributes should be used. For a Record `R`, calling `R.CR` causes [citations()](#isilib.tagFuncs.citations) from the the [tagFuncs](#isilib.tagFuncs) module to be called on the contents of the raw 'CR' field. Then the result is saved and returned. In this case a list of Citation objects is returned. You can also call `R.citations` to get the same effect as each known field tag, currently there are 61, has a longer name. These names are meant to make accessing tags more readable and mapping from tag to name can be found in the tagToFull dict. If a tag is known (in [tagToFull](#isilib)) but not in the raw data `None` is returned instead. Most tags when cleaned return a list of strings or a string, the exact results can be found in the help for tagFuncs of the particular function.
 >
->###### Parameters
+>##### \_\_Init\_\_
+>Records are generally create by [Recordcollections](#isilib.RecordCollection) and not as individual objects. If you wish to create one on its own it is possible, the arguments are as follows.
 >
->_inRecord_: files stream, dict, str or itertools.chain
+>##### Parameters
+>
+>_inRecord_: `files stream, dict, str or itertools.chain`
 >
 >> If it is a file stream the file must be open at the location of the first tag in the record, usually 'PT', and the file will be read until 'ER' is found, which indicates the end of the record in the file.
 >
 >> If a dict is passed the dictionary is used as the database of fields and tags, so each key is considered a WOS tag and each value a list of the lines of the original associated with the tag. This is the same form of dict that [recordParser](#isilib.recordParser) returns.
 >
->> For a str the input is the raw textual data of a single record in the WOS style, ending in 'ER'.
+>> For a str the input is the raw textual data of a single record in the WOS style, like the file stream it must start at the first tag and end in 'ER'.
 >
->> itertools.chain is treated indentally to a file stream an is used by [RecordCollections](#isilib.RecordCollection)
+>> itertools.chain is treated identically to a file stream and is used by [RecordCollections](#isilib.RecordCollection)
 >
->_sFile_ : optional [str]
+>_sFile_ : `optional [str]`
 >
->> It is the name of the file the raw data was in, by default it is blank. Mostly used to make error messages more informative.
+>> Is the name of the file the raw data was in, by default it is blank. Mostly used to make error messages more informative.
 >
->_sLine_ : optional [int]
+>_sLine_ : `optional [int]`
 >
->> It is the line the record starts on in the raw data file. Mostly used to make error messages more informative.
+>> Is the line the record starts on in the raw data file. Mostly used to make error messages more informative.
 
 <a name="Record.activeTags"></a>Record.**activeTags**():
 
->Returns a list of all the tags the original isi record had
+>Returns a list of all the tags the original WOS record had. These are all the tags that ['getTag()'](#Record.getTag) will not return `None` for.
+>
+>##### Returns
+>
+>`List[str]`
+>
+>> a list of WOS tags in the Record
 
 <a name="Record.createCitation"></a>Record.**createCitation**():
 
->Creates a citation string for the Record by reading the relevant tags(year, j9, volume, beginningPage, DOI) and using it to start a Citation object
+>Creates a citation string, using the same format as other WOS citations, for the [Record](#isilib.Record) by reading the relevant tags (year, J9, volume, beginningPage, DOI) and using it to start a [Citation](#isilib.Citation) object.
+>
+>##### Returns
+>
+>`Citation`
+>
+>> A [Citation](#isilib.Citation) object containing a citation for the Record
 
-<a name="Record.getTag"></a>Record.**getTag**(tag):
+<a name="Record.getTag"></a>Record.**getTag**(_tag_):
 
->returns a list containing the raw data of the record associated with tag.
->Each line of the record is one string in the list.
+>returns a list containing the raw data of the record associated with tag. Each line of the record is one string in the list.
+>
+>##### Parameters
+>_tag_ : `str`
+>
+>> tag can be a two character string corresponding to a WOS tag e.g. 'J9', the matching is case insensitive so 'j9' is the same as 'J9'. Or it can be one of the full names for a tag with the mappings in [fullToTag](#isilib). If the string is not found in the original record or after being translated though [fullToTag](#isilib), `None` is returned.
+>
+>##### Returns
+>
+>`List [str]`
+>
+>> each string in the list is a line from the record associated with _tag_ or None id not found
 
-<a name="Record.getTagsDict"></a>Record.**getTagsDict**(taglst):
+<a name="Record.getTagsDict"></a>Record.**getTagsDict**(_taglst_):
 
->returns a dict of the results of getTag, with the elements of taglist as the keys and the results as the values.
+>returns a dict of the results of getTag, with the elements of _taglst_ as the keys and the results as the values.
+>
+>##### Parameters
+>_taglst_ : `List[str]`
+>
+>> Each string in _taglst_ can be a two character string corresponding to a WOS tag e.g. 'J9', the matching is case insensitive so 'j9' is the same as 'J9'. Or it can be one of the full names for a tag with the mappings in [fullToTag](#isilib). If the string is not found in the oriagnal record before or after being translated though [fullToTag](#isilib), `None` is used instead. Same as in [`getTag()`](#Record.getTag)
+>
+>##### Returns
+>
+>`dict[str : List [str]]`
+>
+>> a dictionary with keys as the original tags in _taglst_ and the values as the results
 
-<a name="Record.getTagsList"></a>Record.**getTagsList**(taglst):
+<a name="Record.getTagsList"></a>Record.**getTagsList**(_taglst_):
 
->returns a list of the results of getTag for each tag in taglist, it has the same order as the original.
+>Returns a list of the results of [`getTag()`](#Record.getTag) for each tag in _taglist_, the return has the same order as the original.
+>
+>##### Parameters
+>_taglst_ : `List[str]`
+>
+>> Each string in _taglst_ can be a two character string corresponding to a WOS tag e.g. 'J9', the matching is case insensitive so 'j9' is the same as 'J9'. Or it can be one of the full names for a tag with the mappings in [fullToTag](#isilib). If the string is not found in the original record before or after being translated though [fullToTag](#isilib), `None` is used instead. Same as in [`getTag()`](#Record.getTag)
+>
+>> Then they are compiled into a list in the same order as _taglst_
+>
+>##### Returns
+>
+>`List[str]`
+>
+>> a list of the values for each tag in _taglst_, in the same order
 
-<a name="Record.writeRecord"></a>Record.**writeRecord**(infile):
+<a name="Record.writeRecord"></a>Record.**writeRecord**(_infile_):
 
->writes to infile the original contents of the Record
+>writes to _infile_ the original contents of the Record. This is intended for use by [RecordCollections](#isilib.RecordCollection) to write to file. What is written to _infile_ is bit for bit identical to the original record file. No newline is inserted above the write but the last character is a newline.
+>
+>##### Parameters
+>
+>_infile_ : `file stream`
+>
+>> An open utf-8 encoded file
 
 - - -
 
-<a name="isilib.RecordCollection"></a>isilib.**RecordCollection**(inCollection=None, name='', extension=''):
+<a name="isilib.RecordCollection"></a>isilib.**RecordCollection**(_inCollection=None, name='', extension=''_):
 
 >A way of containing a large number of Record objects, it provides ways of creating them from an isi file, string, list of records or directory containing isi files. The Records are containing within a set and as such many of the set operations are defined, pop, union, in ... also records are hashed with their WOS string so no duplication can occur.
 >The comparison operators <, <=, >, >= are based strictly on the number of Records within the collection, while equality looks for an exact match on the Records
@@ -133,11 +186,11 @@ d'dgfkgdfhjkgdfhkjgfbgjdfkhjkgd
 >
 >extension controls the extension that __init__ looks for when reading a directory, set it to the extension on the isi files you wish to load, if left blank all files will be tried and any that are not isi files will be silently skipped
 
-<a name="RecordCollection.citationNetwork"></a>RecordCollection.**citationNetwork**(dropAnon=True, authorship=False, extraInfo=True, weighted=True):
+<a name="RecordCollection.citationNetwork"></a>RecordCollection.**citationNetwork**(_dropAnon=True, authorship=False, extraInfo=True, weighted=True_):
 
 # Needs to be written
 
-<a name="RecordCollection.citeFilter"></a>RecordCollection.**citeFilter**(keyString='', field='all', reverse=False, caseSensitive=False):
+<a name="RecordCollection.citeFilter"></a>RecordCollection.**citeFilter**(_keyString='', field='all', reverse=False, caseSensitive=False_):
 
 >Filters Records by some string, keyString, in all of their citations.
 >Returns all Records with at least one citation possessing keyString in the field given by field.
@@ -163,7 +216,7 @@ d'dgfkgdfhjkgdfhkjgfbgjdfkhjkgd
 
 # Needs to be written
 
-<a name="RecordCollection.coCiteNetwork"></a>RecordCollection.**coCiteNetwork**(dropAnon=True, authorship=False, extraInfo=True, weighted=True):
+<a name="RecordCollection.coCiteNetwork"></a>RecordCollection.**coCiteNetwork**(_dropAnon=True, authorship=False, extraInfo=True, weighted=True_):
 
 # Needs to be written
 
@@ -171,7 +224,7 @@ d'dgfkgdfhjkgdfhkjgfbgjdfkhjkgd
 
 >Removes all Records with bad attributes == True from the collection
 
-<a name="RecordCollection.extractTagged"></a>RecordCollection.**extractTagged**(taglist):
+<a name="RecordCollection.extractTagged"></a>RecordCollection.**extractTagged**(_taglist_):
 
 # Needs to be written
 
@@ -179,11 +232,11 @@ d'dgfkgdfhjkgdfhkjgfbgjdfkhjkgd
 
 >returns RecordCollection containing all the Record which have their bad flag set to True, i.e. all those removed by dropBadRecords()
 
-<a name="RecordCollection.nModeNetwork"></a>RecordCollection.**nModeNetwork**(tags, recordType=True, nodeCount=True, edgeWeight=True):
+<a name="RecordCollection.nModeNetwork"></a>RecordCollection.**nModeNetwork**(_tags, recordType=True, nodeCount=True, edgeWeight=True_):
 
 # Needs to be written
 
-<a name="RecordCollection.oneModeNetwork"></a>RecordCollection.**oneModeNetwork**(mode, nodeCount=True, edgeWeight=True):
+<a name="RecordCollection.oneModeNetwork"></a>RecordCollection.**oneModeNetwork**(_mode, nodeCount=True, edgeWeight=True_):
 
 # Needs to be written
 
@@ -195,11 +248,11 @@ d'dgfkgdfhjkgdfhkjgfbgjdfkhjkgd
 
 >Returns a random Record from the recordCollection, the Record is deleted from the collection, use peak for nondestructive access
 
-<a name="RecordCollection.twoModeNetwork"></a>RecordCollection.**twoModeNetwork**(tag1, tag2, directed=False, recordType=True, nodeCount=True, edgeWeight=True):
+<a name="RecordCollection.twoModeNetwork"></a>RecordCollection.**twoModeNetwork**(_tag1, tag2, directed=False, recordType=True, nodeCount=True, edgeWeight=True_):
 
 # Needs to be written
 
-<a name="RecordCollection.writeCSV"></a>RecordCollection.**writeCSV**(fname=None, onlyTheseTags=None, longNames=False, firstTags=['UT', 'PT', 'TI', 'AF', 'CR'], csvDelimiter=',', csvQuote='"', listDelimiter='|'):
+<a name="RecordCollection.writeCSV"></a>RecordCollection.**writeCSV**(_fname=None, onlyTheseTags=None, longNames=False, firstTags=['UT', 'PT', 'TI', 'AF', 'CR'], csvDelimiter=',', csvQuote='"', listDelimiter='|'_):
 
 >Writes all the Records from the collection into a csv file with each row a record and each column a tag
 >
@@ -219,31 +272,31 @@ d'dgfkgdfhjkgdfhkjgfbgjdfkhjkgd
 >
 >listDelimiter is the delimiter used between values of the same cell if the tag for that record has multiple outputs, default is the pipe (|)
 
-<a name="RecordCollection.writeFile"></a>RecordCollection.**writeFile**(fname=None):
+<a name="RecordCollection.writeFile"></a>RecordCollection.**writeFile**(_fname=None_):
 
 >Writes the RecordCollection to a file, the written file is identical to those download from WOS. The order of Records written is random.
 >
 >fname set the name of the file, if blank the RecordCollection's name's first 200 characters are use with the suffix .isi
 
-<a name="RecordCollection.yearSplit"></a>RecordCollection.**yearSplit**(startYear, endYear):
+<a name="RecordCollection.yearSplit"></a>RecordCollection.**yearSplit**(_startYear, endYear_):
 
 # Needs to be written
 
 ## Functions
 
-<a name="isilib.blondel"></a>isilib.**blondel**(G, weightParameter=None, communityParameter='community'):
+<a name="isilib.blondel"></a>isilib.**blondel**(_G, weightParameter=None, communityParameter='community'_):
 
 # Needs to be written
 
 - - -
 
-<a name="isilib.btest"></a>isilib.**btest**(quite=False):
+<a name="isilib.btest"></a>isilib.**btest**(_quite=False_):
 
 # Needs to be written
 
 - - -
 
-<a name="isilib.drop_edges"></a>isilib.**drop_edges**(grph, minWeight=-inf, maxWeight=inf, parameterName='weight', ignoreUnweighted=False):
+<a name="isilib.drop_edges"></a>isilib.**drop_edges**(_grph, minWeight=-inf, maxWeight=inf, parameterName='weight', ignoreUnweighted=False_):
 
 >Returns a graph with edges whose weight is within the inclusive bounds of minWeight and maxWeight, i.e minWeight <= edges weight <= maxWeight, will throw a Keyerror if the graph is unweighted
 >
@@ -255,7 +308,7 @@ d'dgfkgdfhjkgdfhkjgfbgjdfkhjkgd
 
 - - -
 
-<a name="isilib.drop_nodesByCount"></a>isilib.**drop_nodesByCount**(grph, minCount=-inf, maxCount=inf, parameterName='count', ignoreMissing=False):
+<a name="isilib.drop_nodesByCount"></a>isilib.**drop_nodesByCount**(_grph, minCount=-inf, maxCount=inf, parameterName='count', ignoreMissing=False_):
 
 >Returns a graph whose nodes have a occurrence count that is within inclusive bounds of minCount and maxCount, i.e minCount <= count <= maxCount. Occurrence count is determined by reading the variable associated with the node named parameterName.
 >
@@ -268,7 +321,7 @@ d'dgfkgdfhjkgdfhkjgfbgjdfkhjkgd
 
 - - -
 
-<a name="isilib.drop_nodesByDegree"></a>isilib.**drop_nodesByDegree**(grph, minDegree=-inf, maxDegree=inf, useWeight=False, parameterName='weight', ignoreUnweighted=False):
+<a name="isilib.drop_nodesByDegree"></a>isilib.**drop_nodesByDegree**(_grph, minDegree=-inf, maxDegree=inf, useWeight=False, parameterName='weight', ignoreUnweighted=False_):
 
 >Returns a graph whose nodes have a degree that is within inclusive bounds of minDegree and maxDegree, i.e minDegree <= degree <= maxDegree. Degree can be determined in two ways by default it is the total number of edges touching a node, alternative if useWeight is True it is the sum of the weight of all the edges touching a node.
 >
@@ -282,32 +335,20 @@ d'dgfkgdfhjkgdfhkjgfbgjdfkhjkgd
 
 - - -
 
-<a name="isilib.isiParser"></a>isilib.**isiParser**(isifile):
+<a name="isilib.isiParser"></a>isilib.**isiParser**(_isifile_):
 
 >isiParser() reads the file given by the path isifile, checks that the header is correct then reads until it reaches EF.
 >Each it finds is used to initialize a Record then all Record are returned as a list.
 
 - - -
 
-<a name="isilib.modularity"></a>isilib.**modularity**(G, weightParameter=None, communityParameter='community'):
+<a name="isilib.modularity"></a>isilib.**modularity**(_G, weightParameter=None, communityParameter='community'_):
 
 >Gets modularity of network, currently not tuned
 
 - - -
 
-<a name="isilib.plfit"></a>isilib.**plfit**(x, *varargin):
-
-# Needs to be written
-
-- - -
-
-<a name="isilib.plplot"></a>isilib.**plplot**(x, xmin, alpha):
-
-# Needs to be written
-
-- - -
-
-<a name="isilib.read_graph"></a>isilib.**read_graph**(edgeList, nodeList=None, directed=False, idKey='ID', eSource='From', eDest='To'):
+<a name="isilib.read_graph"></a>isilib.**read_graph**(_edgeList, nodeList=None, directed=False, idKey='ID', eSource='From', eDest='To'_):
 
 >Reads the files given by edgeList and if given nodeList and produces a networkx graph
 >This is designed only for the files produced by isilib and is meant to be the reverse of write_graph()
@@ -318,21 +359,42 @@ d'dgfkgdfhjkgdfhkjgfbgjdfkhjkgd
 
 - - -
 
-<a name="isilib.recordParser"></a>isilib.**recordParser**(paper):
+<a name="isilib.recordParser"></a>isilib.**recordParser**(_paper_):
 
->recordParser() reads the file paper until it reaches 'ER'.
->For each field tag it adds an entry to the returned dict with the tag as the key and a list of the entries as the value, the list has each line separately
+>reads the file _paper_ until it reaches 'ER'.
+>
+>For each field tag it adds an entry to the returned dict with the tag as the key and a list of the entries as the value, the list has each line separately, so for the following string in a record:
+>
+>"AF BREVIK, I
+>
+>    ANICIN, B"
+>
+>the entry in the returned dict would be `{'AF' : ["BREVIK, I", "ANICIN, B"]}`
+>
+>[Record](#isilib.Record) objects can be created with these dictionaries as the initializer.
+>
+>##### Parameters
+>
+>_paper_ : `file stream`
+>
+>> an open file, with the current line at the beginning of the record
+>
+>##### Returns
+>
+>`dict[str : List[str]]`
+>
+>> a dictionary mapping WOS tags to lists, the lists are of strings, each string is a line of the record associated with the tag.
 
 - - -
 
-<a name="isilib.write_edgeList"></a>isilib.**write_edgeList**(grph, name, extraInfo=True, progBar=None):
+<a name="isilib.write_edgeList"></a>isilib.**write_edgeList**(_grph, name, extraInfo=True, progBar=None_):
 
 >writes an edge list of grph with filename name, if extraInfo is true the additional information about the edges, e.g. weight, will be written.
 >All edges must have the same tags
 
 - - -
 
-<a name="isilib.write_graph"></a>isilib.**write_graph**(grph, name, edgeInfo=True, typing=True, suffix='csv', overwrite=False):
+<a name="isilib.write_graph"></a>isilib.**write_graph**(_grph, name, edgeInfo=True, typing=True, suffix='csv', overwrite=False_):
 
 >Writes both the edge list and the node attribute list of grph.
 >The output files start with name, the file type[edgeList, nodeAttributes] then if typing is True the type of graph (directed or undirected) then the suffix, it appears as follows:
@@ -342,7 +404,7 @@ d'dgfkgdfhjkgdfhkjgfbgjdfkhjkgd
 
 - - -
 
-<a name="isilib.write_nodeAttributeFile"></a>isilib.**write_nodeAttributeFile**(grph, name, progBar=None):
+<a name="isilib.write_nodeAttributeFile"></a>isilib.**write_nodeAttributeFile**(_grph, name, progBar=None_):
 
 >writes a node attribute list of grph with filename name, the first column is the node's ID then all after it are its associated information.
 >All nodes must have the same tags.
@@ -353,215 +415,215 @@ d'dgfkgdfhjkgdfhkjgfbgjdfkhjkgd
 
 - - -
 
-<a name="isilib.tagFuncs.DOI"></a>isilib.tagFuncs.**DOI**(val):
+<a name="isilib.tagFuncs.DOI"></a>isilib.tagFuncs.**DOI**(_val_):
 
 >return the DOI number of the record
 >DI tag
 
 - - -
 
-<a name="isilib.tagFuncs.ISBN"></a>isilib.tagFuncs.**ISBN**(val):
+<a name="isilib.tagFuncs.ISBN"></a>isilib.tagFuncs.**ISBN**(_val_):
 
 >returns a list of ISBNs assocaited with the Record
 >BN tag
 
 - - -
 
-<a name="isilib.tagFuncs.ISSN"></a>isilib.tagFuncs.**ISSN**(val):
+<a name="isilib.tagFuncs.ISSN"></a>isilib.tagFuncs.**ISSN**(_val_):
 
 >returns the ISSN of the Record
 >SN tag
 
 - - -
 
-<a name="isilib.tagFuncs.ResearcherIDnumber"></a>isilib.tagFuncs.**ResearcherIDnumber**(val):
+<a name="isilib.tagFuncs.ResearcherIDnumber"></a>isilib.tagFuncs.**ResearcherIDnumber**(_val_):
 
 >returns a lsit of the research ids of the Record
 >RI tag
 
 - - -
 
-<a name="isilib.tagFuncs.abstract"></a>isilib.tagFuncs.**abstract**(val):
+<a name="isilib.tagFuncs.abstract"></a>isilib.tagFuncs.**abstract**(_val_):
 
 >return abstract of the record, with newlines hopefully in the correct places
 >AB tag
 
 - - -
 
-<a name="isilib.tagFuncs.articleNumber"></a>isilib.tagFuncs.**articleNumber**(val):
+<a name="isilib.tagFuncs.articleNumber"></a>isilib.tagFuncs.**articleNumber**(_val_):
 
 >returns a string giving the article number, not all are integers
 >AR tag
 
 - - -
 
-<a name="isilib.tagFuncs.authAddress"></a>isilib.tagFuncs.**authAddress**(val):
+<a name="isilib.tagFuncs.authAddress"></a>isilib.tagFuncs.**authAddress**(_val_):
 
 >C1 tag
 
 - - -
 
-<a name="isilib.tagFuncs.authKeyWords"></a>isilib.tagFuncs.**authKeyWords**(val):
+<a name="isilib.tagFuncs.authKeyWords"></a>isilib.tagFuncs.**authKeyWords**(_val_):
 
 >returns the keywords assigned by the author of the Record
 >DE tag
 
 - - -
 
-<a name="isilib.tagFuncs.authorsFull"></a>isilib.tagFuncs.**authorsFull**(val):
+<a name="isilib.tagFuncs.authorsFull"></a>isilib.tagFuncs.**authorsFull**(_val_):
 
 >returns a list of authors full names
 >AF tag
 
 - - -
 
-<a name="isilib.tagFuncs.authorsShort"></a>isilib.tagFuncs.**authorsShort**(val):
+<a name="isilib.tagFuncs.authorsShort"></a>isilib.tagFuncs.**authorsShort**(_val_):
 
 >returns a list of authors shortened names
 >AU tag
 
 - - -
 
-<a name="isilib.tagFuncs.beginningPage"></a>isilib.tagFuncs.**beginningPage**(val):
+<a name="isilib.tagFuncs.beginningPage"></a>isilib.tagFuncs.**beginningPage**(_val_):
 
 >returns the first page the record occurs on as a string not an int
 >BP tag
 
 - - -
 
-<a name="isilib.tagFuncs.bookAuthor"></a>isilib.tagFuncs.**bookAuthor**(val):
+<a name="isilib.tagFuncs.bookAuthor"></a>isilib.tagFuncs.**bookAuthor**(_val_):
 
 >returns a list of the short names of the authors of a book Record
 >BA tag
 
 - - -
 
-<a name="isilib.tagFuncs.bookAuthorFull"></a>isilib.tagFuncs.**bookAuthorFull**(val):
+<a name="isilib.tagFuncs.bookAuthorFull"></a>isilib.tagFuncs.**bookAuthorFull**(_val_):
 
 >returns a list of the long names of the authors of a book Record
 >BF tag
 
 - - -
 
-<a name="isilib.tagFuncs.bookDOI"></a>isilib.tagFuncs.**bookDOI**(val):
+<a name="isilib.tagFuncs.bookDOI"></a>isilib.tagFuncs.**bookDOI**(_val_):
 
 >returns the book DOI of the Record
 >D2 tag
 
 - - -
 
-<a name="isilib.tagFuncs.citations"></a>isilib.tagFuncs.**citations**(val):
+<a name="isilib.tagFuncs.citations"></a>isilib.tagFuncs.**citations**(_val_):
 
 >returns a list of all the citations in the record
 >CR tag
 
 - - -
 
-<a name="isilib.tagFuncs.citedRefsCount"></a>isilib.tagFuncs.**citedRefsCount**(val):
+<a name="isilib.tagFuncs.citedRefsCount"></a>isilib.tagFuncs.**citedRefsCount**(_val_):
 
 >returns the numer citations, length of CR list
 >NR tag
 
 - - -
 
-<a name="isilib.tagFuncs.confDate"></a>isilib.tagFuncs.**confDate**(val):
+<a name="isilib.tagFuncs.confDate"></a>isilib.tagFuncs.**confDate**(_val_):
 
 >returns the date string of the conference associated with the Record
 >CY tag
 
 - - -
 
-<a name="isilib.tagFuncs.confHost"></a>isilib.tagFuncs.**confHost**(val):
+<a name="isilib.tagFuncs.confHost"></a>isilib.tagFuncs.**confHost**(_val_):
 
 >returns the host of the conference
 >HO tag
 
 - - -
 
-<a name="isilib.tagFuncs.confLocation"></a>isilib.tagFuncs.**confLocation**(val):
+<a name="isilib.tagFuncs.confLocation"></a>isilib.tagFuncs.**confLocation**(_val_):
 
 >returns the sting giving the confrence's location
 >CL tag
 
 - - -
 
-<a name="isilib.tagFuncs.confSponsors"></a>isilib.tagFuncs.**confSponsors**(val):
+<a name="isilib.tagFuncs.confSponsors"></a>isilib.tagFuncs.**confSponsors**(_val_):
 
 >returns a list of sponsors for the conference associated with the record
 >SP tag
 
 - - -
 
-<a name="isilib.tagFuncs.confTitle"></a>isilib.tagFuncs.**confTitle**(val):
+<a name="isilib.tagFuncs.confTitle"></a>isilib.tagFuncs.**confTitle**(_val_):
 
 >returns the title of the conference associated with the Record
 >CT tag
 
 - - -
 
-<a name="isilib.tagFuncs.docType"></a>isilib.tagFuncs.**docType**(val):
+<a name="isilib.tagFuncs.docType"></a>isilib.tagFuncs.**docType**(_val_):
 
 >returns the type of document the Record contains
 >DT tag
 
 - - -
 
-<a name="isilib.tagFuncs.documentDeliveryNumber"></a>isilib.tagFuncs.**documentDeliveryNumber**(val):
+<a name="isilib.tagFuncs.documentDeliveryNumber"></a>isilib.tagFuncs.**documentDeliveryNumber**(_val_):
 
 >returns the document delivery number of the Record
 >GA tag
 
 - - -
 
-<a name="isilib.tagFuncs.eISSN"></a>isilib.tagFuncs.**eISSN**(val):
+<a name="isilib.tagFuncs.eISSN"></a>isilib.tagFuncs.**eISSN**(_val_):
 
 >returns the EISSN of the Record
 >EI tag
 
 - - -
 
-<a name="isilib.tagFuncs.editedBy"></a>isilib.tagFuncs.**editedBy**(val):
+<a name="isilib.tagFuncs.editedBy"></a>isilib.tagFuncs.**editedBy**(_val_):
 
 >returns a list of the editors of the Record
 >BE tag
 
 - - -
 
-<a name="isilib.tagFuncs.editors"></a>isilib.tagFuncs.**editors**(val):
+<a name="isilib.tagFuncs.editors"></a>isilib.tagFuncs.**editors**(_val_):
 
 >ED
 
 - - -
 
-<a name="isilib.tagFuncs.email"></a>isilib.tagFuncs.**email**(val):
+<a name="isilib.tagFuncs.email"></a>isilib.tagFuncs.**email**(_val_):
 
 >returns a list of emails given by the authors of the Record
 >EM tag
 
 - - -
 
-<a name="isilib.tagFuncs.endingPage"></a>isilib.tagFuncs.**endingPage**(val):
+<a name="isilib.tagFuncs.endingPage"></a>isilib.tagFuncs.**endingPage**(_val_):
 
 >return the last page the record occurs on as a string not an int
 >EP tag
 
 - - -
 
-<a name="isilib.tagFuncs.funding"></a>isilib.tagFuncs.**funding**(val):
+<a name="isilib.tagFuncs.funding"></a>isilib.tagFuncs.**funding**(_val_):
 
 >Returns a list of the groups funding the Record
 >FU tag
 
 - - -
 
-<a name="isilib.tagFuncs.fundingText"></a>isilib.tagFuncs.**fundingText**(val):
+<a name="isilib.tagFuncs.fundingText"></a>isilib.tagFuncs.**fundingText**(_val_):
 
 >Returns a string of the funding thank you
 >FX tag
 
 - - -
 
-<a name="isilib.tagFuncs.getMonth"></a>isilib.tagFuncs.**getMonth**(s):
+<a name="isilib.tagFuncs.getMonth"></a>isilib.tagFuncs.**getMonth**(_s_):
 
 >Known formats:
 >Month ("%b")
@@ -573,223 +635,223 @@ d'dgfkgdfhjkgdfhkjgfbgjdfkhjkgd
 
 - - -
 
-<a name="isilib.tagFuncs.group"></a>isilib.tagFuncs.**group**(val):
+<a name="isilib.tagFuncs.group"></a>isilib.tagFuncs.**group**(_val_):
 
 >returns the group associated with the Record
 >GP tag
 
 - - -
 
-<a name="isilib.tagFuncs.groupName"></a>isilib.tagFuncs.**groupName**(val):
+<a name="isilib.tagFuncs.groupName"></a>isilib.tagFuncs.**groupName**(_val_):
 
 >returns the name of the group associated with the Record
 >CA tag
 
 - - -
 
-<a name="isilib.tagFuncs.isoAbbreviation"></a>isilib.tagFuncs.**isoAbbreviation**(val):
+<a name="isilib.tagFuncs.isoAbbreviation"></a>isilib.tagFuncs.**isoAbbreviation**(_val_):
 
 >returns the iso abbreviation of the journal
 >JI tag
 
 - - -
 
-<a name="isilib.tagFuncs.issue"></a>isilib.tagFuncs.**issue**(val):
+<a name="isilib.tagFuncs.issue"></a>isilib.tagFuncs.**issue**(_val_):
 
 >returns a string giving the issue or range of issues the Record was in
 >IS tag
 
 - - -
 
-<a name="isilib.tagFuncs.j9"></a>isilib.tagFuncs.**j9**(val):
+<a name="isilib.tagFuncs.j9"></a>isilib.tagFuncs.**j9**(_val_):
 
 >returns the J9 (29-Character Source Abbreviation) of the publication
 >J9 tag
 
 - - -
 
-<a name="isilib.tagFuncs.journal"></a>isilib.tagFuncs.**journal**(val):
+<a name="isilib.tagFuncs.journal"></a>isilib.tagFuncs.**journal**(_val_):
 
 >returns the full name of the publication
 >SO tag
 
 - - -
 
-<a name="isilib.tagFuncs.keyWords"></a>isilib.tagFuncs.**keyWords**(val):
+<a name="isilib.tagFuncs.keyWords"></a>isilib.tagFuncs.**keyWords**(_val_):
 
 >returns the WOS keywords of the Record
 >ID tag
 
 - - -
 
-<a name="isilib.tagFuncs.language"></a>isilib.tagFuncs.**language**(val):
+<a name="isilib.tagFuncs.language"></a>isilib.tagFuncs.**language**(_val_):
 
 >returns the languages of the Record as a string with languages seperated by ', ', usually there is only one language
 >LA tag
 
 - - -
 
-<a name="isilib.tagFuncs.makeReversed"></a>isilib.tagFuncs.**makeReversed**(d):
+<a name="isilib.tagFuncs.makeReversed"></a>isilib.tagFuncs.**makeReversed**(_d_):
 
 # Needs to be written
 
 - - -
 
-<a name="isilib.tagFuncs.meetingAbstract"></a>isilib.tagFuncs.**meetingAbstract**(val):
+<a name="isilib.tagFuncs.meetingAbstract"></a>isilib.tagFuncs.**meetingAbstract**(_val_):
 
 >returns the ID of the meeting abstract prefixed by 'EPA-'
 >MA tag
 
 - - -
 
-<a name="isilib.tagFuncs.month"></a>isilib.tagFuncs.**month**(val):
+<a name="isilib.tagFuncs.month"></a>isilib.tagFuncs.**month**(_val_):
 
 >returns the month the record was published in as an int with January as 1, February 2, ...
 >PD tag
 
 - - -
 
-<a name="isilib.tagFuncs.orcID"></a>isilib.tagFuncs.**orcID**(val):
+<a name="isilib.tagFuncs.orcID"></a>isilib.tagFuncs.**orcID**(_val_):
 
 >returns a list of orc IDs of the Record
 >OI tag
 
 - - -
 
-<a name="isilib.tagFuncs.pageCount"></a>isilib.tagFuncs.**pageCount**(val):
+<a name="isilib.tagFuncs.pageCount"></a>isilib.tagFuncs.**pageCount**(_val_):
 
 >returns an interger giving the number of pages of the Record
 >PG tag
 
 - - -
 
-<a name="isilib.tagFuncs.partNumber"></a>isilib.tagFuncs.**partNumber**(val):
+<a name="isilib.tagFuncs.partNumber"></a>isilib.tagFuncs.**partNumber**(_val_):
 
 >return an integer giving the part of the issue the Record is in
 >PN tag
 
 - - -
 
-<a name="isilib.tagFuncs.pubMedID"></a>isilib.tagFuncs.**pubMedID**(val):
+<a name="isilib.tagFuncs.pubMedID"></a>isilib.tagFuncs.**pubMedID**(_val_):
 
 >returns the pubmed idof the record
 >PM tag
 
 - - -
 
-<a name="isilib.tagFuncs.pubType"></a>isilib.tagFuncs.**pubType**(val):
+<a name="isilib.tagFuncs.pubType"></a>isilib.tagFuncs.**pubType**(_val_):
 
 >retunrs the type of publication as a character: conference, book, journal, book in series, or patent
 >PT tag
 
 - - -
 
-<a name="isilib.tagFuncs.publisher"></a>isilib.tagFuncs.**publisher**(val):
+<a name="isilib.tagFuncs.publisher"></a>isilib.tagFuncs.**publisher**(_val_):
 
 >returns the publisher of the Record
 >PU tag
 
 - - -
 
-<a name="isilib.tagFuncs.publisherAddress"></a>isilib.tagFuncs.**publisherAddress**(val):
+<a name="isilib.tagFuncs.publisherAddress"></a>isilib.tagFuncs.**publisherAddress**(_val_):
 
 >returns the publishers address
 >PA tag
 
 - - -
 
-<a name="isilib.tagFuncs.publisherCity"></a>isilib.tagFuncs.**publisherCity**(val):
+<a name="isilib.tagFuncs.publisherCity"></a>isilib.tagFuncs.**publisherCity**(_val_):
 
 >Returns the city the publisher is in
 >PI tag
 
 - - -
 
-<a name="isilib.tagFuncs.reprintAddress"></a>isilib.tagFuncs.**reprintAddress**(val):
+<a name="isilib.tagFuncs.reprintAddress"></a>isilib.tagFuncs.**reprintAddress**(_val_):
 
 >returns the reprint address string
 >RP tag
 
 - - -
 
-<a name="isilib.tagFuncs.seriesSubtitle"></a>isilib.tagFuncs.**seriesSubtitle**(val):
+<a name="isilib.tagFuncs.seriesSubtitle"></a>isilib.tagFuncs.**seriesSubtitle**(_val_):
 
 >returns the title of the series the Record is in
 >BS tag
 
 - - -
 
-<a name="isilib.tagFuncs.seriesTitle"></a>isilib.tagFuncs.**seriesTitle**(val):
+<a name="isilib.tagFuncs.seriesTitle"></a>isilib.tagFuncs.**seriesTitle**(_val_):
 
 >returns the title of the series the Record is in
 >SE tag
 
 - - -
 
-<a name="isilib.tagFuncs.specialIssue"></a>isilib.tagFuncs.**specialIssue**(val):
+<a name="isilib.tagFuncs.specialIssue"></a>isilib.tagFuncs.**specialIssue**(_val_):
 
 >returns the special issue value
 >SI tag
 
 - - -
 
-<a name="isilib.tagFuncs.subjectCategory"></a>isilib.tagFuncs.**subjectCategory**(val):
+<a name="isilib.tagFuncs.subjectCategory"></a>isilib.tagFuncs.**subjectCategory**(_val_):
 
 >returns a list of the subjects associated with the Record
 >SC tag
 
 - - -
 
-<a name="isilib.tagFuncs.subjects"></a>isilib.tagFuncs.**subjects**(val):
+<a name="isilib.tagFuncs.subjects"></a>isilib.tagFuncs.**subjects**(_val_):
 
 >returns a lsit of subjects as assigned by WOS
 >WC tag
 
 - - -
 
-<a name="isilib.tagFuncs.supplement"></a>isilib.tagFuncs.**supplement**(val):
+<a name="isilib.tagFuncs.supplement"></a>isilib.tagFuncs.**supplement**(_val_):
 
 >returns the supplemtn number
 >SU tag
 
 - - -
 
-<a name="isilib.tagFuncs.title"></a>isilib.tagFuncs.**title**(val):
+<a name="isilib.tagFuncs.title"></a>isilib.tagFuncs.**title**(_val_):
 
 >returns the title of the record
 >TI tag
 
 - - -
 
-<a name="isilib.tagFuncs.totalTimesCited"></a>isilib.tagFuncs.**totalTimesCited**(val):
+<a name="isilib.tagFuncs.totalTimesCited"></a>isilib.tagFuncs.**totalTimesCited**(_val_):
 
 >returns the total number of citations of the record
 >Z9 tag
 
 - - -
 
-<a name="isilib.tagFuncs.volume"></a>isilib.tagFuncs.**volume**(val):
+<a name="isilib.tagFuncs.volume"></a>isilib.tagFuncs.**volume**(_val_):
 
 >return the volume the record is in as a string not an int
 >VL tag
 
 - - -
 
-<a name="isilib.tagFuncs.wosString"></a>isilib.tagFuncs.**wosString**(val):
+<a name="isilib.tagFuncs.wosString"></a>isilib.tagFuncs.**wosString**(_val_):
 
 >returns the WOS number of the record as a string preceded by "WOS:""
 >UT tag
 
 - - -
 
-<a name="isilib.tagFuncs.wosTimesCited"></a>isilib.tagFuncs.**wosTimesCited**(val):
+<a name="isilib.tagFuncs.wosTimesCited"></a>isilib.tagFuncs.**wosTimesCited**(_val_):
 
 >returns the number of times the Record has been cited byr records in WOS
 >TC tag
 
 - - -
 
-<a name="isilib.tagFuncs.year"></a>isilib.tagFuncs.**year**(val):
+<a name="isilib.tagFuncs.year"></a>isilib.tagFuncs.**year**(_val_):
 
 >returns the year the record was published in as an int
 >PY tag

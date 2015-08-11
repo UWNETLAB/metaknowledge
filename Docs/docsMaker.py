@@ -20,7 +20,12 @@ def argumentParser():
 
 def cleanargs(obj):
     argStr = inspect.formatargspec(*inspect.getfullargspec(obj))
-    return argStr.replace(", *args", '').replace(", **kwargs", '').replace('self, ', '').replace('self', '')
+    argStr =  argStr.replace(", *args", '').replace(", **kwargs", '').replace('self, ', '').replace('self', '')[1:-1]
+    if len(argStr) > 0:
+        return "(_{0}_)".format(argStr)
+    else:
+        return '()'
+
 
 def cleanedDoc(obj, lvl):
     ds = inspect.getdoc(obj)
@@ -61,8 +66,11 @@ def proccessClass(cl, f):
     writeClass(cl, f)
     baseMems = inspect.getmembers(cl[1].__bases__[0])
     for m in inspect.getmembers(cl[1]):
-        if m[0][0] != '_' and m not in baseMems and inspect.isfunction(m[1]):
-            writeFunc(m, f, prefix = '{}.'.format(cl[0]), level = 5)
+        if m[0][0] == '_' or m in baseMems:
+            pass
+        elif inspect.isfunction(m[1]):
+            writeFunc(m, f, prefix = '{}.'.format(cl[0]), level = 4)
+
 
 def main(args):
     wDir = os.path.expanduser(os.path.normpath(args.dir))

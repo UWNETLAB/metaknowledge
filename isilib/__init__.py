@@ -6,8 +6,3 @@ from .graphHelpers import write_edgeList, write_nodeAttributeFile, write_graph, 
 from .constants import VERBOSE_MODE, tagToFull, fullToTag, tagNameConverter, tagsAndNames, knownTagsList
 from .blondel import blondel, modularity
 from .thirdPartyCode import plfit, plplot
-
-
-"""
-Test Doc string
-"""

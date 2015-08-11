@@ -1,26 +1,6 @@
 from .constants import tagNameConverter, monthDict
 from .citation import Citation
 
-class tagWrapper(object):
-    def __init__(self, parent, tag):
-        self.tag = tag
-        self.data = None
-        try:
-            self.name = tagNameConverter[tag]
-            setattr(parent, self.name, self)
-        except KeyError:
-            pass
-        except AttributeError:
-            pass
-
-    def __get__(self, instance, owner):
-        if self.data == None:
-            try:
-                self.data = tagToFunc[self.tag](instance._fieldDict[self.tag])
-            except KeyError:
-                self.data = instance._fieldDict[self.tag]
-        return self.data
-
 def pubType(val):
     """
     retunrs the type of publication as a character: conference, book, journal, book in series, or patent
@@ -91,6 +71,7 @@ def editors(val):
     ED
     """
     return val
+
 def journal(val):
     """
     returns the full name of the publication

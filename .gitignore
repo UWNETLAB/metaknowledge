@@ -17,6 +17,7 @@ vagrant/logs/
 profile_wosserver/
 !profile_wosserver/ipython_*
 !Docs/*.sh
+isilibDocs.md
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

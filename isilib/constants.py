@@ -6,7 +6,11 @@ def isInteractive():
     try:
         s = sys.ps1 #pylint: disable=all
         if isinstance(s, str) and sys.stdout.isatty():
-            return True
+            import os
+            if os.name != 'nt':
+                return True
+            else:
+                return False
         else:
             return False
     except AttributeError:

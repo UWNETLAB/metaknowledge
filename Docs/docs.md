@@ -2,10 +2,7 @@
 layout: page
 title: isilib Docs
 ---
-<a name="isilib"></a>
-Doc String
-sekljfsdkdfghkgdf
-d'dgfkgdfhjkgdfhkjgfbgjdfkhjkgd
+<a name="isilib"></a>Doc String for isilib main
 
 ## Classes
 
@@ -33,23 +30,82 @@ d'dgfkgdfhjkgdfhkjgfbgjdfkhjkgd
 
 <a name="isilib.Citation"></a>isilib.**Citation**(_cite_):
 
->A object to hold citation strings and allow for comparison between them.
->It takes in a citation string from the CR tag of a WOS record then attempts to extract the DOI ,author, year, journal, Volume (V) and Page (P) of the citation string, any extra values are put in misc.
->If the citation string does not have 3 comma space separated elements or has 2 or more only numeric elements it is flagged as bad and all of the string is stored in misc
+>A class to hold citation strings and allow for comparison between them.
+>
+>The initializer takes in a string representing a WOS citation they are in the form:
+>
+>> Author, Year, Journal, Volume, Page, DOI
+>
+>Author is the author's name in the form of first last name first initial followed sometime by a period.
+>Year is the year of publication.
+>Journal being the 29-Character Source Abbreviation of the journal.
+>Volume is the volume number(s) of the publication preceded by a V
+>Page is the page number the record starts on
+>DOI is the DOI number of the cited record preceeded by the letters "DOI"
+>Combined they look like:
+>
+>> Nunez R., 1998, MATH COGNITION, V4, P85, DOI 10.1080/135467998387343
+>
+>Note that any of the fields have been known to be missing and the requirements for the fields are not always met. If something is in the source string that cannot be interpeted as any of these it is put in the `misc` attribute.
+>
+>That the WOS data are often irregular is the reason for this class, it is designed to allow comparison between WOS citation strings even when they are missing pieces.
+>
+>##### Customizations
+>
+>Citation's hashing and equality checking are based on what data they have. The equality checking first checks both Citation's DOI's and if either is missing moves to the other fields. If any of the fields disagree `False` is returned (note, authors are not compared if one is anonymous) if they all agree including the `misc` field then True is returned.
+>
+>Unfortunately this type of equality checking precludes hashes being identical so to compare Citation objects always use ==. Hashes if identical indicates the Citations are identical (excluding collisions), but the converse is not True.
+>
+>When converted to a string a Citation will return the original string.
+>
+>##### Attributes
+>
+>AS noted above citations are considered to be divided into six distinct fields (Author, Year, Journal, Volume, Page and DOI) with a seventh misc for anything not in those. Records thus have an attribute with a name corresponding to each `author`, `year`, `journal`, `V`, `P`, `DOI` and `misc` respectively. These are created if there is anything in the field. So a Citation created from the string: "Nunez R., 1998, MATH COGNITION" would have `author`, `year` and `journal` defined. While one from "Nunez R." would have only the attribute `misc`.
+>
+>If the parsing of a citation string fails the attribute `bad` is set to True and the attribute `error` is created to contain the error which is a [BadCitation](#isilib.BadCitation) object. If no errors occur `bad` is `False`.
+>
+>The attribute `original` is the unmodified string (_cite_) given to create the Citation, it can also be accessed by converting to a string, e.g. with `str()`.
+>
+>##### \_\_Init\_\_
+>
+>Citations can be created by [Records](#isilib.Record) or by giving the initializer a string containing a WOS style citation.
+>
+>##### Parameters
+>
+>_cite_ : `str`
+>
+>> a str containing a WOS style citation
 
 <a name="Citation.getExtra"></a>Citation.**getExtra**():
 
->Returns any journal, V, P or misc values as a string
+>Returns any journal, V, P or misc values as a string. These are all the values not returned by [`getID()`](#Citation.getID)
+>
+>##### Returns
+>
+>`str`
+>
+>> a string containing the data not in the ID of the Citation
 > 
 
 <a name="Citation.getID"></a>Citation.**getID**():
 
->Returns "author, year" if both available "author" if year is not available and "misc" otherwise
->Use for shortening labels
+>Returns "author, year" if both available "author" if year is not available and "misc" otherwise. Use for shortening labels when creating networks as the resultant strings are often unique. [`getExtra()`](#Citation.getExtra) gets everthing not returned by `getID()`.
+>
+>##### Returns
+>
+>`str`
+>
+>> a string to use as the shortened ID of a node
 
 <a name="Citation.isAnonymous"></a>Citation.**isAnonymous**():
 
->checks if the author is given as "[ANONYMOUS]" and returns True if so
+>checks if the author is given as "[ANONYMOUS]" and returns True if so.
+>
+>##### Returns
+>
+>`bool`
+>
+>> True if the author is ANONYMOUS otherwise false
 
 - - -
 
@@ -61,13 +117,19 @@ d'dgfkgdfhjkgdfhkjgfbgjdfkhjkgd
 >
 >The record's meta-data is stored in an ordered dictionary labeled by WOS tags. To access the raw data stored in the original record the [getTag()](#Record.getTag) method can be used. To access data that has been processed and cleaned the attributes named after the tags are used, see next section.
 >
+>##### Customizations
+>
 >The Record's hashing and equality testing are based on the WOS number (the tag is 'UT', and also called the accession number). They are strings starting with "WOS:" and followed by 15 or so numbers and letters, although both the length and character set are known to vary. The numbers are unique to each record so are used for comparisons. If a record is `bad` returns false on all equality checks.
+>
+>When converted to a string the records title is used so for a record `R`, R.TI == R.title == str(R).
+>
+>##### Attributes
 >
 >When a record is created if the parsing of the WOS file failed it is marked as `bad`. The `bad` attribute is set to True and the `error` attribute is created to contain the exception object.
 >
->##### Accessing tag values by attributes
->
 >Generally to get the information from a Record its attributes should be used. For a Record `R`, calling `R.CR` causes [citations()](#isilib.tagFuncs.citations) from the the [tagFuncs](#isilib.tagFuncs) module to be called on the contents of the raw 'CR' field. Then the result is saved and returned. In this case a list of Citation objects is returned. You can also call `R.citations` to get the same effect as each known field tag, currently there are 61, has a longer name. These names are meant to make accessing tags more readable and mapping from tag to name can be found in the tagToFull dict. If a tag is known (in [tagToFull](#isilib)) but not in the raw data `None` is returned instead. Most tags when cleaned return a list of strings or a string, the exact results can be found in the help for tagFuncs of the particular function.
+>
+>The attribute `authors` is also defined as a convience and returns the same as 'AF' or if that is not found 'AU'.
 >
 >##### \_\_Init\_\_
 >Records are generally create by [Recordcollections](#isilib.RecordCollection) and not as individual objects. If you wish to create one on its own it is possible, the arguments are as follows.

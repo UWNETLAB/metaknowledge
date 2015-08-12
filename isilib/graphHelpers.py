@@ -276,10 +276,13 @@ class _ProgressBar(object):
                 return sString[:int(maxLength/2 - 2)] + '...' + sString[int(-maxLength/2):] + ' '
     @staticmethod
     def prepTime(t, maxLength):
-        if math.log10(t) + 3.01 > maxLength:
-            return "{1:{0}.0E}s".format(maxLength - 1 ,t)
-        else:
-            return "{1:{0}.1f}s".format(maxLength - 1,t)
+        try:
+            if math.log10(t) + 3.01 > maxLength:
+                return "{1:{0}.0E}s".format(maxLength - 1 ,t)
+            else:
+                return "{1:{0}.1f}s".format(maxLength - 1,t)
+        except ValueError:
+            return "{1:{0}.1f}s".format(maxLength - 1,t) 
 
 
 def getWeight(grph, nd1, nd2, weightString = "weight", returnType = int):

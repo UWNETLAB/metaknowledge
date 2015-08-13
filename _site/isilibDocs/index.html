@@ -121,10 +121,7 @@
       <div class="container content">
         <div class="page">
   <h1 class="page-title">isilib Docs</h1>
-  <p><a name="isilib"></a>
-Doc String
-sekljfsdkdfghkgdf
-d&#39;dgfkgdfhjkgdfhkjgfbgjdfkhjkgd</p>
+  <p><a name="isilib"></a>Doc String for isilib main</p>
 
 <h2>Classes</h2>
 
@@ -142,10 +139,10 @@ d&#39;dgfkgdfhjkgdfhkjgfbgjdfkhjkgd</p>
 <p>Exception thrown by the <a href="#isilib.recordParser">record parser</a> to indicate a mis-formated record. This occurs when some component of the record does not parse. The messages will be any of:</p>
 
 <ul>
-<li><p><em>Missing field on line (line Number):(line)</em>, which indicates a line was to short where there should have been a tag followed by information</p></li>
-<li><p><em>End of file reached before ER</em>, which indicates the file end before the &#39;ER&#39; indicator appeared, &#39;ER&#39; indicates the end of a record. This is often due to a copy and paste error.</p></li>
-<li><p><em>Duplicate tags in record</em>, which indicates the record had 2 or more lines with the same tag. This is often due to a copy and paste error.</p></li>
-<li><p><em>Missing WOS number</em>, which indicates the record did not have a &#39;UT&#39; tag. This tag allows comparison between Record objects so if missing most comparisons will fail.</p></li>
+<li><p><em>Missing field on line (line Number):(line)</em>, which indicates a line was to short, there should have been a tag followed by information</p></li>
+<li><p><em>End of file reached before ER</em>, which indicates the file ended before the &#39;ER&#39; indicator appeared, &#39;ER&#39; indicates the end of a record. This is often due to a copy and paste error.</p></li>
+<li><p><em>Duplicate tags in record</em>, which indicates the record had 2 or more lines with the same tag.</p></li>
+<li><p><em>Missing WOS number</em>, which indicates the record did not have a &#39;UT&#39; tag.</p></li>
 </ul>
 
 <p>Records with a BadISIRecord error are likely incomplete or the combination of two or more single records.</p>
@@ -153,123 +150,273 @@ d&#39;dgfkgdfhjkgdfhkjgfbgjdfkhjkgd</p>
 
 <hr>
 
-<p><a name="isilib.Citation"></a>isilib.<strong>Citation</strong>(cite):</p>
+<p><a name="isilib.Citation"></a>isilib.<strong>Citation</strong>(<em>cite</em>):</p>
 
 <blockquote>
-<p>A object to hold citation strings and allow for comparison between them.
-It takes in a citation string from the CR tag of a WOS record then attempts to extract the DOI ,author, year, journal, Volume (V) and Page (P) of the citation string, any extra values are put in misc.
-If the citation string does not have 3 comma space separated elements or has 2 or more only numeric elements it is flagged as bad and all of the string is stored in misc</p>
+<p>A class to hold citation strings and allow for comparison between them.</p>
+
+<p>The initializer takes in a string representing a WOS citation they are in the form:</p>
+
+<blockquote>
+<p>Author, Year, Journal, Volume, Page, DOI</p>
+</blockquote>
+
+<p>Author is the author&#39;s name in the form of first last name first initial followed sometime by a period.
+Year is the year of publication.
+Journal being the 29-Character Source Abbreviation of the journal.
+Volume is the volume number(s) of the publication preceded by a V
+Page is the page number the record starts on
+DOI is the DOI number of the cited record preceeded by the letters &quot;DOI&quot;
+Combined they look like:</p>
+
+<blockquote>
+<p>Nunez R., 1998, MATH COGNITION, V4, P85, DOI 10.1080/135467998387343</p>
+</blockquote>
+
+<p>Note that any of the fields have been known to be missing and the requirements for the fields are not always met. If something is in the source string that cannot be interpeted as any of these it is put in the <code>misc</code> attribute.</p>
+
+<p>That the WOS data are often irregular is the reason for this class, it is designed to allow comparison between WOS citation strings even when they are missing pieces.</p>
+
+<h5>Customizations</h5>
+
+<p>Citation&#39;s hashing and equality checking are based on what data they have. The equality checking first checks both Citation&#39;s DOI&#39;s and if either is missing moves to the other fields. If any of the fields disagree <code>False</code> is returned (note, authors are not compared if one is anonymous) if they all agree including the <code>misc</code> field then True is returned.</p>
+
+<p>Unfortunately this type of equality checking precludes hashes being identical so to compare Citation objects always use ==. Hashes if identical indicates the Citations are identical (excluding collisions), but the converse is not True.</p>
+
+<p>When converted to a string a Citation will return the original string.</p>
+
+<h5>Attributes</h5>
+
+<p>AS noted above citations are considered to be divided into six distinct fields (Author, Year, Journal, Volume, Page and DOI) with a seventh misc for anything not in those. Records thus have an attribute with a name corresponding to each <code>author</code>, <code>year</code>, <code>journal</code>, <code>V</code>, <code>P</code>, <code>DOI</code> and <code>misc</code> respectively. These are created if there is anything in the field. So a Citation created from the string: &quot;Nunez R., 1998, MATH COGNITION&quot; would have <code>author</code>, <code>year</code> and <code>journal</code> defined. While one from &quot;Nunez R.&quot; would have only the attribute <code>misc</code>.</p>
+
+<p>If the parsing of a citation string fails the attribute <code>bad</code> is set to True and the attribute <code>error</code> is created to contain the error which is a <a href="#isilib.BadCitation">BadCitation</a> object. If no errors occur <code>bad</code> is <code>False</code>.</p>
+
+<p>The attribute <code>original</code> is the unmodified string (<em>cite</em>) given to create the Citation, it can also be accessed by converting to a string, e.g. with <code>str()</code>.</p>
+
+<h5>__Init__</h5>
+
+<p>Citations can be created by <a href="#isilib.Record">Records</a> or by giving the initializer a string containing a WOS style citation.</p>
+
+<h5>Parameters</h5>
+
+<p><em>cite</em> : <code>str</code></p>
+
+<blockquote>
+<p>a str containing a WOS style citation</p>
+</blockquote>
 </blockquote>
 
 <p><a name="Citation.getExtra"></a>Citation.<strong>getExtra</strong>():</p>
 
 <blockquote>
-<p>Returns any journal, V, P or misc values as a string</p>
+<p>Returns any journal, V, P or misc values as a string. These are all the values not returned by <a href="#Citation.getID"><code>getID()</code></a></p>
+
+<h5>Returns</h5>
+
+<p><code>str</code></p>
+
+<blockquote>
+<p>a string containing the data not in the ID of the Citation</p>
+</blockquote>
 </blockquote>
 
 <p><a name="Citation.getID"></a>Citation.<strong>getID</strong>():</p>
 
 <blockquote>
-<p>Returns &quot;author, year&quot; if both available &quot;author&quot; if year is not available and &quot;misc&quot; otherwise
-Use for shortening labels</p>
+<p>Returns &quot;author, year&quot; if both available &quot;author&quot; if year is not available and &quot;misc&quot; otherwise. Use for shortening labels when creating networks as the resultant strings are often unique. <a href="#Citation.getExtra"><code>getExtra()</code></a> gets everthing not returned by <code>getID()</code>.</p>
+
+<h5>Returns</h5>
+
+<p><code>str</code></p>
+
+<blockquote>
+<p>a string to use as the shortened ID of a node</p>
+</blockquote>
 </blockquote>
 
 <p><a name="Citation.isAnonymous"></a>Citation.<strong>isAnonymous</strong>():</p>
 
 <blockquote>
-<p>checks if the author is given as &quot;[ANONYMOUS]&quot; and returns True if so</p>
+<p>checks if the author is given as &quot;[ANONYMOUS]&quot; and returns True if so.</p>
+
+<h5>Returns</h5>
+
+<p><code>bool</code></p>
+
+<blockquote>
+<p>True if the author is ANONYMOUS otherwise false</p>
+</blockquote>
 </blockquote>
 
 <hr>
 
-<p><a name="isilib.Record"></a>isilib.<strong>Record</strong>(inRecord, taglist=(), sFile=&#39;&#39;, sLine=0):</p>
+<p><a name="isilib.Record"></a>isilib.<strong>Record</strong>(<em>inRecord, taglist=(), sFile=&#39;&#39;, sLine=0</em>):</p>
 
 <blockquote>
 <p>Class for full WOS records</p>
 
-<p>It is meant to be immutable, many of the methods and attributes are evaluated when first called not when the object is created an the results are stored in a private dictionary.</p>
+<p>It is meant to be immutable, many of the methods and attributes are evaluated when first called not when the object is created and the results are stored in a private dictionary.</p>
 
-<p>The record&#39;s meta-data is stored in an ordered dictionary labeled by WOS tags. To access the raw data stored in the original record the <a href="#Record.getTag">getTag()</a> method can be used. To access data that has been processed and cleaned the attributes named after the tags are used.</p>
+<p>The record&#39;s meta-data is stored in an ordered dictionary labeled by WOS tags. To access the raw data stored in the original record the <a href="#Record.getTag">getTag()</a> method can be used. To access data that has been processed and cleaned the attributes named after the tags are used, see next section.</p>
 
-<p>The Record class&#39;s hashing and equality testing are based on the WOS number (the tag is &#39;UT&#39;, and is also called the accession number). They are strings starting with &quot;WOS:&quot; and followed by 15 or so numbers and letters, although both the length and character set are known to vary. The numbers are unique to each record so are used for comparisons. If a record is bad it likely does not have a WOS number and thus returns false on all equality checks.</p>
+<h5>Customizations</h5>
+
+<p>The Record&#39;s hashing and equality testing are based on the WOS number (the tag is &#39;UT&#39;, and also called the accession number). They are strings starting with &quot;WOS:&quot; and followed by 15 or so numbers and letters, although both the length and character set are known to vary. The numbers are unique to each record so are used for comparisons. If a record is <code>bad</code> returns false on all equality checks.</p>
+
+<p>When converted to a string the records title is used so for a record <code>R</code>, R.TI == R.title == str(R).</p>
+
+<h5>Attributes</h5>
 
 <p>When a record is created if the parsing of the WOS file failed it is marked as <code>bad</code>. The <code>bad</code> attribute is set to True and the <code>error</code> attribute is created to contain the exception object.</p>
 
-<h5>Accessing tag values by attributes</h5>
+<p>Generally to get the information from a Record its attributes should be used. For a Record <code>R</code>, calling <code>R.CR</code> causes <a href="#isilib.tagFuncs.citations">citations()</a> from the the <a href="#isilib.tagFuncs">tagFuncs</a> module to be called on the contents of the raw &#39;CR&#39; field. Then the result is saved and returned. In this case a list of Citation objects is returned. You can also call <code>R.citations</code> to get the same effect as each known field tag, currently there are 61, has a longer name. These names are meant to make accessing tags more readable and mapping from tag to name can be found in the tagToFull dict. If a tag is known (in <a href="#isilib">tagToFull</a>) but not in the raw data <code>None</code> is returned instead. Most tags when cleaned return a list of strings or a string, the exact results can be found in the help for tagFuncs of the particular function.</p>
 
-<p>To generally to get the information from a Record its attributes can be used. Calling <code>R.CR</code> causes <a href="#isilib.tagFuncs.citations">citations()</a> from the the <a href="#isilib.tagFuncs">tagFuncs</a> module to be called on the contents of the raw &#39;CR&#39; field. Then the result is saved and returned. In this case a list of Citation objects is returned. You can also call &#39;R.citations&#39; to get the same effect as each known field tag, currently there are 61, has a longer name. These names are meant to make accessing tags more readable and th mapping from tag to name can be found in the tagToFull dict. If a tag is known (in <a href="#isilib">tagToFull</a>) but not in the raw data None is returned instead. Most tags when cleaned return a list of strings or a string, the exact results can be found in the help for tagFuncs of the particular function.</p>
+<p>The attribute <code>authors</code> is also defined as a convience and returns the same as &#39;AF&#39; or if that is not found &#39;AU&#39;.</p>
 
-<h5>Init</h5>
+<h5>__Init__</h5>
 
-<p>Records are generally create by <a href="#isilib.RecordCollection">Recordcollections</a> and not as individual objects. If you wish to create one on its own it is possible.</p>
+<p>Records are generally create by <a href="#isilib.RecordCollection">Recordcollections</a> and not as individual objects. If you wish to create one on its own it is possible, the arguments are as follows.</p>
 
-<h6>Parameters</h6>
+<h5>Parameters</h5>
 
-<p><em>inRecord</em>: files stream, dict, str or itertools.chain</p>
+<p><em>inRecord</em>: <code>files stream, dict, str or itertools.chain</code></p>
 
 <blockquote>
 <p>If it is a file stream the file must be open at the location of the first tag in the record, usually &#39;PT&#39;, and the file will be read until &#39;ER&#39; is found, which indicates the end of the record in the file.</p>
 
 <p>If a dict is passed the dictionary is used as the database of fields and tags, so each key is considered a WOS tag and each value a list of the lines of the original associated with the tag. This is the same form of dict that <a href="#isilib.recordParser">recordParser</a> returns.</p>
 
-<p>For a str the input is the raw textual data of a single record in the WOS style, ending in &#39;ER&#39;.</p>
+<p>For a str the input is the raw textual data of a single record in the WOS style, like the file stream it must start at the first tag and end in &#39;ER&#39;.</p>
 
-<p>itertools.chain is treated indentally to a file stream an is used by <a href="#isilib.RecordCollection">RecordCollections</a></p>
+<p>itertools.chain is treated identically to a file stream and is used by <a href="#isilib.RecordCollection">RecordCollections</a></p>
 </blockquote>
 
-<p><em>sFile</em> : optional [str]</p>
+<p><em>sFile</em> : <code>optional [str]</code></p>
 
 <blockquote>
-<p>It is the name of the file the raw data was in, by default it is blank. Mostly used to make error messages more informative.</p>
+<p>Is the name of the file the raw data was in, by default it is blank. Mostly used to make error messages more informative.</p>
 </blockquote>
 
-<p><em>sLine</em> : optional [int]</p>
+<p><em>sLine</em> : <code>optional [int]</code></p>
 
 <blockquote>
-<p>It is the line the record starts on in the raw data file. Mostly used to make error messages more informative.</p>
+<p>Is the line the record starts on in the raw data file. Mostly used to make error messages more informative.</p>
 </blockquote>
 </blockquote>
 
 <p><a name="Record.activeTags"></a>Record.<strong>activeTags</strong>():</p>
 
 <blockquote>
-<p>Returns a list of all the tags the original isi record had</p>
+<p>Returns a list of all the tags the original WOS record had. These are all the tags that <a href="#Record.getTag">&#39;getTag()&#39;</a> will not return <code>None</code> for.</p>
+
+<h5>Returns</h5>
+
+<p><code>List[str]</code></p>
+
+<blockquote>
+<p>a list of WOS tags in the Record</p>
+</blockquote>
 </blockquote>
 
 <p><a name="Record.createCitation"></a>Record.<strong>createCitation</strong>():</p>
 
 <blockquote>
-<p>Creates a citation string for the Record by reading the relevant tags(year, j9, volume, beginningPage, DOI) and using it to start a Citation object</p>
-</blockquote>
+<p>Creates a citation string, using the same format as other WOS citations, for the <a href="#isilib.Record">Record</a> by reading the relevant tags (year, J9, volume, beginningPage, DOI) and using it to start a <a href="#isilib.Citation">Citation</a> object.</p>
 
-<p><a name="Record.getTag"></a>Record.<strong>getTag</strong>(tag):</p>
+<h5>Returns</h5>
 
-<blockquote>
-<p>returns a list containing the raw data of the record associated with tag.
-Each line of the record is one string in the list.</p>
-</blockquote>
-
-<p><a name="Record.getTagsDict"></a>Record.<strong>getTagsDict</strong>(taglst):</p>
+<p><code>Citation</code></p>
 
 <blockquote>
-<p>returns a dict of the results of getTag, with the elements of taglist as the keys and the results as the values.</p>
+<p>A <a href="#isilib.Citation">Citation</a> object containing a citation for the Record</p>
+</blockquote>
 </blockquote>
 
-<p><a name="Record.getTagsList"></a>Record.<strong>getTagsList</strong>(taglst):</p>
+<p><a name="Record.getTag"></a>Record.<strong>getTag</strong>(<em>tag</em>):</p>
 
 <blockquote>
-<p>returns a list of the results of getTag for each tag in taglist, it has the same order as the original.</p>
+<p>returns a list containing the raw data of the record associated with tag. Each line of the record is one string in the list.</p>
+
+<h5>Parameters</h5>
+
+<p><em>tag</em> : <code>str</code></p>
+
+<blockquote>
+<p>tag can be a two character string corresponding to a WOS tag e.g. &#39;J9&#39;, the matching is case insensitive so &#39;j9&#39; is the same as &#39;J9&#39;. Or it can be one of the full names for a tag with the mappings in <a href="#isilib">fullToTag</a>. If the string is not found in the original record or after being translated though <a href="#isilib">fullToTag</a>, <code>None</code> is returned.</p>
 </blockquote>
 
-<p><a name="Record.writeRecord"></a>Record.<strong>writeRecord</strong>(infile):</p>
+<h5>Returns</h5>
+
+<p><code>List [str]</code></p>
 
 <blockquote>
-<p>writes to infile the original contents of the Record</p>
+<p>each string in the list is a line from the record associated with <em>tag</em> or None id not found</p>
+</blockquote>
+</blockquote>
+
+<p><a name="Record.getTagsDict"></a>Record.<strong>getTagsDict</strong>(<em>taglst</em>):</p>
+
+<blockquote>
+<p>returns a dict of the results of getTag, with the elements of <em>taglst</em> as the keys and the results as the values.</p>
+
+<h5>Parameters</h5>
+
+<p><em>taglst</em> : <code>List[str]</code></p>
+
+<blockquote>
+<p>Each string in <em>taglst</em> can be a two character string corresponding to a WOS tag e.g. &#39;J9&#39;, the matching is case insensitive so &#39;j9&#39; is the same as &#39;J9&#39;. Or it can be one of the full names for a tag with the mappings in <a href="#isilib">fullToTag</a>. If the string is not found in the oriagnal record before or after being translated though <a href="#isilib">fullToTag</a>, <code>None</code> is used instead. Same as in <a href="#Record.getTag"><code>getTag()</code></a></p>
+</blockquote>
+
+<h5>Returns</h5>
+
+<p><code>dict[str : List [str]]</code></p>
+
+<blockquote>
+<p>a dictionary with keys as the original tags in <em>taglst</em> and the values as the results</p>
+</blockquote>
+</blockquote>
+
+<p><a name="Record.getTagsList"></a>Record.<strong>getTagsList</strong>(<em>taglst</em>):</p>
+
+<blockquote>
+<p>Returns a list of the results of <a href="#Record.getTag"><code>getTag()</code></a> for each tag in <em>taglist</em>, the return has the same order as the original.</p>
+
+<h5>Parameters</h5>
+
+<p><em>taglst</em> : <code>List[str]</code></p>
+
+<blockquote>
+<p>Each string in <em>taglst</em> can be a two character string corresponding to a WOS tag e.g. &#39;J9&#39;, the matching is case insensitive so &#39;j9&#39; is the same as &#39;J9&#39;. Or it can be one of the full names for a tag with the mappings in <a href="#isilib">fullToTag</a>. If the string is not found in the original record before or after being translated though <a href="#isilib">fullToTag</a>, <code>None</code> is used instead. Same as in <a href="#Record.getTag"><code>getTag()</code></a></p>
+
+<p>Then they are compiled into a list in the same order as <em>taglst</em></p>
+</blockquote>
+
+<h5>Returns</h5>
+
+<p><code>List[str]</code></p>
+
+<blockquote>
+<p>a list of the values for each tag in <em>taglst</em>, in the same order</p>
+</blockquote>
+</blockquote>
+
+<p><a name="Record.writeRecord"></a>Record.<strong>writeRecord</strong>(<em>infile</em>):</p>
+
+<blockquote>
+<p>writes to <em>infile</em> the original contents of the Record. This is intended for use by <a href="#isilib.RecordCollection">RecordCollections</a> to write to file. What is written to <em>infile</em> is bit for bit identical to the original record file. No newline is inserted above the write but the last character is a newline.</p>
+
+<h5>Parameters</h5>
+
+<p><em>infile</em> : <code>file stream</code></p>
+
+<blockquote>
+<p>An open utf-8 encoded file</p>
+</blockquote>
 </blockquote>
 
 <hr>
 
-<p><a name="isilib.RecordCollection"></a>isilib.<strong>RecordCollection</strong>(inCollection=None, name=&#39;&#39;, extension=&#39;&#39;):</p>
+<p><a name="isilib.RecordCollection"></a>isilib.<strong>RecordCollection</strong>(<em>inCollection=None, name=&#39;&#39;, extension=&#39;&#39;</em>):</p>
 
 <blockquote>
 <p>A way of containing a large number of Record objects, it provides ways of creating them from an isi file, string, list of records or directory containing isi files. The Records are containing within a set and as such many of the set operations are defined, pop, union, in ... also records are hashed with their WOS string so no duplication can occur.
@@ -286,11 +433,11 @@ The comparison operators &lt;, &lt;=, &gt;, &gt;= are based strictly on the numb
 <p>extension controls the extension that <strong>init</strong> looks for when reading a directory, set it to the extension on the isi files you wish to load, if left blank all files will be tried and any that are not isi files will be silently skipped</p>
 </blockquote>
 
-<p><a name="RecordCollection.citationNetwork"></a>RecordCollection.<strong>citationNetwork</strong>(dropAnon=True, authorship=False, extraInfo=True, weighted=True):</p>
+<p><a name="RecordCollection.citationNetwork"></a>RecordCollection.<strong>citationNetwork</strong>(<em>dropAnon=True, authorship=False, extraInfo=True, weighted=True</em>):</p>
 
 <h1>Needs to be written</h1>
 
-<p><a name="RecordCollection.citeFilter"></a>RecordCollection.<strong>citeFilter</strong>(keyString=&#39;&#39;, field=&#39;all&#39;, reverse=False, caseSensitive=False):</p>
+<p><a name="RecordCollection.citeFilter"></a>RecordCollection.<strong>citeFilter</strong>(<em>keyString=&#39;&#39;, field=&#39;all&#39;, reverse=False, caseSensitive=False</em>):</p>
 
 <blockquote>
 <p>Filters Records by some string, keyString, in all of their citations.
@@ -318,7 +465,7 @@ bad, searches for bad citations, keyString is not used</p>
 
 <h1>Needs to be written</h1>
 
-<p><a name="RecordCollection.coCiteNetwork"></a>RecordCollection.<strong>coCiteNetwork</strong>(dropAnon=True, authorship=False, extraInfo=True, weighted=True):</p>
+<p><a name="RecordCollection.coCiteNetwork"></a>RecordCollection.<strong>coCiteNetwork</strong>(<em>dropAnon=True, authorship=False, extraInfo=True, weighted=True</em>):</p>
 
 <h1>Needs to be written</h1>
 
@@ -328,7 +475,7 @@ bad, searches for bad citations, keyString is not used</p>
 <p>Removes all Records with bad attributes == True from the collection</p>
 </blockquote>
 
-<p><a name="RecordCollection.extractTagged"></a>RecordCollection.<strong>extractTagged</strong>(taglist):</p>
+<p><a name="RecordCollection.extractTagged"></a>RecordCollection.<strong>extractTagged</strong>(<em>taglist</em>):</p>
 
 <h1>Needs to be written</h1>
 
@@ -338,11 +485,11 @@ bad, searches for bad citations, keyString is not used</p>
 <p>returns RecordCollection containing all the Record which have their bad flag set to True, i.e. all those removed by dropBadRecords()</p>
 </blockquote>
 
-<p><a name="RecordCollection.nModeNetwork"></a>RecordCollection.<strong>nModeNetwork</strong>(tags, recordType=True, nodeCount=True, edgeWeight=True):</p>
+<p><a name="RecordCollection.nModeNetwork"></a>RecordCollection.<strong>nModeNetwork</strong>(<em>tags, recordType=True, nodeCount=True, edgeWeight=True</em>):</p>
 
 <h1>Needs to be written</h1>
 
-<p><a name="RecordCollection.oneModeNetwork"></a>RecordCollection.<strong>oneModeNetwork</strong>(mode, nodeCount=True, edgeWeight=True):</p>
+<p><a name="RecordCollection.oneModeNetwork"></a>RecordCollection.<strong>oneModeNetwork</strong>(<em>mode, nodeCount=True, edgeWeight=True</em>):</p>
 
 <h1>Needs to be written</h1>
 
@@ -358,11 +505,11 @@ bad, searches for bad citations, keyString is not used</p>
 <p>Returns a random Record from the recordCollection, the Record is deleted from the collection, use peak for nondestructive access</p>
 </blockquote>
 
-<p><a name="RecordCollection.twoModeNetwork"></a>RecordCollection.<strong>twoModeNetwork</strong>(tag1, tag2, directed=False, recordType=True, nodeCount=True, edgeWeight=True):</p>
+<p><a name="RecordCollection.twoModeNetwork"></a>RecordCollection.<strong>twoModeNetwork</strong>(<em>tag1, tag2, directed=False, recordType=True, nodeCount=True, edgeWeight=True</em>):</p>
 
 <h1>Needs to be written</h1>
 
-<p><a name="RecordCollection.writeCSV"></a>RecordCollection.<strong>writeCSV</strong>(fname=None, onlyTheseTags=None, longNames=False, firstTags=[&#39;UT&#39;, &#39;PT&#39;, &#39;TI&#39;, &#39;AF&#39;, &#39;CR&#39;], csvDelimiter=&#39;,&#39;, csvQuote=&#39;&quot;&#39;, listDelimiter=&#39;|&#39;):</p>
+<p><a name="RecordCollection.writeCSV"></a>RecordCollection.<strong>writeCSV</strong>(<em>fname=None, onlyTheseTags=None, longNames=False, firstTags=[&#39;UT&#39;, &#39;PT&#39;, &#39;TI&#39;, &#39;AF&#39;, &#39;CR&#39;], csvDelimiter=&#39;,&#39;, csvQuote=&#39;&quot;&#39;, listDelimiter=&#39;|&#39;</em>):</p>
 
 <blockquote>
 <p>Writes all the Records from the collection into a csv file with each row a record and each column a tag</p>
@@ -384,7 +531,7 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 <p>listDelimiter is the delimiter used between values of the same cell if the tag for that record has multiple outputs, default is the pipe (|)</p>
 </blockquote>
 
-<p><a name="RecordCollection.writeFile"></a>RecordCollection.<strong>writeFile</strong>(fname=None):</p>
+<p><a name="RecordCollection.writeFile"></a>RecordCollection.<strong>writeFile</strong>(<em>fname=None</em>):</p>
 
 <blockquote>
 <p>Writes the RecordCollection to a file, the written file is identical to those download from WOS. The order of Records written is random.</p>
@@ -392,25 +539,25 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 <p>fname set the name of the file, if blank the RecordCollection&#39;s name&#39;s first 200 characters are use with the suffix .isi</p>
 </blockquote>
 
-<p><a name="RecordCollection.yearSplit"></a>RecordCollection.<strong>yearSplit</strong>(startYear, endYear):</p>
+<p><a name="RecordCollection.yearSplit"></a>RecordCollection.<strong>yearSplit</strong>(<em>startYear, endYear</em>):</p>
 
 <h1>Needs to be written</h1>
 
 <h2>Functions</h2>
 
-<p><a name="isilib.blondel"></a>isilib.<strong>blondel</strong>(G, weightParameter=None, communityParameter=&#39;community&#39;):</p>
+<p><a name="isilib.blondel"></a>isilib.<strong>blondel</strong>(<em>G, weightParameter=None, communityParameter=&#39;community&#39;</em>):</p>
 
 <h1>Needs to be written</h1>
 
 <hr>
 
-<p><a name="isilib.btest"></a>isilib.<strong>btest</strong>(quite=False):</p>
+<p><a name="isilib.btest"></a>isilib.<strong>btest</strong>(<em>quite=False</em>):</p>
 
 <h1>Needs to be written</h1>
 
 <hr>
 
-<p><a name="isilib.drop_edges"></a>isilib.<strong>drop_edges</strong>(grph, minWeight=-inf, maxWeight=inf, parameterName=&#39;weight&#39;, ignoreUnweighted=False):</p>
+<p><a name="isilib.drop_edges"></a>isilib.<strong>drop_edges</strong>(<em>grph, minWeight=-inf, maxWeight=inf, parameterName=&#39;weight&#39;, ignoreUnweighted=False</em>):</p>
 
 <blockquote>
 <p>Returns a graph with edges whose weight is within the inclusive bounds of minWeight and maxWeight, i.e minWeight &lt;= edges weight &lt;= maxWeight, will throw a Keyerror if the graph is unweighted</p>
@@ -424,7 +571,7 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <hr>
 
-<p><a name="isilib.drop_nodesByCount"></a>isilib.<strong>drop_nodesByCount</strong>(grph, minCount=-inf, maxCount=inf, parameterName=&#39;count&#39;, ignoreMissing=False):</p>
+<p><a name="isilib.drop_nodesByCount"></a>isilib.<strong>drop_nodesByCount</strong>(<em>grph, minCount=-inf, maxCount=inf, parameterName=&#39;count&#39;, ignoreMissing=False</em>):</p>
 
 <blockquote>
 <p>Returns a graph whose nodes have a occurrence count that is within inclusive bounds of minCount and maxCount, i.e minCount &lt;= count &lt;= maxCount. Occurrence count is determined by reading the variable associated with the node named parameterName.</p>
@@ -438,7 +585,7 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <hr>
 
-<p><a name="isilib.drop_nodesByDegree"></a>isilib.<strong>drop_nodesByDegree</strong>(grph, minDegree=-inf, maxDegree=inf, useWeight=False, parameterName=&#39;weight&#39;, ignoreUnweighted=False):</p>
+<p><a name="isilib.drop_nodesByDegree"></a>isilib.<strong>drop_nodesByDegree</strong>(<em>grph, minDegree=-inf, maxDegree=inf, useWeight=False, parameterName=&#39;weight&#39;, ignoreUnweighted=False</em>):</p>
 
 <blockquote>
 <p>Returns a graph whose nodes have a degree that is within inclusive bounds of minDegree and maxDegree, i.e minDegree &lt;= degree &lt;= maxDegree. Degree can be determined in two ways by default it is the total number of edges touching a node, alternative if useWeight is True it is the sum of the weight of all the edges touching a node.</p>
@@ -454,7 +601,7 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <hr>
 
-<p><a name="isilib.isiParser"></a>isilib.<strong>isiParser</strong>(isifile):</p>
+<p><a name="isilib.isiParser"></a>isilib.<strong>isiParser</strong>(<em>isifile</em>):</p>
 
 <blockquote>
 <p>isiParser() reads the file given by the path isifile, checks that the header is correct then reads until it reaches EF.
@@ -463,7 +610,7 @@ Each it finds is used to initialize a Record then all Record are returned as a l
 
 <hr>
 
-<p><a name="isilib.modularity"></a>isilib.<strong>modularity</strong>(G, weightParameter=None, communityParameter=&#39;community&#39;):</p>
+<p><a name="isilib.modularity"></a>isilib.<strong>modularity</strong>(<em>G, weightParameter=None, communityParameter=&#39;community&#39;</em>):</p>
 
 <blockquote>
 <p>Gets modularity of network, currently not tuned</p>
@@ -471,19 +618,7 @@ Each it finds is used to initialize a Record then all Record are returned as a l
 
 <hr>
 
-<p><a name="isilib.plfit"></a>isilib.<strong>plfit</strong>(x, *varargin):</p>
-
-<h1>Needs to be written</h1>
-
-<hr>
-
-<p><a name="isilib.plplot"></a>isilib.<strong>plplot</strong>(x, xmin, alpha):</p>
-
-<h1>Needs to be written</h1>
-
-<hr>
-
-<p><a name="isilib.read_graph"></a>isilib.<strong>read_graph</strong>(edgeList, nodeList=None, directed=False, idKey=&#39;ID&#39;, eSource=&#39;From&#39;, eDest=&#39;To&#39;):</p>
+<p><a name="isilib.read_graph"></a>isilib.<strong>read_graph</strong>(<em>edgeList, nodeList=None, directed=False, idKey=&#39;ID&#39;, eSource=&#39;From&#39;, eDest=&#39;To&#39;</em>):</p>
 
 <blockquote>
 <p>Reads the files given by edgeList and if given nodeList and produces a networkx graph
@@ -496,16 +631,41 @@ idKey, eSource and  eDest are the labels for the edge&#39;s id, source and desti
 
 <hr>
 
-<p><a name="isilib.recordParser"></a>isilib.<strong>recordParser</strong>(paper):</p>
+<p><a name="isilib.recordParser"></a>isilib.<strong>recordParser</strong>(<em>paper</em>):</p>
 
 <blockquote>
-<p>recordParser() reads the file paper until it reaches &#39;ER&#39;.
-For each field tag it adds an entry to the returned dict with the tag as the key and a list of the entries as the value, the list has each line separately</p>
+<p>reads the file <em>paper</em> until it reaches &#39;ER&#39;.</p>
+
+<p>For each field tag it adds an entry to the returned dict with the tag as the key and a list of the entries as the value, the list has each line separately, so for the following string in a record:</p>
+
+<p>&quot;AF BREVIK, I</p>
+
+<p>ANICIN, B&quot;</p>
+
+<p>the entry in the returned dict would be <code>{&#39;AF&#39; : [&quot;BREVIK, I&quot;, &quot;ANICIN, B&quot;]}</code></p>
+
+<p><a href="#isilib.Record">Record</a> objects can be created with these dictionaries as the initializer.</p>
+
+<h5>Parameters</h5>
+
+<p><em>paper</em> : <code>file stream</code></p>
+
+<blockquote>
+<p>an open file, with the current line at the beginning of the record</p>
+</blockquote>
+
+<h5>Returns</h5>
+
+<p><code>dict[str : List[str]]</code></p>
+
+<blockquote>
+<p>a dictionary mapping WOS tags to lists, the lists are of strings, each string is a line of the record associated with the tag.</p>
+</blockquote>
 </blockquote>
 
 <hr>
 
-<p><a name="isilib.write_edgeList"></a>isilib.<strong>write_edgeList</strong>(grph, name, extraInfo=True, progBar=None):</p>
+<p><a name="isilib.write_edgeList"></a>isilib.<strong>write_edgeList</strong>(<em>grph, name, extraInfo=True, progBar=None</em>):</p>
 
 <blockquote>
 <p>writes an edge list of grph with filename name, if extraInfo is true the additional information about the edges, e.g. weight, will be written.
@@ -514,7 +674,7 @@ All edges must have the same tags</p>
 
 <hr>
 
-<p><a name="isilib.write_graph"></a>isilib.<strong>write_graph</strong>(grph, name, edgeInfo=True, typing=True, suffix=&#39;csv&#39;, overwrite=False):</p>
+<p><a name="isilib.write_graph"></a>isilib.<strong>write_graph</strong>(<em>grph, name, edgeInfo=True, typing=True, suffix=&#39;csv&#39;, overwrite=False</em>):</p>
 
 <blockquote>
 <p>Writes both the edge list and the node attribute list of grph.
@@ -526,7 +686,7 @@ If overwrite is False write_graph will throw an exception if either of the files
 
 <hr>
 
-<p><a name="isilib.write_nodeAttributeFile"></a>isilib.<strong>write_nodeAttributeFile</strong>(grph, name, progBar=None):</p>
+<p><a name="isilib.write_nodeAttributeFile"></a>isilib.<strong>write_nodeAttributeFile</strong>(<em>grph, name, progBar=None</em>):</p>
 
 <blockquote>
 <p>writes a node attribute list of grph with filename name, the first column is the node&#39;s ID then all after it are its associated information.
@@ -541,7 +701,7 @@ All nodes must have the same tags.</p>
 
 <hr>
 
-<p><a name="isilib.tagFuncs.DOI"></a>isilib.tagFuncs.<strong>DOI</strong>(val):</p>
+<p><a name="isilib.tagFuncs.DOI"></a>isilib.tagFuncs.<strong>DOI</strong>(<em>val</em>):</p>
 
 <blockquote>
 <p>return the DOI number of the record
@@ -550,7 +710,7 @@ DI tag</p>
 
 <hr>
 
-<p><a name="isilib.tagFuncs.ISBN"></a>isilib.tagFuncs.<strong>ISBN</strong>(val):</p>
+<p><a name="isilib.tagFuncs.ISBN"></a>isilib.tagFuncs.<strong>ISBN</strong>(<em>val</em>):</p>
 
 <blockquote>
 <p>returns a list of ISBNs assocaited with the Record
@@ -559,7 +719,7 @@ BN tag</p>
 
 <hr>
 
-<p><a name="isilib.tagFuncs.ISSN"></a>isilib.tagFuncs.<strong>ISSN</strong>(val):</p>
+<p><a name="isilib.tagFuncs.ISSN"></a>isilib.tagFuncs.<strong>ISSN</strong>(<em>val</em>):</p>
 
 <blockquote>
 <p>returns the ISSN of the Record
@@ -568,7 +728,7 @@ SN tag</p>
 
 <hr>
 
-<p><a name="isilib.tagFuncs.ResearcherIDnumber"></a>isilib.tagFuncs.<strong>ResearcherIDnumber</strong>(val):</p>
+<p><a name="isilib.tagFuncs.ResearcherIDnumber"></a>isilib.tagFuncs.<strong>ResearcherIDnumber</strong>(<em>val</em>):</p>
 
 <blockquote>
 <p>returns a lsit of the research ids of the Record
@@ -577,7 +737,7 @@ RI tag</p>
 
 <hr>
 
-<p><a name="isilib.tagFuncs.abstract"></a>isilib.tagFuncs.<strong>abstract</strong>(val):</p>
+<p><a name="isilib.tagFuncs.abstract"></a>isilib.tagFuncs.<strong>abstract</strong>(<em>val</em>):</p>
 
 <blockquote>
 <p>return abstract of the record, with newlines hopefully in the correct places
@@ -586,7 +746,7 @@ AB tag</p>
 
 <hr>
 
-<p><a name="isilib.tagFuncs.articleNumber"></a>isilib.tagFuncs.<strong>articleNumber</strong>(val):</p>
+<p><a name="isilib.tagFuncs.articleNumber"></a>isilib.tagFuncs.<strong>articleNumber</strong>(<em>val</em>):</p>
 
 <blockquote>
 <p>returns a string giving the article number, not all are integers
@@ -595,7 +755,7 @@ AR tag</p>
 
 <hr>
 
-<p><a name="isilib.tagFuncs.authAddress"></a>isilib.tagFuncs.<strong>authAddress</strong>(val):</p>
+<p><a name="isilib.tagFuncs.authAddress"></a>isilib.tagFuncs.<strong>authAddress</strong>(<em>val</em>):</p>
 
 <blockquote>
 <p>C1 tag</p>
@@ -603,7 +763,7 @@ AR tag</p>
 
 <hr>
 
-<p><a name="isilib.tagFuncs.authKeyWords"></a>isilib.tagFuncs.<strong>authKeyWords</strong>(val):</p>
+<p><a name="isilib.tagFuncs.authKeyWords"></a>isilib.tagFuncs.<strong>authKeyWords</strong>(<em>val</em>):</p>
 
 <blockquote>
 <p>returns the keywords assigned by the author of the Record
@@ -612,7 +772,7 @@ DE tag</p>
 
 <hr>
 
-<p><a name="isilib.tagFuncs.authorsFull"></a>isilib.tagFuncs.<strong>authorsFull</strong>(val):</p>
+<p><a name="isilib.tagFuncs.authorsFull"></a>isilib.tagFuncs.<strong>authorsFull</strong>(<em>val</em>):</p>
 
 <blockquote>
 <p>returns a list of authors full names
@@ -621,7 +781,7 @@ AF tag</p>
 
 <hr>
 
-<p><a name="isilib.tagFuncs.authorsShort"></a>isilib.tagFuncs.<strong>authorsShort</strong>(val):</p>
+<p><a name="isilib.tagFuncs.authorsShort"></a>isilib.tagFuncs.<strong>authorsShort</strong>(<em>val</em>):</p>
 
 <blockquote>
 <p>returns a list of authors shortened names
@@ -630,7 +790,7 @@ AU tag</p>
 
 <hr>
 
-<p><a name="isilib.tagFuncs.beginningPage"></a>isilib.tagFuncs.<strong>beginningPage</strong>(val):</p>
+<p><a name="isilib.tagFuncs.beginningPage"></a>isilib.tagFuncs.<strong>beginningPage</strong>(<em>val</em>):</p>
 
 <blockquote>
 <p>returns the first page the record occurs on as a string not an int
@@ -639,7 +799,7 @@ BP tag</p>
 
 <hr>
 
-<p><a name="isilib.tagFuncs.bookAuthor"></a>isilib.tagFuncs.<strong>bookAuthor</strong>(val):</p>
+<p><a name="isilib.tagFuncs.bookAuthor"></a>isilib.tagFuncs.<strong>bookAuthor</strong>(<em>val</em>):</p>
 
 <blockquote>
 <p>returns a list of the short names of the authors of a book Record
@@ -648,7 +808,7 @@ BA tag</p>
 
 <hr>
 
-<p><a name="isilib.tagFuncs.bookAuthorFull"></a>isilib.tagFuncs.<strong>bookAuthorFull</strong>(val):</p>
+<p><a name="isilib.tagFuncs.bookAuthorFull"></a>isilib.tagFuncs.<strong>bookAuthorFull</strong>(<em>val</em>):</p>
 
 <blockquote>
 <p>returns a list of the long names of the authors of a book Record
@@ -657,7 +817,7 @@ BF tag</p>
 
 <hr>
 
-<p><a name="isilib.tagFuncs.bookDOI"></a>isilib.tagFuncs.<strong>bookDOI</strong>(val):</p>
+<p><a name="isilib.tagFuncs.bookDOI"></a>isilib.tagFuncs.<strong>bookDOI</strong>(<em>val</em>):</p>
 
 <blockquote>
 <p>returns the book DOI of the Record
@@ -666,7 +826,7 @@ D2 tag</p>
 
 <hr>
 
-<p><a name="isilib.tagFuncs.citations"></a>isilib.tagFuncs.<strong>citations</strong>(val):</p>
+<p><a name="isilib.tagFuncs.citations"></a>isilib.tagFuncs.<strong>citations</strong>(<em>val</em>):</p>
 
 <blockquote>
 <p>returns a list of all the citations in the record
@@ -675,7 +835,7 @@ CR tag</p>
 
 <hr>
 
-<p><a name="isilib.tagFuncs.citedRefsCount"></a>isilib.tagFuncs.<strong>citedRefsCount</strong>(val):</p>
+<p><a name="isilib.tagFuncs.citedRefsCount"></a>isilib.tagFuncs.<strong>citedRefsCount</strong>(<em>val</em>):</p>
 
 <blockquote>
 <p>returns the numer citations, length of CR list
@@ -684,7 +844,7 @@ NR tag</p>
 
 <hr>
 
-<p><a name="isilib.tagFuncs.confDate"></a>isilib.tagFuncs.<strong>confDate</strong>(val):</p>
+<p><a name="isilib.tagFuncs.confDate"></a>isilib.tagFuncs.<strong>confDate</strong>(<em>val</em>):</p>
 
 <blockquote>
 <p>returns the date string of the conference associated with the Record
@@ -693,7 +853,7 @@ CY tag</p>
 
 <hr>
 
-<p><a name="isilib.tagFuncs.confHost"></a>isilib.tagFuncs.<strong>confHost</strong>(val):</p>
+<p><a name="isilib.tagFuncs.confHost"></a>isilib.tagFuncs.<strong>confHost</strong>(<em>val</em>):</p>
 
 <blockquote>
 <p>returns the host of the conference
@@ -702,7 +862,7 @@ HO tag</p>
 
 <hr>
 
-<p><a name="isilib.tagFuncs.confLocation"></a>isilib.tagFuncs.<strong>confLocation</strong>(val):</p>
+<p><a name="isilib.tagFuncs.confLocation"></a>isilib.tagFuncs.<strong>confLocation</strong>(<em>val</em>):</p>
 
 <blockquote>
 <p>returns the sting giving the confrence&#39;s location
@@ -711,7 +871,7 @@ CL tag</p>
 
 <hr>
 
-<p><a name="isilib.tagFuncs.confSponsors"></a>isilib.tagFuncs.<strong>confSponsors</strong>(val):</p>
+<p><a name="isilib.tagFuncs.confSponsors"></a>isilib.tagFuncs.<strong>confSponsors</strong>(<em>val</em>):</p>
 
 <blockquote>
 <p>returns a list of sponsors for the conference associated with the record
@@ -720,7 +880,7 @@ SP tag</p>
 
 <hr>
 
-<p><a name="isilib.tagFuncs.confTitle"></a>isilib.tagFuncs.<strong>confTitle</strong>(val):</p>
+<p><a name="isilib.tagFuncs.confTitle"></a>isilib.tagFuncs.<strong>confTitle</strong>(<em>val</em>):</p>
 
 <blockquote>
 <p>returns the title of the conference associated with the Record
@@ -729,7 +889,7 @@ CT tag</p>
 
 <hr>
 
-<p><a name="isilib.tagFuncs.docType"></a>isilib.tagFuncs.<strong>docType</strong>(val):</p>
+<p><a name="isilib.tagFuncs.docType"></a>isilib.tagFuncs.<strong>docType</strong>(<em>val</em>):</p>
 
 <blockquote>
 <p>returns the type of document the Record contains
@@ -738,7 +898,7 @@ DT tag</p>
 
 <hr>
 
-<p><a name="isilib.tagFuncs.documentDeliveryNumber"></a>isilib.tagFuncs.<strong>documentDeliveryNumber</strong>(val):</p>
+<p><a name="isilib.tagFuncs.documentDeliveryNumber"></a>isilib.tagFuncs.<strong>documentDeliveryNumber</strong>(<em>val</em>):</p>
 
 <blockquote>
 <p>returns the document delivery number of the Record
@@ -747,7 +907,7 @@ GA tag</p>
 
 <hr>
 
-<p><a name="isilib.tagFuncs.eISSN"></a>isilib.tagFuncs.<strong>eISSN</strong>(val):</p>
+<p><a name="isilib.tagFuncs.eISSN"></a>isilib.tagFuncs.<strong>eISSN</strong>(<em>val</em>):</p>
 
 <blockquote>
 <p>returns the EISSN of the Record
@@ -756,7 +916,7 @@ EI tag</p>
 
 <hr>
 
-<p><a name="isilib.tagFuncs.editedBy"></a>isilib.tagFuncs.<strong>editedBy</strong>(val):</p>
+<p><a name="isilib.tagFuncs.editedBy"></a>isilib.tagFuncs.<strong>editedBy</strong>(<em>val</em>):</p>
 
 <blockquote>
 <p>returns a list of the editors of the Record
@@ -765,7 +925,7 @@ BE tag</p>
 
 <hr>
 
-<p><a name="isilib.tagFuncs.editors"></a>isilib.tagFuncs.<strong>editors</strong>(val):</p>
+<p><a name="isilib.tagFuncs.editors"></a>isilib.tagFuncs.<strong>editors</strong>(<em>val</em>):</p>
 
 <blockquote>
 <p>ED</p>
@@ -773,7 +933,7 @@ BE tag</p>
 
 <hr>
 
-<p><a name="isilib.tagFuncs.email"></a>isilib.tagFuncs.<strong>email</strong>(val):</p>
+<p><a name="isilib.tagFuncs.email"></a>isilib.tagFuncs.<strong>email</strong>(<em>val</em>):</p>
 
 <blockquote>
 <p>returns a list of emails given by the authors of the Record
@@ -782,7 +942,7 @@ EM tag</p>
 
 <hr>
 
-<p><a name="isilib.tagFuncs.endingPage"></a>isilib.tagFuncs.<strong>endingPage</strong>(val):</p>
+<p><a name="isilib.tagFuncs.endingPage"></a>isilib.tagFuncs.<strong>endingPage</strong>(<em>val</em>):</p>
 
 <blockquote>
 <p>return the last page the record occurs on as a string not an int
@@ -791,7 +951,7 @@ EP tag</p>
 
 <hr>
 
-<p><a name="isilib.tagFuncs.funding"></a>isilib.tagFuncs.<strong>funding</strong>(val):</p>
+<p><a name="isilib.tagFuncs.funding"></a>isilib.tagFuncs.<strong>funding</strong>(<em>val</em>):</p>
 
 <blockquote>
 <p>Returns a list of the groups funding the Record
@@ -800,7 +960,7 @@ FU tag</p>
 
 <hr>
 
-<p><a name="isilib.tagFuncs.fundingText"></a>isilib.tagFuncs.<strong>fundingText</strong>(val):</p>
+<p><a name="isilib.tagFuncs.fundingText"></a>isilib.tagFuncs.<strong>fundingText</strong>(<em>val</em>):</p>
 
 <blockquote>
 <p>Returns a string of the funding thank you
@@ -809,7 +969,7 @@ FX tag</p>
 
 <hr>
 
-<p><a name="isilib.tagFuncs.getMonth"></a>isilib.tagFuncs.<strong>getMonth</strong>(s):</p>
+<p><a name="isilib.tagFuncs.getMonth"></a>isilib.tagFuncs.<strong>getMonth</strong>(<em>s</em>):</p>
 
 <blockquote>
 <p>Known formats:
@@ -823,7 +983,7 @@ Month Year (&quot;%b %Y&quot;)</p>
 
 <hr>
 
-<p><a name="isilib.tagFuncs.group"></a>isilib.tagFuncs.<strong>group</strong>(val):</p>
+<p><a name="isilib.tagFuncs.group"></a>isilib.tagFuncs.<strong>group</strong>(<em>val</em>):</p>
 
 <blockquote>
 <p>returns the group associated with the Record
@@ -832,7 +992,7 @@ GP tag</p>
 
 <hr>
 
-<p><a name="isilib.tagFuncs.groupName"></a>isilib.tagFuncs.<strong>groupName</strong>(val):</p>
+<p><a name="isilib.tagFuncs.groupName"></a>isilib.tagFuncs.<strong>groupName</strong>(<em>val</em>):</p>
 
 <blockquote>
 <p>returns the name of the group associated with the Record
@@ -841,7 +1001,7 @@ CA tag</p>
 
 <hr>
 
-<p><a name="isilib.tagFuncs.isoAbbreviation"></a>isilib.tagFuncs.<strong>isoAbbreviation</strong>(val):</p>
+<p><a name="isilib.tagFuncs.isoAbbreviation"></a>isilib.tagFuncs.<strong>isoAbbreviation</strong>(<em>val</em>):</p>
 
 <blockquote>
 <p>returns the iso abbreviation of the journal
@@ -850,7 +1010,7 @@ JI tag</p>
 
 <hr>
 
-<p><a name="isilib.tagFuncs.issue"></a>isilib.tagFuncs.<strong>issue</strong>(val):</p>
+<p><a name="isilib.tagFuncs.issue"></a>isilib.tagFuncs.<strong>issue</strong>(<em>val</em>):</p>
 
 <blockquote>
 <p>returns a string giving the issue or range of issues the Record was in
@@ -859,7 +1019,7 @@ IS tag</p>
 
 <hr>
 
-<p><a name="isilib.tagFuncs.j9"></a>isilib.tagFuncs.<strong>j9</strong>(val):</p>
+<p><a name="isilib.tagFuncs.j9"></a>isilib.tagFuncs.<strong>j9</strong>(<em>val</em>):</p>
 
 <blockquote>
 <p>returns the J9 (29-Character Source Abbreviation) of the publication
@@ -868,7 +1028,7 @@ J9 tag</p>
 
 <hr>
 
-<p><a name="isilib.tagFuncs.journal"></a>isilib.tagFuncs.<strong>journal</strong>(val):</p>
+<p><a name="isilib.tagFuncs.journal"></a>isilib.tagFuncs.<strong>journal</strong>(<em>val</em>):</p>
 
 <blockquote>
 <p>returns the full name of the publication
@@ -877,7 +1037,7 @@ SO tag</p>
 
 <hr>
 
-<p><a name="isilib.tagFuncs.keyWords"></a>isilib.tagFuncs.<strong>keyWords</strong>(val):</p>
+<p><a name="isilib.tagFuncs.keyWords"></a>isilib.tagFuncs.<strong>keyWords</strong>(<em>val</em>):</p>
 
 <blockquote>
 <p>returns the WOS keywords of the Record
@@ -886,7 +1046,7 @@ ID tag</p>
 
 <hr>
 
-<p><a name="isilib.tagFuncs.language"></a>isilib.tagFuncs.<strong>language</strong>(val):</p>
+<p><a name="isilib.tagFuncs.language"></a>isilib.tagFuncs.<strong>language</strong>(<em>val</em>):</p>
 
 <blockquote>
 <p>returns the languages of the Record as a string with languages seperated by &#39;, &#39;, usually there is only one language
@@ -895,13 +1055,13 @@ LA tag</p>
 
 <hr>
 
-<p><a name="isilib.tagFuncs.makeReversed"></a>isilib.tagFuncs.<strong>makeReversed</strong>(d):</p>
+<p><a name="isilib.tagFuncs.makeReversed"></a>isilib.tagFuncs.<strong>makeReversed</strong>(<em>d</em>):</p>
 
 <h1>Needs to be written</h1>
 
 <hr>
 
-<p><a name="isilib.tagFuncs.meetingAbstract"></a>isilib.tagFuncs.<strong>meetingAbstract</strong>(val):</p>
+<p><a name="isilib.tagFuncs.meetingAbstract"></a>isilib.tagFuncs.<strong>meetingAbstract</strong>(<em>val</em>):</p>
 
 <blockquote>
 <p>returns the ID of the meeting abstract prefixed by &#39;EPA-&#39;
@@ -910,7 +1070,7 @@ MA tag</p>
 
 <hr>
 
-<p><a name="isilib.tagFuncs.month"></a>isilib.tagFuncs.<strong>month</strong>(val):</p>
+<p><a name="isilib.tagFuncs.month"></a>isilib.tagFuncs.<strong>month</strong>(<em>val</em>):</p>
 
 <blockquote>
 <p>returns the month the record was published in as an int with January as 1, February 2, ...
@@ -919,7 +1079,7 @@ PD tag</p>
 
 <hr>
 
-<p><a name="isilib.tagFuncs.orcID"></a>isilib.tagFuncs.<strong>orcID</strong>(val):</p>
+<p><a name="isilib.tagFuncs.orcID"></a>isilib.tagFuncs.<strong>orcID</strong>(<em>val</em>):</p>
 
 <blockquote>
 <p>returns a list of orc IDs of the Record
@@ -928,7 +1088,7 @@ OI tag</p>
 
 <hr>
 
-<p><a name="isilib.tagFuncs.pageCount"></a>isilib.tagFuncs.<strong>pageCount</strong>(val):</p>
+<p><a name="isilib.tagFuncs.pageCount"></a>isilib.tagFuncs.<strong>pageCount</strong>(<em>val</em>):</p>
 
 <blockquote>
 <p>returns an interger giving the number of pages of the Record
@@ -937,7 +1097,7 @@ PG tag</p>
 
 <hr>
 
-<p><a name="isilib.tagFuncs.partNumber"></a>isilib.tagFuncs.<strong>partNumber</strong>(val):</p>
+<p><a name="isilib.tagFuncs.partNumber"></a>isilib.tagFuncs.<strong>partNumber</strong>(<em>val</em>):</p>
 
 <blockquote>
 <p>return an integer giving the part of the issue the Record is in
@@ -946,7 +1106,7 @@ PN tag</p>
 
 <hr>
 
-<p><a name="isilib.tagFuncs.pubMedID"></a>isilib.tagFuncs.<strong>pubMedID</strong>(val):</p>
+<p><a name="isilib.tagFuncs.pubMedID"></a>isilib.tagFuncs.<strong>pubMedID</strong>(<em>val</em>):</p>
 
 <blockquote>
 <p>returns the pubmed idof the record
@@ -955,7 +1115,7 @@ PM tag</p>
 
 <hr>
 
-<p><a name="isilib.tagFuncs.pubType"></a>isilib.tagFuncs.<strong>pubType</strong>(val):</p>
+<p><a name="isilib.tagFuncs.pubType"></a>isilib.tagFuncs.<strong>pubType</strong>(<em>val</em>):</p>
 
 <blockquote>
 <p>retunrs the type of publication as a character: conference, book, journal, book in series, or patent
@@ -964,7 +1124,7 @@ PT tag</p>
 
 <hr>
 
-<p><a name="isilib.tagFuncs.publisher"></a>isilib.tagFuncs.<strong>publisher</strong>(val):</p>
+<p><a name="isilib.tagFuncs.publisher"></a>isilib.tagFuncs.<strong>publisher</strong>(<em>val</em>):</p>
 
 <blockquote>
 <p>returns the publisher of the Record
@@ -973,7 +1133,7 @@ PU tag</p>
 
 <hr>
 
-<p><a name="isilib.tagFuncs.publisherAddress"></a>isilib.tagFuncs.<strong>publisherAddress</strong>(val):</p>
+<p><a name="isilib.tagFuncs.publisherAddress"></a>isilib.tagFuncs.<strong>publisherAddress</strong>(<em>val</em>):</p>
 
 <blockquote>
 <p>returns the publishers address
@@ -982,7 +1142,7 @@ PA tag</p>
 
 <hr>
 
-<p><a name="isilib.tagFuncs.publisherCity"></a>isilib.tagFuncs.<strong>publisherCity</strong>(val):</p>
+<p><a name="isilib.tagFuncs.publisherCity"></a>isilib.tagFuncs.<strong>publisherCity</strong>(<em>val</em>):</p>
 
 <blockquote>
 <p>Returns the city the publisher is in
@@ -991,7 +1151,7 @@ PI tag</p>
 
 <hr>
 
-<p><a name="isilib.tagFuncs.reprintAddress"></a>isilib.tagFuncs.<strong>reprintAddress</strong>(val):</p>
+<p><a name="isilib.tagFuncs.reprintAddress"></a>isilib.tagFuncs.<strong>reprintAddress</strong>(<em>val</em>):</p>
 
 <blockquote>
 <p>returns the reprint address string
@@ -1000,7 +1160,7 @@ RP tag</p>
 
 <hr>
 
-<p><a name="isilib.tagFuncs.seriesSubtitle"></a>isilib.tagFuncs.<strong>seriesSubtitle</strong>(val):</p>
+<p><a name="isilib.tagFuncs.seriesSubtitle"></a>isilib.tagFuncs.<strong>seriesSubtitle</strong>(<em>val</em>):</p>
 
 <blockquote>
 <p>returns the title of the series the Record is in
@@ -1009,7 +1169,7 @@ BS tag</p>
 
 <hr>
 
-<p><a name="isilib.tagFuncs.seriesTitle"></a>isilib.tagFuncs.<strong>seriesTitle</strong>(val):</p>
+<p><a name="isilib.tagFuncs.seriesTitle"></a>isilib.tagFuncs.<strong>seriesTitle</strong>(<em>val</em>):</p>
 
 <blockquote>
 <p>returns the title of the series the Record is in
@@ -1018,7 +1178,7 @@ SE tag</p>
 
 <hr>
 
-<p><a name="isilib.tagFuncs.specialIssue"></a>isilib.tagFuncs.<strong>specialIssue</strong>(val):</p>
+<p><a name="isilib.tagFuncs.specialIssue"></a>isilib.tagFuncs.<strong>specialIssue</strong>(<em>val</em>):</p>
 
 <blockquote>
 <p>returns the special issue value
@@ -1027,7 +1187,7 @@ SI tag</p>
 
 <hr>
 
-<p><a name="isilib.tagFuncs.subjectCategory"></a>isilib.tagFuncs.<strong>subjectCategory</strong>(val):</p>
+<p><a name="isilib.tagFuncs.subjectCategory"></a>isilib.tagFuncs.<strong>subjectCategory</strong>(<em>val</em>):</p>
 
 <blockquote>
 <p>returns a list of the subjects associated with the Record
@@ -1036,7 +1196,7 @@ SC tag</p>
 
 <hr>
 
-<p><a name="isilib.tagFuncs.subjects"></a>isilib.tagFuncs.<strong>subjects</strong>(val):</p>
+<p><a name="isilib.tagFuncs.subjects"></a>isilib.tagFuncs.<strong>subjects</strong>(<em>val</em>):</p>
 
 <blockquote>
 <p>returns a lsit of subjects as assigned by WOS
@@ -1045,7 +1205,7 @@ WC tag</p>
 
 <hr>
 
-<p><a name="isilib.tagFuncs.supplement"></a>isilib.tagFuncs.<strong>supplement</strong>(val):</p>
+<p><a name="isilib.tagFuncs.supplement"></a>isilib.tagFuncs.<strong>supplement</strong>(<em>val</em>):</p>
 
 <blockquote>
 <p>returns the supplemtn number
@@ -1054,7 +1214,7 @@ SU tag</p>
 
 <hr>
 
-<p><a name="isilib.tagFuncs.title"></a>isilib.tagFuncs.<strong>title</strong>(val):</p>
+<p><a name="isilib.tagFuncs.title"></a>isilib.tagFuncs.<strong>title</strong>(<em>val</em>):</p>
 
 <blockquote>
 <p>returns the title of the record
@@ -1063,7 +1223,7 @@ TI tag</p>
 
 <hr>
 
-<p><a name="isilib.tagFuncs.totalTimesCited"></a>isilib.tagFuncs.<strong>totalTimesCited</strong>(val):</p>
+<p><a name="isilib.tagFuncs.totalTimesCited"></a>isilib.tagFuncs.<strong>totalTimesCited</strong>(<em>val</em>):</p>
 
 <blockquote>
 <p>returns the total number of citations of the record
@@ -1072,7 +1232,7 @@ Z9 tag</p>
 
 <hr>
 
-<p><a name="isilib.tagFuncs.volume"></a>isilib.tagFuncs.<strong>volume</strong>(val):</p>
+<p><a name="isilib.tagFuncs.volume"></a>isilib.tagFuncs.<strong>volume</strong>(<em>val</em>):</p>
 
 <blockquote>
 <p>return the volume the record is in as a string not an int
@@ -1081,7 +1241,7 @@ VL tag</p>
 
 <hr>
 
-<p><a name="isilib.tagFuncs.wosString"></a>isilib.tagFuncs.<strong>wosString</strong>(val):</p>
+<p><a name="isilib.tagFuncs.wosString"></a>isilib.tagFuncs.<strong>wosString</strong>(<em>val</em>):</p>
 
 <blockquote>
 <p>returns the WOS number of the record as a string preceded by &quot;WOS:&quot;&quot;
@@ -1090,7 +1250,7 @@ UT tag</p>
 
 <hr>
 
-<p><a name="isilib.tagFuncs.wosTimesCited"></a>isilib.tagFuncs.<strong>wosTimesCited</strong>(val):</p>
+<p><a name="isilib.tagFuncs.wosTimesCited"></a>isilib.tagFuncs.<strong>wosTimesCited</strong>(<em>val</em>):</p>
 
 <blockquote>
 <p>returns the number of times the Record has been cited byr records in WOS
@@ -1099,7 +1259,7 @@ TC tag</p>
 
 <hr>
 
-<p><a name="isilib.tagFuncs.year"></a>isilib.tagFuncs.<strong>year</strong>(val):</p>
+<p><a name="isilib.tagFuncs.year"></a>isilib.tagFuncs.<strong>year</strong>(<em>val</em>):</p>
 
 <blockquote>
 <p>returns the year the record was published in as an int

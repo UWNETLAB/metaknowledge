@@ -29,7 +29,7 @@ def cleanargs(obj):
 
 def cleanedDoc(obj, lvl):
     ds = inspect.getdoc(obj)
-    ds = ds.replace('\n', '\n>')
+    ds = ds.replace('\n', '\n')
     ds = ds.replace('# ', '#' * lvl + '# ')
     return '>{}\n\n'.format(ds)
 

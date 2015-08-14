@@ -14,7 +14,7 @@ echo "alias pip='pip3'" >> /home/vagrant/.bashrc
 echo "alias ipython='ipython3'" >> /home/vagrant/.bashrc
 echo "alias easy_install='easy_install3'" >> /home/vagrant/.bashrc
 
-pip3 install networkx "ipython[notebook]" matplotlib pandas seaborn igraph #Add to pip here
+pip3 install networkx ipython matplotlib pandas seaborn igraph jupyter #Add to pip here
 cd /vagrant
 python3 setup.py develop
 
@@ -29,8 +29,8 @@ mkdir -p /vagrant/vagrant/logs/
 
 echo "#!/bin/bash" > /etc/rc.local
 echo "while [ ! -d /vagrant/vagrant/profile_wosserver ] ; do sleep 1 ; done" >> /etc/rc.local
-echo "/usr/local/bin/ipython3 notebook --no-browser --ProfileDir.location=/vagrant/vagrant/profile_wosserver --profile=wosserver --ip='*' --port=8888 2>&1 | tee -a /vagrant/vagrant/logs/ipythonNoteBook.log /home/vagrant/ipythonNoteBook.log &" >> /etc/rc.local
-echo "echo 'Starting ipython server'" >> /etc/rc.local
+echo "/usr/local/bin/jupyter-notebook --no-browser --ProfileDir.location=/vagrant/vagrant/profile_wosserver --profile=wosserver --ip='*' --port=8888 2>&1 | tee -a /vagrant/vagrant/logs/ipythonNoteBook.log /home/vagrant/ipythonNoteBook.log &" >> /etc/rc.local
+echo "echo 'Starting Notebook server'" >> /etc/rc.local
 echo "exit 0" >> /etc/rc.local
 sudo chown root /etc/rc.local
 sudo chmod 755 /etc/rc.local

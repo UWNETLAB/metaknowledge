@@ -12,7 +12,7 @@ class Citation(object):
 
     > Author, Year, Journal, Volume, Page, DOI
 
-    Author is the author's name in the form of first last name first initial followed sometime by a period.
+    Author is the author's name in the form of first last name first initial sometimes followed by a period.
     Year is the year of publication.
     Journal being the 29-Character Source Abbreviation of the journal.
     Volume is the volume number(s) of the publication preceded by a V
@@ -24,21 +24,21 @@ class Citation(object):
 
     Note that any of the fields have been known to be missing and the requirements for the fields are not always met. If something is in the source string that cannot be interpeted as any of these it is put in the `misc` attribute.
 
-    That the WOS data are often irregular is the reason for this class, it is designed to allow comparison between WOS citation strings even when they are missing pieces.
+    The reason for this class is that the WOS data are often irregular. It is designed to allow comparison between WOS citation strings, even when they are missing pieces.
 
     # Customizations
 
-    Citation's hashing and equality checking are based on what data they have. The equality checking first checks both Citation's DOI's and if either is missing moves to the other fields. If any of the fields disagree `False` is returned (note, authors are not compared if one is anonymous) if they all agree including the `misc` field then True is returned.
+    Citation's hashing and equality checking are based on what data they have. The equality checking first checks both Citation's DOI's and if either is missing moves to the other fields. If any of the fields disagree `False` is returned (note, authors are not compared if one is anonymous) if they all agree, including the `misc` field, then True is returned.
 
-    Unfortunately this type of equality checking precludes hashes being identical so to compare Citation objects always use ==. Hashes if identical indicates the Citations are identical (excluding collisions), but the converse is not True.
+    Unfortunately this type of equality checking precludes hashes being identical so to compare Citation objects always use ==. Hashes, if identical, indicate the Citations are identical (excluding collisions), but the converse is not True.
 
     When converted to a string a Citation will return the original string.
 
     # Attributes
 
-    AS noted above citations are considered to be divided into six distinct fields (Author, Year, Journal, Volume, Page and DOI) with a seventh misc for anything not in those. Records thus have an attribute with a name corresponding to each `author`, `year`, `journal`, `V`, `P`, `DOI` and `misc` respectively. These are created if there is anything in the field. So a Citation created from the string: "Nunez R., 1998, MATH COGNITION" would have `author`, `year` and `journal` defined. While one from "Nunez R." would have only the attribute `misc`.
+    As noted above, citations are considered to be divided into six distinct fields (Author, Year, Journal, Volume, Page and DOI) with a seventh misc for anything not in those. Records thus have an attribute with a name corresponding to each `author`, `year`, `journal`, `V`, `P`, `DOI` and `misc` respectively. These are created if there is anything in the field. So a Citation created from the string: "Nunez R., 1998, MATH COGNITION" would have `author`, `year` and `journal` defined. While one from "Nunez R." would have only the attribute `misc`.
 
-    If the parsing of a citation string fails the attribute `bad` is set to True and the attribute `error` is created to contain the error which is a [BadCitation](#isilib.BadCitation) object. If no errors occur `bad` is `False`.
+    If the parsing of a citation string fails the attribute `bad` is set to True and the attribute `error` is created to contain the error, which is a [BadCitation](#isilib.BadCitation) object. If no errors occur `bad` is `False`.
 
     The attribute `original` is the unmodified string (_cite_) given to create the Citation, it can also be accessed by converting to a string, e.g. with `str()`.
 
@@ -50,7 +50,7 @@ class Citation(object):
 
     _cite_ : `str`
 
-    > a str containing a WOS style citation
+    > A str containing a WOS style citation.
     """
     def __init__(self, cite):
         self.original = cite
@@ -145,13 +145,13 @@ class Citation(object):
 
     def isAnonymous(self):
         """
-        checks if the author is given as "[ANONYMOUS]" and returns True if so.
+        Checks if the author is given as "[ANONYMOUS]" and returns `True` if so.
 
         # Returns
 
         `bool`
 
-        > True if the author is ANONYMOUS otherwise false
+        > True if the author is ANONYMOUS otherwise `False`.
         """
         if hasattr(self, 'author'):
             return self.author == "[ANONYMOUS]"
@@ -160,13 +160,13 @@ class Citation(object):
 
     def getID(self):
         """
-        Returns "author, year" if both available "author" if year is not available and "misc" otherwise. Use for shortening labels when creating networks as the resultant strings are often unique. [`getExtra()`](#Citation.getExtra) gets everthing not returned by `getID()`.
+        Returns "author, year" if both available, "author" if year is not available, and "misc" otherwise. It is for shortening labels when creating networks as the resultant strings are often unique. [`getExtra()`](#Citation.getExtra) gets everthing not returned by `getID()`.
 
         # Returns
 
         `str`
 
-        > a string to use as the shortened ID of a node
+        > A string to use as the shortened ID of a node.
         """
         if not self.bad:
             return self.author + ', ' + self.year
@@ -180,13 +180,13 @@ class Citation(object):
 
     def getExtra(self):
         """
-        Returns any journal, V, P or misc values as a string. These are all the values not returned by [`getID()`](#Citation.getID)
+        Returns any journal, V, P or misc values as a string. These are all the values not returned by [`getID()`](#Citation.getID).
 
         # Returns
 
         `str`
 
-        > a string containing the data not in the ID of the Citation
+        > A string containing the data not in the ID of the Citation.
          """
         extraTags = ['journal','V', 'P', 'misc']
         retVal = ""

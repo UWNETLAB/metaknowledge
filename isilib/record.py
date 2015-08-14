@@ -34,13 +34,13 @@ class Record(object):
     """
     Class for full WOS records
 
-    It is meant to be immutable, many of the methods and attributes are evaluated when first called not when the object is created and the results are stored in a private dictionary.
+    It is meant to be immutable; many of the methods and attributes are evaluated when first called, not when the object is created, and the results are stored in a private dictionary.
 
-    The record's meta-data is stored in an ordered dictionary labeled by WOS tags. To access the raw data stored in the original record the [getTag()](#Record.getTag) method can be used. To access data that has been processed and cleaned the attributes named after the tags are used, see next section.
+    The record's meta-data is stored in an ordered dictionary labeled by WOS tags. To access the raw data stored in the original record the [getTag()](#Record.getTag) method can be used. To access data that has been processed and cleaned the attributes named after the tags are used.
 
     # Customizations
 
-    The Record's hashing and equality testing are based on the WOS number (the tag is 'UT', and also called the accession number). They are strings starting with "WOS:" and followed by 15 or so numbers and letters, although both the length and character set are known to vary. The numbers are unique to each record so are used for comparisons. If a record is `bad` returns false on all equality checks.
+    The Record's hashing and equality testing are based on the WOS number (the tag is 'UT', and also called the accession number). They are strings starting with "WOS:" and followed by 15 or so numbers and letters, although both the length and character set are known to vary. The numbers are unique to each record so are used for comparisons. If a record is `bad`  all equality checks return `False`.
 
     When converted to a string the records title is used so for a record `R`, R.TI == R.title == str(R).
 
@@ -48,12 +48,13 @@ class Record(object):
 
     When a record is created if the parsing of the WOS file failed it is marked as `bad`. The `bad` attribute is set to True and the `error` attribute is created to contain the exception object.
 
-    Generally to get the information from a Record its attributes should be used. For a Record `R`, calling `R.CR` causes [citations()](#isilib.tagFuncs.citations) from the the [tagFuncs](#isilib.tagFuncs) module to be called on the contents of the raw 'CR' field. Then the result is saved and returned. In this case a list of Citation objects is returned. You can also call `R.citations` to get the same effect as each known field tag, currently there are 61, has a longer name. These names are meant to make accessing tags more readable and mapping from tag to name can be found in the tagToFull dict. If a tag is known (in [tagToFull](#isilib)) but not in the raw data `None` is returned instead. Most tags when cleaned return a list of strings or a string, the exact results can be found in the help for tagFuncs of the particular function.
+    Generally, to get the information from a Record its attributes should be used. For a Record `R`, calling `R.CR` causes [citations()](#isilib.tagFuncs.citations) from the the [tagFuncs](#isilib.tagFuncs) module to be called on the contents of the raw 'CR' field. Then the result is saved and returned. In this case, a list of Citation objects is returned. You can also call `R.citations` to get the same effect, as each known field tag has a longer name (currently there are 61 field tags). These names are meant to make accessing tags more readable and mapping from tag to name can be found in the tagToFull dict. If a tag is known (in [tagToFull](#isilib)) but not in the raw data `None` is returned instead. Most tags when cleaned return a string or list of strings, the exact results can be found in the help for the particular function.
 
     The attribute `authors` is also defined as a convience and returns the same as 'AF' or if that is not found 'AU'.
 
     # \_\_Init\_\_
-    Records are generally create by [Recordcollections](#isilib.RecordCollection) and not as individual objects. If you wish to create one on its own it is possible, the arguments are as follows.
+
+    Records are generally create as collections in  [Recordcollections](#isilib.RecordCollection), and not as individual objects. If you wish to create one on its own it is possible, the arguments are as follows.
 
     # Parameters
 
@@ -65,15 +66,15 @@ class Record(object):
 
     > For a str the input is the raw textual data of a single record in the WOS style, like the file stream it must start at the first tag and end in 'ER'.
 
-    > itertools.chain is treated identically to a file stream and is used by [RecordCollections](#isilib.RecordCollection)
+    > itertools.chain is treated identically to a file stream and is used by [RecordCollections](#isilib.RecordCollection).
 
     _sFile_ : `optional [str]`
 
-    > Is the name of the file the raw data was in, by default it is blank. Mostly used to make error messages more informative.
+    > Is the name of the file the raw data was in, by default it is blank. It is mostly used to make error messages more informative.
 
     _sLine_ : `optional [int]`
 
-    > Is the line the record starts on in the raw data file. Mostly used to make error messages more informative.
+    > Is the line the record starts on in the raw data file. It is mostly used to make error messages more informative.
     """
 
     def __init__(self, inRecord, taglist = (), sFile = "", sLine = 0):
@@ -251,18 +252,18 @@ class Record(object):
             return auth
 
     def getTag(self, tag):
-        """returns a list containing the raw data of the record associated with tag. Each line of the record is one string in the list.
+        """Returns a list containing the raw data of the record associated with _tag_. Each line of the record is one string in the list.
 
         # Parameters
         _tag_ : `str`
 
-        > tag can be a two character string corresponding to a WOS tag e.g. 'J9', the matching is case insensitive so 'j9' is the same as 'J9'. Or it can be one of the full names for a tag with the mappings in [fullToTag](#isilib). If the string is not found in the original record or after being translated though [fullToTag](#isilib), `None` is returned.
+        > _tag_ can be a two character string corresponding to a WOS tag e.g. 'J9', the matching is case insensitive so 'j9' is the same as 'J9'. Or it can be one of the full names for a tag with the mappings in [fullToTag](#isilib). If the string is not found in the original record or after being translated through [fullToTag](#isilib), `None` is returned.
 
         # Returns
 
         `List [str]`
 
-        > each string in the list is a line from the record associated with _tag_ or None id not found
+        > Each string in the list is a line from the record associated with _tag_ or None if not found.
         """
         tag = tag.upper()
         if tag in self._fieldDict:
@@ -279,7 +280,7 @@ class Record(object):
 
         `Citation`
 
-        > A [Citation](#isilib.Citation) object containing a citation for the Record
+        > A [Citation](#isilib.Citation) object containing a citation for the Record.
         """
         valsLst = []
         if self.authorsShort:
@@ -302,7 +303,7 @@ class Record(object):
         # Parameters
         _taglst_ : `List[str]`
 
-        > Each string in _taglst_ can be a two character string corresponding to a WOS tag e.g. 'J9', the matching is case insensitive so 'j9' is the same as 'J9'. Or it can be one of the full names for a tag with the mappings in [fullToTag](#isilib). If the string is not found in the original record before or after being translated though [fullToTag](#isilib), `None` is used instead. Same as in [`getTag()`](#Record.getTag)
+        > Each string in _taglst_ can be a two character string corresponding to a WOS tag e.g. 'J9', the matching is case insensitive so 'j9' is the same as 'J9'. Or it can be one of the full names for a tag with the mappings in [fullToTag](#isilib). If the string is not found in the original record before or after being translated through [fullToTag](#isilib), `None` is used instead. Same as in [`getTag()`](#Record.getTag)
 
         > Then they are compiled into a list in the same order as _taglst_
 
@@ -323,7 +324,7 @@ class Record(object):
         # Parameters
         _taglst_ : `List[str]`
 
-        > Each string in _taglst_ can be a two character string corresponding to a WOS tag e.g. 'J9', the matching is case insensitive so 'j9' is the same as 'J9'. Or it can be one of the full names for a tag with the mappings in [fullToTag](#isilib). If the string is not found in the oriagnal record before or after being translated though [fullToTag](#isilib), `None` is used instead. Same as in [`getTag()`](#Record.getTag)
+        > Each string in _taglst_ can be a two character string corresponding to a WOS tag e.g. 'J9', the matching is case insensitive so 'j9' is the same as 'J9'. Or it can be one of the full names for a tag with the mappings in [fullToTag](#isilib). If the string is not found in the oriagnal record before or after being translated through [fullToTag](#isilib), `None` is used instead. Same as in [`getTag()`](#Record.getTag)
 
         # Returns
 
@@ -348,7 +349,7 @@ class Record(object):
         return list(self._fieldDict.keys())
 
     def writeRecord(self, infile):
-        """writes to _infile_ the original contents of the Record. This is intended for use by [RecordCollections](#isilib.RecordCollection) to write to file. What is written to _infile_ is bit for bit identical to the original record file. No newline is inserted above the write but the last character is a newline.
+        """Writes to _infile_ the original contents of the Record. This is intended for use by [RecordCollections](#isilib.RecordCollection) to write to file. What is written to _infile_ is bit for bit identical to the original record file. No newline is inserted above the write but the last character is a newline.
 
         # Parameters
 
@@ -369,7 +370,7 @@ class Record(object):
             infile.write("ER\n")
 
 def recordParser(paper):
-    """reads the file _paper_ until it reaches 'ER'.
+    """Reads the file _paper_ until it reaches 'ER'.
 
     For each field tag it adds an entry to the returned dict with the tag as the key and a list of the entries as the value, the list has each line separately, so for the following string in a record:
 
@@ -377,7 +378,7 @@ def recordParser(paper):
 
         ANICIN, B"
 
-    the entry in the returned dict would be `{'AF' : ["BREVIK, I", "ANICIN, B"]}`
+    The entry in the returned dict would be `{'AF' : ["BREVIK, I", "ANICIN, B"]}`
 
     [Record](#isilib.Record) objects can be created with these dictionaries as the initializer.
 
@@ -385,13 +386,13 @@ def recordParser(paper):
 
     _paper_ : `file stream`
 
-    > an open file, with the current line at the beginning of the record
+    > An open file, with the current line at the beginning of the record.
 
     # Returns
 
     `dict[str : List[str]]`
 
-    > a dictionary mapping WOS tags to lists, the lists are of strings, each string is a line of the record associated with the tag.
+    > A dictionary mapping WOS tags to lists, the lists are of strings, each string is a line of the record associated with the tag.
     """
     tagList = []
     doneReading = False

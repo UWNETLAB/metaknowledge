@@ -36,7 +36,7 @@ title: isilib Docs
 >
 >> Author, Year, Journal, Volume, Page, DOI
 >
->Author is the author's name in the form of first last name first initial followed sometime by a period.
+>Author is the author's name in the form of first last name first initial sometimes followed by a period.
 >Year is the year of publication.
 >Journal being the 29-Character Source Abbreviation of the journal.
 >Volume is the volume number(s) of the publication preceded by a V
@@ -48,21 +48,21 @@ title: isilib Docs
 >
 >Note that any of the fields have been known to be missing and the requirements for the fields are not always met. If something is in the source string that cannot be interpeted as any of these it is put in the `misc` attribute.
 >
->That the WOS data are often irregular is the reason for this class, it is designed to allow comparison between WOS citation strings even when they are missing pieces.
+>The reason for this class is that the WOS data are often irregular. It is designed to allow comparison between WOS citation strings, even when they are missing pieces.
 >
 >##### Customizations
 >
->Citation's hashing and equality checking are based on what data they have. The equality checking first checks both Citation's DOI's and if either is missing moves to the other fields. If any of the fields disagree `False` is returned (note, authors are not compared if one is anonymous) if they all agree including the `misc` field then True is returned.
+>Citation's hashing and equality checking are based on what data they have. The equality checking first checks both Citation's DOI's and if either is missing moves to the other fields. If any of the fields disagree `False` is returned (note, authors are not compared if one is anonymous) if they all agree, including the `misc` field, then True is returned.
 >
->Unfortunately this type of equality checking precludes hashes being identical so to compare Citation objects always use ==. Hashes if identical indicates the Citations are identical (excluding collisions), but the converse is not True.
+>Unfortunately this type of equality checking precludes hashes being identical so to compare Citation objects always use ==. Hashes, if identical, indicate the Citations are identical (excluding collisions), but the converse is not True.
 >
 >When converted to a string a Citation will return the original string.
 >
 >##### Attributes
 >
->AS noted above citations are considered to be divided into six distinct fields (Author, Year, Journal, Volume, Page and DOI) with a seventh misc for anything not in those. Records thus have an attribute with a name corresponding to each `author`, `year`, `journal`, `V`, `P`, `DOI` and `misc` respectively. These are created if there is anything in the field. So a Citation created from the string: "Nunez R., 1998, MATH COGNITION" would have `author`, `year` and `journal` defined. While one from "Nunez R." would have only the attribute `misc`.
+>As noted above, citations are considered to be divided into six distinct fields (Author, Year, Journal, Volume, Page and DOI) with a seventh misc for anything not in those. Records thus have an attribute with a name corresponding to each `author`, `year`, `journal`, `V`, `P`, `DOI` and `misc` respectively. These are created if there is anything in the field. So a Citation created from the string: "Nunez R., 1998, MATH COGNITION" would have `author`, `year` and `journal` defined. While one from "Nunez R." would have only the attribute `misc`.
 >
->If the parsing of a citation string fails the attribute `bad` is set to True and the attribute `error` is created to contain the error which is a [BadCitation](#isilib.BadCitation) object. If no errors occur `bad` is `False`.
+>If the parsing of a citation string fails the attribute `bad` is set to True and the attribute `error` is created to contain the error, which is a [BadCitation](#isilib.BadCitation) object. If no errors occur `bad` is `False`.
 >
 >The attribute `original` is the unmodified string (_cite_) given to create the Citation, it can also be accessed by converting to a string, e.g. with `str()`.
 >
@@ -74,38 +74,38 @@ title: isilib Docs
 >
 >_cite_ : `str`
 >
->> a str containing a WOS style citation
+>> A str containing a WOS style citation.
 
 <a name="Citation.getExtra"></a>Citation.**getExtra**():
 
->Returns any journal, V, P or misc values as a string. These are all the values not returned by [`getID()`](#Citation.getID)
+>Returns any journal, V, P or misc values as a string. These are all the values not returned by [`getID()`](#Citation.getID).
 >
 >##### Returns
 >
 >`str`
 >
->> a string containing the data not in the ID of the Citation
+>> A string containing the data not in the ID of the Citation.
 > 
 
 <a name="Citation.getID"></a>Citation.**getID**():
 
->Returns "author, year" if both available "author" if year is not available and "misc" otherwise. Use for shortening labels when creating networks as the resultant strings are often unique. [`getExtra()`](#Citation.getExtra) gets everthing not returned by `getID()`.
+>Returns "author, year" if both available, "author" if year is not available, and "misc" otherwise. It is for shortening labels when creating networks as the resultant strings are often unique. [`getExtra()`](#Citation.getExtra) gets everthing not returned by `getID()`.
 >
 >##### Returns
 >
 >`str`
 >
->> a string to use as the shortened ID of a node
+>> A string to use as the shortened ID of a node.
 
 <a name="Citation.isAnonymous"></a>Citation.**isAnonymous**():
 
->checks if the author is given as "[ANONYMOUS]" and returns True if so.
+>Checks if the author is given as "[ANONYMOUS]" and returns `True` if so.
 >
 >##### Returns
 >
 >`bool`
 >
->> True if the author is ANONYMOUS otherwise false
+>> True if the author is ANONYMOUS otherwise `False`.
 
 - - -
 
@@ -113,13 +113,13 @@ title: isilib Docs
 
 >Class for full WOS records
 >
->It is meant to be immutable, many of the methods and attributes are evaluated when first called not when the object is created and the results are stored in a private dictionary.
+>It is meant to be immutable; many of the methods and attributes are evaluated when first called, not when the object is created, and the results are stored in a private dictionary.
 >
->The record's meta-data is stored in an ordered dictionary labeled by WOS tags. To access the raw data stored in the original record the [getTag()](#Record.getTag) method can be used. To access data that has been processed and cleaned the attributes named after the tags are used, see next section.
+>The record's meta-data is stored in an ordered dictionary labeled by WOS tags. To access the raw data stored in the original record the [getTag()](#Record.getTag) method can be used. To access data that has been processed and cleaned the attributes named after the tags are used.
 >
 >##### Customizations
 >
->The Record's hashing and equality testing are based on the WOS number (the tag is 'UT', and also called the accession number). They are strings starting with "WOS:" and followed by 15 or so numbers and letters, although both the length and character set are known to vary. The numbers are unique to each record so are used for comparisons. If a record is `bad` returns false on all equality checks.
+>The Record's hashing and equality testing are based on the WOS number (the tag is 'UT', and also called the accession number). They are strings starting with "WOS:" and followed by 15 or so numbers and letters, although both the length and character set are known to vary. The numbers are unique to each record so are used for comparisons. If a record is `bad`  all equality checks return `False`.
 >
 >When converted to a string the records title is used so for a record `R`, R.TI == R.title == str(R).
 >
@@ -127,12 +127,13 @@ title: isilib Docs
 >
 >When a record is created if the parsing of the WOS file failed it is marked as `bad`. The `bad` attribute is set to True and the `error` attribute is created to contain the exception object.
 >
->Generally to get the information from a Record its attributes should be used. For a Record `R`, calling `R.CR` causes [citations()](#isilib.tagFuncs.citations) from the the [tagFuncs](#isilib.tagFuncs) module to be called on the contents of the raw 'CR' field. Then the result is saved and returned. In this case a list of Citation objects is returned. You can also call `R.citations` to get the same effect as each known field tag, currently there are 61, has a longer name. These names are meant to make accessing tags more readable and mapping from tag to name can be found in the tagToFull dict. If a tag is known (in [tagToFull](#isilib)) but not in the raw data `None` is returned instead. Most tags when cleaned return a list of strings or a string, the exact results can be found in the help for tagFuncs of the particular function.
+>Generally, to get the information from a Record its attributes should be used. For a Record `R`, calling `R.CR` causes [citations()](#isilib.tagFuncs.citations) from the the [tagFuncs](#isilib.tagFuncs) module to be called on the contents of the raw 'CR' field. Then the result is saved and returned. In this case, a list of Citation objects is returned. You can also call `R.citations` to get the same effect, as each known field tag has a longer name (currently there are 61 field tags). These names are meant to make accessing tags more readable and mapping from tag to name can be found in the tagToFull dict. If a tag is known (in [tagToFull](#isilib)) but not in the raw data `None` is returned instead. Most tags when cleaned return a string or list of strings, the exact results can be found in the help for the particular function.
 >
 >The attribute `authors` is also defined as a convience and returns the same as 'AF' or if that is not found 'AU'.
 >
 >##### \_\_Init\_\_
->Records are generally create by [Recordcollections](#isilib.RecordCollection) and not as individual objects. If you wish to create one on its own it is possible, the arguments are as follows.
+>
+>Records are generally create as collections in  [Recordcollections](#isilib.RecordCollection), and not as individual objects. If you wish to create one on its own it is possible, the arguments are as follows.
 >
 >##### Parameters
 >
@@ -144,15 +145,15 @@ title: isilib Docs
 >
 >> For a str the input is the raw textual data of a single record in the WOS style, like the file stream it must start at the first tag and end in 'ER'.
 >
->> itertools.chain is treated identically to a file stream and is used by [RecordCollections](#isilib.RecordCollection)
+>> itertools.chain is treated identically to a file stream and is used by [RecordCollections](#isilib.RecordCollection).
 >
 >_sFile_ : `optional [str]`
 >
->> Is the name of the file the raw data was in, by default it is blank. Mostly used to make error messages more informative.
+>> Is the name of the file the raw data was in, by default it is blank. It is mostly used to make error messages more informative.
 >
 >_sLine_ : `optional [int]`
 >
->> Is the line the record starts on in the raw data file. Mostly used to make error messages more informative.
+>> Is the line the record starts on in the raw data file. It is mostly used to make error messages more informative.
 
 <a name="Record.activeTags"></a>Record.**activeTags**():
 
@@ -172,22 +173,22 @@ title: isilib Docs
 >
 >`Citation`
 >
->> A [Citation](#isilib.Citation) object containing a citation for the Record
+>> A [Citation](#isilib.Citation) object containing a citation for the Record.
 
 <a name="Record.getTag"></a>Record.**getTag**(_tag_):
 
->returns a list containing the raw data of the record associated with tag. Each line of the record is one string in the list.
+>Returns a list containing the raw data of the record associated with _tag_. Each line of the record is one string in the list.
 >
 >##### Parameters
 >_tag_ : `str`
 >
->> tag can be a two character string corresponding to a WOS tag e.g. 'J9', the matching is case insensitive so 'j9' is the same as 'J9'. Or it can be one of the full names for a tag with the mappings in [fullToTag](#isilib). If the string is not found in the original record or after being translated though [fullToTag](#isilib), `None` is returned.
+>> _tag_ can be a two character string corresponding to a WOS tag e.g. 'J9', the matching is case insensitive so 'j9' is the same as 'J9'. Or it can be one of the full names for a tag with the mappings in [fullToTag](#isilib). If the string is not found in the original record or after being translated through [fullToTag](#isilib), `None` is returned.
 >
 >##### Returns
 >
 >`List [str]`
 >
->> each string in the list is a line from the record associated with _tag_ or None id not found
+>> Each string in the list is a line from the record associated with _tag_ or None if not found.
 
 <a name="Record.getTagsDict"></a>Record.**getTagsDict**(_taglst_):
 
@@ -196,7 +197,7 @@ title: isilib Docs
 >##### Parameters
 >_taglst_ : `List[str]`
 >
->> Each string in _taglst_ can be a two character string corresponding to a WOS tag e.g. 'J9', the matching is case insensitive so 'j9' is the same as 'J9'. Or it can be one of the full names for a tag with the mappings in [fullToTag](#isilib). If the string is not found in the oriagnal record before or after being translated though [fullToTag](#isilib), `None` is used instead. Same as in [`getTag()`](#Record.getTag)
+>> Each string in _taglst_ can be a two character string corresponding to a WOS tag e.g. 'J9', the matching is case insensitive so 'j9' is the same as 'J9'. Or it can be one of the full names for a tag with the mappings in [fullToTag](#isilib). If the string is not found in the oriagnal record before or after being translated through [fullToTag](#isilib), `None` is used instead. Same as in [`getTag()`](#Record.getTag)
 >
 >##### Returns
 >
@@ -211,7 +212,7 @@ title: isilib Docs
 >##### Parameters
 >_taglst_ : `List[str]`
 >
->> Each string in _taglst_ can be a two character string corresponding to a WOS tag e.g. 'J9', the matching is case insensitive so 'j9' is the same as 'J9'. Or it can be one of the full names for a tag with the mappings in [fullToTag](#isilib). If the string is not found in the original record before or after being translated though [fullToTag](#isilib), `None` is used instead. Same as in [`getTag()`](#Record.getTag)
+>> Each string in _taglst_ can be a two character string corresponding to a WOS tag e.g. 'J9', the matching is case insensitive so 'j9' is the same as 'J9'. Or it can be one of the full names for a tag with the mappings in [fullToTag](#isilib). If the string is not found in the original record before or after being translated through [fullToTag](#isilib), `None` is used instead. Same as in [`getTag()`](#Record.getTag)
 >
 >> Then they are compiled into a list in the same order as _taglst_
 >
@@ -223,7 +224,7 @@ title: isilib Docs
 
 <a name="Record.writeRecord"></a>Record.**writeRecord**(_infile_):
 
->writes to _infile_ the original contents of the Record. This is intended for use by [RecordCollections](#isilib.RecordCollection) to write to file. What is written to _infile_ is bit for bit identical to the original record file. No newline is inserted above the write but the last character is a newline.
+>Writes to _infile_ the original contents of the Record. This is intended for use by [RecordCollections](#isilib.RecordCollection) to write to file. What is written to _infile_ is bit for bit identical to the original record file. No newline is inserted above the write but the last character is a newline.
 >
 >##### Parameters
 >
@@ -423,7 +424,7 @@ title: isilib Docs
 
 <a name="isilib.recordParser"></a>isilib.**recordParser**(_paper_):
 
->reads the file _paper_ until it reaches 'ER'.
+>Reads the file _paper_ until it reaches 'ER'.
 >
 >For each field tag it adds an entry to the returned dict with the tag as the key and a list of the entries as the value, the list has each line separately, so for the following string in a record:
 >
@@ -431,7 +432,7 @@ title: isilib Docs
 >
 >    ANICIN, B"
 >
->the entry in the returned dict would be `{'AF' : ["BREVIK, I", "ANICIN, B"]}`
+>The entry in the returned dict would be `{'AF' : ["BREVIK, I", "ANICIN, B"]}`
 >
 >[Record](#isilib.Record) objects can be created with these dictionaries as the initializer.
 >
@@ -439,13 +440,13 @@ title: isilib Docs
 >
 >_paper_ : `file stream`
 >
->> an open file, with the current line at the beginning of the record
+>> An open file, with the current line at the beginning of the record.
 >
 >##### Returns
 >
 >`dict[str : List[str]]`
 >
->> a dictionary mapping WOS tags to lists, the lists are of strings, each string is a line of the record associated with the tag.
+>> A dictionary mapping WOS tags to lists, the lists are of strings, each string is a line of the record associated with the tag.
 
 - - -
 

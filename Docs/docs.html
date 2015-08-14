@@ -37,70 +37,70 @@
 <blockquote>
 <p>Author, Year, Journal, Volume, Page, DOI</p>
 </blockquote>
-<p>Author is the author's name in the form of first last name first initial followed sometime by a period. Year is the year of publication. Journal being the 29-Character Source Abbreviation of the journal. Volume is the volume number(s) of the publication preceded by a V Page is the page number the record starts on DOI is the DOI number of the cited record preceeded by the letters &quot;DOI&quot; Combined they look like:</p>
+<p>Author is the author's name in the form of first last name first initial sometimes followed by a period. Year is the year of publication. Journal being the 29-Character Source Abbreviation of the journal. Volume is the volume number(s) of the publication preceded by a V Page is the page number the record starts on DOI is the DOI number of the cited record preceeded by the letters &quot;DOI&quot; Combined they look like:</p>
 <blockquote>
 <p>Nunez R., 1998, MATH COGNITION, V4, P85, DOI 10.1080/135467998387343</p>
 </blockquote>
 <p>Note that any of the fields have been known to be missing and the requirements for the fields are not always met. If something is in the source string that cannot be interpeted as any of these it is put in the <code>misc</code> attribute.</p>
-<p>That the WOS data are often irregular is the reason for this class, it is designed to allow comparison between WOS citation strings even when they are missing pieces.</p>
+<p>The reason for this class is that the WOS data are often irregular. It is designed to allow comparison between WOS citation strings, even when they are missing pieces.</p>
 <h5 id="customizations">Customizations</h5>
-<p>Citation's hashing and equality checking are based on what data they have. The equality checking first checks both Citation's DOI's and if either is missing moves to the other fields. If any of the fields disagree <code>False</code> is returned (note, authors are not compared if one is anonymous) if they all agree including the <code>misc</code> field then True is returned.</p>
-<p>Unfortunately this type of equality checking precludes hashes being identical so to compare Citation objects always use ==. Hashes if identical indicates the Citations are identical (excluding collisions), but the converse is not True.</p>
+<p>Citation's hashing and equality checking are based on what data they have. The equality checking first checks both Citation's DOI's and if either is missing moves to the other fields. If any of the fields disagree <code>False</code> is returned (note, authors are not compared if one is anonymous) if they all agree, including the <code>misc</code> field, then True is returned.</p>
+<p>Unfortunately this type of equality checking precludes hashes being identical so to compare Citation objects always use ==. Hashes, if identical, indicate the Citations are identical (excluding collisions), but the converse is not True.</p>
 <p>When converted to a string a Citation will return the original string.</p>
 <h5 id="attributes">Attributes</h5>
-<p>AS noted above citations are considered to be divided into six distinct fields (Author, Year, Journal, Volume, Page and DOI) with a seventh misc for anything not in those. Records thus have an attribute with a name corresponding to each <code>author</code>, <code>year</code>, <code>journal</code>, <code>V</code>, <code>P</code>, <code>DOI</code> and <code>misc</code> respectively. These are created if there is anything in the field. So a Citation created from the string: &quot;Nunez R., 1998, MATH COGNITION&quot; would have <code>author</code>, <code>year</code> and <code>journal</code> defined. While one from &quot;Nunez R.&quot; would have only the attribute <code>misc</code>.</p>
-<p>If the parsing of a citation string fails the attribute <code>bad</code> is set to True and the attribute <code>error</code> is created to contain the error which is a <a href="#isilib.BadCitation">BadCitation</a> object. If no errors occur <code>bad</code> is <code>False</code>.</p>
+<p>As noted above, citations are considered to be divided into six distinct fields (Author, Year, Journal, Volume, Page and DOI) with a seventh misc for anything not in those. Records thus have an attribute with a name corresponding to each <code>author</code>, <code>year</code>, <code>journal</code>, <code>V</code>, <code>P</code>, <code>DOI</code> and <code>misc</code> respectively. These are created if there is anything in the field. So a Citation created from the string: &quot;Nunez R., 1998, MATH COGNITION&quot; would have <code>author</code>, <code>year</code> and <code>journal</code> defined. While one from &quot;Nunez R.&quot; would have only the attribute <code>misc</code>.</p>
+<p>If the parsing of a citation string fails the attribute <code>bad</code> is set to True and the attribute <code>error</code> is created to contain the error, which is a <a href="#isilib.BadCitation">BadCitation</a> object. If no errors occur <code>bad</code> is <code>False</code>.</p>
 <p>The attribute <code>original</code> is the unmodified string (<em>cite</em>) given to create the Citation, it can also be accessed by converting to a string, e.g. with <code>str()</code>.</p>
 <h5 id="init__">__Init__</h5>
 <p>Citations can be created by <a href="#isilib.Record">Records</a> or by giving the initializer a string containing a WOS style citation.</p>
 <h5 id="parameters">Parameters</h5>
 <p><em>cite</em> : <code>str</code></p>
 <blockquote>
-<p>a str containing a WOS style citation</p>
+<p>A str containing a WOS style citation.</p>
 </blockquote>
 </blockquote>
 <p><a name="Citation.getExtra"></a>Citation.<strong>getExtra</strong>():</p>
 <blockquote>
-<p>Returns any journal, V, P or misc values as a string. These are all the values not returned by <a href="#Citation.getID"><code>getID()</code></a></p>
+<p>Returns any journal, V, P or misc values as a string. These are all the values not returned by <a href="#Citation.getID"><code>getID()</code></a>.</p>
 <h5 id="returns">Returns</h5>
 <p><code>str</code></p>
 <blockquote>
-<p>a string containing the data not in the ID of the Citation</p>
+<p>A string containing the data not in the ID of the Citation.</p>
 </blockquote>
 </blockquote>
 <p><a name="Citation.getID"></a>Citation.<strong>getID</strong>():</p>
 <blockquote>
-<p>Returns &quot;author, year&quot; if both available &quot;author&quot; if year is not available and &quot;misc&quot; otherwise. Use for shortening labels when creating networks as the resultant strings are often unique. <a href="#Citation.getExtra"><code>getExtra()</code></a> gets everthing not returned by <code>getID()</code>.</p>
+<p>Returns &quot;author, year&quot; if both available, &quot;author&quot; if year is not available, and &quot;misc&quot; otherwise. It is for shortening labels when creating networks as the resultant strings are often unique. <a href="#Citation.getExtra"><code>getExtra()</code></a> gets everthing not returned by <code>getID()</code>.</p>
 <h5 id="returns-1">Returns</h5>
 <p><code>str</code></p>
 <blockquote>
-<p>a string to use as the shortened ID of a node</p>
+<p>A string to use as the shortened ID of a node.</p>
 </blockquote>
 </blockquote>
 <p><a name="Citation.isAnonymous"></a>Citation.<strong>isAnonymous</strong>():</p>
 <blockquote>
-<p>checks if the author is given as &quot;[ANONYMOUS]&quot; and returns True if so.</p>
+<p>Checks if the author is given as &quot;[ANONYMOUS]&quot; and returns <code>True</code> if so.</p>
 <h5 id="returns-2">Returns</h5>
 <p><code>bool</code></p>
 <blockquote>
-<p>True if the author is ANONYMOUS otherwise false</p>
+<p>True if the author is ANONYMOUS otherwise <code>False</code>.</p>
 </blockquote>
 </blockquote>
 <hr />
 <p><a name="isilib.Record"></a>isilib.<strong>Record</strong>(<em>inRecord, taglist=(), sFile='', sLine=0</em>):</p>
 <blockquote>
 <p>Class for full WOS records</p>
-<p>It is meant to be immutable, many of the methods and attributes are evaluated when first called not when the object is created and the results are stored in a private dictionary.</p>
-<p>The record's meta-data is stored in an ordered dictionary labeled by WOS tags. To access the raw data stored in the original record the <a href="#Record.getTag">getTag()</a> method can be used. To access data that has been processed and cleaned the attributes named after the tags are used, see next section.</p>
+<p>It is meant to be immutable; many of the methods and attributes are evaluated when first called, not when the object is created, and the results are stored in a private dictionary.</p>
+<p>The record's meta-data is stored in an ordered dictionary labeled by WOS tags. To access the raw data stored in the original record the <a href="#Record.getTag">getTag()</a> method can be used. To access data that has been processed and cleaned the attributes named after the tags are used.</p>
 <h5 id="customizations-1">Customizations</h5>
-<p>The Record's hashing and equality testing are based on the WOS number (the tag is 'UT', and also called the accession number). They are strings starting with &quot;WOS:&quot; and followed by 15 or so numbers and letters, although both the length and character set are known to vary. The numbers are unique to each record so are used for comparisons. If a record is <code>bad</code> returns false on all equality checks.</p>
+<p>The Record's hashing and equality testing are based on the WOS number (the tag is 'UT', and also called the accession number). They are strings starting with &quot;WOS:&quot; and followed by 15 or so numbers and letters, although both the length and character set are known to vary. The numbers are unique to each record so are used for comparisons. If a record is <code>bad</code> all equality checks return <code>False</code>.</p>
 <p>When converted to a string the records title is used so for a record <code>R</code>, R.TI == R.title == str(R).</p>
 <h5 id="attributes-1">Attributes</h5>
 <p>When a record is created if the parsing of the WOS file failed it is marked as <code>bad</code>. The <code>bad</code> attribute is set to True and the <code>error</code> attribute is created to contain the exception object.</p>
-<p>Generally to get the information from a Record its attributes should be used. For a Record <code>R</code>, calling <code>R.CR</code> causes <a href="#isilib.tagFuncs.citations">citations()</a> from the the <a href="#isilib.tagFuncs">tagFuncs</a> module to be called on the contents of the raw 'CR' field. Then the result is saved and returned. In this case a list of Citation objects is returned. You can also call <code>R.citations</code> to get the same effect as each known field tag, currently there are 61, has a longer name. These names are meant to make accessing tags more readable and mapping from tag to name can be found in the tagToFull dict. If a tag is known (in <a href="#isilib">tagToFull</a>) but not in the raw data <code>None</code> is returned instead. Most tags when cleaned return a list of strings or a string, the exact results can be found in the help for tagFuncs of the particular function.</p>
+<p>Generally, to get the information from a Record its attributes should be used. For a Record <code>R</code>, calling <code>R.CR</code> causes <a href="#isilib.tagFuncs.citations">citations()</a> from the the <a href="#isilib.tagFuncs">tagFuncs</a> module to be called on the contents of the raw 'CR' field. Then the result is saved and returned. In this case, a list of Citation objects is returned. You can also call <code>R.citations</code> to get the same effect, as each known field tag has a longer name (currently there are 61 field tags). These names are meant to make accessing tags more readable and mapping from tag to name can be found in the tagToFull dict. If a tag is known (in <a href="#isilib">tagToFull</a>) but not in the raw data <code>None</code> is returned instead. Most tags when cleaned return a string or list of strings, the exact results can be found in the help for the particular function.</p>
 <p>The attribute <code>authors</code> is also defined as a convience and returns the same as 'AF' or if that is not found 'AU'.</p>
 <h5 id="init__-1">__Init__</h5>
-<p>Records are generally create by <a href="#isilib.RecordCollection">Recordcollections</a> and not as individual objects. If you wish to create one on its own it is possible, the arguments are as follows.</p>
+<p>Records are generally create as collections in <a href="#isilib.RecordCollection">Recordcollections</a>, and not as individual objects. If you wish to create one on its own it is possible, the arguments are as follows.</p>
 <h5 id="parameters-1">Parameters</h5>
 <p><em>inRecord</em>: <code>files stream, dict, str or itertools.chain</code></p>
 <blockquote>
@@ -113,15 +113,15 @@
 <p>For a str the input is the raw textual data of a single record in the WOS style, like the file stream it must start at the first tag and end in 'ER'.</p>
 </blockquote>
 <blockquote>
-<p>itertools.chain is treated identically to a file stream and is used by <a href="#isilib.RecordCollection">RecordCollections</a></p>
+<p>itertools.chain is treated identically to a file stream and is used by <a href="#isilib.RecordCollection">RecordCollections</a>.</p>
 </blockquote>
 <p><em>sFile</em> : <code>optional [str]</code></p>
 <blockquote>
-<p>Is the name of the file the raw data was in, by default it is blank. Mostly used to make error messages more informative.</p>
+<p>Is the name of the file the raw data was in, by default it is blank. It is mostly used to make error messages more informative.</p>
 </blockquote>
 <p><em>sLine</em> : <code>optional [int]</code></p>
 <blockquote>
-<p>Is the line the record starts on in the raw data file. Mostly used to make error messages more informative.</p>
+<p>Is the line the record starts on in the raw data file. It is mostly used to make error messages more informative.</p>
 </blockquote>
 </blockquote>
 <p><a name="Record.activeTags"></a>Record.<strong>activeTags</strong>():</p>
@@ -139,21 +139,21 @@
 <h5 id="returns-4">Returns</h5>
 <p><code>Citation</code></p>
 <blockquote>
-<p>A <a href="#isilib.Citation">Citation</a> object containing a citation for the Record</p>
+<p>A <a href="#isilib.Citation">Citation</a> object containing a citation for the Record.</p>
 </blockquote>
 </blockquote>
 <p><a name="Record.getTag"></a>Record.<strong>getTag</strong>(<em>tag</em>):</p>
 <blockquote>
-<p>returns a list containing the raw data of the record associated with tag. Each line of the record is one string in the list.</p>
+<p>Returns a list containing the raw data of the record associated with <em>tag</em>. Each line of the record is one string in the list.</p>
 <h5 id="parameters-2">Parameters</h5>
 <p><em>tag</em> : <code>str</code></p>
 <blockquote>
-<p>tag can be a two character string corresponding to a WOS tag e.g. 'J9', the matching is case insensitive so 'j9' is the same as 'J9'. Or it can be one of the full names for a tag with the mappings in <a href="#isilib">fullToTag</a>. If the string is not found in the original record or after being translated though <a href="#isilib">fullToTag</a>, <code>None</code> is returned.</p>
+<p><em>tag</em> can be a two character string corresponding to a WOS tag e.g. 'J9', the matching is case insensitive so 'j9' is the same as 'J9'. Or it can be one of the full names for a tag with the mappings in <a href="#isilib">fullToTag</a>. If the string is not found in the original record or after being translated through <a href="#isilib">fullToTag</a>, <code>None</code> is returned.</p>
 </blockquote>
 <h5 id="returns-5">Returns</h5>
 <p><code>List [str]</code></p>
 <blockquote>
-<p>each string in the list is a line from the record associated with <em>tag</em> or None id not found</p>
+<p>Each string in the list is a line from the record associated with <em>tag</em> or None if not found.</p>
 </blockquote>
 </blockquote>
 <p><a name="Record.getTagsDict"></a>Record.<strong>getTagsDict</strong>(<em>taglst</em>):</p>
@@ -162,7 +162,7 @@
 <h5 id="parameters-3">Parameters</h5>
 <p><em>taglst</em> : <code>List[str]</code></p>
 <blockquote>
-<p>Each string in <em>taglst</em> can be a two character string corresponding to a WOS tag e.g. 'J9', the matching is case insensitive so 'j9' is the same as 'J9'. Or it can be one of the full names for a tag with the mappings in <a href="#isilib">fullToTag</a>. If the string is not found in the oriagnal record before or after being translated though <a href="#isilib">fullToTag</a>, <code>None</code> is used instead. Same as in <a href="#Record.getTag"><code>getTag()</code></a></p>
+<p>Each string in <em>taglst</em> can be a two character string corresponding to a WOS tag e.g. 'J9', the matching is case insensitive so 'j9' is the same as 'J9'. Or it can be one of the full names for a tag with the mappings in <a href="#isilib">fullToTag</a>. If the string is not found in the oriagnal record before or after being translated through <a href="#isilib">fullToTag</a>, <code>None</code> is used instead. Same as in <a href="#Record.getTag"><code>getTag()</code></a></p>
 </blockquote>
 <h5 id="returns-6">Returns</h5>
 <p><code>dict[str : List [str]]</code></p>
@@ -176,7 +176,7 @@
 <h5 id="parameters-4">Parameters</h5>
 <p><em>taglst</em> : <code>List[str]</code></p>
 <blockquote>
-<p>Each string in <em>taglst</em> can be a two character string corresponding to a WOS tag e.g. 'J9', the matching is case insensitive so 'j9' is the same as 'J9'. Or it can be one of the full names for a tag with the mappings in <a href="#isilib">fullToTag</a>. If the string is not found in the original record before or after being translated though <a href="#isilib">fullToTag</a>, <code>None</code> is used instead. Same as in <a href="#Record.getTag"><code>getTag()</code></a></p>
+<p>Each string in <em>taglst</em> can be a two character string corresponding to a WOS tag e.g. 'J9', the matching is case insensitive so 'j9' is the same as 'J9'. Or it can be one of the full names for a tag with the mappings in <a href="#isilib">fullToTag</a>. If the string is not found in the original record before or after being translated through <a href="#isilib">fullToTag</a>, <code>None</code> is used instead. Same as in <a href="#Record.getTag"><code>getTag()</code></a></p>
 </blockquote>
 <blockquote>
 <p>Then they are compiled into a list in the same order as <em>taglst</em></p>
@@ -189,7 +189,7 @@
 </blockquote>
 <p><a name="Record.writeRecord"></a>Record.<strong>writeRecord</strong>(<em>infile</em>):</p>
 <blockquote>
-<p>writes to <em>infile</em> the original contents of the Record. This is intended for use by <a href="#isilib.RecordCollection">RecordCollections</a> to write to file. What is written to <em>infile</em> is bit for bit identical to the original record file. No newline is inserted above the write but the last character is a newline.</p>
+<p>Writes to <em>infile</em> the original contents of the Record. This is intended for use by <a href="#isilib.RecordCollection">RecordCollections</a> to write to file. What is written to <em>infile</em> is bit for bit identical to the original record file. No newline is inserted above the write but the last character is a newline.</p>
 <h5 id="parameters-5">Parameters</h5>
 <p><em>infile</em> : <code>file stream</code></p>
 <blockquote>
@@ -312,21 +312,21 @@
 <hr />
 <p><a name="isilib.recordParser"></a>isilib.<strong>recordParser</strong>(<em>paper</em>):</p>
 <blockquote>
-<p>reads the file <em>paper</em> until it reaches 'ER'.</p>
+<p>Reads the file <em>paper</em> until it reaches 'ER'.</p>
 <p>For each field tag it adds an entry to the returned dict with the tag as the key and a list of the entries as the value, the list has each line separately, so for the following string in a record:</p>
 <p>&quot;AF BREVIK, I</p>
 <p>ANICIN, B&quot;</p>
-<p>the entry in the returned dict would be <code>{'AF' : [&quot;BREVIK, I&quot;, &quot;ANICIN, B&quot;]}</code></p>
+<p>The entry in the returned dict would be <code>{'AF' : [&quot;BREVIK, I&quot;, &quot;ANICIN, B&quot;]}</code></p>
 <p><a href="#isilib.Record">Record</a> objects can be created with these dictionaries as the initializer.</p>
 <h5 id="parameters-6">Parameters</h5>
 <p><em>paper</em> : <code>file stream</code></p>
 <blockquote>
-<p>an open file, with the current line at the beginning of the record</p>
+<p>An open file, with the current line at the beginning of the record.</p>
 </blockquote>
 <h5 id="returns-8">Returns</h5>
 <p><code>dict[str : List[str]]</code></p>
 <blockquote>
-<p>a dictionary mapping WOS tags to lists, the lists are of strings, each string is a line of the record associated with the tag.</p>
+<p>A dictionary mapping WOS tags to lists, the lists are of strings, each string is a line of the record associated with the tag.</p>
 </blockquote>
 </blockquote>
 <hr />

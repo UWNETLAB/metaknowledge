@@ -29,9 +29,18 @@ def cleanargs(obj):
 
 def cleanedDoc(obj, lvl):
     ds = inspect.getdoc(obj)
-    ds = ds.replace('\n', '\n')
-    ds = ds.replace('# ', '#' * lvl + '# ')
-    return '>{}\n\n'.format(ds)
+    lns = ds.split('\n')
+    nds = ''
+    for line in lns:
+        if len(line) < 1:
+            nds += '\n'
+        elif line[0] == '#':
+            nds += '#' * lvl + line + '\n'
+        elif line[0] == '>':
+            nds += "&nbsp;" * 12 + line[1:] + '\n'
+        else:
+            nds += "&nbsp;" * 6 + line + '\n'
+    return '{}\n\n'.format(nds)
 
 def writeFunc(fn, f, prefix = 'isilib.', level = 4):
     #print("Writing {0}{1}".format(prefix, fn[0]))

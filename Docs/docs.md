@@ -262,10 +262,57 @@ title: isilib Docs
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;extension controls the extension that __init__ looks for when reading a directory, set it to the extension on the isi files you wish to load, if left blank all files will be tried and any that are not isi files will be silently skipped
 
+##### \_\_Init\_\_
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RecordCollections are made from either a single file or directory supplied as _inCollection_.
+
+##### Parameters
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_inCollection_ : `optional [str] or None`
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; the name of the source of WOS records. It can be skipped to produce an empty collection.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; If a file is provided. First it is checked to see if it is a WOS file (the header is checked). Then records are read from it one by one until the 'EF' string is found indicating the end of the file.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; If a directory is provided. First each file in the directory is checked for the correct header and all those that do are then read like indivual files. The records are then collected into a single set in the RecordCollection.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_name_ : `optional [str]`
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; The name of the RecordCollection, defaults to empty string. If left empty the name of the Record collection is set to the name of the file or directory used to create the collection. If provided the name id set to _name_
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_extension_ : `optional [str]`
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; The extension to search for when reading a directoy for files. _extension_ is the suffix searched for when a direcorty is read for files, by default it is empty so all files are read.
+
 
 <a name="RecordCollection.citationNetwork"></a>RecordCollection.**citationNetwork**(_dropAnon=True, authorship=False, extraInfo=True, weighted=True_):
 
-# Needs to be written
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a citation network for the RecordCollection.
+
+##### Parameters
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_dropAnon_ : `optional [bool]`
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; default `True`, if `True` citations labeled anonymous are removed from the network
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_authorship_ : `optional [bool]`
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; default `False`, wether to use author's names as the node ID or the whole citations, if `True` names are used if `False` hashes are used
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_extraInfo_ : `optional [bool]`
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; default `True`, wether the original citation string is added to the node as an extra value, if `True` it is
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_weighted_ : `optional [bool]`
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; default `True`, wether the edges are weighted. If `True` the edges are weighted by the number of citations.
+
+##### Returns
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`Networkx DiGraph`
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A networkx digraph with hashes as ID and citations as edges
+
 
 <a name="RecordCollection.citeFilter"></a>RecordCollection.**citeFilter**(_keyString='', field='all', reverse=False, caseSensitive=False_):
 
@@ -292,11 +339,43 @@ title: isilib Docs
 
 <a name="RecordCollection.coAuthNetwork"></a>RecordCollection.**coAuthNetwork**():
 
-# Needs to be written
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a coauthorship network for the RecordCollection.
+
+##### Returns
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`Networkx Graph`
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A networkx graph with author names as nodes and collaborations as edges.
+
 
 <a name="RecordCollection.coCiteNetwork"></a>RecordCollection.**coCiteNetwork**(_dropAnon=True, authorship=False, extraInfo=True, weighted=True_):
 
-# Needs to be written
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a co-citation network for the RecordCollection.
+
+##### Parameters
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_dropAnon_ : `optional [bool]`
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; default `True`, if `True` citations labeled anonymous are removed from the network
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_authorship_ : `optional [bool]`
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; default `False`, wether to use author's names as the node ID or the whole citations, if `True` names are used if `False` hashes are used
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_extraInfo_ : `optional [bool]`
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; default `True`, wether the original citation string is added to the node as an extra value, if `True` it is
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_weighted_ : `optional [bool]`
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; default `True`, wether the edges are weighted. If `True` the edges are weighted by the number of occurrences of the co-citation.
+
+##### Returns
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`Networkx Graph`
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A networkx graph with hashes as ID and co-citation as edges
+
 
 <a name="RecordCollection.dropBadRecords"></a>RecordCollection.**dropBadRecords**():
 

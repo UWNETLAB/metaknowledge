@@ -255,6 +255,7 @@ class Record(object):
         """Returns a list containing the raw data of the record associated with _tag_. Each line of the record is one string in the list.
 
         # Parameters
+
         _tag_ : `str`
 
         > _tag_ can be a two character string corresponding to a WOS tag e.g. 'J9', the matching is case insensitive so 'j9' is the same as 'J9'. Or it can be one of the full names for a tag with the mappings in [fullToTag](#isilib). If the string is not found in the original record or after being translated through [fullToTag](#isilib), `None` is returned.

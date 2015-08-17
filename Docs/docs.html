@@ -132,8 +132,31 @@
 <p>      inCollection is the object containing the information about the Records to be constructed it can be an isi file, string, list of records or directory containing isi files</p>
 <p>      name sets the name of the of the record if left blank name will be generated based on the object that created the Recordcollection</p>
 <p>      extension controls the extension that <strong>init</strong> looks for when reading a directory, set it to the extension on the isi files you wish to load, if left blank all files will be tried and any that are not isi files will be silently skipped</p>
+<h5 id="init__-2">__Init__</h5>
+<p>      RecordCollections are made from either a single file or directory supplied as <em>inCollection</em>.</p>
+<h5 id="parameters-6">Parameters</h5>
+<p>      <em>inCollection</em> : <code>optional [str] or None</code></p>
+<p>             the name of the source of WOS records. It can be skipped to produce an empty collection.</p>
+<p>             If a file is provided. First it is checked to see if it is a WOS file (the header is checked). Then records are read from it one by one until the 'EF' string is found indicating the end of the file.</p>
+<p>             If a directory is provided. First each file in the directory is checked for the correct header and all those that do are then read like indivual files. The records are then collected into a single set in the RecordCollection.</p>
+<p>      <em>name</em> : <code>optional [str]</code></p>
+<p>             The name of the RecordCollection, defaults to empty string. If left empty the name of the Record collection is set to the name of the file or directory used to create the collection. If provided the name id set to <em>name</em></p>
+<p>      <em>extension</em> : <code>optional [str]</code></p>
+<p>             The extension to search for when reading a directoy for files. <em>extension</em> is the suffix searched for when a direcorty is read for files, by default it is empty so all files are read.</p>
 <p><a name="RecordCollection.citationNetwork"></a>RecordCollection.<strong>citationNetwork</strong>(<em>dropAnon=True, authorship=False, extraInfo=True, weighted=True</em>):</p>
-<h1 id="needs-to-be-written">Needs to be written</h1>
+<p>      Creates a citation network for the RecordCollection.</p>
+<h5 id="parameters-7">Parameters</h5>
+<p>      <em>dropAnon</em> : <code>optional [bool]</code></p>
+<p>             default <code>True</code>, if <code>True</code> citations labeled anonymous are removed from the network</p>
+<p>      <em>authorship</em> : <code>optional [bool]</code></p>
+<p>             default <code>False</code>, wether to use author's names as the node ID or the whole citations, if <code>True</code> names are used if <code>False</code> hashes are used</p>
+<p>      <em>extraInfo</em> : <code>optional [bool]</code></p>
+<p>             default <code>True</code>, wether the original citation string is added to the node as an extra value, if <code>True</code> it is</p>
+<p>      <em>weighted</em> : <code>optional [bool]</code></p>
+<p>             default <code>True</code>, wether the edges are weighted. If <code>True</code> the edges are weighted by the number of citations.</p>
+<h5 id="returns-8">Returns</h5>
+<p>      <code>Networkx DiGraph</code></p>
+<p>             A networkx digraph with hashes as ID and citations as edges</p>
 <p><a name="RecordCollection.citeFilter"></a>RecordCollection.<strong>citeFilter</strong>(<em>keyString='', field='all', reverse=False, caseSensitive=False</em>):</p>
 <p>      Filters Records by some string, keyString, in all of their citations.       Returns all Records with at least one citation possessing keyString in the field given by field.</p>
 <p>      keyString give the string to be searched for if it is is blank then all citations with the specified field will be matched</p>
@@ -141,25 +164,40 @@
 <p>      reverse being True causes all Records not matching the query to be returned, default is False</p>
 <p>      caseSensitive if True causes the search across the original to be case sensitive, only the 'all' option can be case sensitive</p>
 <p><a name="RecordCollection.coAuthNetwork"></a>RecordCollection.<strong>coAuthNetwork</strong>():</p>
-<h1 id="needs-to-be-written-1">Needs to be written</h1>
+<p>      Creates a coauthorship network for the RecordCollection.</p>
+<h5 id="returns-9">Returns</h5>
+<p>      <code>Networkx Graph</code></p>
+<p>             A networkx graph with author names as nodes and collaborations as edges.</p>
 <p><a name="RecordCollection.coCiteNetwork"></a>RecordCollection.<strong>coCiteNetwork</strong>(<em>dropAnon=True, authorship=False, extraInfo=True, weighted=True</em>):</p>
-<h1 id="needs-to-be-written-2">Needs to be written</h1>
+<p>      Creates a co-citation network for the RecordCollection.</p>
+<h5 id="parameters-8">Parameters</h5>
+<p>      <em>dropAnon</em> : <code>optional [bool]</code></p>
+<p>             default <code>True</code>, if <code>True</code> citations labeled anonymous are removed from the network</p>
+<p>      <em>authorship</em> : <code>optional [bool]</code></p>
+<p>             default <code>False</code>, wether to use author's names as the node ID or the whole citations, if <code>True</code> names are used if <code>False</code> hashes are used</p>
+<p>      <em>extraInfo</em> : <code>optional [bool]</code></p>
+<p>             default <code>True</code>, wether the original citation string is added to the node as an extra value, if <code>True</code> it is</p>
+<p>      <em>weighted</em> : <code>optional [bool]</code></p>
+<p>             default <code>True</code>, wether the edges are weighted. If <code>True</code> the edges are weighted by the number of occurrences of the co-citation.</p>
+<h5 id="returns-10">Returns</h5>
+<p>      <code>Networkx Graph</code></p>
+<p>             A networkx graph with hashes as ID and co-citation as edges</p>
 <p><a name="RecordCollection.dropBadRecords"></a>RecordCollection.<strong>dropBadRecords</strong>():</p>
 <p>      Removes all Records with bad attributes == True from the collection</p>
 <p><a name="RecordCollection.extractTagged"></a>RecordCollection.<strong>extractTagged</strong>(<em>taglist</em>):</p>
-<h1 id="needs-to-be-written-3">Needs to be written</h1>
+<h1 id="needs-to-be-written">Needs to be written</h1>
 <p><a name="RecordCollection.getBadRecords"></a>RecordCollection.<strong>getBadRecords</strong>():</p>
 <p>      returns RecordCollection containing all the Record which have their bad flag set to True, i.e. all those removed by dropBadRecords()</p>
 <p><a name="RecordCollection.nModeNetwork"></a>RecordCollection.<strong>nModeNetwork</strong>(<em>tags, recordType=True, nodeCount=True, edgeWeight=True</em>):</p>
-<h1 id="needs-to-be-written-4">Needs to be written</h1>
+<h1 id="needs-to-be-written-1">Needs to be written</h1>
 <p><a name="RecordCollection.oneModeNetwork"></a>RecordCollection.<strong>oneModeNetwork</strong>(<em>mode, nodeCount=True, edgeWeight=True</em>):</p>
-<h1 id="needs-to-be-written-5">Needs to be written</h1>
+<h1 id="needs-to-be-written-2">Needs to be written</h1>
 <p><a name="RecordCollection.peak"></a>RecordCollection.<strong>peak</strong>():</p>
 <p>      Returns a random Record from the recordCollection, the Record is kept in the collection, use pop for faster destructive access</p>
 <p><a name="RecordCollection.pop"></a>RecordCollection.<strong>pop</strong>():</p>
 <p>      Returns a random Record from the recordCollection, the Record is deleted from the collection, use peak for nondestructive access</p>
 <p><a name="RecordCollection.twoModeNetwork"></a>RecordCollection.<strong>twoModeNetwork</strong>(<em>tag1, tag2, directed=False, recordType=True, nodeCount=True, edgeWeight=True</em>):</p>
-<h1 id="needs-to-be-written-6">Needs to be written</h1>
+<h1 id="needs-to-be-written-3">Needs to be written</h1>
 <p><a name="RecordCollection.writeCSV"></a>RecordCollection.<strong>writeCSV</strong>(<em>fname=None, onlyTheseTags=None, longNames=False, firstTags=['UT', 'PT', 'TI', 'AF', 'CR'], csvDelimiter=',', csvQuote='&quot;', listDelimiter='|'</em>):</p>
 <p>      Writes all the Records from the collection into a csv file with each row a record and each column a tag</p>
 <p>      fname is the name of the file to write to, if none is given it uses the Collections name suffixed by .csv</p>
@@ -173,13 +211,13 @@
 <p>      Writes the RecordCollection to a file, the written file is identical to those download from WOS. The order of Records written is random.</p>
 <p>      fname set the name of the file, if blank the RecordCollection's name's first 200 characters are use with the suffix .isi</p>
 <p><a name="RecordCollection.yearSplit"></a>RecordCollection.<strong>yearSplit</strong>(<em>startYear, endYear</em>):</p>
-<h1 id="needs-to-be-written-7">Needs to be written</h1>
+<h1 id="needs-to-be-written-4">Needs to be written</h1>
 <h2 id="functions">Functions</h2>
 <p><a name="isilib.blondel"></a>isilib.<strong>blondel</strong>(<em>G, weightParameter=None, communityParameter='community'</em>):</p>
-<h1 id="needs-to-be-written-8">Needs to be written</h1>
+<h1 id="needs-to-be-written-5">Needs to be written</h1>
 <hr />
 <p><a name="isilib.btest"></a>isilib.<strong>btest</strong>(<em>quite=False</em>):</p>
-<h1 id="needs-to-be-written-9">Needs to be written</h1>
+<h1 id="needs-to-be-written-6">Needs to be written</h1>
 <hr />
 <p><a name="isilib.drop_edges"></a>isilib.<strong>drop_edges</strong>(<em>grph, minWeight=-inf, maxWeight=inf, parameterName='weight', ignoreUnweighted=False</em>):</p>
 <p>      Returns a graph with edges whose weight is within the inclusive bounds of minWeight and maxWeight, i.e minWeight &lt;= edges weight &lt;= maxWeight, will throw a Keyerror if the graph is unweighted</p>
@@ -217,10 +255,10 @@
 <p>       ANICIN, B&quot;</p>
 <p>      The entry in the returned dict would be <code>{'AF' : [&quot;BREVIK, I&quot;, &quot;ANICIN, B&quot;]}</code></p>
 <p>      <a href="#isilib.Record">Record</a> objects can be created with these dictionaries as the initializer.</p>
-<h5 id="parameters-6">Parameters</h5>
+<h5 id="parameters-9">Parameters</h5>
 <p>      <em>paper</em> : <code>file stream</code></p>
 <p>             An open file, with the current line at the beginning of the record.</p>
-<h5 id="returns-8">Returns</h5>
+<h5 id="returns-11">Returns</h5>
 <p>      <code>dict[str : List[str]]</code></p>
 <p>             A dictionary mapping WOS tags to lists, the lists are of strings, each string is a line of the record associated with the tag.</p>
 <hr />

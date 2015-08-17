@@ -24,6 +24,28 @@ class RecordCollection(object):
     name sets the name of the of the record if left blank name will be generated based on the object that created the Recordcollection
 
     extension controls the extension that __init__ looks for when reading a directory, set it to the extension on the isi files you wish to load, if left blank all files will be tried and any that are not isi files will be silently skipped
+
+    # \_\_Init\_\_
+
+    RecordCollections are made from either a single file or directory supplied as _inCollection_.
+
+    # Parameters
+
+    _inCollection_ : `optional [str] or None`
+
+    > the name of the source of WOS records. It can be skipped to produce an empty collection.
+
+    > If a file is provided. First it is checked to see if it is a WOS file (the header is checked). Then records are read from it one by one until the 'EF' string is found indicating the end of the file.
+
+    > If a directory is provided. First each file in the directory is checked for the correct header and all those that do are then read like indivual files. The records are then collected into a single set in the RecordCollection.
+
+    _name_ : `optional [str]`
+
+    > The name of the RecordCollection, defaults to empty string. If left empty the name of the Record collection is set to the name of the file or directory used to create the collection. If provided the name id set to _name_
+
+    _extension_ : `optional [str]`
+
+    > The extension to search for when reading a directoy for files. _extension_ is the suffix searched for when a direcorty is read for files, by default it is empty so all files are read.
     """
 
     def __init__(self, inCollection = None, name = '', extension = ''):
@@ -322,6 +344,16 @@ class RecordCollection(object):
 
 
     def coAuthNetwork(self):
+        """Creates a coauthorship network for the RecordCollection.
+
+        # Returns
+
+        `Networkx Graph`
+
+        > A networkx graph with author names as nodes and collaborations as edges.
+        """
+
+
         grph = nx.Graph()
         if isilib.VERBOSE_MODE:
             PBar = _ProgressBar(0, "Starting to make a co-authorship network")
@@ -358,6 +390,33 @@ class RecordCollection(object):
         return grph
 
     def coCiteNetwork(self, dropAnon = True, authorship = False, extraInfo = True, weighted = True):
+        """Creates a co-citation network for the RecordCollection.
+
+        # Parameters
+
+        _dropAnon_ : `optional [bool]`
+
+        > default `True`, if `True` citations labeled anonymous are removed from the network
+
+        _authorship_ : `optional [bool]`
+
+        > default `False`, wether to use author's names as the node ID or the whole citations, if `True` names are used if `False` hashes are used
+
+        _extraInfo_ : `optional [bool]`
+
+        > default `True`, wether the original citation string is added to the node as an extra value, if `True` it is
+
+        _weighted_ : `optional [bool]`
+
+        > default `True`, wether the edges are weighted. If `True` the edges are weighted by the number of occurrences of the co-citation.
+
+        # Returns
+
+        `Networkx Graph`
+
+        > A networkx graph with hashes as ID and co-citation as edges
+        """
+
         tmpgrph = nx.Graph()
         if isilib.VERBOSE_MODE:
             PBar = _ProgressBar(0, "Starting to make a co-citation network")
@@ -427,6 +486,34 @@ class RecordCollection(object):
         return tmpgrph
 
     def citationNetwork(self, dropAnon = True, authorship = False, extraInfo = True, weighted = True):
+
+        """Creates a citation network for the RecordCollection.
+
+        # Parameters
+
+        _dropAnon_ : `optional [bool]`
+
+        > default `True`, if `True` citations labeled anonymous are removed from the network
+
+        _authorship_ : `optional [bool]`
+
+        > default `False`, wether to use author's names as the node ID or the whole citations, if `True` names are used if `False` hashes are used
+
+        _extraInfo_ : `optional [bool]`
+
+        > default `True`, wether the original citation string is added to the node as an extra value, if `True` it is
+
+        _weighted_ : `optional [bool]`
+
+        > default `True`, wether the edges are weighted. If `True` the edges are weighted by the number of citations.
+
+        # Returns
+
+        `Networkx DiGraph`
+
+        > A networkx digraph with hashes as ID and citations as edges
+        """
+
         tmpgrph = nx.DiGraph()
         if isilib.VERBOSE_MODE:
             PBar = _ProgressBar(0, "Starting to make a citation network")

@@ -5,7 +5,8 @@ from .citation import Citation
 
 def pubType(val):
     """
-    retunrs the type of publication as a character: conference, book, journal, book in series, or patent
+    returns the type of publication as a character: conference, book, journal, book in series, or patent
+
     PT tag
     """
     return val[0]
@@ -14,6 +15,7 @@ def pubType(val):
 def authorsFull(val):
     """
     returns a list of authors full names
+
     AF tag
     """
     return val
@@ -21,6 +23,7 @@ def authorsFull(val):
 def group(val):
     """
     returns the group associated with the Record
+
     GP tag
     """
     return val[0]
@@ -28,6 +31,7 @@ def group(val):
 def editedBy(val):
     """
     returns a list of the editors of the Record
+
     BE tag
     """
     return val
@@ -35,6 +39,7 @@ def editedBy(val):
 def authorsShort(val):
     """
     returns a list of authors shortened names
+
     AU tag
     """
     return val
@@ -42,6 +47,7 @@ def authorsShort(val):
 def bookAuthor(val):
     """
     returns a list of the short names of the authors of a book Record
+
     BA tag
     """
     return val
@@ -49,6 +55,7 @@ def bookAuthor(val):
 def bookAuthorFull(val):
     """
     returns a list of the long names of the authors of a book Record
+
     BF tag
     """
     return val
@@ -56,6 +63,7 @@ def bookAuthorFull(val):
 def groupName(val):
     """
     returns the name of the group associated with the Record
+
     CA tag
     """
     return val[0]
@@ -63,20 +71,21 @@ def groupName(val):
 def title(val):
     """
     returns the title of the record
+
     TI tag
     """
     return ' '.join(val)
 
 def editors(val):
     """
-
-    ED
+    # Needs Work
     """
     return val
 
 def journal(val):
     """
     returns the full name of the publication
+
     SO tag
     """
     return ' '.join(val)
@@ -84,6 +93,7 @@ def journal(val):
 def seriesTitle(val):
     """
     returns the title of the series the Record is in
+
     SE tag
     """
     return val[0]
@@ -91,6 +101,7 @@ def seriesTitle(val):
 def seriesSubtitle(val):
     """
     returns the title of the series the Record is in
+
     BS tag
     """
     return val[0]
@@ -98,6 +109,7 @@ def seriesSubtitle(val):
 def language(val):
     """
     returns the languages of the Record as a string with languages seperated by ', ', usually there is only one language
+
     LA tag
     """
     return ', '.join(val)
@@ -105,6 +117,7 @@ def language(val):
 def docType(val):
     """
     returns the type of document the Record contains
+
     DT tag
     """
     return val[0]
@@ -112,6 +125,7 @@ def docType(val):
 def confTitle(val):
     """
     returns the title of the conference associated with the Record
+
     CT tag
     """
     return ' '.join(val)
@@ -119,6 +133,7 @@ def confTitle(val):
 def confDate(val):
     """
     returns the date string of the conference associated with the Record
+
     CY tag
     """
     return val[0]
@@ -126,6 +141,7 @@ def confDate(val):
 def confSponsors(val):
     """
     returns a list of sponsors for the conference associated with the record
+
     SP tag
     """
     return ', '.join(val).split(', ')
@@ -133,6 +149,7 @@ def confSponsors(val):
 def wosTimesCited(val):
     """
     returns the number of times the Record has been cited byr records in WOS
+
     TC tag
     """
     return int(val[0])
@@ -147,6 +164,7 @@ def authAddress(val):
 def confLocation(val):
     """
     returns the sting giving the confrence's location
+
     CL tag
     """
     return ' '.join(val)
@@ -154,6 +172,7 @@ def confLocation(val):
 def j9(val):
     """
     returns the J9 (29-Character Source Abbreviation) of the publication
+
     J9 tag
     """
     return val[0]
@@ -161,6 +180,7 @@ def j9(val):
 def funding(val):
     """
     Returns a list of the groups funding the Record
+
     FU tag
     """
     return ' '.join(val).split('; ')
@@ -168,6 +188,7 @@ def funding(val):
 def subjectCategory(val):
     """
     returns a list of the subjects associated with the Record
+
     SC tag
     """
     return ' '.join(val).split('; ')
@@ -175,6 +196,7 @@ def subjectCategory(val):
 def citations(val):
     """
     returns a list of all the citations in the record
+
     CR tag
     """
     retCites = []
@@ -185,6 +207,7 @@ def citations(val):
 def publisherCity(val):
     """
     Returns the city the publisher is in
+
     PI tag
     """
     return ' '.join(val).upper()
@@ -192,6 +215,7 @@ def publisherCity(val):
 def ISSN(val):
     """
     returns the ISSN of the Record
+
     SN tag
     """
     return val[0]
@@ -199,6 +223,7 @@ def ISSN(val):
 def articleNumber(val):
     """
     returns a string giving the article number, not all are integers
+
     AR tag
     """
     return val[0]
@@ -206,6 +231,7 @@ def articleNumber(val):
 def issue(val):
     """
     returns a string giving the issue or range of issues the Record was in
+
     IS tag
     """
     return val[0]
@@ -213,6 +239,7 @@ def issue(val):
 def email(val):
     """
     returns a list of emails given by the authors of the Record
+
     EM tag
     """
     return ' '.join(val).split('; ')
@@ -220,6 +247,7 @@ def email(val):
 def eISSN(val):
     """
     returns the EISSN of the Record
+
     EI tag
     """
     return val[0]
@@ -227,13 +255,15 @@ def eISSN(val):
 def DOI(val):
     """
     return the DOI number of the record
+
     DI tag
     """
     return val[0]
 
 def wosString(val):
     """
-    returns the WOS number of the record as a string preceded by "WOS:""
+    returns the WOS number of the record as a string preceded by "WOS:"
+
     UT tag
     """
     return val[0]
@@ -241,6 +271,7 @@ def wosString(val):
 def orcID(val):
     """
     returns a list of orc IDs of the Record
+
     OI tag
     """
     return ' '.join(val).split('; ')
@@ -248,6 +279,7 @@ def orcID(val):
 def meetingAbstract(val):
     """
     returns the ID of the meeting abstract prefixed by 'EPA-'
+
     MA tag
     """
     return val[0]
@@ -255,6 +287,7 @@ def meetingAbstract(val):
 def isoAbbreviation(val):
     """
     returns the iso abbreviation of the journal
+
     JI tag
     """
     return ' '.join(val).upper()
@@ -262,6 +295,7 @@ def isoAbbreviation(val):
 def pageCount(val):
     """
     returns an interger giving the number of pages of the Record
+
     PG tag
     """
     return int(val[0])
@@ -269,6 +303,7 @@ def pageCount(val):
 def publisher(val):
     """
     returns the publisher of the Record
+
     PU tag
     """
     return ' '.join(val).upper()
@@ -276,6 +311,7 @@ def publisher(val):
 def ISBN(val):
     """
     returns a list of ISBNs assocaited with the Record
+
     BN tag
     """
     return ' '.join(val).split('; ')
@@ -283,13 +319,15 @@ def ISBN(val):
 def month(val):
     """
     returns the month the record was published in as an int with January as 1, February 2, ...
+
     PD tag
     """
     return getMonth(val[0])
 
 def fundingText(val):
     """
-    Returns a string of the funding thank you
+    Returns a string of the funding thanks
+
     FX tag
     """
     return ' '.join(val)
@@ -297,6 +335,7 @@ def fundingText(val):
 def bookDOI(val):
     """
     returns the book DOI of the Record
+
     D2 tag
     """
     return val[0]
@@ -304,6 +343,7 @@ def bookDOI(val):
 def volume(val):
     """
     return the volume the record is in as a string not an int
+
     VL tag
     """
     return val[0].strip()
@@ -311,6 +351,7 @@ def volume(val):
 def ResearcherIDnumber(val):
     """
     returns a lsit of the research ids of the Record
+
     RI tag
     """
     return ' '.join(val).split('; ')
@@ -318,6 +359,7 @@ def ResearcherIDnumber(val):
 def citedRefsCount(val):
     """
     returns the numer citations, length of CR list
+
     NR tag
     """
     return int(val[0])
@@ -325,6 +367,7 @@ def citedRefsCount(val):
 def beginningPage(val):
     """
     returns the first page the record occurs on as a string not an int
+
     BP tag
     """
     return val[0].strip()
@@ -332,6 +375,7 @@ def beginningPage(val):
 def abstract(val):
     """
     return abstract of the record, with newlines hopefully in the correct places
+
     AB tag
     """
     return '\n'.join(val)
@@ -339,6 +383,7 @@ def abstract(val):
 def supplement(val):
     """
     returns the supplemtn number
+
     SU tag
     """
     return ' '.join(val)
@@ -346,6 +391,7 @@ def supplement(val):
 def confHost(val):
     """
     returns the host of the conference
+
     HO tag
     """
     return ' '.join(val)
@@ -353,6 +399,7 @@ def confHost(val):
 def publisherAddress(val):
     """
     returns the publishers address
+
     PA tag
     """
     return ' '.join(val)
@@ -360,6 +407,7 @@ def publisherAddress(val):
 def endingPage(val):
     """
     return the last page the record occurs on as a string not an int
+
     EP tag
     """
     return val[0].strip()
@@ -367,6 +415,7 @@ def endingPage(val):
 def year(val):
     """
     returns the year the record was published in as an int
+
     PY tag
     """
     yearField = val[0]
@@ -378,6 +427,7 @@ def year(val):
 def authKeyWords(val):
     """
     returns the keywords assigned by the author of the Record
+
     DE tag
     """
     return ' '.join(val).split('; ')
@@ -385,6 +435,7 @@ def authKeyWords(val):
 def reprintAddress(val):
     """
     returns the reprint address string
+
     RP tag
     """
     return val[0]
@@ -392,6 +443,7 @@ def reprintAddress(val):
 def totalTimesCited(val):
     """
     returns the total number of citations of the record
+
     Z9 tag
     """
     return int(val[0])
@@ -399,6 +451,7 @@ def totalTimesCited(val):
 def partNumber(val):
     """
     return an integer giving the part of the issue the Record is in
+
     PN tag
     """
     return int(val[0])
@@ -406,6 +459,7 @@ def partNumber(val):
 def specialIssue(val):
     """
     returns the special issue value
+
     SI tag
     """
     return val[0]
@@ -413,6 +467,7 @@ def specialIssue(val):
 def subjects(val):
     """
     returns a lsit of subjects as assigned by WOS
+
     WC tag
     """
     return ' '.join(val).split('; ')
@@ -420,6 +475,7 @@ def subjects(val):
 def keyWords(val):
     """
     returns the WOS keywords of the Record
+
     ID tag
     """
     return ' '.join(val).split('; ')
@@ -427,6 +483,7 @@ def keyWords(val):
 def pubMedID(val):
     """
     returns the pubmed idof the record
+
     PM tag
     """
     return val[0]
@@ -434,11 +491,15 @@ def pubMedID(val):
 def documentDeliveryNumber(val):
     """
     returns the document delivery number of the Record
+
     GA tag
     """
     return val[0]
 
 def makeReversed(d):
+    """
+    Simple function for reversing a dictionary
+    """
     dTmp = d.copy()
     for k in d.keys():
         try:

@@ -513,6 +513,7 @@ title: isilib Docs
 <a name="isilib.tagFuncs.DOI"></a>isilib.tagFuncs.**DOI**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return the DOI number of the record
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DI tag
 
 
@@ -521,6 +522,7 @@ title: isilib Docs
 <a name="isilib.tagFuncs.ISBN"></a>isilib.tagFuncs.**ISBN**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns a list of ISBNs assocaited with the Record
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BN tag
 
 
@@ -529,6 +531,7 @@ title: isilib Docs
 <a name="isilib.tagFuncs.ISSN"></a>isilib.tagFuncs.**ISSN**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns the ISSN of the Record
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SN tag
 
 
@@ -537,6 +540,7 @@ title: isilib Docs
 <a name="isilib.tagFuncs.ResearcherIDnumber"></a>isilib.tagFuncs.**ResearcherIDnumber**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns a lsit of the research ids of the Record
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RI tag
 
 
@@ -545,6 +549,7 @@ title: isilib Docs
 <a name="isilib.tagFuncs.abstract"></a>isilib.tagFuncs.**abstract**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return abstract of the record, with newlines hopefully in the correct places
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AB tag
 
 
@@ -553,6 +558,7 @@ title: isilib Docs
 <a name="isilib.tagFuncs.articleNumber"></a>isilib.tagFuncs.**articleNumber**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns a string giving the article number, not all are integers
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AR tag
 
 
@@ -568,6 +574,7 @@ title: isilib Docs
 <a name="isilib.tagFuncs.authKeyWords"></a>isilib.tagFuncs.**authKeyWords**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns the keywords assigned by the author of the Record
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DE tag
 
 
@@ -576,6 +583,7 @@ title: isilib Docs
 <a name="isilib.tagFuncs.authorsFull"></a>isilib.tagFuncs.**authorsFull**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns a list of authors full names
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AF tag
 
 
@@ -584,6 +592,7 @@ title: isilib Docs
 <a name="isilib.tagFuncs.authorsShort"></a>isilib.tagFuncs.**authorsShort**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns a list of authors shortened names
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AU tag
 
 
@@ -592,6 +601,7 @@ title: isilib Docs
 <a name="isilib.tagFuncs.beginningPage"></a>isilib.tagFuncs.**beginningPage**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns the first page the record occurs on as a string not an int
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BP tag
 
 
@@ -600,6 +610,7 @@ title: isilib Docs
 <a name="isilib.tagFuncs.bookAuthor"></a>isilib.tagFuncs.**bookAuthor**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns a list of the short names of the authors of a book Record
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BA tag
 
 
@@ -608,6 +619,7 @@ title: isilib Docs
 <a name="isilib.tagFuncs.bookAuthorFull"></a>isilib.tagFuncs.**bookAuthorFull**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns a list of the long names of the authors of a book Record
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BF tag
 
 
@@ -616,6 +628,7 @@ title: isilib Docs
 <a name="isilib.tagFuncs.bookDOI"></a>isilib.tagFuncs.**bookDOI**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns the book DOI of the Record
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;D2 tag
 
 
@@ -624,6 +637,7 @@ title: isilib Docs
 <a name="isilib.tagFuncs.citations"></a>isilib.tagFuncs.**citations**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns a list of all the citations in the record
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CR tag
 
 
@@ -632,6 +646,7 @@ title: isilib Docs
 <a name="isilib.tagFuncs.citedRefsCount"></a>isilib.tagFuncs.**citedRefsCount**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns the numer citations, length of CR list
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NR tag
 
 
@@ -640,6 +655,7 @@ title: isilib Docs
 <a name="isilib.tagFuncs.confDate"></a>isilib.tagFuncs.**confDate**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns the date string of the conference associated with the Record
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CY tag
 
 
@@ -648,6 +664,7 @@ title: isilib Docs
 <a name="isilib.tagFuncs.confHost"></a>isilib.tagFuncs.**confHost**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns the host of the conference
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HO tag
 
 
@@ -656,6 +673,7 @@ title: isilib Docs
 <a name="isilib.tagFuncs.confLocation"></a>isilib.tagFuncs.**confLocation**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns the sting giving the confrence's location
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CL tag
 
 
@@ -664,6 +682,7 @@ title: isilib Docs
 <a name="isilib.tagFuncs.confSponsors"></a>isilib.tagFuncs.**confSponsors**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns a list of sponsors for the conference associated with the record
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SP tag
 
 
@@ -672,6 +691,7 @@ title: isilib Docs
 <a name="isilib.tagFuncs.confTitle"></a>isilib.tagFuncs.**confTitle**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns the title of the conference associated with the Record
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CT tag
 
 
@@ -680,6 +700,7 @@ title: isilib Docs
 <a name="isilib.tagFuncs.docType"></a>isilib.tagFuncs.**docType**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns the type of document the Record contains
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DT tag
 
 
@@ -688,6 +709,7 @@ title: isilib Docs
 <a name="isilib.tagFuncs.documentDeliveryNumber"></a>isilib.tagFuncs.**documentDeliveryNumber**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns the document delivery number of the Record
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GA tag
 
 
@@ -696,6 +718,7 @@ title: isilib Docs
 <a name="isilib.tagFuncs.eISSN"></a>isilib.tagFuncs.**eISSN**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns the EISSN of the Record
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EI tag
 
 
@@ -704,6 +727,7 @@ title: isilib Docs
 <a name="isilib.tagFuncs.editedBy"></a>isilib.tagFuncs.**editedBy**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns a list of the editors of the Record
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BE tag
 
 
@@ -711,7 +735,7 @@ title: isilib Docs
 
 <a name="isilib.tagFuncs.editors"></a>isilib.tagFuncs.**editors**(_val_):
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ED
+##### Needs Work
 
 
 - - -
@@ -719,6 +743,7 @@ title: isilib Docs
 <a name="isilib.tagFuncs.email"></a>isilib.tagFuncs.**email**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns a list of emails given by the authors of the Record
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EM tag
 
 
@@ -727,6 +752,7 @@ title: isilib Docs
 <a name="isilib.tagFuncs.endingPage"></a>isilib.tagFuncs.**endingPage**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return the last page the record occurs on as a string not an int
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EP tag
 
 
@@ -735,6 +761,7 @@ title: isilib Docs
 <a name="isilib.tagFuncs.funding"></a>isilib.tagFuncs.**funding**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a list of the groups funding the Record
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FU tag
 
 
@@ -742,7 +769,8 @@ title: isilib Docs
 
 <a name="isilib.tagFuncs.fundingText"></a>isilib.tagFuncs.**fundingText**(_val_):
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a string of the funding thank you
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a string of the funding thanks
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FX tag
 
 
@@ -764,6 +792,7 @@ title: isilib Docs
 <a name="isilib.tagFuncs.group"></a>isilib.tagFuncs.**group**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns the group associated with the Record
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GP tag
 
 
@@ -772,6 +801,7 @@ title: isilib Docs
 <a name="isilib.tagFuncs.groupName"></a>isilib.tagFuncs.**groupName**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns the name of the group associated with the Record
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CA tag
 
 
@@ -780,6 +810,7 @@ title: isilib Docs
 <a name="isilib.tagFuncs.isoAbbreviation"></a>isilib.tagFuncs.**isoAbbreviation**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns the iso abbreviation of the journal
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JI tag
 
 
@@ -788,6 +819,7 @@ title: isilib Docs
 <a name="isilib.tagFuncs.issue"></a>isilib.tagFuncs.**issue**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns a string giving the issue or range of issues the Record was in
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IS tag
 
 
@@ -796,6 +828,7 @@ title: isilib Docs
 <a name="isilib.tagFuncs.j9"></a>isilib.tagFuncs.**j9**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns the J9 (29-Character Source Abbreviation) of the publication
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;J9 tag
 
 
@@ -804,6 +837,7 @@ title: isilib Docs
 <a name="isilib.tagFuncs.journal"></a>isilib.tagFuncs.**journal**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns the full name of the publication
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SO tag
 
 
@@ -812,6 +846,7 @@ title: isilib Docs
 <a name="isilib.tagFuncs.keyWords"></a>isilib.tagFuncs.**keyWords**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns the WOS keywords of the Record
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ID tag
 
 
@@ -820,6 +855,7 @@ title: isilib Docs
 <a name="isilib.tagFuncs.language"></a>isilib.tagFuncs.**language**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns the languages of the Record as a string with languages seperated by ', ', usually there is only one language
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LA tag
 
 
@@ -827,13 +863,15 @@ title: isilib Docs
 
 <a name="isilib.tagFuncs.makeReversed"></a>isilib.tagFuncs.**makeReversed**(_d_):
 
-# Needs to be written
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Simple function for reversing a dictionary
+
 
 - - -
 
 <a name="isilib.tagFuncs.meetingAbstract"></a>isilib.tagFuncs.**meetingAbstract**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns the ID of the meeting abstract prefixed by 'EPA-'
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MA tag
 
 
@@ -842,6 +880,7 @@ title: isilib Docs
 <a name="isilib.tagFuncs.month"></a>isilib.tagFuncs.**month**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns the month the record was published in as an int with January as 1, February 2, ...
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PD tag
 
 
@@ -850,6 +889,7 @@ title: isilib Docs
 <a name="isilib.tagFuncs.orcID"></a>isilib.tagFuncs.**orcID**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns a list of orc IDs of the Record
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OI tag
 
 
@@ -858,6 +898,7 @@ title: isilib Docs
 <a name="isilib.tagFuncs.pageCount"></a>isilib.tagFuncs.**pageCount**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns an interger giving the number of pages of the Record
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PG tag
 
 
@@ -866,6 +907,7 @@ title: isilib Docs
 <a name="isilib.tagFuncs.partNumber"></a>isilib.tagFuncs.**partNumber**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return an integer giving the part of the issue the Record is in
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PN tag
 
 
@@ -874,6 +916,7 @@ title: isilib Docs
 <a name="isilib.tagFuncs.pubMedID"></a>isilib.tagFuncs.**pubMedID**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns the pubmed idof the record
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PM tag
 
 
@@ -881,7 +924,8 @@ title: isilib Docs
 
 <a name="isilib.tagFuncs.pubType"></a>isilib.tagFuncs.**pubType**(_val_):
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;retunrs the type of publication as a character: conference, book, journal, book in series, or patent
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns the type of publication as a character: conference, book, journal, book in series, or patent
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PT tag
 
 
@@ -890,6 +934,7 @@ title: isilib Docs
 <a name="isilib.tagFuncs.publisher"></a>isilib.tagFuncs.**publisher**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns the publisher of the Record
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PU tag
 
 
@@ -898,6 +943,7 @@ title: isilib Docs
 <a name="isilib.tagFuncs.publisherAddress"></a>isilib.tagFuncs.**publisherAddress**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns the publishers address
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PA tag
 
 
@@ -906,6 +952,7 @@ title: isilib Docs
 <a name="isilib.tagFuncs.publisherCity"></a>isilib.tagFuncs.**publisherCity**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the city the publisher is in
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PI tag
 
 
@@ -914,6 +961,7 @@ title: isilib Docs
 <a name="isilib.tagFuncs.reprintAddress"></a>isilib.tagFuncs.**reprintAddress**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns the reprint address string
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RP tag
 
 
@@ -922,6 +970,7 @@ title: isilib Docs
 <a name="isilib.tagFuncs.seriesSubtitle"></a>isilib.tagFuncs.**seriesSubtitle**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns the title of the series the Record is in
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BS tag
 
 
@@ -930,6 +979,7 @@ title: isilib Docs
 <a name="isilib.tagFuncs.seriesTitle"></a>isilib.tagFuncs.**seriesTitle**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns the title of the series the Record is in
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SE tag
 
 
@@ -938,6 +988,7 @@ title: isilib Docs
 <a name="isilib.tagFuncs.specialIssue"></a>isilib.tagFuncs.**specialIssue**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns the special issue value
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SI tag
 
 
@@ -946,6 +997,7 @@ title: isilib Docs
 <a name="isilib.tagFuncs.subjectCategory"></a>isilib.tagFuncs.**subjectCategory**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns a list of the subjects associated with the Record
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SC tag
 
 
@@ -954,6 +1006,7 @@ title: isilib Docs
 <a name="isilib.tagFuncs.subjects"></a>isilib.tagFuncs.**subjects**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns a lsit of subjects as assigned by WOS
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WC tag
 
 
@@ -962,6 +1015,7 @@ title: isilib Docs
 <a name="isilib.tagFuncs.supplement"></a>isilib.tagFuncs.**supplement**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns the supplemtn number
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SU tag
 
 
@@ -970,6 +1024,7 @@ title: isilib Docs
 <a name="isilib.tagFuncs.title"></a>isilib.tagFuncs.**title**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns the title of the record
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TI tag
 
 
@@ -978,6 +1033,7 @@ title: isilib Docs
 <a name="isilib.tagFuncs.totalTimesCited"></a>isilib.tagFuncs.**totalTimesCited**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns the total number of citations of the record
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Z9 tag
 
 
@@ -986,6 +1042,7 @@ title: isilib Docs
 <a name="isilib.tagFuncs.volume"></a>isilib.tagFuncs.**volume**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return the volume the record is in as a string not an int
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VL tag
 
 
@@ -993,7 +1050,8 @@ title: isilib Docs
 
 <a name="isilib.tagFuncs.wosString"></a>isilib.tagFuncs.**wosString**(_val_):
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns the WOS number of the record as a string preceded by "WOS:""
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns the WOS number of the record as a string preceded by "WOS:"
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UT tag
 
 
@@ -1002,6 +1060,7 @@ title: isilib Docs
 <a name="isilib.tagFuncs.wosTimesCited"></a>isilib.tagFuncs.**wosTimesCited**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns the number of times the Record has been cited byr records in WOS
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TC tag
 
 
@@ -1010,6 +1069,7 @@ title: isilib Docs
 <a name="isilib.tagFuncs.year"></a>isilib.tagFuncs.**year**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns the year the record was published in as an int
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PY tag
 
 

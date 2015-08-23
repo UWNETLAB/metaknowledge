@@ -389,7 +389,7 @@ class RecordCollection(object):
             PBar.finish("Done making a co-authorship network")
         return grph
 
-    def coCiteNetwork(self, dropAnon = True, authorship = False, extraInfo = True, weighted = True):
+    def coCiteNetwork(self, dropAnon = True, nodeType = "full", extraInfo = True, weighted = True):
         """Creates a co-citation network for the RecordCollection.
 
         # Parameters
@@ -398,9 +398,9 @@ class RecordCollection(object):
 
         > default `True`, if `True` citations labeled anonymous are removed from the network
 
-        _authorship_ : `optional [bool]`
+        _nodeType : `optional [str]`
 
-        > default `False`, wether to use author's names as the node ID or the whole citations, if `True` names are used if `False` hashes are used
+        > default `Full`, can alos be "original", "author", "journal" or "year"
 
         _extraInfo_ : `optional [bool]`
 
@@ -416,14 +416,16 @@ class RecordCollection(object):
 
         > A networkx graph with hashes as ID and co-citation as edges
         """
-
+        allowedTypes = ["full", "original", "author", "journal", "year"]
+        if nodeType not in allowedTypes:
+            raise ValueError("{} is not an allowed nodeType.".format(nodeType))
         tmpgrph = nx.Graph()
         if isilib.VERBOSE_MODE:
             PBar = _ProgressBar(0, "Starting to make a co-citation network")
             count = 0
         else:
             PBar = None
-        if authorship:
+        if nodeType != allowedTypes[0]:
             for R in self:
                 if PBar:
                     count += 1
@@ -431,24 +433,24 @@ class RecordCollection(object):
                 Cites = R.citations
                 if Cites:
                     if dropAnon:
-                        Cites = [c for c in Cites if not c.isAnonymous() and hasattr(c, 'author')]
+                        filteredCites = [c for c in Cites if not c.isAnonymous() and hasattr(c, nodeType)]
                     else:
-                        Cites = [c for c in Cites if hasattr(c, 'author')]
-                    if len(Cites) > 1:
-                        for n, c1 in enumerate(Cites):
-                            c1Auth = c1.author
-                            c2Auths = [c.author for c in Cites[n:]]
+                        filteredCites = [c for c in Cites if hasattr(c, nodeType)]
+                    if len(filteredCites) > 1:
+                        for n, c1 in enumerate(filteredCites):
+                            c1val = getattr(c1, nodeType)
+                            c2vals = [getattr(c, nodeType) for c in filteredCites[n:]]
                             if weighted:
-                                tmpgrph.add_weighted_edges_from(edgeBunchGenerator(c1Auth, c2Auths, weighted = True))
+                                tmpgrph.add_weighted_edges_from(edgeBunchGenerator(c1val, c2vals, weighted = True))
                             else:
-                                tmpgrph.add_edges_from(edgeBunchGenerator(c1Auth, c2Auths))
-                            if extraInfo and not hasattr(tmpgrph.node[c1Auth], 'info'):
-                                tmpgrph.node[c1Auth]['info'] = str(c1)
-                    elif len(Cites) == 1:
-                        if Cites[0] not in tmpgrph and extraInfo:
-                            tmpgrph.add_node(Cites[0].author, info = str(Cites[0]))
-                        elif Cites[0] not in tmpgrph:
-                            tmpgrph.add_node(Cites[0].author)
+                                tmpgrph.add_edges_from(edgeBunchGenerator(c1val, c2vals))
+                            if extraInfo and not hasattr(tmpgrph.node[c1val], 'info'):
+                                tmpgrph.node[c1val]['info'] = str(c1)
+                    elif len(filteredCites) == 1:
+                        if getattr(filteredCites[0], nodeType) not in tmpgrph and extraInfo:
+                            tmpgrph.add_node(getattr(filteredCites[0], nodeType), info = str(filteredCites[0]))
+                        elif getattr(filteredCites[0], nodeType) not in tmpgrph:
+                            tmpgrph.add_node(getattr(filteredCites[0], nodeType))
         else:
             citesSet = set()
             for R in self:
@@ -485,7 +487,7 @@ class RecordCollection(object):
             PBar.finish("Done making a co-citation network of " + repr(self))
         return tmpgrph
 
-    def citationNetwork(self, dropAnon = True, authorship = False, extraInfo = True, weighted = True):
+    def citationNetwork(self, dropAnon = True, nodeType = "full", extraInfo = True, weighted = True):
 
         """Creates a citation network for the RecordCollection.
 
@@ -513,41 +515,44 @@ class RecordCollection(object):
 
         > A networkx digraph with hashes as ID and citations as edges
         """
-
+        allowedTypes = ["full", "original", "author", "journal", "year"]
+        if nodeType not in allowedTypes:
+            raise ValueError("{} is not an allowed nodeType.".format(nodeType))
         tmpgrph = nx.DiGraph()
         if isilib.VERBOSE_MODE:
             PBar = _ProgressBar(0, "Starting to make a citation network")
             count = 0
         else:
             PBar = None
-        if authorship:
+        if nodeType != allowedTypes[0]:
             for R in self:
                 if PBar:
                     count += 1
                     PBar.updateVal(count/ len(self), "Analyzing: " + str(R))
                 reRef = R.createCitation()
-                if hasattr(reRef, 'author'):
-                    authRef = reRef.author
+                if hasattr(reRef, nodeType):
+                    refVal = getattr(reRef, nodeType)
                     if extraInfo:
-                        tmpgrph.add_node(authRef, info = str(reRef))
+                        tmpgrph.add_node(refVal, info = str(reRef))
                     else:
-                        tmpgrph.add_node(authRef)
+                        tmpgrph.add_node(refVal)
                 else:
                     continue
                 rCites = R.citations
                 if rCites:
-                    rCites = [c for c in R.citations if hasattr(c, 'author')]
-                    rCitesAuths = [c.author for c in rCites]
-                    if extraInfo:
-                        for i in range(len(rCites)):
-                            if rCitesAuths[i] not in tmpgrph:
-                                tmpgrph.add_node(rCitesAuths[i], info = str(rCites[i]))
-                    if weighted:
-                        tmpgrph.add_weighted_edges_from(edgeBunchGenerator(authRef, rCitesAuths, weighted = True))
+                    if dropAnon:
+                        filteredCites = [c for c in rCites if not c.isAnonymous() and hasattr(c, nodeType)]
                     else:
-                        tmpgrph.add_edges_from(edgeBunchGenerator(authRef, rCitesAuths))
-            if dropAnon:
-                tmpgrph.remove_node("[ANONYMOUS]")
+                        filteredCites = [c for c in rCites if hasattr(c, nodeType)]
+                    rCitesVals = [getattr(c, nodeType) for c in filteredCites]
+                    if extraInfo:
+                        for i in range(len(filteredCites)):
+                            if rCitesVals[i] not in tmpgrph:
+                                tmpgrph.add_node(rCitesVals[i], info = str(filteredCites[i]))
+                    if weighted:
+                        tmpgrph.add_weighted_edges_from(edgeBunchGenerator(refVal, rCitesVals, weighted = True))
+                    else:
+                        tmpgrph.add_edges_from(edgeBunchGenerator(refVal, rCitesVals))
         else:
             citesSet = set()
             for R in self:

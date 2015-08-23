@@ -61,12 +61,14 @@ class TestRecordCollection(unittest.TestCase):
 
     def test_coCite(self):
         Gdefault = self.RC.coCiteNetwork()
-        Gauths = self.RC.coCiteNetwork(authorship = True, dropAnon = False)
-        GauthsNoExtra = self.RC.coCiteNetwork(authorship = True, extraInfo = False)
-        Gunwei = self.RC.coCiteNetwork(weighted = False)
+        Gauths = self.RC.coCiteNetwork(nodeType = "author", dropAnon = False)
+        GauthsNoExtra = self.RC.coCiteNetwork(nodeType = "author", extraInfo = False)
+        Gunwei = self.RC.coCiteNetwork(nodeType = 'original',weighted = False)
+        Gjour = self.RC.coCiteNetwork(nodeType = "journal")
+        Gyear = self.RC.coCiteNetwork(nodeType = "year")
         self.assertIsInstance(Gdefault, nx.classes.graph.Graph)
-        self.assertEqual(len(Gdefault.edges()), len(Gunwei.edges()))
-        self.assertEqual(len(Gdefault.nodes()), len(Gunwei.nodes()))
+        self.assertLessEqual(len(Gdefault.edges()), len(Gunwei.edges()))
+        self.assertLessEqual(len(Gdefault.nodes()), len(Gunwei.nodes()))
         self.assertEqual(len(GauthsNoExtra.edges()), len(Gauths.edges()))
         self.assertEqual(len(GauthsNoExtra.nodes()), len(Gauths.nodes()) - 1 )
         self.assertTrue('weight' in Gdefault.edges(data = True)[0][2])
@@ -76,6 +78,10 @@ class TestRecordCollection(unittest.TestCase):
         self.assertEqual(len(Gdefault.edges()), 14775)
         self.assertEqual(len(Gauths.nodes()), 322)
         self.assertEqual(len(Gauths.edges()), 6996)
+        self.assertEqual(len(Gyear.nodes()), 91)
+        self.assertEqual(len(Gyear.edges()), 1962)
+        self.assertEqual(len(Gjour.nodes()), 226)
+        self.assertEqual(len(Gjour.edges()), 4524)
 
     def test_coAuth(self):
         Gdefault = self.RC.coAuthNetwork()
@@ -86,12 +92,14 @@ class TestRecordCollection(unittest.TestCase):
     def test_Cite(self):
         Gdefault = self.RC.citationNetwork()
         Ganon = self.RC.citationNetwork(dropAnon = False)
-        Gauths = self.RC.citationNetwork(authorship = True)
-        GauthsNoExtra = self.RC.citationNetwork(authorship = True, extraInfo = False)
-        Gunwei = self.RC.citationNetwork(weighted = False)
+        Gauths = self.RC.citationNetwork(nodeType = "author")
+        GauthsNoExtra = self.RC.citationNetwork(nodeType = "author", extraInfo = False)
+        Gunwei = self.RC.citationNetwork(nodeType = 'original', weighted = False)
+        Gjour = self.RC.citationNetwork(nodeType = "author")
+        Gyear = self.RC.citationNetwork(nodeType = "year")
         self.assertIsInstance(Gdefault, nx.classes.digraph.DiGraph)
-        self.assertEqual(len(Gdefault.edges()), len(Gunwei.edges()))
-        self.assertEqual(len(Gdefault.nodes()), len(Gunwei.nodes()))
+        self.assertLessEqual(len(Gdefault.edges()), len(Gunwei.edges()))
+        self.assertLessEqual(len(Gdefault.nodes()), len(Gunwei.nodes()))
         self.assertEqual(len(GauthsNoExtra.edges()), len(Gauths.edges()))
         self.assertEqual(len(GauthsNoExtra.nodes()), len(Gauths.nodes()))
         self.assertTrue('weight' in Gdefault.edges(data = True)[0][2])
@@ -105,6 +113,8 @@ class TestRecordCollection(unittest.TestCase):
         self.assertEqual(len(Gdefault.edges()), 847)
         self.assertEqual(len(Ganon.edges()), 848)
         self.assertEqual(len(Gauths.edges()), 569)
+        self.assertEqual(len(Gjour.edges()), 569)
+        self.assertEqual(len(Gjour.edges()), 569)
 
 
     def test_oneMode(self):

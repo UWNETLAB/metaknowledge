@@ -266,7 +266,9 @@ class Record(object):
 
         > Each string in the list is a line from the record associated with _tag_ or None if not found.
         """
-        tag = tag.upper()
+
+        #tag = tag.upper()
+        #TODO Figure out why this causes issues
         if tag in self._fieldDict:
             return self._fieldDict[tag]
         elif tag in fullToTag and fullToTag[tag] in self._fieldDict:

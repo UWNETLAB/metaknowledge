@@ -247,6 +247,50 @@ class RecordCollection(object):
         else:
             return None
 
+    def dropWOS(self, wosNum):
+        """Removes the Record with WOS number (ID number) _wosNum_
+
+        # Parameters
+
+        _wosNum_ : `str`
+
+        > _wosNum_ is the WOS number of the Record to be dropped. _wosNum_ must begin with 'WOS:' or a valueError is raise.
+        """
+        if wosNum[:4] != 'WOS:':
+            raise valueError("{} is not a valid WOS number string, it does not start with 'WOS:'.".format(wosNum))
+        for R in self._Records:
+            if R.wosString == wosNum:
+                self._Records.remove(R)
+                break
+
+    def getWOS(self, wosNum, drop = False):
+        """Gets the Record from the collection by its WOS number.
+
+        # Parameters
+
+        _wosNum_ : `str`
+
+        > _wosNum_ is the WOS number of the Record to be extracted. _wosNum_ must begin with 'WOS:' or a valueError is raise.
+
+        _drop_ : `optional [bool]`
+
+        > Default `False`. If `True` the Record is dropped from the collection after being extract, i.e. if `False` [getWOS()](#RecordCollection.getWOS) acts like [peak()](#RecordCollection.peak), if `True` it acts like [pop()](#RecordCollection.pop)
+
+        # Returns
+
+        `isilib.Record`
+
+        > The Record whose WOS number is _wosNum_
+        """
+        if wosNum[:4] != 'WOS:':
+            raise valueError("{} is not a valid WOS number string, it does not start with 'WOS:'.".format(wosNum))
+        for R in self:
+            if R.wosString == wosNum:
+                if drop:
+                    self._Records.remove(R)
+                return R
+        return None
+
     def getBadRecords(self):
         """
         returns RecordCollection containing all the Record which have their bad flag set to True, i.e. all those removed by dropBadRecords()
@@ -339,8 +383,6 @@ class RecordCollection(object):
                     recDict[k] = str(value)
             csvWriter.writerow(recDict)
         f.close()
-
-
 
 
     def coAuthNetwork(self):

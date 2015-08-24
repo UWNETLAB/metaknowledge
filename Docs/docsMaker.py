@@ -35,7 +35,7 @@ def cleanedDoc(obj, lvl):
         if len(line) < 1:
             nds += '\n'
         elif line[0] == '#':
-            nds += '#' * lvl + line + '\n'
+            nds += '#' * (lvl + 1) + "&nbsp;" * 3 + line[1:] + '\n'
         elif line[0] == '>':
             nds += "&nbsp;" * 12 + line[1:] + '\n'
         else:

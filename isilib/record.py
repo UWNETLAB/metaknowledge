@@ -276,6 +276,42 @@ class Record(object):
         else:
             return None
 
+    def getAuthorLocations(self):
+        """
+        WOS:000258703100004
+        """
+
+
+        auths = self.AF
+        if auths is None:
+            return {}
+        locsClean = self.C1
+        locsOrg = self.getTag('C1')
+        authToLoc = {}
+        if locsOrg is None and locsClean is None:
+            return {k : None for k in auths}
+        if locsOrg is None or locsClean is None or len(locsOrg) != len(locsClean):
+            raise RuntimeError("The length of the cleaned locations (from the 'C1' tag) is not equal to that in the orignal record.")
+        mappedIndices = []
+        for i in range(len(locsOrg)):
+            if locsOrg[i] != locsClean[i]:
+                print("{}\n{}".format(locsOrg[i],locsClean[i] ))
+                authstr = locsOrg[i][1:].split(']')[0]
+                for tmpAuth in authstr.split('; '):
+                    authToLoc[tmpAuth] = locsClean[i]
+                mappedIndices.append(i)
+        if len(mappedIndices) == len(locsOrg):
+            pass
+        else:
+            print(self.UT)
+            """
+            for i in range(len(locsOrg)):
+                if i in mappedIndices:
+                    pass
+                else:
+            """
+
+
     def createCitation(self):
         """Creates a citation string, using the same format as other WOS citations, for the [Record](#isilib.Record) by reading the relevant tags (year, J9, volume, beginningPage, DOI) and using it to start a [Citation](#isilib.Citation) object.
 

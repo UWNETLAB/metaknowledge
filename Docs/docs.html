@@ -32,32 +32,32 @@
 <p>             Nunez R., 1998, MATH COGNITION, V4, P85, DOI 10.1080/135467998387343</p>
 <p>      Note that any of the fields have been known to be missing and the requirements for the fields are not always met. If something is in the source string that cannot be interpeted as any of these it is put in the <code>misc</code> attribute.</p>
 <p>      The reason for this class is that the WOS data are often irregular. It is designed to allow comparison between WOS citation strings, even when they are missing pieces.</p>
-<h5 id="customizations">Customizations</h5>
+<h5 id="customizations">    Customizations</h5>
 <p>      Citation's hashing and equality checking are based on what data they have. The equality checking first checks both Citation's DOI's and if either is missing moves to the other fields. If any of the fields disagree <code>False</code> is returned (note, authors are not compared if one is anonymous) if they all agree, including the <code>misc</code> field, then True is returned.</p>
 <p>      Unfortunately this type of equality checking precludes hashes being identical so to compare Citation objects always use ==. Hashes, if identical, indicate the Citations are identical (excluding collisions), but the converse is not True.</p>
 <p>      When converted to a string a Citation will return the original string.</p>
-<h5 id="attributes">Attributes</h5>
+<h5 id="attributes">    Attributes</h5>
 <p>      As noted above, citations are considered to be divided into six distinct fields (Author, Year, Journal, Volume, Page and DOI) with a seventh misc for anything not in those. Records thus have an attribute with a name corresponding to each <code>author</code>, <code>year</code>, <code>journal</code>, <code>V</code>, <code>P</code>, <code>DOI</code> and <code>misc</code> respectively. These are created if there is anything in the field. So a Citation created from the string: &quot;Nunez R., 1998, MATH COGNITION&quot; would have <code>author</code>, <code>year</code> and <code>journal</code> defined. While one from &quot;Nunez R.&quot; would have only the attribute <code>misc</code>.</p>
 <p>      If the parsing of a citation string fails the attribute <code>bad</code> is set to True and the attribute <code>error</code> is created to contain the error, which is a <a href="#isilib.BadCitation">BadCitation</a> object. If no errors occur <code>bad</code> is <code>False</code>.</p>
 <p>      The attribute <code>original</code> is the unmodified string (<em>cite</em>) given to create the Citation, it can also be accessed by converting to a string, e.g. with <code>str()</code>.</p>
-<h5 id="init__">__Init__</h5>
+<h5 id="init__">    __Init__</h5>
 <p>      Citations can be created by <a href="#isilib.Record">Records</a> or by giving the initializer a string containing a WOS style citation.</p>
-<h5 id="parameters">Parameters</h5>
+<h5 id="parameters">    Parameters</h5>
 <p>      <em>cite</em> : <code>str</code></p>
 <p>             A str containing a WOS style citation.</p>
 <p><a name="Citation.getExtra"></a>Citation.<strong>getExtra</strong>():</p>
 <p>      Returns any journal, V, P or misc values as a string. These are all the values not returned by <a href="#Citation.getID"><code>getID()</code></a>.</p>
-<h5 id="returns">Returns</h5>
+<h5 id="returns">    Returns</h5>
 <p>      <code>str</code></p>
 <p>             A string containing the data not in the ID of the Citation.       </p>
 <p><a name="Citation.getID"></a>Citation.<strong>getID</strong>():</p>
 <p>      Returns &quot;author, year&quot; if both available, &quot;author&quot; if year is not available, and &quot;misc&quot; otherwise. It is for shortening labels when creating networks as the resultant strings are often unique. <a href="#Citation.getExtra"><code>getExtra()</code></a> gets everthing not returned by <code>getID()</code>.</p>
-<h5 id="returns-1">Returns</h5>
+<h5 id="returns-1">    Returns</h5>
 <p>      <code>str</code></p>
 <p>             A string to use as the shortened ID of a node.</p>
 <p><a name="Citation.isAnonymous"></a>Citation.<strong>isAnonymous</strong>():</p>
 <p>      Checks if the author is given as &quot;[ANONYMOUS]&quot; and returns <code>True</code> if so.</p>
-<h5 id="returns-2">Returns</h5>
+<h5 id="returns-2">    Returns</h5>
 <p>      <code>bool</code></p>
 <p>             True if the author is ANONYMOUS otherwise <code>False</code>.</p>
 <hr />
@@ -65,16 +65,16 @@
 <p>      Class for full WOS records</p>
 <p>      It is meant to be immutable; many of the methods and attributes are evaluated when first called, not when the object is created, and the results are stored in a private dictionary.</p>
 <p>      The record's meta-data is stored in an ordered dictionary labeled by WOS tags. To access the raw data stored in the original record the <a href="#Record.getTag">getTag()</a> method can be used. To access data that has been processed and cleaned the attributes named after the tags are used.</p>
-<h5 id="customizations-1">Customizations</h5>
+<h5 id="customizations-1">    Customizations</h5>
 <p>      The Record's hashing and equality testing are based on the WOS number (the tag is 'UT', and also called the accession number). They are strings starting with &quot;WOS:&quot; and followed by 15 or so numbers and letters, although both the length and character set are known to vary. The numbers are unique to each record so are used for comparisons. If a record is <code>bad</code> all equality checks return <code>False</code>.</p>
 <p>      When converted to a string the records title is used so for a record <code>R</code>, R.TI == R.title == str(R).</p>
-<h5 id="attributes-1">Attributes</h5>
+<h5 id="attributes-1">    Attributes</h5>
 <p>      When a record is created if the parsing of the WOS file failed it is marked as <code>bad</code>. The <code>bad</code> attribute is set to True and the <code>error</code> attribute is created to contain the exception object.</p>
 <p>      Generally, to get the information from a Record its attributes should be used. For a Record <code>R</code>, calling <code>R.CR</code> causes <a href="#isilib.tagFuncs.citations">citations()</a> from the the <a href="#isilib.tagFuncs">tagFuncs</a> module to be called on the contents of the raw 'CR' field. Then the result is saved and returned. In this case, a list of Citation objects is returned. You can also call <code>R.citations</code> to get the same effect, as each known field tag has a longer name (currently there are 61 field tags). These names are meant to make accessing tags more readable and mapping from tag to name can be found in the tagToFull dict. If a tag is known (in <a href="#isilib">tagToFull</a>) but not in the raw data <code>None</code> is returned instead. Most tags when cleaned return a string or list of strings, the exact results can be found in the help for the particular function.</p>
 <p>      The attribute <code>authors</code> is also defined as a convience and returns the same as 'AF' or if that is not found 'AU'.</p>
-<h5 id="init__-1">__Init__</h5>
+<h5 id="init__-1">    __Init__</h5>
 <p>      Records are generally create as collections in <a href="#isilib.RecordCollection">Recordcollections</a>, and not as individual objects. If you wish to create one on its own it is possible, the arguments are as follows.</p>
-<h5 id="parameters-1">Parameters</h5>
+<h5 id="parameters-1">    Parameters</h5>
 <p>      <em>inRecord</em>: <code>files stream, dict, str or itertools.chain</code></p>
 <p>             If it is a file stream the file must be open at the location of the first tag in the record, usually 'PT', and the file will be read until 'ER' is found, which indicates the end of the record in the file.</p>
 <p>             If a dict is passed the dictionary is used as the database of fields and tags, so each key is considered a WOS tag and each value a list of the lines of the original associated with the tag. This is the same form of dict that <a href="#isilib.recordParser">recordParser</a> returns.</p>
@@ -86,42 +86,44 @@
 <p>             Is the line the record starts on in the raw data file. It is mostly used to make error messages more informative.</p>
 <p><a name="Record.activeTags"></a>Record.<strong>activeTags</strong>():</p>
 <p>      Returns a list of all the tags the original WOS record had. These are all the tags that <a href="#Record.getTag">'getTag()'</a> will not return <code>None</code> for.</p>
-<h5 id="returns-3">Returns</h5>
+<h5 id="returns-3">    Returns</h5>
 <p>      <code>List[str]</code></p>
 <p>             a list of WOS tags in the Record</p>
 <p><a name="Record.createCitation"></a>Record.<strong>createCitation</strong>():</p>
 <p>      Creates a citation string, using the same format as other WOS citations, for the <a href="#isilib.Record">Record</a> by reading the relevant tags (year, J9, volume, beginningPage, DOI) and using it to start a <a href="#isilib.Citation">Citation</a> object.</p>
-<h5 id="returns-4">Returns</h5>
+<h5 id="returns-4">    Returns</h5>
 <p>      <code>Citation</code></p>
 <p>             A <a href="#isilib.Citation">Citation</a> object containing a citation for the Record.</p>
+<p><a name="Record.getAuthorLocations"></a>Record.<strong>getAuthorLocations</strong>():</p>
+<p>      WOS:000258703100004</p>
 <p><a name="Record.getTag"></a>Record.<strong>getTag</strong>(<em>tag</em>):</p>
 <p>      Returns a list containing the raw data of the record associated with <em>tag</em>. Each line of the record is one string in the list.</p>
-<h5 id="parameters-2">Parameters</h5>
+<h5 id="parameters-2">    Parameters</h5>
 <p>      <em>tag</em> : <code>str</code></p>
 <p>             <em>tag</em> can be a two character string corresponding to a WOS tag e.g. 'J9', the matching is case insensitive so 'j9' is the same as 'J9'. Or it can be one of the full names for a tag with the mappings in <a href="#isilib">fullToTag</a>. If the string is not found in the original record or after being translated through <a href="#isilib">fullToTag</a>, <code>None</code> is returned.</p>
-<h5 id="returns-5">Returns</h5>
+<h5 id="returns-5">    Returns</h5>
 <p>      <code>List [str]</code></p>
 <p>             Each string in the list is a line from the record associated with <em>tag</em> or None if not found.</p>
 <p><a name="Record.getTagsDict"></a>Record.<strong>getTagsDict</strong>(<em>taglst</em>):</p>
 <p>      returns a dict of the results of getTag, with the elements of <em>taglst</em> as the keys and the results as the values.</p>
-<h5 id="parameters-3">Parameters</h5>
+<h5 id="parameters-3">    Parameters</h5>
 <p>      <em>taglst</em> : <code>List[str]</code></p>
 <p>             Each string in <em>taglst</em> can be a two character string corresponding to a WOS tag e.g. 'J9', the matching is case insensitive so 'j9' is the same as 'J9'. Or it can be one of the full names for a tag with the mappings in <a href="#isilib">fullToTag</a>. If the string is not found in the oriagnal record before or after being translated through <a href="#isilib">fullToTag</a>, <code>None</code> is used instead. Same as in <a href="#Record.getTag"><code>getTag()</code></a></p>
-<h5 id="returns-6">Returns</h5>
+<h5 id="returns-6">    Returns</h5>
 <p>      <code>dict[str : List [str]]</code></p>
 <p>             a dictionary with keys as the original tags in <em>taglst</em> and the values as the results</p>
 <p><a name="Record.getTagsList"></a>Record.<strong>getTagsList</strong>(<em>taglst</em>):</p>
 <p>      Returns a list of the results of <a href="#Record.getTag"><code>getTag()</code></a> for each tag in <em>taglist</em>, the return has the same order as the original.</p>
-<h5 id="parameters-4">Parameters</h5>
+<h5 id="parameters-4">    Parameters</h5>
 <p>      <em>taglst</em> : <code>List[str]</code></p>
 <p>             Each string in <em>taglst</em> can be a two character string corresponding to a WOS tag e.g. 'J9', the matching is case insensitive so 'j9' is the same as 'J9'. Or it can be one of the full names for a tag with the mappings in <a href="#isilib">fullToTag</a>. If the string is not found in the original record before or after being translated through <a href="#isilib">fullToTag</a>, <code>None</code> is used instead. Same as in <a href="#Record.getTag"><code>getTag()</code></a></p>
 <p>             Then they are compiled into a list in the same order as <em>taglst</em></p>
-<h5 id="returns-7">Returns</h5>
+<h5 id="returns-7">    Returns</h5>
 <p>      <code>List[str]</code></p>
 <p>             a list of the values for each tag in <em>taglst</em>, in the same order</p>
 <p><a name="Record.writeRecord"></a>Record.<strong>writeRecord</strong>(<em>infile</em>):</p>
 <p>      Writes to <em>infile</em> the original contents of the Record. This is intended for use by <a href="#isilib.RecordCollection">RecordCollections</a> to write to file. What is written to <em>infile</em> is bit for bit identical to the original record file. No newline is inserted above the write but the last character is a newline.</p>
-<h5 id="parameters-5">Parameters</h5>
+<h5 id="parameters-5">    Parameters</h5>
 <p>      <em>infile</em> : <code>file stream</code></p>
 <p>             An open utf-8 encoded file</p>
 <hr />
@@ -132,9 +134,9 @@
 <p>      inCollection is the object containing the information about the Records to be constructed it can be an isi file, string, list of records or directory containing isi files</p>
 <p>      name sets the name of the of the record if left blank name will be generated based on the object that created the Recordcollection</p>
 <p>      extension controls the extension that <strong>init</strong> looks for when reading a directory, set it to the extension on the isi files you wish to load, if left blank all files will be tried and any that are not isi files will be silently skipped</p>
-<h5 id="init__-2">__Init__</h5>
+<h5 id="init__-2">    __Init__</h5>
 <p>      RecordCollections are made from either a single file or directory supplied as <em>inCollection</em>.</p>
-<h5 id="parameters-6">Parameters</h5>
+<h5 id="parameters-6">    Parameters</h5>
 <p>      <em>inCollection</em> : <code>optional [str] or None</code></p>
 <p>             the name of the source of WOS records. It can be skipped to produce an empty collection.</p>
 <p>             If a file is provided. First it is checked to see if it is a WOS file (the header is checked). Then records are read from it one by one until the 'EF' string is found indicating the end of the file.</p>
@@ -143,9 +145,9 @@
 <p>             The name of the RecordCollection, defaults to empty string. If left empty the name of the Record collection is set to the name of the file or directory used to create the collection. If provided the name id set to <em>name</em></p>
 <p>      <em>extension</em> : <code>optional [str]</code></p>
 <p>             The extension to search for when reading a directoy for files. <em>extension</em> is the suffix searched for when a direcorty is read for files, by default it is empty so all files are read.</p>
-<p><a name="RecordCollection.citationNetwork"></a>RecordCollection.<strong>citationNetwork</strong>(<em>dropAnon=True, authorship=False, extraInfo=True, weighted=True</em>):</p>
+<p><a name="RecordCollection.citationNetwork"></a>RecordCollection.<strong>citationNetwork</strong>(<em>dropAnon=True, nodeType='full', extraInfo=True, weighted=True</em>):</p>
 <p>      Creates a citation network for the RecordCollection.</p>
-<h5 id="parameters-7">Parameters</h5>
+<h5 id="parameters-7">    Parameters</h5>
 <p>      <em>dropAnon</em> : <code>optional [bool]</code></p>
 <p>             default <code>True</code>, if <code>True</code> citations labeled anonymous are removed from the network</p>
 <p>      <em>authorship</em> : <code>optional [bool]</code></p>
@@ -154,7 +156,7 @@
 <p>             default <code>True</code>, wether the original citation string is added to the node as an extra value, if <code>True</code> it is</p>
 <p>      <em>weighted</em> : <code>optional [bool]</code></p>
 <p>             default <code>True</code>, wether the edges are weighted. If <code>True</code> the edges are weighted by the number of citations.</p>
-<h5 id="returns-8">Returns</h5>
+<h5 id="returns-8">    Returns</h5>
 <p>      <code>Networkx DiGraph</code></p>
 <p>             A networkx digraph with hashes as ID and citations as edges</p>
 <p><a name="RecordCollection.citeFilter"></a>RecordCollection.<strong>citeFilter</strong>(<em>keyString='', field='all', reverse=False, caseSensitive=False</em>):</p>
@@ -165,29 +167,44 @@
 <p>      caseSensitive if True causes the search across the original to be case sensitive, only the 'all' option can be case sensitive</p>
 <p><a name="RecordCollection.coAuthNetwork"></a>RecordCollection.<strong>coAuthNetwork</strong>():</p>
 <p>      Creates a coauthorship network for the RecordCollection.</p>
-<h5 id="returns-9">Returns</h5>
+<h5 id="returns-9">    Returns</h5>
 <p>      <code>Networkx Graph</code></p>
 <p>             A networkx graph with author names as nodes and collaborations as edges.</p>
-<p><a name="RecordCollection.coCiteNetwork"></a>RecordCollection.<strong>coCiteNetwork</strong>(<em>dropAnon=True, authorship=False, extraInfo=True, weighted=True</em>):</p>
+<p><a name="RecordCollection.coCiteNetwork"></a>RecordCollection.<strong>coCiteNetwork</strong>(<em>dropAnon=True, nodeType='full', extraInfo=True, weighted=True</em>):</p>
 <p>      Creates a co-citation network for the RecordCollection.</p>
-<h5 id="parameters-8">Parameters</h5>
+<h5 id="parameters-8">    Parameters</h5>
 <p>      <em>dropAnon</em> : <code>optional [bool]</code></p>
 <p>             default <code>True</code>, if <code>True</code> citations labeled anonymous are removed from the network</p>
-<p>      <em>authorship</em> : <code>optional [bool]</code></p>
-<p>             default <code>False</code>, wether to use author's names as the node ID or the whole citations, if <code>True</code> names are used if <code>False</code> hashes are used</p>
+<p>      _nodeType : <code>optional [str]</code></p>
+<p>             default <code>Full</code>, can alos be &quot;original&quot;, &quot;author&quot;, &quot;journal&quot; or &quot;year&quot;</p>
 <p>      <em>extraInfo</em> : <code>optional [bool]</code></p>
 <p>             default <code>True</code>, wether the original citation string is added to the node as an extra value, if <code>True</code> it is</p>
 <p>      <em>weighted</em> : <code>optional [bool]</code></p>
 <p>             default <code>True</code>, wether the edges are weighted. If <code>True</code> the edges are weighted by the number of occurrences of the co-citation.</p>
-<h5 id="returns-10">Returns</h5>
+<h5 id="returns-10">    Returns</h5>
 <p>      <code>Networkx Graph</code></p>
 <p>             A networkx graph with hashes as ID and co-citation as edges</p>
 <p><a name="RecordCollection.dropBadRecords"></a>RecordCollection.<strong>dropBadRecords</strong>():</p>
 <p>      Removes all Records with bad attributes == True from the collection</p>
+<p><a name="RecordCollection.dropWOS"></a>RecordCollection.<strong>dropWOS</strong>(<em>wosNum</em>):</p>
+<p>      Removes the Record with WOS number (ID number) <em>wosNum</em></p>
+<h5 id="parameters-9">    Parameters</h5>
+<p>      <em>wosNum</em> : <code>str</code></p>
+<p>             <em>wosNum</em> is the WOS number of the Record to be dropped. <em>wosNum</em> must begin with 'WOS:' or a valueError is raise.</p>
 <p><a name="RecordCollection.extractTagged"></a>RecordCollection.<strong>extractTagged</strong>(<em>taglist</em>):</p>
 <h1 id="needs-to-be-written">Needs to be written</h1>
 <p><a name="RecordCollection.getBadRecords"></a>RecordCollection.<strong>getBadRecords</strong>():</p>
 <p>      returns RecordCollection containing all the Record which have their bad flag set to True, i.e. all those removed by dropBadRecords()</p>
+<p><a name="RecordCollection.getWOS"></a>RecordCollection.<strong>getWOS</strong>(<em>wosNum, drop=False</em>):</p>
+<p>      Gets the Record from the collection by its WOS number.</p>
+<h5 id="parameters-10">    Parameters</h5>
+<p>      <em>wosNum</em> : <code>str</code></p>
+<p>             <em>wosNum</em> is the WOS number of the Record to be extracted. <em>wosNum</em> must begin with 'WOS:' or a valueError is raise.</p>
+<p>      <em>drop</em> : <code>optional [bool]</code></p>
+<p>             Default <code>False</code>. If <code>True</code> the Record is dropped from the collection after being extract, i.e. if <code>False</code> <a href="#RecordCollection.getWOS">getWOS()</a> acts like <a href="#RecordCollection.peak">peak()</a>, if <code>True</code> it acts like <a href="#RecordCollection.pop">pop()</a></p>
+<h5 id="returns-11">    Returns</h5>
+<p>      <code>isilib.Record</code></p>
+<p>             The Record whose WOS number is <em>wosNum</em></p>
 <p><a name="RecordCollection.nModeNetwork"></a>RecordCollection.<strong>nModeNetwork</strong>(<em>tags, recordType=True, nodeCount=True, edgeWeight=True</em>):</p>
 <h1 id="needs-to-be-written-1">Needs to be written</h1>
 <p><a name="RecordCollection.oneModeNetwork"></a>RecordCollection.<strong>oneModeNetwork</strong>(<em>mode, nodeCount=True, edgeWeight=True</em>):</p>
@@ -255,10 +272,10 @@
 <p>       ANICIN, B&quot;</p>
 <p>      The entry in the returned dict would be <code>{'AF' : [&quot;BREVIK, I&quot;, &quot;ANICIN, B&quot;]}</code></p>
 <p>      <a href="#isilib.Record">Record</a> objects can be created with these dictionaries as the initializer.</p>
-<h5 id="parameters-9">Parameters</h5>
+<h5 id="parameters-11">    Parameters</h5>
 <p>      <em>paper</em> : <code>file stream</code></p>
 <p>             An open file, with the current line at the beginning of the record.</p>
-<h5 id="returns-11">Returns</h5>
+<h5 id="returns-12">    Returns</h5>
 <p>      <code>dict[str : List[str]]</code></p>
 <p>             A dictionary mapping WOS tags to lists, the lists are of strings, each string is a line of the record associated with the tag.</p>
 <hr />
@@ -373,7 +390,7 @@
 <p>      BE tag</p>
 <hr />
 <p><a name="isilib.tagFuncs.editors"></a>isilib.tagFuncs.<strong>editors</strong>(<em>val</em>):</p>
-<h5 id="needs-work">Needs Work</h5>
+<h5 id="needs-work">    Needs Work</h5>
 <hr />
 <p><a name="isilib.tagFuncs.email"></a>isilib.tagFuncs.<strong>email</strong>(<em>val</em>):</p>
 <p>      returns a list of emails given by the authors of the Record</p>

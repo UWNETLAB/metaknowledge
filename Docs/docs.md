@@ -52,7 +52,7 @@ title: isilib Docs
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The reason for this class is that the WOS data are often irregular. It is designed to allow comparison between WOS citation strings, even when they are missing pieces.
 
-##### Customizations
+#####&nbsp;&nbsp;&nbsp; Customizations
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Citation's hashing and equality checking are based on what data they have. The equality checking first checks both Citation's DOI's and if either is missing moves to the other fields. If any of the fields disagree `False` is returned (note, authors are not compared if one is anonymous) if they all agree, including the `misc` field, then True is returned.
 
@@ -60,7 +60,7 @@ title: isilib Docs
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;When converted to a string a Citation will return the original string.
 
-##### Attributes
+#####&nbsp;&nbsp;&nbsp; Attributes
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;As noted above, citations are considered to be divided into six distinct fields (Author, Year, Journal, Volume, Page and DOI) with a seventh misc for anything not in those. Records thus have an attribute with a name corresponding to each `author`, `year`, `journal`, `V`, `P`, `DOI` and `misc` respectively. These are created if there is anything in the field. So a Citation created from the string: "Nunez R., 1998, MATH COGNITION" would have `author`, `year` and `journal` defined. While one from "Nunez R." would have only the attribute `misc`.
 
@@ -68,11 +68,11 @@ title: isilib Docs
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The attribute `original` is the unmodified string (_cite_) given to create the Citation, it can also be accessed by converting to a string, e.g. with `str()`.
 
-##### \_\_Init\_\_
+#####&nbsp;&nbsp;&nbsp; \_\_Init\_\_
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Citations can be created by [Records](#isilib.Record) or by giving the initializer a string containing a WOS style citation.
 
-##### Parameters
+#####&nbsp;&nbsp;&nbsp; Parameters
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_cite_ : `str`
 
@@ -83,7 +83,7 @@ title: isilib Docs
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns any journal, V, P or misc values as a string. These are all the values not returned by [`getID()`](#Citation.getID).
 
-##### Returns
+#####&nbsp;&nbsp;&nbsp; Returns
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`str`
 
@@ -95,7 +95,7 @@ title: isilib Docs
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns "author, year" if both available, "author" if year is not available, and "misc" otherwise. It is for shortening labels when creating networks as the resultant strings are often unique. [`getExtra()`](#Citation.getExtra) gets everthing not returned by `getID()`.
 
-##### Returns
+#####&nbsp;&nbsp;&nbsp; Returns
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`str`
 
@@ -106,7 +106,7 @@ title: isilib Docs
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Checks if the author is given as "[ANONYMOUS]" and returns `True` if so.
 
-##### Returns
+#####&nbsp;&nbsp;&nbsp; Returns
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`bool`
 
@@ -123,13 +123,13 @@ title: isilib Docs
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The record's meta-data is stored in an ordered dictionary labeled by WOS tags. To access the raw data stored in the original record the [getTag()](#Record.getTag) method can be used. To access data that has been processed and cleaned the attributes named after the tags are used.
 
-##### Customizations
+#####&nbsp;&nbsp;&nbsp; Customizations
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The Record's hashing and equality testing are based on the WOS number (the tag is 'UT', and also called the accession number). They are strings starting with "WOS:" and followed by 15 or so numbers and letters, although both the length and character set are known to vary. The numbers are unique to each record so are used for comparisons. If a record is `bad`  all equality checks return `False`.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;When converted to a string the records title is used so for a record `R`, R.TI == R.title == str(R).
 
-##### Attributes
+#####&nbsp;&nbsp;&nbsp; Attributes
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;When a record is created if the parsing of the WOS file failed it is marked as `bad`. The `bad` attribute is set to True and the `error` attribute is created to contain the exception object.
 
@@ -137,11 +137,11 @@ title: isilib Docs
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The attribute `authors` is also defined as a convience and returns the same as 'AF' or if that is not found 'AU'.
 
-##### \_\_Init\_\_
+#####&nbsp;&nbsp;&nbsp; \_\_Init\_\_
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Records are generally create as collections in  [Recordcollections](#isilib.RecordCollection), and not as individual objects. If you wish to create one on its own it is possible, the arguments are as follows.
 
-##### Parameters
+#####&nbsp;&nbsp;&nbsp; Parameters
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_inRecord_: `files stream, dict, str or itertools.chain`
 
@@ -166,7 +166,7 @@ title: isilib Docs
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a list of all the tags the original WOS record had. These are all the tags that ['getTag()'](#Record.getTag) will not return `None` for.
 
-##### Returns
+#####&nbsp;&nbsp;&nbsp; Returns
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`List[str]`
 
@@ -177,23 +177,29 @@ title: isilib Docs
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a citation string, using the same format as other WOS citations, for the [Record](#isilib.Record) by reading the relevant tags (year, J9, volume, beginningPage, DOI) and using it to start a [Citation](#isilib.Citation) object.
 
-##### Returns
+#####&nbsp;&nbsp;&nbsp; Returns
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`Citation`
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A [Citation](#isilib.Citation) object containing a citation for the Record.
 
 
+<a name="Record.getAuthorLocations"></a>Record.**getAuthorLocations**():
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WOS:000258703100004
+
+
 <a name="Record.getTag"></a>Record.**getTag**(_tag_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a list containing the raw data of the record associated with _tag_. Each line of the record is one string in the list.
 
-##### Parameters
+#####&nbsp;&nbsp;&nbsp; Parameters
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_tag_ : `str`
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; _tag_ can be a two character string corresponding to a WOS tag e.g. 'J9', the matching is case insensitive so 'j9' is the same as 'J9'. Or it can be one of the full names for a tag with the mappings in [fullToTag](#isilib). If the string is not found in the original record or after being translated through [fullToTag](#isilib), `None` is returned.
 
-##### Returns
+#####&nbsp;&nbsp;&nbsp; Returns
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`List [str]`
 
@@ -204,12 +210,12 @@ title: isilib Docs
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns a dict of the results of getTag, with the elements of _taglst_ as the keys and the results as the values.
 
-##### Parameters
+#####&nbsp;&nbsp;&nbsp; Parameters
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_taglst_ : `List[str]`
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Each string in _taglst_ can be a two character string corresponding to a WOS tag e.g. 'J9', the matching is case insensitive so 'j9' is the same as 'J9'. Or it can be one of the full names for a tag with the mappings in [fullToTag](#isilib). If the string is not found in the oriagnal record before or after being translated through [fullToTag](#isilib), `None` is used instead. Same as in [`getTag()`](#Record.getTag)
 
-##### Returns
+#####&nbsp;&nbsp;&nbsp; Returns
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`dict[str : List [str]]`
 
@@ -220,14 +226,14 @@ title: isilib Docs
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a list of the results of [`getTag()`](#Record.getTag) for each tag in _taglist_, the return has the same order as the original.
 
-##### Parameters
+#####&nbsp;&nbsp;&nbsp; Parameters
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_taglst_ : `List[str]`
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Each string in _taglst_ can be a two character string corresponding to a WOS tag e.g. 'J9', the matching is case insensitive so 'j9' is the same as 'J9'. Or it can be one of the full names for a tag with the mappings in [fullToTag](#isilib). If the string is not found in the original record before or after being translated through [fullToTag](#isilib), `None` is used instead. Same as in [`getTag()`](#Record.getTag)
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Then they are compiled into a list in the same order as _taglst_
 
-##### Returns
+#####&nbsp;&nbsp;&nbsp; Returns
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`List[str]`
 
@@ -238,7 +244,7 @@ title: isilib Docs
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Writes to _infile_ the original contents of the Record. This is intended for use by [RecordCollections](#isilib.RecordCollection) to write to file. What is written to _infile_ is bit for bit identical to the original record file. No newline is inserted above the write but the last character is a newline.
 
-##### Parameters
+#####&nbsp;&nbsp;&nbsp; Parameters
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_infile_ : `file stream`
 
@@ -262,11 +268,11 @@ title: isilib Docs
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;extension controls the extension that __init__ looks for when reading a directory, set it to the extension on the isi files you wish to load, if left blank all files will be tried and any that are not isi files will be silently skipped
 
-##### \_\_Init\_\_
+#####&nbsp;&nbsp;&nbsp; \_\_Init\_\_
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RecordCollections are made from either a single file or directory supplied as _inCollection_.
 
-##### Parameters
+#####&nbsp;&nbsp;&nbsp; Parameters
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_inCollection_ : `optional [str] or None`
 
@@ -285,11 +291,11 @@ title: isilib Docs
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; The extension to search for when reading a directoy for files. _extension_ is the suffix searched for when a direcorty is read for files, by default it is empty so all files are read.
 
 
-<a name="RecordCollection.citationNetwork"></a>RecordCollection.**citationNetwork**(_dropAnon=True, authorship=False, extraInfo=True, weighted=True_):
+<a name="RecordCollection.citationNetwork"></a>RecordCollection.**citationNetwork**(_dropAnon=True, nodeType='full', extraInfo=True, weighted=True_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a citation network for the RecordCollection.
 
-##### Parameters
+#####&nbsp;&nbsp;&nbsp; Parameters
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_dropAnon_ : `optional [bool]`
 
@@ -307,7 +313,7 @@ title: isilib Docs
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; default `True`, wether the edges are weighted. If `True` the edges are weighted by the number of citations.
 
-##### Returns
+#####&nbsp;&nbsp;&nbsp; Returns
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`Networkx DiGraph`
 
@@ -341,26 +347,26 @@ title: isilib Docs
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a coauthorship network for the RecordCollection.
 
-##### Returns
+#####&nbsp;&nbsp;&nbsp; Returns
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`Networkx Graph`
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A networkx graph with author names as nodes and collaborations as edges.
 
 
-<a name="RecordCollection.coCiteNetwork"></a>RecordCollection.**coCiteNetwork**(_dropAnon=True, authorship=False, extraInfo=True, weighted=True_):
+<a name="RecordCollection.coCiteNetwork"></a>RecordCollection.**coCiteNetwork**(_dropAnon=True, nodeType='full', extraInfo=True, weighted=True_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a co-citation network for the RecordCollection.
 
-##### Parameters
+#####&nbsp;&nbsp;&nbsp; Parameters
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_dropAnon_ : `optional [bool]`
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; default `True`, if `True` citations labeled anonymous are removed from the network
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_authorship_ : `optional [bool]`
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_nodeType : `optional [str]`
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; default `False`, wether to use author's names as the node ID or the whole citations, if `True` names are used if `False` hashes are used
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; default `Full`, can alos be "original", "author", "journal" or "year"
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_extraInfo_ : `optional [bool]`
 
@@ -370,7 +376,7 @@ title: isilib Docs
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; default `True`, wether the edges are weighted. If `True` the edges are weighted by the number of occurrences of the co-citation.
 
-##### Returns
+#####&nbsp;&nbsp;&nbsp; Returns
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`Networkx Graph`
 
@@ -382,6 +388,17 @@ title: isilib Docs
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Removes all Records with bad attributes == True from the collection
 
 
+<a name="RecordCollection.dropWOS"></a>RecordCollection.**dropWOS**(_wosNum_):
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Removes the Record with WOS number (ID number) _wosNum_
+
+#####&nbsp;&nbsp;&nbsp; Parameters
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_wosNum_ : `str`
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; _wosNum_ is the WOS number of the Record to be dropped. _wosNum_ must begin with 'WOS:' or a valueError is raise.
+
+
 <a name="RecordCollection.extractTagged"></a>RecordCollection.**extractTagged**(_taglist_):
 
 # Needs to be written
@@ -389,6 +406,27 @@ title: isilib Docs
 <a name="RecordCollection.getBadRecords"></a>RecordCollection.**getBadRecords**():
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns RecordCollection containing all the Record which have their bad flag set to True, i.e. all those removed by dropBadRecords()
+
+
+<a name="RecordCollection.getWOS"></a>RecordCollection.**getWOS**(_wosNum, drop=False_):
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Gets the Record from the collection by its WOS number.
+
+#####&nbsp;&nbsp;&nbsp; Parameters
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_wosNum_ : `str`
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; _wosNum_ is the WOS number of the Record to be extracted. _wosNum_ must begin with 'WOS:' or a valueError is raise.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_drop_ : `optional [bool]`
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Default `False`. If `True` the Record is dropped from the collection after being extract, i.e. if `False` [getWOS()](#RecordCollection.getWOS) acts like [peak()](#RecordCollection.peak), if `True` it acts like [pop()](#RecordCollection.pop)
+
+#####&nbsp;&nbsp;&nbsp; Returns
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`isilib.Record`
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; The Record whose WOS number is _wosNum_
 
 
 <a name="RecordCollection.nModeNetwork"></a>RecordCollection.**nModeNetwork**(_tags, recordType=True, nodeCount=True, edgeWeight=True_):
@@ -542,13 +580,13 @@ title: isilib Docs
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Record](#isilib.Record) objects can be created with these dictionaries as the initializer.
 
-##### Parameters
+#####&nbsp;&nbsp;&nbsp; Parameters
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_paper_ : `file stream`
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; An open file, with the current line at the beginning of the record.
 
-##### Returns
+#####&nbsp;&nbsp;&nbsp; Returns
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`dict[str : List[str]]`
 
@@ -814,7 +852,7 @@ title: isilib Docs
 
 <a name="isilib.tagFuncs.editors"></a>isilib.tagFuncs.**editors**(_val_):
 
-##### Needs Work
+#####&nbsp;&nbsp;&nbsp; Needs Work
 
 
 - - -

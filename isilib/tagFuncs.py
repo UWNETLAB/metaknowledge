@@ -159,7 +159,13 @@ def authAddress(val):
 
     C1 tag
     """
-    return val
+    ret = []
+    for a in val:
+        if a[0] == '[':
+            ret.append('] '.join(a.split('] ')[1:]))
+        else:
+            ret.append(a)
+    return ret
 
 def confLocation(val):
     """

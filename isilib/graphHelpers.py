@@ -282,7 +282,7 @@ class _ProgressBar(object):
             else:
                 return "{1:{0}.1f}s".format(maxLength - 1,t)
         except ValueError:
-            return "{1:{0}.1f}s".format(maxLength - 1,t) 
+            return "{1:{0}.1f}s".format(maxLength - 1,t)
 
 
 def getWeight(grph, nd1, nd2, weightString = "weight", returnType = int):
@@ -451,3 +451,28 @@ def drop_nodesByCount(grph, minCount = -float('inf'), maxCount = float('inf'), p
     if PBar:
         PBar.finish(str(total - len(goodNodes)) + " nodes out of " + str(total) + " dropped, " + str(len(goodNodes)) + " returned")
     return grph.subgraph(goodNodes)
+
+def graphDensityContourPlot(G, axisSamples = 100):
+    """
+    Requires numpy and matplotlib
+    """
+    from mpl_toolkits.mplot3d import Axes3D
+    import matplotlib.pyplot as plt
+    import numpy as np
+    fig = plt.figure()
+    ax = fig.gca(projection='3d')
+    pos = nx.spring_layout(G, scale = axisSamples - 1)
+    grid = {(int(x), int(y)) : 0 for x in range(axisSamples) for y in range(axisSamples)}
+    for v in pos.values():
+        p = tuple(int(x) for x in v.round(0))
+        if p in grid:
+            grid[p] += 1
+        else:
+            grid[p] = 1
+    X = Y = np.arange(0, axisSamples, 1)
+    x, y = np.meshgrid(X, Y)
+    R = np.sin(np.sqrt(X**2 + Y**2))
+    ax.plot_surface(X, Y, R)
+    ax.set_zlim(0, 1)
+
+    plt.show()

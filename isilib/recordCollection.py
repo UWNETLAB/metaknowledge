@@ -257,7 +257,7 @@ class RecordCollection(object):
         > _wosNum_ is the WOS number of the Record to be dropped. _wosNum_ must begin with 'WOS:' or a valueError is raise.
         """
         if wosNum[:4] != 'WOS:':
-            raise valueError("{} is not a valid WOS number string, it does not start with 'WOS:'.".format(wosNum))
+            raise ValueError("{} is not a valid WOS number string, it does not start with 'WOS:'.".format(wosNum))
         for R in self._Records:
             if R.wosString == wosNum:
                 self._Records.remove(R)
@@ -283,7 +283,7 @@ class RecordCollection(object):
         > The Record whose WOS number is _wosNum_
         """
         if wosNum[:4] != 'WOS:':
-            raise valueError("{} is not a valid WOS number string, it does not start with 'WOS:'.".format(wosNum))
+            raise ValueError("{} is not a valid WOS number string, it does not start with 'WOS:'.".format(wosNum))
         for R in self:
             if R.wosString == wosNum:
                 if drop:

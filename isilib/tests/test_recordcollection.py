@@ -30,6 +30,21 @@ class TestRecordCollection(unittest.TestCase):
         self.assertTrue(badRecs.pop().bad)
         self.RC.dropBadRecords()
 
+    def test_getWOS(self):
+        R = self.RC.peak()
+        l = len(self.RC)
+        self.assertTrue(R, self.RC.getWOS(R.UT))
+        self.assertEqual(len(self.RC), l)
+        self.RC.dropWOS(R.UT)
+        self.assertEqual(len(self.RC), l - 1)
+        self.RC.getWOS(self.RC.peak().UT, drop = True)
+        self.assertEqual(len(self.RC), l - 2)
+        self.assertFalse(self.RC.getWOS(self.RC.pop().UT))
+        with self.assertRaises(ValueError):
+            self.RC.getWOS("asdfghjkjhgfdsdfghj")
+            self.RC.dropWOS("asdfghjkjhgfdsdfghj")
+
+
     def test_directoryRead(self):
         self.assertEqual(len(isilib.RecordCollection('.')), 0)
         self.assertTrue(isilib.RecordCollection('isilib/tests/') >= self.RC)

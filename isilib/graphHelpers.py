@@ -451,32 +451,3 @@ def drop_nodesByCount(grph, minCount = -float('inf'), maxCount = float('inf'), p
     if PBar:
         PBar.finish(str(total - len(goodNodes)) + " nodes out of " + str(total) + " dropped, " + str(len(goodNodes)) + " returned")
     return grph.subgraph(goodNodes)
-
-def graphDensityContourPlot(G, axisSamples = 100, bluring = 10):
-    """
-    Requires numpy and matplotlib
-    """
-    from mpl_toolkits.mplot3d import Axes3D
-    import matplotlib.pyplot as plt
-    import numpy as np
-    import scipy.ndimage as ndi
-    fig = plt.figure()
-    #ax = fig.gca(projection='3d')
-    pos = nx.spring_layout(G, scale = axisSamples - 1)
-    grid = np.zeros( [axisSamples, axisSamples],dtype=np.float32)
-    for v in pos.values():
-        x, y = tuple(int(x) for x in v.round(0))
-        grid[x][y] += 1
-    grid = ndi.gaussian_filter(grid, (bluring, bluring))
-    X = Y = np.arange(0, axisSamples, 1)
-    x, y = np.meshgrid(X, Y)
-    CS = plt.contour(x, y, grid)
-
-    plt.clabel(CS, inline=1, fontsize=10)
-    plt.title('Simplest default with labels')
-    """
-    R = np.sin(np.sqrt(X**2 + Y**2))
-    ax.plot_surface(X, Y, R)
-    ax.set_zlim(0, 1)
-    """
-    plt.show()

@@ -663,7 +663,7 @@ class RecordCollection(object):
 
     def oneModeNetwork(self, mode, nodeCount = True, edgeWeight = True):
         if mode not in tagsAndNames:
-            raise TypeError(mode + " is not a known tag, or the name of a known tag.")
+            raise TypeError(str(mode) + " is not a known tag, or the name of a known tag.")
         if isilib.VERBOSE_MODE:
             PBar = _ProgressBar(0, "Starting to make a one mode network with " + mode)
             count = 0

@@ -1,7 +1,7 @@
 import networkx as nx
 import matplotlib.pyplot as plt
 
-def graphDensityContourPlot(G, layout = None, layoutScaleFactor = 1, overlay = False, axisSamples = 100, bluringFactor = .1, contours = 15, nodeSize = 10, graphType = 'coloured', iters = 50):
+def graphDensityContourPlot(G, layout = None, layoutScaleFactor = 1, overlay = False, axisSamples = 100, blurringFactor = .1, contours = 15, nodeSize = 10, graphType = 'coloured', iters = 50):
     """
     Requires numpy and matplotlib
     graphType is either "coloured or "solid"
@@ -34,7 +34,7 @@ def graphDensityContourPlot(G, layout = None, layoutScaleFactor = 1, overlay = F
     axis = fig.gca(projection='3d')
     if overlay:
         nx.draw_networkx(G, pos = layout, ax = axis, node_size = nodeSize, with_labels = False, edgelist = [])
-    grid = ndi.gaussian_filter(grid, (bluringFactor * axisSamples, bluringFactor * axisSamples))
+    grid = ndi.gaussian_filter(grid, (blurringFactor * axisSamples, blurringFactor * axisSamples))
     X = Y = np.arange(0, axisSamples, 1)
     X, Y = np.meshgrid(X, Y)
     if graphType == "solid":

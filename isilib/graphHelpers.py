@@ -66,7 +66,7 @@ def write_graph(grph, name, edgeInfo = True, typing = True, suffix = 'csv', over
     If overwrite is False write_graph will throw an exception if either of the files it is attempting to write exist
     """
     if isilib.VERBOSE_MODE:
-        PBar = _ProgressBar(0, "Writing graphs: " + name)
+        PBar = _ProgressBar(0, "Writing the graph to two files starting with: " + name)
     else:
         PBar = None
     if typing:

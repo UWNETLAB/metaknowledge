@@ -483,7 +483,7 @@ class RecordCollection(object):
                             c1val = getattr(c1, nodeType)
                             c2vals = [getattr(c, nodeType) for c in filteredCites[n:]]
                             if weighted:
-                                tmpgrph.add_weighted_edges_from(edgeBunchGenerator(c1val, c2vals, weighted = True))
+                                updateWeightedEdges(tmpgrph, edgeBunchGenerator(c1val, c2vals, weighted = True))
                             else:
                                 tmpgrph.add_edges_from(edgeBunchGenerator(c1val, c2vals))
                             if extraInfo and not hasattr(tmpgrph.node[c1val], 'info'):
@@ -521,7 +521,7 @@ class RecordCollection(object):
                     if len(citeHashList) > 1:
                         if weighted:
                             for n, c1 in enumerate(citeHashList):
-                                tmpgrph.add_weighted_edges_from(edgeBunchGenerator(c1, citeHashList[n:], weighted = True))
+                                updateWeightedEdges(tmpgrph, edgeBunchGenerator(c1, citeHashList[n:], weighted = True))
                         else:
                             for n, c1 in enumerate(citeHashList):
                                 tmpgrph.add_edges_from(edgeBunchGenerator(c1, citeHashList[n:]))
@@ -592,7 +592,7 @@ class RecordCollection(object):
                             if rCitesVals[i] not in tmpgrph:
                                 tmpgrph.add_node(rCitesVals[i], info = str(filteredCites[i]))
                     if weighted:
-                        tmpgrph.add_weighted_edges_from(edgeBunchGenerator(refVal, rCitesVals, weighted = True))
+                        updateWeightedEdges(tmpgrph, edgeBunchGenerator(refVal, rCitesVals, weighted = True))
                     else:
                         tmpgrph.add_edges_from(edgeBunchGenerator(refVal, rCitesVals))
         else:
@@ -635,7 +635,7 @@ class RecordCollection(object):
                                     tmpgrph.add_node(citeHash)
                         citeHashs.append(citeHash)
                     if weighted:
-                        tmpgrph.add_weighted_edges_from(edgeBunchGenerator(recHash, citeHashs, weighted = True))
+                        edgeBunchGenerator(tmpgrph, edgeBunchGenerator(recHash, citeHashs, weighted = True))
                     else:
                         tmpgrph.add_edges_from(edgeBunchGenerator(recHash, citeHashs))
         if PBar:
@@ -1044,6 +1044,13 @@ def getCoCiteIDs(clst):
         if cId not in idDict:
             idDict[cId] = c.getExtra()
     return idDict
+
+def updateWeightedEdges(grph, ebunch):
+    for e in ebunch:
+        try:
+            grph.edge[e[0]][e[1]]['weight'] += e[2]
+        except KeyError:
+            grph.add_edge(e[0], e[1], weight = e[2])
 
 def edgeBunchGenerator(base, nodes, weighted = False, reverse = False):
     """

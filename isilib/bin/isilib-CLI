@@ -7,9 +7,13 @@ import os
 import sys
 import readline
 import collections
+import code
+import platform
 
 #TODO: Figure output name stuff
 
+RC = None
+G = None
 
 def argumentParser():
     parser = argparse.ArgumentParser(description="isilib's simple command line interface")
@@ -21,18 +25,32 @@ def argumentParser():
     parser.add_argument("--suffix", "-s", default = '', help = "Progress bar mode, shows progress bars where appropriate")
     return parser.parse_args()
 
-def inputMenu(inputDict, header = None, footer = None, errorMsg = 'That is not an option please select a different value.', promptMsg = 'What is your selection: '):
+def inputMenu(inputDict, header = None, footer = None, errorMsg = 'That is not an option please select a different value.', promptMsg = 'What is your selection: ', extraOptions = True):
     s = ''
     if header:
         s += '{}\n'.format(header)
     for k in inputDict.keys():
         s += '{0}) {1}\n'.format(k,inputDict[k])
+    if extraOptions:
+        s += 'i) open python console\n'
+        s += 'q) quit\n'
     if footer:
         s += '{}\n'.format(footer)
     print(s, end = '')
     selection = input(promptMsg)
     if selection in inputDict:
         return selection
+    elif extraOptions and selection == 'q':
+        sys.exit()
+    elif extraOptions and selection == 'i':
+        bannerMsg = 'Python {0} on {1}\nType "help", "copyright", "credits" or "license" for more information.\nisilib is imported as isilib and Networkx is imported as nx.\n'.format(sys.version, platform.system())
+        if RC:
+            bannerMsg += "The isilib RecordCollection is called RC"
+            if G:
+                bannerMsg += " and the Networkx graph is called G."
+            else:
+                bannerMsg += '.'
+        code.interact(local = globals(), banner = bannerMsg)
     else:
         print('\033[93m\a' + errorMsg + '\033[0m') #Not windows compatible
         return inputMenu(inputDict, header = header, footer = footer, errorMsg = errorMsg, promptMsg = promptMsg)
@@ -66,13 +84,6 @@ def getTag(prompt, nMode = False):
         else:
             print("{} is not a valid tag, please try again".format(retTag))
             return getTag(prompt, nMode = nMode)
-
-
-def controlledPrint(s):
-    if args.verbose:
-        print(s)
-    else:
-        pass
 
 def getFiles(args):
     tmpRC = isilib.RecordCollection(name = '')
@@ -182,8 +193,19 @@ def  outputNetwork(clargs, grph):
     ('3', "node attribute list"),
     ('4', "graphml (SLOW)"),
     ])
+    try:
+        import isilib.visual
+    except ImportError:
+        pass
+    else:
+        outDict['0'] = "view graph"
+        outDict.move_to_end('0', last = False)
+    print("The network contains {} nodes and {} edges.".format(len(grph.nodes()), len(grph.edges())))
     outID = int(inputMenu(outDict, header = "What type of output to you want? "))
-    if outID == 1:
+    if outID == 0:
+        isilib.visual.quickGraph(grph)
+        outputNetwork(clargs, grph)
+    elif outID == 1:
         while True:
             try:
                 outNameName = getOutputName(clargs, '', checking = False)
@@ -217,9 +239,13 @@ def  outputNetwork(clargs, grph):
 def main():
     try:
         args = argumentParser()
+        if args.progress:
+            isilib.VERBOSE_MODE = True
+        global RC
         RC = getFiles(args)
         makeNetwork = getWhatToDo(args, RC)
         if makeNetwork:
+            global G
             G = getNetwork(args, RC)
             outputNetwork(args, G)
     except KeyboardInterrupt:
@@ -232,23 +258,6 @@ def main():
             print("A {0} error occured: {1}".format(type(e).__name__ ,e))
     else:
         return 1
-
-
-    """
-    if args.progress:
-        setattr(isilib, 'VERBOSE_MODE', True)
-    controlledPrint(args.__dict__)
-    try:
-        print(isilib.VERBOSE_MODE)
-        RC = getFiles(args.files)
-    except TypeError as e:
-        print(str(e))
-        sys.exit()
-    G = getNetwork(RC)
-    outputNetwork(G)
-    """
-
-
 
 if __name__ == "__main__":
     main()

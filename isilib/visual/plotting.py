@@ -1,5 +1,13 @@
 import networkx as nx
 import matplotlib.pyplot as plt
+import numpy as np
+import scipy.ndimage as ndi
+
+def quickGraph(G):
+    nx.draw_spring(G)
+    plt.show()
+
+
 
 def graphDensityContourPlot(G, layout = None, layoutScaleFactor = 1, shifAxis = False, overlay = False, axisSamples = 100, blurringFactor = .1, contours = 15, nodeSize = 10, graphType = 'coloured', iters = 50):
     """
@@ -7,8 +15,8 @@ def graphDensityContourPlot(G, layout = None, layoutScaleFactor = 1, shifAxis = 
     graphType is either "coloured or "solid"
     """
     from mpl_toolkits.mplot3d import Axes3D
-    import numpy as np
-    import scipy.ndimage as ndi
+
+
     if not isinstance(G, nx.classes.digraph.DiGraph) and not isinstance(G, nx.classes.graph.Graph):
         raise TypeError("{} is not a valid input.".format(type(G)))
     if layout is None:

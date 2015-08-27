@@ -1,1 +1,1 @@
-from .plotting import graphDensityContourPlot
+from .plotting import graphDensityContourPlot, quickGraph

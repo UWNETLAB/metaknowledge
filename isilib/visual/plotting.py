@@ -1,7 +1,7 @@
 import networkx as nx
 import matplotlib.pyplot as plt
 
-def graphDensityContourPlot(G, layout = None, layoutScaleFactor = 1, overlay = False, axisSamples = 100, blurringFactor = .1, contours = 15, nodeSize = 10, graphType = 'coloured', iters = 50):
+def graphDensityContourPlot(G, layout = None, layoutScaleFactor = 1, shifAxis = False, overlay = False, axisSamples = 100, blurringFactor = .1, contours = 15, nodeSize = 10, graphType = 'coloured', iters = 50):
     """
     Requires numpy and matplotlib
     graphType is either "coloured or "solid"
@@ -22,7 +22,10 @@ def graphDensityContourPlot(G, layout = None, layoutScaleFactor = 1, overlay = F
         grid = np.zeros([axisSamples, axisSamples],dtype=np.float32)
         multFactor = (axisSamples - 1) / layoutScaleFactor
         for k in layout.keys():
-            tmpPos = layout[k] * multFactor
+            if shifAxis:
+                tmpPos = (layout[k]  + layoutScaleFactor / 2) * multFactor
+            else:
+                tmpPos = layout[k] * multFactor
             layout[k] = tmpPos
             x, y = tuple(int(x) for x in tmpPos.round(0))
             grid[y][x] += 1

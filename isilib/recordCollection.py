@@ -635,7 +635,7 @@ class RecordCollection(object):
                                     tmpgrph.add_node(citeHash)
                         citeHashs.append(citeHash)
                     if weighted:
-                        edgeBunchGenerator(tmpgrph, edgeBunchGenerator(recHash, citeHashs, weighted = True))
+                        updateWeightedEdges(tmpgrph, edgeBunchGenerator(recHash, citeHashs, weighted = True))
                     else:
                         tmpgrph.add_edges_from(edgeBunchGenerator(recHash, citeHashs))
         if PBar:

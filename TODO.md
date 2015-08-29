@@ -31,12 +31,16 @@
     - to get institutional collaboration networks
     - to group records based on similar bibliographies (this is less important to me than getting institutional networks)
 
-
+* PrintNetworkStats()
 * whenever a new network is created, print info:
     - whether directed or undirected
     - number of nodes and edges
     - number of nodes in the giant component
     - number of isolates
+* Node Level stuff
+   - centrality
+   - centralities
+   - ouput Dict or modify networks
 
 ## Content: Burst Detection, Topics, etc.
 

@@ -12,6 +12,7 @@ def quickGraph(G):
 def graphDensityContourPlot(G, layout = None, layoutScaleFactor = 1, shifAxis = False, overlay = False, axisSamples = 100, blurringFactor = .1, contours = 15, nodeSize = 10, graphType = 'coloured', iters = 50):
     """
     Requires numpy and matplotlib
+    
     graphType is either "coloured or "solid"
     """
     from mpl_toolkits.mplot3d import Axes3D

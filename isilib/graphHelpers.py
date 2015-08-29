@@ -15,6 +15,8 @@ def read_graph(edgeList, nodeList = None, directed = False, idKey = 'ID', eSourc
     nodeList must be given if any of the attributes of the node are needed
     directed controls if the resultant graph is directional eSource and eDest control the direction
     idKey, eSource and  eDest are the labels for the edge's id, source and destination respectively, they must match headers in the file or a keyError exception will be thrown
+
+    igraph Style
     """
     if isilib.VERBOSE_MODE:
         PBar = _ProgressBar(0, "Starting to reading graphs")
@@ -335,7 +337,7 @@ def getDegreeDistribution(grph, weightParameter = "weight", strictWeightNames = 
         distVec[v] += 1
     return distVec
 
-def drop_edges(grph, minWeight = -float('inf'), maxWeight = float('inf'), parameterName = 'weight', ignoreUnweighted = False):
+def drop_edges(grph, minWeight = - float('inf'), maxWeight = float('inf'), parameterName = 'weight', ignoreUnweighted = False, dropSelfLoops = False):
     """
     Returns a graph with edges whose weight is within the inclusive bounds of minWeight and maxWeight, i.e minWeight <= edges weight <= maxWeight, will throw a Keyerror if the graph is unweighted
 

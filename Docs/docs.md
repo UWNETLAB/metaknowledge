@@ -184,11 +184,6 @@ title: isilib Docs
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A [Citation](#isilib.Citation) object containing a citation for the Record.
 
 
-<a name="Record.getAuthorLocations"></a>Record.**getAuthorLocations**():
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WOS:000258703100004
-
-
 <a name="Record.getTag"></a>Record.**getTag**(_tag_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a list containing the raw data of the record associated with _tag_. Each line of the record is one string in the list.
@@ -497,7 +492,7 @@ title: isilib Docs
 
 - - -
 
-<a name="isilib.drop_edges"></a>isilib.**drop_edges**(_grph, minWeight=-inf, maxWeight=inf, parameterName='weight', ignoreUnweighted=False_):
+<a name="isilib.drop_edges"></a>isilib.**drop_edges**(_grph, minWeight=-inf, maxWeight=inf, parameterName='weight', ignoreUnweighted=False, dropSelfLoops=False_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a graph with edges whose weight is within the inclusive bounds of minWeight and maxWeight, i.e minWeight <= edges weight <= maxWeight, will throw a Keyerror if the graph is unweighted
 

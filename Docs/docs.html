@@ -94,8 +94,6 @@
 <h5 id="returns-4">    Returns</h5>
 <p>      <code>Citation</code></p>
 <p>             A <a href="#isilib.Citation">Citation</a> object containing a citation for the Record.</p>
-<p><a name="Record.getAuthorLocations"></a>Record.<strong>getAuthorLocations</strong>():</p>
-<p>      WOS:000258703100004</p>
 <p><a name="Record.getTag"></a>Record.<strong>getTag</strong>(<em>tag</em>):</p>
 <p>      Returns a list containing the raw data of the record associated with <em>tag</em>. Each line of the record is one string in the list.</p>
 <h5 id="parameters-2">    Parameters</h5>
@@ -236,7 +234,7 @@
 <p><a name="isilib.btest"></a>isilib.<strong>btest</strong>(<em>quite=False</em>):</p>
 <h1 id="needs-to-be-written-6">Needs to be written</h1>
 <hr />
-<p><a name="isilib.drop_edges"></a>isilib.<strong>drop_edges</strong>(<em>grph, minWeight=-inf, maxWeight=inf, parameterName='weight', ignoreUnweighted=False</em>):</p>
+<p><a name="isilib.drop_edges"></a>isilib.<strong>drop_edges</strong>(<em>grph, minWeight=-inf, maxWeight=inf, parameterName='weight', ignoreUnweighted=False, dropSelfLoops=False</em>):</p>
 <p>      Returns a graph with edges whose weight is within the inclusive bounds of minWeight and maxWeight, i.e minWeight &lt;= edges weight &lt;= maxWeight, will throw a Keyerror if the graph is unweighted</p>
 <p>      minWeight and maxWeight default to negative and positive infinity respectively so without specifying either the output should be the input</p>
 <p>      parameterName is key to weight field in the edge's dictionary, default is weight as that is almost always correct</p>

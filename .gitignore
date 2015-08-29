@@ -18,6 +18,7 @@ profile_wosserver/
 !profile_wosserver/ipython_*
 !Docs/*.sh
 isilibDocs.md
+j9Raws/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

@@ -1,1 +1,1 @@
-from .backend import *
+from .backend import updatej9DB, getj9dict 

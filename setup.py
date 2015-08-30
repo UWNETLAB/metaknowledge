@@ -1,3 +1,5 @@
+from isilib.journalAbbreviations import abrevDBname
+
 from setuptools import setup, find_packages
 setup(name='isilib',
     version='0.2.0',
@@ -11,6 +13,6 @@ setup(name='isilib',
     scripts=['isilib/bin/isilib-test', 'isilib/bin/isilib-coauthmaker', 'isilib/bin/isilib-cocitemaker', 'isilib/bin/isilib-makeListofcitations', 'isilib/bin/isilib-citemaker', 'isilib/bin/isilib-collectRecords', 'isilib/bin/isilib-cociteAuthsMaker', 'isilib/bin/isilib-CLI'],
     test_suite='isilib.tests',
     include_package_data = True,
-    package_data = {'': ['*.db']}
+    package_data = {'': [abrevDBname + '.*']}
     #data_files= [('/tests', ["testFile.isi", "OnePaper.isi", "ManyAuthors.isi"])]
 )

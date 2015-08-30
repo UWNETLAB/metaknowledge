@@ -194,3 +194,5 @@ class TestRecordCollection(unittest.TestCase):
         self.assertEqual(len(RC1970), 15)
         self.assertEqual(len(RC1970) + len(RCno1970), len(self.RC))
         self.assertEqual(len(RCMELLER), 1)
+        RCnocite = isilib.RecordCollection('isilib/tests/OnePaperNoCites.isi')
+        self.assertEqual(len(RCnocite.citeFilter('')), 0)

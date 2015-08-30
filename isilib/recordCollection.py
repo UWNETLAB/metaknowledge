@@ -928,74 +928,77 @@ class RecordCollection(object):
         retRecs = []
         keyString = str(keyString)
         for R in self:
-            if field == 'all':
-                for cite in R.citations:
-                    if caseSensitive:
-                        if keyString in cite.original:
+            try:
+                if field == 'all':
+                    for cite in R.citations:
+                        if caseSensitive:
+                            if keyString in cite.original:
+                                retRecs.append(R)
+                                break
+                        else:
+                            if keyString.upper() in cite.original.upper():
+                                retRecs.append(R)
+                                break
+                elif field == 'author':
+                    for cite in R.citations:
+                        try:
+                            if keyString.upper() in cite.author:
+                                retRecs.append(R)
+                                break
+                        except AttributeError:
+                            pass
+                elif field == 'journal':
+                    for cite in R.citations:
+                        try:
+                            if keyString.upper() in cite.journal:
+                                retRecs.append(R)
+                                break
+                        except AttributeError:
+                            pass
+                elif field == 'year':
+                    for cite in R.citations:
+                        try:
+                            if keyString.upper() in cite.year:
+                                retRecs.append(R)
+                                break
+                        except AttributeError:
+                            pass
+                elif field == 'V':
+                    for cite in R.citations:
+                        try:
+                            if keyString.upper() in cite.V:
+                                retRecs.append(R)
+                                break
+                        except AttributeError:
+                            pass
+                elif field == 'P':
+                    for cite in R.citations:
+                        try:
+                            if keyString.upper() in cite.P:
+                                retRecs.append(R)
+                                break
+                        except AttributeError:
+                            pass
+                elif field == 'misc':
+                    for cite in R.citations:
+                        try:
+                            if keyString.upper() in cite.misc:
+                                retRecs.append(R)
+                                break
+                        except AttributeError:
+                            pass
+                elif field == 'anonymous':
+                    for cite in R.citations:
+                        if cite.isAnonymous():
                             retRecs.append(R)
                             break
-                    else:
-                        if keyString.upper() in cite.original.upper():
+                elif field == 'bad':
+                    for cite in R.citations:
+                        if cite.bad:
                             retRecs.append(R)
                             break
-            elif field == 'author':
-                for cite in R.citations:
-                    try:
-                        if keyString.upper() in cite.author:
-                            retRecs.append(R)
-                            break
-                    except AttributeError:
-                        pass
-            elif field == 'journal':
-                for cite in R.citations:
-                    try:
-                        if keyString.upper() in cite.journal:
-                            retRecs.append(R)
-                            break
-                    except AttributeError:
-                        pass
-            elif field == 'year':
-                for cite in R.citations:
-                    try:
-                        if keyString.upper() in cite.year:
-                            retRecs.append(R)
-                            break
-                    except AttributeError:
-                        pass
-            elif field == 'V':
-                for cite in R.citations:
-                    try:
-                        if keyString.upper() in cite.V:
-                            retRecs.append(R)
-                            break
-                    except AttributeError:
-                        pass
-            elif field == 'P':
-                for cite in R.citations:
-                    try:
-                        if keyString.upper() in cite.P:
-                            retRecs.append(R)
-                            break
-                    except AttributeError:
-                        pass
-            elif field == 'misc':
-                for cite in R.citations:
-                    try:
-                        if keyString.upper() in cite.misc:
-                            retRecs.append(R)
-                            break
-                    except AttributeError:
-                        pass
-            elif field == 'anonymous':
-                for cite in R.citations:
-                    if cite.isAnonymous():
-                        retRecs.append(R)
-                        break
-            elif field == 'bad':
-                for cite in R.citations:
-                    if cite.bad:
-                        retRecs.append(R)
-                        break
+            except TypeError:
+                pass
         if reverse:
             excluded = []
             for R in self:

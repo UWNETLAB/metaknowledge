@@ -2,9 +2,9 @@ import urllib.request
 import string
 import os
 import datetime
-import shelve
+import dbm.dumb
 
-abrevDBname = "j9Abbreviations.db"
+abrevDBname = "j9Abbreviations"
 
 def j9urlGenerator(nameDict = False):
     """How to get all the urls for the WOS Journal Title Abbreviations. Each is varies by only a few characters. These are the currently in use urls they may change.
@@ -106,7 +106,7 @@ def updatej9DB(dbname = abrevDBname, saveRawHTML = False):
             os.mkdir(rawDir)
         _j9SaveCurrent(sDir = rawDir)
     dbLoc = os.path.normpath(os.path.dirname(__file__) + '/{}'.format(dbname))
-    with shelve.open(dbLoc) as db:
+    with dbm.dumb.open(dbLoc, flag = 'c') as db:
         try:
             j9Dict = _getCurrentj9Dict()
         except urllib.error.URLError:
@@ -115,9 +115,9 @@ def updatej9DB(dbname = abrevDBname, saveRawHTML = False):
             if k in db:
                 for jName in v:
                     if jName not in j9Dict[k]:
-                        j9Dict[k].append(jName)
+                        j9Dict[k] += '|' + jName
             else:
-                db[k] = v
+                db[k] = '|'.join(v)
 
 def getj9dict(updateDB = False, requireConnection = True, saveRaw = False, dbname = abrevDBname):
     """Returns the dictionary of journal abbreviations to a list of the associated journal names. By default the local database is used. The database is in the file _dbname_ in the same directory as this source file
@@ -149,7 +149,10 @@ def getj9dict(updateDB = False, requireConnection = True, saveRaw = False, dbnam
             else:
                 pass
     dbLoc = os.path.normpath(os.path.dirname(__file__) + '/{}'.format(dbname))
-    with shelve.open(dbLoc) as db:
+    with dbm.dumb.open(dbLoc, flag = 'c') as db:
         if len(db) == 0:
             raise RuntimeError("J9 Database empty or missing, to regenrate it run updatej9DB().")
-        return dict(db)
+        retDict = {}
+        for k, v in db.items():
+            retDict[k.decode('utf-8')] = v.decode('utf-8').split('|')
+        return retDict

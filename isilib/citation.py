@@ -228,12 +228,22 @@ class Citation(object):
 
         `str`
 
-        > The first full name given for the journal of the Citation, if there is not one then `None` is returned
+        > The first full name given for the journal of the Citation (or the first name in the WOS list if multiple names exist), if there is not one then `None` is returned
         """
         global abbrevDict
         if abbrevDict is None:
             abbrevDict = getj9dict()
-        if self._isjourn:
+        if self.isJournal():
             return abbrevDict[self.journal][0]
         else:
             return None
+
+def filterNonJournals(citesLst, invert = False):
+    retCites = []
+    for c in citesLst:
+        if c.isJournal():
+            if not invert:
+                retCites.append(c)
+        elif invert:
+            retCites.append(c)
+    return retCites

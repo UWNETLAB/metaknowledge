@@ -282,7 +282,10 @@ class RecordCollection(object):
 
         > The Record whose WOS number is _wosNum_
         """
-        if wosNum[:4] != 'WOS:':
+        try:
+            if wosNum[:4] != 'WOS:':
+                raise ValueError("{} is not a valid WOS number string, it does not start with 'WOS:'.".format(wosNum))
+        except (TypeError, IndexError):
             raise ValueError("{} is not a valid WOS number string, it does not start with 'WOS:'.".format(wosNum))
         for R in self:
             if R.wosString == wosNum:
@@ -307,6 +310,32 @@ class RecordCollection(object):
         """
         self._Records = {r for r in self._Records if not r.bad}
         self._repr = repr(self) + '_badRecordsDropped'
+
+    def dropNonJournals(self, ptVal = 'J', dropBad = True, invert = False):
+        """Drops the non journal type Records from the collection
+
+        # Parameters
+
+        _ptVal_ : `optional [str]`
+
+        > The value of the PT tag to be kept, default is 'J' the journal tag
+
+        _dropBad_ : `optional [bool]`
+
+        > Determines if bad Records will be dropped as well, default `True`
+
+        _invert_ : `optional [bool]`
+
+        > Set `True` to drop journals (or the PT tag given by _ptVal) instead of keeping them. Note, it still drops bad Records if _dropBad_ is `True`, default `False`
+        """
+        if dropBad:
+            self.dropBadRecords
+        if invert:
+            self._Records = {r for r in self._Records if r.PT != ptVal.upper()}
+            self._repr = repr(self) + '_PT-{}-Dropped'.format(ptVal)
+        else:
+            self._Records = {r for r in self._Records if r.PT == ptVal.upper()}
+            self._repr = repr(self) + '_PT-{}-Only'.format(ptVal)
 
     def writeFile(self, fname = None):
         """

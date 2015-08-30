@@ -2,6 +2,7 @@ import unittest
 import isilib
 import os
 import filecmp
+import copy
 import networkx as nx
 
 class TestRecordCollection(unittest.TestCase):
@@ -30,7 +31,18 @@ class TestRecordCollection(unittest.TestCase):
         self.assertTrue(badRecs.pop().bad)
         self.RC.dropBadRecords()
 
+    def test_dropJourn(self):
+        RCcopy = copy.copy(self.RC)
+        self.RC.dropNonJournals()
+        self.assertEqual(len(self.RC), len(RCcopy) - 1)
+        self.RC.dropNonJournals(invert = True)
+        self.assertEqual(len(self.RC), 0)
+        RCcopy.dropNonJournals(ptVal = 'B')
+        self.assertEqual(len(RCcopy), 1)
+
+
     def test_getWOS(self):
+        self.RC.dropBadRecords()
         R = self.RC.peak()
         l = len(self.RC)
         self.assertTrue(R, self.RC.getWOS(R.UT))
@@ -95,8 +107,8 @@ class TestRecordCollection(unittest.TestCase):
         self.assertEqual(len(Gauths.edges()), 6996)
         self.assertEqual(len(Gyear.nodes()), 91)
         self.assertEqual(len(Gyear.edges()), 1962)
-        self.assertEqual(len(Gjour.nodes()), 226)
-        self.assertEqual(len(Gjour.edges()), 4524)
+        self.assertEqual(len(Gjour.nodes()), 223)
+        self.assertEqual(len(Gjour.edges()), 4455)
 
     def test_coAuth(self):
         Gdefault = self.RC.coAuthNetwork()
@@ -166,8 +178,8 @@ class TestRecordCollection(unittest.TestCase):
 
     def test_nMode(self):
         G = self.RC.nModeNetwork(isilib.tagToFull.keys())
-        self.assertEqual(len(G.nodes()), 1185)
-        self.assertEqual(len(G.edges()), 38557)
+        self.assertEqual(len(G.nodes()), 1186)
+        self.assertEqual(len(G.edges()), 38592)
 
     def test_citeFilter(self):
         RCmin = self.RC.citeFilter('', reverse = True)

@@ -150,4 +150,6 @@ def getj9dict(updateDB = False, requireConnection = True, saveRaw = False, dbnam
                 pass
     dbLoc = os.path.normpath(os.path.dirname(__file__) + '/{}'.format(dbname))
     with shelve.open(dbLoc) as db:
+        if len(db) == 0:
+            raise RuntimeError("J9 Database empty or missing, to regenrate it run updatej9DB().")
         return dict(db)

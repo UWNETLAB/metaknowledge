@@ -203,7 +203,13 @@ class Citation(object):
             return retVal
 
     def isJournal(self):
-        """
+        """Returns `True` if the Citation's journal field is a journal abbreviation given by WOS, i.e. checks if the citation is citing a journal. Requires the j9Abbreviations database file.
+
+        # Returns
+
+        `bool`
+
+        > `True` if the Citation is for a journal
         """
         global abbrevDict
         if abbrevDict is None:
@@ -216,6 +222,14 @@ class Citation(object):
         return self._isjourn
 
     def getFullJournalName(self):
+        """Returns the full name of the Citation's journal field. Requires the j9Abbreviations database file.
+
+        # Returns
+
+        `str`
+
+        > The first full name given for the journal of the Citation, if there is not one then `None` is returned
+        """
         global abbrevDict
         if abbrevDict is None:
             abbrevDict = getj9dict()

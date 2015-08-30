@@ -91,8 +91,8 @@ class TestRecordCollection(unittest.TestCase):
         Gauths = self.RC.coCiteNetwork(nodeType = "author", dropAnon = False)
         GauthsNoExtra = self.RC.coCiteNetwork(nodeType = "author", extraInfo = False)
         Gunwei = self.RC.coCiteNetwork(nodeType = 'original',weighted = False)
-        Gjour = self.RC.coCiteNetwork(nodeType = "journal")
-        Gyear = self.RC.coCiteNetwork(nodeType = "year")
+        Gjour = self.RC.coCiteNetwork(nodeType = "journal", dropNonJournals = True, saveJournalNames = True)
+        Gyear = self.RC.coCiteNetwork(nodeType = "year", saveJournalNames = True)
         self.assertIsInstance(Gdefault, nx.classes.graph.Graph)
         self.assertLessEqual(len(Gdefault.edges()), len(Gunwei.edges()))
         self.assertLessEqual(len(Gdefault.nodes()), len(Gunwei.nodes()))
@@ -107,8 +107,10 @@ class TestRecordCollection(unittest.TestCase):
         self.assertEqual(len(Gauths.edges()), 6996)
         self.assertEqual(len(Gyear.nodes()), 91)
         self.assertEqual(len(Gyear.edges()), 1962)
-        self.assertEqual(len(Gjour.nodes()), 223)
-        self.assertEqual(len(Gjour.edges()), 4455)
+        self.assertEqual(len(Gjour.nodes()), 84)
+        self.assertEqual(len(Gjour.edges()), 1215)
+        self.assertTrue('journal' in Gjour.nodes(data=True)[0][1])
+        self.assertTrue('journal' in Gyear.nodes(data=True)[0][1])
 
     def test_coAuth(self):
         Gdefault = self.RC.coAuthNetwork()
@@ -122,8 +124,8 @@ class TestRecordCollection(unittest.TestCase):
         Gauths = self.RC.citationNetwork(nodeType = "author")
         GauthsNoExtra = self.RC.citationNetwork(nodeType = "author", extraInfo = False)
         Gunwei = self.RC.citationNetwork(nodeType = 'original', weighted = False)
-        Gjour = self.RC.citationNetwork(nodeType = "author")
-        Gyear = self.RC.citationNetwork(nodeType = "year")
+        Gjour = self.RC.citationNetwork(nodeType = "author", dropNonJournals = True, saveJournalNames = True)
+        Gyear = self.RC.citationNetwork(nodeType = "year", saveJournalNames = True)
         self.assertIsInstance(Gdefault, nx.classes.digraph.DiGraph)
         self.assertLessEqual(len(Gdefault.edges()), len(Gunwei.edges()))
         self.assertLessEqual(len(Gdefault.nodes()), len(Gunwei.nodes()))
@@ -140,8 +142,9 @@ class TestRecordCollection(unittest.TestCase):
         self.assertEqual(len(Gdefault.edges()), 847)
         self.assertEqual(len(Ganon.edges()), 848)
         self.assertEqual(len(Gauths.edges()), 569)
-        self.assertEqual(len(Gjour.edges()), 569)
-        self.assertEqual(len(Gjour.edges()), 569)
+        self.assertEqual(len(Gjour.edges()), 429)
+        self.assertTrue('journal' in Gjour.nodes(data=True)[0][1])
+        self.assertTrue('journal' in Gyear.nodes(data=True)[0][1])
 
 
     def test_oneMode(self):

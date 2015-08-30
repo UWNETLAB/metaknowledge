@@ -11,6 +11,6 @@ setup(name='isilib',
     scripts=['isilib/bin/isilib-test', 'isilib/bin/isilib-coauthmaker', 'isilib/bin/isilib-cocitemaker', 'isilib/bin/isilib-makeListofcitations', 'isilib/bin/isilib-citemaker', 'isilib/bin/isilib-collectRecords', 'isilib/bin/isilib-cociteAuthsMaker', 'isilib/bin/isilib-CLI'],
     test_suite='isilib.tests',
     include_package_data = True,
-    package_data = {'isilib.journalAbbreviations': 'j9Abbreviations'}
+    package_data = {'': ['*.db']}
     #data_files= [('/tests', ["testFile.isi", "OnePaper.isi", "ManyAuthors.isi"])]
 )

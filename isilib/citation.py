@@ -1,3 +1,7 @@
+from .journalAbbreviations import getj9dict
+
+abbrevDict = None
+
 class BadCitation(Warning):
     """
     Exception thrown by Citation
@@ -55,7 +59,7 @@ class Citation(object):
     def __init__(self, cite):
         self.original = cite
         self.bad = False
-        c = cite.upper().replace(' ',' ').split(', ')
+        c = ' '.join(cite.upper().split()).split(', ')
         if 'DOI' in c[-1][:3]:
             self.DOI = c.pop().split(' ')[-1]
         if len(c) < 3:
@@ -197,3 +201,25 @@ class Citation(object):
             return retVal[:-2]
         else:
             return retVal
+
+    def isJournal(self):
+        """
+        """
+        global abbrevDict
+        if abbrevDict is None:
+            abbrevDict = getj9dict()
+        if not hasattr(self, '_isjourn'):
+            if hasattr(self, 'journal'):
+                self._isjourn = self.journal in abbrevDict
+            else:
+                self._isjourn = False
+        return self._isjourn
+
+    def getFullJournalName(self):
+        global abbrevDict
+        if abbrevDict is None:
+            abbrevDict = getj9dict()
+        if self._isjourn:
+            return abbrevDict[self.journal][0]
+        else:
+            return None

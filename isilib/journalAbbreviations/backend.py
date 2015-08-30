@@ -4,6 +4,8 @@ import os
 import datetime
 import shelve
 
+abrevDBname = "j9Abbreviations.db"
+
 def j9urlGenerator(nameDict = False):
     """How to get all the urls for the WOS Journal Title Abbreviations. Each is varies by only a few characters. These are the currently in use urls they may change.
 
@@ -85,7 +87,7 @@ def _getCurrentj9Dict():
         j9Dict.update(d)
     return j9Dict
 
-def updatej9DB(dbname = "j9Abbreviations.db", saveRawHTML = False):
+def updatej9DB(dbname = abrevDBname, saveRawHTML = False):
     """Updates the database of Journal Title Abbreviations. Requires an internet connection. The data base is saved relative to the source file not the working directory.
 
     # Parameters
@@ -117,7 +119,7 @@ def updatej9DB(dbname = "j9Abbreviations.db", saveRawHTML = False):
             else:
                 db[k] = v
 
-def getj9dict(updateDB = False, requireConnection = True, saveRaw = False, dbname = "j9Abbreviations.db"):
+def getj9dict(updateDB = False, requireConnection = True, saveRaw = False, dbname = abrevDBname):
     """Returns the dictionary of journal abbreviations to a list of the associated journal names. By default the local database is used. The database is in the file _dbname_ in the same directory as this source file
 
     # Parameters

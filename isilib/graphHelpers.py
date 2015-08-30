@@ -369,8 +369,14 @@ def drop_edges(grph, minWeight = - float('inf'), maxWeight = float('inf'), param
                     PBar.updateVal(count/ total, str(count) + " edges analysed and " + str(total -len(tmpGrph.edges())) + " edges dropped")
             if val > maxWeight or  val < minWeight:
                 tmpGrph.remove_edge(e[0], e[1])
+    if dropSelfLoops:
+        slps = tmpGrph.selfloop_edges()
+        if PBar:
+            PBar.updateVal(1, "Dropping self {} loops".format(len(slps)))
+        for e in slps:
+            tmpGrph.remove_edge(e[0], e[1])
     if PBar:
-        PBar.finish(str(total -len(tmpGrph.edges())) + " edges out of " + str(total) + " dropped, " + str(len(tmpGrph.edges())) + " returned")
+        PBar.finish(str(total - len(tmpGrph.edges())) + " edges out of " + str(total) + " dropped, " + str(len(tmpGrph.edges())) + " returned")
     return tmpGrph
 
 def drop_nodesByDegree(grph, minDegree = -float('inf'), maxDegree = float('inf'), useWeight = False, parameterName = 'weight', ignoreUnweighted = False):

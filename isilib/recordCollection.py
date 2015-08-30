@@ -461,7 +461,7 @@ class RecordCollection(object):
             PBar.finish("Done making a co-authorship network")
         return grph
 
-    def coCiteNetwork(self, dropAnon = True, nodeType = "full", extraInfo = True, weighted = True, dropNonJournals = False, saveJournalNames = False):
+    def coCiteNetwork(self, dropAnon = True, nodeType = "full", extraInfo = False, weighted = True, dropNonJournals = False, saveJournalNames = False):
         """Creates a co-citation network for the RecordCollection.
 
         # Parameters
@@ -581,7 +581,7 @@ class RecordCollection(object):
             PBar.finish("Done making a co-citation network of " + repr(self))
         return tmpgrph
 
-    def citationNetwork(self, dropAnon = True, nodeType = "full", extraInfo = True, weighted = True, dropNonJournals = False, saveJournalNames = False):
+    def citationNetwork(self, dropAnon = True, nodeType = "full", extraInfo = False, weighted = True, dropNonJournals = False, saveJournalNames = False):
 
         """Creates a citation network for the RecordCollection.
 
@@ -664,6 +664,10 @@ class RecordCollection(object):
                         for i in range(len(filteredCites)):
                             if rCitesVals[i] not in tmpgrph:
                                 tmpgrph.add_node(rCitesVals[i], info = str(filteredCites[i]))
+                    elif saveJournalNames:
+                        for i in range(len(filteredCites)):
+                            if rCitesVals[i] not in tmpgrph:
+                                tmpgrph.add_node(rCitesVals[i],journal = str(filteredCites[i].getFullJournalName()))
                     if weighted:
                         updateWeightedEdges(tmpgrph, edgeBunchGenerator(refVal, rCitesVals, weighted = True))
                     else:

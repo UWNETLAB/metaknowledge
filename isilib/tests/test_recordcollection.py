@@ -87,7 +87,7 @@ class TestRecordCollection(unittest.TestCase):
 
 
     def test_coCite(self):
-        Gdefault = self.RC.coCiteNetwork()
+        Gdefault = self.RC.coCiteNetwork(extraInfo = True)
         Gauths = self.RC.coCiteNetwork(nodeType = "author", dropAnon = False)
         GauthsNoExtra = self.RC.coCiteNetwork(nodeType = "author", extraInfo = False)
         Gunwei = self.RC.coCiteNetwork(nodeType = 'original',weighted = False)
@@ -119,7 +119,7 @@ class TestRecordCollection(unittest.TestCase):
         self.assertEqual(len(Gdefault.edges()), 46)
 
     def test_Cite(self):
-        Gdefault = self.RC.citationNetwork()
+        Gdefault = self.RC.citationNetwork(extraInfo = True)
         Ganon = self.RC.citationNetwork(dropAnon = False)
         Gauths = self.RC.citationNetwork(nodeType = "author")
         GauthsNoExtra = self.RC.citationNetwork(nodeType = "author", extraInfo = False)

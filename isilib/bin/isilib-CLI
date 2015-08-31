@@ -85,6 +85,14 @@ def getTag(prompt, nMode = False):
             print("{} is not a valid tag, please try again".format(retTag))
             return getTag(prompt, nMode = nMode)
 
+def getNum(prompt):
+    retNum = input(prompt)
+    try:
+        return float(retNum)
+    except ValueError:
+        print("{} is not a number, please try again".format(retNum))
+        return getNum(prompt)
+
 def getFiles(args):
     tmpRC = isilib.RecordCollection(name = '')
     if len(args.files) > 0:
@@ -186,6 +194,34 @@ def getNetwork(clargs, inRC):
         print("Generating co-authorship network")
         return inRC.coAuthNetwork()
 
+def getThresholds(clargs, grph):
+    thresDict = collections.OrderedDict([
+    ('0', "Continue"),
+    ('1', "Drop isolates"),
+    ('2', "Remove self loops"),
+    ('3', "Remove edges below some weight"),
+    ('4', "Remove edges above some weight"),
+    ('5', "Remove nodes below some degree"),
+    ('6', "Remove nodes above some degree"),
+    ])
+    print("The network contains {0} nodes and {1} edges, of which {2} are isolated and {3} are self loops.".format(len(grph.nodes()), len(grph.edges()), len(nx.isolates(grph)), len(grph.selfloop_edges())))
+    thresID = int(inputMenu(thresDict, header = "What type of filtering to you want? "))
+    if thresID == 0:
+        return grph
+    elif thresID == 1:
+        return getThresholds(clargs, isilib.drop_nodesByDegree(grph, minDegree = 1))
+    elif thresID == 2:
+        return getThresholds(clargs, isilib.drop_edges(grph, dropSelfLoops = True))
+    elif thresID == 3:
+        return getThresholds(clargs, isilib.drop_edges(grph, minWeight = getNum("What is the minumum weight for an edge to be included? ")))
+    elif thresID == 4:
+        return getThresholds(clargs, isilib.drop_edges(grph, minWeight = getNum("What is the maximum weight for an edge to be included? ")))
+    elif thresID == 5:
+        return getThresholds(clargs, isilib.drop_nodesByDegree(grph, minDegree = getNum("What is the minumum degree for an edge to be included? ")))
+    else:
+        return getThresholds(clargs, isilib.drop_nodesByDegree(grph, minDegree = getNum("What is the maximum degree for an edge to be included? ")))
+
+
 def  outputNetwork(clargs, grph):
     outDict = collections.OrderedDict([
     ('1', "edge list and node attribute list"),
@@ -247,6 +283,7 @@ def main():
         if makeNetwork:
             global G
             G = getNetwork(args, RC)
+            G = getThresholds(args, G)
             outputNetwork(args, G)
     except KeyboardInterrupt:
         print('')

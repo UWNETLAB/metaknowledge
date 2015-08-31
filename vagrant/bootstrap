@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 apt-get update
-apt-get install -y git python3 libfreetype6-dev libpng12-dev python3-setuptools python3-dev pkg-config python3-numpy python3-scipy r-base
+apt-get install -y git python3 libfreetype6-dev libpng12-dev python3-setuptools python3-dev pkg-config python3-numpy python3-scipy r-base libzmq3-dev
 sudo easy_install3 pip
 echo "alias python='python3'" >> ~/.bashrc
 echo "alias pip='pip3'" >> ~/.bashrc

@@ -85,6 +85,11 @@ class TestRecordCollection(unittest.TestCase):
         self.assertEqual(os.path.getsize(filename), 88201)
         os.remove(filename)
 
+    def test_makeDict(self):
+        d = self.RC.makeDict(onlyTheseTags = list(isilib.tagsAndNames), longNames = True, firstTags = ['UT', 'PT', 'TI', 'AF', 'CR'])
+        self.assertEqual(len(d), 61)
+        self.assertEqual(len(d['wosString']), len(self.RC))
+        self.assertEqual(d['eISSN'][0], None)
 
     def test_coCite(self):
         Gdefault = self.RC.coCiteNetwork(extraInfo = True)

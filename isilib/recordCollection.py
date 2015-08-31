@@ -357,8 +357,7 @@ class RecordCollection(object):
         f.close()
 
     def writeCSV(self, fname = None, onlyTheseTags = None, longNames = False, firstTags = ['UT', 'PT', 'TI', 'AF', 'CR'], csvDelimiter = ',', csvQuote = '"', listDelimiter = '|'):
-        """
-        Writes all the Records from the collection into a csv file with each row a record and each column a tag
+        """Writes all the Records from the collection into a csv file with each row a record and each column a tag
 
         fname is the name of the file to write to, if none is given it uses the Collections name suffixed by .csv
 
@@ -413,6 +412,42 @@ class RecordCollection(object):
                     recDict[k] = str(value)
             csvWriter.writerow(recDict)
         f.close()
+
+
+    def makeDict(self, onlyTheseTags = None, longNames = False, firstTags = ['UT', 'PT', 'TI', 'AF', 'CR']):
+        """Returns a dict with each key a tag and the values being lists of the values for each of the Records in the collection, `None` is given when there is no value and they are in the same order across each tag.
+
+        When used in pandas: `pandas.DataFrame(RC.makeDict())` returns a data frame with each column a tag and each row a Record.
+
+        # Parameters
+
+        See writeCSV()
+        """
+        for i in range(len(firstTags)):
+            if firstTags[i] in fullToTag:
+                firstTags[i] = fullToTag[firstTags[i]]
+        if onlyTheseTags:
+            shortenedTags = []
+            for i in range(len(onlyTheseTags)):
+                if onlyTheseTags[i] in fullToTag:
+                    onlyTheseTags[i] = fullToTag[onlyTheseTags[i]]
+            retrievedFields = [t for t in firstTags if t in onlyTheseTags] + [t for t in onlyTheseTags if t not in firstTags]
+        else:
+            retrievedFields = firstTags
+            for R in self:
+                tagsLst = [t for t in R.activeTags() if t not in retrievedFields]
+                retrievedFields += tagsLst
+        if longNames:
+            try:
+                retrievedFields = [tagToFull[t] for t in retrievedFields]
+            except KeyError:
+                raise KeyError("One of the tags could not be converted to a long name.")
+        retDict = {k : [] for k in retrievedFields}
+        for R in self:
+            for k, v in R.getTagsDict(retrievedFields).items():
+                retDict[k].append(v)
+        return retDict
+
 
 
     def coAuthNetwork(self):

@@ -354,21 +354,22 @@ def drop_edges(grph, minWeight = - float('inf'), maxWeight = float('inf'), param
     else:
         PBar = None
     tmpGrph = grph.copy()
-    for e in grph.edges_iter(data = True):
-        try:
-            val = e[2][parameterName]
-        except KeyError:
-            if not ignoreUnweighted:
-                raise KeyError("One or more Edges do not have weight or " + str(parameterName), " is not the name of the weight")
+    if minWeight != - float('inf') or maxWeight != float('inf'):
+        for e in grph.edges_iter(data = True):
+            try:
+                val = e[2][parameterName]
+            except KeyError:
+                if not ignoreUnweighted:
+                    raise KeyError("One or more Edges do not have weight or " + str(parameterName), " is not the name of the weight")
+                else:
+                    pass
             else:
-                pass
-        else:
-            if PBar:
-                count += 1
-                if count % 100000 == 0:
-                    PBar.updateVal(count/ total, str(count) + " edges analysed and " + str(total -len(tmpGrph.edges())) + " edges dropped")
-            if val > maxWeight or  val < minWeight:
-                tmpGrph.remove_edge(e[0], e[1])
+                if PBar:
+                    count += 1
+                    if count % 100000 == 0:
+                        PBar.updateVal(count/ total, str(count) + " edges analysed and " + str(total -len(tmpGrph.edges())) + " edges dropped")
+                if val > maxWeight or  val < minWeight:
+                    tmpGrph.remove_edge(e[0], e[1])
     if dropSelfLoops:
         slps = tmpGrph.selfloop_edges()
         if PBar:
@@ -379,7 +380,7 @@ def drop_edges(grph, minWeight = - float('inf'), maxWeight = float('inf'), param
         PBar.finish(str(total - len(tmpGrph.edges())) + " edges out of " + str(total) + " dropped, " + str(len(tmpGrph.edges())) + " returned")
     return tmpGrph
 
-def drop_nodesByDegree(grph, minDegree = -float('inf'), maxDegree = float('inf'), useWeight = False, parameterName = 'weight', ignoreUnweighted = False):
+def drop_nodesByDegree(grph, minDegree = -float('inf'), maxDegree = float('inf'), useWeight = True, parameterName = 'weight', ignoreUnweighted = True):
     """
     Returns a graph whose nodes have a degree that is within inclusive bounds of minDegree and maxDegree, i.e minDegree <= degree <= maxDegree. Degree can be determined in two ways by default it is the total number of edges touching a node, alternative if useWeight is True it is the sum of the weight of all the edges touching a node.
 
@@ -402,7 +403,7 @@ def drop_nodesByDegree(grph, minDegree = -float('inf'), maxDegree = float('inf')
         if PBar:
             count += 1
             if count % 10000 == 0:
-                PBar.updateVal(count/ total, str(count) + "nodes analysed and " + str(total - len(goodNodes)) + " nodes dropped")
+                PBar.updateVal(count/ total, str(count) + " nodes analysed and " + str(total - len(goodNodes)) + " nodes dropped")
         val = 0
         if useWeight:
             for e in grph.edges(n, data = True):
@@ -412,7 +413,7 @@ def drop_nodesByDegree(grph, minDegree = -float('inf'), maxDegree = float('inf')
                     if not ignoreUnweighted:
                         raise KeyError("One or more Edges do not have weight or " + str(parameterName), " is not the name of the weight")
                     else:
-                        pass
+                        val += 1
         else:
             val = len(grph.edges(n))
         if val <= maxDegree and val >= minDegree:

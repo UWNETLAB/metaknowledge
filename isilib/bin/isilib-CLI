@@ -70,7 +70,7 @@ def getOutputName(clargs, suffix, prompt = "What do you wish to call the output 
             if overWrite == 'Y':
                 return s
             else:
-                return getOutName(suffix, prompt = prompt, errorMsg = errorMsg)
+                return getOutputName(suffix, prompt = prompt, errorMsg = errorMsg)
         else:
             return s
 
@@ -134,6 +134,7 @@ def getWhatToDo(clargs, inRC):
     ('3', "Write the collection as a single WOS style file and make a graph"),
     ('4', "Write the collection as a single csv file"),
     ('5', "Write the collection as a single csv file and make a graph"),
+    ('6', "Write all the citations to a single file"),
     ])
     print("A collection of {0} WOS records has been created".format(len(inRC)))
     optionNum = int(inputMenu(promptDict, header = "What do you wish to do with it:"))
@@ -147,7 +148,7 @@ def getWhatToDo(clargs, inRC):
             return False
         else:
             return True
-    else:
+    elif optionNum == 4 or optionNum == 5:
         fName = getOutputName(clargs, '.csv')
         print("Writing {}".format(fName))
         inRC.writeCSV(fname = fName)
@@ -155,6 +156,25 @@ def getWhatToDo(clargs, inRC):
             return False
         else:
             return True
+    else:
+        while True:
+            drop = input("Write only journals (y/n)? ").upper()
+            if drop == 'Y':
+                drop = True
+                break
+            elif drop == 'N':
+                drop = False
+                break
+        cites = []
+        for R in inRC:
+            if drop:
+                cites += [str(c) + '\n' for c in R.citations if c.isJournal()]
+            else:
+                cites += [str(c) + '\n' for c in R.citations]
+        fName = getOutputName(clargs, '.csv')
+        print("Writing {}".format(fName))
+        with open(fName, 'w') as f:
+            f.writelines(cites)
 
 def getNetwork(clargs, inRC):
     netsDict = collections.OrderedDict([

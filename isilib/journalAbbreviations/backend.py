@@ -5,6 +5,7 @@ import datetime
 import dbm.dumb
 
 abrevDBname = "j9Abbreviations"
+manaulDBname = "manualj9Abbreviations"
 
 def j9urlGenerator(nameDict = False):
     """How to get all the urls for the WOS Journal Title Abbreviations. Each is varies by only a few characters. These are the currently in use urls they may change.
@@ -119,40 +120,45 @@ def updatej9DB(dbname = abrevDBname, saveRawHTML = False):
             else:
                 db[k] = '|'.join(v)
 
-def getj9dict(updateDB = False, requireConnection = True, saveRaw = False, dbname = abrevDBname):
+def getj9dict(dbname = abrevDBname, useManualDB = True, manualDB = manaulDBname, returnDict = 'both'):
     """Returns the dictionary of journal abbreviations to a list of the associated journal names. By default the local database is used. The database is in the file _dbname_ in the same directory as this source file
 
     # Parameters
-
-    _updateDB_ : `optional [bool]`
-
-    > Makes the database be updated, default `True`
-
-    _requireConnection_ : `optional [bool]`
-
-    > Makes an OSError exception be raised if a connection cannot be established, default `True`
-
-    _saveRaw_ : `optional [bool]`
-
-    > Causes the raw HTML files to be saved, default `False`. They are saved in a directory inside j9Raws begining with todays date, j9Raws is in the same directory as this source file.
 
     _dbname_ : `optional [str]`
 
     > The name of the database file
     """
-    if updateDB:
-        try:
-            updatej9DB(dbname = dbname, saveRawHTML = saveRaw)
-        except urllib.error.URLError:
-            if requireConnection:
-                raise OSError("Unable to access server, check your connection")
-            else:
-                pass
-    dbLoc = os.path.normpath(os.path.dirname(__file__) + '/{}'.format(dbname))
-    with dbm.dumb.open(dbLoc, flag = 'c') as db:
-        if len(db) == 0:
-            raise RuntimeError("J9 Database empty or missing, to regenrate it run updatej9DB().")
-        retDict = {}
-        for k, v in db.items():
-            retDict[k.decode('utf-8')] = v.decode('utf-8').split('|')
-        return retDict
+    dbLoc = os.path.normpath(os.path.dirname(__file__))
+
+    retDict = {}
+
+    if returnDict == 'both' or returnDict == 'WOS':
+        with dbm.dumb.open(dbLoc + '/{}'.format(dbname)) as db:
+            if len(db) == 0:
+                raise RuntimeError("J9 Database empty or missing, to regenerate it run updatej9DB().")
+            for k, v in db.items():
+                retDict[k.decode('utf-8')] = v.decode('utf-8').split('|')
+    if returnDict == 'both' or returnDict == 'manual':
+        if os.path.isfile(dbLoc + '/{}.dat'.format(manualDB)):
+            with dbm.dumb.open(dbLoc + '/{}'.format(manualDB)) as db:
+                for k, v in db.items():
+                    retDict[k.decode('utf-8')] = v.decode('utf-8').split('|')
+        else:
+            if returnDict == 'manual':
+                raise RuntimeError("Manual J9 Database ({0}) missing, to create it run addToDB(dbname = {0})".format(manualDB))
+    return retDict
+
+def addToDB(abbr = None, dbname = manaulDBname):
+    with dbm.dumb.open(dbname) as db:
+        if isinstance(abbr, str):
+            db[abbr] = abbr
+        elif isinstance(abbr, dict):
+            try:
+                db.update(abbr)
+            except TypeError:
+                raise TypeError("The keys and values of abbr must be strings.")
+        elif abbr is None:
+            pass
+        else:
+            raise TypeError("abbr must be a str or dict.")

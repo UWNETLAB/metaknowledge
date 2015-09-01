@@ -422,7 +422,6 @@ def drop_nodesByDegree(grph, minDegree = -float('inf'), maxDegree = float('inf')
         PBar.finish(str(total - len(goodNodes)) + " nodes out of " + str(total) + " dropped, " + str(len(goodNodes)) + " returned")
     return grph.subgraph(goodNodes)
 
-
 def drop_nodesByCount(grph, minCount = -float('inf'), maxCount = float('inf'), parameterName = 'count', ignoreMissing = False):
     """
     Returns a graph whose nodes have a occurrence count that is within inclusive bounds of minCount and maxCount, i.e minCount <= count <= maxCount. Occurrence count is determined by reading the variable associated with the node named parameterName.
@@ -460,3 +459,55 @@ def drop_nodesByCount(grph, minCount = -float('inf'), maxCount = float('inf'), p
     if PBar:
         PBar.finish(str(total - len(goodNodes)) + " nodes out of " + str(total) + " dropped, " + str(len(goodNodes)) + " returned")
     return grph.subgraph(goodNodes)
+
+def graphStats(G, stats = ['nodes', 'edges', 'isolates', 'loops', 'density', 'transitivity'], makeString = True):
+    for sts in stats:
+        if sts not in ['nodes', 'edges', 'isolates', 'loops', 'density', 'transitivity']:
+            raise RuntimeError('"{}" is not a valid stat.'.format(sts))
+    if makeString:
+        stsData = []
+    else:
+        stsData = {}
+    if 'nodes' in stats:
+        if makeString:
+            stsData.append("{:G} nodes".format(len(G.nodes())))
+        else:
+            stsData['nodes'] = len(G.nodes())
+    if 'edges' in stats:
+        if makeString:
+            stsData.append("{:G} edges".format(len(G.edges())))
+        else:
+            stsData['edges'] = len(G.edges())
+    if 'isolates' in stats:
+        if makeString:
+            stsData.append("{:G} isolates".format(len(nx.isolates(G))))
+        else:
+            stsData['isolates'] = len(nx.isolates(G))
+    if 'loops' in stats:
+        if makeString:
+            stsData.append("{:G} self loops".format(len(G.selfloop_edges())))
+        else:
+            stsData['loops'] = len(G.selfloop_edges())
+    if 'density' in stats:
+        if makeString:
+            stsData.append("a density of {:G}".format(nx.density(G)))
+        else:
+            stsData['density'] = nx.density(G)
+    if 'transitivity' in stats:
+        if makeString:
+            stsData.append("a transitivity of {:G}".format(nx.transitivity(G)))
+        else:
+            stsData['transitivity'] = nx.transitivity(G)
+    if makeString:
+        retString = "The graph has "
+        if len(stsData) < 1:
+            return retString
+        elif len(stsData) == 1:
+            return retString + stsData[0]
+        else:
+            return retString + ', '.join(stsData[:-1]) + ' and ' + stsData[-1]
+    else:
+        retLst = []
+        for sts in stats:
+            retLst.append(stsData[sts])
+        return tuple(retLst)

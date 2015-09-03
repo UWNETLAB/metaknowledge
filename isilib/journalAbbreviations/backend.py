@@ -5,6 +5,7 @@ import datetime
 import dbm.dumb
 
 abrevDBname = "j9Abbreviations"
+
 manaulDBname = "manualj9Abbreviations"
 
 def j9urlGenerator(nameDict = False):
@@ -44,7 +45,7 @@ def _j9SaveCurrent(sDir = '.'):
         os.chdir(dname)
     else:
         os.chdir(dname)
-    for urlID , urlString in j9urlGenerator(nameDict = True).items():
+    for urlID, urlString in j9urlGenerator(nameDict = True).items():
         fname = "{}_abrvjt.html".format(urlID)
         f = open(fname, 'wb')
         f.write(urllib.request.urlopen(urlString).read())
@@ -120,7 +121,7 @@ def updatej9DB(dbname = abrevDBname, saveRawHTML = False):
             else:
                 db[k] = '|'.join(v)
 
-def getj9dict(dbname = abrevDBname, useManualDB = True, manualDB = manaulDBname, returnDict = 'both'):
+def getj9dict(dbname = abrevDBname, manualDB = manaulDBname, returnDict = 'both'):
     """Returns the dictionary of journal abbreviations to a list of the associated journal names. By default the local database is used. The database is in the file _dbname_ in the same directory as this source file
 
     # Parameters
@@ -150,7 +151,20 @@ def getj9dict(dbname = abrevDBname, useManualDB = True, manualDB = manaulDBname,
     return retDict
 
 def addToDB(abbr = None, dbname = manaulDBname):
-    with dbm.dumb.open(dbname) as db:
+    """Adds _abbr_ to the database of journals. The database is kept separate from the one scraped from WOS, this supersedes it. The database by default is stored with the WOS one and the name is given by `isilib.journalAbbreviations.manaulDBname`. To create an empty database run **addToDB** without an _abbr_ argument.
+
+    # Parameters
+
+    _abbr_ : `optional [str or dict[str : str]]`
+
+    > The journal abbreviation to be added to the database, it can either be a single string in which case that string will be added with its self as the full name, or a dict can be given with the abbreviations as keys and their names as strings, use pipes ('|') to separate multiple names. Note, if the empty string is given as a name the abbreviation will be considered manually __excluded__, i.e. having excludeFromDB() run on it.
+
+    _dbname_ : `optional [str]`
+
+    > The name of the database file, default is `isilib.journalAbbreviations.manaulDBname`.
+    """
+    dbLoc = os.path.normpath(os.path.dirname(__file__))
+    with dbm.dumb.open(dbLoc + '/' + dbname) as db:
         if isinstance(abbr, str):
             db[abbr] = abbr
         elif isinstance(abbr, dict):
@@ -162,3 +176,30 @@ def addToDB(abbr = None, dbname = manaulDBname):
             pass
         else:
             raise TypeError("abbr must be a str or dict.")
+
+def excludeFromDB(abbr = None, dbname = manaulDBname):
+    """Marks _abbr_ to be excluded the database of journals. The database is kept separate from the one scraped from WOS, this supersedes it. The database by default is stored with the WOS one and the name is given by `isilib.journalAbbreviations.manaulDBname`. To create an empty database run **addToDB** without an _abbr_ argument.
+
+    # Parameters
+
+    _abbr_ : `optional [str or tuple[str] or list[str]`
+
+    > The journal abbreviation to be excluded from the database, it can either be a single string in which case that string will be exclude or a list/tuple of strings can be given with the abbreviations.
+
+    _dbname_ : `optional [str]`
+
+    > The name of the database file, default is `isilib.journalAbbreviations.manaulDBname`.
+    """
+    dbLoc = os.path.normpath(os.path.dirname(__file__))
+    with dbm.dumb.open(dbLoc + '/' + dbname) as db:
+        if isinstance(abbr, str):
+            db[abbr] = ''
+        elif isinstance(abbr, list) or isinstance(abbr, tuple):
+            try:
+                db.update({k : '' for k in abbr})
+            except TypeError:
+                raise TypeError("The keys and values of abbr must be strings.")
+        elif abbr is None:
+            pass
+        else:
+            raise TypeError("abbr must be a str, list or tuple.")

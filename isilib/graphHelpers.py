@@ -460,7 +460,7 @@ def drop_nodesByCount(grph, minCount = -float('inf'), maxCount = float('inf'), p
         PBar.finish(str(total - len(goodNodes)) + " nodes out of " + str(total) + " dropped, " + str(len(goodNodes)) + " returned")
     return grph.subgraph(goodNodes)
 
-def graphStats(G, stats = ['nodes', 'edges', 'isolates', 'loops', 'density', 'transitivity'], makeString = True):
+def graphStats(G, stats = ('nodes', 'edges', 'isolates', 'loops', 'density', 'transitivity'), makeString = True):
     for sts in stats:
         if sts not in ['nodes', 'edges', 'isolates', 'loops', 'density', 'transitivity']:
             raise RuntimeError('"{}" is not a valid stat.'.format(sts))

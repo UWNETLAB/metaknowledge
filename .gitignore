@@ -19,6 +19,7 @@ profile_wosserver/
 !Docs/*.sh
 isilibDocs.md
 j9Raws/
+/manualj9Abbreviations*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

@@ -330,7 +330,7 @@ class RecordCollection(object):
         > Set `True` to drop journals (or the PT tag given by _ptVal) instead of keeping them. Note, it still drops bad Records if _dropBad_ is `True`, default `False`
         """
         if dropBad:
-            self.dropBadRecords
+            self.dropBadRecords()
         if invert:
             self._Records = {r for r in self._Records if r.PT != ptVal.upper()}
             self._repr = repr(self) + '_PT-{}-Dropped'.format(ptVal)
@@ -379,7 +379,6 @@ class RecordCollection(object):
             if firstTags[i] in fullToTag:
                 firstTags[i] = fullToTag[firstTags[i]]
         if onlyTheseTags:
-            shortenedTags = []
             for i in range(len(onlyTheseTags)):
                 if onlyTheseTags[i] in fullToTag:
                     onlyTheseTags[i] = fullToTag[onlyTheseTags[i]]
@@ -427,7 +426,6 @@ class RecordCollection(object):
             if firstTags[i] in fullToTag:
                 firstTags[i] = fullToTag[firstTags[i]]
         if onlyTheseTags:
-            shortenedTags = []
             for i in range(len(onlyTheseTags)):
                 if onlyTheseTags[i] in fullToTag:
                     onlyTheseTags[i] = fullToTag[onlyTheseTags[i]]
@@ -447,8 +445,6 @@ class RecordCollection(object):
             for k, v in R.getTagsDict(retrievedFields).items():
                 retDict[k].append(v)
         return retDict
-
-
 
     def coAuthNetwork(self):
         """Creates a coauthorship network for the RecordCollection.
@@ -729,11 +725,11 @@ class RecordCollection(object):
                     else:
                         citesSet.add(reRef)
                         if extraInfo and saveJournalNames:
-                            tmpgrph.add_node(recHash, info = str(reRef), journal = str( reRef.getFullJournalName()))
+                            tmpgrph.add_node(recHash, info = str(reRef), journal = str(reRef.getFullJournalName()))
                         elif extraInfo:
                             tmpgrph.add_node(recHash, info = str(reRef))
                         elif saveJournalNames:
-                            tmpgrph.add_node(recHashjournal = str(reRef.getFullJournalName()))
+                            tmpgrph.add_node(recHash, journal = str(reRef.getFullJournalName()))
                         else:
                             tmpgrph.add_node(recHash)
                 if rCites:

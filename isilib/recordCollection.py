@@ -489,7 +489,7 @@ class RecordCollection(object):
             PBar.finish("Done making a co-authorship network")
         return grph
 
-    def coCiteNetwork(self, dropAnon = True, nodeType = "full", extraInfo = False, weighted = True, dropNonJournals = False, saveJournalNames = False):
+    def coCiteNetwork(self, dropAnon = True, nodeType = "full", nodeInfo = True, fullInfo = False, weighted = True, dropNonJournals = False):
         """Creates a co-citation network for the RecordCollection.
 
         # Parameters
@@ -554,17 +554,35 @@ class RecordCollection(object):
                                 updateWeightedEdges(tmpgrph, edgeBunchGenerator(c1val, c2vals, weighted = True))
                             else:
                                 tmpgrph.add_edges_from(edgeBunchGenerator(c1val, c2vals))
-                            if extraInfo and not hasattr(tmpgrph.node[c1val], 'info'):
-                                tmpgrph.node[c1val]['info'] = str(c1)
-                            if saveJournalNames and not hasattr(tmpgrph.node[c1val], 'journal'):
-                                tmpgrph.node[c1val]['journal'] = str(c1.getFullJournalName())
+                            if nodeInfo and not hasattr(tmpgrph.node[c1val], 'info'):
+                                if nodeType == 'original':
+                                    tmpgrph.node[c1val]['info'] = str(c1)
+                                elif nodeType == 'journal':
+                                    if c1.isJournal():
+                                        tmpgrph.node[c1val]['info'] = str(c1.getFullJournalName())
+                                    else:
+                                        tmpgrph.node[c1val]['info'] = "None"
+                                else:
+                                    tmpgrph.node[c1val]['info'] = c1val
+                                if fullInfo:
+                                    tmpgrph.node[c1val]['fullCite'] = str(c1)
                     elif len(filteredCites) == 1:
-                        if getattr(filteredCites[0], nodeType) not in tmpgrph and extraInfo:
-                            tmpgrph.add_node(getattr(filteredCites[0], nodeType), info = str(filteredCites[0]))
+                        if getattr(filteredCites[0], nodeType) not in tmpgrph and nodeInfo:
+                            cval = getattr(filteredCites[0], nodeType)
+                            tmpgrph.add_node(cval)
+                            if nodeType == 'original':
+                                tmpgrph.node[cval]['info'] = str(filteredCites[0])
+                            elif nodeType == 'journal':
+                                if c1val.isJournal():
+                                    tmpgrph.node[cval]['info'] = str(filteredCites[0].getFullJournalName())
+                                else:
+                                    tmpgrph.node[cval]['info'] = "None"
+                            else:
+                                tmpgrph.node[cval]['info'] = cval
+                            if fullInfo:
+                                tmpgrph.node[cval]['fullCite'] = str(filteredCites[0])
                         elif getattr(filteredCites[0], nodeType) not in tmpgrph:
                             tmpgrph.add_node(getattr(filteredCites[0], nodeType))
-                        if saveJournalNames and not hasattr(tmpgrph.node[getattr(filteredCites[0], nodeType)], 'journal'):
-                            tmpgrph.node[getattr(filteredCites[0], nodeType)]['journal'] = str(filteredCites[0].getFullJournalName())
         else:
             citesSet = set()
             for R in self:
@@ -587,16 +605,11 @@ class RecordCollection(object):
                                         citeHash = hash(c)
                             else:
                                 citesSet.add(cite)
-                                if extraInfo:
-                                    if saveJournalNames:
-                                        tmpgrph.add_node(citeHash, info = str(cite), journal = str(cite.getFullJournalName()))
+                                if nodeInfo:
+                                    if fullInfo:
+                                        tmpgrph.add_node(citeHash, info = str(cite.getID()), fullCite = str(cite))
                                     else:
-                                        tmpgrph.add_node(citeHash, info = str(cite))
-                                else:
-                                    if saveJournalNames:
-                                        tmpgrph.add_node(citeHash, journal = str(cite.getFullJournalName()))
-                                    else:
-                                        tmpgrph.add_node(citeHash)
+                                        tmpgrph.add_node(citeHash, info = str(cite.getID()))
                         citeHashList.append(citeHash)
                     if len(citeHashList) > 1:
                         if weighted:

@@ -98,12 +98,12 @@ class TestRecordCollection(unittest.TestCase):
         self.assertIsInstance(d['CR'], list)
 
     def test_coCite(self):
-        Gdefault = self.RC.coCiteNetwork(extraInfo = True)
+        Gdefault = self.RC.coCiteNetwork(fullInfo = True)
         Gauths = self.RC.coCiteNetwork(nodeType = "author", dropAnon = False)
-        GauthsNoExtra = self.RC.coCiteNetwork(nodeType = "author", extraInfo = False)
-        Gunwei = self.RC.coCiteNetwork(nodeType = 'original',weighted = False)
-        Gjour = self.RC.coCiteNetwork(nodeType = "journal", dropNonJournals = True, saveJournalNames = True)
-        Gyear = self.RC.coCiteNetwork(nodeType = "year", saveJournalNames = True)
+        GauthsNoExtra = self.RC.coCiteNetwork(nodeType = "author", nodeInfo = False)
+        Gunwei = self.RC.coCiteNetwork(nodeType = 'original', weighted = False)
+        Gjour = self.RC.coCiteNetwork(nodeType = "journal", dropNonJournals = True)
+        Gyear = self.RC.coCiteNetwork(nodeType = "year", fullInfo = True)
         self.assertIsInstance(Gdefault, nx.classes.graph.Graph)
         self.assertLessEqual(len(Gdefault.edges()), len(Gunwei.edges()))
         self.assertLessEqual(len(Gdefault.nodes()), len(Gunwei.nodes()))
@@ -111,6 +111,7 @@ class TestRecordCollection(unittest.TestCase):
         self.assertEqual(len(GauthsNoExtra.nodes()), len(Gauths.nodes()) - 1 )
         self.assertTrue('weight' in Gdefault.edges(data = True)[0][2])
         self.assertTrue('info' in Gdefault.nodes(data = True)[0][1])
+        self.assertTrue('fullCite' in Gdefault.nodes(data = True)[0][1])
         self.assertFalse('weight' in Gunwei.edges(data = True)[0][2])
         self.assertEqual(len(Gdefault.nodes()), 518)
         self.assertEqual(len(Gdefault.edges()), 14775)
@@ -120,8 +121,9 @@ class TestRecordCollection(unittest.TestCase):
         self.assertEqual(len(Gyear.edges()), 1962)
         self.assertEqual(len(Gjour.nodes()), 84)
         self.assertEqual(len(Gjour.edges()), 1215)
-        self.assertTrue('journal' in Gjour.nodes(data=True)[0][1])
-        self.assertTrue('journal' in Gyear.nodes(data=True)[0][1])
+        self.assertTrue('info' in Gjour.nodes(data=True)[0][1])
+        self.assertTrue('info' in Gyear.nodes(data=True)[0][1])
+        self.assertTrue('fullCite' in Gyear.nodes(data = True)[0][1])
 
     def test_coAuth(self):
         Gdefault = self.RC.coAuthNetwork()

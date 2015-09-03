@@ -251,7 +251,7 @@ class Record(object):
         else:
             return auth
 
-    def getTag(self, tag):
+    def getTag(self, tag, clean = False):
         """Returns a list containing the raw data of the record associated with _tag_. Each line of the record is one string in the list.
 
         # Parameters
@@ -269,6 +269,8 @@ class Record(object):
 
         #tag = tag.upper()
         #TODO Figure out why this causes issues
+        if clean:
+            return getattr(self, tag.upper(), None)
         if tag in self._fieldDict:
             return self._fieldDict[tag]
         elif tag in fullToTag and fullToTag[tag] in self._fieldDict:
@@ -300,7 +302,7 @@ class Record(object):
             valsLst.append('DOI ' + self.DOI)
         return Citation(', '.join(valsLst))
 
-    def getTagsList(self, taglst):
+    def getTagsList(self, taglst, cleaned = False):
         """Returns a list of the results of [`getTag()`](#Record.getTag) for each tag in _taglist_, the return has the same order as the original.
 
         # Parameters
@@ -318,10 +320,10 @@ class Record(object):
         """
         retList = []
         for tag in taglst:
-            retList.append(self.getTag(tag))
+            retList.append(self.getTag(tag), clean = cleaned)
         return retList
 
-    def getTagsDict(self, taglst):
+    def getTagsDict(self, taglst, cleaned = False):
         """returns a dict of the results of getTag, with the elements of _taglst_ as the keys and the results as the values.
 
         # Parameters
@@ -337,7 +339,7 @@ class Record(object):
         """
         retDict = {}
         for tag in taglst:
-            retDict[tag] = self.getTag(tag)
+            retDict[tag] = self.getTag(tag, clean = cleaned)
         return retDict
 
     def activeTags(self):

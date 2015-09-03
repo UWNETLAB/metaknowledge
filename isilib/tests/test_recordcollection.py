@@ -86,10 +86,16 @@ class TestRecordCollection(unittest.TestCase):
         os.remove(filename)
 
     def test_makeDict(self):
-        d = self.RC.makeDict(onlyTheseTags = list(isilib.tagsAndNames), longNames = True, firstTags = ['UT', 'PT', 'TI', 'AF', 'CR'])
+        d = self.RC.makeDict(onlyTheseTags = list(isilib.tagsAndNames), longNames = True)
         self.assertEqual(len(d), 61)
         self.assertEqual(len(d['wosString']), len(self.RC))
         self.assertEqual(d['eISSN'][0], None)
+        self.assertIsInstance(d['citations'], list)
+        d = self.RC.makeDict(longNames = False, cleanedVal = False)
+        self.assertEqual(len(d), 42)
+        self.assertEqual(len(d['UT']), len(self.RC))
+        self.assertEqual(d['EI'][0], None)
+        self.assertIsInstance(d['CR'], list)
 
     def test_coCite(self):
         Gdefault = self.RC.coCiteNetwork(extraInfo = True)

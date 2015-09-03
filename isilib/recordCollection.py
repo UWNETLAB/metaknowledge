@@ -413,7 +413,7 @@ class RecordCollection(object):
         f.close()
 
 
-    def makeDict(self, onlyTheseTags = None, longNames = False, firstTags = ['UT', 'PT', 'TI', 'AF', 'CR']):
+    def makeDict(self, onlyTheseTags = None, longNames = False, cleanedVal = True):
         """Returns a dict with each key a tag and the values being lists of the values for each of the Records in the collection, `None` is given when there is no value and they are in the same order across each tag.
 
         When used in pandas: `pandas.DataFrame(RC.makeDict())` returns a data frame with each column a tag and each row a Record.
@@ -422,16 +422,13 @@ class RecordCollection(object):
 
         See writeCSV()
         """
-        for i in range(len(firstTags)):
-            if firstTags[i] in fullToTag:
-                firstTags[i] = fullToTag[firstTags[i]]
         if onlyTheseTags:
             for i in range(len(onlyTheseTags)):
                 if onlyTheseTags[i] in fullToTag:
                     onlyTheseTags[i] = fullToTag[onlyTheseTags[i]]
-            retrievedFields = [t for t in firstTags if t in onlyTheseTags] + [t for t in onlyTheseTags if t not in firstTags]
+            retrievedFields = onlyTheseTags
         else:
-            retrievedFields = firstTags
+            retrievedFields = []
             for R in self:
                 tagsLst = [t for t in R.activeTags() if t not in retrievedFields]
                 retrievedFields += tagsLst
@@ -442,7 +439,7 @@ class RecordCollection(object):
                 raise KeyError("One of the tags could not be converted to a long name.")
         retDict = {k : [] for k in retrievedFields}
         for R in self:
-            for k, v in R.getTagsDict(retrievedFields).items():
+            for k, v in R.getTagsDict(retrievedFields, cleaned = cleanedVal).items():
                 retDict[k].append(v)
         return retDict
 

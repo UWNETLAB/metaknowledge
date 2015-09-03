@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import isilib
+import isilib.journalAbbreviations
 import networkx as nx
 import argparse
 import os
@@ -24,6 +25,16 @@ def argumentParser():
     parser.add_argument("--progress", "-p", action = 'store_true' ,default = False, help = "Progress bar mode, shows progress bars where appropriate")
     parser.add_argument("--suffix", "-s", default = '', help = "Progress bar mode, shows progress bars where appropriate")
     return parser.parse_args()
+
+def yesorNo(prompt):
+    while True:
+        val = input(prompt).upper()
+        if val == 'Y' or val == '':
+            return True
+        elif val == 'N':
+            return False
+        else:
+            pass
 
 def inputMenu(inputDict, header = None, footer = None, errorMsg = 'That is not an option please select a different value.', promptMsg = 'What is your selection: ', extraOptions = True):
     s = ''
@@ -61,16 +72,14 @@ def getOutputName(clargs, suffix, prompt = "What do you wish to call the output 
     s  = input(prompt) + suffix
     if len(s) == 0:
         print(errorMsg)
-        return getOutName(suffix, prompt = prompt, errorMsg = errorMsg)
+        return getOutputName(clargs, suffix, prompt = prompt, errorMsg = errorMsg)
     else:
         if os.path.lexists(s) and checking:
-            overWrite = ''
-            while overWrite != 'N' and overWrite != 'Y':
-                overWrite = input("{} already exists overwrite (y/n)? ".format(s)).upper()
-            if overWrite == 'Y':
+            overWrite = yesorNo("{} already exists overwrite (y/n)? ".format(s))
+            if overWrite:
                 return s
             else:
-                return getOutputName(suffix, prompt = prompt, errorMsg = errorMsg)
+                return getOutputName(clargs, suffix, prompt = prompt, errorMsg = errorMsg)
         else:
             return s
 
@@ -135,6 +144,7 @@ def getWhatToDo(clargs, inRC):
     ('4', "Write the collection as a single csv file"),
     ('5', "Write the collection as a single csv file and make a graph"),
     ('6', "Write all the citations to a single file"),
+    ('7', "Go over non-journal citations"),
     ])
     print("A collection of {0} WOS records has been created".format(len(inRC)))
     optionNum = int(inputMenu(promptDict, header = "What do you wish to do with it:"))
@@ -156,15 +166,8 @@ def getWhatToDo(clargs, inRC):
             return False
         else:
             return True
-    else:
-        while True:
-            drop = input("Write only journals (y/n)? ").upper()
-            if drop == 'Y':
-                drop = True
-                break
-            elif drop == 'N':
-                drop = False
-                break
+    elif optionNum == 6:
+        drop = yesorNo("Write only journals (y/n)? ")
         cites = []
         for R in inRC:
             if drop:
@@ -175,6 +178,36 @@ def getWhatToDo(clargs, inRC):
         print("Writing {}".format(fName))
         with open(fName, 'w') as f:
             f.writelines(cites)
+    else:
+        dbName = input("The default manual databse file is called {}, press Enter to use it or type the name of the database you wish to use:\n".format(isilib.journalAbbreviations.manaulDBname))
+        print("Starting to go over citations, to exit press ctr-C.")
+        if dbName == '':
+            dbName = isilib.journalAbbreviations.manaulDBname
+        try:
+            for R in inRC:
+                for c in R.citations:
+                    if not hasattr(c, 'journal'):
+                        print("{} does not have a journal field".format(c))
+                    elif c.isJournal(manaulDB = dbName, returnDict = 'both'):
+                        print("the journal field of {} is in the database".format(c.journal))
+                    elif c.isJournal(manaulDB = dbName, returnDict = 'both', checkIfExcluded = True):
+                        print("the journal field of {} is in the database marked to be skipped".format(c.journal))
+                    else:
+                        addToDB = yesorNo("The citation {} has the journal field:\n{} add as a journal (y/n)? ".format(c, c.journal))
+                        if addToDB:
+                            c.addToDB(manaulDB = dbName)
+                            print("{} added as a journal abbrviation.".format(c.journal))
+                        else:
+                            c.addToDB(invert = True)
+                            print("{} will now be skipped".format(c.journal))
+        except KeyboardInterrupt:
+            print('\nExiting manual citation clasification', end = '')
+            raise
+        else:
+            print('Done manual citation clasification')
+            return getWhatToDo(clargs, inRC)
+
+
 
 def getNetwork(clargs, inRC):
     netsDict = collections.OrderedDict([
@@ -264,17 +297,15 @@ def  outputNetwork(clargs, grph):
     elif outID == 1:
         while True:
             try:
-                outNameName = getOutputName(clargs, '', checking = False)
+                outName = getOutputName(clargs, '', checking = False)
                 isilib.write_graph(grph, outName)
-            except OSError as e:
+            except OSError:
                 if clargs.name:
                     isilib.write_graph(grph, outName, overwrite = True)
                     break
                 else:
-                    overWrite = ''
-                    while overWrite != 'N' and overWrite != 'Y':
-                        overWrite = input("{}, overwrite (y/n)? ".format(e)).upper()
-                    if overWrite == 'Y':
+                    overWrite = yesorNo("{}, overwrite (y/n)? ")
+                    if overWrite:
                         isilib.write_graph(grph, outName, overwrite = True)
                         break
                     else:

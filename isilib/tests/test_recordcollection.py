@@ -34,7 +34,7 @@ class TestRecordCollection(unittest.TestCase):
     def test_dropJourn(self):
         RCcopy = copy.copy(self.RC)
         self.RC.dropNonJournals()
-        self.assertEqual(len(self.RC), len(RCcopy) - 1)
+        self.assertEqual(len(self.RC), len(RCcopy) - 2)
         self.RC.dropNonJournals(invert = True)
         self.assertEqual(len(self.RC), 0)
         RCcopy.dropNonJournals(ptVal = 'B')

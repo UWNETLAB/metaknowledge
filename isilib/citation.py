@@ -165,7 +165,7 @@ class Citation(object):
 
     def getID(self):
         """
-        Returns "author, year" if both available, "author" if year is not available, and "misc" otherwise. It is for shortening labels when creating networks as the resultant strings are often unique. [`getExtra()`](#Citation.getExtra) gets everthing not returned by `getID()`.
+        Returns "author, year, journal" if available and "misc" otherwise. It is for shortening labels when creating networks as the resultant strings are often unique. [`getExtra()`](#Citation.getExtra) gets everthing not returned by `getID()`.
 
         # Returns
 
@@ -173,19 +173,27 @@ class Citation(object):
 
         > A string to use as the shortened ID of a node.
         """
-        if not self.bad:
-            return self.author + ', ' + self.year
-        elif hasattr(self, 'author'):
-            retid = self.author
+        if hasattr(self, 'author') or hasattr(self, 'journal'):
+            retid = ''
+            if hasattr(self, 'author'):
+                retid += self.author
             if hasattr(self, 'year'):
-                retid += ', '  + self.year
+                if retid == '':
+                    retid += self.year
+                else:
+                    retid += ', '  + self.year
+            if hasattr(self, 'journal'):
+                if retid == '':
+                    retid += self.journal
+                else:
+                    retid += ', '  + self.journal
             return retid
         else:
             return self.misc
 
     def getExtra(self):
         """
-        Returns any journal, V, P or misc values as a string. These are all the values not returned by [`getID()`](#Citation.getID).
+        Returns any V, P or misc values as a string. These are all the values not returned by [`getID()`](#Citation.getID).
 
         # Returns
 

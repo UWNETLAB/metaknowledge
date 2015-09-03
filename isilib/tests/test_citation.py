@@ -24,7 +24,7 @@ class TestCitation(unittest.TestCase):
         self.assertEqual(self.Cite.DOI, "0.1063/1.1695064")
 
     def test_citation_id(self):
-        self.assertEqual(self.Cite.getID(), "JOHN D, 2015")
+        self.assertEqual(self.Cite.getID(), "JOHN D, 2015, TOPICS IN COGNITIVE SCIENCE")
 
     def test_citation_str(self):
         self.assertEqual(str(self.Cite), "John D., 2015, TOPICS IN COGNITIVE SCIENCE, V1, P1, DOI 0.1063/1.1695064")
@@ -48,8 +48,6 @@ class TestCitation(unittest.TestCase):
         self.assertTrue(bool(hash(self.Cite)))
         self.assertTrue(bool(hash(isilib.Citation("John D., 2015, TOPICS IN COGNITIVE SCIENCE, V1, P1"))))
         self.assertTrue(bool(hash(isilib.Citation("John D., 2015"))))
-
-
 
     def test_citation_badLength(self):
         c = isilib.Citation("a, b")

@@ -1,20 +1,20 @@
 # Authors
 
-billy_rick:
-  name: Billy Rick
-  web: http://thewhip.com
-  email: billy@rick.com
-  bio: "What do you want, jewels? I am a very extravagant man."
-  avatar: bio-photo-2.jpg
-  twitter: extravagantman
+john:
+  name: John McLevey
+  web: http://www.johnmclevey.com
+  email: john.mclevey@uwaterloo.ca
+  bio:
+  avatar: 
+  twitter: johnmclevey
   google:
-    plus: BillyRick
+    plus:
 
-cornelius_fiddlebone:
-  name: Cornelius Fiddlebone
-  email: cornelius@thewhip.com
-  bio: "I ordered what?"
-  avatar: bio-photo.jpg
-  twitter: rhymeswithsackit
+reid:
+  name: Reid McIlroy-Young
+  email: reid@reidmcy.com 
+  bio:
+  avatar:
+  twitter:
   google:
-    plus: CorneliusFiddlebone
+    plus:

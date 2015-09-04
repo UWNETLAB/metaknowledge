@@ -1,22 +1,19 @@
 # Site navigation links
 
-- title: Home
-  url: /
+- title: About
+  url: /about/
 
-- title: Documentation
-  url: /documentation/
+- title: Articles
+  url: /articles/
 
-- title: Examples
-  url: /examples/
+- title: Blog
+  url: /blog/
 
-- title: CLI
-  url: /cli/
+- title: Theme Setup
+  url: /theme-setup/
 
-- title: GitHub
-  url: https://github.com/networks-lab/metaknowledge
-
-- title: NetworksLab
-  url: http://www.networkslab.org
+- title: Made Mistakes
+  url: http://mademistakes.com
 
 - title: Search
   url: /search/

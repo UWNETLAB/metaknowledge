@@ -132,17 +132,18 @@ class Record(object):
                     self._wosNum = "NO WOS NUMBER"
                     self.bad = True
                     self.error = BadISIRecord("Missing WOS number")
-        for tag in self._fieldDict:
-            if tag != 'UT':
-                self.__dict__[tag] = None
-                self._unComputedTags.add(tag)
-                try:
-                    fullName = tagNameConverter[tag]
-                except KeyError:
-                    pass
-                else:
-                    self.__dict__[fullName] = None
-                    self._unComputedTags.add(fullName)
+        if hasattr(self, "_fieldDict"):
+            for tag in self._fieldDict:
+                if tag != 'UT':
+                    self.__dict__[tag] = None
+                    self._unComputedTags.add(tag)
+                    try:
+                        fullName = tagNameConverter[tag]
+                    except KeyError:
+                        pass
+                    else:
+                        self.__dict__[fullName] = None
+                        self._unComputedTags.add(fullName)
 
     def __getattribute__(self, name):
         """

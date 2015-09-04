@@ -93,6 +93,7 @@ class Record(object):
             except BadISIRecord as b:
                 self.bad = True
                 self.error = b
+                self._fieldDict = {}
             finally:
                 if hasattr(self, '_fieldDict') and 'UT' in self._fieldDict:
                     self._wosNum = self._fieldDict['UT'][0]

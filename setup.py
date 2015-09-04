@@ -1,5 +1,3 @@
-from metaknowledge.journalAbbreviations import abrevDBname
-
 from setuptools import setup, find_packages
 setup(name='metaknowledge',
     version='0.3.0',
@@ -17,6 +15,6 @@ setup(name='metaknowledge',
     scripts=['metaknowledge/bin/metaknowledge-CLI'],
     test_suite='metaknowledge.tests',
     include_package_data = True,
-    package_data = {'': [abrevDBname + '.*']}
+    package_data = {'': ['manualj9Abbreviations.*']}
     #data_files= [('/tests', ["testFile.isi", "OnePaper.isi", "ManyAuthors.isi"])]
 )

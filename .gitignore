@@ -17,7 +17,7 @@ vagrant/logs/
 profile_wosserver/
 !profile_wosserver/ipython_*
 !Docs/*.sh
-isilibDocs.md
+metaknowledgeDocs.md
 j9Raws/
 /manualj9Abbreviations*
 /j9Abbreviations*

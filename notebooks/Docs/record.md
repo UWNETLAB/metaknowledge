@@ -3,7 +3,7 @@
 
 ## Overview
 
-The `isilib.Record` class is a way to manage the meta-data provided by WOS for a single piece of literature, e.g. a paper, book or conference. These records are obtained as plain text flat databases, which the `isilib.Record` class can read and analyze to extract useful information from, such as a list of the subject tags or the WOS number of the record. They can also be collected into larger groups in the `isilib.RecordCollection` class and analysis of their relationships can be run.
+The `metaknowledge.Record` class is a way to manage the meta-data provided by WOS for a single piece of literature, e.g. a paper, book or conference. These records are obtained as plain text flat databases, which the `metaknowledge.Record` class can read and analyze to extract useful information from, such as a list of the subject tags or the WOS number of the record. They can also be collected into larger groups in the `metaknowledge.RecordCollection` class and analysis of their relationships can be run.
 
 
 ## WOS records
@@ -21,7 +21,7 @@ The rest of the file consists of a series of records composed of WOS tags, usual
 
 
 
-A WOS tag is how the fields in the record files are identified each is two characters long and composed of uppercase letters and number. There is no published complete list, nor is there a definition provided for most tags, the best known official list is [here](http://images.webofknowledge.com/WOK46/help/WOS/h_fieldtags.html). So tags in this library have been compiled by hand, as have their meanings. Tags that have been compiled are in the `isilib.tagFuncs` module. Examples of tags are 'CR' for cited references, 'J9' for the 29-Character Source Abbreviation and 'OI' for the orcID, most tags are not present in all papers.
+A WOS tag is how the fields in the record files are identified each is two characters long and composed of uppercase letters and number. There is no published complete list, nor is there a definition provided for most tags, the best known official list is [here](http://images.webofknowledge.com/WOK46/help/WOS/h_fieldtags.html). So tags in this library have been compiled by hand, as have their meanings. Tags that have been compiled are in the `metaknowledge.tagFuncs` module. Examples of tags are 'CR' for cited references, 'J9' for the 29-Character Source Abbreviation and 'OI' for the orcID, most tags are not present in all papers.
 
 The beginning of a record is a tag followed by a space and then the value of that tag, e.g _"PT J"_.
 # Bellow this for each tag, if applicable to the record, a tag and values pair occurs.

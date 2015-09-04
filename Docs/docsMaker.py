@@ -1,20 +1,20 @@
-"""This is intended for isilib only and may not work with anything else"""
+"""This is intended for metaknowledge only and may not work with anything else"""
 import inspect
 import argparse
 import os
-import isilib
+import metaknowledge
 
 documentedModules = ['tagFuncs']
 
 jekyllyHeader ="""---
 layout: page
-title: isilib Docs
+title: metaknowledge Docs
 ---
-<a name="isilib"></a>"""
+<a name="metaknowledge"></a>"""
 
 def argumentParser():
-    parser = argparse.ArgumentParser(description="A simple script to genrate docs for isilib")
-    parser.add_argument("--output", "-o", default = 'isilibDocs.md', nargs='?')
+    parser = argparse.ArgumentParser(description="A simple script to genrate docs for metaknowledge")
+    parser.add_argument("--output", "-o", default = 'metaknowledgeDocs.md', nargs='?')
     parser.add_argument("dir", default = os.getcwd() ,nargs='?', help = 'Directory to write files to')
     return parser.parse_args()
 
@@ -42,7 +42,7 @@ def cleanedDoc(obj, lvl):
             nds += "&nbsp;" * 6 + line + '\n'
     return '{}\n\n'.format(nds)
 
-def writeFunc(fn, f, prefix = 'isilib.', level = 4):
+def writeFunc(fn, f, prefix = 'metaknowledge.', level = 4):
     #print("Writing {0}{1}".format(prefix, fn[0]))
     s = '<a name="{0}{1}"></a>{0}**{1}**{2}:\n\n'.format(prefix, fn[0], cleanargs(fn[1]))
     f.write(s)
@@ -52,7 +52,7 @@ def writeFunc(fn, f, prefix = 'isilib.', level = 4):
         f.write("# Needs to be written\n\n")
         print("\033[93m{0}{1} had no docs\033[0m".format(prefix, fn[0]))
 
-def writeClass(cl, f, prefix = 'isilib.', level = 4):
+def writeClass(cl, f, prefix = 'metaknowledge.', level = 4):
     #print("Writing {0}{1}".format(prefix, cl[0]))
     s = '<a name="{0}{1}"></a>{0}**{1}**{2}:\n\n'.format(prefix, cl[0], cleanargs(cl[1].__init__))
     f.write(s)
@@ -62,7 +62,7 @@ def writeClass(cl, f, prefix = 'isilib.', level = 4):
         f.write("# Needs to be written\n\n")
         print("\033[93m{0}{1} had no docs\033[0m".format(prefix, cl[0]))
 
-def writeMod(md, f, prefix = 'isilib.', level = 3):
+def writeMod(md, f, prefix = 'metaknowledge.', level = 3):
     #print("Writing {0}{1}".format(prefix, md[0]))
     f.write('{0} <a name="{1}{2}"></a>{1}**{2}**:\n\n'.format('#' * level, prefix, md[0]))
     f.write(cleanedDoc(md[1], lvl = level))
@@ -94,7 +94,7 @@ def main(args):
     vrs = []
     builtins = []
     mods = []
-    for m in inspect.getmembers(isilib):
+    for m in inspect.getmembers(metaknowledge):
         if inspect.ismodule(m[1]):
             if m[0] in documentedModules:
                 mods.append(m)
@@ -108,8 +108,8 @@ def main(args):
             vrs.append(m)
     f = open(os.path.expanduser(os.path.normpath(args.dir + '/' + args.output)), 'w')
     f.write(jekyllyHeader)
-    #f.write('# <a name="{0}"></a> {0}\n\n'.format('isilib'))
-    f.write(isilib.__doc__ + '\n')
+    #f.write('# <a name="{0}"></a> {0}\n\n'.format('metaknowledge'))
+    f.write(metaknowledge.__doc__ + '\n')
     f.write('## Classes\n\n')
     first = True
     for c in classes:
@@ -127,7 +127,7 @@ def main(args):
             f.write("- - -\n\n")
         writeFunc(fnc, f)
     for m in mods:
-        writeMod(m, f, prefix = 'isilib.', level = 2)
+        writeMod(m, f, prefix = 'metaknowledge.', level = 2)
     f.close()
     #print(inspect.getmembers(mods[0][1]))
 

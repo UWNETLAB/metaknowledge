@@ -1,26 +1,56 @@
-# Dependencies
-markdown:         redcarpet
-highlighter:      pygments
+# Site wide configuration
 
-# Permalinks
-#
-# Use of `relative_permalinks` ensures post links from the index work properly.
-permalink:           pretty
-relative_permalinks: true
+title: metaknowledge
+locale: en_US
+description: A Python3 Library that simplifies bibliometric research.
+logo: site-logo.png
+search: true
+url: http://localhost:4000
 
-# Setup
-title:               isilib
-tagline:             'A Python library for simplifying bibliometric research of Web of Science data'
-description:         'Reid McIlroy-Young and John McLevey'
-url:                 www.networkslab.org
-baseurl:             '/isilib'
-paginate:            5
+# Jekyll configuration
 
-# About/contact
-author:
-  name:              KI Networks Lab
-  url:               https://twitter.com/johnmclevey
-  email:             john.mclevey@uwaterloo.ca
+permalink:   /:categories/:title/
+markdown:    kramdown
+highlighter: pygments
+sass:
+  sass_dir: _sass
+  style: compressed
+gems:
+  - jekyll-sitemap
 
-# Custom vars
-version:             0.1.0
+kramdown:
+  auto_ids: true
+  footnote_nr: 1
+  entity_output: as_char
+  toc_levels: 1..2
+  use_coderay: false
+
+mathjax: true
+
+include: [".htaccess"]
+exclude: ["lib", "config.rb", "Capfile", "config", "log", "Rakefile", "Rakefile.rb", "tmp", "less", "*.sublime-project", "*.sublime-workspace", "test", "spec", "Gruntfile.js", "package.json", "node_modules", "Gemfile", "Gemfile.lock", "LICENSE", "README.md", "vendor"]
+
+
+# Site owner
+owner:
+  name: John McLevey
+  avatar: bio-photo.jpg
+  email: john.mclevey@uwaterloo.ca
+  disqus-shortname:
+  twitter: #johnmclevey
+  facebook: #username
+  github: #mclevey
+  stackexchange: #http://stackoverflow.com/users/123456/username
+  linkedin: #username
+  instagram: #username
+  flickr: #username
+  tumblr: #username
+  pinterest: #username
+  weibo: #userid
+  google:
+    plus: #username
+    analytics:
+    verify:
+    ad-client:
+    ad-slot:
+  bing-verify:

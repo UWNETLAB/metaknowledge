@@ -1,0 +1,103 @@
+[
+
+  
+    {
+      "title"			: "Extract Text",
+      "link"			: "http://localhost:4000/articles/textual/",
+      "excerpt"		: "You want to extract textual data to analyze."
+    }
+  
+
+  
+    ,{
+      "title"			: "Contruct a Multi-Mode Network",
+      "link"			: "http://localhost:4000/articles/multimode/",
+      "excerpt"		: "You want to construct a Multi-Mode Network."
+    }
+  
+
+  
+    ,{
+      "title"			: "Contruct a Journal Co-Citation Network",
+      "link"			: "http://localhost:4000/articles/journalcocitation/",
+      "excerpt"		: "You want to construct a Weighted Co-Citation Network of Journals."
+    }
+  
+
+  
+    ,{
+      "title"			: "Contruct a Document Co-Citation Network",
+      "link"			: "http://localhost:4000/articles/documentcocitation/",
+      "excerpt"		: "You want to construct a weighted co-citation network of documents."
+    }
+  
+
+  
+    ,{
+      "title"			: "Contruct a Data Frame",
+      "link"			: "http://localhost:4000/articles/dataframe/",
+      "excerpt"		: "You want to construct a dataset from a folder of Web of Science files."
+    }
+  
+
+  
+    ,{
+      "title"			: "Contruct a Co-Author Network",
+      "link"			: "http://localhost:4000/articles/coauthor/",
+      "excerpt"		: "You want to construct a weighted network of co-authors."
+    }
+  
+
+  
+    ,{
+      "title"			: "Contruct a Citation Network",
+      "link"			: "http://localhost:4000/articles/citation/",
+      "excerpt"		: "You want to construct a weighted citation network."
+    }
+  
+
+  
+    ,{
+      "title"			: "Contruct an Author Co-Citation Network",
+      "link"			: "http://localhost:4000/articles/authorcocitation/",
+      "excerpt"		: "You want to construct a weighted co-citation network of authors."
+    }
+  
+
+
+
+  
+
+  
+
+  
+
+  
+    ,{
+      "title"			: "Documentation",
+      "link"			: "http://localhost:4000/documentation/",
+      "excerpt"		: "Instructions on how to install and use metaknowledge."
+    }
+  
+
+  
+
+  
+
+  
+    ,{
+      "title"			: "About the Jekyll Theme",
+      "link"			: "http://localhost:4000/about/",
+      "excerpt"		: "So Simple is a responsive Jekyll theme for your words and images."
+    }
+  
+
+  
+
+  
+
+  
+
+  
+
+]

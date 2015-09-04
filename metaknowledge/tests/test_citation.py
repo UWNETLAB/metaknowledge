@@ -1,9 +1,9 @@
 import unittest
-import isilib
+import metaknowledge
 
 class TestCitation(unittest.TestCase):
     def setUp(self):
-        self.Cite = isilib.Citation("John D., 2015, TOPICS IN COGNITIVE SCIENCE, V1, P1, DOI 0.1063/1.1695064")
+        self.Cite = metaknowledge.Citation("John D., 2015, TOPICS IN COGNITIVE SCIENCE, V1, P1, DOI 0.1063/1.1695064")
 
     def test_citation_author(self):
         self.assertEqual(self.Cite.author, "JOHN D")
@@ -33,12 +33,12 @@ class TestCitation(unittest.TestCase):
         self.assertEqual(self.Cite.getExtra(), "TOPICS IN COGNITIVE SCIENCE, V1, P1")
 
     def test_citation_badDetection(self):
-        self.assertTrue(isilib.Citation("").bad)
+        self.assertTrue(metaknowledge.Citation("").bad)
 
     def test_citation_equality(self):
-        c1 = isilib.Citation("John D., 2015, TOPICS IN COGNITIVE SCIENCE, P1, DOI 0.1063/1.1695064")
-        c2 = isilib.Citation("John D., 2015, TOPICS IN COGNITIVE SCIENCE, V1, P1")
-        c3 = isilib.Citation("John D., 2015, TOPICS IN COGNITIVE SCIENCE, V1, P2")
+        c1 = metaknowledge.Citation("John D., 2015, TOPICS IN COGNITIVE SCIENCE, P1, DOI 0.1063/1.1695064")
+        c2 = metaknowledge.Citation("John D., 2015, TOPICS IN COGNITIVE SCIENCE, V1, P1")
+        c3 = metaknowledge.Citation("John D., 2015, TOPICS IN COGNITIVE SCIENCE, V1, P2")
         self.assertTrue(c1 == self.Cite)
         self.assertTrue(c2 == self.Cite)
         self.assertFalse(c1 != c2)
@@ -46,11 +46,11 @@ class TestCitation(unittest.TestCase):
 
     def test_citation_hash(self):
         self.assertTrue(bool(hash(self.Cite)))
-        self.assertTrue(bool(hash(isilib.Citation("John D., 2015, TOPICS IN COGNITIVE SCIENCE, V1, P1"))))
-        self.assertTrue(bool(hash(isilib.Citation("John D., 2015"))))
+        self.assertTrue(bool(hash(metaknowledge.Citation("John D., 2015, TOPICS IN COGNITIVE SCIENCE, V1, P1"))))
+        self.assertTrue(bool(hash(metaknowledge.Citation("John D., 2015"))))
 
     def test_citation_badLength(self):
-        c = isilib.Citation("a, b")
+        c = metaknowledge.Citation("a, b")
         self.assertTrue(c.bad)
         self.assertEqual(str(c.error), "Too few elements")
         self.assertEqual(c.getExtra(),'B')
@@ -58,7 +58,7 @@ class TestCitation(unittest.TestCase):
         self.assertEqual(c.getID(),'A')
 
     def test_citation_badNumbers(self):
-        c = isilib.Citation("1 2, 2, 3, 4")
+        c = metaknowledge.Citation("1 2, 2, 3, 4")
         self.assertTrue(c.bad)
         self.assertEqual(c.getID(), '1 2, 2')
         self.assertEqual(str(c.error), "Too many numbers")

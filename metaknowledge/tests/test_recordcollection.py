@@ -1,5 +1,5 @@
 import unittest
-import isilib
+import metaknowledge
 import os
 import filecmp
 import copy
@@ -8,19 +8,19 @@ import networkx as nx
 class TestRecordCollection(unittest.TestCase):
 
     def setUp(self):
-        isilib.VERBOSE_MODE = False
-        self.RC = isilib.RecordCollection("isilib/tests/testFile.isi")
-        self.RCbad = isilib.RecordCollection("isilib/tests/badFile.isi")
+        metaknowledge.VERBOSE_MODE = False
+        self.RC = metaknowledge.RecordCollection("metaknowledge/tests/testFile.isi")
+        self.RCbad = metaknowledge.RecordCollection("metaknowledge/tests/badFile.isi")
 
     def test_iscollection(self):
-        self.assertIsInstance(self.RC, isilib.RecordCollection)
-        self.assertEqual(repr(isilib.RecordCollection()), "empty")
+        self.assertIsInstance(self.RC, metaknowledge.RecordCollection)
+        self.assertEqual(repr(metaknowledge.RecordCollection()), "empty")
         self.assertTrue(self.RC == self.RC)
 
     def test_bad(self):
-        self.assertTrue(isilib.RecordCollection('isilib/tests/badFile.isi').bad)
+        self.assertTrue(metaknowledge.RecordCollection('metaknowledge/tests/badFile.isi').bad)
         with self.assertRaises(TypeError):
-            isilib.RecordCollection('isilib/tests/testFile.isi', extension= '.txt')
+            metaknowledge.RecordCollection('metaknowledge/tests/testFile.isi', extension= '.txt')
         self.assertTrue(self.RCbad + self.RC <= self.RC + self.RCbad)
         self.assertTrue(len(self.RCbad + self.RCbad) == 0)
         self.assertFalse(self.RCbad == self.RC)
@@ -58,17 +58,17 @@ class TestRecordCollection(unittest.TestCase):
 
 
     def test_directoryRead(self):
-        self.assertEqual(len(isilib.RecordCollection('.')), 0)
-        self.assertTrue(isilib.RecordCollection('isilib/tests/') >= self.RC)
-        self.assertTrue(isilib.RecordCollection('isilib/tests/', extension= '.txt') <= self.RC)
+        self.assertEqual(len(metaknowledge.RecordCollection('.')), 0)
+        self.assertTrue(metaknowledge.RecordCollection('metaknowledge/tests/') >= self.RC)
+        self.assertTrue(metaknowledge.RecordCollection('metaknowledge/tests/', extension= '.txt') <= self.RC)
 
     def test_write(self):
         fileName = 'OnePaper2.isi'
-        RC = isilib.RecordCollection('isilib/tests/' + fileName)
+        RC = metaknowledge.RecordCollection('metaknowledge/tests/' + fileName)
         RC.writeFile(fileName + '.tmp')
         RC.writeFile()
-        self.assertTrue(filecmp.cmp('isilib/tests/' + fileName, fileName + '.tmp'))
-        self.assertTrue(filecmp.cmp('isilib/tests/' + fileName, repr(RC)[:200] + '.isi'))
+        self.assertTrue(filecmp.cmp('metaknowledge/tests/' + fileName, fileName + '.tmp'))
+        self.assertTrue(filecmp.cmp('metaknowledge/tests/' + fileName, repr(RC)[:200] + '.isi'))
         os.remove(fileName + '.tmp')
         os.remove(repr(RC)[:200] + '.isi')
 
@@ -86,7 +86,7 @@ class TestRecordCollection(unittest.TestCase):
         os.remove(filename)
 
     def test_makeDict(self):
-        d = self.RC.makeDict(onlyTheseTags = list(isilib.tagsAndNames), longNames = True)
+        d = self.RC.makeDict(onlyTheseTags = list(metaknowledge.tagsAndNames), longNames = True)
         self.assertEqual(len(d), 61)
         self.assertEqual(len(d['wosString']), len(self.RC))
         self.assertEqual(d['eISSN'][0], None)
@@ -193,7 +193,7 @@ class TestRecordCollection(unittest.TestCase):
         self.assertTrue(nx.is_isomorphic(Gd2em, Gemd2))
 
     def test_nMode(self):
-        G = self.RC.nModeNetwork(isilib.tagToFull.keys())
+        G = self.RC.nModeNetwork(metaknowledge.tagToFull.keys())
         self.assertEqual(len(G.nodes()), 1186)
         self.assertEqual(len(G.edges()), 38592)
 
@@ -210,5 +210,5 @@ class TestRecordCollection(unittest.TestCase):
         self.assertEqual(len(RC1970), 15)
         self.assertEqual(len(RC1970) + len(RCno1970), len(self.RC))
         self.assertEqual(len(RCMELLER), 1)
-        RCnocite = isilib.RecordCollection('isilib/tests/OnePaperNoCites.isi')
+        RCnocite = metaknowledge.RecordCollection('metaknowledge/tests/OnePaperNoCites.isi')
         self.assertEqual(len(RCnocite.citeFilter('')), 0)

@@ -1,21 +1,21 @@
 ---
 layout: page
-title: isilib Docs
+title: metaknowledge Docs
 ---
-<a name="isilib"></a>Doc String for isilib main
+<a name="metaknowledge"></a>Doc String for metaknowledge main
 
 ## Classes
 
-<a name="isilib.BadCitation"></a>isilib.**BadCitation**():
+<a name="metaknowledge.BadCitation"></a>metaknowledge.**BadCitation**():
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Exception thrown by Citation
 
 
 - - -
 
-<a name="isilib.BadISIRecord"></a>isilib.**BadISIRecord**():
+<a name="metaknowledge.BadISIRecord"></a>metaknowledge.**BadISIRecord**():
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Exception thrown by the [record parser](#isilib.recordParser) to indicate a mis-formated record. This occurs when some component of the record does not parse. The messages will be any of:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Exception thrown by the [record parser](#metaknowledge.recordParser) to indicate a mis-formated record. This occurs when some component of the record does not parse. The messages will be any of:
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    * _Missing field on line (line Number):(line)_, which indicates a line was to short, there should have been a tag followed by information
 
@@ -30,7 +30,7 @@ title: isilib Docs
 
 - - -
 
-<a name="isilib.Citation"></a>isilib.**Citation**(_cite_):
+<a name="metaknowledge.Citation"></a>metaknowledge.**Citation**(_cite_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A class to hold citation strings and allow for comparison between them.
 
@@ -64,13 +64,13 @@ title: isilib Docs
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;As noted above, citations are considered to be divided into six distinct fields (Author, Year, Journal, Volume, Page and DOI) with a seventh misc for anything not in those. Records thus have an attribute with a name corresponding to each `author`, `year`, `journal`, `V`, `P`, `DOI` and `misc` respectively. These are created if there is anything in the field. So a Citation created from the string: "Nunez R., 1998, MATH COGNITION" would have `author`, `year` and `journal` defined. While one from "Nunez R." would have only the attribute `misc`.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If the parsing of a citation string fails the attribute `bad` is set to True and the attribute `error` is created to contain the error, which is a [BadCitation](#isilib.BadCitation) object. If no errors occur `bad` is `False`.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If the parsing of a citation string fails the attribute `bad` is set to True and the attribute `error` is created to contain the error, which is a [BadCitation](#metaknowledge.BadCitation) object. If no errors occur `bad` is `False`.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The attribute `original` is the unmodified string (_cite_) given to create the Citation, it can also be accessed by converting to a string, e.g. with `str()`.
 
 #####&nbsp;&nbsp;&nbsp; \_\_Init\_\_
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Citations can be created by [Records](#isilib.Record) or by giving the initializer a string containing a WOS style citation.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Citations can be created by [Records](#metaknowledge.Record) or by giving the initializer a string containing a WOS style citation.
 
 #####&nbsp;&nbsp;&nbsp; Parameters
 
@@ -79,9 +79,13 @@ title: isilib Docs
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A str containing a WOS style citation.
 
 
+<a name="Citation.addToDB"></a>Citation.**addToDB**(_manualName=None, manaulDB='manualj9Abbreviations', invert=False_):
+
+# Needs to be written
+
 <a name="Citation.getExtra"></a>Citation.**getExtra**():
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns any journal, V, P or misc values as a string. These are all the values not returned by [`getID()`](#Citation.getID).
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns any V, P or misc values as a string. These are all the values not returned by [`getID()`](#Citation.getID).
 
 #####&nbsp;&nbsp;&nbsp; Returns
 
@@ -91,9 +95,20 @@ title: isilib Docs
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
 
 
+<a name="Citation.getFullJournalName"></a>Citation.**getFullJournalName**():
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the full name of the Citation's journal field. Requires the j9Abbreviations database file.
+
+#####&nbsp;&nbsp;&nbsp; Returns
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`str`
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; The first full name given for the journal of the Citation (or the first name in the WOS list if multiple names exist), if there is not one then `None` is returned
+
+
 <a name="Citation.getID"></a>Citation.**getID**():
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns "author, year" if both available, "author" if year is not available, and "misc" otherwise. It is for shortening labels when creating networks as the resultant strings are often unique. [`getExtra()`](#Citation.getExtra) gets everthing not returned by `getID()`.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns "author, year, journal" if available and "misc" otherwise. It is for shortening labels when creating networks as the resultant strings are often unique. [`getExtra()`](#Citation.getExtra) gets everthing not returned by `getID()`.
 
 #####&nbsp;&nbsp;&nbsp; Returns
 
@@ -113,9 +128,20 @@ title: isilib Docs
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; True if the author is ANONYMOUS otherwise `False`.
 
 
+<a name="Citation.isJournal"></a>Citation.**isJournal**(_manaulDB='manualj9Abbreviations', returnDict='both', checkIfExcluded=False_):
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns `True` if the Citation's journal field is a journal abbreviation given by WOS, i.e. checks if the citation is citing a journal. Requires the j9Abbreviations database file.
+
+#####&nbsp;&nbsp;&nbsp; Returns
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`bool`
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; `True` if the Citation is for a journal
+
+
 - - -
 
-<a name="isilib.Record"></a>isilib.**Record**(_inRecord, taglist=(), sFile='', sLine=0_):
+<a name="metaknowledge.Record"></a>metaknowledge.**Record**(_inRecord, taglist=(), sFile='', sLine=0_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Class for full WOS records
 
@@ -133,13 +159,13 @@ title: isilib Docs
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;When a record is created if the parsing of the WOS file failed it is marked as `bad`. The `bad` attribute is set to True and the `error` attribute is created to contain the exception object.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Generally, to get the information from a Record its attributes should be used. For a Record `R`, calling `R.CR` causes [citations()](#isilib.tagFuncs.citations) from the the [tagFuncs](#isilib.tagFuncs) module to be called on the contents of the raw 'CR' field. Then the result is saved and returned. In this case, a list of Citation objects is returned. You can also call `R.citations` to get the same effect, as each known field tag has a longer name (currently there are 61 field tags). These names are meant to make accessing tags more readable and mapping from tag to name can be found in the tagToFull dict. If a tag is known (in [tagToFull](#isilib)) but not in the raw data `None` is returned instead. Most tags when cleaned return a string or list of strings, the exact results can be found in the help for the particular function.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Generally, to get the information from a Record its attributes should be used. For a Record `R`, calling `R.CR` causes [citations()](#metaknowledge.tagFuncs.citations) from the the [tagFuncs](#metaknowledge.tagFuncs) module to be called on the contents of the raw 'CR' field. Then the result is saved and returned. In this case, a list of Citation objects is returned. You can also call `R.citations` to get the same effect, as each known field tag has a longer name (currently there are 61 field tags). These names are meant to make accessing tags more readable and mapping from tag to name can be found in the tagToFull dict. If a tag is known (in [tagToFull](#metaknowledge)) but not in the raw data `None` is returned instead. Most tags when cleaned return a string or list of strings, the exact results can be found in the help for the particular function.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The attribute `authors` is also defined as a convience and returns the same as 'AF' or if that is not found 'AU'.
 
 #####&nbsp;&nbsp;&nbsp; \_\_Init\_\_
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Records are generally create as collections in  [Recordcollections](#isilib.RecordCollection), and not as individual objects. If you wish to create one on its own it is possible, the arguments are as follows.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Records are generally create as collections in  [Recordcollections](#metaknowledge.RecordCollection), and not as individual objects. If you wish to create one on its own it is possible, the arguments are as follows.
 
 #####&nbsp;&nbsp;&nbsp; Parameters
 
@@ -147,11 +173,11 @@ title: isilib Docs
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; If it is a file stream the file must be open at the location of the first tag in the record, usually 'PT', and the file will be read until 'ER' is found, which indicates the end of the record in the file.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; If a dict is passed the dictionary is used as the database of fields and tags, so each key is considered a WOS tag and each value a list of the lines of the original associated with the tag. This is the same form of dict that [recordParser](#isilib.recordParser) returns.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; If a dict is passed the dictionary is used as the database of fields and tags, so each key is considered a WOS tag and each value a list of the lines of the original associated with the tag. This is the same form of dict that [recordParser](#metaknowledge.recordParser) returns.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; For a str the input is the raw textual data of a single record in the WOS style, like the file stream it must start at the first tag and end in 'ER'.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; itertools.chain is treated identically to a file stream and is used by [RecordCollections](#isilib.RecordCollection).
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; itertools.chain is treated identically to a file stream and is used by [RecordCollections](#metaknowledge.RecordCollection).
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_sFile_ : `optional [str]`
 
@@ -175,16 +201,16 @@ title: isilib Docs
 
 <a name="Record.createCitation"></a>Record.**createCitation**():
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a citation string, using the same format as other WOS citations, for the [Record](#isilib.Record) by reading the relevant tags (year, J9, volume, beginningPage, DOI) and using it to start a [Citation](#isilib.Citation) object.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a citation string, using the same format as other WOS citations, for the [Record](#metaknowledge.Record) by reading the relevant tags (year, J9, volume, beginningPage, DOI) and using it to start a [Citation](#metaknowledge.Citation) object.
 
 #####&nbsp;&nbsp;&nbsp; Returns
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`Citation`
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A [Citation](#isilib.Citation) object containing a citation for the Record.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A [Citation](#metaknowledge.Citation) object containing a citation for the Record.
 
 
-<a name="Record.getTag"></a>Record.**getTag**(_tag_):
+<a name="Record.getTag"></a>Record.**getTag**(_tag, clean=False_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a list containing the raw data of the record associated with _tag_. Each line of the record is one string in the list.
 
@@ -192,7 +218,7 @@ title: isilib Docs
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_tag_ : `str`
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; _tag_ can be a two character string corresponding to a WOS tag e.g. 'J9', the matching is case insensitive so 'j9' is the same as 'J9'. Or it can be one of the full names for a tag with the mappings in [fullToTag](#isilib). If the string is not found in the original record or after being translated through [fullToTag](#isilib), `None` is returned.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; _tag_ can be a two character string corresponding to a WOS tag e.g. 'J9', the matching is case insensitive so 'j9' is the same as 'J9'. Or it can be one of the full names for a tag with the mappings in [fullToTag](#metaknowledge). If the string is not found in the original record or after being translated through [fullToTag](#metaknowledge), `None` is returned.
 
 #####&nbsp;&nbsp;&nbsp; Returns
 
@@ -201,14 +227,14 @@ title: isilib Docs
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Each string in the list is a line from the record associated with _tag_ or None if not found.
 
 
-<a name="Record.getTagsDict"></a>Record.**getTagsDict**(_taglst_):
+<a name="Record.getTagsDict"></a>Record.**getTagsDict**(_taglst, cleaned=False_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns a dict of the results of getTag, with the elements of _taglst_ as the keys and the results as the values.
 
 #####&nbsp;&nbsp;&nbsp; Parameters
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_taglst_ : `List[str]`
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Each string in _taglst_ can be a two character string corresponding to a WOS tag e.g. 'J9', the matching is case insensitive so 'j9' is the same as 'J9'. Or it can be one of the full names for a tag with the mappings in [fullToTag](#isilib). If the string is not found in the oriagnal record before or after being translated through [fullToTag](#isilib), `None` is used instead. Same as in [`getTag()`](#Record.getTag)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Each string in _taglst_ can be a two character string corresponding to a WOS tag e.g. 'J9', the matching is case insensitive so 'j9' is the same as 'J9'. Or it can be one of the full names for a tag with the mappings in [fullToTag](#metaknowledge). If the string is not found in the oriagnal record before or after being translated through [fullToTag](#metaknowledge), `None` is used instead. Same as in [`getTag()`](#Record.getTag)
 
 #####&nbsp;&nbsp;&nbsp; Returns
 
@@ -217,14 +243,14 @@ title: isilib Docs
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; a dictionary with keys as the original tags in _taglst_ and the values as the results
 
 
-<a name="Record.getTagsList"></a>Record.**getTagsList**(_taglst_):
+<a name="Record.getTagsList"></a>Record.**getTagsList**(_taglst, cleaned=False_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a list of the results of [`getTag()`](#Record.getTag) for each tag in _taglist_, the return has the same order as the original.
 
 #####&nbsp;&nbsp;&nbsp; Parameters
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_taglst_ : `List[str]`
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Each string in _taglst_ can be a two character string corresponding to a WOS tag e.g. 'J9', the matching is case insensitive so 'j9' is the same as 'J9'. Or it can be one of the full names for a tag with the mappings in [fullToTag](#isilib). If the string is not found in the original record before or after being translated through [fullToTag](#isilib), `None` is used instead. Same as in [`getTag()`](#Record.getTag)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Each string in _taglst_ can be a two character string corresponding to a WOS tag e.g. 'J9', the matching is case insensitive so 'j9' is the same as 'J9'. Or it can be one of the full names for a tag with the mappings in [fullToTag](#metaknowledge). If the string is not found in the original record before or after being translated through [fullToTag](#metaknowledge), `None` is used instead. Same as in [`getTag()`](#Record.getTag)
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Then they are compiled into a list in the same order as _taglst_
 
@@ -237,7 +263,7 @@ title: isilib Docs
 
 <a name="Record.writeRecord"></a>Record.**writeRecord**(_infile_):
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Writes to _infile_ the original contents of the Record. This is intended for use by [RecordCollections](#isilib.RecordCollection) to write to file. What is written to _infile_ is bit for bit identical to the original record file. No newline is inserted above the write but the last character is a newline.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Writes to _infile_ the original contents of the Record. This is intended for use by [RecordCollections](#metaknowledge.RecordCollection) to write to file. What is written to _infile_ is bit for bit identical to the original record file. No newline is inserted above the write but the last character is a newline.
 
 #####&nbsp;&nbsp;&nbsp; Parameters
 
@@ -248,7 +274,7 @@ title: isilib Docs
 
 - - -
 
-<a name="isilib.RecordCollection"></a>isilib.**RecordCollection**(_inCollection=None, name='', extension=''_):
+<a name="metaknowledge.RecordCollection"></a>metaknowledge.**RecordCollection**(_inCollection=None, name='', extension=''_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A way of containing a large number of Record objects, it provides ways of creating them from an isi file, string, list of records or directory containing isi files. The Records are containing within a set and as such many of the set operations are defined, pop, union, in ... also records are hashed with their WOS string so no duplication can occur.
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The comparison operators <, <=, >, >= are based strictly on the number of Records within the collection, while equality looks for an exact match on the Records
@@ -286,7 +312,7 @@ title: isilib Docs
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; The extension to search for when reading a directoy for files. _extension_ is the suffix searched for when a direcorty is read for files, by default it is empty so all files are read.
 
 
-<a name="RecordCollection.citationNetwork"></a>RecordCollection.**citationNetwork**(_dropAnon=True, nodeType='full', extraInfo=True, weighted=True_):
+<a name="RecordCollection.citationNetwork"></a>RecordCollection.**citationNetwork**(_dropAnon=True, nodeType='full', extraInfo=False, weighted=True, dropNonJournals=False, saveJournalNames=False_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a citation network for the RecordCollection.
 
@@ -307,6 +333,14 @@ title: isilib Docs
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_weighted_ : `optional [bool]`
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; default `True`, wether the edges are weighted. If `True` the edges are weighted by the number of citations.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_dropNonJournals_ : `optional [bool]`
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; default `False`, wether to drop ciations of non-journals
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_saveJournalNames_ : `optional [bool]`
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; default `False`, wether to save the full name of the journals of citations. Citations missing a journal will have the string "None", use with _dropNonJournals_ to avoid this
 
 #####&nbsp;&nbsp;&nbsp; Returns
 
@@ -349,7 +383,7 @@ title: isilib Docs
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A networkx graph with author names as nodes and collaborations as edges.
 
 
-<a name="RecordCollection.coCiteNetwork"></a>RecordCollection.**coCiteNetwork**(_dropAnon=True, nodeType='full', extraInfo=True, weighted=True_):
+<a name="RecordCollection.coCiteNetwork"></a>RecordCollection.**coCiteNetwork**(_dropAnon=True, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a co-citation network for the RecordCollection.
 
@@ -371,6 +405,14 @@ title: isilib Docs
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; default `True`, wether the edges are weighted. If `True` the edges are weighted by the number of occurrences of the co-citation.
 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_dropNonJournals_ : `optional [bool]`
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; default `False`, wether to drop ciations of non-journals
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_saveJournalNames_ : `optional [bool]`
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; default `False`, wether to save the full name of the journals of citations. Citations missing a journal will have the string "None", use with _dropNonJournals_ to avoid this
+
 #####&nbsp;&nbsp;&nbsp; Returns
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`Networkx Graph`
@@ -381,6 +423,25 @@ title: isilib Docs
 <a name="RecordCollection.dropBadRecords"></a>RecordCollection.**dropBadRecords**():
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Removes all Records with bad attributes == True from the collection
+
+
+<a name="RecordCollection.dropNonJournals"></a>RecordCollection.**dropNonJournals**(_ptVal='J', dropBad=True, invert=False_):
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Drops the non journal type Records from the collection
+
+#####&nbsp;&nbsp;&nbsp; Parameters
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_ptVal_ : `optional [str]`
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; The value of the PT tag to be kept, default is 'J' the journal tag
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_dropBad_ : `optional [bool]`
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Determines if bad Records will be dropped as well, default `True`
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_invert_ : `optional [bool]`
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Set `True` to drop journals (or the PT tag given by _ptVal) instead of keeping them. Note, it still drops bad Records if _dropBad_ is `True`, default `False`
 
 
 <a name="RecordCollection.dropWOS"></a>RecordCollection.**dropWOS**(_wosNum_):
@@ -419,9 +480,20 @@ title: isilib Docs
 
 #####&nbsp;&nbsp;&nbsp; Returns
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`isilib.Record`
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`metaknowledge.Record`
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; The Record whose WOS number is _wosNum_
+
+
+<a name="RecordCollection.makeDict"></a>RecordCollection.**makeDict**(_onlyTheseTags=None, longNames=False, cleanedVal=True_):
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a dict with each key a tag and the values being lists of the values for each of the Records in the collection, `None` is given when there is no value and they are in the same order across each tag.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;When used in pandas: `pandas.DataFrame(RC.makeDict())` returns a data frame with each column a tag and each row a Record.
+
+#####&nbsp;&nbsp;&nbsp; Parameters
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;See writeCSV()
 
 
 <a name="RecordCollection.nModeNetwork"></a>RecordCollection.**nModeNetwork**(_tags, recordType=True, nodeCount=True, edgeWeight=True_):
@@ -453,7 +525,7 @@ title: isilib Docs
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fname is the name of the file to write to, if none is given it uses the Collections name suffixed by .csv
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;onlyTheseTags lets you specify which tags to use, if not given then all tags in the records are given.
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If you want to use all known tags the use onlyTheseTags = isilib.knownTagsList
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If you want to use all known tags the use onlyTheseTags = metaknowledge.knownTagsList
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;longNames if set to True will convert the tags to their longer names, otherwise the short 2 character ones will be used
 
@@ -480,19 +552,19 @@ title: isilib Docs
 
 ## Functions
 
-<a name="isilib.blondel"></a>isilib.**blondel**(_G, weightParameter=None, communityParameter='community'_):
+<a name="metaknowledge.blondel"></a>metaknowledge.**blondel**(_G, weightParameter=None, communityParameter='community'_):
 
 # Needs to be written
 
 - - -
 
-<a name="isilib.btest"></a>isilib.**btest**(_quite=False_):
+<a name="metaknowledge.btest"></a>metaknowledge.**btest**(_quite=False_):
 
 # Needs to be written
 
 - - -
 
-<a name="isilib.drop_edges"></a>isilib.**drop_edges**(_grph, minWeight=-inf, maxWeight=inf, parameterName='weight', ignoreUnweighted=False, dropSelfLoops=False_):
+<a name="metaknowledge.drop_edges"></a>metaknowledge.**drop_edges**(_grph, minWeight=-inf, maxWeight=inf, parameterName='weight', ignoreUnweighted=False, dropSelfLoops=False_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a graph with edges whose weight is within the inclusive bounds of minWeight and maxWeight, i.e minWeight <= edges weight <= maxWeight, will throw a Keyerror if the graph is unweighted
 
@@ -505,7 +577,7 @@ title: isilib Docs
 
 - - -
 
-<a name="isilib.drop_nodesByCount"></a>isilib.**drop_nodesByCount**(_grph, minCount=-inf, maxCount=inf, parameterName='count', ignoreMissing=False_):
+<a name="metaknowledge.drop_nodesByCount"></a>metaknowledge.**drop_nodesByCount**(_grph, minCount=-inf, maxCount=inf, parameterName='count', ignoreMissing=False_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a graph whose nodes have a occurrence count that is within inclusive bounds of minCount and maxCount, i.e minCount <= count <= maxCount. Occurrence count is determined by reading the variable associated with the node named parameterName.
 
@@ -519,7 +591,7 @@ title: isilib Docs
 
 - - -
 
-<a name="isilib.drop_nodesByDegree"></a>isilib.**drop_nodesByDegree**(_grph, minDegree=-inf, maxDegree=inf, useWeight=False, parameterName='weight', ignoreUnweighted=False_):
+<a name="metaknowledge.drop_nodesByDegree"></a>metaknowledge.**drop_nodesByDegree**(_grph, minDegree=-inf, maxDegree=inf, useWeight=True, parameterName='weight', ignoreUnweighted=True_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a graph whose nodes have a degree that is within inclusive bounds of minDegree and maxDegree, i.e minDegree <= degree <= maxDegree. Degree can be determined in two ways by default it is the total number of edges touching a node, alternative if useWeight is True it is the sum of the weight of all the edges touching a node.
 
@@ -534,7 +606,19 @@ title: isilib Docs
 
 - - -
 
-<a name="isilib.isiParser"></a>isilib.**isiParser**(_isifile_):
+<a name="metaknowledge.filterNonJournals"></a>metaknowledge.**filterNonJournals**(_citesLst, invert=False_):
+
+# Needs to be written
+
+- - -
+
+<a name="metaknowledge.graphStats"></a>metaknowledge.**graphStats**(_G, stats=('nodes', 'edges', 'isolates', 'loops', 'density', 'transitivity'), makeString=True_):
+
+# Needs to be written
+
+- - -
+
+<a name="metaknowledge.isiParser"></a>metaknowledge.**isiParser**(_isifile_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;isiParser() reads the file given by the path isifile, checks that the header is correct then reads until it reaches EF.
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Each it finds is used to initialize a Record then all Record are returned as a list.
@@ -542,26 +626,28 @@ title: isilib Docs
 
 - - -
 
-<a name="isilib.modularity"></a>isilib.**modularity**(_G, weightParameter=None, communityParameter='community'_):
+<a name="metaknowledge.modularity"></a>metaknowledge.**modularity**(_G, weightParameter=None, communityParameter='community'_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Gets modularity of network, currently not tuned
 
 
 - - -
 
-<a name="isilib.read_graph"></a>isilib.**read_graph**(_edgeList, nodeList=None, directed=False, idKey='ID', eSource='From', eDest='To'_):
+<a name="metaknowledge.read_graph"></a>metaknowledge.**read_graph**(_edgeList, nodeList=None, directed=False, idKey='ID', eSource='From', eDest='To'_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reads the files given by edgeList and if given nodeList and produces a networkx graph
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This is designed only for the files produced by isilib and is meant to be the reverse of write_graph()
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This is designed only for the files produced by metaknowledge and is meant to be the reverse of write_graph()
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nodeList must be given if any of the attributes of the node are needed
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;directed controls if the resultant graph is directional eSource and eDest control the direction
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;idKey, eSource and  eDest are the labels for the edge's id, source and destination respectively, they must match headers in the file or a keyError exception will be thrown
 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;igraph Style
+
 
 - - -
 
-<a name="isilib.recordParser"></a>isilib.**recordParser**(_paper_):
+<a name="metaknowledge.recordParser"></a>metaknowledge.**recordParser**(_paper_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reads the file _paper_ until it reaches 'ER'.
 
@@ -573,7 +659,7 @@ title: isilib Docs
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The entry in the returned dict would be `{'AF' : ["BREVIK, I", "ANICIN, B"]}`
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Record](#isilib.Record) objects can be created with these dictionaries as the initializer.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Record](#metaknowledge.Record) objects can be created with these dictionaries as the initializer.
 
 #####&nbsp;&nbsp;&nbsp; Parameters
 
@@ -590,7 +676,7 @@ title: isilib Docs
 
 - - -
 
-<a name="isilib.write_edgeList"></a>isilib.**write_edgeList**(_grph, name, extraInfo=True, progBar=None_):
+<a name="metaknowledge.write_edgeList"></a>metaknowledge.**write_edgeList**(_grph, name, extraInfo=True, progBar=None_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;writes an edge list of grph with filename name, if extraInfo is true the additional information about the edges, e.g. weight, will be written.
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;All edges must have the same tags
@@ -598,7 +684,7 @@ title: isilib Docs
 
 - - -
 
-<a name="isilib.write_graph"></a>isilib.**write_graph**(_grph, name, edgeInfo=True, typing=True, suffix='csv', overwrite=False_):
+<a name="metaknowledge.write_graph"></a>metaknowledge.**write_graph**(_grph, name, edgeInfo=True, typing=True, suffix='csv', overwrite=False_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Writes both the edge list and the node attribute list of grph.
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The output files start with name, the file type[edgeList, nodeAttributes] then if typing is True the type of graph (directed or undirected) then the suffix, it appears as follows:
@@ -609,20 +695,20 @@ title: isilib Docs
 
 - - -
 
-<a name="isilib.write_nodeAttributeFile"></a>isilib.**write_nodeAttributeFile**(_grph, name, progBar=None_):
+<a name="metaknowledge.write_nodeAttributeFile"></a>metaknowledge.**write_nodeAttributeFile**(_grph, name, progBar=None_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;writes a node attribute list of grph with filename name, the first column is the node's ID then all after it are its associated information.
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;All nodes must have the same tags.
 
 
-## <a name="isilib.tagFuncs"></a>isilib.**tagFuncs**:
+## <a name="metaknowledge.tagFuncs"></a>metaknowledge.**tagFuncs**:
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Doc String of tagFuncs
 
 
 - - -
 
-<a name="isilib.tagFuncs.DOI"></a>isilib.tagFuncs.**DOI**(_val_):
+<a name="metaknowledge.tagFuncs.DOI"></a>metaknowledge.tagFuncs.**DOI**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return the DOI number of the record
 
@@ -631,7 +717,7 @@ title: isilib Docs
 
 - - -
 
-<a name="isilib.tagFuncs.ISBN"></a>isilib.tagFuncs.**ISBN**(_val_):
+<a name="metaknowledge.tagFuncs.ISBN"></a>metaknowledge.tagFuncs.**ISBN**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns a list of ISBNs assocaited with the Record
 
@@ -640,7 +726,7 @@ title: isilib Docs
 
 - - -
 
-<a name="isilib.tagFuncs.ISSN"></a>isilib.tagFuncs.**ISSN**(_val_):
+<a name="metaknowledge.tagFuncs.ISSN"></a>metaknowledge.tagFuncs.**ISSN**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns the ISSN of the Record
 
@@ -649,7 +735,7 @@ title: isilib Docs
 
 - - -
 
-<a name="isilib.tagFuncs.ResearcherIDnumber"></a>isilib.tagFuncs.**ResearcherIDnumber**(_val_):
+<a name="metaknowledge.tagFuncs.ResearcherIDnumber"></a>metaknowledge.tagFuncs.**ResearcherIDnumber**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns a lsit of the research ids of the Record
 
@@ -658,7 +744,7 @@ title: isilib Docs
 
 - - -
 
-<a name="isilib.tagFuncs.abstract"></a>isilib.tagFuncs.**abstract**(_val_):
+<a name="metaknowledge.tagFuncs.abstract"></a>metaknowledge.tagFuncs.**abstract**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return abstract of the record, with newlines hopefully in the correct places
 
@@ -667,7 +753,7 @@ title: isilib Docs
 
 - - -
 
-<a name="isilib.tagFuncs.articleNumber"></a>isilib.tagFuncs.**articleNumber**(_val_):
+<a name="metaknowledge.tagFuncs.articleNumber"></a>metaknowledge.tagFuncs.**articleNumber**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns a string giving the article number, not all are integers
 
@@ -676,14 +762,14 @@ title: isilib Docs
 
 - - -
 
-<a name="isilib.tagFuncs.authAddress"></a>isilib.tagFuncs.**authAddress**(_val_):
+<a name="metaknowledge.tagFuncs.authAddress"></a>metaknowledge.tagFuncs.**authAddress**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;C1 tag
 
 
 - - -
 
-<a name="isilib.tagFuncs.authKeyWords"></a>isilib.tagFuncs.**authKeyWords**(_val_):
+<a name="metaknowledge.tagFuncs.authKeyWords"></a>metaknowledge.tagFuncs.**authKeyWords**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns the keywords assigned by the author of the Record
 
@@ -692,7 +778,7 @@ title: isilib Docs
 
 - - -
 
-<a name="isilib.tagFuncs.authorsFull"></a>isilib.tagFuncs.**authorsFull**(_val_):
+<a name="metaknowledge.tagFuncs.authorsFull"></a>metaknowledge.tagFuncs.**authorsFull**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns a list of authors full names
 
@@ -701,7 +787,7 @@ title: isilib Docs
 
 - - -
 
-<a name="isilib.tagFuncs.authorsShort"></a>isilib.tagFuncs.**authorsShort**(_val_):
+<a name="metaknowledge.tagFuncs.authorsShort"></a>metaknowledge.tagFuncs.**authorsShort**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns a list of authors shortened names
 
@@ -710,7 +796,7 @@ title: isilib Docs
 
 - - -
 
-<a name="isilib.tagFuncs.beginningPage"></a>isilib.tagFuncs.**beginningPage**(_val_):
+<a name="metaknowledge.tagFuncs.beginningPage"></a>metaknowledge.tagFuncs.**beginningPage**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns the first page the record occurs on as a string not an int
 
@@ -719,7 +805,7 @@ title: isilib Docs
 
 - - -
 
-<a name="isilib.tagFuncs.bookAuthor"></a>isilib.tagFuncs.**bookAuthor**(_val_):
+<a name="metaknowledge.tagFuncs.bookAuthor"></a>metaknowledge.tagFuncs.**bookAuthor**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns a list of the short names of the authors of a book Record
 
@@ -728,7 +814,7 @@ title: isilib Docs
 
 - - -
 
-<a name="isilib.tagFuncs.bookAuthorFull"></a>isilib.tagFuncs.**bookAuthorFull**(_val_):
+<a name="metaknowledge.tagFuncs.bookAuthorFull"></a>metaknowledge.tagFuncs.**bookAuthorFull**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns a list of the long names of the authors of a book Record
 
@@ -737,7 +823,7 @@ title: isilib Docs
 
 - - -
 
-<a name="isilib.tagFuncs.bookDOI"></a>isilib.tagFuncs.**bookDOI**(_val_):
+<a name="metaknowledge.tagFuncs.bookDOI"></a>metaknowledge.tagFuncs.**bookDOI**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns the book DOI of the Record
 
@@ -746,7 +832,7 @@ title: isilib Docs
 
 - - -
 
-<a name="isilib.tagFuncs.citations"></a>isilib.tagFuncs.**citations**(_val_):
+<a name="metaknowledge.tagFuncs.citations"></a>metaknowledge.tagFuncs.**citations**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns a list of all the citations in the record
 
@@ -755,7 +841,7 @@ title: isilib Docs
 
 - - -
 
-<a name="isilib.tagFuncs.citedRefsCount"></a>isilib.tagFuncs.**citedRefsCount**(_val_):
+<a name="metaknowledge.tagFuncs.citedRefsCount"></a>metaknowledge.tagFuncs.**citedRefsCount**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns the numer citations, length of CR list
 
@@ -764,7 +850,7 @@ title: isilib Docs
 
 - - -
 
-<a name="isilib.tagFuncs.confDate"></a>isilib.tagFuncs.**confDate**(_val_):
+<a name="metaknowledge.tagFuncs.confDate"></a>metaknowledge.tagFuncs.**confDate**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns the date string of the conference associated with the Record
 
@@ -773,7 +859,7 @@ title: isilib Docs
 
 - - -
 
-<a name="isilib.tagFuncs.confHost"></a>isilib.tagFuncs.**confHost**(_val_):
+<a name="metaknowledge.tagFuncs.confHost"></a>metaknowledge.tagFuncs.**confHost**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns the host of the conference
 
@@ -782,7 +868,7 @@ title: isilib Docs
 
 - - -
 
-<a name="isilib.tagFuncs.confLocation"></a>isilib.tagFuncs.**confLocation**(_val_):
+<a name="metaknowledge.tagFuncs.confLocation"></a>metaknowledge.tagFuncs.**confLocation**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns the sting giving the confrence's location
 
@@ -791,7 +877,7 @@ title: isilib Docs
 
 - - -
 
-<a name="isilib.tagFuncs.confSponsors"></a>isilib.tagFuncs.**confSponsors**(_val_):
+<a name="metaknowledge.tagFuncs.confSponsors"></a>metaknowledge.tagFuncs.**confSponsors**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns a list of sponsors for the conference associated with the record
 
@@ -800,7 +886,7 @@ title: isilib Docs
 
 - - -
 
-<a name="isilib.tagFuncs.confTitle"></a>isilib.tagFuncs.**confTitle**(_val_):
+<a name="metaknowledge.tagFuncs.confTitle"></a>metaknowledge.tagFuncs.**confTitle**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns the title of the conference associated with the Record
 
@@ -809,7 +895,7 @@ title: isilib Docs
 
 - - -
 
-<a name="isilib.tagFuncs.docType"></a>isilib.tagFuncs.**docType**(_val_):
+<a name="metaknowledge.tagFuncs.docType"></a>metaknowledge.tagFuncs.**docType**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns the type of document the Record contains
 
@@ -818,7 +904,7 @@ title: isilib Docs
 
 - - -
 
-<a name="isilib.tagFuncs.documentDeliveryNumber"></a>isilib.tagFuncs.**documentDeliveryNumber**(_val_):
+<a name="metaknowledge.tagFuncs.documentDeliveryNumber"></a>metaknowledge.tagFuncs.**documentDeliveryNumber**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns the document delivery number of the Record
 
@@ -827,7 +913,7 @@ title: isilib Docs
 
 - - -
 
-<a name="isilib.tagFuncs.eISSN"></a>isilib.tagFuncs.**eISSN**(_val_):
+<a name="metaknowledge.tagFuncs.eISSN"></a>metaknowledge.tagFuncs.**eISSN**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns the EISSN of the Record
 
@@ -836,7 +922,7 @@ title: isilib Docs
 
 - - -
 
-<a name="isilib.tagFuncs.editedBy"></a>isilib.tagFuncs.**editedBy**(_val_):
+<a name="metaknowledge.tagFuncs.editedBy"></a>metaknowledge.tagFuncs.**editedBy**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns a list of the editors of the Record
 
@@ -845,14 +931,14 @@ title: isilib Docs
 
 - - -
 
-<a name="isilib.tagFuncs.editors"></a>isilib.tagFuncs.**editors**(_val_):
+<a name="metaknowledge.tagFuncs.editors"></a>metaknowledge.tagFuncs.**editors**(_val_):
 
 #####&nbsp;&nbsp;&nbsp; Needs Work
 
 
 - - -
 
-<a name="isilib.tagFuncs.email"></a>isilib.tagFuncs.**email**(_val_):
+<a name="metaknowledge.tagFuncs.email"></a>metaknowledge.tagFuncs.**email**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns a list of emails given by the authors of the Record
 
@@ -861,7 +947,7 @@ title: isilib Docs
 
 - - -
 
-<a name="isilib.tagFuncs.endingPage"></a>isilib.tagFuncs.**endingPage**(_val_):
+<a name="metaknowledge.tagFuncs.endingPage"></a>metaknowledge.tagFuncs.**endingPage**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return the last page the record occurs on as a string not an int
 
@@ -870,7 +956,7 @@ title: isilib Docs
 
 - - -
 
-<a name="isilib.tagFuncs.funding"></a>isilib.tagFuncs.**funding**(_val_):
+<a name="metaknowledge.tagFuncs.funding"></a>metaknowledge.tagFuncs.**funding**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a list of the groups funding the Record
 
@@ -879,7 +965,7 @@ title: isilib Docs
 
 - - -
 
-<a name="isilib.tagFuncs.fundingText"></a>isilib.tagFuncs.**fundingText**(_val_):
+<a name="metaknowledge.tagFuncs.fundingText"></a>metaknowledge.tagFuncs.**fundingText**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a string of the funding thanks
 
@@ -888,7 +974,7 @@ title: isilib Docs
 
 - - -
 
-<a name="isilib.tagFuncs.getMonth"></a>isilib.tagFuncs.**getMonth**(_s_):
+<a name="metaknowledge.tagFuncs.getMonth"></a>metaknowledge.tagFuncs.**getMonth**(_s_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Known formats:
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Month ("%b")
@@ -901,7 +987,7 @@ title: isilib Docs
 
 - - -
 
-<a name="isilib.tagFuncs.group"></a>isilib.tagFuncs.**group**(_val_):
+<a name="metaknowledge.tagFuncs.group"></a>metaknowledge.tagFuncs.**group**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns the group associated with the Record
 
@@ -910,7 +996,7 @@ title: isilib Docs
 
 - - -
 
-<a name="isilib.tagFuncs.groupName"></a>isilib.tagFuncs.**groupName**(_val_):
+<a name="metaknowledge.tagFuncs.groupName"></a>metaknowledge.tagFuncs.**groupName**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns the name of the group associated with the Record
 
@@ -919,7 +1005,7 @@ title: isilib Docs
 
 - - -
 
-<a name="isilib.tagFuncs.isoAbbreviation"></a>isilib.tagFuncs.**isoAbbreviation**(_val_):
+<a name="metaknowledge.tagFuncs.isoAbbreviation"></a>metaknowledge.tagFuncs.**isoAbbreviation**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns the iso abbreviation of the journal
 
@@ -928,7 +1014,7 @@ title: isilib Docs
 
 - - -
 
-<a name="isilib.tagFuncs.issue"></a>isilib.tagFuncs.**issue**(_val_):
+<a name="metaknowledge.tagFuncs.issue"></a>metaknowledge.tagFuncs.**issue**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns a string giving the issue or range of issues the Record was in
 
@@ -937,7 +1023,7 @@ title: isilib Docs
 
 - - -
 
-<a name="isilib.tagFuncs.j9"></a>isilib.tagFuncs.**j9**(_val_):
+<a name="metaknowledge.tagFuncs.j9"></a>metaknowledge.tagFuncs.**j9**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns the J9 (29-Character Source Abbreviation) of the publication
 
@@ -946,7 +1032,7 @@ title: isilib Docs
 
 - - -
 
-<a name="isilib.tagFuncs.journal"></a>isilib.tagFuncs.**journal**(_val_):
+<a name="metaknowledge.tagFuncs.journal"></a>metaknowledge.tagFuncs.**journal**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns the full name of the publication
 
@@ -955,7 +1041,7 @@ title: isilib Docs
 
 - - -
 
-<a name="isilib.tagFuncs.keyWords"></a>isilib.tagFuncs.**keyWords**(_val_):
+<a name="metaknowledge.tagFuncs.keyWords"></a>metaknowledge.tagFuncs.**keyWords**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns the WOS keywords of the Record
 
@@ -964,7 +1050,7 @@ title: isilib Docs
 
 - - -
 
-<a name="isilib.tagFuncs.language"></a>isilib.tagFuncs.**language**(_val_):
+<a name="metaknowledge.tagFuncs.language"></a>metaknowledge.tagFuncs.**language**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns the languages of the Record as a string with languages seperated by ', ', usually there is only one language
 
@@ -973,14 +1059,14 @@ title: isilib Docs
 
 - - -
 
-<a name="isilib.tagFuncs.makeReversed"></a>isilib.tagFuncs.**makeReversed**(_d_):
+<a name="metaknowledge.tagFuncs.makeReversed"></a>metaknowledge.tagFuncs.**makeReversed**(_d_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Simple function for reversing a dictionary
 
 
 - - -
 
-<a name="isilib.tagFuncs.meetingAbstract"></a>isilib.tagFuncs.**meetingAbstract**(_val_):
+<a name="metaknowledge.tagFuncs.meetingAbstract"></a>metaknowledge.tagFuncs.**meetingAbstract**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns the ID of the meeting abstract prefixed by 'EPA-'
 
@@ -989,7 +1075,7 @@ title: isilib Docs
 
 - - -
 
-<a name="isilib.tagFuncs.month"></a>isilib.tagFuncs.**month**(_val_):
+<a name="metaknowledge.tagFuncs.month"></a>metaknowledge.tagFuncs.**month**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns the month the record was published in as an int with January as 1, February 2, ...
 
@@ -998,7 +1084,7 @@ title: isilib Docs
 
 - - -
 
-<a name="isilib.tagFuncs.orcID"></a>isilib.tagFuncs.**orcID**(_val_):
+<a name="metaknowledge.tagFuncs.orcID"></a>metaknowledge.tagFuncs.**orcID**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns a list of orc IDs of the Record
 
@@ -1007,7 +1093,7 @@ title: isilib Docs
 
 - - -
 
-<a name="isilib.tagFuncs.pageCount"></a>isilib.tagFuncs.**pageCount**(_val_):
+<a name="metaknowledge.tagFuncs.pageCount"></a>metaknowledge.tagFuncs.**pageCount**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns an interger giving the number of pages of the Record
 
@@ -1016,7 +1102,7 @@ title: isilib Docs
 
 - - -
 
-<a name="isilib.tagFuncs.partNumber"></a>isilib.tagFuncs.**partNumber**(_val_):
+<a name="metaknowledge.tagFuncs.partNumber"></a>metaknowledge.tagFuncs.**partNumber**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return an integer giving the part of the issue the Record is in
 
@@ -1025,7 +1111,7 @@ title: isilib Docs
 
 - - -
 
-<a name="isilib.tagFuncs.pubMedID"></a>isilib.tagFuncs.**pubMedID**(_val_):
+<a name="metaknowledge.tagFuncs.pubMedID"></a>metaknowledge.tagFuncs.**pubMedID**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns the pubmed idof the record
 
@@ -1034,7 +1120,7 @@ title: isilib Docs
 
 - - -
 
-<a name="isilib.tagFuncs.pubType"></a>isilib.tagFuncs.**pubType**(_val_):
+<a name="metaknowledge.tagFuncs.pubType"></a>metaknowledge.tagFuncs.**pubType**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns the type of publication as a character: conference, book, journal, book in series, or patent
 
@@ -1043,7 +1129,7 @@ title: isilib Docs
 
 - - -
 
-<a name="isilib.tagFuncs.publisher"></a>isilib.tagFuncs.**publisher**(_val_):
+<a name="metaknowledge.tagFuncs.publisher"></a>metaknowledge.tagFuncs.**publisher**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns the publisher of the Record
 
@@ -1052,7 +1138,7 @@ title: isilib Docs
 
 - - -
 
-<a name="isilib.tagFuncs.publisherAddress"></a>isilib.tagFuncs.**publisherAddress**(_val_):
+<a name="metaknowledge.tagFuncs.publisherAddress"></a>metaknowledge.tagFuncs.**publisherAddress**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns the publishers address
 
@@ -1061,7 +1147,7 @@ title: isilib Docs
 
 - - -
 
-<a name="isilib.tagFuncs.publisherCity"></a>isilib.tagFuncs.**publisherCity**(_val_):
+<a name="metaknowledge.tagFuncs.publisherCity"></a>metaknowledge.tagFuncs.**publisherCity**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the city the publisher is in
 
@@ -1070,7 +1156,7 @@ title: isilib Docs
 
 - - -
 
-<a name="isilib.tagFuncs.reprintAddress"></a>isilib.tagFuncs.**reprintAddress**(_val_):
+<a name="metaknowledge.tagFuncs.reprintAddress"></a>metaknowledge.tagFuncs.**reprintAddress**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns the reprint address string
 
@@ -1079,7 +1165,7 @@ title: isilib Docs
 
 - - -
 
-<a name="isilib.tagFuncs.seriesSubtitle"></a>isilib.tagFuncs.**seriesSubtitle**(_val_):
+<a name="metaknowledge.tagFuncs.seriesSubtitle"></a>metaknowledge.tagFuncs.**seriesSubtitle**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns the title of the series the Record is in
 
@@ -1088,7 +1174,7 @@ title: isilib Docs
 
 - - -
 
-<a name="isilib.tagFuncs.seriesTitle"></a>isilib.tagFuncs.**seriesTitle**(_val_):
+<a name="metaknowledge.tagFuncs.seriesTitle"></a>metaknowledge.tagFuncs.**seriesTitle**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns the title of the series the Record is in
 
@@ -1097,7 +1183,7 @@ title: isilib Docs
 
 - - -
 
-<a name="isilib.tagFuncs.specialIssue"></a>isilib.tagFuncs.**specialIssue**(_val_):
+<a name="metaknowledge.tagFuncs.specialIssue"></a>metaknowledge.tagFuncs.**specialIssue**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns the special issue value
 
@@ -1106,7 +1192,7 @@ title: isilib Docs
 
 - - -
 
-<a name="isilib.tagFuncs.subjectCategory"></a>isilib.tagFuncs.**subjectCategory**(_val_):
+<a name="metaknowledge.tagFuncs.subjectCategory"></a>metaknowledge.tagFuncs.**subjectCategory**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns a list of the subjects associated with the Record
 
@@ -1115,7 +1201,7 @@ title: isilib Docs
 
 - - -
 
-<a name="isilib.tagFuncs.subjects"></a>isilib.tagFuncs.**subjects**(_val_):
+<a name="metaknowledge.tagFuncs.subjects"></a>metaknowledge.tagFuncs.**subjects**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns a lsit of subjects as assigned by WOS
 
@@ -1124,7 +1210,7 @@ title: isilib Docs
 
 - - -
 
-<a name="isilib.tagFuncs.supplement"></a>isilib.tagFuncs.**supplement**(_val_):
+<a name="metaknowledge.tagFuncs.supplement"></a>metaknowledge.tagFuncs.**supplement**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns the supplemtn number
 
@@ -1133,7 +1219,7 @@ title: isilib Docs
 
 - - -
 
-<a name="isilib.tagFuncs.title"></a>isilib.tagFuncs.**title**(_val_):
+<a name="metaknowledge.tagFuncs.title"></a>metaknowledge.tagFuncs.**title**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns the title of the record
 
@@ -1142,7 +1228,7 @@ title: isilib Docs
 
 - - -
 
-<a name="isilib.tagFuncs.totalTimesCited"></a>isilib.tagFuncs.**totalTimesCited**(_val_):
+<a name="metaknowledge.tagFuncs.totalTimesCited"></a>metaknowledge.tagFuncs.**totalTimesCited**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns the total number of citations of the record
 
@@ -1151,7 +1237,7 @@ title: isilib Docs
 
 - - -
 
-<a name="isilib.tagFuncs.volume"></a>isilib.tagFuncs.**volume**(_val_):
+<a name="metaknowledge.tagFuncs.volume"></a>metaknowledge.tagFuncs.**volume**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return the volume the record is in as a string not an int
 
@@ -1160,7 +1246,7 @@ title: isilib Docs
 
 - - -
 
-<a name="isilib.tagFuncs.wosString"></a>isilib.tagFuncs.**wosString**(_val_):
+<a name="metaknowledge.tagFuncs.wosString"></a>metaknowledge.tagFuncs.**wosString**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns the WOS number of the record as a string preceded by "WOS:"
 
@@ -1169,7 +1255,7 @@ title: isilib Docs
 
 - - -
 
-<a name="isilib.tagFuncs.wosTimesCited"></a>isilib.tagFuncs.**wosTimesCited**(_val_):
+<a name="metaknowledge.tagFuncs.wosTimesCited"></a>metaknowledge.tagFuncs.**wosTimesCited**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns the number of times the Record has been cited byr records in WOS
 
@@ -1178,7 +1264,7 @@ title: isilib Docs
 
 - - -
 
-<a name="isilib.tagFuncs.year"></a>isilib.tagFuncs.**year**(_val_):
+<a name="metaknowledge.tagFuncs.year"></a>metaknowledge.tagFuncs.**year**(_val_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns the year the record was published in as an int
 

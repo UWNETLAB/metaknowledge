@@ -1,4 +1,4 @@
-import isilib
+import metaknowledge
 from .graphHelpers import _ProgressBar
 
 import copy
@@ -6,7 +6,7 @@ import copy
 #Based on Fast unfolding of communities in large networks http://arxiv.org/abs/0803.0476v2
 
 def blondel(G, weightParameter = None, communityParameter = 'community'):
-    if isilib.VERBOSE_MODE:
+    if metaknowledge.VERBOSE_MODE:
         PBar = _ProgressBar(0, "Starting community detection")
         iterations = 1
         count = 0

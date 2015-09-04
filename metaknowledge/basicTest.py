@@ -9,8 +9,8 @@ def btest(quite = False):
         stdOut = sys.stdout
         sys.stdout = io.StringIO()
     currentPath = '.' #os.path.dirname(os.path.realpath(__file__))
-    R1 = RecordCollection(currentPath + "/isilib/tests/testFile.isi")
-    R2 = RecordCollection(currentPath + "/isilib/tests/ManyAuthors.isi")
+    R1 = RecordCollection(currentPath + "/metaknowledge/tests/testFile.isi")
+    R2 = RecordCollection(currentPath + "/metaknowledge/tests/ManyAuthors.isi")
     print(R1)
     print("Network")
     print(R1.coAuthNetwork().edges)

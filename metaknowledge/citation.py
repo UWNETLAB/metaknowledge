@@ -42,13 +42,13 @@ class Citation(object):
 
     As noted above, citations are considered to be divided into six distinct fields (Author, Year, Journal, Volume, Page and DOI) with a seventh misc for anything not in those. Records thus have an attribute with a name corresponding to each `author`, `year`, `journal`, `V`, `P`, `DOI` and `misc` respectively. These are created if there is anything in the field. So a Citation created from the string: "Nunez R., 1998, MATH COGNITION" would have `author`, `year` and `journal` defined. While one from "Nunez R." would have only the attribute `misc`.
 
-    If the parsing of a citation string fails the attribute `bad` is set to True and the attribute `error` is created to contain the error, which is a [BadCitation](#isilib.BadCitation) object. If no errors occur `bad` is `False`.
+    If the parsing of a citation string fails the attribute `bad` is set to True and the attribute `error` is created to contain the error, which is a [BadCitation](#metaknowledge.BadCitation) object. If no errors occur `bad` is `False`.
 
     The attribute `original` is the unmodified string (_cite_) given to create the Citation, it can also be accessed by converting to a string, e.g. with `str()`.
 
     # \_\_Init\_\_
 
-    Citations can be created by [Records](#isilib.Record) or by giving the initializer a string containing a WOS style citation.
+    Citations can be created by [Records](#metaknowledge.Record) or by giving the initializer a string containing a WOS style citation.
 
     # Parameters
 

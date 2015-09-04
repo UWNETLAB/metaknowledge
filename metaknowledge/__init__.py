@@ -1,4 +1,4 @@
-"""Doc String for isilib main
+"""Doc String for metaknowledge main
 """
 from .record import Record, recordParser, BadISIRecord
 from .citation import Citation, BadCitation, filterNonJournals

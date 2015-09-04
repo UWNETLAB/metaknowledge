@@ -4,27 +4,27 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta http-equiv="Content-Style-Type" content="text/css" />
   <meta name="generator" content="pandoc" />
-  <title>isilib Docs</title>
+  <title>metaknowledge Docs</title>
   <style type="text/css">code{white-space: pre;}</style>
 </head>
 <body>
 <div id="header">
-<h1 class="title">isilib Docs</h1>
+<h1 class="title">metaknowledge Docs</h1>
 </div>
-<p><a name="isilib"></a>Doc String for isilib main</p>
+<p><a name="metaknowledge"></a>Doc String for metaknowledge main</p>
 <h2 id="classes">Classes</h2>
-<p><a name="isilib.BadCitation"></a>isilib.<strong>BadCitation</strong>():</p>
+<p><a name="metaknowledge.BadCitation"></a>metaknowledge.<strong>BadCitation</strong>():</p>
 <p>      Exception thrown by Citation</p>
 <hr />
-<p><a name="isilib.BadISIRecord"></a>isilib.<strong>BadISIRecord</strong>():</p>
-<p>      Exception thrown by the <a href="#isilib.recordParser">record parser</a> to indicate a mis-formated record. This occurs when some component of the record does not parse. The messages will be any of:</p>
+<p><a name="metaknowledge.BadISIRecord"></a>metaknowledge.<strong>BadISIRecord</strong>():</p>
+<p>      Exception thrown by the <a href="#metaknowledge.recordParser">record parser</a> to indicate a mis-formated record. This occurs when some component of the record does not parse. The messages will be any of:</p>
 <p>       * <em>Missing field on line (line Number):(line)</em>, which indicates a line was to short, there should have been a tag followed by information</p>
 <p>       * <em>End of file reached before ER</em>, which indicates the file ended before the 'ER' indicator appeared, 'ER' indicates the end of a record. This is often due to a copy and paste error.</p>
 <p>       * <em>Duplicate tags in record</em>, which indicates the record had 2 or more lines with the same tag.</p>
 <p>       * <em>Missing WOS number</em>, which indicates the record did not have a 'UT' tag.</p>
 <p>      Records with a BadISIRecord error are likely incomplete or the combination of two or more single records.</p>
 <hr />
-<p><a name="isilib.Citation"></a>isilib.<strong>Citation</strong>(<em>cite</em>):</p>
+<p><a name="metaknowledge.Citation"></a>metaknowledge.<strong>Citation</strong>(<em>cite</em>):</p>
 <p>      A class to hold citation strings and allow for comparison between them.</p>
 <p>      The initializer takes in a string representing a WOS citation they are in the form:</p>
 <p>             Author, Year, Journal, Volume, Page, DOI</p>
@@ -38,30 +38,42 @@
 <p>      When converted to a string a Citation will return the original string.</p>
 <h5 id="attributes">    Attributes</h5>
 <p>      As noted above, citations are considered to be divided into six distinct fields (Author, Year, Journal, Volume, Page and DOI) with a seventh misc for anything not in those. Records thus have an attribute with a name corresponding to each <code>author</code>, <code>year</code>, <code>journal</code>, <code>V</code>, <code>P</code>, <code>DOI</code> and <code>misc</code> respectively. These are created if there is anything in the field. So a Citation created from the string: &quot;Nunez R., 1998, MATH COGNITION&quot; would have <code>author</code>, <code>year</code> and <code>journal</code> defined. While one from &quot;Nunez R.&quot; would have only the attribute <code>misc</code>.</p>
-<p>      If the parsing of a citation string fails the attribute <code>bad</code> is set to True and the attribute <code>error</code> is created to contain the error, which is a <a href="#isilib.BadCitation">BadCitation</a> object. If no errors occur <code>bad</code> is <code>False</code>.</p>
+<p>      If the parsing of a citation string fails the attribute <code>bad</code> is set to True and the attribute <code>error</code> is created to contain the error, which is a <a href="#metaknowledge.BadCitation">BadCitation</a> object. If no errors occur <code>bad</code> is <code>False</code>.</p>
 <p>      The attribute <code>original</code> is the unmodified string (<em>cite</em>) given to create the Citation, it can also be accessed by converting to a string, e.g. with <code>str()</code>.</p>
 <h5 id="init__">    __Init__</h5>
-<p>      Citations can be created by <a href="#isilib.Record">Records</a> or by giving the initializer a string containing a WOS style citation.</p>
+<p>      Citations can be created by <a href="#metaknowledge.Record">Records</a> or by giving the initializer a string containing a WOS style citation.</p>
 <h5 id="parameters">    Parameters</h5>
 <p>      <em>cite</em> : <code>str</code></p>
 <p>             A str containing a WOS style citation.</p>
+<p><a name="Citation.addToDB"></a>Citation.<strong>addToDB</strong>(<em>manualName=None, manaulDB='manualj9Abbreviations', invert=False</em>):</p>
+<h1 id="needs-to-be-written">Needs to be written</h1>
 <p><a name="Citation.getExtra"></a>Citation.<strong>getExtra</strong>():</p>
-<p>      Returns any journal, V, P or misc values as a string. These are all the values not returned by <a href="#Citation.getID"><code>getID()</code></a>.</p>
+<p>      Returns any V, P or misc values as a string. These are all the values not returned by <a href="#Citation.getID"><code>getID()</code></a>.</p>
 <h5 id="returns">    Returns</h5>
 <p>      <code>str</code></p>
 <p>             A string containing the data not in the ID of the Citation.       </p>
-<p><a name="Citation.getID"></a>Citation.<strong>getID</strong>():</p>
-<p>      Returns &quot;author, year&quot; if both available, &quot;author&quot; if year is not available, and &quot;misc&quot; otherwise. It is for shortening labels when creating networks as the resultant strings are often unique. <a href="#Citation.getExtra"><code>getExtra()</code></a> gets everthing not returned by <code>getID()</code>.</p>
+<p><a name="Citation.getFullJournalName"></a>Citation.<strong>getFullJournalName</strong>():</p>
+<p>      Returns the full name of the Citation's journal field. Requires the j9Abbreviations database file.</p>
 <h5 id="returns-1">    Returns</h5>
+<p>      <code>str</code></p>
+<p>             The first full name given for the journal of the Citation (or the first name in the WOS list if multiple names exist), if there is not one then <code>None</code> is returned</p>
+<p><a name="Citation.getID"></a>Citation.<strong>getID</strong>():</p>
+<p>      Returns &quot;author, year, journal&quot; if available and &quot;misc&quot; otherwise. It is for shortening labels when creating networks as the resultant strings are often unique. <a href="#Citation.getExtra"><code>getExtra()</code></a> gets everthing not returned by <code>getID()</code>.</p>
+<h5 id="returns-2">    Returns</h5>
 <p>      <code>str</code></p>
 <p>             A string to use as the shortened ID of a node.</p>
 <p><a name="Citation.isAnonymous"></a>Citation.<strong>isAnonymous</strong>():</p>
 <p>      Checks if the author is given as &quot;[ANONYMOUS]&quot; and returns <code>True</code> if so.</p>
-<h5 id="returns-2">    Returns</h5>
+<h5 id="returns-3">    Returns</h5>
 <p>      <code>bool</code></p>
 <p>             True if the author is ANONYMOUS otherwise <code>False</code>.</p>
+<p><a name="Citation.isJournal"></a>Citation.<strong>isJournal</strong>(<em>manaulDB='manualj9Abbreviations', returnDict='both', checkIfExcluded=False</em>):</p>
+<p>      Returns <code>True</code> if the Citation's journal field is a journal abbreviation given by WOS, i.e. checks if the citation is citing a journal. Requires the j9Abbreviations database file.</p>
+<h5 id="returns-4">    Returns</h5>
+<p>      <code>bool</code></p>
+<p>             <code>True</code> if the Citation is for a journal</p>
 <hr />
-<p><a name="isilib.Record"></a>isilib.<strong>Record</strong>(<em>inRecord, taglist=(), sFile='', sLine=0</em>):</p>
+<p><a name="metaknowledge.Record"></a>metaknowledge.<strong>Record</strong>(<em>inRecord, taglist=(), sFile='', sLine=0</em>):</p>
 <p>      Class for full WOS records</p>
 <p>      It is meant to be immutable; many of the methods and attributes are evaluated when first called, not when the object is created, and the results are stored in a private dictionary.</p>
 <p>      The record's meta-data is stored in an ordered dictionary labeled by WOS tags. To access the raw data stored in the original record the <a href="#Record.getTag">getTag()</a> method can be used. To access data that has been processed and cleaned the attributes named after the tags are used.</p>
@@ -70,62 +82,62 @@
 <p>      When converted to a string the records title is used so for a record <code>R</code>, R.TI == R.title == str(R).</p>
 <h5 id="attributes-1">    Attributes</h5>
 <p>      When a record is created if the parsing of the WOS file failed it is marked as <code>bad</code>. The <code>bad</code> attribute is set to True and the <code>error</code> attribute is created to contain the exception object.</p>
-<p>      Generally, to get the information from a Record its attributes should be used. For a Record <code>R</code>, calling <code>R.CR</code> causes <a href="#isilib.tagFuncs.citations">citations()</a> from the the <a href="#isilib.tagFuncs">tagFuncs</a> module to be called on the contents of the raw 'CR' field. Then the result is saved and returned. In this case, a list of Citation objects is returned. You can also call <code>R.citations</code> to get the same effect, as each known field tag has a longer name (currently there are 61 field tags). These names are meant to make accessing tags more readable and mapping from tag to name can be found in the tagToFull dict. If a tag is known (in <a href="#isilib">tagToFull</a>) but not in the raw data <code>None</code> is returned instead. Most tags when cleaned return a string or list of strings, the exact results can be found in the help for the particular function.</p>
+<p>      Generally, to get the information from a Record its attributes should be used. For a Record <code>R</code>, calling <code>R.CR</code> causes <a href="#metaknowledge.tagFuncs.citations">citations()</a> from the the <a href="#metaknowledge.tagFuncs">tagFuncs</a> module to be called on the contents of the raw 'CR' field. Then the result is saved and returned. In this case, a list of Citation objects is returned. You can also call <code>R.citations</code> to get the same effect, as each known field tag has a longer name (currently there are 61 field tags). These names are meant to make accessing tags more readable and mapping from tag to name can be found in the tagToFull dict. If a tag is known (in <a href="#metaknowledge">tagToFull</a>) but not in the raw data <code>None</code> is returned instead. Most tags when cleaned return a string or list of strings, the exact results can be found in the help for the particular function.</p>
 <p>      The attribute <code>authors</code> is also defined as a convience and returns the same as 'AF' or if that is not found 'AU'.</p>
 <h5 id="init__-1">    __Init__</h5>
-<p>      Records are generally create as collections in <a href="#isilib.RecordCollection">Recordcollections</a>, and not as individual objects. If you wish to create one on its own it is possible, the arguments are as follows.</p>
+<p>      Records are generally create as collections in <a href="#metaknowledge.RecordCollection">Recordcollections</a>, and not as individual objects. If you wish to create one on its own it is possible, the arguments are as follows.</p>
 <h5 id="parameters-1">    Parameters</h5>
 <p>      <em>inRecord</em>: <code>files stream, dict, str or itertools.chain</code></p>
 <p>             If it is a file stream the file must be open at the location of the first tag in the record, usually 'PT', and the file will be read until 'ER' is found, which indicates the end of the record in the file.</p>
-<p>             If a dict is passed the dictionary is used as the database of fields and tags, so each key is considered a WOS tag and each value a list of the lines of the original associated with the tag. This is the same form of dict that <a href="#isilib.recordParser">recordParser</a> returns.</p>
+<p>             If a dict is passed the dictionary is used as the database of fields and tags, so each key is considered a WOS tag and each value a list of the lines of the original associated with the tag. This is the same form of dict that <a href="#metaknowledge.recordParser">recordParser</a> returns.</p>
 <p>             For a str the input is the raw textual data of a single record in the WOS style, like the file stream it must start at the first tag and end in 'ER'.</p>
-<p>             itertools.chain is treated identically to a file stream and is used by <a href="#isilib.RecordCollection">RecordCollections</a>.</p>
+<p>             itertools.chain is treated identically to a file stream and is used by <a href="#metaknowledge.RecordCollection">RecordCollections</a>.</p>
 <p>      <em>sFile</em> : <code>optional [str]</code></p>
 <p>             Is the name of the file the raw data was in, by default it is blank. It is mostly used to make error messages more informative.</p>
 <p>      <em>sLine</em> : <code>optional [int]</code></p>
 <p>             Is the line the record starts on in the raw data file. It is mostly used to make error messages more informative.</p>
 <p><a name="Record.activeTags"></a>Record.<strong>activeTags</strong>():</p>
 <p>      Returns a list of all the tags the original WOS record had. These are all the tags that <a href="#Record.getTag">'getTag()'</a> will not return <code>None</code> for.</p>
-<h5 id="returns-3">    Returns</h5>
+<h5 id="returns-5">    Returns</h5>
 <p>      <code>List[str]</code></p>
 <p>             a list of WOS tags in the Record</p>
 <p><a name="Record.createCitation"></a>Record.<strong>createCitation</strong>():</p>
-<p>      Creates a citation string, using the same format as other WOS citations, for the <a href="#isilib.Record">Record</a> by reading the relevant tags (year, J9, volume, beginningPage, DOI) and using it to start a <a href="#isilib.Citation">Citation</a> object.</p>
-<h5 id="returns-4">    Returns</h5>
+<p>      Creates a citation string, using the same format as other WOS citations, for the <a href="#metaknowledge.Record">Record</a> by reading the relevant tags (year, J9, volume, beginningPage, DOI) and using it to start a <a href="#metaknowledge.Citation">Citation</a> object.</p>
+<h5 id="returns-6">    Returns</h5>
 <p>      <code>Citation</code></p>
-<p>             A <a href="#isilib.Citation">Citation</a> object containing a citation for the Record.</p>
-<p><a name="Record.getTag"></a>Record.<strong>getTag</strong>(<em>tag</em>):</p>
+<p>             A <a href="#metaknowledge.Citation">Citation</a> object containing a citation for the Record.</p>
+<p><a name="Record.getTag"></a>Record.<strong>getTag</strong>(<em>tag, clean=False</em>):</p>
 <p>      Returns a list containing the raw data of the record associated with <em>tag</em>. Each line of the record is one string in the list.</p>
 <h5 id="parameters-2">    Parameters</h5>
 <p>      <em>tag</em> : <code>str</code></p>
-<p>             <em>tag</em> can be a two character string corresponding to a WOS tag e.g. 'J9', the matching is case insensitive so 'j9' is the same as 'J9'. Or it can be one of the full names for a tag with the mappings in <a href="#isilib">fullToTag</a>. If the string is not found in the original record or after being translated through <a href="#isilib">fullToTag</a>, <code>None</code> is returned.</p>
-<h5 id="returns-5">    Returns</h5>
+<p>             <em>tag</em> can be a two character string corresponding to a WOS tag e.g. 'J9', the matching is case insensitive so 'j9' is the same as 'J9'. Or it can be one of the full names for a tag with the mappings in <a href="#metaknowledge">fullToTag</a>. If the string is not found in the original record or after being translated through <a href="#metaknowledge">fullToTag</a>, <code>None</code> is returned.</p>
+<h5 id="returns-7">    Returns</h5>
 <p>      <code>List [str]</code></p>
 <p>             Each string in the list is a line from the record associated with <em>tag</em> or None if not found.</p>
-<p><a name="Record.getTagsDict"></a>Record.<strong>getTagsDict</strong>(<em>taglst</em>):</p>
+<p><a name="Record.getTagsDict"></a>Record.<strong>getTagsDict</strong>(<em>taglst, cleaned=False</em>):</p>
 <p>      returns a dict of the results of getTag, with the elements of <em>taglst</em> as the keys and the results as the values.</p>
 <h5 id="parameters-3">    Parameters</h5>
 <p>      <em>taglst</em> : <code>List[str]</code></p>
-<p>             Each string in <em>taglst</em> can be a two character string corresponding to a WOS tag e.g. 'J9', the matching is case insensitive so 'j9' is the same as 'J9'. Or it can be one of the full names for a tag with the mappings in <a href="#isilib">fullToTag</a>. If the string is not found in the oriagnal record before or after being translated through <a href="#isilib">fullToTag</a>, <code>None</code> is used instead. Same as in <a href="#Record.getTag"><code>getTag()</code></a></p>
-<h5 id="returns-6">    Returns</h5>
+<p>             Each string in <em>taglst</em> can be a two character string corresponding to a WOS tag e.g. 'J9', the matching is case insensitive so 'j9' is the same as 'J9'. Or it can be one of the full names for a tag with the mappings in <a href="#metaknowledge">fullToTag</a>. If the string is not found in the oriagnal record before or after being translated through <a href="#metaknowledge">fullToTag</a>, <code>None</code> is used instead. Same as in <a href="#Record.getTag"><code>getTag()</code></a></p>
+<h5 id="returns-8">    Returns</h5>
 <p>      <code>dict[str : List [str]]</code></p>
 <p>             a dictionary with keys as the original tags in <em>taglst</em> and the values as the results</p>
-<p><a name="Record.getTagsList"></a>Record.<strong>getTagsList</strong>(<em>taglst</em>):</p>
+<p><a name="Record.getTagsList"></a>Record.<strong>getTagsList</strong>(<em>taglst, cleaned=False</em>):</p>
 <p>      Returns a list of the results of <a href="#Record.getTag"><code>getTag()</code></a> for each tag in <em>taglist</em>, the return has the same order as the original.</p>
 <h5 id="parameters-4">    Parameters</h5>
 <p>      <em>taglst</em> : <code>List[str]</code></p>
-<p>             Each string in <em>taglst</em> can be a two character string corresponding to a WOS tag e.g. 'J9', the matching is case insensitive so 'j9' is the same as 'J9'. Or it can be one of the full names for a tag with the mappings in <a href="#isilib">fullToTag</a>. If the string is not found in the original record before or after being translated through <a href="#isilib">fullToTag</a>, <code>None</code> is used instead. Same as in <a href="#Record.getTag"><code>getTag()</code></a></p>
+<p>             Each string in <em>taglst</em> can be a two character string corresponding to a WOS tag e.g. 'J9', the matching is case insensitive so 'j9' is the same as 'J9'. Or it can be one of the full names for a tag with the mappings in <a href="#metaknowledge">fullToTag</a>. If the string is not found in the original record before or after being translated through <a href="#metaknowledge">fullToTag</a>, <code>None</code> is used instead. Same as in <a href="#Record.getTag"><code>getTag()</code></a></p>
 <p>             Then they are compiled into a list in the same order as <em>taglst</em></p>
-<h5 id="returns-7">    Returns</h5>
+<h5 id="returns-9">    Returns</h5>
 <p>      <code>List[str]</code></p>
 <p>             a list of the values for each tag in <em>taglst</em>, in the same order</p>
 <p><a name="Record.writeRecord"></a>Record.<strong>writeRecord</strong>(<em>infile</em>):</p>
-<p>      Writes to <em>infile</em> the original contents of the Record. This is intended for use by <a href="#isilib.RecordCollection">RecordCollections</a> to write to file. What is written to <em>infile</em> is bit for bit identical to the original record file. No newline is inserted above the write but the last character is a newline.</p>
+<p>      Writes to <em>infile</em> the original contents of the Record. This is intended for use by <a href="#metaknowledge.RecordCollection">RecordCollections</a> to write to file. What is written to <em>infile</em> is bit for bit identical to the original record file. No newline is inserted above the write but the last character is a newline.</p>
 <h5 id="parameters-5">    Parameters</h5>
 <p>      <em>infile</em> : <code>file stream</code></p>
 <p>             An open utf-8 encoded file</p>
 <hr />
-<p><a name="isilib.RecordCollection"></a>isilib.<strong>RecordCollection</strong>(<em>inCollection=None, name='', extension=''</em>):</p>
+<p><a name="metaknowledge.RecordCollection"></a>metaknowledge.<strong>RecordCollection</strong>(<em>inCollection=None, name='', extension=''</em>):</p>
 <p>      A way of containing a large number of Record objects, it provides ways of creating them from an isi file, string, list of records or directory containing isi files. The Records are containing within a set and as such many of the set operations are defined, pop, union, in ... also records are hashed with their WOS string so no duplication can occur.       The comparison operators &lt;, &lt;=, &gt;, &gt;= are based strictly on the number of Records within the collection, while equality looks for an exact match on the Records</p>
 <p>      When being created if there are issues the Record collection will be declared bad (self.bad = True) it will then mostly return nothing or False. The error attribute contains the exception that occurred.</p>
 <p>      They also possess a name accessed with repr(), this is used to auto generate the names of files and can be set at creation, note though that any operations that modify the RecordCollection's contents will update the name to include what occurred, read <strong>repr</strong>'s doc string for more information</p>
@@ -143,7 +155,7 @@
 <p>             The name of the RecordCollection, defaults to empty string. If left empty the name of the Record collection is set to the name of the file or directory used to create the collection. If provided the name id set to <em>name</em></p>
 <p>      <em>extension</em> : <code>optional [str]</code></p>
 <p>             The extension to search for when reading a directoy for files. <em>extension</em> is the suffix searched for when a direcorty is read for files, by default it is empty so all files are read.</p>
-<p><a name="RecordCollection.citationNetwork"></a>RecordCollection.<strong>citationNetwork</strong>(<em>dropAnon=True, nodeType='full', extraInfo=True, weighted=True</em>):</p>
+<p><a name="RecordCollection.citationNetwork"></a>RecordCollection.<strong>citationNetwork</strong>(<em>dropAnon=True, nodeType='full', extraInfo=False, weighted=True, dropNonJournals=False, saveJournalNames=False</em>):</p>
 <p>      Creates a citation network for the RecordCollection.</p>
 <h5 id="parameters-7">    Parameters</h5>
 <p>      <em>dropAnon</em> : <code>optional [bool]</code></p>
@@ -154,7 +166,11 @@
 <p>             default <code>True</code>, wether the original citation string is added to the node as an extra value, if <code>True</code> it is</p>
 <p>      <em>weighted</em> : <code>optional [bool]</code></p>
 <p>             default <code>True</code>, wether the edges are weighted. If <code>True</code> the edges are weighted by the number of citations.</p>
-<h5 id="returns-8">    Returns</h5>
+<p>      <em>dropNonJournals</em> : <code>optional [bool]</code></p>
+<p>             default <code>False</code>, wether to drop ciations of non-journals</p>
+<p>      <em>saveJournalNames</em> : <code>optional [bool]</code></p>
+<p>             default <code>False</code>, wether to save the full name of the journals of citations. Citations missing a journal will have the string &quot;None&quot;, use with <em>dropNonJournals</em> to avoid this</p>
+<h5 id="returns-10">    Returns</h5>
 <p>      <code>Networkx DiGraph</code></p>
 <p>             A networkx digraph with hashes as ID and citations as edges</p>
 <p><a name="RecordCollection.citeFilter"></a>RecordCollection.<strong>citeFilter</strong>(<em>keyString='', field='all', reverse=False, caseSensitive=False</em>):</p>
@@ -165,10 +181,10 @@
 <p>      caseSensitive if True causes the search across the original to be case sensitive, only the 'all' option can be case sensitive</p>
 <p><a name="RecordCollection.coAuthNetwork"></a>RecordCollection.<strong>coAuthNetwork</strong>():</p>
 <p>      Creates a coauthorship network for the RecordCollection.</p>
-<h5 id="returns-9">    Returns</h5>
+<h5 id="returns-11">    Returns</h5>
 <p>      <code>Networkx Graph</code></p>
 <p>             A networkx graph with author names as nodes and collaborations as edges.</p>
-<p><a name="RecordCollection.coCiteNetwork"></a>RecordCollection.<strong>coCiteNetwork</strong>(<em>dropAnon=True, nodeType='full', extraInfo=True, weighted=True</em>):</p>
+<p><a name="RecordCollection.coCiteNetwork"></a>RecordCollection.<strong>coCiteNetwork</strong>(<em>dropAnon=True, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False</em>):</p>
 <p>      Creates a co-citation network for the RecordCollection.</p>
 <h5 id="parameters-8">    Parameters</h5>
 <p>      <em>dropAnon</em> : <code>optional [bool]</code></p>
@@ -179,44 +195,62 @@
 <p>             default <code>True</code>, wether the original citation string is added to the node as an extra value, if <code>True</code> it is</p>
 <p>      <em>weighted</em> : <code>optional [bool]</code></p>
 <p>             default <code>True</code>, wether the edges are weighted. If <code>True</code> the edges are weighted by the number of occurrences of the co-citation.</p>
-<h5 id="returns-10">    Returns</h5>
+<p>      <em>dropNonJournals</em> : <code>optional [bool]</code></p>
+<p>             default <code>False</code>, wether to drop ciations of non-journals</p>
+<p>      <em>saveJournalNames</em> : <code>optional [bool]</code></p>
+<p>             default <code>False</code>, wether to save the full name of the journals of citations. Citations missing a journal will have the string &quot;None&quot;, use with <em>dropNonJournals</em> to avoid this</p>
+<h5 id="returns-12">    Returns</h5>
 <p>      <code>Networkx Graph</code></p>
 <p>             A networkx graph with hashes as ID and co-citation as edges</p>
 <p><a name="RecordCollection.dropBadRecords"></a>RecordCollection.<strong>dropBadRecords</strong>():</p>
 <p>      Removes all Records with bad attributes == True from the collection</p>
+<p><a name="RecordCollection.dropNonJournals"></a>RecordCollection.<strong>dropNonJournals</strong>(<em>ptVal='J', dropBad=True, invert=False</em>):</p>
+<p>      Drops the non journal type Records from the collection</p>
+<h5 id="parameters-9">    Parameters</h5>
+<p>      <em>ptVal</em> : <code>optional [str]</code></p>
+<p>             The value of the PT tag to be kept, default is 'J' the journal tag</p>
+<p>      <em>dropBad</em> : <code>optional [bool]</code></p>
+<p>             Determines if bad Records will be dropped as well, default <code>True</code></p>
+<p>      <em>invert</em> : <code>optional [bool]</code></p>
+<p>             Set <code>True</code> to drop journals (or the PT tag given by _ptVal) instead of keeping them. Note, it still drops bad Records if <em>dropBad</em> is <code>True</code>, default <code>False</code></p>
 <p><a name="RecordCollection.dropWOS"></a>RecordCollection.<strong>dropWOS</strong>(<em>wosNum</em>):</p>
 <p>      Removes the Record with WOS number (ID number) <em>wosNum</em></p>
-<h5 id="parameters-9">    Parameters</h5>
+<h5 id="parameters-10">    Parameters</h5>
 <p>      <em>wosNum</em> : <code>str</code></p>
 <p>             <em>wosNum</em> is the WOS number of the Record to be dropped. <em>wosNum</em> must begin with 'WOS:' or a valueError is raise.</p>
 <p><a name="RecordCollection.extractTagged"></a>RecordCollection.<strong>extractTagged</strong>(<em>taglist</em>):</p>
-<h1 id="needs-to-be-written">Needs to be written</h1>
+<h1 id="needs-to-be-written-1">Needs to be written</h1>
 <p><a name="RecordCollection.getBadRecords"></a>RecordCollection.<strong>getBadRecords</strong>():</p>
 <p>      returns RecordCollection containing all the Record which have their bad flag set to True, i.e. all those removed by dropBadRecords()</p>
 <p><a name="RecordCollection.getWOS"></a>RecordCollection.<strong>getWOS</strong>(<em>wosNum, drop=False</em>):</p>
 <p>      Gets the Record from the collection by its WOS number.</p>
-<h5 id="parameters-10">    Parameters</h5>
+<h5 id="parameters-11">    Parameters</h5>
 <p>      <em>wosNum</em> : <code>str</code></p>
 <p>             <em>wosNum</em> is the WOS number of the Record to be extracted. <em>wosNum</em> must begin with 'WOS:' or a valueError is raise.</p>
 <p>      <em>drop</em> : <code>optional [bool]</code></p>
 <p>             Default <code>False</code>. If <code>True</code> the Record is dropped from the collection after being extract, i.e. if <code>False</code> <a href="#RecordCollection.getWOS">getWOS()</a> acts like <a href="#RecordCollection.peak">peak()</a>, if <code>True</code> it acts like <a href="#RecordCollection.pop">pop()</a></p>
-<h5 id="returns-11">    Returns</h5>
-<p>      <code>isilib.Record</code></p>
+<h5 id="returns-13">    Returns</h5>
+<p>      <code>metaknowledge.Record</code></p>
 <p>             The Record whose WOS number is <em>wosNum</em></p>
+<p><a name="RecordCollection.makeDict"></a>RecordCollection.<strong>makeDict</strong>(<em>onlyTheseTags=None, longNames=False, cleanedVal=True</em>):</p>
+<p>      Returns a dict with each key a tag and the values being lists of the values for each of the Records in the collection, <code>None</code> is given when there is no value and they are in the same order across each tag.</p>
+<p>      When used in pandas: <code>pandas.DataFrame(RC.makeDict())</code> returns a data frame with each column a tag and each row a Record.</p>
+<h5 id="parameters-12">    Parameters</h5>
+<p>      See writeCSV()</p>
 <p><a name="RecordCollection.nModeNetwork"></a>RecordCollection.<strong>nModeNetwork</strong>(<em>tags, recordType=True, nodeCount=True, edgeWeight=True</em>):</p>
-<h1 id="needs-to-be-written-1">Needs to be written</h1>
-<p><a name="RecordCollection.oneModeNetwork"></a>RecordCollection.<strong>oneModeNetwork</strong>(<em>mode, nodeCount=True, edgeWeight=True</em>):</p>
 <h1 id="needs-to-be-written-2">Needs to be written</h1>
+<p><a name="RecordCollection.oneModeNetwork"></a>RecordCollection.<strong>oneModeNetwork</strong>(<em>mode, nodeCount=True, edgeWeight=True</em>):</p>
+<h1 id="needs-to-be-written-3">Needs to be written</h1>
 <p><a name="RecordCollection.peak"></a>RecordCollection.<strong>peak</strong>():</p>
 <p>      Returns a random Record from the recordCollection, the Record is kept in the collection, use pop for faster destructive access</p>
 <p><a name="RecordCollection.pop"></a>RecordCollection.<strong>pop</strong>():</p>
 <p>      Returns a random Record from the recordCollection, the Record is deleted from the collection, use peak for nondestructive access</p>
 <p><a name="RecordCollection.twoModeNetwork"></a>RecordCollection.<strong>twoModeNetwork</strong>(<em>tag1, tag2, directed=False, recordType=True, nodeCount=True, edgeWeight=True</em>):</p>
-<h1 id="needs-to-be-written-3">Needs to be written</h1>
+<h1 id="needs-to-be-written-4">Needs to be written</h1>
 <p><a name="RecordCollection.writeCSV"></a>RecordCollection.<strong>writeCSV</strong>(<em>fname=None, onlyTheseTags=None, longNames=False, firstTags=['UT', 'PT', 'TI', 'AF', 'CR'], csvDelimiter=',', csvQuote='&quot;', listDelimiter='|'</em>):</p>
 <p>      Writes all the Records from the collection into a csv file with each row a record and each column a tag</p>
 <p>      fname is the name of the file to write to, if none is given it uses the Collections name suffixed by .csv</p>
-<p>      onlyTheseTags lets you specify which tags to use, if not given then all tags in the records are given.       If you want to use all known tags the use onlyTheseTags = isilib.knownTagsList</p>
+<p>      onlyTheseTags lets you specify which tags to use, if not given then all tags in the records are given.       If you want to use all known tags the use onlyTheseTags = metaknowledge.knownTagsList</p>
 <p>      longNames if set to True will convert the tags to their longer names, otherwise the short 2 character ones will be used</p>
 <p>      firstTags is the column's tags, it is set by default to ['UT', 'PT', 'TI', 'AF', 'CR'] so those will be written first if given by onlyTheseTags.       Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will override onlyTheseTags</p>
 <p>      csvDelimiter is the delimiter used for the cells of the csv file, default is the comma (,)</p>
@@ -226,313 +260,320 @@
 <p>      Writes the RecordCollection to a file, the written file is identical to those download from WOS. The order of Records written is random.</p>
 <p>      fname set the name of the file, if blank the RecordCollection's name's first 200 characters are use with the suffix .isi</p>
 <p><a name="RecordCollection.yearSplit"></a>RecordCollection.<strong>yearSplit</strong>(<em>startYear, endYear</em>):</p>
-<h1 id="needs-to-be-written-4">Needs to be written</h1>
-<h2 id="functions">Functions</h2>
-<p><a name="isilib.blondel"></a>isilib.<strong>blondel</strong>(<em>G, weightParameter=None, communityParameter='community'</em>):</p>
 <h1 id="needs-to-be-written-5">Needs to be written</h1>
-<hr />
-<p><a name="isilib.btest"></a>isilib.<strong>btest</strong>(<em>quite=False</em>):</p>
+<h2 id="functions">Functions</h2>
+<p><a name="metaknowledge.blondel"></a>metaknowledge.<strong>blondel</strong>(<em>G, weightParameter=None, communityParameter='community'</em>):</p>
 <h1 id="needs-to-be-written-6">Needs to be written</h1>
 <hr />
-<p><a name="isilib.drop_edges"></a>isilib.<strong>drop_edges</strong>(<em>grph, minWeight=-inf, maxWeight=inf, parameterName='weight', ignoreUnweighted=False, dropSelfLoops=False</em>):</p>
+<p><a name="metaknowledge.btest"></a>metaknowledge.<strong>btest</strong>(<em>quite=False</em>):</p>
+<h1 id="needs-to-be-written-7">Needs to be written</h1>
+<hr />
+<p><a name="metaknowledge.drop_edges"></a>metaknowledge.<strong>drop_edges</strong>(<em>grph, minWeight=-inf, maxWeight=inf, parameterName='weight', ignoreUnweighted=False, dropSelfLoops=False</em>):</p>
 <p>      Returns a graph with edges whose weight is within the inclusive bounds of minWeight and maxWeight, i.e minWeight &lt;= edges weight &lt;= maxWeight, will throw a Keyerror if the graph is unweighted</p>
 <p>      minWeight and maxWeight default to negative and positive infinity respectively so without specifying either the output should be the input</p>
 <p>      parameterName is key to weight field in the edge's dictionary, default is weight as that is almost always correct</p>
 <p>      ignoreUnweighted can be set False to suppress the KeyError and make unweighted edges be ignored</p>
 <hr />
-<p><a name="isilib.drop_nodesByCount"></a>isilib.<strong>drop_nodesByCount</strong>(<em>grph, minCount=-inf, maxCount=inf, parameterName='count', ignoreMissing=False</em>):</p>
+<p><a name="metaknowledge.drop_nodesByCount"></a>metaknowledge.<strong>drop_nodesByCount</strong>(<em>grph, minCount=-inf, maxCount=inf, parameterName='count', ignoreMissing=False</em>):</p>
 <p>      Returns a graph whose nodes have a occurrence count that is within inclusive bounds of minCount and maxCount, i.e minCount &lt;= count &lt;= maxCount. Occurrence count is determined by reading the variable associated with the node named parameterName.</p>
 <p>      minCount and maxCount default to negative and positive infinity respectively so without specifying either the output should be the input</p>
 <p>      parameterName is key to count field in the node's dictionary, default is count as that is often correct</p>
 <p>      ignoreMissing can be set False to suppress the KeyError and make nodes missing counts be dropped instead of throwing errors</p>
 <hr />
-<p><a name="isilib.drop_nodesByDegree"></a>isilib.<strong>drop_nodesByDegree</strong>(<em>grph, minDegree=-inf, maxDegree=inf, useWeight=False, parameterName='weight', ignoreUnweighted=False</em>):</p>
+<p><a name="metaknowledge.drop_nodesByDegree"></a>metaknowledge.<strong>drop_nodesByDegree</strong>(<em>grph, minDegree=-inf, maxDegree=inf, useWeight=True, parameterName='weight', ignoreUnweighted=True</em>):</p>
 <p>      Returns a graph whose nodes have a degree that is within inclusive bounds of minDegree and maxDegree, i.e minDegree &lt;= degree &lt;= maxDegree. Degree can be determined in two ways by default it is the total number of edges touching a node, alternative if useWeight is True it is the sum of the weight of all the edges touching a node.</p>
 <p>      minDegree and maxDegree default to negative and positive infinity respectively so without specifying either the output should be the input</p>
 <p>      useWeight can be set True to use an alternative method for calculating degree, the total weight of all edges</p>
 <p>      parameterName is key to weight field in the edge's dictionary, default is weight as that is almost always correct, only used if useWeight is True</p>
 <p>      ignoreUnweighted can be set False to suppress the KeyError and make unweighted edges be not counted, only used if useWeight is True</p>
 <hr />
-<p><a name="isilib.isiParser"></a>isilib.<strong>isiParser</strong>(<em>isifile</em>):</p>
+<p><a name="metaknowledge.filterNonJournals"></a>metaknowledge.<strong>filterNonJournals</strong>(<em>citesLst, invert=False</em>):</p>
+<h1 id="needs-to-be-written-8">Needs to be written</h1>
+<hr />
+<p><a name="metaknowledge.graphStats"></a>metaknowledge.<strong>graphStats</strong>(<em>G, stats=('nodes', 'edges', 'isolates', 'loops', 'density', 'transitivity'), makeString=True</em>):</p>
+<h1 id="needs-to-be-written-9">Needs to be written</h1>
+<hr />
+<p><a name="metaknowledge.isiParser"></a>metaknowledge.<strong>isiParser</strong>(<em>isifile</em>):</p>
 <p>      isiParser() reads the file given by the path isifile, checks that the header is correct then reads until it reaches EF.       Each it finds is used to initialize a Record then all Record are returned as a list.</p>
 <hr />
-<p><a name="isilib.modularity"></a>isilib.<strong>modularity</strong>(<em>G, weightParameter=None, communityParameter='community'</em>):</p>
+<p><a name="metaknowledge.modularity"></a>metaknowledge.<strong>modularity</strong>(<em>G, weightParameter=None, communityParameter='community'</em>):</p>
 <p>      Gets modularity of network, currently not tuned</p>
 <hr />
-<p><a name="isilib.read_graph"></a>isilib.<strong>read_graph</strong>(<em>edgeList, nodeList=None, directed=False, idKey='ID', eSource='From', eDest='To'</em>):</p>
-<p>      Reads the files given by edgeList and if given nodeList and produces a networkx graph       This is designed only for the files produced by isilib and is meant to be the reverse of write_graph()</p>
+<p><a name="metaknowledge.read_graph"></a>metaknowledge.<strong>read_graph</strong>(<em>edgeList, nodeList=None, directed=False, idKey='ID', eSource='From', eDest='To'</em>):</p>
+<p>      Reads the files given by edgeList and if given nodeList and produces a networkx graph       This is designed only for the files produced by metaknowledge and is meant to be the reverse of write_graph()</p>
 <p>      nodeList must be given if any of the attributes of the node are needed       directed controls if the resultant graph is directional eSource and eDest control the direction       idKey, eSource and eDest are the labels for the edge's id, source and destination respectively, they must match headers in the file or a keyError exception will be thrown</p>
+<p>      igraph Style</p>
 <hr />
-<p><a name="isilib.recordParser"></a>isilib.<strong>recordParser</strong>(<em>paper</em>):</p>
+<p><a name="metaknowledge.recordParser"></a>metaknowledge.<strong>recordParser</strong>(<em>paper</em>):</p>
 <p>      Reads the file <em>paper</em> until it reaches 'ER'.</p>
 <p>      For each field tag it adds an entry to the returned dict with the tag as the key and a list of the entries as the value, the list has each line separately, so for the following string in a record:</p>
 <p>      &quot;AF BREVIK, I</p>
 <p>       ANICIN, B&quot;</p>
 <p>      The entry in the returned dict would be <code>{'AF' : [&quot;BREVIK, I&quot;, &quot;ANICIN, B&quot;]}</code></p>
-<p>      <a href="#isilib.Record">Record</a> objects can be created with these dictionaries as the initializer.</p>
-<h5 id="parameters-11">    Parameters</h5>
+<p>      <a href="#metaknowledge.Record">Record</a> objects can be created with these dictionaries as the initializer.</p>
+<h5 id="parameters-13">    Parameters</h5>
 <p>      <em>paper</em> : <code>file stream</code></p>
 <p>             An open file, with the current line at the beginning of the record.</p>
-<h5 id="returns-12">    Returns</h5>
+<h5 id="returns-14">    Returns</h5>
 <p>      <code>dict[str : List[str]]</code></p>
 <p>             A dictionary mapping WOS tags to lists, the lists are of strings, each string is a line of the record associated with the tag.</p>
 <hr />
-<p><a name="isilib.write_edgeList"></a>isilib.<strong>write_edgeList</strong>(<em>grph, name, extraInfo=True, progBar=None</em>):</p>
+<p><a name="metaknowledge.write_edgeList"></a>metaknowledge.<strong>write_edgeList</strong>(<em>grph, name, extraInfo=True, progBar=None</em>):</p>
 <p>      writes an edge list of grph with filename name, if extraInfo is true the additional information about the edges, e.g. weight, will be written.       All edges must have the same tags</p>
 <hr />
-<p><a name="isilib.write_graph"></a>isilib.<strong>write_graph</strong>(<em>grph, name, edgeInfo=True, typing=True, suffix='csv', overwrite=False</em>):</p>
+<p><a name="metaknowledge.write_graph"></a>metaknowledge.<strong>write_graph</strong>(<em>grph, name, edgeInfo=True, typing=True, suffix='csv', overwrite=False</em>):</p>
 <p>      Writes both the edge list and the node attribute list of grph.       The output files start with name, the file type[edgeList, nodeAttributes] then if typing is True the type of graph (directed or undirected) then the suffix, it appears as follows:        name_fileType_Graphtype.suffix       If edgeInfo is true the extra information about the edges will be included in their list, i.e. their weight will be given       If overwrite is False write_graph will throw an exception if either of the files it is attempting to write exist</p>
 <hr />
-<p><a name="isilib.write_nodeAttributeFile"></a>isilib.<strong>write_nodeAttributeFile</strong>(<em>grph, name, progBar=None</em>):</p>
+<p><a name="metaknowledge.write_nodeAttributeFile"></a>metaknowledge.<strong>write_nodeAttributeFile</strong>(<em>grph, name, progBar=None</em>):</p>
 <p>      writes a node attribute list of grph with filename name, the first column is the node's ID then all after it are its associated information.       All nodes must have the same tags.</p>
-<h2 id="isilib.tagfuncs"><a name="isilib.tagFuncs"></a>isilib.<strong>tagFuncs</strong>:</h2>
+<h2 id="metaknowledge.tagfuncs"><a name="metaknowledge.tagFuncs"></a>metaknowledge.<strong>tagFuncs</strong>:</h2>
 <p>      Doc String of tagFuncs</p>
 <hr />
-<p><a name="isilib.tagFuncs.DOI"></a>isilib.tagFuncs.<strong>DOI</strong>(<em>val</em>):</p>
+<p><a name="metaknowledge.tagFuncs.DOI"></a>metaknowledge.tagFuncs.<strong>DOI</strong>(<em>val</em>):</p>
 <p>      return the DOI number of the record</p>
 <p>      DI tag</p>
 <hr />
-<p><a name="isilib.tagFuncs.ISBN"></a>isilib.tagFuncs.<strong>ISBN</strong>(<em>val</em>):</p>
+<p><a name="metaknowledge.tagFuncs.ISBN"></a>metaknowledge.tagFuncs.<strong>ISBN</strong>(<em>val</em>):</p>
 <p>      returns a list of ISBNs assocaited with the Record</p>
 <p>      BN tag</p>
 <hr />
-<p><a name="isilib.tagFuncs.ISSN"></a>isilib.tagFuncs.<strong>ISSN</strong>(<em>val</em>):</p>
+<p><a name="metaknowledge.tagFuncs.ISSN"></a>metaknowledge.tagFuncs.<strong>ISSN</strong>(<em>val</em>):</p>
 <p>      returns the ISSN of the Record</p>
 <p>      SN tag</p>
 <hr />
-<p><a name="isilib.tagFuncs.ResearcherIDnumber"></a>isilib.tagFuncs.<strong>ResearcherIDnumber</strong>(<em>val</em>):</p>
+<p><a name="metaknowledge.tagFuncs.ResearcherIDnumber"></a>metaknowledge.tagFuncs.<strong>ResearcherIDnumber</strong>(<em>val</em>):</p>
 <p>      returns a lsit of the research ids of the Record</p>
 <p>      RI tag</p>
 <hr />
-<p><a name="isilib.tagFuncs.abstract"></a>isilib.tagFuncs.<strong>abstract</strong>(<em>val</em>):</p>
+<p><a name="metaknowledge.tagFuncs.abstract"></a>metaknowledge.tagFuncs.<strong>abstract</strong>(<em>val</em>):</p>
 <p>      return abstract of the record, with newlines hopefully in the correct places</p>
 <p>      AB tag</p>
 <hr />
-<p><a name="isilib.tagFuncs.articleNumber"></a>isilib.tagFuncs.<strong>articleNumber</strong>(<em>val</em>):</p>
+<p><a name="metaknowledge.tagFuncs.articleNumber"></a>metaknowledge.tagFuncs.<strong>articleNumber</strong>(<em>val</em>):</p>
 <p>      returns a string giving the article number, not all are integers</p>
 <p>      AR tag</p>
 <hr />
-<p><a name="isilib.tagFuncs.authAddress"></a>isilib.tagFuncs.<strong>authAddress</strong>(<em>val</em>):</p>
+<p><a name="metaknowledge.tagFuncs.authAddress"></a>metaknowledge.tagFuncs.<strong>authAddress</strong>(<em>val</em>):</p>
 <p>      C1 tag</p>
 <hr />
-<p><a name="isilib.tagFuncs.authKeyWords"></a>isilib.tagFuncs.<strong>authKeyWords</strong>(<em>val</em>):</p>
+<p><a name="metaknowledge.tagFuncs.authKeyWords"></a>metaknowledge.tagFuncs.<strong>authKeyWords</strong>(<em>val</em>):</p>
 <p>      returns the keywords assigned by the author of the Record</p>
 <p>      DE tag</p>
 <hr />
-<p><a name="isilib.tagFuncs.authorsFull"></a>isilib.tagFuncs.<strong>authorsFull</strong>(<em>val</em>):</p>
+<p><a name="metaknowledge.tagFuncs.authorsFull"></a>metaknowledge.tagFuncs.<strong>authorsFull</strong>(<em>val</em>):</p>
 <p>      returns a list of authors full names</p>
 <p>      AF tag</p>
 <hr />
-<p><a name="isilib.tagFuncs.authorsShort"></a>isilib.tagFuncs.<strong>authorsShort</strong>(<em>val</em>):</p>
+<p><a name="metaknowledge.tagFuncs.authorsShort"></a>metaknowledge.tagFuncs.<strong>authorsShort</strong>(<em>val</em>):</p>
 <p>      returns a list of authors shortened names</p>
 <p>      AU tag</p>
 <hr />
-<p><a name="isilib.tagFuncs.beginningPage"></a>isilib.tagFuncs.<strong>beginningPage</strong>(<em>val</em>):</p>
+<p><a name="metaknowledge.tagFuncs.beginningPage"></a>metaknowledge.tagFuncs.<strong>beginningPage</strong>(<em>val</em>):</p>
 <p>      returns the first page the record occurs on as a string not an int</p>
 <p>      BP tag</p>
 <hr />
-<p><a name="isilib.tagFuncs.bookAuthor"></a>isilib.tagFuncs.<strong>bookAuthor</strong>(<em>val</em>):</p>
+<p><a name="metaknowledge.tagFuncs.bookAuthor"></a>metaknowledge.tagFuncs.<strong>bookAuthor</strong>(<em>val</em>):</p>
 <p>      returns a list of the short names of the authors of a book Record</p>
 <p>      BA tag</p>
 <hr />
-<p><a name="isilib.tagFuncs.bookAuthorFull"></a>isilib.tagFuncs.<strong>bookAuthorFull</strong>(<em>val</em>):</p>
+<p><a name="metaknowledge.tagFuncs.bookAuthorFull"></a>metaknowledge.tagFuncs.<strong>bookAuthorFull</strong>(<em>val</em>):</p>
 <p>      returns a list of the long names of the authors of a book Record</p>
 <p>      BF tag</p>
 <hr />
-<p><a name="isilib.tagFuncs.bookDOI"></a>isilib.tagFuncs.<strong>bookDOI</strong>(<em>val</em>):</p>
+<p><a name="metaknowledge.tagFuncs.bookDOI"></a>metaknowledge.tagFuncs.<strong>bookDOI</strong>(<em>val</em>):</p>
 <p>      returns the book DOI of the Record</p>
 <p>      D2 tag</p>
 <hr />
-<p><a name="isilib.tagFuncs.citations"></a>isilib.tagFuncs.<strong>citations</strong>(<em>val</em>):</p>
+<p><a name="metaknowledge.tagFuncs.citations"></a>metaknowledge.tagFuncs.<strong>citations</strong>(<em>val</em>):</p>
 <p>      returns a list of all the citations in the record</p>
 <p>      CR tag</p>
 <hr />
-<p><a name="isilib.tagFuncs.citedRefsCount"></a>isilib.tagFuncs.<strong>citedRefsCount</strong>(<em>val</em>):</p>
+<p><a name="metaknowledge.tagFuncs.citedRefsCount"></a>metaknowledge.tagFuncs.<strong>citedRefsCount</strong>(<em>val</em>):</p>
 <p>      returns the numer citations, length of CR list</p>
 <p>      NR tag</p>
 <hr />
-<p><a name="isilib.tagFuncs.confDate"></a>isilib.tagFuncs.<strong>confDate</strong>(<em>val</em>):</p>
+<p><a name="metaknowledge.tagFuncs.confDate"></a>metaknowledge.tagFuncs.<strong>confDate</strong>(<em>val</em>):</p>
 <p>      returns the date string of the conference associated with the Record</p>
 <p>      CY tag</p>
 <hr />
-<p><a name="isilib.tagFuncs.confHost"></a>isilib.tagFuncs.<strong>confHost</strong>(<em>val</em>):</p>
+<p><a name="metaknowledge.tagFuncs.confHost"></a>metaknowledge.tagFuncs.<strong>confHost</strong>(<em>val</em>):</p>
 <p>      returns the host of the conference</p>
 <p>      HO tag</p>
 <hr />
-<p><a name="isilib.tagFuncs.confLocation"></a>isilib.tagFuncs.<strong>confLocation</strong>(<em>val</em>):</p>
+<p><a name="metaknowledge.tagFuncs.confLocation"></a>metaknowledge.tagFuncs.<strong>confLocation</strong>(<em>val</em>):</p>
 <p>      returns the sting giving the confrence's location</p>
 <p>      CL tag</p>
 <hr />
-<p><a name="isilib.tagFuncs.confSponsors"></a>isilib.tagFuncs.<strong>confSponsors</strong>(<em>val</em>):</p>
+<p><a name="metaknowledge.tagFuncs.confSponsors"></a>metaknowledge.tagFuncs.<strong>confSponsors</strong>(<em>val</em>):</p>
 <p>      returns a list of sponsors for the conference associated with the record</p>
 <p>      SP tag</p>
 <hr />
-<p><a name="isilib.tagFuncs.confTitle"></a>isilib.tagFuncs.<strong>confTitle</strong>(<em>val</em>):</p>
+<p><a name="metaknowledge.tagFuncs.confTitle"></a>metaknowledge.tagFuncs.<strong>confTitle</strong>(<em>val</em>):</p>
 <p>      returns the title of the conference associated with the Record</p>
 <p>      CT tag</p>
 <hr />
-<p><a name="isilib.tagFuncs.docType"></a>isilib.tagFuncs.<strong>docType</strong>(<em>val</em>):</p>
+<p><a name="metaknowledge.tagFuncs.docType"></a>metaknowledge.tagFuncs.<strong>docType</strong>(<em>val</em>):</p>
 <p>      returns the type of document the Record contains</p>
 <p>      DT tag</p>
 <hr />
-<p><a name="isilib.tagFuncs.documentDeliveryNumber"></a>isilib.tagFuncs.<strong>documentDeliveryNumber</strong>(<em>val</em>):</p>
+<p><a name="metaknowledge.tagFuncs.documentDeliveryNumber"></a>metaknowledge.tagFuncs.<strong>documentDeliveryNumber</strong>(<em>val</em>):</p>
 <p>      returns the document delivery number of the Record</p>
 <p>      GA tag</p>
 <hr />
-<p><a name="isilib.tagFuncs.eISSN"></a>isilib.tagFuncs.<strong>eISSN</strong>(<em>val</em>):</p>
+<p><a name="metaknowledge.tagFuncs.eISSN"></a>metaknowledge.tagFuncs.<strong>eISSN</strong>(<em>val</em>):</p>
 <p>      returns the EISSN of the Record</p>
 <p>      EI tag</p>
 <hr />
-<p><a name="isilib.tagFuncs.editedBy"></a>isilib.tagFuncs.<strong>editedBy</strong>(<em>val</em>):</p>
+<p><a name="metaknowledge.tagFuncs.editedBy"></a>metaknowledge.tagFuncs.<strong>editedBy</strong>(<em>val</em>):</p>
 <p>      returns a list of the editors of the Record</p>
 <p>      BE tag</p>
 <hr />
-<p><a name="isilib.tagFuncs.editors"></a>isilib.tagFuncs.<strong>editors</strong>(<em>val</em>):</p>
+<p><a name="metaknowledge.tagFuncs.editors"></a>metaknowledge.tagFuncs.<strong>editors</strong>(<em>val</em>):</p>
 <h5 id="needs-work">    Needs Work</h5>
 <hr />
-<p><a name="isilib.tagFuncs.email"></a>isilib.tagFuncs.<strong>email</strong>(<em>val</em>):</p>
+<p><a name="metaknowledge.tagFuncs.email"></a>metaknowledge.tagFuncs.<strong>email</strong>(<em>val</em>):</p>
 <p>      returns a list of emails given by the authors of the Record</p>
 <p>      EM tag</p>
 <hr />
-<p><a name="isilib.tagFuncs.endingPage"></a>isilib.tagFuncs.<strong>endingPage</strong>(<em>val</em>):</p>
+<p><a name="metaknowledge.tagFuncs.endingPage"></a>metaknowledge.tagFuncs.<strong>endingPage</strong>(<em>val</em>):</p>
 <p>      return the last page the record occurs on as a string not an int</p>
 <p>      EP tag</p>
 <hr />
-<p><a name="isilib.tagFuncs.funding"></a>isilib.tagFuncs.<strong>funding</strong>(<em>val</em>):</p>
+<p><a name="metaknowledge.tagFuncs.funding"></a>metaknowledge.tagFuncs.<strong>funding</strong>(<em>val</em>):</p>
 <p>      Returns a list of the groups funding the Record</p>
 <p>      FU tag</p>
 <hr />
-<p><a name="isilib.tagFuncs.fundingText"></a>isilib.tagFuncs.<strong>fundingText</strong>(<em>val</em>):</p>
+<p><a name="metaknowledge.tagFuncs.fundingText"></a>metaknowledge.tagFuncs.<strong>fundingText</strong>(<em>val</em>):</p>
 <p>      Returns a string of the funding thanks</p>
 <p>      FX tag</p>
 <hr />
-<p><a name="isilib.tagFuncs.getMonth"></a>isilib.tagFuncs.<strong>getMonth</strong>(<em>s</em>):</p>
+<p><a name="metaknowledge.tagFuncs.getMonth"></a>metaknowledge.tagFuncs.<strong>getMonth</strong>(<em>s</em>):</p>
 <p>      Known formats:       Month (&quot;%b&quot;)       Month Day (&quot;%b %d&quot;)       Month-Month (&quot;%b-%b&quot;) --- this gets coerced to the first %b, dropping the month range       Season (&quot;%s&quot;) --- this gets coerced to use the first month of the given season       Month Day Year (&quot;%b %d %Y&quot;)       Month Year (&quot;%b %Y&quot;)</p>
 <hr />
-<p><a name="isilib.tagFuncs.group"></a>isilib.tagFuncs.<strong>group</strong>(<em>val</em>):</p>
+<p><a name="metaknowledge.tagFuncs.group"></a>metaknowledge.tagFuncs.<strong>group</strong>(<em>val</em>):</p>
 <p>      returns the group associated with the Record</p>
 <p>      GP tag</p>
 <hr />
-<p><a name="isilib.tagFuncs.groupName"></a>isilib.tagFuncs.<strong>groupName</strong>(<em>val</em>):</p>
+<p><a name="metaknowledge.tagFuncs.groupName"></a>metaknowledge.tagFuncs.<strong>groupName</strong>(<em>val</em>):</p>
 <p>      returns the name of the group associated with the Record</p>
 <p>      CA tag</p>
 <hr />
-<p><a name="isilib.tagFuncs.isoAbbreviation"></a>isilib.tagFuncs.<strong>isoAbbreviation</strong>(<em>val</em>):</p>
+<p><a name="metaknowledge.tagFuncs.isoAbbreviation"></a>metaknowledge.tagFuncs.<strong>isoAbbreviation</strong>(<em>val</em>):</p>
 <p>      returns the iso abbreviation of the journal</p>
 <p>      JI tag</p>
 <hr />
-<p><a name="isilib.tagFuncs.issue"></a>isilib.tagFuncs.<strong>issue</strong>(<em>val</em>):</p>
+<p><a name="metaknowledge.tagFuncs.issue"></a>metaknowledge.tagFuncs.<strong>issue</strong>(<em>val</em>):</p>
 <p>      returns a string giving the issue or range of issues the Record was in</p>
 <p>      IS tag</p>
 <hr />
-<p><a name="isilib.tagFuncs.j9"></a>isilib.tagFuncs.<strong>j9</strong>(<em>val</em>):</p>
+<p><a name="metaknowledge.tagFuncs.j9"></a>metaknowledge.tagFuncs.<strong>j9</strong>(<em>val</em>):</p>
 <p>      returns the J9 (29-Character Source Abbreviation) of the publication</p>
 <p>      J9 tag</p>
 <hr />
-<p><a name="isilib.tagFuncs.journal"></a>isilib.tagFuncs.<strong>journal</strong>(<em>val</em>):</p>
+<p><a name="metaknowledge.tagFuncs.journal"></a>metaknowledge.tagFuncs.<strong>journal</strong>(<em>val</em>):</p>
 <p>      returns the full name of the publication</p>
 <p>      SO tag</p>
 <hr />
-<p><a name="isilib.tagFuncs.keyWords"></a>isilib.tagFuncs.<strong>keyWords</strong>(<em>val</em>):</p>
+<p><a name="metaknowledge.tagFuncs.keyWords"></a>metaknowledge.tagFuncs.<strong>keyWords</strong>(<em>val</em>):</p>
 <p>      returns the WOS keywords of the Record</p>
 <p>      ID tag</p>
 <hr />
-<p><a name="isilib.tagFuncs.language"></a>isilib.tagFuncs.<strong>language</strong>(<em>val</em>):</p>
+<p><a name="metaknowledge.tagFuncs.language"></a>metaknowledge.tagFuncs.<strong>language</strong>(<em>val</em>):</p>
 <p>      returns the languages of the Record as a string with languages seperated by ', ', usually there is only one language</p>
 <p>      LA tag</p>
 <hr />
-<p><a name="isilib.tagFuncs.makeReversed"></a>isilib.tagFuncs.<strong>makeReversed</strong>(<em>d</em>):</p>
+<p><a name="metaknowledge.tagFuncs.makeReversed"></a>metaknowledge.tagFuncs.<strong>makeReversed</strong>(<em>d</em>):</p>
 <p>      Simple function for reversing a dictionary</p>
 <hr />
-<p><a name="isilib.tagFuncs.meetingAbstract"></a>isilib.tagFuncs.<strong>meetingAbstract</strong>(<em>val</em>):</p>
+<p><a name="metaknowledge.tagFuncs.meetingAbstract"></a>metaknowledge.tagFuncs.<strong>meetingAbstract</strong>(<em>val</em>):</p>
 <p>      returns the ID of the meeting abstract prefixed by 'EPA-'</p>
 <p>      MA tag</p>
 <hr />
-<p><a name="isilib.tagFuncs.month"></a>isilib.tagFuncs.<strong>month</strong>(<em>val</em>):</p>
+<p><a name="metaknowledge.tagFuncs.month"></a>metaknowledge.tagFuncs.<strong>month</strong>(<em>val</em>):</p>
 <p>      returns the month the record was published in as an int with January as 1, February 2, ...</p>
 <p>      PD tag</p>
 <hr />
-<p><a name="isilib.tagFuncs.orcID"></a>isilib.tagFuncs.<strong>orcID</strong>(<em>val</em>):</p>
+<p><a name="metaknowledge.tagFuncs.orcID"></a>metaknowledge.tagFuncs.<strong>orcID</strong>(<em>val</em>):</p>
 <p>      returns a list of orc IDs of the Record</p>
 <p>      OI tag</p>
 <hr />
-<p><a name="isilib.tagFuncs.pageCount"></a>isilib.tagFuncs.<strong>pageCount</strong>(<em>val</em>):</p>
+<p><a name="metaknowledge.tagFuncs.pageCount"></a>metaknowledge.tagFuncs.<strong>pageCount</strong>(<em>val</em>):</p>
 <p>      returns an interger giving the number of pages of the Record</p>
 <p>      PG tag</p>
 <hr />
-<p><a name="isilib.tagFuncs.partNumber"></a>isilib.tagFuncs.<strong>partNumber</strong>(<em>val</em>):</p>
+<p><a name="metaknowledge.tagFuncs.partNumber"></a>metaknowledge.tagFuncs.<strong>partNumber</strong>(<em>val</em>):</p>
 <p>      return an integer giving the part of the issue the Record is in</p>
 <p>      PN tag</p>
 <hr />
-<p><a name="isilib.tagFuncs.pubMedID"></a>isilib.tagFuncs.<strong>pubMedID</strong>(<em>val</em>):</p>
+<p><a name="metaknowledge.tagFuncs.pubMedID"></a>metaknowledge.tagFuncs.<strong>pubMedID</strong>(<em>val</em>):</p>
 <p>      returns the pubmed idof the record</p>
 <p>      PM tag</p>
 <hr />
-<p><a name="isilib.tagFuncs.pubType"></a>isilib.tagFuncs.<strong>pubType</strong>(<em>val</em>):</p>
+<p><a name="metaknowledge.tagFuncs.pubType"></a>metaknowledge.tagFuncs.<strong>pubType</strong>(<em>val</em>):</p>
 <p>      returns the type of publication as a character: conference, book, journal, book in series, or patent</p>
 <p>      PT tag</p>
 <hr />
-<p><a name="isilib.tagFuncs.publisher"></a>isilib.tagFuncs.<strong>publisher</strong>(<em>val</em>):</p>
+<p><a name="metaknowledge.tagFuncs.publisher"></a>metaknowledge.tagFuncs.<strong>publisher</strong>(<em>val</em>):</p>
 <p>      returns the publisher of the Record</p>
 <p>      PU tag</p>
 <hr />
-<p><a name="isilib.tagFuncs.publisherAddress"></a>isilib.tagFuncs.<strong>publisherAddress</strong>(<em>val</em>):</p>
+<p><a name="metaknowledge.tagFuncs.publisherAddress"></a>metaknowledge.tagFuncs.<strong>publisherAddress</strong>(<em>val</em>):</p>
 <p>      returns the publishers address</p>
 <p>      PA tag</p>
 <hr />
-<p><a name="isilib.tagFuncs.publisherCity"></a>isilib.tagFuncs.<strong>publisherCity</strong>(<em>val</em>):</p>
+<p><a name="metaknowledge.tagFuncs.publisherCity"></a>metaknowledge.tagFuncs.<strong>publisherCity</strong>(<em>val</em>):</p>
 <p>      Returns the city the publisher is in</p>
 <p>      PI tag</p>
 <hr />
-<p><a name="isilib.tagFuncs.reprintAddress"></a>isilib.tagFuncs.<strong>reprintAddress</strong>(<em>val</em>):</p>
+<p><a name="metaknowledge.tagFuncs.reprintAddress"></a>metaknowledge.tagFuncs.<strong>reprintAddress</strong>(<em>val</em>):</p>
 <p>      returns the reprint address string</p>
 <p>      RP tag</p>
 <hr />
-<p><a name="isilib.tagFuncs.seriesSubtitle"></a>isilib.tagFuncs.<strong>seriesSubtitle</strong>(<em>val</em>):</p>
+<p><a name="metaknowledge.tagFuncs.seriesSubtitle"></a>metaknowledge.tagFuncs.<strong>seriesSubtitle</strong>(<em>val</em>):</p>
 <p>      returns the title of the series the Record is in</p>
 <p>      BS tag</p>
 <hr />
-<p><a name="isilib.tagFuncs.seriesTitle"></a>isilib.tagFuncs.<strong>seriesTitle</strong>(<em>val</em>):</p>
+<p><a name="metaknowledge.tagFuncs.seriesTitle"></a>metaknowledge.tagFuncs.<strong>seriesTitle</strong>(<em>val</em>):</p>
 <p>      returns the title of the series the Record is in</p>
 <p>      SE tag</p>
 <hr />
-<p><a name="isilib.tagFuncs.specialIssue"></a>isilib.tagFuncs.<strong>specialIssue</strong>(<em>val</em>):</p>
+<p><a name="metaknowledge.tagFuncs.specialIssue"></a>metaknowledge.tagFuncs.<strong>specialIssue</strong>(<em>val</em>):</p>
 <p>      returns the special issue value</p>
 <p>      SI tag</p>
 <hr />
-<p><a name="isilib.tagFuncs.subjectCategory"></a>isilib.tagFuncs.<strong>subjectCategory</strong>(<em>val</em>):</p>
+<p><a name="metaknowledge.tagFuncs.subjectCategory"></a>metaknowledge.tagFuncs.<strong>subjectCategory</strong>(<em>val</em>):</p>
 <p>      returns a list of the subjects associated with the Record</p>
 <p>      SC tag</p>
 <hr />
-<p><a name="isilib.tagFuncs.subjects"></a>isilib.tagFuncs.<strong>subjects</strong>(<em>val</em>):</p>
+<p><a name="metaknowledge.tagFuncs.subjects"></a>metaknowledge.tagFuncs.<strong>subjects</strong>(<em>val</em>):</p>
 <p>      returns a lsit of subjects as assigned by WOS</p>
 <p>      WC tag</p>
 <hr />
-<p><a name="isilib.tagFuncs.supplement"></a>isilib.tagFuncs.<strong>supplement</strong>(<em>val</em>):</p>
+<p><a name="metaknowledge.tagFuncs.supplement"></a>metaknowledge.tagFuncs.<strong>supplement</strong>(<em>val</em>):</p>
 <p>      returns the supplemtn number</p>
 <p>      SU tag</p>
 <hr />
-<p><a name="isilib.tagFuncs.title"></a>isilib.tagFuncs.<strong>title</strong>(<em>val</em>):</p>
+<p><a name="metaknowledge.tagFuncs.title"></a>metaknowledge.tagFuncs.<strong>title</strong>(<em>val</em>):</p>
 <p>      returns the title of the record</p>
 <p>      TI tag</p>
 <hr />
-<p><a name="isilib.tagFuncs.totalTimesCited"></a>isilib.tagFuncs.<strong>totalTimesCited</strong>(<em>val</em>):</p>
+<p><a name="metaknowledge.tagFuncs.totalTimesCited"></a>metaknowledge.tagFuncs.<strong>totalTimesCited</strong>(<em>val</em>):</p>
 <p>      returns the total number of citations of the record</p>
 <p>      Z9 tag</p>
 <hr />
-<p><a name="isilib.tagFuncs.volume"></a>isilib.tagFuncs.<strong>volume</strong>(<em>val</em>):</p>
+<p><a name="metaknowledge.tagFuncs.volume"></a>metaknowledge.tagFuncs.<strong>volume</strong>(<em>val</em>):</p>
 <p>      return the volume the record is in as a string not an int</p>
 <p>      VL tag</p>
 <hr />
-<p><a name="isilib.tagFuncs.wosString"></a>isilib.tagFuncs.<strong>wosString</strong>(<em>val</em>):</p>
+<p><a name="metaknowledge.tagFuncs.wosString"></a>metaknowledge.tagFuncs.<strong>wosString</strong>(<em>val</em>):</p>
 <p>      returns the WOS number of the record as a string preceded by &quot;WOS:&quot;</p>
 <p>      UT tag</p>
 <hr />
-<p><a name="isilib.tagFuncs.wosTimesCited"></a>isilib.tagFuncs.<strong>wosTimesCited</strong>(<em>val</em>):</p>
+<p><a name="metaknowledge.tagFuncs.wosTimesCited"></a>metaknowledge.tagFuncs.<strong>wosTimesCited</strong>(<em>val</em>):</p>
 <p>      returns the number of times the Record has been cited byr records in WOS</p>
 <p>      TC tag</p>
 <hr />
-<p><a name="isilib.tagFuncs.year"></a>isilib.tagFuncs.<strong>year</strong>(<em>val</em>):</p>
+<p><a name="metaknowledge.tagFuncs.year"></a>metaknowledge.tagFuncs.<strong>year</strong>(<em>val</em>):</p>
 <p>      returns the year the record was published in as an int</p>
 <p>      PY tag</p>
 </body>

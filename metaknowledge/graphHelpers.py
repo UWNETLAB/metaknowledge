@@ -1,4 +1,4 @@
-import isilib
+import metaknowledge
 
 import networkx as nx
 import csv
@@ -10,7 +10,7 @@ import math
 def read_graph(edgeList, nodeList = None, directed = False, idKey = 'ID', eSource = 'From', eDest = 'To'):
     """
     Reads the files given by edgeList and if given nodeList and produces a networkx graph
-    This is designed only for the files produced by isilib and is meant to be the reverse of write_graph()
+    This is designed only for the files produced by metaknowledge and is meant to be the reverse of write_graph()
 
     nodeList must be given if any of the attributes of the node are needed
     directed controls if the resultant graph is directional eSource and eDest control the direction
@@ -18,7 +18,7 @@ def read_graph(edgeList, nodeList = None, directed = False, idKey = 'ID', eSourc
 
     igraph Style
     """
-    if isilib.VERBOSE_MODE:
+    if metaknowledge.VERBOSE_MODE:
         PBar = _ProgressBar(0, "Starting to reading graphs")
     else:
         PBar = None
@@ -67,7 +67,7 @@ def write_graph(grph, name, edgeInfo = True, typing = True, suffix = 'csv', over
     If edgeInfo is true the extra information about the edges will be included in their list, i.e. their weight will be given
     If overwrite is False write_graph will throw an exception if either of the files it is attempting to write exist
     """
-    if isilib.VERBOSE_MODE:
+    if metaknowledge.VERBOSE_MODE:
         PBar = _ProgressBar(0, "Writing the graph to two files starting with: " + name)
     else:
         PBar = None
@@ -347,7 +347,7 @@ def drop_edges(grph, minWeight = - float('inf'), maxWeight = float('inf'), param
 
     ignoreUnweighted can be set False to suppress the KeyError and make unweighted edges be ignored
     """
-    if isilib.VERBOSE_MODE:
+    if metaknowledge.VERBOSE_MODE:
         PBar = _ProgressBar(0, "Dropping edges")
         count = 0
         total = len(grph.edges())
@@ -392,7 +392,7 @@ def drop_nodesByDegree(grph, minDegree = -float('inf'), maxDegree = float('inf')
 
     ignoreUnweighted can be set False to suppress the KeyError and make unweighted edges be not counted, only used if useWeight is True
     """
-    if isilib.VERBOSE_MODE:
+    if metaknowledge.VERBOSE_MODE:
         PBar = _ProgressBar(0, "Dropping nodes by degree")
         count = 0
         total = len(grph.nodes())
@@ -433,7 +433,7 @@ def drop_nodesByCount(grph, minCount = -float('inf'), maxCount = float('inf'), p
 
     ignoreMissing can be set False to suppress the KeyError and make nodes missing counts be dropped instead of throwing errors
     """
-    if isilib.VERBOSE_MODE:
+    if metaknowledge.VERBOSE_MODE:
         PBar = _ProgressBar(0, "Dropping nodes by count")
         count = 0
         total = len(grph.nodes())

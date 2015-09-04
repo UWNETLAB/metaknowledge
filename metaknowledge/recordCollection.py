@@ -1,5 +1,5 @@
 #Written by Reid McIlroy-Young for Dr. John McLevey, University of Waterloo 2015
-import isilib
+import metaknowledge
 from .record import Record, BadISIFile
 from .graphHelpers import _ProgressBar
 from .constants import tagsAndNames, tagToFull, fullToTag
@@ -67,7 +67,7 @@ class RecordCollection(object):
                     self.bad = True
                     self.error = w
             elif os.path.isdir(inCollection):
-                if isilib.VERBOSE_MODE:
+                if metaknowledge.VERBOSE_MODE:
                     PBar = _ProgressBar(0, "Reading files from " + str(inCollection))
                     count = 0
                 else:
@@ -162,7 +162,7 @@ class RecordCollection(object):
         """
         The name of the RecordCollection, this used to identify the Collection when it is written as a file by writeFile() or in some of CL scripts
         It is updated when some modification of the RecordCollection occurs i.e.
-        >>> RC = isilib.RecordCollection('.', extension = 'isi')
+        >>> RC = metaknowledge.RecordCollection('.', extension = 'isi')
         >>> repr(RC)
         isi-files-from-.
         >>> R = RC.pop()
@@ -279,7 +279,7 @@ class RecordCollection(object):
 
         # Returns
 
-        `isilib.Record`
+        `metaknowledge.Record`
 
         > The Record whose WOS number is _wosNum_
         """
@@ -362,7 +362,7 @@ class RecordCollection(object):
         fname is the name of the file to write to, if none is given it uses the Collections name suffixed by .csv
 
         onlyTheseTags lets you specify which tags to use, if not given then all tags in the records are given.
-        If you want to use all known tags the use onlyTheseTags = isilib.knownTagsList
+        If you want to use all known tags the use onlyTheseTags = metaknowledge.knownTagsList
 
         longNames if set to True will convert the tags to their longer names, otherwise the short 2 character ones will be used
 
@@ -455,7 +455,7 @@ class RecordCollection(object):
 
 
         grph = nx.Graph()
-        if isilib.VERBOSE_MODE:
+        if metaknowledge.VERBOSE_MODE:
             PBar = _ProgressBar(0, "Starting to make a co-authorship network")
             count = 0
         else:
@@ -528,7 +528,7 @@ class RecordCollection(object):
         if nodeType not in allowedTypes:
             raise ValueError("{} is not an allowed nodeType.".format(nodeType))
         tmpgrph = nx.Graph()
-        if isilib.VERBOSE_MODE:
+        if metaknowledge.VERBOSE_MODE:
             PBar = _ProgressBar(0, "Starting to make a co-citation network")
             count = 0
         else:
@@ -662,7 +662,7 @@ class RecordCollection(object):
         if nodeType not in allowedTypes:
             raise ValueError("{} is not an allowed nodeType.".format(nodeType))
         tmpgrph = nx.DiGraph()
-        if isilib.VERBOSE_MODE:
+        if metaknowledge.VERBOSE_MODE:
             PBar = _ProgressBar(0, "Starting to make a citation network")
             count = 0
         else:
@@ -795,7 +795,7 @@ class RecordCollection(object):
     def oneModeNetwork(self, mode, nodeCount = True, edgeWeight = True):
         if mode not in tagsAndNames:
             raise TypeError(str(mode) + " is not a known tag, or the name of a known tag.")
-        if isilib.VERBOSE_MODE:
+        if metaknowledge.VERBOSE_MODE:
             PBar = _ProgressBar(0, "Starting to make a one mode network with " + mode)
             count = 0
         else:
@@ -856,7 +856,7 @@ class RecordCollection(object):
     def twoModeNetwork(self, tag1, tag2, directed = False, recordType = True, nodeCount = True, edgeWeight = True):
         if (not tag1 in tagsAndNames) or (not tag2 in tagsAndNames):
             raise TypeError(str(tag1) + " or " + str(tag2) + " is not a known tag, or the name of a known tag.")
-        if isilib.VERBOSE_MODE:
+        if metaknowledge.VERBOSE_MODE:
             PBar = _ProgressBar(0, "Starting to make a two mode network of " + tag1 + " and " + tag2)
             count = 0
         else:
@@ -946,7 +946,7 @@ class RecordCollection(object):
         for t in tags:
             if t not in tagsAndNames:
                 raise TypeError(str(t) + " is not a known tag, or the name of a known tag.")
-        if isilib.VERBOSE_MODE:
+        if metaknowledge.VERBOSE_MODE:
             PBar = _ProgressBar(0, "Starting to make a " + str(len(tags)) + "-mode network of: " + ', '.join(tags))
             count = 0
         else:

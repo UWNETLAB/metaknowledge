@@ -151,7 +151,7 @@ def getj9dict(dbname = abrevDBname, manualDB = manaulDBname, returnDict = 'both'
     return retDict
 
 def addToDB(abbr = None, dbname = manaulDBname):
-    """Adds _abbr_ to the database of journals. The database is kept separate from the one scraped from WOS, this supersedes it. The database by default is stored with the WOS one and the name is given by `isilib.journalAbbreviations.manaulDBname`. To create an empty database run **addToDB** without an _abbr_ argument.
+    """Adds _abbr_ to the database of journals. The database is kept separate from the one scraped from WOS, this supersedes it. The database by default is stored with the WOS one and the name is given by `metaknowledge.journalAbbreviations.manaulDBname`. To create an empty database run **addToDB** without an _abbr_ argument.
 
     # Parameters
 
@@ -161,7 +161,7 @@ def addToDB(abbr = None, dbname = manaulDBname):
 
     _dbname_ : `optional [str]`
 
-    > The name of the database file, default is `isilib.journalAbbreviations.manaulDBname`.
+    > The name of the database file, default is `metaknowledge.journalAbbreviations.manaulDBname`.
     """
     dbLoc = os.path.normpath(os.path.dirname(__file__))
     with dbm.dumb.open(dbLoc + '/' + dbname) as db:
@@ -178,7 +178,7 @@ def addToDB(abbr = None, dbname = manaulDBname):
             raise TypeError("abbr must be a str or dict.")
 
 def excludeFromDB(abbr = None, dbname = manaulDBname):
-    """Marks _abbr_ to be excluded the database of journals. The database is kept separate from the one scraped from WOS, this supersedes it. The database by default is stored with the WOS one and the name is given by `isilib.journalAbbreviations.manaulDBname`. To create an empty database run **addToDB** without an _abbr_ argument.
+    """Marks _abbr_ to be excluded the database of journals. The database is kept separate from the one scraped from WOS, this supersedes it. The database by default is stored with the WOS one and the name is given by `metaknowledge.journalAbbreviations.manaulDBname`. To create an empty database run **addToDB** without an _abbr_ argument.
 
     # Parameters
 
@@ -188,7 +188,7 @@ def excludeFromDB(abbr = None, dbname = manaulDBname):
 
     _dbname_ : `optional [str]`
 
-    > The name of the database file, default is `isilib.journalAbbreviations.manaulDBname`.
+    > The name of the database file, default is `metaknowledge.journalAbbreviations.manaulDBname`.
     """
     dbLoc = os.path.normpath(os.path.dirname(__file__))
     with dbm.dumb.open(dbLoc + '/' + dbname) as db:

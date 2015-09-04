@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
-import isilib
-import isilib.journalAbbreviations
+import metaknowledge
+import metaknowledge.journalAbbreviations
 import networkx as nx
 import argparse
 import os
@@ -17,7 +17,7 @@ RC = None
 G = None
 
 def argumentParser():
-    parser = argparse.ArgumentParser(description="isilib's simple command line interface")
+    parser = argparse.ArgumentParser(description="metaknowledge's simple command line interface")
     parser.add_argument("files", default = [], nargs = '*')
     parser.add_argument("--verbose", "-v", action = 'store_true' , default = False, help = "Verbose mode, every step is printed")
     parser.add_argument("--name", "-n",  default = False, help = "The name used for the recordCollection and resulting files.")
@@ -54,9 +54,9 @@ def inputMenu(inputDict, header = None, footer = None, errorMsg = 'That is not a
     elif extraOptions and selection == 'q':
         sys.exit()
     elif extraOptions and selection == 'i':
-        bannerMsg = 'Python {0} on {1}\nType "help", "copyright", "credits" or "license" for more information.\nisilib is imported as isilib and Networkx is imported as nx.\n'.format(sys.version, platform.system())
+        bannerMsg = 'Python {0} on {1}\nType "help", "copyright", "credits" or "license" for more information.\nmetaknowledge is imported as metaknowledge and Networkx is imported as nx.\n'.format(sys.version, platform.system())
         if RC:
-            bannerMsg += "The isilib RecordCollection is called RC"
+            bannerMsg += "The metaknowledge RecordCollection is called RC"
             if G:
                 bannerMsg += " and the Networkx graph is called G."
             else:
@@ -85,7 +85,7 @@ def getOutputName(clargs, suffix, prompt = "What do you wish to call the output 
 
 def getTag(prompt, nMode = False):
     retTag = input(prompt).upper()
-    if retTag in isilib.tagsAndNames:
+    if retTag in metaknowledge.tagsAndNames:
         return retTag
     else:
         if nMode and retTag == '':
@@ -103,12 +103,12 @@ def getNum(prompt):
         return getNum(prompt)
 
 def getFiles(args):
-    tmpRC = isilib.RecordCollection(name = '')
+    tmpRC = metaknowledge.RecordCollection(name = '')
     if len(args.files) > 0:
         for f in args.files:
             path = os.path.abspath(os.path.expanduser(f))
             if os.path.exists(path):
-                tmpRC = tmpRC + isilib.RecordCollection(path, extension = args.suffix)
+                tmpRC = tmpRC + metaknowledge.RecordCollection(path, extension = args.suffix)
             else:
                 raise TypeError(path + " is not an existing file or directory")
         if args.name:
@@ -179,10 +179,10 @@ def getWhatToDo(clargs, inRC):
         with open(fName, 'w') as f:
             f.writelines(cites)
     else:
-        dbName = input("The default manual databse file is called {}, press Enter to use it or type the name of the database you wish to use:\n".format(isilib.journalAbbreviations.manaulDBname))
+        dbName = input("The default manual databse file is called {}, press Enter to use it or type the name of the database you wish to use:\n".format(metaknowledge.journalAbbreviations.manaulDBname))
         print("Starting to go over citations, to exit press ctr-C.")
         if dbName == '':
-            dbName = isilib.journalAbbreviations.manaulDBname
+            dbName = metaknowledge.journalAbbreviations.manaulDBname
         try:
             for R in inRC:
                 for c in R.citations:
@@ -262,17 +262,17 @@ def getThresholds(clargs, grph):
     if thresID == 0:
         return grph
     elif thresID == 1:
-        return getThresholds(clargs, isilib.drop_nodesByDegree(grph, minDegree = 1))
+        return getThresholds(clargs, metaknowledge.drop_nodesByDegree(grph, minDegree = 1))
     elif thresID == 2:
-        return getThresholds(clargs, isilib.drop_edges(grph, dropSelfLoops = True))
+        return getThresholds(clargs, metaknowledge.drop_edges(grph, dropSelfLoops = True))
     elif thresID == 3:
-        return getThresholds(clargs, isilib.drop_edges(grph, minWeight = getNum("What is the minumum weight for an edge to be included? ")))
+        return getThresholds(clargs, metaknowledge.drop_edges(grph, minWeight = getNum("What is the minumum weight for an edge to be included? ")))
     elif thresID == 4:
-        return getThresholds(clargs, isilib.drop_edges(grph, minWeight = getNum("What is the maximum weight for an edge to be included? ")))
+        return getThresholds(clargs, metaknowledge.drop_edges(grph, minWeight = getNum("What is the maximum weight for an edge to be included? ")))
     elif thresID == 5:
-        return getThresholds(clargs, isilib.drop_nodesByDegree(grph, minDegree = getNum("What is the minumum degree for an edge to be included? ")))
+        return getThresholds(clargs, metaknowledge.drop_nodesByDegree(grph, minDegree = getNum("What is the minumum degree for an edge to be included? ")))
     else:
-        return getThresholds(clargs, isilib.drop_nodesByDegree(grph, minDegree = getNum("What is the maximum degree for an edge to be included? ")))
+        return getThresholds(clargs, metaknowledge.drop_nodesByDegree(grph, minDegree = getNum("What is the maximum degree for an edge to be included? ")))
 
 
 def  outputNetwork(clargs, grph):
@@ -283,7 +283,7 @@ def  outputNetwork(clargs, grph):
     ('4', "graphml (SLOW)"),
     ])
     try:
-        import isilib.visual
+        import metaknowledge.visual
     except ImportError:
         pass
     else:
@@ -292,21 +292,21 @@ def  outputNetwork(clargs, grph):
     print("The network contains {} nodes and {} edges.".format(len(grph.nodes()), len(grph.edges())))
     outID = int(inputMenu(outDict, header = "What type of output to you want? "))
     if outID == 0:
-        isilib.visual.quickGraph(grph)
+        metaknowledge.visual.quickGraph(grph)
         outputNetwork(clargs, grph)
     elif outID == 1:
         while True:
             try:
                 outName = getOutputName(clargs, '', checking = False)
-                isilib.write_graph(grph, outName)
+                metaknowledge.write_graph(grph, outName)
             except OSError:
                 if clargs.name:
-                    isilib.write_graph(grph, outName, overwrite = True)
+                    metaknowledge.write_graph(grph, outName, overwrite = True)
                     break
                 else:
                     overWrite = yesorNo("{}, overwrite (y/n)? ")
                     if overWrite:
-                        isilib.write_graph(grph, outName, overwrite = True)
+                        metaknowledge.write_graph(grph, outName, overwrite = True)
                         break
                     else:
                         pass
@@ -315,10 +315,10 @@ def  outputNetwork(clargs, grph):
 
     elif outID == 2:
         outName = getOutputName(clargs, '.csv')
-        isilib.write_edgeList(grph, outName)
+        metaknowledge.write_edgeList(grph, outName)
     elif outID == 3:
         outName = getOutputName(clargs, '.csv')
-        isilib.write_nodeAttributeFile(grph, outName)
+        metaknowledge.write_nodeAttributeFile(grph, outName)
     else:
         outName = getOutputName(clargs, '.graphml')
         nx.write_graphml(grph, outName)
@@ -327,7 +327,7 @@ def main():
     try:
         args = argumentParser()
         if args.progress:
-            isilib.VERBOSE_MODE = True
+            metaknowledge.VERBOSE_MODE = True
         global RC
         RC = getFiles(args)
         makeNetwork = getWhatToDo(args, RC)

@@ -1,7 +1,16 @@
+import os.path
+
+long_descriptionLOC = "README.rst"
+if os.path.isfile(long_descriptionLOC)
+    long_description = open(long_descriptionLOC).read()
+else:
+    long_description = ''
+
 from setuptools import setup, find_packages
 setup(name='metaknowledge',
     version='0.3.5',
     description = "A library for handling Web of science files",
+    long_description = long_description,
     author="Reid McIlroy-Young, John McLevey",
     author_email = "rmcilroy@uwaterloo.ca, john.mclevey@uwaterloo.ca",
     license = 'GPL',

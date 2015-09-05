@@ -23,12 +23,10 @@ setup(name='metaknowledge',
     'Topic :: Text Processing',
     ],
     install_requires= ['networkx'],
-    setup_requires = ['networkx'],
-    #extras_require={'visualizer' : ['matplotlib']},
-    packages=find_packages(),#['metaknowledge', 'metaknowledge.journalAbbreviations'],
+    extras_require={'visualizer' : ['matplotlib', 'scipy', 'numpy']},
+    packages=find_packages(),
     scripts=['metaknowledge/bin/metaknowledge-CLI'],
     test_suite='metaknowledge.tests',
     include_package_data = True,
     package_data = {'': ['manualj9Abbreviations.*']}
-    #data_files= [('/tests', ["testFile.isi", "OnePaper.isi", "ManyAuthors.isi"])]
 )

@@ -1,12 +1,12 @@
 from setuptools import setup, find_packages
 setup(name='metaknowledge',
-    version='0.3.4',
+    version='0.3.5',
     description = "A library for handling Web of science files",
     author="Reid McIlroy-Young, John McLevey",
-    author_email = "rmcilroy@uwaterloo.ca",
+    author_email = "rmcilroy@uwaterloo.ca, john.mclevey@uwaterloo.ca",
     license = 'GPL',
     url="https://github.com/networks-lab/metaknowledge",
-    download_url = "https://github.com/networks-lab/metaknowledge/archive/0.3.4.tar.gz",
+    download_url = "https://github.com/networks-lab/metaknowledge/archive/0.3.5.tar.gz",
     keywords= 'WOS',
     classifiers = [
     'Development Status :: 4 - Beta',
@@ -23,12 +23,10 @@ setup(name='metaknowledge',
     'Topic :: Text Processing',
     ],
     install_requires= ['networkx'],
-    setup_requires = ['networkx'],
-    #extras_require={'visualizer' : ['matplotlib']},
-    packages=find_packages(),#['metaknowledge', 'metaknowledge.journalAbbreviations'],
+    extras_require={'visual' : ['matplotlib', 'scipy', 'numpy']},
+    packages=['metaknowledge', 'metaknowledge.journalAbbreviations', 'metaknowledge.visual'],
     scripts=['metaknowledge/bin/metaknowledge-CLI'],
     test_suite='metaknowledge.tests',
     include_package_data = True,
     package_data = {'': ['manualj9Abbreviations.*']}
-    #data_files= [('/tests', ["testFile.isi", "OnePaper.isi", "ManyAuthors.isi"])]
 )

@@ -5,15 +5,15 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
 <head>
 <meta charset="utf-8">
-<title>Examples &#8211; metaknowledge</title>
-<meta name="description" content="Examples showing how to use metaknowledge to analyze data.">
+<title>Search &#8211; metaknowledge</title>
+
 
 
 
 
 <!-- Twitter Cards -->
-<meta name="twitter:title" content="Examples">
-<meta name="twitter:description" content="Examples showing how to use metaknowledge to analyze data.">
+<meta name="twitter:title" content="Search">
+
 
 
 
@@ -23,16 +23,16 @@
 <!-- Open Graph -->
 <meta property="og:locale" content="en_US">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Examples">
-<meta property="og:description" content="Examples showing how to use metaknowledge to analyze data.">
-<meta property="og:url" content="http://networkslab.org/metaknowledge//examples/">
+<meta property="og:title" content="Search">
+
+<meta property="og:url" content="http://networkslab.org/metaknowledge//search/">
 <meta property="og:site_name" content="metaknowledge">
 
 
 
 
 
-<link rel="canonical" href="http://networkslab.org/metaknowledge//examples/">
+<link rel="canonical" href="http://networkslab.org/metaknowledge//search/">
 <link href="http://networkslab.org/metaknowledge//feed.xml" type="application/atom+xml" rel="alternate" title="metaknowledge Feed">
 
 <!-- https://t.co/dKP3o1e -->
@@ -142,28 +142,29 @@
     
     <div class="entry-wrapper">
       <header class="entry-header">
-        <h1 class="entry-title">Examples</h1>
+        <h1 class="entry-title">Search</h1>
       </header>
       <div class="entry-content">
-        <ul class="post-list">
- 
-  <li><article><a href="http://networkslab.org/metaknowledge//articles/textual/">Extract Text <span class="entry-date"><time datetime="2015-09-04T00:00:00-04:00">September 04, 2015</time></span> <span class="excerpt">You want to extract textual data to analyze.</span></a></article></li>
- 
-  <li><article><a href="http://networkslab.org/metaknowledge//articles/multimode/">Contruct a Multi-Mode Network <span class="entry-date"><time datetime="2015-09-04T00:00:00-04:00">September 04, 2015</time></span> <span class="excerpt">You want to construct a Multi-Mode Network.</span></a></article></li>
- 
-  <li><article><a href="http://networkslab.org/metaknowledge//articles/journalcocitation/">Contruct a Journal Co-Citation Network <span class="entry-date"><time datetime="2015-09-04T00:00:00-04:00">September 04, 2015</time></span> <span class="excerpt">You want to construct a Weighted Co-Citation Network of Journals.</span></a></article></li>
- 
-  <li><article><a href="http://networkslab.org/metaknowledge//articles/documentcocitation/">Contruct a Document Co-Citation Network <span class="entry-date"><time datetime="2015-09-04T00:00:00-04:00">September 04, 2015</time></span> <span class="excerpt">You want to construct a weighted co-citation network of documents.</span></a></article></li>
- 
-  <li><article><a href="http://networkslab.org/metaknowledge//articles/dataframe/">Contruct a Data Frame <span class="entry-date"><time datetime="2015-09-04T00:00:00-04:00">September 04, 2015</time></span> <span class="excerpt">You want to construct a dataset from a folder of Web of Science files.</span></a></article></li>
- 
-  <li><article><a href="http://networkslab.org/metaknowledge//articles/coauthor/">Contruct a Co-Author Network <span class="entry-date"><time datetime="2015-09-04T00:00:00-04:00">September 04, 2015</time></span> <span class="excerpt">You want to construct a weighted network of co-authors.</span></a></article></li>
- 
-  <li><article><a href="http://networkslab.org/metaknowledge//articles/citation/">Contruct a Citation Network <span class="entry-date"><time datetime="2015-09-04T00:00:00-04:00">September 04, 2015</time></span> <span class="excerpt">You want to construct a weighted citation network.</span></a></article></li>
- 
-  <li><article><a href="http://networkslab.org/metaknowledge//articles/authorcocitation/">Contruct an Author Co-Citation Network <span class="entry-date"><time datetime="2015-09-04T00:00:00-04:00">September 04, 2015</time></span> <span class="excerpt">You want to construct a weighted co-citation network of authors.</span></a></article></li>
+        <!-- Search form -->
+<form method="get" action="http://networkslab.org/metaknowledge//search/" data-search-form="" class="simple-search">
+  <label for="q">Search metaknowledge for:</label>
+  <input type="search" name="q" id="goog-wm-qt" placeholder="What are you looking for?" data-search-input="" autofocus="" />
+  <input type="submit" value="Search" id="goog-wm-sb" />
+</form>
 
-</ul>
+<!-- Search results placeholder -->
+<h6 data-search-found="">
+  <span data-search-found-count=""></span> result(s) found for &ldquo;<span data-search-found-term=""></span>&rdquo;.
+</h6>
+<ul class="post-list" data-search-results=""></ul>
+
+<!-- Search result template -->
+<script type="text/x-template" id="search-result">
+  <li><article>
+    <a href="##Url##">##Title## <span class="excerpt">##Excerpt##</span></a>
+  </article></li>
+</script>
+
 
       </div><!-- /.entry-content -->
     </div><!-- /.entry-wrapper -->

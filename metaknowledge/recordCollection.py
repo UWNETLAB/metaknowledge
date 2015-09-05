@@ -1123,9 +1123,13 @@ def isiParser(isifile):
         raise e
     f = enumerate(openfile, start = 0)
     try:
-        if "VR 1.0" not in f.__next__()[1] and "VR 1.0" not in f.__next__()[1]:
-            openfile.close()
-            raise BadISIFile(isifile + " Does not have a valid header, 'VR 1.0' not in first two lines")
+        linesChecked = 3
+        for i in range(linesChecked):
+            if "VR 1.0" in f.__next__()[1]:
+                break
+            if i == linesChecked - 1:
+                openfile.close()
+                raise BadISIFile(isifile + " Does not have a valid header, 'VR 1.0' not in first two lines")
     except StopIteration as e:
         openfile.close()
         raise BadISIFile("File ends before EF found")

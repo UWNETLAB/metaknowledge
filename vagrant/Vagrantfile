@@ -2,8 +2,6 @@
 # vi: set ft=ruby :
 
 Vagrant.configure(2) do |config|
-
-
    config.vm.provider "virtualbox" do |vb, override|
      config.vm.box = "ubuntu/trusty64"
      override.vm.box_url = "https://atlas.hashicorp.com/ubuntu/trusty64"

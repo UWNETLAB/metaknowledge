@@ -1,9 +1,0 @@
-#!/bin/bash -e
-
-cd "$(dirname "$0")"
-
-vagrant up
-sleep 1
-open http://localhost:1159
-tput bel
-vagrant ssh

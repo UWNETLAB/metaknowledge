@@ -2,7 +2,7 @@
 
 title: metaknowledge
 locale: en_US
-description: A Python3 Library for Bibliometric Research.
+description: A Python3 Library for Bibliometric and Sociology of Knowledge Research.
 logo: site-logo.png
 search: true
 url: http://networkslab.org/metaknowledge/
@@ -33,7 +33,7 @@ exclude: ["lib", "config.rb", "Capfile", "config", "log", "Rakefile", "Rakefile.
 
 # Site owner
 owner:
-  name: John McLevey
+  name: John McLevey and Reid McIlroy-Young
   avatar: bio-photo.jpg
   email: john.mclevey@uwaterloo.ca
   disqus-shortname:

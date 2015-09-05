@@ -2,7 +2,7 @@
 
 title: metaknowledge
 locale: en_US
-description: A Python3 Library that simplifies bibliometric research.
+description: A Python3 Library for Bibliometric Research.
 logo: site-logo.png
 search: true
 url: http://networkslab.org/metaknowledge/

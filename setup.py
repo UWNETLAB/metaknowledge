@@ -34,7 +34,11 @@ setup(name='metaknowledge',
     install_requires= ['networkx'],
     extras_require={'visual' : ['matplotlib', 'scipy', 'numpy']},
     packages=['metaknowledge', 'metaknowledge.journalAbbreviations', 'metaknowledge.visual'],
-    scripts=['metaknowledge/bin/metaknowledge','metaknowledge/bin/metaknowledge-mdToNb','metaknowledge/bin/metaknowledge-docsGen'],
+    entry_points={'console_scripts': [
+              'metaknowledge = metaknowledge.bin:mkCLI',
+              'metaknowledge-mdToNb = metaknowledge.bin:mkMdToNb',
+              'metaknowledge-DocsGen = metaknowledge.bin:mkDocs',
+          ]},
     test_suite='metaknowledge.tests',
     include_package_data = True,
     package_data = {'': ['manualj9Abbreviations.*']}

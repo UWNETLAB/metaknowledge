@@ -129,8 +129,10 @@ def writePYcell(s, excount = ''):
    }}
 """.format(excount, stringPreprossesing(s))
 
-
-if __name__ =='__main__':
+def mkMdToNb():
     args = argumentParser()
     for f in args.files:
         convert(f)
+
+if __name__ =='__main__':
+    mkMdToNb()

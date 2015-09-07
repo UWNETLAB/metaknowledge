@@ -133,6 +133,9 @@ def main(args):
     f.close()
     #print(inspect.getmembers(mods[0][1]))
 
-if __name__ == '__main__':
+def mkDocs():
     args = argumentParser()
     main(args)
+
+if __name__ == '__main__':
+    mkDocs()

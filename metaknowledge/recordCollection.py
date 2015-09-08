@@ -487,7 +487,7 @@ class RecordCollection(object):
             PBar.finish("Done making a co-authorship network")
         return grph
 
-    def coCiteNetwork(self, dropAnon = True, nodeType = "full", nodeInfo = True, fullInfo = False, weighted = True, dropNonJournals = False, count = True):
+    def coCiteNetwork(self, dropAnon = True, nodeType = "full", nodeInfo = True, fullInfo = False, weighted = True, dropNonJournals = False, count = True, keyWords = None):
         """Creates a co-citation network for the RecordCollection.
 
         # Parameters
@@ -522,6 +522,8 @@ class RecordCollection(object):
 
         > A networkx graph with hashes as ID and co-citation as edges
         """
+
+        builinFilters = ["dropAnon", "dropNonJournals", "dropJournals"]
         allowedTypes = ["full", "original", "author", "journal", "year"]
         if nodeType not in allowedTypes:
             raise ValueError("{} is not an allowed nodeType.".format(nodeType))
@@ -541,21 +543,14 @@ class RecordCollection(object):
                 PBar.updateVal(count / len(self), "Analyzing: " + str(R))
             Cites = R.citations
             if Cites:
-                if dropNonJournals:
-                    Cites = filterNonJournals(Cites)
-                if nodeType == "full":
-                    filteredCites = Cites
-                else:
-                    filteredCites = [c for c in Cites if hasattr(c, nodeType)]
-                if dropAnon:
-                    filteredCites = [c for c in filteredCites if not c.isAnonymous()]
+                filteredCites = filterCites(Cites, nodeType, dropAnon, dropNonJournals, keyWords)
                 addToNetwork(tmpgrph, filteredCites, count, weighted, nodeType, nodeInfo , fullInfo, headNd = None, cSet = citesSet)
         if PBar:
             PBar.finish("Done making a co-citation network of " + repr(self))
         return tmpgrph
 
 
-    def citationNetwork(self, dropAnon = True, nodeType = "full", nodeInfo = True, fullInfo = False, weighted = True, dropNonJournals = False, count = True, directed = True):
+    def citationNetwork(self, dropAnon = True, nodeType = "full", nodeInfo = True, fullInfo = False, weighted = True, dropNonJournals = False, count = True, directed = True, keyWords = None):
 
         """Creates a citation network for the RecordCollection.
 
@@ -612,21 +607,11 @@ class RecordCollection(object):
                 count += 1
                 PBar.updateVal(count/ len(self), "Analyzing: " + str(R))
             reRef = R.createCitation()
-            if dropNonJournals:
-                if not reRef.isJournal():
-                    continue
-            if nodeType != allowedTypes[0] and not hasattr(reRef, nodeType):
+            if len(filterCites([reRef], nodeType, dropAnon, dropNonJournals, keyWords)) == 0:
                 continue
             rCites = R.citations
             if rCites:
-                if dropNonJournals:
-                    rCites = filterNonJournals(rCites)
-                if nodeType == "full":
-                    filteredCites = rCites
-                else:
-                    filteredCites = [c for c in rCites if hasattr(c, nodeType)]
-                if dropAnon:
-                    filteredCites = [c for c in filteredCites if not c.isAnonymous()]
+                filteredCites = filterCites(rCites, nodeType, dropAnon, dropNonJournals, keyWords)
                 addToNetwork(tmpgrph, filteredCites, count, weighted, nodeType, nodeInfo , fullInfo, headNd = reRef, cSet = citesSet)
         if PBar:
             PBar.finish("Done making a citation network of " + repr(self))
@@ -1157,3 +1142,29 @@ def makeNodeTuple(citation, idVal, nodeInfo, fullInfo, nodeType, count):
     if count:
         d['count'] = 1
     return (idVal, d)
+
+def filterCites(cites, nodeType, dropAnon, dropNonJournals, keyWords):
+    filteredCites = []
+    for c in cites:
+        if nodeType != "full" and not hasattr(c, nodeType):
+            pass
+        elif dropNonJournals and not c.isJournal():
+            pass
+        elif dropAnon and c.isAnonymous():
+            pass
+        elif keyWords:
+            found = False
+            citeString = str(c).upper()
+            if isinstance(keyWords, str):
+                if keyWords.upper() in citeString:
+                    found = True
+            else:
+                for k in keyWords:
+                    if k.upper() in citeString:
+                        found = True
+                        break
+            if not found:
+                filteredCites.append(c)
+        else:
+            filteredCites.append(c)
+    return filteredCites

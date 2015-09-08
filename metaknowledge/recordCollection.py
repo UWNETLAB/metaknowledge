@@ -1193,16 +1193,18 @@ def addToNetwork(grph, nds, count, weighted, nodeType, nodeInfo , fullInfo, head
 def makeID(citation, nodeType, cSet, G):
     """Makes the id, of the correct type for the network"""
     if nodeType != "full":
-        return getattr(citation, nodeType)
+        if nodeType == 'author':
+            return citation.author.title()
+        else:
+            return getattr(citation, nodeType)
     elif cSet is not None:
         cHash = hash(citation)
         if cHash in G:
             return cHash
-        elif citation in cSet:
-                for c in cSet:
-                    if citation == c:
-                        return hash(c)
         else:
+            for c in cSet:
+                if citation == c:
+                    return hash(c)
             cSet.add(citation)
             return cHash
     else:

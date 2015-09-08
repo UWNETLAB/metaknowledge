@@ -59,7 +59,7 @@ def read_graph(edgeList, nodeList = None, directed = False, idKey = 'ID', eSourc
     f.close()
     return grph
 
-def write_graph(grph, name, edgeInfo = True, typing = True, suffix = 'csv', overwrite = False):
+def write_graph(grph, name, edgeInfo = True, typing = False, suffix = 'csv', overwrite = True):
     """
     Writes both the edge list and the node attribute list of grph.
     The output files start with name, the file type[edgeList, nodeAttributes] then if typing is True the type of graph (directed or undirected) then the suffix, it appears as follows:

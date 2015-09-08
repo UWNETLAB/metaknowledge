@@ -5,8 +5,8 @@ import io
 from metaknowledge.graphHelpers import _ProgressBar
 
 fileShortName = 'testNetworks'
-fileEName = 'testNetworks_edgeList_undirected.tst'
-fileNName = 'testNetworks_nodeAttributes_undirected.tst'
+fileEName = 'testNetworks_edgeList.tst'
+fileNName = 'testNetworks_nodeAttributes.tst'
 filesuffix = 'tst'
 
 class TestHelpers(unittest.TestCase):
@@ -14,6 +14,7 @@ class TestHelpers(unittest.TestCase):
         metaknowledge.VERBOSE_MODE = False
         self.RC = metaknowledge.RecordCollection("metaknowledge/tests/testFile.isi")
         self.G = self.RC.coCiteNetwork()
+
     def test_graphwrite(self):
         metaknowledge.write_graph(self.G, fileShortName, suffix = filesuffix)
         tmpG = metaknowledge.read_graph(fileEName, fileNName)
@@ -31,7 +32,7 @@ class TestHelpers(unittest.TestCase):
         s = ''.join(tmpIO.readlines())
         self.assertFalse(
         "==================================================]100.0%" in s)
-        self.assertTrue("Writing edge list testNetworks_edgeList_undirected.tst" in s)
+        self.assertTrue("Writing edge list testNetworks_edgeList.tst" in s)
         os.remove(fileEName)
         metaknowledge.VERBOSE_MODE = False
     """

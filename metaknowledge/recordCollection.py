@@ -455,34 +455,37 @@ class RecordCollection(object):
         grph = nx.Graph()
         if metaknowledge.VERBOSE_MODE:
             PBar = _ProgressBar(0, "Starting to make a co-authorship network")
-            count = 0
+            pcount = 0
         else:
             PBar = None
         for R in self:
             if PBar:
-                count += 1
-                PBar.updateVal(count/ len(self), "Analyzing: " + str(R))
-            if R.authorsFull and len(R.authorsFull) > 1:
-                for i, auth1 in enumerate(R.authorsFull):
+                pcount += 1
+                PBar.updateVal(pcount/ len(self), "Analyzing: " + str(R))
+            authsList = R.authorsFull
+            if authsList:
+                authsList = list(authsList)
+                if len(authsList) > 1:
+                    for i, auth1 in enumerate(authsList):
+                        if auth1 not in grph:
+                            grph.add_node(auth1, count = 1)
+                        else:
+                            grph.node[auth1]['count'] += 1
+                        for auth2 in authsList[i + 1:]:
+                            if auth2 not in grph:
+                                grph.add_node(auth2, count = 1)
+                            else:
+                                grph.node[auth2]['count'] += 1
+                            if grph.has_edge(auth1, auth2):
+                                grph.edge[auth1][auth2]['weight'] += 1
+                            else:
+                                grph.add_edge(auth1, auth2, weight = 1)
+                else:
+                    auth1 = authsList[0]
                     if auth1 not in grph:
                         grph.add_node(auth1, count = 1)
                     else:
                         grph.node[auth1]['count'] += 1
-                    for auth2 in R.authorsFull[i + 1:]:
-                        if auth2 not in grph:
-                            grph.add_node(auth2, count = 1)
-                        else:
-                            grph.node[auth2]['count'] += 1
-                        if grph.has_edge(auth1, auth2):
-                            grph.edge[auth1][auth2]['weight'] += 1
-                        else:
-                            grph.add_edge(auth1, auth2, weight = 1)
-            if R.authorsFull and len(R.authorsFull) == 1:
-                auth1 = R.authorsFull[0]
-                if auth1 not in grph:
-                    grph.add_node(auth1, count = 1)
-                else:
-                    grph.node[auth1]['count'] += 1
         if PBar:
             PBar.finish("Done making a co-authorship network")
         return grph

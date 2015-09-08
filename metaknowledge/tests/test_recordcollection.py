@@ -102,7 +102,7 @@ class TestRecordCollection(unittest.TestCase):
         GauthsNoExtra = self.RC.coCiteNetwork(nodeType = "author", nodeInfo = False)
         Gunwei = self.RC.coCiteNetwork(nodeType = 'original', weighted = False)
         Gjour = self.RC.coCiteNetwork(nodeType = "journal", dropNonJournals = True)
-        Gyear = self.RC.coCiteNetwork(nodeType = "year", fullInfo = True)
+        Gyear = self.RC.coCiteNetwork(nodeType = "year", fullInfo = True, count = False)
         self.assertIsInstance(Gdefault, nx.classes.graph.Graph)
         self.assertLessEqual(len(Gdefault.edges()), len(Gunwei.edges()))
         self.assertLessEqual(len(Gdefault.nodes()), len(Gunwei.nodes()))
@@ -131,12 +131,12 @@ class TestRecordCollection(unittest.TestCase):
         self.assertEqual(len(Gdefault.edges()), 46)
 
     def test_Cite(self):
-        Gdefault = self.RC.citationNetwork(fullInfo = True)
+        Gdefault = self.RC.citationNetwork(fullInfo = True, count = False)
         Ganon = self.RC.citationNetwork(dropAnon = False)
         Gauths = self.RC.citationNetwork(nodeType = "author")
         GauthsNoExtra = self.RC.citationNetwork(nodeType = "author", nodeInfo = False)
         Gunwei = self.RC.citationNetwork(nodeType = 'original', weighted = False)
-        Gjour = self.RC.citationNetwork(nodeType = "author", dropNonJournals = True, nodeInfo = True)
+        Gjour = self.RC.citationNetwork(nodeType = "author", dropNonJournals = True, nodeInfo = True, count = False)
         Gyear = self.RC.citationNetwork(nodeType = "year", nodeInfo = True)
         self.assertIsInstance(Gdefault, nx.classes.digraph.DiGraph)
         self.assertLessEqual(len(Gdefault.edges()), len(Gunwei.edges()))

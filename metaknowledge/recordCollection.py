@@ -492,29 +492,37 @@ class RecordCollection(object):
 
         # Parameters
 
+        _nodeType_ : `optional [str]`
+
+        > One of `"full"`, `"original"`, `"author"`, `"journal"` or `"year"`. Specifies the value of the nodes in the graph. The default `"full"` causes the citations to be compared holistically using the [`metaknowledge.Citation`](metaknowledge.Citation) builtin comparison operators. `"original"` uses the raw original strings of the citations. While `"author"`, `"journal"` and `"year"` each use the author, journal and year respectively.
+
         _dropAnon_ : `optional [bool]`
 
         > default `True`, if `True` citations labeled anonymous are removed from the network
 
-        _nodeType : `optional [str]`
+        _nodeInfo_ : `optional [bool]`
 
-        > default `Full`, can alos be "original", "author", "journal" or "year"
+        > default `True`, wether an extra piece of information is stored with each node.
 
-        _extraInfo_ : `optional [bool]`
+        _fullInfo_ : `optional [bool]`
 
-        > default `True`, wether the original citation string is added to the node as an extra value, if `True` it is
+        > default `False`, wether the original citation string is added to the node as an extra value, the attribute is labeled as fullCite
 
         _weighted_ : `optional [bool]`
 
-        > default `True`, wether the edges are weighted. If `True` the edges are weighted by the number of occurrences of the co-citation.
+        > default `True`, wether the edges are weighted. If `True` the edges are weighted by the number of citations.
 
         _dropNonJournals_ : `optional [bool]`
 
-        > default `False`, wether to drop ciations of non-journals
+        > default `False`, wether to drop citations of non-journals
 
-        _saveJournalNames_ : `optional [bool]`
+        _count_ : `optional [bool]`
 
-        > default `False`, wether to save the full name of the journals of citations. Citations missing a journal will have the string "None", use with _dropNonJournals_ to avoid this
+        > default `True`, causes the number of occurrences of a node to be counted
+
+        _keyWords_ : `optional [str] or [list[str]]`
+
+        > A string or list of strings that the citations are checked against, if they contain any of the strings they are removed from the network
 
         # Returns
 
@@ -556,17 +564,21 @@ class RecordCollection(object):
 
         # Parameters
 
+        _nodeType_ : `optional [str]`
+
+        > One of `"full"`, `"original"`, `"author"`, `"journal"` or `"year"`. Specifies the value of the nodes in the graph. The default `"full"` causes the citations to be compared holistically using the [`metaknowledge.Citation`](metaknowledge.Citation) builtin comparison operators. `"original"` uses the raw original strings of the citations. While `"author"`, `"journal"` and `"year"` each use the author, journal and year respectively.
+
         _dropAnon_ : `optional [bool]`
 
         > default `True`, if `True` citations labeled anonymous are removed from the network
 
-        _authorship_ : `optional [bool]`
+        _nodeInfo_ : `optional [bool]`
 
-        > default `False`, wether to use author's names as the node ID or the whole citations, if `True` names are used if `False` hashes are used
+        > default `True`, wether an extra piece of information is stored with each node.
 
-        _extraInfo_ : `optional [bool]`
+        _fullInfo_ : `optional [bool]`
 
-        > default `True`, wether the original citation string is added to the node as an extra value, if `True` it is
+        > default `False`, wether the original citation string is added to the node as an extra value, the attribute is labeled as fullCite
 
         _weighted_ : `optional [bool]`
 
@@ -574,15 +586,25 @@ class RecordCollection(object):
 
         _dropNonJournals_ : `optional [bool]`
 
-        > default `False`, wether to drop ciations of non-journals
+        > default `False`, wether to drop citations of non-journals
 
-        _saveJournalNames_ : `optional [bool]`
+        _count_ : `optional [bool]`
 
-        > default `False`, wether to save the full name of the journals of citations. Citations missing a journal will have the string "None", use with _dropNonJournals_ to avoid this
+        > default `True`, causes the number of occurrences of a node to be counted
+
+        _keyWords_ : `optional [str] or [list[str]]`
+
+        > A string or list of strings that the citations are checked against, if they contain any of the strings they are removed from the network
+
+        _directed_ : `optional [bool]`
+
+        > Determines if the output graph is directed, default `True`
 
         # Returns
 
-        `Networkx DiGraph`
+        `Networkx DiGraph or Networkx Graph`
+
+        > See _directed_ for explanation of returned type
 
         > A networkx digraph with hashes as ID and citations as edges
         """

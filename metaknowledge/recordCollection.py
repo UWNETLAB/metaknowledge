@@ -489,7 +489,7 @@ class RecordCollection(object):
             PBar.finish("Done making a co-authorship network")
         return grph
 
-    def coCiteNetwork(self, dropAnon = True, nodeType = "full", nodeInfo = True, fullInfo = False, weighted = True, dropNonJournals = False):
+    def coCiteNetwork(self, dropAnon = True, nodeType = "full", nodeInfo = True, fullInfo = False, weighted = True, dropNonJournals = False, count = True):
         """Creates a co-citation network for the RecordCollection.
 
         # Parameters
@@ -533,96 +533,31 @@ class RecordCollection(object):
             count = 0
         else:
             PBar = None
-        if nodeType != allowedTypes[0]:
-            for R in self:
-                if PBar:
-                    count += 1
-                    PBar.updateVal(count / len(self), "Analyzing: " + str(R))
-                Cites = R.citations
-                if Cites:
-                    if dropNonJournals:
-                        Cites = filterNonJournals(Cites)
-                    if dropAnon:
-                        filteredCites = [c for c in Cites if not c.isAnonymous() and hasattr(c, nodeType)]
-                    else:
-                        filteredCites = [c for c in Cites if hasattr(c, nodeType)]
-                    if len(filteredCites) > 1:
-                        for n, c1 in enumerate(filteredCites):
-                            c1val = getattr(c1, nodeType)
-                            c2vals = [getattr(c, nodeType) for c in filteredCites[n:]]
-                            if weighted:
-                                updateWeightedEdges(tmpgrph, edgeBunchGenerator(c1val, c2vals, weighted = True))
-                            else:
-                                tmpgrph.add_edges_from(edgeBunchGenerator(c1val, c2vals))
-                            if nodeInfo and not hasattr(tmpgrph.node[c1val], 'info'):
-                                if nodeType == 'original':
-                                    tmpgrph.node[c1val]['info'] = str(c1)
-                                elif nodeType == 'journal':
-                                    if c1.isJournal():
-                                        tmpgrph.node[c1val]['info'] = str(c1.getFullJournalName())
-                                    else:
-                                        tmpgrph.node[c1val]['info'] = "None"
-                                else:
-                                    tmpgrph.node[c1val]['info'] = c1val
-                                if fullInfo:
-                                    tmpgrph.node[c1val]['fullCite'] = str(c1)
-                    elif len(filteredCites) == 1:
-                        if getattr(filteredCites[0], nodeType) not in tmpgrph and nodeInfo:
-                            cval = getattr(filteredCites[0], nodeType)
-                            tmpgrph.add_node(cval)
-                            if nodeType == 'original':
-                                tmpgrph.node[cval]['info'] = str(filteredCites[0])
-                            elif nodeType == 'journal':
-                                if c1val.isJournal():
-                                    tmpgrph.node[cval]['info'] = str(filteredCites[0].getFullJournalName())
-                                else:
-                                    tmpgrph.node[cval]['info'] = "None"
-                            else:
-                                tmpgrph.node[cval]['info'] = cval
-                            if fullInfo:
-                                tmpgrph.node[cval]['fullCite'] = str(filteredCites[0])
-                        elif getattr(filteredCites[0], nodeType) not in tmpgrph:
-                            tmpgrph.add_node(getattr(filteredCites[0], nodeType))
-        else:
+        if nodeType == "full":
             citesSet = set()
-            for R in self:
-                if PBar:
-                    count += 1
-                    PBar.updateVal((count/ len(self)), "Analyzing: " + str(R))
-                Cites = R.citations
-                if Cites:
-                    if dropNonJournals:
-                        Cites = filterNonJournals(Cites)
-                    if dropAnon:
-                        Cites = [c for c in Cites if not c.isAnonymous()]
-                    citeHashList = []
-                    for cite in Cites:
-                        citeHash = hash(cite)
-                        if citeHash not in tmpgrph:
-                            if cite in citesSet:
-                                for c in citesSet:
-                                    if cite == c:
-                                        citeHash = hash(c)
-                            else:
-                                citesSet.add(cite)
-                                if nodeInfo:
-                                    if fullInfo:
-                                        tmpgrph.add_node(citeHash, info = str(cite.getID()), fullCite = str(cite))
-                                    else:
-                                        tmpgrph.add_node(citeHash, info = str(cite.getID()))
-                        citeHashList.append(citeHash)
-                    if len(citeHashList) > 1:
-                        if weighted:
-                            for n, c1 in enumerate(citeHashList):
-                                updateWeightedEdges(tmpgrph, edgeBunchGenerator(c1, citeHashList[n:], weighted = True))
-                        else:
-                            for n, c1 in enumerate(citeHashList):
-                                tmpgrph.add_edges_from(edgeBunchGenerator(c1, citeHashList[n:]))
+        else:
+            citesSet = None
+        for R in self:
+            if PBar:
+                count += 1
+                PBar.updateVal(count / len(self), "Analyzing: " + str(R))
+            Cites = R.citations
+            if Cites:
+                if dropNonJournals:
+                    Cites = filterNonJournals(Cites)
+                if nodeType == "full":
+                    filteredCites = Cites
+                else:
+                    filteredCites = [c for c in Cites if hasattr(c, nodeType)]
+                if dropAnon:
+                    filteredCites = [c for c in filteredCites if not c.isAnonymous()]
+                addToNetwork(tmpgrph, filteredCites, count, weighted, nodeType, nodeInfo , fullInfo, headNd = None, cSet = citesSet)
         if PBar:
             PBar.finish("Done making a co-citation network of " + repr(self))
         return tmpgrph
 
-    def citationNetwork(self, dropAnon = True, nodeType = "full", extraInfo = False, weighted = True, dropNonJournals = False, saveJournalNames = False):
+
+    def citationNetwork(self, dropAnon = True, nodeType = "full", extraInfo = False, weighted = True, dropNonJournals = False, saveJournalNames = False, count = True):
 
         """Creates a citation network for the RecordCollection.
 
@@ -1215,3 +1150,86 @@ def edgeNodeReplacerGenerator(base, nodes, loc):
         tmpN = list(n)
         tmpN[loc] = base
         yield tmpN
+
+
+def addToNetwork(grph, nds, count, weighted, nodeType, nodeInfo , fullInfo, headNd = None, cSet = None):
+    """Addeds the citations _nds_ to _grph_, arroring to the rules give by _nodeType_, _fullInfo_, etc.
+
+    cSet is the set of known citations, used for _nodeType_ = "full"
+
+    _headNd_ is the citation of the Record
+    """
+    if headNd is not None:
+        hID = makeID(headNd, nodeType, cSet, grph)
+        if hID not in grph:
+            grph.add_node(*makeNodeTuple(headNd, hID, nodeInfo, fullInfo, nodeType, count))
+    else:
+        hID = None
+    idList = []
+    for n in nds:
+        nID = makeID(n, nodeType, cSet, grph)
+        if nID not in grph:
+            grph.add_node(*makeNodeTuple(n, nID, nodeInfo, fullInfo, nodeType, count))
+        elif count:
+            grph.node[nID]['count'] += 1
+        idList.append(nID)
+    addedEdges = []
+    if hID:
+        for nID in idList:
+            if weighted:
+                try:
+                    grph[hID][nID]['weight'] += 1
+                except KeyError:
+                    grph.add_edge(hID, nID, weight = 1)
+            elif nID not in grph[hID]:
+                addedEdges.append((hID, nID))
+    elif len(idList) > 1:
+        for i, outerID in enumerate(idList):
+            for innerID in idList[i + 1:]:
+                if weighted:
+                    try:
+                        grph[outerID][innerID]['weight'] += 1
+                    except KeyError:
+                        grph.add_edge(outerID, innerID, weight = 1)
+                elif innerID not in grph[outerID]:
+                    addedEdges.append((outerID, innerID))
+    grph.add_edges_from(addedEdges)
+
+def makeID(citation, nodeType, cSet, G):
+    """Makes the id, of the correct type for the network"""
+    if nodeType != "full":
+        return getattr(citation, nodeType)
+    elif cSet is not None:
+        cHash = hash(citation)
+        if cHash in G:
+            return cHash
+        elif citation in cSet:
+                for c in cSet:
+                    if citation == c:
+                        return hash(c)
+        else:
+            cSet.add(citation)
+            return cHash
+    else:
+        raise ValueError("cSet must be a set of Citations if nodeType is 'full'.")
+
+def makeNodeTuple(citation, idVal, nodeInfo, fullInfo, nodeType, count):
+    """Makes a tuple of idVal and a dict of the selected attributes"""
+    d = {}
+    if nodeInfo:
+        if nodeType == 'full':
+            d['info'] = str(citation)
+        elif nodeType == 'journal':
+            if citation.isJournal():
+                d['info'] = str(citation.getFullJournalName())
+            else:
+                d['info'] = "None"
+        elif nodeType == 'original':
+            d['info'] = str(citation)
+        else:
+            d['info'] = idVal
+    if fullInfo:
+        d['fullCite'] = str(citation)
+    if count:
+        d['count'] = 1
+    return (idVal, d)

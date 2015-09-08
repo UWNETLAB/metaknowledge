@@ -198,11 +198,14 @@ class TestRecordCollection(unittest.TestCase):
 
     def test_localCiteStats(self):
         d = self.RC.localCiteStats()
+        dPan = self.RC.localCiteStats(pandasMode = True)
         self.assertEqual(d[metaknowledge.Citation("PHYS REV LETT, V4, P224, DOI 10.1103/PhysRevLett.4.224")], 1)
+        self.assertEqual(len(dPan['Citations']),len(d))
+        self.assertTrue(dPan['Citations'][0] in d)
 
     def test_localCitesOf(self):
         C = metaknowledge.Citation("COSTADEB.O, 1974, LETT NUOVO CIMENTO, V10, P852")
-        self.assertEqual("WOS:A1976CW02200002", self.RC.localCitesOf(C)[0].UT)
+        self.assertEqual("WOS:A1976CW02200002", self.RC.localCitesOf(C).peak().UT)
         self.assertEqual(self.RC.localCitesOf(self.RC.peak().UT), self.RC.localCitesOf(self.RC.peak().createCitation()))
 
     def test_citeFilter(self):

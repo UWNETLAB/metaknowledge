@@ -3,7 +3,7 @@ import metaknowledge
 from .record import Record, BadISIFile
 from .graphHelpers import _ProgressBar
 from .constants import tagsAndNames, tagToFull, fullToTag
-from .citation import filterNonJournals
+from .citation import filterNonJournals, Citation
 
 import itertools
 import os.path
@@ -872,6 +872,56 @@ class RecordCollection(object):
         if PBar:
             PBar.finish("Done making a " + str(len(tags)) + "-mode network of: " +  ', '.join(tags))
         return grph
+
+    def localCiteStats(self):
+        """Returns a dict with all the citations in the CR field as keys and the number of time s they occur as the values
+        """
+        citesDict = {}
+        for R in self:
+            rCites = R.CR
+            if rCites:
+                for c in rCites:
+                    found = False
+                    for dC, occus in citesDict.items():
+                        if dC == c:
+                            citesDict[dC] = occus + 1
+                            found = True
+                            break
+                    if not found:
+                         citesDict[c] = 1
+        return citesDict
+
+    def localCitesOf(self, rec):
+        """Takes in a Record, WOS string, citation string or Citation and returns a list of all records that cite it
+        """
+        localCites = []
+        if isinstance(rec, Record):
+            rec = rec.createCitation()
+        if isinstance(rec, str):
+            try:
+                rec = self.getWOS(rec)
+            except ValueError:
+                try:
+                    rec = Citation(rec)
+                except AttributeError:
+                    raise ValueError("{} is not a valid WOS string or a valid citation string".format(rec))
+            else:
+                if rec is None:
+                    return localCites
+                else:
+                    rec = rec.createCitation()
+        elif isinstance(rec, Citation):
+            pass
+        else:
+            raise ValueError("{} is not a vaild input, rec must be a Record, string or Citation object.".format(Rec))
+        for R in self:
+            rCites = R.CR
+            if rCites:
+                for cite in rCites:
+                    if rec == cite:
+                        localCites.append(R)
+                        break
+        return localCites
 
     def citeFilter(self, keyString = '', field = 'all', reverse = False, caseSensitive = False):
         """

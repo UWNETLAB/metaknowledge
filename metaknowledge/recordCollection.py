@@ -452,8 +452,6 @@ class RecordCollection(object):
 
         > A networkx graph with author names as nodes and collaborations as edges.
         """
-
-
         grph = nx.Graph()
         if metaknowledge.VERBOSE_MODE:
             PBar = _ProgressBar(0, "Starting to make a co-authorship network")
@@ -557,7 +555,7 @@ class RecordCollection(object):
         return tmpgrph
 
 
-    def citationNetwork(self, dropAnon = True, nodeType = "full", extraInfo = False, weighted = True, dropNonJournals = False, saveJournalNames = False, count = True):
+    def citationNetwork(self, dropAnon = True, nodeType = "full", nodeInfo = True, fullInfo = False, weighted = True, dropNonJournals = False, count = True, directed = True):
 
         """Creates a citation network for the RecordCollection.
 
@@ -596,114 +594,40 @@ class RecordCollection(object):
         allowedTypes = ["full", "original", "author", "journal", "year"]
         if nodeType not in allowedTypes:
             raise ValueError("{} is not an allowed nodeType.".format(nodeType))
-        tmpgrph = nx.DiGraph()
+        if directed:
+            tmpgrph = nx.DiGraph()
+        else:
+            tmpgrph = nx.Graph()
         if metaknowledge.VERBOSE_MODE:
             PBar = _ProgressBar(0, "Starting to make a citation network")
             count = 0
         else:
             PBar = None
-        if nodeType != allowedTypes[0]:
-            for R in self:
-                if PBar:
-                    count += 1
-                    PBar.updateVal(count/ len(self), "Analyzing: " + str(R))
-                reRef = R.createCitation()
-                if dropNonJournals:
-                    if not reRef.isJournal():
-                        continue
-                if hasattr(reRef, nodeType):
-                    refVal = getattr(reRef, nodeType)
-                    if extraInfo and saveJournalNames:
-                        tmpgrph.add_node(refVal, info = str(reRef), journal = str( reRef.getFullJournalName()))
-                    elif extraInfo:
-                        tmpgrph.add_node(refVal, info = str(reRef))
-                    elif saveJournalNames:
-                        tmpgrph.add_node(refVal, journal = reRef.getFullJournalName())
-                    else:
-                        tmpgrph.add_node(refVal)
-                else:
-                    continue
-                rCites = R.citations
-                if rCites:
-                    if dropNonJournals:
-                        rCites = filterNonJournals(rCites)
-                    if dropAnon:
-                        filteredCites = [c for c in rCites if not c.isAnonymous() and hasattr(c, nodeType)]
-                    else:
-                        filteredCites = [c for c in rCites if hasattr(c, nodeType)]
-                    rCitesVals = [getattr(c, nodeType) for c in filteredCites]
-                    if extraInfo and saveJournalNames:
-                        for i in range(len(filteredCites)):
-                            if rCitesVals[i] not in tmpgrph:
-                                tmpgrph.add_node(rCitesVals[i], info = str(filteredCites[i]), journal = str(filteredCites[i].getFullJournalName()))
-                    elif extraInfo:
-                        for i in range(len(filteredCites)):
-                            if rCitesVals[i] not in tmpgrph:
-                                tmpgrph.add_node(rCitesVals[i], info = str(filteredCites[i]))
-                    elif saveJournalNames:
-                        for i in range(len(filteredCites)):
-                            if rCitesVals[i] not in tmpgrph:
-                                tmpgrph.add_node(rCitesVals[i],journal = str(filteredCites[i].getFullJournalName()))
-                    if weighted:
-                        updateWeightedEdges(tmpgrph, edgeBunchGenerator(refVal, rCitesVals, weighted = True))
-                    else:
-                        tmpgrph.add_edges_from(edgeBunchGenerator(refVal, rCitesVals))
-        else:
+        if nodeType == allowedTypes[0]:
             citesSet = set()
-            for R in self:
-                if PBar:
-                    count += 1
-                    PBar.updateVal(count / len(self), "Analyzing: " + str(R))
-                reRef = R.createCitation()
-                if dropNonJournals:
-                    if not reRef.isJournal():
-                        continue
-                recHash = hash(reRef)
-                rCites = R.citations
-                if dropAnon and reRef.isAnonymous():
+        else:
+            citesSet = None
+        for R in self:
+            if PBar:
+                count += 1
+                PBar.updateVal(count/ len(self), "Analyzing: " + str(R))
+            reRef = R.createCitation()
+            if dropNonJournals:
+                if not reRef.isJournal():
                     continue
-                if recHash not in tmpgrph:
-                    if reRef in citesSet:
-                        for c in citesSet:
-                            if reRef == c:
-                                recHash = hash(c)
-                    else:
-                        citesSet.add(reRef)
-                        if extraInfo and saveJournalNames:
-                            tmpgrph.add_node(recHash, info = str(reRef), journal = str(reRef.getFullJournalName()))
-                        elif extraInfo:
-                            tmpgrph.add_node(recHash, info = str(reRef))
-                        elif saveJournalNames:
-                            tmpgrph.add_node(recHash, journal = str(reRef.getFullJournalName()))
-                        else:
-                            tmpgrph.add_node(recHash)
-                if rCites:
-                    if dropNonJournals:
-                        rCites = filterNonJournals(rCites)
-                    rCites = [c for c in rCites if not c.isAnonymous()] if dropAnon else rCites
-                    citeHashs = []
-                    for refCite in rCites:
-                        citeHash = hash(refCite)
-                        if citeHash not in tmpgrph:
-                            if refCite in citesSet:
-                                for c in citesSet:
-                                    if refCite == c:
-                                        citeHash = hash(c)
-                            else:
-                                citesSet.add(refCite)
-                                if extraInfo and saveJournalNames:
-                                    tmpgrph.add_node(citeHash, info = str(refCite), journal = str(refCite.getFullJournalName()))
-                                elif extraInfo:
-                                    tmpgrph.add_node(citeHash, info = str(refCite))
-                                elif saveJournalNames:
-                                    tmpgrph.add_node(citeHash, journal = str(refCite.getFullJournalName()))
-                                else:
-                                    tmpgrph.add_node(citeHash)
-                        citeHashs.append(citeHash)
-                    if weighted:
-                        updateWeightedEdges(tmpgrph, edgeBunchGenerator(recHash, citeHashs, weighted = True))
-                    else:
-                        tmpgrph.add_edges_from(edgeBunchGenerator(recHash, citeHashs))
+            if nodeType != allowedTypes[0] and not hasattr(reRef, nodeType):
+                continue
+            rCites = R.citations
+            if rCites:
+                if dropNonJournals:
+                    rCites = filterNonJournals(rCites)
+                if nodeType == "full":
+                    filteredCites = rCites
+                else:
+                    filteredCites = [c for c in rCites if hasattr(c, nodeType)]
+                if dropAnon:
+                    filteredCites = [c for c in filteredCites if not c.isAnonymous()]
+                addToNetwork(tmpgrph, filteredCites, count, weighted, nodeType, nodeInfo , fullInfo, headNd = reRef, cSet = citesSet)
         if PBar:
             PBar.finish("Done making a citation network of " + repr(self))
         return tmpgrph

@@ -873,8 +873,10 @@ class RecordCollection(object):
             PBar.finish("Done making a " + str(len(tags)) + "-mode network of: " +  ', '.join(tags))
         return grph
 
-    def localCiteStats(self):
+    def localCiteStats(self, pandasMode = False):
         """Returns a dict with all the citations in the CR field as keys and the number of time s they occur as the values
+
+        pandasMode makes the output be a dict with two keys one "Citations" is the citations the other is their occurence counts as "Counts".
         """
         citesDict = {}
         for R in self:
@@ -889,39 +891,48 @@ class RecordCollection(object):
                             break
                     if not found:
                          citesDict[c] = 1
-        return citesDict
+        if pandasMode:
+            citeLst = []
+            countLst = []
+            for cite, occ in citesDict.items():
+                citeLst.append(cite)
+                countLst.append(occ)
+            return {"Citations" : citeLst, "Counts" : countLst}
+        else:
+            return citesDict
 
     def localCitesOf(self, rec):
-        """Takes in a Record, WOS string, citation string or Citation and returns a list of all records that cite it
+        """Takes in a Record, WOS string, citation string or Citation and returns a list of all records that cite it.
         """
+        recCite = []
         localCites = []
         if isinstance(rec, Record):
-            rec = rec.createCitation()
+            recCite = rec.createCitation()
         if isinstance(rec, str):
             try:
-                rec = self.getWOS(rec)
+                recCite = self.getWOS(rec)
             except ValueError:
                 try:
-                    rec = Citation(rec)
+                    recCite = Citation(rec)
                 except AttributeError:
-                    raise ValueError("{} is not a valid WOS string or a valid citation string".format(rec))
+                    raise ValueError("{} is not a valid WOS string or a valid citation string".format(recCite))
             else:
-                if rec is None:
-                    return localCites
+                if recCite is None:
+                    return RecordCollection(inCollection = localCites, name = "Records_citing_{}".format(rec))
                 else:
-                    rec = rec.createCitation()
+                    recCite = recCite.createCitation()
         elif isinstance(rec, Citation):
-            pass
+            recCite = rec
         else:
-            raise ValueError("{} is not a vaild input, rec must be a Record, string or Citation object.".format(Rec))
+            raise ValueError("{} is not a vaild input, rec must be a Record, string or Citation object.".format(rec))
         for R in self:
             rCites = R.CR
             if rCites:
                 for cite in rCites:
-                    if rec == cite:
+                    if recCite == cite:
                         localCites.append(R)
                         break
-        return localCites
+        return RecordCollection(inCollection = localCites, name = "Records_citing_'{}'".format(rec))
 
     def citeFilter(self, keyString = '', field = 'all', reverse = False, caseSensitive = False):
         """

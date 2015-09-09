@@ -34,6 +34,14 @@
 
   
     ,{
+      "title"			: "metaknowledge Documentation",
+      "link"			: "http://networkslab.org/docs/docs",
+      "excerpt"		: "the full documentation"
+    }
+  
+
+  
+    ,{
       "title"			: "Contruct a Data Frame",
       "link"			: "http://networkslab.org/examples/dataframe",
       "excerpt"		: "You want to construct a dataset from a folder of Web of Science files."

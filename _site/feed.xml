@@ -4,7 +4,7 @@
 <generator uri="https://github.com/jekyll/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="http://networkslab.org/feed.xml" />
 <link rel="alternate" type="text/html" href="http://networkslab.org" />
-<updated>2015-09-09T01:56:57-04:00</updated>
+<updated>2015-09-09T13:39:26-04:00</updated>
 <id>http://networkslab.org/</id>
 <author>
   <name>John McLevey and Reid McIlroy-Young</name>
@@ -189,6 +189,1203 @@ proident, sunt in culpa qui officia deserunt mollit anim id est laborum.&lt;/p&g
 
 
     &lt;p&gt;&lt;a href=&quot;http://networkslab.org/examples/documentcocitation&quot;&gt;Contruct a Document Co-Citation Network&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on September 04, 2015.&lt;/p&gt;
+  </content>
+</entry>
+
+
+  
+
+<entry>
+  <title type="html"><![CDATA[metaknowledge Documentation]]></title>
+  <link rel="alternate" type="text/html" href="http://networkslab.org/docs/docs" />
+  <id>http://networkslab.org/docs/docs</id>
+  <published>2015-09-04T00:00:00-04:00</published>
+  <updated>2015-09-04T00:00:00-04:00</updated>
+  <author>
+    <name>John McLevey and Reid McIlroy-Young</name>
+    <uri>http://networkslab.org</uri>
+    <email>john.mclevey@uwaterloo.ca</email>
+  </author>
+  <content type="html">
+    &lt;p&gt;&lt;a name=&quot;metaknowledge&quot;&gt;&lt;/a&gt;Doc String for metaknowledge main&lt;/p&gt;
+
+&lt;h2 id=&quot;classes&quot;&gt;Classes&lt;/h2&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.BadCitation&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;BadCitation&lt;/strong&gt;():&lt;/p&gt;
+
+&lt;p&gt;      Exception thrown by Citation&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.BadISIRecord&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;BadISIRecord&lt;/strong&gt;():&lt;/p&gt;
+
+&lt;p&gt;      Exception thrown by the &lt;a href=&quot;#metaknowledge.recordParser&quot;&gt;record parser&lt;/a&gt; to indicate a mis-formated record. This occurs when some component of the record does not parse. The messages will be any of:&lt;/p&gt;
+
+&lt;p&gt;          * &lt;em&gt;Missing field on line (line Number):(line)&lt;/em&gt;, which indicates a line was to short, there should have been a tag followed by information&lt;/p&gt;
+
+&lt;p&gt;          * &lt;em&gt;End of file reached before ER&lt;/em&gt;, which indicates the file ended before the ‘ER’ indicator appeared, ‘ER’ indicates the end of a record. This is often due to a copy and paste error.&lt;/p&gt;
+
+&lt;p&gt;          * &lt;em&gt;Duplicate tags in record&lt;/em&gt;, which indicates the record had 2 or more lines with the same tag.&lt;/p&gt;
+
+&lt;p&gt;          * &lt;em&gt;Missing WOS number&lt;/em&gt;, which indicates the record did not have a ‘UT’ tag.&lt;/p&gt;
+
+&lt;p&gt;      Records with a BadISIRecord error are likely incomplete or the combination of two or more single records.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.Citation&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;Citation&lt;/strong&gt;(&lt;em&gt;cite&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      A class to hold citation strings and allow for comparison between them.&lt;/p&gt;
+
+&lt;p&gt;      The initializer takes in a string representing a WOS citation they are in the form:&lt;/p&gt;
+
+&lt;p&gt;             Author, Year, Journal, Volume, Page, DOI&lt;/p&gt;
+
+&lt;p&gt;      Author is the author’s name in the form of first last name first initial sometimes followed by a period.
+      Year is the year of publication.
+      Journal being the 29-Character Source Abbreviation of the journal.
+      Volume is the volume number(s) of the publication preceded by a V
+      Page is the page number the record starts on
+      DOI is the DOI number of the cited record preceeded by the letters “DOI”
+      Combined they look like:&lt;/p&gt;
+
+&lt;p&gt;             Nunez R., 1998, MATH COGNITION, V4, P85, DOI 10.1080/135467998387343&lt;/p&gt;
+
+&lt;p&gt;      Note that any of the fields have been known to be missing and the requirements for the fields are not always met. If something is in the source string that cannot be interpeted as any of these it is put in the &lt;code&gt;misc&lt;/code&gt; attribute.&lt;/p&gt;
+
+&lt;p&gt;      The reason for this class is that the WOS data are often irregular. It is designed to allow comparison between WOS citation strings, even when they are missing pieces.&lt;/p&gt;
+
+&lt;h5 id=&quot;nbspnbspnbsp-customizations&quot;&gt;    Customizations&lt;/h5&gt;
+
+&lt;p&gt;      Citation’s hashing and equality checking are based on what data they have. The equality checking first checks both Citation’s DOI’s and if either is missing moves to the other fields. If any of the fields disagree &lt;code&gt;False&lt;/code&gt; is returned (note, authors are not compared if one is anonymous) if they all agree, including the &lt;code&gt;misc&lt;/code&gt; field, then True is returned.&lt;/p&gt;
+
+&lt;p&gt;      Unfortunately this type of equality checking precludes hashes being identical so to compare Citation objects always use ==. Hashes, if identical, indicate the Citations are identical (excluding collisions), but the converse is not True.&lt;/p&gt;
+
+&lt;p&gt;      When converted to a string a Citation will return the original string.&lt;/p&gt;
+
+&lt;h5 id=&quot;nbspnbspnbsp-attributes&quot;&gt;    Attributes&lt;/h5&gt;
+
+&lt;p&gt;      As noted above, citations are considered to be divided into six distinct fields (Author, Year, Journal, Volume, Page and DOI) with a seventh misc for anything not in those. Records thus have an attribute with a name corresponding to each &lt;code&gt;author&lt;/code&gt;, &lt;code&gt;year&lt;/code&gt;, &lt;code&gt;journal&lt;/code&gt;, &lt;code&gt;V&lt;/code&gt;, &lt;code&gt;P&lt;/code&gt;, &lt;code&gt;DOI&lt;/code&gt; and &lt;code&gt;misc&lt;/code&gt; respectively. These are created if there is anything in the field. So a Citation created from the string: “Nunez R., 1998, MATH COGNITION” would have &lt;code&gt;author&lt;/code&gt;, &lt;code&gt;year&lt;/code&gt; and &lt;code&gt;journal&lt;/code&gt; defined. While one from “Nunez R.” would have only the attribute &lt;code&gt;misc&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;      If the parsing of a citation string fails the attribute &lt;code&gt;bad&lt;/code&gt; is set to True and the attribute &lt;code&gt;error&lt;/code&gt; is created to contain the error, which is a &lt;a href=&quot;#metaknowledge.BadCitation&quot;&gt;BadCitation&lt;/a&gt; object. If no errors occur &lt;code&gt;bad&lt;/code&gt; is &lt;code&gt;False&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;      The attribute &lt;code&gt;original&lt;/code&gt; is the unmodified string (&lt;em&gt;cite&lt;/em&gt;) given to create the Citation, it can also be accessed by converting to a string, e.g. with &lt;code&gt;str()&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h5 id=&quot;nbspnbspnbsp-init&quot;&gt;    __Init__&lt;/h5&gt;
+
+&lt;p&gt;      Citations can be created by &lt;a href=&quot;#metaknowledge.Record&quot;&gt;Records&lt;/a&gt; or by giving the initializer a string containing a WOS style citation.&lt;/p&gt;
+
+&lt;h5 id=&quot;nbspnbspnbsp-parameters&quot;&gt;    Parameters&lt;/h5&gt;
+
+&lt;p&gt;      &lt;em&gt;cite&lt;/em&gt; : &lt;code&gt;str&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             A str containing a WOS style citation.&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&quot;Citation.addToDB&quot;&gt;&lt;/a&gt;Citation.&lt;strong&gt;addToDB&lt;/strong&gt;(&lt;em&gt;manualName=None, manaulDB=’manualj9Abbreviations’, invert=False&lt;/em&gt;):&lt;/p&gt;
+
+&lt;h1 id=&quot;needs-to-be-written&quot;&gt;Needs to be written&lt;/h1&gt;
+
+&lt;p&gt;&lt;a name=&quot;Citation.getExtra&quot;&gt;&lt;/a&gt;Citation.&lt;strong&gt;getExtra&lt;/strong&gt;():&lt;/p&gt;
+
+&lt;p&gt;      Returns any V, P or misc values as a string. These are all the values not returned by &lt;a href=&quot;#Citation.getID&quot;&gt;&lt;code&gt;getID()&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h5 id=&quot;nbspnbspnbsp-returns&quot;&gt;    Returns&lt;/h5&gt;
+
+&lt;p&gt;      &lt;code&gt;str&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             A string containing the data not in the ID of the Citation.
+      &lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&quot;Citation.getFullJournalName&quot;&gt;&lt;/a&gt;Citation.&lt;strong&gt;getFullJournalName&lt;/strong&gt;():&lt;/p&gt;
+
+&lt;p&gt;      Returns the full name of the Citation’s journal field. Requires the j9Abbreviations database file.&lt;/p&gt;
+
+&lt;h5 id=&quot;nbspnbspnbsp-returns-1&quot;&gt;    Returns&lt;/h5&gt;
+
+&lt;p&gt;      &lt;code&gt;str&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             The first full name given for the journal of the Citation (or the first name in the WOS list if multiple names exist), if there is not one then &lt;code&gt;None&lt;/code&gt; is returned&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&quot;Citation.getID&quot;&gt;&lt;/a&gt;Citation.&lt;strong&gt;getID&lt;/strong&gt;():&lt;/p&gt;
+
+&lt;p&gt;      Returns “author, year, journal” if available and “misc” otherwise. It is for shortening labels when creating networks as the resultant strings are often unique. &lt;a href=&quot;#Citation.getExtra&quot;&gt;&lt;code&gt;getExtra()&lt;/code&gt;&lt;/a&gt; gets everthing not returned by &lt;code&gt;getID()&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h5 id=&quot;nbspnbspnbsp-returns-2&quot;&gt;    Returns&lt;/h5&gt;
+
+&lt;p&gt;      &lt;code&gt;str&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             A string to use as the shortened ID of a node.&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&quot;Citation.isAnonymous&quot;&gt;&lt;/a&gt;Citation.&lt;strong&gt;isAnonymous&lt;/strong&gt;():&lt;/p&gt;
+
+&lt;p&gt;      Checks if the author is given as “[ANONYMOUS]” and returns &lt;code&gt;True&lt;/code&gt; if so.&lt;/p&gt;
+
+&lt;h5 id=&quot;nbspnbspnbsp-returns-3&quot;&gt;    Returns&lt;/h5&gt;
+
+&lt;p&gt;      &lt;code&gt;bool&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             True if the author is ANONYMOUS otherwise &lt;code&gt;False&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&quot;Citation.isJournal&quot;&gt;&lt;/a&gt;Citation.&lt;strong&gt;isJournal&lt;/strong&gt;(&lt;em&gt;manaulDB=’manualj9Abbreviations’, returnDict=’both’, checkIfExcluded=False&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      Returns &lt;code&gt;True&lt;/code&gt; if the Citation’s journal field is a journal abbreviation given by WOS, i.e. checks if the citation is citing a journal. Requires the j9Abbreviations database file.&lt;/p&gt;
+
+&lt;h5 id=&quot;nbspnbspnbsp-returns-4&quot;&gt;    Returns&lt;/h5&gt;
+
+&lt;p&gt;      &lt;code&gt;bool&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             &lt;code&gt;True&lt;/code&gt; if the Citation is for a journal&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.Record&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;Record&lt;/strong&gt;(&lt;em&gt;inRecord, taglist=(), sFile=’’, sLine=0&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      Class for full WOS records&lt;/p&gt;
+
+&lt;p&gt;      It is meant to be immutable; many of the methods and attributes are evaluated when first called, not when the object is created, and the results are stored in a private dictionary.&lt;/p&gt;
+
+&lt;p&gt;      The record’s meta-data is stored in an ordered dictionary labeled by WOS tags. To access the raw data stored in the original record the &lt;a href=&quot;#Record.getTag&quot;&gt;getTag()&lt;/a&gt; method can be used. To access data that has been processed and cleaned the attributes named after the tags are used.&lt;/p&gt;
+
+&lt;h5 id=&quot;nbspnbspnbsp-customizations-1&quot;&gt;    Customizations&lt;/h5&gt;
+
+&lt;p&gt;      The Record’s hashing and equality testing are based on the WOS number (the tag is ‘UT’, and also called the accession number). They are strings starting with “WOS:” and followed by 15 or so numbers and letters, although both the length and character set are known to vary. The numbers are unique to each record so are used for comparisons. If a record is &lt;code&gt;bad&lt;/code&gt;  all equality checks return &lt;code&gt;False&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;      When converted to a string the records title is used so for a record &lt;code&gt;R&lt;/code&gt;, R.TI == R.title == str(R).&lt;/p&gt;
+
+&lt;h5 id=&quot;nbspnbspnbsp-attributes-1&quot;&gt;    Attributes&lt;/h5&gt;
+
+&lt;p&gt;      When a record is created if the parsing of the WOS file failed it is marked as &lt;code&gt;bad&lt;/code&gt;. The &lt;code&gt;bad&lt;/code&gt; attribute is set to True and the &lt;code&gt;error&lt;/code&gt; attribute is created to contain the exception object.&lt;/p&gt;
+
+&lt;p&gt;      Generally, to get the information from a Record its attributes should be used. For a Record &lt;code&gt;R&lt;/code&gt;, calling &lt;code&gt;R.CR&lt;/code&gt; causes &lt;a href=&quot;#metaknowledge.tagFuncs.citations&quot;&gt;citations()&lt;/a&gt; from the the &lt;a href=&quot;#metaknowledge.tagFuncs&quot;&gt;tagFuncs&lt;/a&gt; module to be called on the contents of the raw ‘CR’ field. Then the result is saved and returned. In this case, a list of Citation objects is returned. You can also call &lt;code&gt;R.citations&lt;/code&gt; to get the same effect, as each known field tag has a longer name (currently there are 61 field tags). These names are meant to make accessing tags more readable and mapping from tag to name can be found in the tagToFull dict. If a tag is known (in &lt;a href=&quot;#metaknowledge&quot;&gt;tagToFull&lt;/a&gt;) but not in the raw data &lt;code&gt;None&lt;/code&gt; is returned instead. Most tags when cleaned return a string or list of strings, the exact results can be found in the help for the particular function.&lt;/p&gt;
+
+&lt;p&gt;      The attribute &lt;code&gt;authors&lt;/code&gt; is also defined as a convience and returns the same as ‘AF’ or if that is not found ‘AU’.&lt;/p&gt;
+
+&lt;h5 id=&quot;nbspnbspnbsp-init-1&quot;&gt;    __Init__&lt;/h5&gt;
+
+&lt;p&gt;      Records are generally create as collections in  &lt;a href=&quot;#metaknowledge.RecordCollection&quot;&gt;Recordcollections&lt;/a&gt;, and not as individual objects. If you wish to create one on its own it is possible, the arguments are as follows.&lt;/p&gt;
+
+&lt;h5 id=&quot;nbspnbspnbsp-parameters-1&quot;&gt;    Parameters&lt;/h5&gt;
+
+&lt;p&gt;      &lt;em&gt;inRecord&lt;/em&gt;: &lt;code&gt;files stream, dict, str or itertools.chain&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             If it is a file stream the file must be open at the location of the first tag in the record, usually ‘PT’, and the file will be read until ‘ER’ is found, which indicates the end of the record in the file.&lt;/p&gt;
+
+&lt;p&gt;             If a dict is passed the dictionary is used as the database of fields and tags, so each key is considered a WOS tag and each value a list of the lines of the original associated with the tag. This is the same form of dict that &lt;a href=&quot;#metaknowledge.recordParser&quot;&gt;recordParser&lt;/a&gt; returns.&lt;/p&gt;
+
+&lt;p&gt;             For a str the input is the raw textual data of a single record in the WOS style, like the file stream it must start at the first tag and end in ‘ER’.&lt;/p&gt;
+
+&lt;p&gt;             itertools.chain is treated identically to a file stream and is used by &lt;a href=&quot;#metaknowledge.RecordCollection&quot;&gt;RecordCollections&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;      &lt;em&gt;sFile&lt;/em&gt; : &lt;code&gt;optional [str]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             Is the name of the file the raw data was in, by default it is blank. It is mostly used to make error messages more informative.&lt;/p&gt;
+
+&lt;p&gt;      &lt;em&gt;sLine&lt;/em&gt; : &lt;code&gt;optional [int]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             Is the line the record starts on in the raw data file. It is mostly used to make error messages more informative.&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&quot;Record.activeTags&quot;&gt;&lt;/a&gt;Record.&lt;strong&gt;activeTags&lt;/strong&gt;():&lt;/p&gt;
+
+&lt;p&gt;      Returns a list of all the tags the original WOS record had. These are all the tags that &lt;a href=&quot;#Record.getTag&quot;&gt;‘getTag()’&lt;/a&gt; will not return &lt;code&gt;None&lt;/code&gt; for.&lt;/p&gt;
+
+&lt;h5 id=&quot;nbspnbspnbsp-returns-5&quot;&gt;    Returns&lt;/h5&gt;
+
+&lt;p&gt;      &lt;code&gt;List[str]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             a list of WOS tags in the Record&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&quot;Record.createCitation&quot;&gt;&lt;/a&gt;Record.&lt;strong&gt;createCitation&lt;/strong&gt;():&lt;/p&gt;
+
+&lt;p&gt;      Creates a citation string, using the same format as other WOS citations, for the &lt;a href=&quot;#metaknowledge.Record&quot;&gt;Record&lt;/a&gt; by reading the relevant tags (year, J9, volume, beginningPage, DOI) and using it to start a &lt;a href=&quot;#metaknowledge.Citation&quot;&gt;Citation&lt;/a&gt; object.&lt;/p&gt;
+
+&lt;h5 id=&quot;nbspnbspnbsp-returns-6&quot;&gt;    Returns&lt;/h5&gt;
+
+&lt;p&gt;      &lt;code&gt;Citation&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             A &lt;a href=&quot;#metaknowledge.Citation&quot;&gt;Citation&lt;/a&gt; object containing a citation for the Record.&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&quot;Record.getTag&quot;&gt;&lt;/a&gt;Record.&lt;strong&gt;getTag&lt;/strong&gt;(&lt;em&gt;tag, clean=False&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      Returns a list containing the raw data of the record associated with &lt;em&gt;tag&lt;/em&gt;. Each line of the record is one string in the list.&lt;/p&gt;
+
+&lt;h5 id=&quot;nbspnbspnbsp-parameters-2&quot;&gt;    Parameters&lt;/h5&gt;
+
+&lt;p&gt;      &lt;em&gt;tag&lt;/em&gt; : &lt;code&gt;str&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             &lt;em&gt;tag&lt;/em&gt; can be a two character string corresponding to a WOS tag e.g. ‘J9’, the matching is case insensitive so ‘j9’ is the same as ‘J9’. Or it can be one of the full names for a tag with the mappings in &lt;a href=&quot;#metaknowledge&quot;&gt;fullToTag&lt;/a&gt;. If the string is not found in the original record or after being translated through &lt;a href=&quot;#metaknowledge&quot;&gt;fullToTag&lt;/a&gt;, &lt;code&gt;None&lt;/code&gt; is returned.&lt;/p&gt;
+
+&lt;h5 id=&quot;nbspnbspnbsp-returns-7&quot;&gt;    Returns&lt;/h5&gt;
+
+&lt;p&gt;      &lt;code&gt;List [str]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             Each string in the list is a line from the record associated with &lt;em&gt;tag&lt;/em&gt; or None if not found.&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&quot;Record.getTagsDict&quot;&gt;&lt;/a&gt;Record.&lt;strong&gt;getTagsDict&lt;/strong&gt;(&lt;em&gt;taglst, cleaned=False&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns a dict of the results of getTag, with the elements of &lt;em&gt;taglst&lt;/em&gt; as the keys and the results as the values.&lt;/p&gt;
+
+&lt;h5 id=&quot;nbspnbspnbsp-parameters-3&quot;&gt;    Parameters&lt;/h5&gt;
+&lt;p&gt;      &lt;em&gt;taglst&lt;/em&gt; : &lt;code&gt;List[str]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             Each string in &lt;em&gt;taglst&lt;/em&gt; can be a two character string corresponding to a WOS tag e.g. ‘J9’, the matching is case insensitive so ‘j9’ is the same as ‘J9’. Or it can be one of the full names for a tag with the mappings in &lt;a href=&quot;#metaknowledge&quot;&gt;fullToTag&lt;/a&gt;. If the string is not found in the oriagnal record before or after being translated through &lt;a href=&quot;#metaknowledge&quot;&gt;fullToTag&lt;/a&gt;, &lt;code&gt;None&lt;/code&gt; is used instead. Same as in &lt;a href=&quot;#Record.getTag&quot;&gt;&lt;code&gt;getTag()&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h5 id=&quot;nbspnbspnbsp-returns-8&quot;&gt;    Returns&lt;/h5&gt;
+
+&lt;p&gt;      &lt;code&gt;dict[str : List [str]]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             a dictionary with keys as the original tags in &lt;em&gt;taglst&lt;/em&gt; and the values as the results&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&quot;Record.getTagsList&quot;&gt;&lt;/a&gt;Record.&lt;strong&gt;getTagsList&lt;/strong&gt;(&lt;em&gt;taglst, cleaned=False&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      Returns a list of the results of &lt;a href=&quot;#Record.getTag&quot;&gt;&lt;code&gt;getTag()&lt;/code&gt;&lt;/a&gt; for each tag in &lt;em&gt;taglist&lt;/em&gt;, the return has the same order as the original.&lt;/p&gt;
+
+&lt;h5 id=&quot;nbspnbspnbsp-parameters-4&quot;&gt;    Parameters&lt;/h5&gt;
+&lt;p&gt;      &lt;em&gt;taglst&lt;/em&gt; : &lt;code&gt;List[str]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             Each string in &lt;em&gt;taglst&lt;/em&gt; can be a two character string corresponding to a WOS tag e.g. ‘J9’, the matching is case insensitive so ‘j9’ is the same as ‘J9’. Or it can be one of the full names for a tag with the mappings in &lt;a href=&quot;#metaknowledge&quot;&gt;fullToTag&lt;/a&gt;. If the string is not found in the original record before or after being translated through &lt;a href=&quot;#metaknowledge&quot;&gt;fullToTag&lt;/a&gt;, &lt;code&gt;None&lt;/code&gt; is used instead. Same as in &lt;a href=&quot;#Record.getTag&quot;&gt;&lt;code&gt;getTag()&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;             Then they are compiled into a list in the same order as &lt;em&gt;taglst&lt;/em&gt;&lt;/p&gt;
+
+&lt;h5 id=&quot;nbspnbspnbsp-returns-9&quot;&gt;    Returns&lt;/h5&gt;
+
+&lt;p&gt;      &lt;code&gt;List[str]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             a list of the values for each tag in &lt;em&gt;taglst&lt;/em&gt;, in the same order&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&quot;Record.writeRecord&quot;&gt;&lt;/a&gt;Record.&lt;strong&gt;writeRecord&lt;/strong&gt;(&lt;em&gt;infile&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      Writes to &lt;em&gt;infile&lt;/em&gt; the original contents of the Record. This is intended for use by &lt;a href=&quot;#metaknowledge.RecordCollection&quot;&gt;RecordCollections&lt;/a&gt; to write to file. What is written to &lt;em&gt;infile&lt;/em&gt; is bit for bit identical to the original record file. No newline is inserted above the write but the last character is a newline.&lt;/p&gt;
+
+&lt;h5 id=&quot;nbspnbspnbsp-parameters-5&quot;&gt;    Parameters&lt;/h5&gt;
+
+&lt;p&gt;      &lt;em&gt;infile&lt;/em&gt; : &lt;code&gt;file stream&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             An open utf-8 encoded file&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.RecordCollection&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;RecordCollection&lt;/strong&gt;(&lt;em&gt;inCollection=None, name=’’, extension=’‘&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      A way of containing a large number of Record objects, it provides ways of creating them from an isi file, string, list of records or directory containing isi files. The Records are containing within a set and as such many of the set operations are defined, pop, union, in … also records are hashed with their WOS string so no duplication can occur.
+      The comparison operators &amp;lt;, &amp;lt;=, &amp;gt;, &amp;gt;= are based strictly on the number of Records within the collection, while equality looks for an exact match on the Records&lt;/p&gt;
+
+&lt;p&gt;      When being created if there are issues the Record collection will be declared bad (self.bad = True) it will then mostly return nothing or False. The error attribute contains the exception that occurred.&lt;/p&gt;
+
+&lt;p&gt;      They also possess a name accessed with repr(), this is used to auto generate the names of files and can be set at creation, note though that any operations that modify the RecordCollection’s contents will update the name to include what occurred, read &lt;strong&gt;repr&lt;/strong&gt;’s doc string for more information&lt;/p&gt;
+
+&lt;p&gt;      inCollection is the object containing the information about the Records to be constructed it can be an isi file, string, list of records or directory containing isi files&lt;/p&gt;
+
+&lt;p&gt;      name sets the name of the of the record if left blank name will be generated based on the object that created the Recordcollection&lt;/p&gt;
+
+&lt;p&gt;      extension controls the extension that &lt;strong&gt;init&lt;/strong&gt; looks for when reading a directory, set it to the extension on the isi files you wish to load, if left blank all files will be tried and any that are not isi files will be silently skipped&lt;/p&gt;
+
+&lt;h5 id=&quot;nbspnbspnbsp-init-2&quot;&gt;    __Init__&lt;/h5&gt;
+
+&lt;p&gt;      RecordCollections are made from either a single file or directory supplied as &lt;em&gt;inCollection&lt;/em&gt;.&lt;/p&gt;
+
+&lt;h5 id=&quot;nbspnbspnbsp-parameters-6&quot;&gt;    Parameters&lt;/h5&gt;
+
+&lt;p&gt;      &lt;em&gt;inCollection&lt;/em&gt; : &lt;code&gt;optional [str] or None&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             the name of the source of WOS records. It can be skipped to produce an empty collection.&lt;/p&gt;
+
+&lt;p&gt;             If a file is provided. First it is checked to see if it is a WOS file (the header is checked). Then records are read from it one by one until the ‘EF’ string is found indicating the end of the file.&lt;/p&gt;
+
+&lt;p&gt;             If a directory is provided. First each file in the directory is checked for the correct header and all those that do are then read like indivual files. The records are then collected into a single set in the RecordCollection.&lt;/p&gt;
+
+&lt;p&gt;      &lt;em&gt;name&lt;/em&gt; : &lt;code&gt;optional [str]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             The name of the RecordCollection, defaults to empty string. If left empty the name of the Record collection is set to the name of the file or directory used to create the collection. If provided the name id set to &lt;em&gt;name&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;      &lt;em&gt;extension&lt;/em&gt; : &lt;code&gt;optional [str]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             The extension to search for when reading a directoy for files. &lt;em&gt;extension&lt;/em&gt; is the suffix searched for when a direcorty is read for files, by default it is empty so all files are read.&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&quot;RecordCollection.citationNetwork&quot;&gt;&lt;/a&gt;RecordCollection.&lt;strong&gt;citationNetwork&lt;/strong&gt;(&lt;em&gt;dropAnon=True, nodeType=’full’, extraInfo=False, weighted=True, dropNonJournals=False, saveJournalNames=False&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      Creates a citation network for the RecordCollection.&lt;/p&gt;
+
+&lt;h5 id=&quot;nbspnbspnbsp-parameters-7&quot;&gt;    Parameters&lt;/h5&gt;
+
+&lt;p&gt;      &lt;em&gt;dropAnon&lt;/em&gt; : &lt;code&gt;optional [bool]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             default &lt;code&gt;True&lt;/code&gt;, if &lt;code&gt;True&lt;/code&gt; citations labeled anonymous are removed from the network&lt;/p&gt;
+
+&lt;p&gt;      &lt;em&gt;authorship&lt;/em&gt; : &lt;code&gt;optional [bool]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             default &lt;code&gt;False&lt;/code&gt;, wether to use author’s names as the node ID or the whole citations, if &lt;code&gt;True&lt;/code&gt; names are used if &lt;code&gt;False&lt;/code&gt; hashes are used&lt;/p&gt;
+
+&lt;p&gt;      &lt;em&gt;extraInfo&lt;/em&gt; : &lt;code&gt;optional [bool]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             default &lt;code&gt;True&lt;/code&gt;, wether the original citation string is added to the node as an extra value, if &lt;code&gt;True&lt;/code&gt; it is&lt;/p&gt;
+
+&lt;p&gt;      &lt;em&gt;weighted&lt;/em&gt; : &lt;code&gt;optional [bool]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             default &lt;code&gt;True&lt;/code&gt;, wether the edges are weighted. If &lt;code&gt;True&lt;/code&gt; the edges are weighted by the number of citations.&lt;/p&gt;
+
+&lt;p&gt;      &lt;em&gt;dropNonJournals&lt;/em&gt; : &lt;code&gt;optional [bool]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             default &lt;code&gt;False&lt;/code&gt;, wether to drop ciations of non-journals&lt;/p&gt;
+
+&lt;p&gt;      &lt;em&gt;saveJournalNames&lt;/em&gt; : &lt;code&gt;optional [bool]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             default &lt;code&gt;False&lt;/code&gt;, wether to save the full name of the journals of citations. Citations missing a journal will have the string “None”, use with &lt;em&gt;dropNonJournals&lt;/em&gt; to avoid this&lt;/p&gt;
+
+&lt;h5 id=&quot;nbspnbspnbsp-returns-10&quot;&gt;    Returns&lt;/h5&gt;
+
+&lt;p&gt;      &lt;code&gt;Networkx DiGraph&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             A networkx digraph with hashes as ID and citations as edges&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&quot;RecordCollection.citeFilter&quot;&gt;&lt;/a&gt;RecordCollection.&lt;strong&gt;citeFilter&lt;/strong&gt;(&lt;em&gt;keyString=’’, field=’all’, reverse=False, caseSensitive=False&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      Filters Records by some string, keyString, in all of their citations.
+      Returns all Records with at least one citation possessing keyString in the field given by field.&lt;/p&gt;
+
+&lt;p&gt;      keyString give the string to be searched for if it is is blank then all citations with the specified field will be matched&lt;/p&gt;
+
+&lt;p&gt;      field give the component of the citation to be looked at, it is one of a few strings. The default is ‘all’ which will cause the entire original citation to be searched. It can be used to search across fields, e.g. ‘1970, V2’ is a valid keystring
+      The other options are:
+      author, searches the author field
+      year, searches the year field
+      journal, searches the journal field
+      V, searches the volume field
+      P, searches the page field
+      misc, searches all the remaining uncategorized information
+      anonymous, searches for anonymous citations, keyString is not used
+      bad, searches for bad citations, keyString is not used&lt;/p&gt;
+
+&lt;p&gt;      reverse being True causes all Records not matching the query to be returned, default is False&lt;/p&gt;
+
+&lt;p&gt;      caseSensitive if True causes the search across the original to be case sensitive, only the ‘all’ option can be case sensitive&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&quot;RecordCollection.coAuthNetwork&quot;&gt;&lt;/a&gt;RecordCollection.&lt;strong&gt;coAuthNetwork&lt;/strong&gt;():&lt;/p&gt;
+
+&lt;p&gt;      Creates a coauthorship network for the RecordCollection.&lt;/p&gt;
+
+&lt;h5 id=&quot;nbspnbspnbsp-returns-11&quot;&gt;    Returns&lt;/h5&gt;
+
+&lt;p&gt;      &lt;code&gt;Networkx Graph&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             A networkx graph with author names as nodes and collaborations as edges.&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&quot;RecordCollection.coCiteNetwork&quot;&gt;&lt;/a&gt;RecordCollection.&lt;strong&gt;coCiteNetwork&lt;/strong&gt;(&lt;em&gt;dropAnon=True, nodeType=’full’, nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      Creates a co-citation network for the RecordCollection.&lt;/p&gt;
+
+&lt;h5 id=&quot;nbspnbspnbsp-parameters-8&quot;&gt;    Parameters&lt;/h5&gt;
+
+&lt;p&gt;      &lt;em&gt;dropAnon&lt;/em&gt; : &lt;code&gt;optional [bool]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             default &lt;code&gt;True&lt;/code&gt;, if &lt;code&gt;True&lt;/code&gt; citations labeled anonymous are removed from the network&lt;/p&gt;
+
+&lt;p&gt;      _nodeType : &lt;code&gt;optional [str]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             default &lt;code&gt;Full&lt;/code&gt;, can alos be “original”, “author”, “journal” or “year”&lt;/p&gt;
+
+&lt;p&gt;      &lt;em&gt;extraInfo&lt;/em&gt; : &lt;code&gt;optional [bool]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             default &lt;code&gt;True&lt;/code&gt;, wether the original citation string is added to the node as an extra value, if &lt;code&gt;True&lt;/code&gt; it is&lt;/p&gt;
+
+&lt;p&gt;      &lt;em&gt;weighted&lt;/em&gt; : &lt;code&gt;optional [bool]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             default &lt;code&gt;True&lt;/code&gt;, wether the edges are weighted. If &lt;code&gt;True&lt;/code&gt; the edges are weighted by the number of occurrences of the co-citation.&lt;/p&gt;
+
+&lt;p&gt;      &lt;em&gt;dropNonJournals&lt;/em&gt; : &lt;code&gt;optional [bool]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             default &lt;code&gt;False&lt;/code&gt;, wether to drop ciations of non-journals&lt;/p&gt;
+
+&lt;p&gt;      &lt;em&gt;saveJournalNames&lt;/em&gt; : &lt;code&gt;optional [bool]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             default &lt;code&gt;False&lt;/code&gt;, wether to save the full name of the journals of citations. Citations missing a journal will have the string “None”, use with &lt;em&gt;dropNonJournals&lt;/em&gt; to avoid this&lt;/p&gt;
+
+&lt;h5 id=&quot;nbspnbspnbsp-returns-12&quot;&gt;    Returns&lt;/h5&gt;
+
+&lt;p&gt;      &lt;code&gt;Networkx Graph&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             A networkx graph with hashes as ID and co-citation as edges&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&quot;RecordCollection.dropBadRecords&quot;&gt;&lt;/a&gt;RecordCollection.&lt;strong&gt;dropBadRecords&lt;/strong&gt;():&lt;/p&gt;
+
+&lt;p&gt;      Removes all Records with bad attributes == True from the collection&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&quot;RecordCollection.dropNonJournals&quot;&gt;&lt;/a&gt;RecordCollection.&lt;strong&gt;dropNonJournals&lt;/strong&gt;(&lt;em&gt;ptVal=’J’, dropBad=True, invert=False&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      Drops the non journal type Records from the collection&lt;/p&gt;
+
+&lt;h5 id=&quot;nbspnbspnbsp-parameters-9&quot;&gt;    Parameters&lt;/h5&gt;
+
+&lt;p&gt;      &lt;em&gt;ptVal&lt;/em&gt; : &lt;code&gt;optional [str]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             The value of the PT tag to be kept, default is ‘J’ the journal tag&lt;/p&gt;
+
+&lt;p&gt;      &lt;em&gt;dropBad&lt;/em&gt; : &lt;code&gt;optional [bool]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             Determines if bad Records will be dropped as well, default &lt;code&gt;True&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;      &lt;em&gt;invert&lt;/em&gt; : &lt;code&gt;optional [bool]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             Set &lt;code&gt;True&lt;/code&gt; to drop journals (or the PT tag given by &lt;em&gt;ptVal) instead of keeping them. Note, it still drops bad Records if _dropBad&lt;/em&gt; is &lt;code&gt;True&lt;/code&gt;, default &lt;code&gt;False&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&quot;RecordCollection.dropWOS&quot;&gt;&lt;/a&gt;RecordCollection.&lt;strong&gt;dropWOS&lt;/strong&gt;(&lt;em&gt;wosNum&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      Removes the Record with WOS number (ID number) &lt;em&gt;wosNum&lt;/em&gt;&lt;/p&gt;
+
+&lt;h5 id=&quot;nbspnbspnbsp-parameters-10&quot;&gt;    Parameters&lt;/h5&gt;
+
+&lt;p&gt;      &lt;em&gt;wosNum&lt;/em&gt; : &lt;code&gt;str&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             &lt;em&gt;wosNum&lt;/em&gt; is the WOS number of the Record to be dropped. &lt;em&gt;wosNum&lt;/em&gt; must begin with ‘WOS:’ or a valueError is raise.&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&quot;RecordCollection.extractTagged&quot;&gt;&lt;/a&gt;RecordCollection.&lt;strong&gt;extractTagged&lt;/strong&gt;(&lt;em&gt;taglist&lt;/em&gt;):&lt;/p&gt;
+
+&lt;h1 id=&quot;needs-to-be-written-1&quot;&gt;Needs to be written&lt;/h1&gt;
+
+&lt;p&gt;&lt;a name=&quot;RecordCollection.getBadRecords&quot;&gt;&lt;/a&gt;RecordCollection.&lt;strong&gt;getBadRecords&lt;/strong&gt;():&lt;/p&gt;
+
+&lt;p&gt;      returns RecordCollection containing all the Record which have their bad flag set to True, i.e. all those removed by dropBadRecords()&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&quot;RecordCollection.getWOS&quot;&gt;&lt;/a&gt;RecordCollection.&lt;strong&gt;getWOS&lt;/strong&gt;(&lt;em&gt;wosNum, drop=False&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      Gets the Record from the collection by its WOS number.&lt;/p&gt;
+
+&lt;h5 id=&quot;nbspnbspnbsp-parameters-11&quot;&gt;    Parameters&lt;/h5&gt;
+
+&lt;p&gt;      &lt;em&gt;wosNum&lt;/em&gt; : &lt;code&gt;str&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             &lt;em&gt;wosNum&lt;/em&gt; is the WOS number of the Record to be extracted. &lt;em&gt;wosNum&lt;/em&gt; must begin with ‘WOS:’ or a valueError is raise.&lt;/p&gt;
+
+&lt;p&gt;      &lt;em&gt;drop&lt;/em&gt; : &lt;code&gt;optional [bool]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             Default &lt;code&gt;False&lt;/code&gt;. If &lt;code&gt;True&lt;/code&gt; the Record is dropped from the collection after being extract, i.e. if &lt;code&gt;False&lt;/code&gt; &lt;a href=&quot;#RecordCollection.getWOS&quot;&gt;getWOS()&lt;/a&gt; acts like &lt;a href=&quot;#RecordCollection.peak&quot;&gt;peak()&lt;/a&gt;, if &lt;code&gt;True&lt;/code&gt; it acts like &lt;a href=&quot;#RecordCollection.pop&quot;&gt;pop()&lt;/a&gt;&lt;/p&gt;
+
+&lt;h5 id=&quot;nbspnbspnbsp-returns-13&quot;&gt;    Returns&lt;/h5&gt;
+
+&lt;p&gt;      &lt;code&gt;metaknowledge.Record&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             The Record whose WOS number is &lt;em&gt;wosNum&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&quot;RecordCollection.makeDict&quot;&gt;&lt;/a&gt;RecordCollection.&lt;strong&gt;makeDict&lt;/strong&gt;(&lt;em&gt;onlyTheseTags=None, longNames=False, cleanedVal=True&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      Returns a dict with each key a tag and the values being lists of the values for each of the Records in the collection, &lt;code&gt;None&lt;/code&gt; is given when there is no value and they are in the same order across each tag.&lt;/p&gt;
+
+&lt;p&gt;      When used in pandas: &lt;code&gt;pandas.DataFrame(RC.makeDict())&lt;/code&gt; returns a data frame with each column a tag and each row a Record.&lt;/p&gt;
+
+&lt;h5 id=&quot;nbspnbspnbsp-parameters-12&quot;&gt;    Parameters&lt;/h5&gt;
+
+&lt;p&gt;      See writeCSV()&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&quot;RecordCollection.nModeNetwork&quot;&gt;&lt;/a&gt;RecordCollection.&lt;strong&gt;nModeNetwork&lt;/strong&gt;(&lt;em&gt;tags, recordType=True, nodeCount=True, edgeWeight=True&lt;/em&gt;):&lt;/p&gt;
+
+&lt;h1 id=&quot;needs-to-be-written-2&quot;&gt;Needs to be written&lt;/h1&gt;
+
+&lt;p&gt;&lt;a name=&quot;RecordCollection.oneModeNetwork&quot;&gt;&lt;/a&gt;RecordCollection.&lt;strong&gt;oneModeNetwork&lt;/strong&gt;(&lt;em&gt;mode, nodeCount=True, edgeWeight=True&lt;/em&gt;):&lt;/p&gt;
+
+&lt;h1 id=&quot;needs-to-be-written-3&quot;&gt;Needs to be written&lt;/h1&gt;
+
+&lt;p&gt;&lt;a name=&quot;RecordCollection.peak&quot;&gt;&lt;/a&gt;RecordCollection.&lt;strong&gt;peak&lt;/strong&gt;():&lt;/p&gt;
+
+&lt;p&gt;      Returns a random Record from the recordCollection, the Record is kept in the collection, use pop for faster destructive access&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&quot;RecordCollection.pop&quot;&gt;&lt;/a&gt;RecordCollection.&lt;strong&gt;pop&lt;/strong&gt;():&lt;/p&gt;
+
+&lt;p&gt;      Returns a random Record from the recordCollection, the Record is deleted from the collection, use peak for nondestructive access&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&quot;RecordCollection.twoModeNetwork&quot;&gt;&lt;/a&gt;RecordCollection.&lt;strong&gt;twoModeNetwork&lt;/strong&gt;(&lt;em&gt;tag1, tag2, directed=False, recordType=True, nodeCount=True, edgeWeight=True&lt;/em&gt;):&lt;/p&gt;
+
+&lt;h1 id=&quot;needs-to-be-written-4&quot;&gt;Needs to be written&lt;/h1&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;a name=&quot;RecordCollection.writeCSV&quot;&gt;&lt;/a&gt;RecordCollection.&lt;strong&gt;writeCSV&lt;/strong&gt;(_fname=None, onlyTheseTags=None, longNames=False, firstTags=[‘UT’, ‘PT’, ‘TI’, ‘AF’, ‘CR’], csvDelimiter=’,’, csvQuote=’”’, listDelimiter=’&lt;/td&gt;
+      &lt;td&gt;‘_):&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;      Writes all the Records from the collection into a csv file with each row a record and each column a tag&lt;/p&gt;
+
+&lt;p&gt;      fname is the name of the file to write to, if none is given it uses the Collections name suffixed by .csv&lt;/p&gt;
+
+&lt;p&gt;      onlyTheseTags lets you specify which tags to use, if not given then all tags in the records are given.
+      If you want to use all known tags the use onlyTheseTags = metaknowledge.knownTagsList&lt;/p&gt;
+
+&lt;p&gt;      longNames if set to True will convert the tags to their longer names, otherwise the short 2 character ones will be used&lt;/p&gt;
+
+&lt;p&gt;      firstTags is the column’s tags, it is set by default to [‘UT’, ‘PT’, ‘TI’, ‘AF’, ‘CR’] so those will be written first if given by onlyTheseTags.
+      Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will override onlyTheseTags&lt;/p&gt;
+
+&lt;p&gt;      csvDelimiter is the delimiter used for the cells of the csv file, default is the comma (,)&lt;/p&gt;
+
+&lt;p&gt;      csvQuote is  the quote character used for the csv, default is the double quote (“)&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;      listDelimiter is the delimiter used between values of the same cell if the tag for that record has multiple outputs, default is the pipe (&lt;/td&gt;
+      &lt;td&gt;)&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;&lt;a name=&quot;RecordCollection.writeFile&quot;&gt;&lt;/a&gt;RecordCollection.&lt;strong&gt;writeFile&lt;/strong&gt;(&lt;em&gt;fname=None&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      Writes the RecordCollection to a file, the written file is identical to those download from WOS. The order of Records written is random.&lt;/p&gt;
+
+&lt;p&gt;      fname set the name of the file, if blank the RecordCollection’s name’s first 200 characters are use with the suffix .isi&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&quot;RecordCollection.yearSplit&quot;&gt;&lt;/a&gt;RecordCollection.&lt;strong&gt;yearSplit&lt;/strong&gt;(&lt;em&gt;startYear, endYear&lt;/em&gt;):&lt;/p&gt;
+
+&lt;h1 id=&quot;needs-to-be-written-5&quot;&gt;Needs to be written&lt;/h1&gt;
+
+&lt;h2 id=&quot;functions&quot;&gt;Functions&lt;/h2&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.blondel&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;blondel&lt;/strong&gt;(&lt;em&gt;G, weightParameter=None, communityParameter=’community’&lt;/em&gt;):&lt;/p&gt;
+
+&lt;h1 id=&quot;needs-to-be-written-6&quot;&gt;Needs to be written&lt;/h1&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.btest&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;btest&lt;/strong&gt;(&lt;em&gt;quite=False&lt;/em&gt;):&lt;/p&gt;
+
+&lt;h1 id=&quot;needs-to-be-written-7&quot;&gt;Needs to be written&lt;/h1&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.drop_edges&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;drop_edges&lt;/strong&gt;(&lt;em&gt;grph, minWeight=-inf, maxWeight=inf, parameterName=’weight’, ignoreUnweighted=False, dropSelfLoops=False&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      Returns a graph with edges whose weight is within the inclusive bounds of minWeight and maxWeight, i.e minWeight &amp;lt;= edges weight &amp;lt;= maxWeight, will throw a Keyerror if the graph is unweighted&lt;/p&gt;
+
+&lt;p&gt;      minWeight and maxWeight default to negative and positive infinity respectively so without specifying either the output should be the input&lt;/p&gt;
+
+&lt;p&gt;      parameterName is key to weight field in the edge’s dictionary, default is weight as that is almost always correct&lt;/p&gt;
+
+&lt;p&gt;      ignoreUnweighted can be set False to suppress the KeyError and make unweighted edges be ignored&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.drop_nodesByCount&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;drop_nodesByCount&lt;/strong&gt;(&lt;em&gt;grph, minCount=-inf, maxCount=inf, parameterName=’count’, ignoreMissing=False&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      Returns a graph whose nodes have a occurrence count that is within inclusive bounds of minCount and maxCount, i.e minCount &amp;lt;= count &amp;lt;= maxCount. Occurrence count is determined by reading the variable associated with the node named parameterName.&lt;/p&gt;
+
+&lt;p&gt;      minCount and maxCount default to negative and positive infinity respectively so without specifying either the output should be the input&lt;/p&gt;
+
+&lt;p&gt;      parameterName is key to count field in the node’s dictionary, default is count as that is often correct&lt;/p&gt;
+
+&lt;p&gt;      ignoreMissing can be set False to suppress the KeyError and make nodes missing counts be dropped instead of throwing errors&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.drop_nodesByDegree&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;drop_nodesByDegree&lt;/strong&gt;(&lt;em&gt;grph, minDegree=-inf, maxDegree=inf, useWeight=True, parameterName=’weight’, ignoreUnweighted=True&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      Returns a graph whose nodes have a degree that is within inclusive bounds of minDegree and maxDegree, i.e minDegree &amp;lt;= degree &amp;lt;= maxDegree. Degree can be determined in two ways by default it is the total number of edges touching a node, alternative if useWeight is True it is the sum of the weight of all the edges touching a node.&lt;/p&gt;
+
+&lt;p&gt;      minDegree and maxDegree default to negative and positive infinity respectively so without specifying either the output should be the input&lt;/p&gt;
+
+&lt;p&gt;      useWeight can be set True to use an alternative method for calculating degree, the total weight of all edges&lt;/p&gt;
+
+&lt;p&gt;      parameterName is key to weight field in the edge’s dictionary, default is weight as that is almost always correct, only used if useWeight is True&lt;/p&gt;
+
+&lt;p&gt;      ignoreUnweighted can be set False to suppress the KeyError and make unweighted edges be not counted, only used if useWeight is True&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.filterNonJournals&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;filterNonJournals&lt;/strong&gt;(&lt;em&gt;citesLst, invert=False&lt;/em&gt;):&lt;/p&gt;
+
+&lt;h1 id=&quot;needs-to-be-written-8&quot;&gt;Needs to be written&lt;/h1&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.graphStats&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;graphStats&lt;/strong&gt;(&lt;em&gt;G, stats=(‘nodes’, ‘edges’, ‘isolates’, ‘loops’, ‘density’, ‘transitivity’), makeString=True&lt;/em&gt;):&lt;/p&gt;
+
+&lt;h1 id=&quot;needs-to-be-written-9&quot;&gt;Needs to be written&lt;/h1&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.isiParser&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;isiParser&lt;/strong&gt;(&lt;em&gt;isifile&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      isiParser() reads the file given by the path isifile, checks that the header is correct then reads until it reaches EF.
+      Each it finds is used to initialize a Record then all Record are returned as a list.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.modularity&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;modularity&lt;/strong&gt;(&lt;em&gt;G, weightParameter=None, communityParameter=’community’&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      Gets modularity of network, currently not tuned&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.read_graph&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;read_graph&lt;/strong&gt;(&lt;em&gt;edgeList, nodeList=None, directed=False, idKey=’ID’, eSource=’From’, eDest=’To’&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      Reads the files given by edgeList and if given nodeList and produces a networkx graph
+      This is designed only for the files produced by metaknowledge and is meant to be the reverse of write_graph()&lt;/p&gt;
+
+&lt;p&gt;      nodeList must be given if any of the attributes of the node are needed
+      directed controls if the resultant graph is directional eSource and eDest control the direction
+      idKey, eSource and  eDest are the labels for the edge’s id, source and destination respectively, they must match headers in the file or a keyError exception will be thrown&lt;/p&gt;
+
+&lt;p&gt;      igraph Style&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.recordParser&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;recordParser&lt;/strong&gt;(&lt;em&gt;paper&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      Reads the file &lt;em&gt;paper&lt;/em&gt; until it reaches ‘ER’.&lt;/p&gt;
+
+&lt;p&gt;      For each field tag it adds an entry to the returned dict with the tag as the key and a list of the entries as the value, the list has each line separately, so for the following string in a record:&lt;/p&gt;
+
+&lt;p&gt;      “AF BREVIK, I&lt;/p&gt;
+
+&lt;p&gt;          ANICIN, B”&lt;/p&gt;
+
+&lt;p&gt;      The entry in the returned dict would be &lt;code&gt;{&#39;AF&#39; : [&quot;BREVIK, I&quot;, &quot;ANICIN, B&quot;]}&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;      &lt;a href=&quot;#metaknowledge.Record&quot;&gt;Record&lt;/a&gt; objects can be created with these dictionaries as the initializer.&lt;/p&gt;
+
+&lt;h5 id=&quot;nbspnbspnbsp-parameters-13&quot;&gt;    Parameters&lt;/h5&gt;
+
+&lt;p&gt;      &lt;em&gt;paper&lt;/em&gt; : &lt;code&gt;file stream&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             An open file, with the current line at the beginning of the record.&lt;/p&gt;
+
+&lt;h5 id=&quot;nbspnbspnbsp-returns-14&quot;&gt;    Returns&lt;/h5&gt;
+
+&lt;p&gt;      &lt;code&gt;dict[str : List[str]]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             A dictionary mapping WOS tags to lists, the lists are of strings, each string is a line of the record associated with the tag.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.write_edgeList&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;write_edgeList&lt;/strong&gt;(&lt;em&gt;grph, name, extraInfo=True, progBar=None&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      writes an edge list of grph with filename name, if extraInfo is true the additional information about the edges, e.g. weight, will be written.
+      All edges must have the same tags&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.write_graph&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;write_graph&lt;/strong&gt;(&lt;em&gt;grph, name, edgeInfo=True, typing=True, suffix=’csv’, overwrite=False&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      Writes both the edge list and the node attribute list of grph.
+      The output files start with name, the file type[edgeList, nodeAttributes] then if typing is True the type of graph (directed or undirected) then the suffix, it appears as follows:
+          name_fileType_Graphtype.suffix
+      If edgeInfo is true the extra information about the edges will be included in their list, i.e. their weight will be given
+      If overwrite is False write_graph will throw an exception if either of the files it is attempting to write exist&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.write_nodeAttributeFile&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;write_nodeAttributeFile&lt;/strong&gt;(&lt;em&gt;grph, name, progBar=None&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      writes a node attribute list of grph with filename name, the first column is the node’s ID then all after it are its associated information.
+      All nodes must have the same tags.&lt;/p&gt;
+
+&lt;h2 id=&quot;a-namemetaknowledgetagfuncsametaknowledgetagfuncs&quot;&gt;&lt;a name=&quot;metaknowledge.tagFuncs&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;tagFuncs&lt;/strong&gt;:&lt;/h2&gt;
+
+&lt;p&gt;      Doc String of tagFuncs&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.tagFuncs.DOI&quot;&gt;&lt;/a&gt;metaknowledge.tagFuncs.&lt;strong&gt;DOI&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      return the DOI number of the record&lt;/p&gt;
+
+&lt;p&gt;      DI tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.tagFuncs.ISBN&quot;&gt;&lt;/a&gt;metaknowledge.tagFuncs.&lt;strong&gt;ISBN&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns a list of ISBNs assocaited with the Record&lt;/p&gt;
+
+&lt;p&gt;      BN tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.tagFuncs.ISSN&quot;&gt;&lt;/a&gt;metaknowledge.tagFuncs.&lt;strong&gt;ISSN&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns the ISSN of the Record&lt;/p&gt;
+
+&lt;p&gt;      SN tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.tagFuncs.ResearcherIDnumber&quot;&gt;&lt;/a&gt;metaknowledge.tagFuncs.&lt;strong&gt;ResearcherIDnumber&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns a lsit of the research ids of the Record&lt;/p&gt;
+
+&lt;p&gt;      RI tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.tagFuncs.abstract&quot;&gt;&lt;/a&gt;metaknowledge.tagFuncs.&lt;strong&gt;abstract&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      return abstract of the record, with newlines hopefully in the correct places&lt;/p&gt;
+
+&lt;p&gt;      AB tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.tagFuncs.articleNumber&quot;&gt;&lt;/a&gt;metaknowledge.tagFuncs.&lt;strong&gt;articleNumber&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns a string giving the article number, not all are integers&lt;/p&gt;
+
+&lt;p&gt;      AR tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.tagFuncs.authAddress&quot;&gt;&lt;/a&gt;metaknowledge.tagFuncs.&lt;strong&gt;authAddress&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      C1 tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.tagFuncs.authKeyWords&quot;&gt;&lt;/a&gt;metaknowledge.tagFuncs.&lt;strong&gt;authKeyWords&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns the keywords assigned by the author of the Record&lt;/p&gt;
+
+&lt;p&gt;      DE tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.tagFuncs.authorsFull&quot;&gt;&lt;/a&gt;metaknowledge.tagFuncs.&lt;strong&gt;authorsFull&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns a list of authors full names&lt;/p&gt;
+
+&lt;p&gt;      AF tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.tagFuncs.authorsShort&quot;&gt;&lt;/a&gt;metaknowledge.tagFuncs.&lt;strong&gt;authorsShort&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns a list of authors shortened names&lt;/p&gt;
+
+&lt;p&gt;      AU tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.tagFuncs.beginningPage&quot;&gt;&lt;/a&gt;metaknowledge.tagFuncs.&lt;strong&gt;beginningPage&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns the first page the record occurs on as a string not an int&lt;/p&gt;
+
+&lt;p&gt;      BP tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.tagFuncs.bookAuthor&quot;&gt;&lt;/a&gt;metaknowledge.tagFuncs.&lt;strong&gt;bookAuthor&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns a list of the short names of the authors of a book Record&lt;/p&gt;
+
+&lt;p&gt;      BA tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.tagFuncs.bookAuthorFull&quot;&gt;&lt;/a&gt;metaknowledge.tagFuncs.&lt;strong&gt;bookAuthorFull&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns a list of the long names of the authors of a book Record&lt;/p&gt;
+
+&lt;p&gt;      BF tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.tagFuncs.bookDOI&quot;&gt;&lt;/a&gt;metaknowledge.tagFuncs.&lt;strong&gt;bookDOI&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns the book DOI of the Record&lt;/p&gt;
+
+&lt;p&gt;      D2 tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.tagFuncs.citations&quot;&gt;&lt;/a&gt;metaknowledge.tagFuncs.&lt;strong&gt;citations&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns a list of all the citations in the record&lt;/p&gt;
+
+&lt;p&gt;      CR tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.tagFuncs.citedRefsCount&quot;&gt;&lt;/a&gt;metaknowledge.tagFuncs.&lt;strong&gt;citedRefsCount&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns the numer citations, length of CR list&lt;/p&gt;
+
+&lt;p&gt;      NR tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.tagFuncs.confDate&quot;&gt;&lt;/a&gt;metaknowledge.tagFuncs.&lt;strong&gt;confDate&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns the date string of the conference associated with the Record&lt;/p&gt;
+
+&lt;p&gt;      CY tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.tagFuncs.confHost&quot;&gt;&lt;/a&gt;metaknowledge.tagFuncs.&lt;strong&gt;confHost&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns the host of the conference&lt;/p&gt;
+
+&lt;p&gt;      HO tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.tagFuncs.confLocation&quot;&gt;&lt;/a&gt;metaknowledge.tagFuncs.&lt;strong&gt;confLocation&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns the sting giving the confrence’s location&lt;/p&gt;
+
+&lt;p&gt;      CL tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.tagFuncs.confSponsors&quot;&gt;&lt;/a&gt;metaknowledge.tagFuncs.&lt;strong&gt;confSponsors&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns a list of sponsors for the conference associated with the record&lt;/p&gt;
+
+&lt;p&gt;      SP tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.tagFuncs.confTitle&quot;&gt;&lt;/a&gt;metaknowledge.tagFuncs.&lt;strong&gt;confTitle&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns the title of the conference associated with the Record&lt;/p&gt;
+
+&lt;p&gt;      CT tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.tagFuncs.docType&quot;&gt;&lt;/a&gt;metaknowledge.tagFuncs.&lt;strong&gt;docType&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns the type of document the Record contains&lt;/p&gt;
+
+&lt;p&gt;      DT tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.tagFuncs.documentDeliveryNumber&quot;&gt;&lt;/a&gt;metaknowledge.tagFuncs.&lt;strong&gt;documentDeliveryNumber&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns the document delivery number of the Record&lt;/p&gt;
+
+&lt;p&gt;      GA tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.tagFuncs.eISSN&quot;&gt;&lt;/a&gt;metaknowledge.tagFuncs.&lt;strong&gt;eISSN&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns the EISSN of the Record&lt;/p&gt;
+
+&lt;p&gt;      EI tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.tagFuncs.editedBy&quot;&gt;&lt;/a&gt;metaknowledge.tagFuncs.&lt;strong&gt;editedBy&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns a list of the editors of the Record&lt;/p&gt;
+
+&lt;p&gt;      BE tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.tagFuncs.editors&quot;&gt;&lt;/a&gt;metaknowledge.tagFuncs.&lt;strong&gt;editors&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;h5 id=&quot;nbspnbspnbsp-needs-work&quot;&gt;    Needs Work&lt;/h5&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.tagFuncs.email&quot;&gt;&lt;/a&gt;metaknowledge.tagFuncs.&lt;strong&gt;email&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns a list of emails given by the authors of the Record&lt;/p&gt;
+
+&lt;p&gt;      EM tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.tagFuncs.endingPage&quot;&gt;&lt;/a&gt;metaknowledge.tagFuncs.&lt;strong&gt;endingPage&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      return the last page the record occurs on as a string not an int&lt;/p&gt;
+
+&lt;p&gt;      EP tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.tagFuncs.funding&quot;&gt;&lt;/a&gt;metaknowledge.tagFuncs.&lt;strong&gt;funding&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      Returns a list of the groups funding the Record&lt;/p&gt;
+
+&lt;p&gt;      FU tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.tagFuncs.fundingText&quot;&gt;&lt;/a&gt;metaknowledge.tagFuncs.&lt;strong&gt;fundingText&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      Returns a string of the funding thanks&lt;/p&gt;
+
+&lt;p&gt;      FX tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.tagFuncs.getMonth&quot;&gt;&lt;/a&gt;metaknowledge.tagFuncs.&lt;strong&gt;getMonth&lt;/strong&gt;(&lt;em&gt;s&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      Known formats:
+      Month (“%b”)
+      Month Day (“%b %d”)
+      Month-Month (“%b-%b”) — this gets coerced to the first %b, dropping the month range
+      Season (“%s”) — this gets coerced to use the first month of the given season
+      Month Day Year (“%b %d %Y”)
+      Month Year (“%b %Y”)&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.tagFuncs.group&quot;&gt;&lt;/a&gt;metaknowledge.tagFuncs.&lt;strong&gt;group&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns the group associated with the Record&lt;/p&gt;
+
+&lt;p&gt;      GP tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.tagFuncs.groupName&quot;&gt;&lt;/a&gt;metaknowledge.tagFuncs.&lt;strong&gt;groupName&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns the name of the group associated with the Record&lt;/p&gt;
+
+&lt;p&gt;      CA tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.tagFuncs.isoAbbreviation&quot;&gt;&lt;/a&gt;metaknowledge.tagFuncs.&lt;strong&gt;isoAbbreviation&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns the iso abbreviation of the journal&lt;/p&gt;
+
+&lt;p&gt;      JI tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.tagFuncs.issue&quot;&gt;&lt;/a&gt;metaknowledge.tagFuncs.&lt;strong&gt;issue&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns a string giving the issue or range of issues the Record was in&lt;/p&gt;
+
+&lt;p&gt;      IS tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.tagFuncs.j9&quot;&gt;&lt;/a&gt;metaknowledge.tagFuncs.&lt;strong&gt;j9&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns the J9 (29-Character Source Abbreviation) of the publication&lt;/p&gt;
+
+&lt;p&gt;      J9 tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.tagFuncs.journal&quot;&gt;&lt;/a&gt;metaknowledge.tagFuncs.&lt;strong&gt;journal&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns the full name of the publication&lt;/p&gt;
+
+&lt;p&gt;      SO tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.tagFuncs.keyWords&quot;&gt;&lt;/a&gt;metaknowledge.tagFuncs.&lt;strong&gt;keyWords&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns the WOS keywords of the Record&lt;/p&gt;
+
+&lt;p&gt;      ID tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.tagFuncs.language&quot;&gt;&lt;/a&gt;metaknowledge.tagFuncs.&lt;strong&gt;language&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns the languages of the Record as a string with languages seperated by ‘, ‘, usually there is only one language&lt;/p&gt;
+
+&lt;p&gt;      LA tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.tagFuncs.makeReversed&quot;&gt;&lt;/a&gt;metaknowledge.tagFuncs.&lt;strong&gt;makeReversed&lt;/strong&gt;(&lt;em&gt;d&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      Simple function for reversing a dictionary&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.tagFuncs.meetingAbstract&quot;&gt;&lt;/a&gt;metaknowledge.tagFuncs.&lt;strong&gt;meetingAbstract&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns the ID of the meeting abstract prefixed by ‘EPA-‘&lt;/p&gt;
+
+&lt;p&gt;      MA tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.tagFuncs.month&quot;&gt;&lt;/a&gt;metaknowledge.tagFuncs.&lt;strong&gt;month&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns the month the record was published in as an int with January as 1, February 2, …&lt;/p&gt;
+
+&lt;p&gt;      PD tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.tagFuncs.orcID&quot;&gt;&lt;/a&gt;metaknowledge.tagFuncs.&lt;strong&gt;orcID&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns a list of orc IDs of the Record&lt;/p&gt;
+
+&lt;p&gt;      OI tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.tagFuncs.pageCount&quot;&gt;&lt;/a&gt;metaknowledge.tagFuncs.&lt;strong&gt;pageCount&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns an interger giving the number of pages of the Record&lt;/p&gt;
+
+&lt;p&gt;      PG tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.tagFuncs.partNumber&quot;&gt;&lt;/a&gt;metaknowledge.tagFuncs.&lt;strong&gt;partNumber&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      return an integer giving the part of the issue the Record is in&lt;/p&gt;
+
+&lt;p&gt;      PN tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.tagFuncs.pubMedID&quot;&gt;&lt;/a&gt;metaknowledge.tagFuncs.&lt;strong&gt;pubMedID&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns the pubmed idof the record&lt;/p&gt;
+
+&lt;p&gt;      PM tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.tagFuncs.pubType&quot;&gt;&lt;/a&gt;metaknowledge.tagFuncs.&lt;strong&gt;pubType&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns the type of publication as a character: conference, book, journal, book in series, or patent&lt;/p&gt;
+
+&lt;p&gt;      PT tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.tagFuncs.publisher&quot;&gt;&lt;/a&gt;metaknowledge.tagFuncs.&lt;strong&gt;publisher&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns the publisher of the Record&lt;/p&gt;
+
+&lt;p&gt;      PU tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.tagFuncs.publisherAddress&quot;&gt;&lt;/a&gt;metaknowledge.tagFuncs.&lt;strong&gt;publisherAddress&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns the publishers address&lt;/p&gt;
+
+&lt;p&gt;      PA tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.tagFuncs.publisherCity&quot;&gt;&lt;/a&gt;metaknowledge.tagFuncs.&lt;strong&gt;publisherCity&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      Returns the city the publisher is in&lt;/p&gt;
+
+&lt;p&gt;      PI tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.tagFuncs.reprintAddress&quot;&gt;&lt;/a&gt;metaknowledge.tagFuncs.&lt;strong&gt;reprintAddress&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns the reprint address string&lt;/p&gt;
+
+&lt;p&gt;      RP tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.tagFuncs.seriesSubtitle&quot;&gt;&lt;/a&gt;metaknowledge.tagFuncs.&lt;strong&gt;seriesSubtitle&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns the title of the series the Record is in&lt;/p&gt;
+
+&lt;p&gt;      BS tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.tagFuncs.seriesTitle&quot;&gt;&lt;/a&gt;metaknowledge.tagFuncs.&lt;strong&gt;seriesTitle&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns the title of the series the Record is in&lt;/p&gt;
+
+&lt;p&gt;      SE tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.tagFuncs.specialIssue&quot;&gt;&lt;/a&gt;metaknowledge.tagFuncs.&lt;strong&gt;specialIssue&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns the special issue value&lt;/p&gt;
+
+&lt;p&gt;      SI tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.tagFuncs.subjectCategory&quot;&gt;&lt;/a&gt;metaknowledge.tagFuncs.&lt;strong&gt;subjectCategory&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns a list of the subjects associated with the Record&lt;/p&gt;
+
+&lt;p&gt;      SC tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.tagFuncs.subjects&quot;&gt;&lt;/a&gt;metaknowledge.tagFuncs.&lt;strong&gt;subjects&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns a lsit of subjects as assigned by WOS&lt;/p&gt;
+
+&lt;p&gt;      WC tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.tagFuncs.supplement&quot;&gt;&lt;/a&gt;metaknowledge.tagFuncs.&lt;strong&gt;supplement&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns the supplemtn number&lt;/p&gt;
+
+&lt;p&gt;      SU tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.tagFuncs.title&quot;&gt;&lt;/a&gt;metaknowledge.tagFuncs.&lt;strong&gt;title&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns the title of the record&lt;/p&gt;
+
+&lt;p&gt;      TI tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.tagFuncs.totalTimesCited&quot;&gt;&lt;/a&gt;metaknowledge.tagFuncs.&lt;strong&gt;totalTimesCited&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns the total number of citations of the record&lt;/p&gt;
+
+&lt;p&gt;      Z9 tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.tagFuncs.volume&quot;&gt;&lt;/a&gt;metaknowledge.tagFuncs.&lt;strong&gt;volume&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      return the volume the record is in as a string not an int&lt;/p&gt;
+
+&lt;p&gt;      VL tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.tagFuncs.wosString&quot;&gt;&lt;/a&gt;metaknowledge.tagFuncs.&lt;strong&gt;wosString&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns the WOS number of the record as a string preceded by “WOS:”&lt;/p&gt;
+
+&lt;p&gt;      UT tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.tagFuncs.wosTimesCited&quot;&gt;&lt;/a&gt;metaknowledge.tagFuncs.&lt;strong&gt;wosTimesCited&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns the number of times the Record has been cited byr records in WOS&lt;/p&gt;
+
+&lt;p&gt;      TC tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;metaknowledge.tagFuncs.year&quot;&gt;&lt;/a&gt;metaknowledge.tagFuncs.&lt;strong&gt;year&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns the year the record was published in as an int&lt;/p&gt;
+
+&lt;p&gt;      PY tag&lt;/p&gt;
+
+    &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/docs&quot;&gt;metaknowledge Documentation&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on September 04, 2015.&lt;/p&gt;
   </content>
 </entry>
 

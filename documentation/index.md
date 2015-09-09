@@ -9,10 +9,22 @@ image:
   creditlink:
 ---
 
-* Table of Contents
-{:toc}
 
-## Installation 
+<ul class="post-list">
+   <li><article><a href="#Installing">Installing<span class="excerpt">How to install metaknowledge</span></a></article></li>
+
+{% for post in site.categories.docs %}
+  <li><article><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}{% if post.excerpt %} <span class="excerpt">{{ post.excerpt }}</span>{% endif %}</a></article></li>
+{% endfor %}
+
+
+
+</ul>
+
+
+<a name="Installing"></a>
+
+## Installation
 
 The [download](https://github.com/networks-lab/isilib) from Github includes a customized [Vagrant](https://www.vagrantup.com) file that installs [isilib](https://github.com/networks-lab/isilib/archive/master.zip) and other useful Python libraries into a virtual machine. It is currently the easiest way of getting isilib working if you are not already familiar with Python. Alternatively you can run `setup.py install` to install locally
 
@@ -115,10 +127,10 @@ pip3 install metaknowledge
 
 ## Questions?
 
-If you find bugs, or have questions, please write to:  
+If you find bugs, or have questions, please write to:
 
-Reid McIlroy-Young <reid@reidmcy.com>    
-John McLevey <john.mclevey@uwaterloo.ca>  
+Reid McIlroy-Young <reid@reidmcy.com>
+John McLevey <john.mclevey@uwaterloo.ca>
 
 ---
 

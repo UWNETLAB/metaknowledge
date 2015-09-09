@@ -196,7 +196,7 @@ class TestRecordCollection(unittest.TestCase):
 
     def test_localCiteStats(self):
         d = self.RC.localCiteStats()
-        dPan = self.RC.localCiteStats(pandasMode = True)
+        dPan = self.RC.localCiteStats(pandasFriendly = True)
         self.assertEqual(d[metaknowledge.Citation("PHYS REV LETT, V4, P224, DOI 10.1103/PhysRevLett.4.224")], 1)
         self.assertEqual(len(dPan['Citations']),len(d))
         self.assertTrue(dPan['Citations'][0] in d)

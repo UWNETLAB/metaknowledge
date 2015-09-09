@@ -873,10 +873,10 @@ class RecordCollection(object):
             PBar.finish("Done making a " + str(len(tags)) + "-mode network of: " +  ', '.join(tags))
         return grph
 
-    def localCiteStats(self, pandasMode = False):
+    def localCiteStats(self, pandasFriendly = False):
         """Returns a dict with all the citations in the CR field as keys and the number of time s they occur as the values
 
-        pandasMode makes the output be a dict with two keys one "Citations" is the citations the other is their occurence counts as "Counts".
+        pandasFriendly makes the output be a dict with two keys one "Citations" is the citations the other is their occurence counts as "Counts".
         """
         citesDict = {}
         for R in self:
@@ -891,7 +891,7 @@ class RecordCollection(object):
                             break
                     if not found:
                          citesDict[c] = 1
-        if pandasMode:
+        if pandasFriendly:
             citeLst = []
             countLst = []
             for cite, occ in citesDict.items():

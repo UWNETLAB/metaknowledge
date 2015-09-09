@@ -5,11 +5,14 @@ locale: en_US
 description: A Python3 Library for Bibliometric and Sociology of Knowledge Research.
 logo: site-logo.png
 search: true
-url: http://networkslab.org/metaknowledge/
+url: http://networkslab.org
+baseurl: /metaknowledge
 
 # Jekyll configuration
 
-permalink:   /:categories/:title/
+permalink: /:categories/:title
+relative_permalinks: true
+
 markdown:    kramdown
 highlighter: pygments
 sass:

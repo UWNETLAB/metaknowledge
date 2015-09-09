@@ -1,53 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>http://networkslab.org/metaknowledge//articles/textual/</loc>
+    <loc>http://networkslab.org/metaknowledge/examples/textual</loc>
     <lastmod>2015-09-04T00:00:00-04:00</lastmod>
   </url>
   <url>
-    <loc>http://networkslab.org/metaknowledge//articles/multimode/</loc>
+    <loc>http://networkslab.org/metaknowledge/examples/multimode</loc>
     <lastmod>2015-09-04T00:00:00-04:00</lastmod>
   </url>
   <url>
-    <loc>http://networkslab.org/metaknowledge//articles/journalcocitation/</loc>
+    <loc>http://networkslab.org/metaknowledge/examples/journalcocitation</loc>
     <lastmod>2015-09-04T00:00:00-04:00</lastmod>
   </url>
   <url>
-    <loc>http://networkslab.org/metaknowledge//articles/documentcocitation/</loc>
+    <loc>http://networkslab.org/metaknowledge/examples/documentcocitation</loc>
     <lastmod>2015-09-04T00:00:00-04:00</lastmod>
   </url>
   <url>
-    <loc>http://networkslab.org/metaknowledge//articles/dataframe/</loc>
+    <loc>http://networkslab.org/metaknowledge/examples/dataframe</loc>
     <lastmod>2015-09-04T00:00:00-04:00</lastmod>
   </url>
   <url>
-    <loc>http://networkslab.org/metaknowledge//articles/coauthor/</loc>
+    <loc>http://networkslab.org/metaknowledge/examples/coauthor</loc>
     <lastmod>2015-09-04T00:00:00-04:00</lastmod>
   </url>
   <url>
-    <loc>http://networkslab.org/metaknowledge//articles/citation/</loc>
+    <loc>http://networkslab.org/metaknowledge/examples/citation</loc>
     <lastmod>2015-09-04T00:00:00-04:00</lastmod>
   </url>
   <url>
-    <loc>http://networkslab.org/metaknowledge//articles/authorcocitation/</loc>
+    <loc>http://networkslab.org/metaknowledge/examples/authorcocitation</loc>
     <lastmod>2015-09-04T00:00:00-04:00</lastmod>
   </url>
   <url>
-    <loc>http://networkslab.org/metaknowledge//</loc>
+    <loc>http://networkslab.org/metaknowledge/</loc>
   </url>
   <url>
-    <loc>http://networkslab.org/metaknowledge//documentation/</loc>
+    <loc>http://networkslab.org/metaknowledge/documentation/</loc>
   </url>
   <url>
-    <loc>http://networkslab.org/metaknowledge//examples/</loc>
+    <loc>http://networkslab.org/metaknowledge/examples/</loc>
   </url>
   <url>
-    <loc>http://networkslab.org/metaknowledge//about/</loc>
+    <loc>http://networkslab.org/metaknowledge/about/</loc>
   </url>
   <url>
-    <loc>http://networkslab.org/metaknowledge//tags/</loc>
+    <loc>http://networkslab.org/metaknowledge/tags/</loc>
   </url>
   <url>
-    <loc>http://networkslab.org/metaknowledge//cli/</loc>
+    <loc>http://networkslab.org/metaknowledge/cli/</loc>
   </url>
 </urlset>

@@ -3,7 +3,7 @@
   
     {
       "title"			: "Extract Text",
-      "link"			: "http://networkslab.org/metaknowledge//articles/textual/",
+      "link"			: "http://networkslab.org/examples/textual",
       "excerpt"		: "You want to extract textual data to analyze."
     }
   
@@ -11,7 +11,7 @@
   
     ,{
       "title"			: "Contruct a Multi-Mode Network",
-      "link"			: "http://networkslab.org/metaknowledge//articles/multimode/",
+      "link"			: "http://networkslab.org/examples/multimode",
       "excerpt"		: "You want to construct a Multi-Mode Network."
     }
   
@@ -19,7 +19,7 @@
   
     ,{
       "title"			: "Contruct a Journal Co-Citation Network",
-      "link"			: "http://networkslab.org/metaknowledge//articles/journalcocitation/",
+      "link"			: "http://networkslab.org/examples/journalcocitation",
       "excerpt"		: "You want to construct a Weighted Co-Citation Network of Journals."
     }
   
@@ -27,7 +27,7 @@
   
     ,{
       "title"			: "Contruct a Document Co-Citation Network",
-      "link"			: "http://networkslab.org/metaknowledge//articles/documentcocitation/",
+      "link"			: "http://networkslab.org/examples/documentcocitation",
       "excerpt"		: "You want to construct a weighted co-citation network of documents."
     }
   
@@ -35,7 +35,7 @@
   
     ,{
       "title"			: "Contruct a Data Frame",
-      "link"			: "http://networkslab.org/metaknowledge//articles/dataframe/",
+      "link"			: "http://networkslab.org/examples/dataframe",
       "excerpt"		: "You want to construct a dataset from a folder of Web of Science files."
     }
   
@@ -43,7 +43,7 @@
   
     ,{
       "title"			: "Contruct a Co-Author Network",
-      "link"			: "http://networkslab.org/metaknowledge//articles/coauthor/",
+      "link"			: "http://networkslab.org/examples/coauthor",
       "excerpt"		: "You want to construct a weighted network of co-authors."
     }
   
@@ -51,7 +51,7 @@
   
     ,{
       "title"			: "Contruct a Citation Network",
-      "link"			: "http://networkslab.org/metaknowledge//articles/citation/",
+      "link"			: "http://networkslab.org/examples/citation",
       "excerpt"		: "You want to construct a weighted citation network."
     }
   
@@ -59,7 +59,7 @@
   
     ,{
       "title"			: "Contruct an Author Co-Citation Network",
-      "link"			: "http://networkslab.org/metaknowledge//articles/authorcocitation/",
+      "link"			: "http://networkslab.org/examples/authorcocitation",
       "excerpt"		: "You want to construct a weighted co-citation network of authors."
     }
   
@@ -75,7 +75,7 @@
   
     ,{
       "title"			: "Documentation",
-      "link"			: "http://networkslab.org/metaknowledge//documentation/",
+      "link"			: "http://networkslab.org/documentation/",
       "excerpt"		: "Instructions on how to install and use metaknowledge."
     }
   
@@ -87,7 +87,7 @@
   
     ,{
       "title"			: "About the Jekyll Theme",
-      "link"			: "http://networkslab.org/metaknowledge//about/",
+      "link"			: "http://networkslab.org/about/",
       "excerpt"		: "So Simple is a responsive Jekyll theme for your words and images."
     }
   

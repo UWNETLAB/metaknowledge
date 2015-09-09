@@ -5,35 +5,36 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
 <head>
 <meta charset="utf-8">
-<title>Contruct an Author Co-Citation Network &#8211; metaknowledge</title>
-<meta name="description" content="You want to construct a weighted co-citation network of authors.">
+<title>Contruct a Co-Author Network &#8211; metaknowledge</title>
+<meta name="description" content="You want to construct a weighted network of co-authors.">
 <meta name="keywords" content="preprocessing, dataframe">
 
   
 
 <!-- Twitter Cards -->
-<meta name="twitter:title" content="Contruct an Author Co-Citation Network">
-<meta name="twitter:description" content="You want to construct a weighted co-citation network of authors.">
+<meta name="twitter:title" content="Contruct a Co-Author Network">
+<meta name="twitter:description" content="You want to construct a weighted network of co-authors.">
 
 <meta name="twitter:creator" content="@johnmclevey">
 
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://networkslab.org/metaknowledge//images/site-logo.png">
+<meta name="twitter:image" content="/metaknowledge/images/site-logo.png">
 
 <!-- Open Graph -->
 <meta property="og:locale" content="en_US">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Contruct an Author Co-Citation Network">
-<meta property="og:description" content="You want to construct a weighted co-citation network of authors.">
-<meta property="og:url" content="http://networkslab.org/metaknowledge//articles/authorcocitation/">
+<meta property="og:title" content="Contruct a Co-Author Network">
+<meta property="og:description" content="You want to construct a weighted network of co-authors.">
+<meta property="og:url" content="/metaknowledge/examples/coauthor">
 <meta property="og:site_name" content="metaknowledge">
 
 
 
 
 
-<link rel="canonical" href="http://networkslab.org/metaknowledge//articles/authorcocitation/">
-<link href="http://networkslab.org/metaknowledge//feed.xml" type="application/atom+xml" rel="alternate" title="metaknowledge Feed">
+
+<link rel="canonical" href="/metaknowledge/examples/coauthor">
+<link href="/metaknowledge/feed.xml" type="application/atom+xml" rel="alternate" title="metaknowledge Feed">
 
 <!-- https://t.co/dKP3o1e -->
 <meta name="HandheldFriendly" content="True">
@@ -41,7 +42,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <!-- For all browsers -->
-<link rel="stylesheet" href="http://networkslab.org/metaknowledge//assets/css/main.css">
+<link rel="stylesheet" href="/metaknowledge/assets/css/main.css">
 <!-- Webfonts -->
 <script src="https://use.edgefonts.net/source-sans-pro:n2,i2,n3,i3,n4,i4,n6,i6,n7,i7,n9,i9;source-code-pro:n4,n7;volkhov.js"></script>
 
@@ -49,12 +50,12 @@
 
 <!-- HTML5 Shiv and Media Query Support -->
 <!--[if lt IE 9]>
-  <script src="http://networkslab.org/metaknowledge//assets/js/vendor/html5shiv.min.js"></script>
-  <script src="http://networkslab.org/metaknowledge//assets/js/vendor/respond.min.js"></script>
+  <script src="/metaknowledge/assets/js/vendor/html5shiv.min.js"></script>
+  <script src="/metaknowledge/assets/js/vendor/respond.min.js"></script>
 <![endif]-->
 
 <!-- Modernizr -->
-<script src="http://networkslab.org/metaknowledge//assets/js/vendor/modernizr-2.7.1.custom.min.js"></script>
+<script src="/metaknowledge/assets/js/vendor/modernizr-2.7.1.custom.min.js"></script>
 
 
 <!-- MathJax -->
@@ -63,17 +64,17 @@
 
 <!-- Icons -->
 <!-- 16x16 -->
-<link rel="shortcut icon" href="http://networkslab.org/metaknowledge//favicon.ico">
+<link rel="shortcut icon" href="/metaknowledge/favicon.ico">
 <!-- 32x32 -->
-<link rel="shortcut icon" href="http://networkslab.org/metaknowledge//favicon.png">
+<link rel="shortcut icon" href="/metaknowledge/favicon.png">
 <!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
-<link rel="apple-touch-icon-precomposed" href="http://networkslab.org/metaknowledge//images/apple-touch-icon-precomposed.png">
+<link rel="apple-touch-icon-precomposed" href="/metaknowledge/images/apple-touch-icon-precomposed.png">
 <!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
-<link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://networkslab.org/metaknowledge//images/apple-touch-icon-72x72-precomposed.png">
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="/metaknowledge/images/apple-touch-icon-72x72-precomposed.png">
 <!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
-<link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://networkslab.org/metaknowledge//images/apple-touch-icon-114x114-precomposed.png">
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="/metaknowledge/images/apple-touch-icon-114x114-precomposed.png">
 <!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
-<link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://networkslab.org/metaknowledge//images/apple-touch-icon-144x144-precomposed.png">
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/metaknowledge/images/apple-touch-icon-144x144-precomposed.png">
 
 </head>
 
@@ -86,22 +87,22 @@
 		    
 		        
 		    
-		    <li><a href="http://networkslab.org/metaknowledge//" >Home</a></li>
+		    <li><a href="/metaknowledge/" >Home</a></li>
 		  
 		    
 		        
 		    
-		    <li><a href="http://networkslab.org/metaknowledge//documentation/" >Documentation</a></li>
+		    <li><a href="/metaknowledge/documentation/" >Documentation</a></li>
 		  
 		    
 		        
 		    
-		    <li><a href="http://networkslab.org/metaknowledge//examples/" >Examples</a></li>
+		    <li><a href="/metaknowledge/examples/" >Examples</a></li>
 		  
 		    
 		        
 		    
-		    <li><a href="http://networkslab.org/metaknowledge//cli/" >CLI</a></li>
+		    <li><a href="/metaknowledge/cli/" >CLI</a></li>
 		  
 		    
 		        
@@ -116,7 +117,7 @@
 		    
 		        
 		    
-		    <li><a href="http://networkslab.org/metaknowledge//search/" >Search</a></li>
+		    <li><a href="/metaknowledge/search/" >Search</a></li>
 		  
 	    </ul>
 	</nav>
@@ -127,10 +128,10 @@
 <header class="masthead">
 	<div class="wrap">
       
-  		<a href="http://networkslab.org/metaknowledge//" class="site-logo" rel="home" title="metaknowledge"><img src="http://networkslab.org/metaknowledge//images/site-logo.png" width="200" height="200" alt="metaknowledge logo" class="animated fadeInDown"></a>
+  		<a href="/metaknowledge/" class="site-logo" rel="home" title="metaknowledge"><img src="/metaknowledge/images/site-logo.png" width="200" height="200" alt="metaknowledge logo" class="animated fadeInDown"></a>
       
-      <h1 class="site-title animated fadeIn"><a href="http://networkslab.org/metaknowledge//">metaknowledge</a></h1>
-		<h2 class="site-description animated fadeIn" itemprop="description">A Python3 Library that simplifies bibliometric research.</h2>
+      <h1 class="site-title animated fadeIn"><a href="/metaknowledge/">metaknowledge</a></h1>
+		<h2 class="site-description animated fadeIn" itemprop="description">A Python3 Library for Bibliometric and Sociology of Knowledge Research.</h2>
 	</div>
 </header><!-- /.masthead -->
 
@@ -142,9 +143,9 @@
     
     <div class="entry-wrapper">
       <header class="entry-header">
-        <span class="entry-tags"><a href="http://networkslab.org/metaknowledge//tags/#preprocessing" title="Pages tagged preprocessing">preprocessing</a>&nbsp;&bull;&nbsp;<a href="http://networkslab.org/metaknowledge//tags/#dataframe" title="Pages tagged dataframe">dataframe</a></span>
+        <span class="entry-tags"><a href="http://networkslab.org/tags/#preprocessing" title="Pages tagged preprocessing">preprocessing</a>&nbsp;&bull;&nbsp;<a href="http://networkslab.org/tags/#dataframe" title="Pages tagged dataframe">dataframe</a></span>
         
-          <h1 class="entry-title">Contruct an Author Co-Citation Network</h1>
+          <h1 class="entry-title">Contruct a Co-Author Network</h1>
         
       </header>
       <footer class="entry-meta">
@@ -167,8 +168,8 @@ cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
 proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">metaknowledge</span> <span class="kn">as</span> <span class="nn">mk</span>
-<span class="kn">import</span> <span class="nn">networkx</span> <span class="kn">as</span> <span class="nn">nx</span> 
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span> 
+<span class="kn">import</span> <span class="nn">networkx</span> <span class="kn">as</span> <span class="nn">nx</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
 
 <span class="n">RC</span> <span class="o">=</span> <span class="n">mk</span><span class="o">.</span><span class="n">RecordCollection</span><span class="p">(</span><span class="s">&#39;/path/to/directory/with/WoS/files&#39;</span><span class="p">)</span>
 
@@ -190,8 +191,10 @@ proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
     </div><!-- /.entry-wrapper -->
     <nav class="pagination" role="navigation">
       
+        <a href="http://networkslab.org/examples/citation" class="btn" title="Contruct a Citation Network">Previous</a>
       
-        <a href="http://networkslab.org/metaknowledge//articles/citation/" class="btn" title="Contruct a Citation Network">Next</a>
+      
+        <a href="http://networkslab.org/examples/dataframe" class="btn" title="Contruct a Data Frame">Next</a>
       
     </nav><!-- /.pagination -->
   </article>
@@ -201,7 +204,7 @@ proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
   <footer role="contentinfo" class="entry-wrapper">
     
 
-<span>&copy; 2015 John McLevey. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> using the <a href="http://mademistakes.com/so-simple/" rel="nofollow">So Simple Theme</a>.</span>
+<span>&copy; 2015 John McLevey and Reid McIlroy-Young. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> using the <a href="http://mademistakes.com/so-simple/" rel="nofollow">So Simple Theme</a>.</span>
 <div class="social-icons">
 	
 	
@@ -214,19 +217,19 @@ proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 	
   
 	
-  <a href="http://networkslab.org/metaknowledge//feed.xml" title="Atom/RSS feed"><i class="fa fa-rss-square fa-2x"></i></a>
+  <a href="/metaknowledge/feed.xml" title="Atom/RSS feed"><i class="fa fa-rss-square fa-2x"></i></a>
 </div><!-- /.social-icons -->
 
   </footer>
 </div><!-- /.footer-wrapper -->
 
 <script type="text/javascript">
-  var BASE_URL = 'http://networkslab.org/metaknowledge/';
+  var BASE_URL = '/metaknowledge';
 </script>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script>window.jQuery || document.write('<script src="http://networkslab.org/metaknowledge//assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
-<script src="http://networkslab.org/metaknowledge//assets/js/scripts.min.js"></script>
+<script>window.jQuery || document.write('<script src="/metaknowledge/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="/metaknowledge/assets/js/scripts.min.js"></script>
 
 
 

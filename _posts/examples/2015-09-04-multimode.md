@@ -1,8 +1,8 @@
 ---
 layout: post
-title: "Contruct a Data Frame"
-excerpt: "You want to construct a dataset from a folder of Web of Science files."
-categories: articles
+title: "Contruct a Multi-Mode Network"
+excerpt: "You want to construct a Multi-Mode Network."
+categories: examples
 tags: [preprocessing, dataframe]
 author: john
 comments: true
@@ -22,15 +22,15 @@ proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
 {% highlight python %}
 import metaknowledge as mk
-import networkx as nx 
-import matplotlib.pyplot as plt 
+import networkx as nx
+import matplotlib.pyplot as plt
 
 RC = mk.RecordCollection('/path/to/directory/with/WoS/files')
 
 print(RC)
 
 tags = ['AU', 'TI','AB', 'SO', 'LA', 'C1', 'RP', 'CR', 'TC', 'PY']
-RC.writeCSV('data/rc_can_soc.csv', onlyTheseTags = tags) 
+RC.writeCSV('data/rc_can_soc.csv', onlyTheseTags = tags)
 {% endhighlight %}
 
 Filter to a subset of records that cite a specific author...
@@ -39,5 +39,5 @@ Filter to a subset of records that cite a specific author...
 authorname = RC.citeFilter(keyString='someauthor',  field='all', reverse=False, caseSensitive=False)
 print(len(authorname))
 
-authorname.writeCSV('authorname.csv', onlyTheseTags = tags) 
+authorname.writeCSV('authorname.csv', onlyTheseTags = tags)
 {% endhighlight %}

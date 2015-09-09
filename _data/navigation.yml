@@ -4,13 +4,13 @@
   url: /
 
 - title: Documentation
-  url: /documentation/
+  url: /documentation
 
 - title: Examples
-  url: /examples/
+  url: /examples
 
 - title: CLI
-  url: /cli/
+  url: /cli
 
 - title: GitHub
   url: https://github.com/networks-lab/metaknowledge
@@ -19,4 +19,4 @@
   url: http://www.networkslab.org
 
 - title: Search
-  url: /search/
+  url: /search

@@ -8,7 +8,3 @@ cd ../_posts/
 rm -r docs
 
 metaknowledge-DocsGen -d docs
-
-cd ..
-
-jekyll build

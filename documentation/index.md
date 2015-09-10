@@ -9,11 +9,11 @@ image:
   creditlink:
 ---
 
-
+{% assign sortedDocs = site.categories.docs | sort:"weight"  %}
 <ul class="post-list">
    <li><article><a href="#Installing">Installing<span class="excerpt">How to install metaknowledge</span></a></article></li>
 
-{% for post in site.categories.docs %}
+{% for post in sortedDocs %}
   <li><article><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}{% if post.excerpt %} <span class="excerpt">{{ post.excerpt }}</span>{% endif %}</a></article></li>
 {% endfor %}
 

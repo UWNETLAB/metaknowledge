@@ -3,20 +3,23 @@ layout: page
 title: metaknowledge
 categories: docs
 excerpt: The metaknowledge Package
+tags: [main]
+weight: 1
 ---
-<a name="metaknowledge.blondel"></a>metaknowledge.**blondel**(_G, weightParameter=None, communityParameter='community'_):
+<a name="metaknowledge"></a>
+<a name="blondel"></a>**blondel**(_G, weightParameter=None, communityParameter='community'_):
 
 # Needs to be written
 
 - - -
 
-<a name="metaknowledge.btest"></a>metaknowledge.**btest**(_quite=False_):
+<a name="btest"></a>**btest**(_quite=False_):
 
 # Needs to be written
 
 - - -
 
-<a name="metaknowledge.drop_edges"></a>metaknowledge.**drop_edges**(_grph, minWeight=-inf, maxWeight=inf, parameterName='weight', ignoreUnweighted=False, dropSelfLoops=False_):
+<a name="drop_edges"></a>**drop_edges**(_grph, minWeight=-inf, maxWeight=inf, parameterName='weight', ignoreUnweighted=False, dropSelfLoops=False_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a graph with edges whose weight is within the inclusive bounds of minWeight and maxWeight, i.e minWeight <= edges weight <= maxWeight, will throw a Keyerror if the graph is unweighted
 
@@ -29,7 +32,7 @@ excerpt: The metaknowledge Package
 
 - - -
 
-<a name="metaknowledge.drop_nodesByCount"></a>metaknowledge.**drop_nodesByCount**(_grph, minCount=-inf, maxCount=inf, parameterName='count', ignoreMissing=False_):
+<a name="drop_nodesByCount"></a>**drop_nodesByCount**(_grph, minCount=-inf, maxCount=inf, parameterName='count', ignoreMissing=False_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a graph whose nodes have a occurrence count that is within inclusive bounds of minCount and maxCount, i.e minCount <= count <= maxCount. Occurrence count is determined by reading the variable associated with the node named parameterName.
 
@@ -43,7 +46,7 @@ excerpt: The metaknowledge Package
 
 - - -
 
-<a name="metaknowledge.drop_nodesByDegree"></a>metaknowledge.**drop_nodesByDegree**(_grph, minDegree=-inf, maxDegree=inf, useWeight=True, parameterName='weight', ignoreUnweighted=True_):
+<a name="drop_nodesByDegree"></a>**drop_nodesByDegree**(_grph, minDegree=-inf, maxDegree=inf, useWeight=True, parameterName='weight', ignoreUnweighted=True_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a graph whose nodes have a degree that is within inclusive bounds of minDegree and maxDegree, i.e minDegree <= degree <= maxDegree. Degree can be determined in two ways by default it is the total number of edges touching a node, alternative if useWeight is True it is the sum of the weight of all the edges touching a node.
 
@@ -58,19 +61,19 @@ excerpt: The metaknowledge Package
 
 - - -
 
-<a name="metaknowledge.filterNonJournals"></a>metaknowledge.**filterNonJournals**(_citesLst, invert=False_):
+<a name="filterNonJournals"></a>**filterNonJournals**(_citesLst, invert=False_):
 
 # Needs to be written
 
 - - -
 
-<a name="metaknowledge.graphStats"></a>metaknowledge.**graphStats**(_G, stats=('nodes', 'edges', 'isolates', 'loops', 'density', 'transitivity'), makeString=True_):
+<a name="graphStats"></a>**graphStats**(_G, stats=('nodes', 'edges', 'isolates', 'loops', 'density', 'transitivity'), makeString=True_):
 
 # Needs to be written
 
 - - -
 
-<a name="metaknowledge.isiParser"></a>metaknowledge.**isiParser**(_isifile_):
+<a name="isiParser"></a>**isiParser**(_isifile_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;isiParser() reads the file given by the path isifile, checks that the header is correct then reads until it reaches EF.
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Each it finds is used to initialize a Record then all Record are returned as a list.
@@ -78,14 +81,14 @@ excerpt: The metaknowledge Package
 
 - - -
 
-<a name="metaknowledge.modularity"></a>metaknowledge.**modularity**(_G, weightParameter=None, communityParameter='community'_):
+<a name="modularity"></a>**modularity**(_G, weightParameter=None, communityParameter='community'_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Gets modularity of network, currently not tuned
 
 
 - - -
 
-<a name="metaknowledge.read_graph"></a>metaknowledge.**read_graph**(_edgeList, nodeList=None, directed=False, idKey='ID', eSource='From', eDest='To'_):
+<a name="read_graph"></a>**read_graph**(_edgeList, nodeList=None, directed=False, idKey='ID', eSource='From', eDest='To'_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reads the files given by edgeList and if given nodeList and produces a networkx graph
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This is designed only for the files produced by metaknowledge and is meant to be the reverse of write_graph()
@@ -99,7 +102,7 @@ excerpt: The metaknowledge Package
 
 - - -
 
-<a name="metaknowledge.recordParser"></a>metaknowledge.**recordParser**(_paper_):
+<a name="recordParser"></a>**recordParser**(_paper_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reads the file _paper_ until it reaches 'ER'.
 
@@ -128,7 +131,7 @@ excerpt: The metaknowledge Package
 
 - - -
 
-<a name="metaknowledge.write_edgeList"></a>metaknowledge.**write_edgeList**(_grph, name, extraInfo=True, progBar=None_):
+<a name="write_edgeList"></a>**write_edgeList**(_grph, name, extraInfo=True, progBar=None_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;writes an edge list of grph with filename name, if extraInfo is true the additional information about the edges, e.g. weight, will be written.
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;All edges must have the same tags
@@ -136,7 +139,7 @@ excerpt: The metaknowledge Package
 
 - - -
 
-<a name="metaknowledge.write_graph"></a>metaknowledge.**write_graph**(_grph, name, edgeInfo=True, typing=False, suffix='csv', overwrite=True_):
+<a name="write_graph"></a>**write_graph**(_grph, name, edgeInfo=True, typing=False, suffix='csv', overwrite=True_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Writes both the edge list and the node attribute list of grph.
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The output files start with name, the file type[edgeList, nodeAttributes] then if typing is True the type of graph (directed or undirected) then the suffix, it appears as follows:
@@ -147,20 +150,20 @@ excerpt: The metaknowledge Package
 
 - - -
 
-<a name="metaknowledge.write_nodeAttributeFile"></a>metaknowledge.**write_nodeAttributeFile**(_grph, name, progBar=None_):
+<a name="write_nodeAttributeFile"></a>**write_nodeAttributeFile**(_grph, name, progBar=None_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;writes a node attribute list of grph with filename name, the first column is the node's ID then all after it are its associated information.
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;All nodes must have the same tags.
 
 
-<a name="metaknowledge.BadCitation"></a>metaknowledge.**BadCitation**():
+<a name="BadCitation"></a>**BadCitation**():
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Exception thrown by Citation
 
 
 - - -
 
-<a name="metaknowledge.BadISIRecord"></a>metaknowledge.**BadISIRecord**():
+<a name="BadISIRecord"></a>**BadISIRecord**():
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Exception thrown by the [record parser](#metaknowledge.recordParser) to indicate a mis-formated record. This occurs when some component of the record does not parse. The messages will be any of:
 

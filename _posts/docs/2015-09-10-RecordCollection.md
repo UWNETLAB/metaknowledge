@@ -3,8 +3,11 @@ layout: page
 title: RecordCollection
 categories: docs
 excerpt: The RecordCollection Class
+tags: [class]
+weight: 2
 ---
-<a name="metaknowledge.RecordCollection"></a>metaknowledge.**RecordCollection**(_inCollection=None, name='', extension=''_):
+<a name="RecordCollection"></a>
+<a name="RecordCollection"></a>**RecordCollection**(_inCollection=None, name='', extension=''_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A way of containing a large number of Record objects, it provides ways of creating them from an isi file, string, list of records or directory containing isi files. The Records are containing within a set and as such many of the set operations are defined, pop, union, in ... also records are hashed with their WOS string so no duplication can occur.
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The comparison operators <, <=, >, >= are based strictly on the number of Records within the collection, while equality looks for an exact match on the Records

@@ -4,7 +4,7 @@
 <generator uri="https://github.com/jekyll/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="http://networkslab.org/feed.xml" />
 <link rel="alternate" type="text/html" href="http://networkslab.org" />
-<updated>2015-09-10T03:23:38-04:00</updated>
+<updated>2015-09-10T13:48:53-04:00</updated>
 <id>http://networkslab.org/</id>
 <author>
   <name>John McLevey and Reid McIlroy-Young</name>
@@ -27,19 +27,20 @@
     <email>john.mclevey@uwaterloo.ca</email>
   </author>
   <content type="html">
-    &lt;p&gt;&lt;a name=&quot;metaknowledge.blondel&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;blondel&lt;/strong&gt;(&lt;em&gt;G, weightParameter=None, communityParameter=’community’&lt;/em&gt;):&lt;/p&gt;
+    &lt;p&gt;&lt;a name=&quot;visual&quot;&gt;&lt;/a&gt;
+&lt;a name=&quot;visual.blondel&quot;&gt;&lt;/a&gt;visual.&lt;strong&gt;blondel&lt;/strong&gt;(&lt;em&gt;G, weightParameter=None, communityParameter=’community’&lt;/em&gt;):&lt;/p&gt;
 
 &lt;h1 id=&quot;needs-to-be-written&quot;&gt;Needs to be written&lt;/h1&gt;
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;a name=&quot;metaknowledge.btest&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;btest&lt;/strong&gt;(&lt;em&gt;quite=False&lt;/em&gt;):&lt;/p&gt;
+&lt;p&gt;&lt;a name=&quot;visual.btest&quot;&gt;&lt;/a&gt;visual.&lt;strong&gt;btest&lt;/strong&gt;(&lt;em&gt;quite=False&lt;/em&gt;):&lt;/p&gt;
 
 &lt;h1 id=&quot;needs-to-be-written-1&quot;&gt;Needs to be written&lt;/h1&gt;
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;a name=&quot;metaknowledge.drop_edges&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;drop_edges&lt;/strong&gt;(&lt;em&gt;grph, minWeight=-inf, maxWeight=inf, parameterName=’weight’, ignoreUnweighted=False, dropSelfLoops=False&lt;/em&gt;):&lt;/p&gt;
+&lt;p&gt;&lt;a name=&quot;visual.drop_edges&quot;&gt;&lt;/a&gt;visual.&lt;strong&gt;drop_edges&lt;/strong&gt;(&lt;em&gt;grph, minWeight=-inf, maxWeight=inf, parameterName=’weight’, ignoreUnweighted=False, dropSelfLoops=False&lt;/em&gt;):&lt;/p&gt;
 
 &lt;p&gt;      Returns a graph with edges whose weight is within the inclusive bounds of minWeight and maxWeight, i.e minWeight &amp;lt;= edges weight &amp;lt;= maxWeight, will throw a Keyerror if the graph is unweighted&lt;/p&gt;
 
@@ -51,7 +52,7 @@
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;a name=&quot;metaknowledge.drop_nodesByCount&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;drop_nodesByCount&lt;/strong&gt;(&lt;em&gt;grph, minCount=-inf, maxCount=inf, parameterName=’count’, ignoreMissing=False&lt;/em&gt;):&lt;/p&gt;
+&lt;p&gt;&lt;a name=&quot;visual.drop_nodesByCount&quot;&gt;&lt;/a&gt;visual.&lt;strong&gt;drop_nodesByCount&lt;/strong&gt;(&lt;em&gt;grph, minCount=-inf, maxCount=inf, parameterName=’count’, ignoreMissing=False&lt;/em&gt;):&lt;/p&gt;
 
 &lt;p&gt;      Returns a graph whose nodes have a occurrence count that is within inclusive bounds of minCount and maxCount, i.e minCount &amp;lt;= count &amp;lt;= maxCount. Occurrence count is determined by reading the variable associated with the node named parameterName.&lt;/p&gt;
 
@@ -63,7 +64,7 @@
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;a name=&quot;metaknowledge.drop_nodesByDegree&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;drop_nodesByDegree&lt;/strong&gt;(&lt;em&gt;grph, minDegree=-inf, maxDegree=inf, useWeight=True, parameterName=’weight’, ignoreUnweighted=True&lt;/em&gt;):&lt;/p&gt;
+&lt;p&gt;&lt;a name=&quot;visual.drop_nodesByDegree&quot;&gt;&lt;/a&gt;visual.&lt;strong&gt;drop_nodesByDegree&lt;/strong&gt;(&lt;em&gt;grph, minDegree=-inf, maxDegree=inf, useWeight=True, parameterName=’weight’, ignoreUnweighted=True&lt;/em&gt;):&lt;/p&gt;
 
 &lt;p&gt;      Returns a graph whose nodes have a degree that is within inclusive bounds of minDegree and maxDegree, i.e minDegree &amp;lt;= degree &amp;lt;= maxDegree. Degree can be determined in two ways by default it is the total number of edges touching a node, alternative if useWeight is True it is the sum of the weight of all the edges touching a node.&lt;/p&gt;
 
@@ -77,32 +78,32 @@
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;a name=&quot;metaknowledge.filterNonJournals&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;filterNonJournals&lt;/strong&gt;(&lt;em&gt;citesLst, invert=False&lt;/em&gt;):&lt;/p&gt;
+&lt;p&gt;&lt;a name=&quot;visual.filterNonJournals&quot;&gt;&lt;/a&gt;visual.&lt;strong&gt;filterNonJournals&lt;/strong&gt;(&lt;em&gt;citesLst, invert=False&lt;/em&gt;):&lt;/p&gt;
 
 &lt;h1 id=&quot;needs-to-be-written-2&quot;&gt;Needs to be written&lt;/h1&gt;
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;a name=&quot;metaknowledge.graphStats&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;graphStats&lt;/strong&gt;(&lt;em&gt;G, stats=(‘nodes’, ‘edges’, ‘isolates’, ‘loops’, ‘density’, ‘transitivity’), makeString=True&lt;/em&gt;):&lt;/p&gt;
+&lt;p&gt;&lt;a name=&quot;visual.graphStats&quot;&gt;&lt;/a&gt;visual.&lt;strong&gt;graphStats&lt;/strong&gt;(&lt;em&gt;G, stats=(‘nodes’, ‘edges’, ‘isolates’, ‘loops’, ‘density’, ‘transitivity’), makeString=True&lt;/em&gt;):&lt;/p&gt;
 
 &lt;h1 id=&quot;needs-to-be-written-3&quot;&gt;Needs to be written&lt;/h1&gt;
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;a name=&quot;metaknowledge.isiParser&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;isiParser&lt;/strong&gt;(&lt;em&gt;isifile&lt;/em&gt;):&lt;/p&gt;
+&lt;p&gt;&lt;a name=&quot;visual.isiParser&quot;&gt;&lt;/a&gt;visual.&lt;strong&gt;isiParser&lt;/strong&gt;(&lt;em&gt;isifile&lt;/em&gt;):&lt;/p&gt;
 
 &lt;p&gt;      isiParser() reads the file given by the path isifile, checks that the header is correct then reads until it reaches EF.
       Each it finds is used to initialize a Record then all Record are returned as a list.&lt;/p&gt;
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;a name=&quot;metaknowledge.modularity&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;modularity&lt;/strong&gt;(&lt;em&gt;G, weightParameter=None, communityParameter=’community’&lt;/em&gt;):&lt;/p&gt;
+&lt;p&gt;&lt;a name=&quot;visual.modularity&quot;&gt;&lt;/a&gt;visual.&lt;strong&gt;modularity&lt;/strong&gt;(&lt;em&gt;G, weightParameter=None, communityParameter=’community’&lt;/em&gt;):&lt;/p&gt;
 
 &lt;p&gt;      Gets modularity of network, currently not tuned&lt;/p&gt;
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;a name=&quot;metaknowledge.read_graph&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;read_graph&lt;/strong&gt;(&lt;em&gt;edgeList, nodeList=None, directed=False, idKey=’ID’, eSource=’From’, eDest=’To’&lt;/em&gt;):&lt;/p&gt;
+&lt;p&gt;&lt;a name=&quot;visual.read_graph&quot;&gt;&lt;/a&gt;visual.&lt;strong&gt;read_graph&lt;/strong&gt;(&lt;em&gt;edgeList, nodeList=None, directed=False, idKey=’ID’, eSource=’From’, eDest=’To’&lt;/em&gt;):&lt;/p&gt;
 
 &lt;p&gt;      Reads the files given by edgeList and if given nodeList and produces a networkx graph
       This is designed only for the files produced by metaknowledge and is meant to be the reverse of write_graph()&lt;/p&gt;
@@ -115,7 +116,7 @@
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;a name=&quot;metaknowledge.recordParser&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;recordParser&lt;/strong&gt;(&lt;em&gt;paper&lt;/em&gt;):&lt;/p&gt;
+&lt;p&gt;&lt;a name=&quot;visual.recordParser&quot;&gt;&lt;/a&gt;visual.&lt;strong&gt;recordParser&lt;/strong&gt;(&lt;em&gt;paper&lt;/em&gt;):&lt;/p&gt;
 
 &lt;p&gt;      Reads the file &lt;em&gt;paper&lt;/em&gt; until it reaches ‘ER’.&lt;/p&gt;
 
@@ -143,14 +144,14 @@
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;a name=&quot;metaknowledge.write_edgeList&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;write_edgeList&lt;/strong&gt;(&lt;em&gt;grph, name, extraInfo=True, progBar=None&lt;/em&gt;):&lt;/p&gt;
+&lt;p&gt;&lt;a name=&quot;visual.write_edgeList&quot;&gt;&lt;/a&gt;visual.&lt;strong&gt;write_edgeList&lt;/strong&gt;(&lt;em&gt;grph, name, extraInfo=True, progBar=None&lt;/em&gt;):&lt;/p&gt;
 
 &lt;p&gt;      writes an edge list of grph with filename name, if extraInfo is true the additional information about the edges, e.g. weight, will be written.
       All edges must have the same tags&lt;/p&gt;
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;a name=&quot;metaknowledge.write_graph&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;write_graph&lt;/strong&gt;(&lt;em&gt;grph, name, edgeInfo=True, typing=False, suffix=’csv’, overwrite=True&lt;/em&gt;):&lt;/p&gt;
+&lt;p&gt;&lt;a name=&quot;visual.write_graph&quot;&gt;&lt;/a&gt;visual.&lt;strong&gt;write_graph&lt;/strong&gt;(&lt;em&gt;grph, name, edgeInfo=True, typing=False, suffix=’csv’, overwrite=True&lt;/em&gt;):&lt;/p&gt;
 
 &lt;p&gt;      Writes both the edge list and the node attribute list of grph.
       The output files start with name, the file type[edgeList, nodeAttributes] then if typing is True the type of graph (directed or undirected) then the suffix, it appears as follows:
@@ -160,7 +161,7 @@
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;a name=&quot;metaknowledge.write_nodeAttributeFile&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;write_nodeAttributeFile&lt;/strong&gt;(&lt;em&gt;grph, name, progBar=None&lt;/em&gt;):&lt;/p&gt;
+&lt;p&gt;&lt;a name=&quot;visual.write_nodeAttributeFile&quot;&gt;&lt;/a&gt;visual.&lt;strong&gt;write_nodeAttributeFile&lt;/strong&gt;(&lt;em&gt;grph, name, progBar=None&lt;/em&gt;):&lt;/p&gt;
 
 &lt;p&gt;      writes a node attribute list of grph with filename name, the first column is the node’s ID then all after it are its associated information.
       All nodes must have the same tags.&lt;/p&gt;
@@ -185,19 +186,20 @@
     <email>john.mclevey@uwaterloo.ca</email>
   </author>
   <content type="html">
-    &lt;p&gt;&lt;a name=&quot;metaknowledge.blondel&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;blondel&lt;/strong&gt;(&lt;em&gt;G, weightParameter=None, communityParameter=’community’&lt;/em&gt;):&lt;/p&gt;
+    &lt;p&gt;&lt;a name=&quot;tagFuncs&quot;&gt;&lt;/a&gt;
+&lt;a name=&quot;tagFuncs.blondel&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;blondel&lt;/strong&gt;(&lt;em&gt;G, weightParameter=None, communityParameter=’community’&lt;/em&gt;):&lt;/p&gt;
 
 &lt;h1 id=&quot;needs-to-be-written&quot;&gt;Needs to be written&lt;/h1&gt;
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;a name=&quot;metaknowledge.btest&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;btest&lt;/strong&gt;(&lt;em&gt;quite=False&lt;/em&gt;):&lt;/p&gt;
+&lt;p&gt;&lt;a name=&quot;tagFuncs.btest&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;btest&lt;/strong&gt;(&lt;em&gt;quite=False&lt;/em&gt;):&lt;/p&gt;
 
 &lt;h1 id=&quot;needs-to-be-written-1&quot;&gt;Needs to be written&lt;/h1&gt;
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;a name=&quot;metaknowledge.drop_edges&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;drop_edges&lt;/strong&gt;(&lt;em&gt;grph, minWeight=-inf, maxWeight=inf, parameterName=’weight’, ignoreUnweighted=False, dropSelfLoops=False&lt;/em&gt;):&lt;/p&gt;
+&lt;p&gt;&lt;a name=&quot;tagFuncs.drop_edges&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;drop_edges&lt;/strong&gt;(&lt;em&gt;grph, minWeight=-inf, maxWeight=inf, parameterName=’weight’, ignoreUnweighted=False, dropSelfLoops=False&lt;/em&gt;):&lt;/p&gt;
 
 &lt;p&gt;      Returns a graph with edges whose weight is within the inclusive bounds of minWeight and maxWeight, i.e minWeight &amp;lt;= edges weight &amp;lt;= maxWeight, will throw a Keyerror if the graph is unweighted&lt;/p&gt;
 
@@ -209,7 +211,7 @@
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;a name=&quot;metaknowledge.drop_nodesByCount&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;drop_nodesByCount&lt;/strong&gt;(&lt;em&gt;grph, minCount=-inf, maxCount=inf, parameterName=’count’, ignoreMissing=False&lt;/em&gt;):&lt;/p&gt;
+&lt;p&gt;&lt;a name=&quot;tagFuncs.drop_nodesByCount&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;drop_nodesByCount&lt;/strong&gt;(&lt;em&gt;grph, minCount=-inf, maxCount=inf, parameterName=’count’, ignoreMissing=False&lt;/em&gt;):&lt;/p&gt;
 
 &lt;p&gt;      Returns a graph whose nodes have a occurrence count that is within inclusive bounds of minCount and maxCount, i.e minCount &amp;lt;= count &amp;lt;= maxCount. Occurrence count is determined by reading the variable associated with the node named parameterName.&lt;/p&gt;
 
@@ -221,7 +223,7 @@
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;a name=&quot;metaknowledge.drop_nodesByDegree&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;drop_nodesByDegree&lt;/strong&gt;(&lt;em&gt;grph, minDegree=-inf, maxDegree=inf, useWeight=True, parameterName=’weight’, ignoreUnweighted=True&lt;/em&gt;):&lt;/p&gt;
+&lt;p&gt;&lt;a name=&quot;tagFuncs.drop_nodesByDegree&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;drop_nodesByDegree&lt;/strong&gt;(&lt;em&gt;grph, minDegree=-inf, maxDegree=inf, useWeight=True, parameterName=’weight’, ignoreUnweighted=True&lt;/em&gt;):&lt;/p&gt;
 
 &lt;p&gt;      Returns a graph whose nodes have a degree that is within inclusive bounds of minDegree and maxDegree, i.e minDegree &amp;lt;= degree &amp;lt;= maxDegree. Degree can be determined in two ways by default it is the total number of edges touching a node, alternative if useWeight is True it is the sum of the weight of all the edges touching a node.&lt;/p&gt;
 
@@ -235,32 +237,32 @@
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;a name=&quot;metaknowledge.filterNonJournals&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;filterNonJournals&lt;/strong&gt;(&lt;em&gt;citesLst, invert=False&lt;/em&gt;):&lt;/p&gt;
+&lt;p&gt;&lt;a name=&quot;tagFuncs.filterNonJournals&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;filterNonJournals&lt;/strong&gt;(&lt;em&gt;citesLst, invert=False&lt;/em&gt;):&lt;/p&gt;
 
 &lt;h1 id=&quot;needs-to-be-written-2&quot;&gt;Needs to be written&lt;/h1&gt;
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;a name=&quot;metaknowledge.graphStats&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;graphStats&lt;/strong&gt;(&lt;em&gt;G, stats=(‘nodes’, ‘edges’, ‘isolates’, ‘loops’, ‘density’, ‘transitivity’), makeString=True&lt;/em&gt;):&lt;/p&gt;
+&lt;p&gt;&lt;a name=&quot;tagFuncs.graphStats&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;graphStats&lt;/strong&gt;(&lt;em&gt;G, stats=(‘nodes’, ‘edges’, ‘isolates’, ‘loops’, ‘density’, ‘transitivity’), makeString=True&lt;/em&gt;):&lt;/p&gt;
 
 &lt;h1 id=&quot;needs-to-be-written-3&quot;&gt;Needs to be written&lt;/h1&gt;
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;a name=&quot;metaknowledge.isiParser&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;isiParser&lt;/strong&gt;(&lt;em&gt;isifile&lt;/em&gt;):&lt;/p&gt;
+&lt;p&gt;&lt;a name=&quot;tagFuncs.isiParser&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;isiParser&lt;/strong&gt;(&lt;em&gt;isifile&lt;/em&gt;):&lt;/p&gt;
 
 &lt;p&gt;      isiParser() reads the file given by the path isifile, checks that the header is correct then reads until it reaches EF.
       Each it finds is used to initialize a Record then all Record are returned as a list.&lt;/p&gt;
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;a name=&quot;metaknowledge.modularity&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;modularity&lt;/strong&gt;(&lt;em&gt;G, weightParameter=None, communityParameter=’community’&lt;/em&gt;):&lt;/p&gt;
+&lt;p&gt;&lt;a name=&quot;tagFuncs.modularity&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;modularity&lt;/strong&gt;(&lt;em&gt;G, weightParameter=None, communityParameter=’community’&lt;/em&gt;):&lt;/p&gt;
 
 &lt;p&gt;      Gets modularity of network, currently not tuned&lt;/p&gt;
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;a name=&quot;metaknowledge.read_graph&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;read_graph&lt;/strong&gt;(&lt;em&gt;edgeList, nodeList=None, directed=False, idKey=’ID’, eSource=’From’, eDest=’To’&lt;/em&gt;):&lt;/p&gt;
+&lt;p&gt;&lt;a name=&quot;tagFuncs.read_graph&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;read_graph&lt;/strong&gt;(&lt;em&gt;edgeList, nodeList=None, directed=False, idKey=’ID’, eSource=’From’, eDest=’To’&lt;/em&gt;):&lt;/p&gt;
 
 &lt;p&gt;      Reads the files given by edgeList and if given nodeList and produces a networkx graph
       This is designed only for the files produced by metaknowledge and is meant to be the reverse of write_graph()&lt;/p&gt;
@@ -273,7 +275,7 @@
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;a name=&quot;metaknowledge.recordParser&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;recordParser&lt;/strong&gt;(&lt;em&gt;paper&lt;/em&gt;):&lt;/p&gt;
+&lt;p&gt;&lt;a name=&quot;tagFuncs.recordParser&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;recordParser&lt;/strong&gt;(&lt;em&gt;paper&lt;/em&gt;):&lt;/p&gt;
 
 &lt;p&gt;      Reads the file &lt;em&gt;paper&lt;/em&gt; until it reaches ‘ER’.&lt;/p&gt;
 
@@ -301,14 +303,14 @@
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;a name=&quot;metaknowledge.write_edgeList&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;write_edgeList&lt;/strong&gt;(&lt;em&gt;grph, name, extraInfo=True, progBar=None&lt;/em&gt;):&lt;/p&gt;
+&lt;p&gt;&lt;a name=&quot;tagFuncs.write_edgeList&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;write_edgeList&lt;/strong&gt;(&lt;em&gt;grph, name, extraInfo=True, progBar=None&lt;/em&gt;):&lt;/p&gt;
 
 &lt;p&gt;      writes an edge list of grph with filename name, if extraInfo is true the additional information about the edges, e.g. weight, will be written.
       All edges must have the same tags&lt;/p&gt;
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;a name=&quot;metaknowledge.write_graph&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;write_graph&lt;/strong&gt;(&lt;em&gt;grph, name, edgeInfo=True, typing=False, suffix=’csv’, overwrite=True&lt;/em&gt;):&lt;/p&gt;
+&lt;p&gt;&lt;a name=&quot;tagFuncs.write_graph&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;write_graph&lt;/strong&gt;(&lt;em&gt;grph, name, edgeInfo=True, typing=False, suffix=’csv’, overwrite=True&lt;/em&gt;):&lt;/p&gt;
 
 &lt;p&gt;      Writes both the edge list and the node attribute list of grph.
       The output files start with name, the file type[edgeList, nodeAttributes] then if typing is True the type of graph (directed or undirected) then the suffix, it appears as follows:
@@ -318,7 +320,7 @@
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;a name=&quot;metaknowledge.write_nodeAttributeFile&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;write_nodeAttributeFile&lt;/strong&gt;(&lt;em&gt;grph, name, progBar=None&lt;/em&gt;):&lt;/p&gt;
+&lt;p&gt;&lt;a name=&quot;tagFuncs.write_nodeAttributeFile&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;write_nodeAttributeFile&lt;/strong&gt;(&lt;em&gt;grph, name, progBar=None&lt;/em&gt;):&lt;/p&gt;
 
 &lt;p&gt;      writes a node attribute list of grph with filename name, the first column is the node’s ID then all after it are its associated information.
       All nodes must have the same tags.&lt;/p&gt;
@@ -343,19 +345,20 @@
     <email>john.mclevey@uwaterloo.ca</email>
   </author>
   <content type="html">
-    &lt;p&gt;&lt;a name=&quot;metaknowledge.blondel&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;blondel&lt;/strong&gt;(&lt;em&gt;G, weightParameter=None, communityParameter=’community’&lt;/em&gt;):&lt;/p&gt;
+    &lt;p&gt;&lt;a name=&quot;metaknowledge&quot;&gt;&lt;/a&gt;
+&lt;a name=&quot;blondel&quot;&gt;&lt;/a&gt;&lt;strong&gt;blondel&lt;/strong&gt;(&lt;em&gt;G, weightParameter=None, communityParameter=’community’&lt;/em&gt;):&lt;/p&gt;
 
 &lt;h1 id=&quot;needs-to-be-written&quot;&gt;Needs to be written&lt;/h1&gt;
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;a name=&quot;metaknowledge.btest&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;btest&lt;/strong&gt;(&lt;em&gt;quite=False&lt;/em&gt;):&lt;/p&gt;
+&lt;p&gt;&lt;a name=&quot;btest&quot;&gt;&lt;/a&gt;&lt;strong&gt;btest&lt;/strong&gt;(&lt;em&gt;quite=False&lt;/em&gt;):&lt;/p&gt;
 
 &lt;h1 id=&quot;needs-to-be-written-1&quot;&gt;Needs to be written&lt;/h1&gt;
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;a name=&quot;metaknowledge.drop_edges&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;drop_edges&lt;/strong&gt;(&lt;em&gt;grph, minWeight=-inf, maxWeight=inf, parameterName=’weight’, ignoreUnweighted=False, dropSelfLoops=False&lt;/em&gt;):&lt;/p&gt;
+&lt;p&gt;&lt;a name=&quot;drop_edges&quot;&gt;&lt;/a&gt;&lt;strong&gt;drop_edges&lt;/strong&gt;(&lt;em&gt;grph, minWeight=-inf, maxWeight=inf, parameterName=’weight’, ignoreUnweighted=False, dropSelfLoops=False&lt;/em&gt;):&lt;/p&gt;
 
 &lt;p&gt;      Returns a graph with edges whose weight is within the inclusive bounds of minWeight and maxWeight, i.e minWeight &amp;lt;= edges weight &amp;lt;= maxWeight, will throw a Keyerror if the graph is unweighted&lt;/p&gt;
 
@@ -367,7 +370,7 @@
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;a name=&quot;metaknowledge.drop_nodesByCount&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;drop_nodesByCount&lt;/strong&gt;(&lt;em&gt;grph, minCount=-inf, maxCount=inf, parameterName=’count’, ignoreMissing=False&lt;/em&gt;):&lt;/p&gt;
+&lt;p&gt;&lt;a name=&quot;drop_nodesByCount&quot;&gt;&lt;/a&gt;&lt;strong&gt;drop_nodesByCount&lt;/strong&gt;(&lt;em&gt;grph, minCount=-inf, maxCount=inf, parameterName=’count’, ignoreMissing=False&lt;/em&gt;):&lt;/p&gt;
 
 &lt;p&gt;      Returns a graph whose nodes have a occurrence count that is within inclusive bounds of minCount and maxCount, i.e minCount &amp;lt;= count &amp;lt;= maxCount. Occurrence count is determined by reading the variable associated with the node named parameterName.&lt;/p&gt;
 
@@ -379,7 +382,7 @@
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;a name=&quot;metaknowledge.drop_nodesByDegree&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;drop_nodesByDegree&lt;/strong&gt;(&lt;em&gt;grph, minDegree=-inf, maxDegree=inf, useWeight=True, parameterName=’weight’, ignoreUnweighted=True&lt;/em&gt;):&lt;/p&gt;
+&lt;p&gt;&lt;a name=&quot;drop_nodesByDegree&quot;&gt;&lt;/a&gt;&lt;strong&gt;drop_nodesByDegree&lt;/strong&gt;(&lt;em&gt;grph, minDegree=-inf, maxDegree=inf, useWeight=True, parameterName=’weight’, ignoreUnweighted=True&lt;/em&gt;):&lt;/p&gt;
 
 &lt;p&gt;      Returns a graph whose nodes have a degree that is within inclusive bounds of minDegree and maxDegree, i.e minDegree &amp;lt;= degree &amp;lt;= maxDegree. Degree can be determined in two ways by default it is the total number of edges touching a node, alternative if useWeight is True it is the sum of the weight of all the edges touching a node.&lt;/p&gt;
 
@@ -393,32 +396,32 @@
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;a name=&quot;metaknowledge.filterNonJournals&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;filterNonJournals&lt;/strong&gt;(&lt;em&gt;citesLst, invert=False&lt;/em&gt;):&lt;/p&gt;
+&lt;p&gt;&lt;a name=&quot;filterNonJournals&quot;&gt;&lt;/a&gt;&lt;strong&gt;filterNonJournals&lt;/strong&gt;(&lt;em&gt;citesLst, invert=False&lt;/em&gt;):&lt;/p&gt;
 
 &lt;h1 id=&quot;needs-to-be-written-2&quot;&gt;Needs to be written&lt;/h1&gt;
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;a name=&quot;metaknowledge.graphStats&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;graphStats&lt;/strong&gt;(&lt;em&gt;G, stats=(‘nodes’, ‘edges’, ‘isolates’, ‘loops’, ‘density’, ‘transitivity’), makeString=True&lt;/em&gt;):&lt;/p&gt;
+&lt;p&gt;&lt;a name=&quot;graphStats&quot;&gt;&lt;/a&gt;&lt;strong&gt;graphStats&lt;/strong&gt;(&lt;em&gt;G, stats=(‘nodes’, ‘edges’, ‘isolates’, ‘loops’, ‘density’, ‘transitivity’), makeString=True&lt;/em&gt;):&lt;/p&gt;
 
 &lt;h1 id=&quot;needs-to-be-written-3&quot;&gt;Needs to be written&lt;/h1&gt;
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;a name=&quot;metaknowledge.isiParser&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;isiParser&lt;/strong&gt;(&lt;em&gt;isifile&lt;/em&gt;):&lt;/p&gt;
+&lt;p&gt;&lt;a name=&quot;isiParser&quot;&gt;&lt;/a&gt;&lt;strong&gt;isiParser&lt;/strong&gt;(&lt;em&gt;isifile&lt;/em&gt;):&lt;/p&gt;
 
 &lt;p&gt;      isiParser() reads the file given by the path isifile, checks that the header is correct then reads until it reaches EF.
       Each it finds is used to initialize a Record then all Record are returned as a list.&lt;/p&gt;
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;a name=&quot;metaknowledge.modularity&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;modularity&lt;/strong&gt;(&lt;em&gt;G, weightParameter=None, communityParameter=’community’&lt;/em&gt;):&lt;/p&gt;
+&lt;p&gt;&lt;a name=&quot;modularity&quot;&gt;&lt;/a&gt;&lt;strong&gt;modularity&lt;/strong&gt;(&lt;em&gt;G, weightParameter=None, communityParameter=’community’&lt;/em&gt;):&lt;/p&gt;
 
 &lt;p&gt;      Gets modularity of network, currently not tuned&lt;/p&gt;
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;a name=&quot;metaknowledge.read_graph&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;read_graph&lt;/strong&gt;(&lt;em&gt;edgeList, nodeList=None, directed=False, idKey=’ID’, eSource=’From’, eDest=’To’&lt;/em&gt;):&lt;/p&gt;
+&lt;p&gt;&lt;a name=&quot;read_graph&quot;&gt;&lt;/a&gt;&lt;strong&gt;read_graph&lt;/strong&gt;(&lt;em&gt;edgeList, nodeList=None, directed=False, idKey=’ID’, eSource=’From’, eDest=’To’&lt;/em&gt;):&lt;/p&gt;
 
 &lt;p&gt;      Reads the files given by edgeList and if given nodeList and produces a networkx graph
       This is designed only for the files produced by metaknowledge and is meant to be the reverse of write_graph()&lt;/p&gt;
@@ -431,7 +434,7 @@
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;a name=&quot;metaknowledge.recordParser&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;recordParser&lt;/strong&gt;(&lt;em&gt;paper&lt;/em&gt;):&lt;/p&gt;
+&lt;p&gt;&lt;a name=&quot;recordParser&quot;&gt;&lt;/a&gt;&lt;strong&gt;recordParser&lt;/strong&gt;(&lt;em&gt;paper&lt;/em&gt;):&lt;/p&gt;
 
 &lt;p&gt;      Reads the file &lt;em&gt;paper&lt;/em&gt; until it reaches ‘ER’.&lt;/p&gt;
 
@@ -459,14 +462,14 @@
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;a name=&quot;metaknowledge.write_edgeList&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;write_edgeList&lt;/strong&gt;(&lt;em&gt;grph, name, extraInfo=True, progBar=None&lt;/em&gt;):&lt;/p&gt;
+&lt;p&gt;&lt;a name=&quot;write_edgeList&quot;&gt;&lt;/a&gt;&lt;strong&gt;write_edgeList&lt;/strong&gt;(&lt;em&gt;grph, name, extraInfo=True, progBar=None&lt;/em&gt;):&lt;/p&gt;
 
 &lt;p&gt;      writes an edge list of grph with filename name, if extraInfo is true the additional information about the edges, e.g. weight, will be written.
       All edges must have the same tags&lt;/p&gt;
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;a name=&quot;metaknowledge.write_graph&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;write_graph&lt;/strong&gt;(&lt;em&gt;grph, name, edgeInfo=True, typing=False, suffix=’csv’, overwrite=True&lt;/em&gt;):&lt;/p&gt;
+&lt;p&gt;&lt;a name=&quot;write_graph&quot;&gt;&lt;/a&gt;&lt;strong&gt;write_graph&lt;/strong&gt;(&lt;em&gt;grph, name, edgeInfo=True, typing=False, suffix=’csv’, overwrite=True&lt;/em&gt;):&lt;/p&gt;
 
 &lt;p&gt;      Writes both the edge list and the node attribute list of grph.
       The output files start with name, the file type[edgeList, nodeAttributes] then if typing is True the type of graph (directed or undirected) then the suffix, it appears as follows:
@@ -476,18 +479,18 @@
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;a name=&quot;metaknowledge.write_nodeAttributeFile&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;write_nodeAttributeFile&lt;/strong&gt;(&lt;em&gt;grph, name, progBar=None&lt;/em&gt;):&lt;/p&gt;
+&lt;p&gt;&lt;a name=&quot;write_nodeAttributeFile&quot;&gt;&lt;/a&gt;&lt;strong&gt;write_nodeAttributeFile&lt;/strong&gt;(&lt;em&gt;grph, name, progBar=None&lt;/em&gt;):&lt;/p&gt;
 
 &lt;p&gt;      writes a node attribute list of grph with filename name, the first column is the node’s ID then all after it are its associated information.
       All nodes must have the same tags.&lt;/p&gt;
 
-&lt;p&gt;&lt;a name=&quot;metaknowledge.BadCitation&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;BadCitation&lt;/strong&gt;():&lt;/p&gt;
+&lt;p&gt;&lt;a name=&quot;BadCitation&quot;&gt;&lt;/a&gt;&lt;strong&gt;BadCitation&lt;/strong&gt;():&lt;/p&gt;
 
 &lt;p&gt;      Exception thrown by Citation&lt;/p&gt;
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;a name=&quot;metaknowledge.BadISIRecord&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;BadISIRecord&lt;/strong&gt;():&lt;/p&gt;
+&lt;p&gt;&lt;a name=&quot;BadISIRecord&quot;&gt;&lt;/a&gt;&lt;strong&gt;BadISIRecord&lt;/strong&gt;():&lt;/p&gt;
 
 &lt;p&gt;      Exception thrown by the &lt;a href=&quot;#metaknowledge.recordParser&quot;&gt;record parser&lt;/a&gt; to indicate a mis-formated record. This occurs when some component of the record does not parse. The messages will be any of:&lt;/p&gt;
 
@@ -521,19 +524,20 @@
     <email>john.mclevey@uwaterloo.ca</email>
   </author>
   <content type="html">
-    &lt;p&gt;&lt;a name=&quot;metaknowledge.blondel&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;blondel&lt;/strong&gt;(&lt;em&gt;G, weightParameter=None, communityParameter=’community’&lt;/em&gt;):&lt;/p&gt;
+    &lt;p&gt;&lt;a name=&quot;journalAbbreviations&quot;&gt;&lt;/a&gt;
+&lt;a name=&quot;journalAbbreviations.blondel&quot;&gt;&lt;/a&gt;journalAbbreviations.&lt;strong&gt;blondel&lt;/strong&gt;(&lt;em&gt;G, weightParameter=None, communityParameter=’community’&lt;/em&gt;):&lt;/p&gt;
 
 &lt;h1 id=&quot;needs-to-be-written&quot;&gt;Needs to be written&lt;/h1&gt;
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;a name=&quot;metaknowledge.btest&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;btest&lt;/strong&gt;(&lt;em&gt;quite=False&lt;/em&gt;):&lt;/p&gt;
+&lt;p&gt;&lt;a name=&quot;journalAbbreviations.btest&quot;&gt;&lt;/a&gt;journalAbbreviations.&lt;strong&gt;btest&lt;/strong&gt;(&lt;em&gt;quite=False&lt;/em&gt;):&lt;/p&gt;
 
 &lt;h1 id=&quot;needs-to-be-written-1&quot;&gt;Needs to be written&lt;/h1&gt;
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;a name=&quot;metaknowledge.drop_edges&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;drop_edges&lt;/strong&gt;(&lt;em&gt;grph, minWeight=-inf, maxWeight=inf, parameterName=’weight’, ignoreUnweighted=False, dropSelfLoops=False&lt;/em&gt;):&lt;/p&gt;
+&lt;p&gt;&lt;a name=&quot;journalAbbreviations.drop_edges&quot;&gt;&lt;/a&gt;journalAbbreviations.&lt;strong&gt;drop_edges&lt;/strong&gt;(&lt;em&gt;grph, minWeight=-inf, maxWeight=inf, parameterName=’weight’, ignoreUnweighted=False, dropSelfLoops=False&lt;/em&gt;):&lt;/p&gt;
 
 &lt;p&gt;      Returns a graph with edges whose weight is within the inclusive bounds of minWeight and maxWeight, i.e minWeight &amp;lt;= edges weight &amp;lt;= maxWeight, will throw a Keyerror if the graph is unweighted&lt;/p&gt;
 
@@ -545,7 +549,7 @@
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;a name=&quot;metaknowledge.drop_nodesByCount&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;drop_nodesByCount&lt;/strong&gt;(&lt;em&gt;grph, minCount=-inf, maxCount=inf, parameterName=’count’, ignoreMissing=False&lt;/em&gt;):&lt;/p&gt;
+&lt;p&gt;&lt;a name=&quot;journalAbbreviations.drop_nodesByCount&quot;&gt;&lt;/a&gt;journalAbbreviations.&lt;strong&gt;drop_nodesByCount&lt;/strong&gt;(&lt;em&gt;grph, minCount=-inf, maxCount=inf, parameterName=’count’, ignoreMissing=False&lt;/em&gt;):&lt;/p&gt;
 
 &lt;p&gt;      Returns a graph whose nodes have a occurrence count that is within inclusive bounds of minCount and maxCount, i.e minCount &amp;lt;= count &amp;lt;= maxCount. Occurrence count is determined by reading the variable associated with the node named parameterName.&lt;/p&gt;
 
@@ -557,7 +561,7 @@
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;a name=&quot;metaknowledge.drop_nodesByDegree&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;drop_nodesByDegree&lt;/strong&gt;(&lt;em&gt;grph, minDegree=-inf, maxDegree=inf, useWeight=True, parameterName=’weight’, ignoreUnweighted=True&lt;/em&gt;):&lt;/p&gt;
+&lt;p&gt;&lt;a name=&quot;journalAbbreviations.drop_nodesByDegree&quot;&gt;&lt;/a&gt;journalAbbreviations.&lt;strong&gt;drop_nodesByDegree&lt;/strong&gt;(&lt;em&gt;grph, minDegree=-inf, maxDegree=inf, useWeight=True, parameterName=’weight’, ignoreUnweighted=True&lt;/em&gt;):&lt;/p&gt;
 
 &lt;p&gt;      Returns a graph whose nodes have a degree that is within inclusive bounds of minDegree and maxDegree, i.e minDegree &amp;lt;= degree &amp;lt;= maxDegree. Degree can be determined in two ways by default it is the total number of edges touching a node, alternative if useWeight is True it is the sum of the weight of all the edges touching a node.&lt;/p&gt;
 
@@ -571,32 +575,32 @@
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;a name=&quot;metaknowledge.filterNonJournals&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;filterNonJournals&lt;/strong&gt;(&lt;em&gt;citesLst, invert=False&lt;/em&gt;):&lt;/p&gt;
+&lt;p&gt;&lt;a name=&quot;journalAbbreviations.filterNonJournals&quot;&gt;&lt;/a&gt;journalAbbreviations.&lt;strong&gt;filterNonJournals&lt;/strong&gt;(&lt;em&gt;citesLst, invert=False&lt;/em&gt;):&lt;/p&gt;
 
 &lt;h1 id=&quot;needs-to-be-written-2&quot;&gt;Needs to be written&lt;/h1&gt;
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;a name=&quot;metaknowledge.graphStats&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;graphStats&lt;/strong&gt;(&lt;em&gt;G, stats=(‘nodes’, ‘edges’, ‘isolates’, ‘loops’, ‘density’, ‘transitivity’), makeString=True&lt;/em&gt;):&lt;/p&gt;
+&lt;p&gt;&lt;a name=&quot;journalAbbreviations.graphStats&quot;&gt;&lt;/a&gt;journalAbbreviations.&lt;strong&gt;graphStats&lt;/strong&gt;(&lt;em&gt;G, stats=(‘nodes’, ‘edges’, ‘isolates’, ‘loops’, ‘density’, ‘transitivity’), makeString=True&lt;/em&gt;):&lt;/p&gt;
 
 &lt;h1 id=&quot;needs-to-be-written-3&quot;&gt;Needs to be written&lt;/h1&gt;
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;a name=&quot;metaknowledge.isiParser&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;isiParser&lt;/strong&gt;(&lt;em&gt;isifile&lt;/em&gt;):&lt;/p&gt;
+&lt;p&gt;&lt;a name=&quot;journalAbbreviations.isiParser&quot;&gt;&lt;/a&gt;journalAbbreviations.&lt;strong&gt;isiParser&lt;/strong&gt;(&lt;em&gt;isifile&lt;/em&gt;):&lt;/p&gt;
 
 &lt;p&gt;      isiParser() reads the file given by the path isifile, checks that the header is correct then reads until it reaches EF.
       Each it finds is used to initialize a Record then all Record are returned as a list.&lt;/p&gt;
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;a name=&quot;metaknowledge.modularity&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;modularity&lt;/strong&gt;(&lt;em&gt;G, weightParameter=None, communityParameter=’community’&lt;/em&gt;):&lt;/p&gt;
+&lt;p&gt;&lt;a name=&quot;journalAbbreviations.modularity&quot;&gt;&lt;/a&gt;journalAbbreviations.&lt;strong&gt;modularity&lt;/strong&gt;(&lt;em&gt;G, weightParameter=None, communityParameter=’community’&lt;/em&gt;):&lt;/p&gt;
 
 &lt;p&gt;      Gets modularity of network, currently not tuned&lt;/p&gt;
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;a name=&quot;metaknowledge.read_graph&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;read_graph&lt;/strong&gt;(&lt;em&gt;edgeList, nodeList=None, directed=False, idKey=’ID’, eSource=’From’, eDest=’To’&lt;/em&gt;):&lt;/p&gt;
+&lt;p&gt;&lt;a name=&quot;journalAbbreviations.read_graph&quot;&gt;&lt;/a&gt;journalAbbreviations.&lt;strong&gt;read_graph&lt;/strong&gt;(&lt;em&gt;edgeList, nodeList=None, directed=False, idKey=’ID’, eSource=’From’, eDest=’To’&lt;/em&gt;):&lt;/p&gt;
 
 &lt;p&gt;      Reads the files given by edgeList and if given nodeList and produces a networkx graph
       This is designed only for the files produced by metaknowledge and is meant to be the reverse of write_graph()&lt;/p&gt;
@@ -609,7 +613,7 @@
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;a name=&quot;metaknowledge.recordParser&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;recordParser&lt;/strong&gt;(&lt;em&gt;paper&lt;/em&gt;):&lt;/p&gt;
+&lt;p&gt;&lt;a name=&quot;journalAbbreviations.recordParser&quot;&gt;&lt;/a&gt;journalAbbreviations.&lt;strong&gt;recordParser&lt;/strong&gt;(&lt;em&gt;paper&lt;/em&gt;):&lt;/p&gt;
 
 &lt;p&gt;      Reads the file &lt;em&gt;paper&lt;/em&gt; until it reaches ‘ER’.&lt;/p&gt;
 
@@ -637,14 +641,14 @@
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;a name=&quot;metaknowledge.write_edgeList&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;write_edgeList&lt;/strong&gt;(&lt;em&gt;grph, name, extraInfo=True, progBar=None&lt;/em&gt;):&lt;/p&gt;
+&lt;p&gt;&lt;a name=&quot;journalAbbreviations.write_edgeList&quot;&gt;&lt;/a&gt;journalAbbreviations.&lt;strong&gt;write_edgeList&lt;/strong&gt;(&lt;em&gt;grph, name, extraInfo=True, progBar=None&lt;/em&gt;):&lt;/p&gt;
 
 &lt;p&gt;      writes an edge list of grph with filename name, if extraInfo is true the additional information about the edges, e.g. weight, will be written.
       All edges must have the same tags&lt;/p&gt;
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;a name=&quot;metaknowledge.write_graph&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;write_graph&lt;/strong&gt;(&lt;em&gt;grph, name, edgeInfo=True, typing=False, suffix=’csv’, overwrite=True&lt;/em&gt;):&lt;/p&gt;
+&lt;p&gt;&lt;a name=&quot;journalAbbreviations.write_graph&quot;&gt;&lt;/a&gt;journalAbbreviations.&lt;strong&gt;write_graph&lt;/strong&gt;(&lt;em&gt;grph, name, edgeInfo=True, typing=False, suffix=’csv’, overwrite=True&lt;/em&gt;):&lt;/p&gt;
 
 &lt;p&gt;      Writes both the edge list and the node attribute list of grph.
       The output files start with name, the file type[edgeList, nodeAttributes] then if typing is True the type of graph (directed or undirected) then the suffix, it appears as follows:
@@ -654,7 +658,7 @@
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;a name=&quot;metaknowledge.write_nodeAttributeFile&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;write_nodeAttributeFile&lt;/strong&gt;(&lt;em&gt;grph, name, progBar=None&lt;/em&gt;):&lt;/p&gt;
+&lt;p&gt;&lt;a name=&quot;journalAbbreviations.write_nodeAttributeFile&quot;&gt;&lt;/a&gt;journalAbbreviations.&lt;strong&gt;write_nodeAttributeFile&lt;/strong&gt;(&lt;em&gt;grph, name, progBar=None&lt;/em&gt;):&lt;/p&gt;
 
 &lt;p&gt;      writes a node attribute list of grph with filename name, the first column is the node’s ID then all after it are its associated information.
       All nodes must have the same tags.&lt;/p&gt;
@@ -679,7 +683,8 @@
     <email>john.mclevey@uwaterloo.ca</email>
   </author>
   <content type="html">
-    &lt;p&gt;&lt;a name=&quot;metaknowledge.RecordCollection&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;RecordCollection&lt;/strong&gt;(&lt;em&gt;inCollection=None, name=’’, extension=’‘&lt;/em&gt;):&lt;/p&gt;
+    &lt;p&gt;&lt;a name=&quot;RecordCollection&quot;&gt;&lt;/a&gt;
+&lt;a name=&quot;RecordCollection&quot;&gt;&lt;/a&gt;&lt;strong&gt;RecordCollection&lt;/strong&gt;(&lt;em&gt;inCollection=None, name=’’, extension=’‘&lt;/em&gt;):&lt;/p&gt;
 
 &lt;p&gt;      A way of containing a large number of Record objects, it provides ways of creating them from an isi file, string, list of records or directory containing isi files. The Records are containing within a set and as such many of the set operations are defined, pop, union, in … also records are hashed with their WOS string so no duplication can occur.
       The comparison operators &amp;lt;, &amp;lt;=, &amp;gt;, &amp;gt;= are based strictly on the number of Records within the collection, while equality looks for an exact match on the Records&lt;/p&gt;
@@ -1007,7 +1012,8 @@
     <email>john.mclevey@uwaterloo.ca</email>
   </author>
   <content type="html">
-    &lt;p&gt;&lt;a name=&quot;metaknowledge.Record&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;Record&lt;/strong&gt;(&lt;em&gt;inRecord, taglist=(), sFile=’’, sLine=0&lt;/em&gt;):&lt;/p&gt;
+    &lt;p&gt;&lt;a name=&quot;Record&quot;&gt;&lt;/a&gt;
+&lt;a name=&quot;Record&quot;&gt;&lt;/a&gt;&lt;strong&gt;Record&lt;/strong&gt;(&lt;em&gt;inRecord, taglist=(), sFile=’’, sLine=0&lt;/em&gt;):&lt;/p&gt;
 
 &lt;p&gt;      Class for full WOS records&lt;/p&gt;
 
@@ -1151,7 +1157,8 @@
     <email>john.mclevey@uwaterloo.ca</email>
   </author>
   <content type="html">
-    &lt;p&gt;&lt;a name=&quot;metaknowledge.Citation&quot;&gt;&lt;/a&gt;metaknowledge.&lt;strong&gt;Citation&lt;/strong&gt;(&lt;em&gt;cite&lt;/em&gt;):&lt;/p&gt;
+    &lt;p&gt;&lt;a name=&quot;Citation&quot;&gt;&lt;/a&gt;
+&lt;a name=&quot;Citation&quot;&gt;&lt;/a&gt;&lt;strong&gt;Citation&lt;/strong&gt;(&lt;em&gt;cite&lt;/em&gt;):&lt;/p&gt;
 
 &lt;p&gt;      A class to hold citation strings and allow for comparison between them.&lt;/p&gt;
 

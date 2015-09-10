@@ -4,20 +4,37 @@
 import inspect
 import argparse
 import os
+import time
 import metaknowledge
+import importlib
 
-documentedModules = ['tagFuncs']
+documentedModules = ['tagFuncs','visual', 'journalAbbreviations']
+
+docsPrefix = time.strftime("%Y-%m-%d-")
+
+
+def makeHeader(title, excerpt):
+    return """---
+layout: page
+title: {}
+categories: docs
+excerpt: {}
+---
+""".format(title, excerpt)
+
 
 jekyllyHeader ="""---
 layout: page
 title: metaknowledge Docs
+categories: docs
+excerpt: the full documentation
 ---
 <a name="metaknowledge"></a>"""
 
 def argumentParser():
     parser = argparse.ArgumentParser(description="A simple script to genrate docs for metaknowledge")
     parser.add_argument("--output", "-o", default = 'metaknowledgeDocs.md', nargs='?')
-    parser.add_argument("dir", default = os.path.normpath(__file__ + "/../../docs") ,nargs='?', help = 'Directory to write files to')
+    parser.add_argument("dir", default = os.path.normpath('.') ,nargs='?', help = 'Directory to write files to')
     return parser.parse_args()
 
 def cleanargs(obj):
@@ -82,45 +99,23 @@ def proccessClass(cl, f):
         elif inspect.isfunction(m[1]):
             writeFunc(m, f, prefix = '{}.'.format(cl[0]), level = 4)
 
+def writeClassFile(name, typ):
+    fname = docsPrefix + "{}.md".format(name)
+    f = open(fname, 'w')
+    f.write(makeHeader(name, "The {} Class".format(name)))
+    proccessClass((name, typ), f)
 
-def main(args):
-    wDir = os.path.expanduser(os.path.normpath(args.dir))
-    if not os.path.isdir(wDir):
-        try:
-            os.mkdir(wDir)
-        except OSError:
-            print('Creating the directory {} failed'.format(os.dir))
-            return 1
-    classes = []
+def writeModuleFile(mod):
+    fname = docsPrefix + "{}.md".format(mod)
+    f = open(fname, 'w')
+    f.write(makeHeader(mod, "The {} Module".format(mod)))
+    module = importlib.__import__('metaknowledge.{}'.format(mod))
     funcs = []
-    vrs = []
-    builtins = []
-    mods = []
-    for m in inspect.getmembers(metaknowledge):
-        if inspect.ismodule(m[1]):
-            if m[0] in documentedModules:
-                mods.append(m)
-        elif inspect.isbuiltin(m[1]) or m[0][0] == '_':
-            builtins.append(m)
-        elif inspect.isclass(m[1]):
-            classes.append(m)
+    for m in inspect.getmembers(module):
+        if inspect.isbuiltin(m[1]) or m[0][0] == '_':
+            pass
         elif inspect.isfunction(m[1]):
             funcs.append(m)
-        else:
-            vrs.append(m)
-    f = open(os.path.expanduser(os.path.normpath(args.dir + '/' + args.output)), 'w')
-    f.write(jekyllyHeader)
-    #f.write('# <a name="{0}"></a> {0}\n\n'.format('metaknowledge'))
-    f.write(metaknowledge.__doc__ + '\n')
-    f.write('## Classes\n\n')
-    first = True
-    for c in classes:
-        if first:
-            first = False
-        else:
-            f.write("- - -\n\n")
-        proccessClass(c, f)
-    f.write('## Functions\n\n')
     first = True
     for fnc in funcs:
         if first:
@@ -128,10 +123,60 @@ def main(args):
         else:
             f.write("- - -\n\n")
         writeFunc(fnc, f)
-    for m in mods:
-        writeMod(m, f, prefix = 'metaknowledge.', level = 2)
-    f.close()
-    #print(inspect.getmembers(mods[0][1]))
+
+def writeMainBody(funcs, vrs, exceptions):
+    f = open(docsPrefix + "metaknowledge.md", 'w')
+    f.write(makeHeader("metaknowledge", "The metaknowledge Package"))
+    first = True
+    for fnc in funcs:
+        if first:
+            first = False
+        else:
+            f.write("- - -\n\n")
+        writeFunc(fnc, f)
+    first = True
+    for excpt in exceptions:
+        if first:
+            first = False
+        else:
+            f.write("- - -\n\n")
+        proccessClass(excpt, f)
+
+
+def main(args):
+    wDir = os.path.expanduser(os.path.normpath(args.dir))
+    print(wDir)
+    if not os.path.isdir(wDir):
+        try:
+            os.mkdir(wDir)
+        except OSError:
+            print('Creating the directory {} failed'.format(os.dir))
+            return 1
+    os.chdir(wDir)
+    classes = []
+    funcs = []
+    vrs = []
+    exceptions = []
+    builtins = []
+    for m in inspect.getmembers(metaknowledge):
+        if inspect.isbuiltin(m[1]) or m[0][0] == '_':
+            builtins.append(m)
+        elif inspect.isclass(m[1]):
+            if issubclass(m[1], Exception):
+                exceptions.append(m)
+            else:
+                classes.append(m)
+        elif inspect.isfunction(m[1]):
+            funcs.append(m)
+        else:
+            vrs.append(m)
+
+    writeMainBody(funcs, vrs, exceptions)
+    for cls in classes:
+        writeClassFile(*cls)
+    for mod in documentedModules:
+        writeModuleFile(mod)
+
 
 def mkDocs():
     args = argumentParser()

@@ -1,7 +1,7 @@
 """Doc String of tagFuncs"""
 
-from .constants import tagNameConverter, monthDict
-from .citation import Citation
+from ..constants import tagNameConverter, monthDict
+from ..citation import Citation
 
 def pubType(val):
     """

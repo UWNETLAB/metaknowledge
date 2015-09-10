@@ -1,0 +1,293 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>Citation &#8211; metaknowledge</title>
+<meta name="description" content="The Citation Class">
+<meta name="keywords" content="">
+
+
+
+<!-- Twitter Cards -->
+<meta name="twitter:title" content="Citation">
+<meta name="twitter:description" content="The Citation Class">
+
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="/metaknowledge/images/site-logo.png">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Citation">
+<meta property="og:description" content="The Citation Class">
+<meta property="og:url" content="/metaknowledge/docs/Citation">
+<meta property="og:site_name" content="metaknowledge">
+
+
+
+
+
+
+<link rel="canonical" href="/metaknowledge/docs/Citation">
+<link href="/metaknowledge/feed.xml" type="application/atom+xml" rel="alternate" title="metaknowledge Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/metaknowledge/assets/css/main.css">
+<!-- Webfonts -->
+<script src="https://use.edgefonts.net/source-sans-pro:n2,i2,n3,i3,n4,i4,n6,i6,n7,i7,n9,i9;source-code-pro:n4,n7;volkhov.js"></script>
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- HTML5 Shiv and Media Query Support -->
+<!--[if lt IE 9]>
+  <script src="/metaknowledge/assets/js/vendor/html5shiv.min.js"></script>
+  <script src="/metaknowledge/assets/js/vendor/respond.min.js"></script>
+<![endif]-->
+
+<!-- Modernizr -->
+<script src="/metaknowledge/assets/js/vendor/modernizr-2.7.1.custom.min.js"></script>
+
+
+<!-- MathJax -->
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="/metaknowledge/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="/metaknowledge/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="/metaknowledge/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="/metaknowledge/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="/metaknowledge/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/metaknowledge/images/apple-touch-icon-144x144-precomposed.png">
+
+</head>
+
+<body id="page">
+
+<div class="navigation-wrapper">
+	<nav role="navigation" id="site-nav" class="animated drop">
+	    <ul>
+      
+		    
+		        
+		    
+		    <li><a href="/metaknowledge/" >Home</a></li>
+		  
+		    
+		        
+		    
+		    <li><a href="/metaknowledge/documentation" >Documentation</a></li>
+		  
+		    
+		        
+		    
+		    <li><a href="/metaknowledge/examples" >Examples</a></li>
+		  
+		    
+		        
+		    
+		    <li><a href="/metaknowledge/cli" >CLI</a></li>
+		  
+		    
+		        
+		        
+		    <li><a href="https://github.com/networks-lab/metaknowledge" target="_blank">GitHub</a></li>
+		  
+		    
+		        
+		        
+		    <li><a href="http://www.networkslab.org" target="_blank">NetworksLab</a></li>
+		  
+		    
+		        
+		    
+		    <li><a href="/metaknowledge/search" >Search</a></li>
+		  
+	    </ul>
+	</nav>
+</div><!-- /.navigation-wrapper -->
+
+<!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
+
+<header class="masthead">
+	<div class="wrap">
+      
+  		<a href="/metaknowledge/" class="site-logo" rel="home" title="metaknowledge"><img src="/metaknowledge/images/site-logo.png" width="200" height="200" alt="metaknowledge logo" class="animated fadeInDown"></a>
+      
+      <h1 class="site-title animated fadeIn"><a href="/metaknowledge/">metaknowledge</a></h1>
+		<h2 class="site-description animated fadeIn" itemprop="description">A Python3 Library for Bibliometric and Sociology of Knowledge Research.</h2>
+	</div>
+</header><!-- /.masthead -->
+
+<div class="js-menu-screen menu-screen"></div>
+
+
+<div id="main" role="main">
+  <article class="entry">
+    
+    <div class="entry-wrapper">
+      <header class="entry-header">
+        <h1 class="entry-title">Citation</h1>
+      </header>
+      <div class="entry-content">
+        <p><a name="metaknowledge.Citation"></a>metaknowledge.<strong>Citation</strong>(<em>cite</em>):</p>
+
+<p>      A class to hold citation strings and allow for comparison between them.</p>
+
+<p>      The initializer takes in a string representing a WOS citation they are in the form:</p>
+
+<p>             Author, Year, Journal, Volume, Page, DOI</p>
+
+<p>      Author is the author’s name in the form of first last name first initial sometimes followed by a period.
+      Year is the year of publication.
+      Journal being the 29-Character Source Abbreviation of the journal.
+      Volume is the volume number(s) of the publication preceded by a V
+      Page is the page number the record starts on
+      DOI is the DOI number of the cited record preceeded by the letters “DOI”
+      Combined they look like:</p>
+
+<p>             Nunez R., 1998, MATH COGNITION, V4, P85, DOI 10.1080/135467998387343</p>
+
+<p>      Note that any of the fields have been known to be missing and the requirements for the fields are not always met. If something is in the source string that cannot be interpeted as any of these it is put in the <code>misc</code> attribute.</p>
+
+<p>      The reason for this class is that the WOS data are often irregular. It is designed to allow comparison between WOS citation strings, even when they are missing pieces.</p>
+
+<h5 id="nbspnbspnbsp-customizations">    Customizations</h5>
+
+<p>      Citation’s hashing and equality checking are based on what data they have. The equality checking first checks both Citation’s DOI’s and if either is missing moves to the other fields. If any of the fields disagree <code>False</code> is returned (note, authors are not compared if one is anonymous) if they all agree, including the <code>misc</code> field, then True is returned.</p>
+
+<p>      Unfortunately this type of equality checking precludes hashes being identical so to compare Citation objects always use ==. Hashes, if identical, indicate the Citations are identical (excluding collisions), but the converse is not True.</p>
+
+<p>      When converted to a string a Citation will return the original string.</p>
+
+<h5 id="nbspnbspnbsp-attributes">    Attributes</h5>
+
+<p>      As noted above, citations are considered to be divided into six distinct fields (Author, Year, Journal, Volume, Page and DOI) with a seventh misc for anything not in those. Records thus have an attribute with a name corresponding to each <code>author</code>, <code>year</code>, <code>journal</code>, <code>V</code>, <code>P</code>, <code>DOI</code> and <code>misc</code> respectively. These are created if there is anything in the field. So a Citation created from the string: “Nunez R., 1998, MATH COGNITION” would have <code>author</code>, <code>year</code> and <code>journal</code> defined. While one from “Nunez R.” would have only the attribute <code>misc</code>.</p>
+
+<p>      If the parsing of a citation string fails the attribute <code>bad</code> is set to True and the attribute <code>error</code> is created to contain the error, which is a <a href="#metaknowledge.BadCitation">BadCitation</a> object. If no errors occur <code>bad</code> is <code>False</code>.</p>
+
+<p>      The attribute <code>original</code> is the unmodified string (<em>cite</em>) given to create the Citation, it can also be accessed by converting to a string, e.g. with <code>str()</code>.</p>
+
+<h5 id="nbspnbspnbsp-init">    __Init__</h5>
+
+<p>      Citations can be created by <a href="#metaknowledge.Record">Records</a> or by giving the initializer a string containing a WOS style citation.</p>
+
+<h5 id="nbspnbspnbsp-parameters">    Parameters</h5>
+
+<p>      <em>cite</em> : <code>str</code></p>
+
+<p>             A str containing a WOS style citation.</p>
+
+<p><a name="Citation.addToDB"></a>Citation.<strong>addToDB</strong>(<em>manualName=None, manaulDB=’manualj9Abbreviations’, invert=False</em>):</p>
+
+<h1 id="needs-to-be-written">Needs to be written</h1>
+
+<p><a name="Citation.getExtra"></a>Citation.<strong>getExtra</strong>():</p>
+
+<p>      Returns any V, P or misc values as a string. These are all the values not returned by <a href="#Citation.getID"><code>getID()</code></a>.</p>
+
+<h5 id="nbspnbspnbsp-returns">    Returns</h5>
+
+<p>      <code>str</code></p>
+
+<p>             A string containing the data not in the ID of the Citation.
+      </p>
+
+<p><a name="Citation.getFullJournalName"></a>Citation.<strong>getFullJournalName</strong>():</p>
+
+<p>      Returns the full name of the Citation’s journal field. Requires the j9Abbreviations database file.</p>
+
+<h5 id="nbspnbspnbsp-returns-1">    Returns</h5>
+
+<p>      <code>str</code></p>
+
+<p>             The first full name given for the journal of the Citation (or the first name in the WOS list if multiple names exist), if there is not one then <code>None</code> is returned</p>
+
+<p><a name="Citation.getID"></a>Citation.<strong>getID</strong>():</p>
+
+<p>      Returns “author, year, journal” if available and “misc” otherwise. It is for shortening labels when creating networks as the resultant strings are often unique. <a href="#Citation.getExtra"><code>getExtra()</code></a> gets everthing not returned by <code>getID()</code>.</p>
+
+<h5 id="nbspnbspnbsp-returns-2">    Returns</h5>
+
+<p>      <code>str</code></p>
+
+<p>             A string to use as the shortened ID of a node.</p>
+
+<p><a name="Citation.isAnonymous"></a>Citation.<strong>isAnonymous</strong>():</p>
+
+<p>      Checks if the author is given as “[ANONYMOUS]” and returns <code>True</code> if so.</p>
+
+<h5 id="nbspnbspnbsp-returns-3">    Returns</h5>
+
+<p>      <code>bool</code></p>
+
+<p>             True if the author is ANONYMOUS otherwise <code>False</code>.</p>
+
+<p><a name="Citation.isJournal"></a>Citation.<strong>isJournal</strong>(<em>manaulDB=’manualj9Abbreviations’, returnDict=’both’, checkIfExcluded=False</em>):</p>
+
+<p>      Returns <code>True</code> if the Citation’s journal field is a journal abbreviation given by WOS, i.e. checks if the citation is citing a journal. Requires the j9Abbreviations database file.</p>
+
+<h5 id="nbspnbspnbsp-returns-4">    Returns</h5>
+
+<p>      <code>bool</code></p>
+
+<p>             <code>True</code> if the Citation is for a journal</p>
+
+
+      </div><!-- /.entry-content -->
+    </div><!-- /.entry-wrapper -->
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrapper">
+  <footer role="contentinfo" class="entry-wrapper">
+    
+
+<span>&copy; 2015 John McLevey and Reid McIlroy-Young. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> using the <a href="http://mademistakes.com/so-simple/" rel="nofollow">So Simple Theme</a>.</span>
+<div class="social-icons">
+	
+	
+	
+	
+	
+	
+	
+	
+	
+  
+	
+  <a href="/metaknowledge/feed.xml" title="Atom/RSS feed"><i class="fa fa-rss-square fa-2x"></i></a>
+</div><!-- /.social-icons -->
+
+  </footer>
+</div><!-- /.footer-wrapper -->
+
+<script type="text/javascript">
+  var BASE_URL = '/metaknowledge';
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/metaknowledge/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="/metaknowledge/assets/js/scripts.min.js"></script>
+
+
+
+
+</body>
+</html>

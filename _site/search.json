@@ -2,6 +2,62 @@
 
   
     {
+      "title"			: "visual",
+      "link"			: "http://networkslab.org/docs/visual",
+      "excerpt"		: "The visual Module"
+    }
+  
+
+  
+    ,{
+      "title"			: "tagFuncs",
+      "link"			: "http://networkslab.org/docs/tagFuncs",
+      "excerpt"		: "The tagFuncs Module"
+    }
+  
+
+  
+    ,{
+      "title"			: "metaknowledge",
+      "link"			: "http://networkslab.org/docs/metaknowledge",
+      "excerpt"		: "The metaknowledge Package"
+    }
+  
+
+  
+    ,{
+      "title"			: "journalAbbreviations",
+      "link"			: "http://networkslab.org/docs/journalAbbreviations",
+      "excerpt"		: "The journalAbbreviations Module"
+    }
+  
+
+  
+    ,{
+      "title"			: "RecordCollection",
+      "link"			: "http://networkslab.org/docs/RecordCollection",
+      "excerpt"		: "The RecordCollection Class"
+    }
+  
+
+  
+    ,{
+      "title"			: "Record",
+      "link"			: "http://networkslab.org/docs/Record",
+      "excerpt"		: "The Record Class"
+    }
+  
+
+  
+    ,{
+      "title"			: "Citation",
+      "link"			: "http://networkslab.org/docs/Citation",
+      "excerpt"		: "The Citation Class"
+    }
+  
+
+  
+    ,{
       "title"			: "Extract Text",
       "link"			: "http://networkslab.org/examples/textual",
       "excerpt"		: "You want to extract textual data to analyze."
@@ -29,14 +85,6 @@
       "title"			: "Contruct a Document Co-Citation Network",
       "link"			: "http://networkslab.org/examples/documentcocitation",
       "excerpt"		: "You want to construct a weighted co-citation network of documents."
-    }
-  
-
-  
-    ,{
-      "title"			: "metaknowledge Documentation",
-      "link"			: "http://networkslab.org/docs/docs",
-      "excerpt"		: "the full documentation"
     }
   
 

@@ -1,0 +1,328 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>visual &#8211; metaknowledge</title>
+<meta name="description" content="The visual Module">
+<meta name="keywords" content="">
+
+
+
+<!-- Twitter Cards -->
+<meta name="twitter:title" content="visual">
+<meta name="twitter:description" content="The visual Module">
+
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="/metaknowledge/images/site-logo.png">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="visual">
+<meta property="og:description" content="The visual Module">
+<meta property="og:url" content="/metaknowledge/docs/visual">
+<meta property="og:site_name" content="metaknowledge">
+
+
+
+
+
+
+<link rel="canonical" href="/metaknowledge/docs/visual">
+<link href="/metaknowledge/feed.xml" type="application/atom+xml" rel="alternate" title="metaknowledge Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/metaknowledge/assets/css/main.css">
+<!-- Webfonts -->
+<script src="https://use.edgefonts.net/source-sans-pro:n2,i2,n3,i3,n4,i4,n6,i6,n7,i7,n9,i9;source-code-pro:n4,n7;volkhov.js"></script>
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- HTML5 Shiv and Media Query Support -->
+<!--[if lt IE 9]>
+  <script src="/metaknowledge/assets/js/vendor/html5shiv.min.js"></script>
+  <script src="/metaknowledge/assets/js/vendor/respond.min.js"></script>
+<![endif]-->
+
+<!-- Modernizr -->
+<script src="/metaknowledge/assets/js/vendor/modernizr-2.7.1.custom.min.js"></script>
+
+
+<!-- MathJax -->
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="/metaknowledge/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="/metaknowledge/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="/metaknowledge/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="/metaknowledge/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="/metaknowledge/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/metaknowledge/images/apple-touch-icon-144x144-precomposed.png">
+
+</head>
+
+<body id="page">
+
+<div class="navigation-wrapper">
+	<nav role="navigation" id="site-nav" class="animated drop">
+	    <ul>
+      
+		    
+		        
+		    
+		    <li><a href="/metaknowledge/" >Home</a></li>
+		  
+		    
+		        
+		    
+		    <li><a href="/metaknowledge/documentation" >Documentation</a></li>
+		  
+		    
+		        
+		    
+		    <li><a href="/metaknowledge/examples" >Examples</a></li>
+		  
+		    
+		        
+		    
+		    <li><a href="/metaknowledge/cli" >CLI</a></li>
+		  
+		    
+		        
+		        
+		    <li><a href="https://github.com/networks-lab/metaknowledge" target="_blank">GitHub</a></li>
+		  
+		    
+		        
+		        
+		    <li><a href="http://www.networkslab.org" target="_blank">NetworksLab</a></li>
+		  
+		    
+		        
+		    
+		    <li><a href="/metaknowledge/search" >Search</a></li>
+		  
+	    </ul>
+	</nav>
+</div><!-- /.navigation-wrapper -->
+
+<!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
+
+<header class="masthead">
+	<div class="wrap">
+      
+  		<a href="/metaknowledge/" class="site-logo" rel="home" title="metaknowledge"><img src="/metaknowledge/images/site-logo.png" width="200" height="200" alt="metaknowledge logo" class="animated fadeInDown"></a>
+      
+      <h1 class="site-title animated fadeIn"><a href="/metaknowledge/">metaknowledge</a></h1>
+		<h2 class="site-description animated fadeIn" itemprop="description">A Python3 Library for Bibliometric and Sociology of Knowledge Research.</h2>
+	</div>
+</header><!-- /.masthead -->
+
+<div class="js-menu-screen menu-screen"></div>
+
+
+<div id="main" role="main">
+  <article class="entry">
+    
+    <div class="entry-wrapper">
+      <header class="entry-header">
+        <h1 class="entry-title">visual</h1>
+      </header>
+      <div class="entry-content">
+        <p><a name="metaknowledge.blondel"></a>metaknowledge.<strong>blondel</strong>(<em>G, weightParameter=None, communityParameter=’community’</em>):</p>
+
+<h1 id="needs-to-be-written">Needs to be written</h1>
+
+<hr />
+
+<p><a name="metaknowledge.btest"></a>metaknowledge.<strong>btest</strong>(<em>quite=False</em>):</p>
+
+<h1 id="needs-to-be-written-1">Needs to be written</h1>
+
+<hr />
+
+<p><a name="metaknowledge.drop_edges"></a>metaknowledge.<strong>drop_edges</strong>(<em>grph, minWeight=-inf, maxWeight=inf, parameterName=’weight’, ignoreUnweighted=False, dropSelfLoops=False</em>):</p>
+
+<p>      Returns a graph with edges whose weight is within the inclusive bounds of minWeight and maxWeight, i.e minWeight &lt;= edges weight &lt;= maxWeight, will throw a Keyerror if the graph is unweighted</p>
+
+<p>      minWeight and maxWeight default to negative and positive infinity respectively so without specifying either the output should be the input</p>
+
+<p>      parameterName is key to weight field in the edge’s dictionary, default is weight as that is almost always correct</p>
+
+<p>      ignoreUnweighted can be set False to suppress the KeyError and make unweighted edges be ignored</p>
+
+<hr />
+
+<p><a name="metaknowledge.drop_nodesByCount"></a>metaknowledge.<strong>drop_nodesByCount</strong>(<em>grph, minCount=-inf, maxCount=inf, parameterName=’count’, ignoreMissing=False</em>):</p>
+
+<p>      Returns a graph whose nodes have a occurrence count that is within inclusive bounds of minCount and maxCount, i.e minCount &lt;= count &lt;= maxCount. Occurrence count is determined by reading the variable associated with the node named parameterName.</p>
+
+<p>      minCount and maxCount default to negative and positive infinity respectively so without specifying either the output should be the input</p>
+
+<p>      parameterName is key to count field in the node’s dictionary, default is count as that is often correct</p>
+
+<p>      ignoreMissing can be set False to suppress the KeyError and make nodes missing counts be dropped instead of throwing errors</p>
+
+<hr />
+
+<p><a name="metaknowledge.drop_nodesByDegree"></a>metaknowledge.<strong>drop_nodesByDegree</strong>(<em>grph, minDegree=-inf, maxDegree=inf, useWeight=True, parameterName=’weight’, ignoreUnweighted=True</em>):</p>
+
+<p>      Returns a graph whose nodes have a degree that is within inclusive bounds of minDegree and maxDegree, i.e minDegree &lt;= degree &lt;= maxDegree. Degree can be determined in two ways by default it is the total number of edges touching a node, alternative if useWeight is True it is the sum of the weight of all the edges touching a node.</p>
+
+<p>      minDegree and maxDegree default to negative and positive infinity respectively so without specifying either the output should be the input</p>
+
+<p>      useWeight can be set True to use an alternative method for calculating degree, the total weight of all edges</p>
+
+<p>      parameterName is key to weight field in the edge’s dictionary, default is weight as that is almost always correct, only used if useWeight is True</p>
+
+<p>      ignoreUnweighted can be set False to suppress the KeyError and make unweighted edges be not counted, only used if useWeight is True</p>
+
+<hr />
+
+<p><a name="metaknowledge.filterNonJournals"></a>metaknowledge.<strong>filterNonJournals</strong>(<em>citesLst, invert=False</em>):</p>
+
+<h1 id="needs-to-be-written-2">Needs to be written</h1>
+
+<hr />
+
+<p><a name="metaknowledge.graphStats"></a>metaknowledge.<strong>graphStats</strong>(<em>G, stats=(‘nodes’, ‘edges’, ‘isolates’, ‘loops’, ‘density’, ‘transitivity’), makeString=True</em>):</p>
+
+<h1 id="needs-to-be-written-3">Needs to be written</h1>
+
+<hr />
+
+<p><a name="metaknowledge.isiParser"></a>metaknowledge.<strong>isiParser</strong>(<em>isifile</em>):</p>
+
+<p>      isiParser() reads the file given by the path isifile, checks that the header is correct then reads until it reaches EF.
+      Each it finds is used to initialize a Record then all Record are returned as a list.</p>
+
+<hr />
+
+<p><a name="metaknowledge.modularity"></a>metaknowledge.<strong>modularity</strong>(<em>G, weightParameter=None, communityParameter=’community’</em>):</p>
+
+<p>      Gets modularity of network, currently not tuned</p>
+
+<hr />
+
+<p><a name="metaknowledge.read_graph"></a>metaknowledge.<strong>read_graph</strong>(<em>edgeList, nodeList=None, directed=False, idKey=’ID’, eSource=’From’, eDest=’To’</em>):</p>
+
+<p>      Reads the files given by edgeList and if given nodeList and produces a networkx graph
+      This is designed only for the files produced by metaknowledge and is meant to be the reverse of write_graph()</p>
+
+<p>      nodeList must be given if any of the attributes of the node are needed
+      directed controls if the resultant graph is directional eSource and eDest control the direction
+      idKey, eSource and  eDest are the labels for the edge’s id, source and destination respectively, they must match headers in the file or a keyError exception will be thrown</p>
+
+<p>      igraph Style</p>
+
+<hr />
+
+<p><a name="metaknowledge.recordParser"></a>metaknowledge.<strong>recordParser</strong>(<em>paper</em>):</p>
+
+<p>      Reads the file <em>paper</em> until it reaches ‘ER’.</p>
+
+<p>      For each field tag it adds an entry to the returned dict with the tag as the key and a list of the entries as the value, the list has each line separately, so for the following string in a record:</p>
+
+<p>      “AF BREVIK, I</p>
+
+<p>          ANICIN, B”</p>
+
+<p>      The entry in the returned dict would be <code>{'AF' : ["BREVIK, I", "ANICIN, B"]}</code></p>
+
+<p>      <a href="#metaknowledge.Record">Record</a> objects can be created with these dictionaries as the initializer.</p>
+
+<h5 id="nbspnbspnbsp-parameters">    Parameters</h5>
+
+<p>      <em>paper</em> : <code>file stream</code></p>
+
+<p>             An open file, with the current line at the beginning of the record.</p>
+
+<h5 id="nbspnbspnbsp-returns">    Returns</h5>
+
+<p>      <code>dict[str : List[str]]</code></p>
+
+<p>             A dictionary mapping WOS tags to lists, the lists are of strings, each string is a line of the record associated with the tag.</p>
+
+<hr />
+
+<p><a name="metaknowledge.write_edgeList"></a>metaknowledge.<strong>write_edgeList</strong>(<em>grph, name, extraInfo=True, progBar=None</em>):</p>
+
+<p>      writes an edge list of grph with filename name, if extraInfo is true the additional information about the edges, e.g. weight, will be written.
+      All edges must have the same tags</p>
+
+<hr />
+
+<p><a name="metaknowledge.write_graph"></a>metaknowledge.<strong>write_graph</strong>(<em>grph, name, edgeInfo=True, typing=False, suffix=’csv’, overwrite=True</em>):</p>
+
+<p>      Writes both the edge list and the node attribute list of grph.
+      The output files start with name, the file type[edgeList, nodeAttributes] then if typing is True the type of graph (directed or undirected) then the suffix, it appears as follows:
+          name_fileType_Graphtype.suffix
+      If edgeInfo is true the extra information about the edges will be included in their list, i.e. their weight will be given
+      If overwrite is False write_graph will throw an exception if either of the files it is attempting to write exist</p>
+
+<hr />
+
+<p><a name="metaknowledge.write_nodeAttributeFile"></a>metaknowledge.<strong>write_nodeAttributeFile</strong>(<em>grph, name, progBar=None</em>):</p>
+
+<p>      writes a node attribute list of grph with filename name, the first column is the node’s ID then all after it are its associated information.
+      All nodes must have the same tags.</p>
+
+
+      </div><!-- /.entry-content -->
+    </div><!-- /.entry-wrapper -->
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrapper">
+  <footer role="contentinfo" class="entry-wrapper">
+    
+
+<span>&copy; 2015 John McLevey and Reid McIlroy-Young. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> using the <a href="http://mademistakes.com/so-simple/" rel="nofollow">So Simple Theme</a>.</span>
+<div class="social-icons">
+	
+	
+	
+	
+	
+	
+	
+	
+	
+  
+	
+  <a href="/metaknowledge/feed.xml" title="Atom/RSS feed"><i class="fa fa-rss-square fa-2x"></i></a>
+</div><!-- /.social-icons -->
+
+  </footer>
+</div><!-- /.footer-wrapper -->
+
+<script type="text/javascript">
+  var BASE_URL = '/metaknowledge';
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/metaknowledge/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="/metaknowledge/assets/js/scripts.min.js"></script>
+
+
+
+
+</body>
+</html>

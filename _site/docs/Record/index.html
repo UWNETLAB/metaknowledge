@@ -1,0 +1,314 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>Record &#8211; metaknowledge</title>
+<meta name="description" content="The Record Class">
+<meta name="keywords" content="">
+
+
+
+<!-- Twitter Cards -->
+<meta name="twitter:title" content="Record">
+<meta name="twitter:description" content="The Record Class">
+
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="/metaknowledge/images/site-logo.png">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Record">
+<meta property="og:description" content="The Record Class">
+<meta property="og:url" content="/metaknowledge/docs/Record">
+<meta property="og:site_name" content="metaknowledge">
+
+
+
+
+
+
+<link rel="canonical" href="/metaknowledge/docs/Record">
+<link href="/metaknowledge/feed.xml" type="application/atom+xml" rel="alternate" title="metaknowledge Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/metaknowledge/assets/css/main.css">
+<!-- Webfonts -->
+<script src="https://use.edgefonts.net/source-sans-pro:n2,i2,n3,i3,n4,i4,n6,i6,n7,i7,n9,i9;source-code-pro:n4,n7;volkhov.js"></script>
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- HTML5 Shiv and Media Query Support -->
+<!--[if lt IE 9]>
+  <script src="/metaknowledge/assets/js/vendor/html5shiv.min.js"></script>
+  <script src="/metaknowledge/assets/js/vendor/respond.min.js"></script>
+<![endif]-->
+
+<!-- Modernizr -->
+<script src="/metaknowledge/assets/js/vendor/modernizr-2.7.1.custom.min.js"></script>
+
+
+<!-- MathJax -->
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="/metaknowledge/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="/metaknowledge/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="/metaknowledge/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="/metaknowledge/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="/metaknowledge/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/metaknowledge/images/apple-touch-icon-144x144-precomposed.png">
+
+</head>
+
+<body id="page">
+
+<div class="navigation-wrapper">
+	<nav role="navigation" id="site-nav" class="animated drop">
+	    <ul>
+      
+		    
+		        
+		    
+		    <li><a href="/metaknowledge/" >Home</a></li>
+		  
+		    
+		        
+		    
+		    <li><a href="/metaknowledge/documentation" >Documentation</a></li>
+		  
+		    
+		        
+		    
+		    <li><a href="/metaknowledge/examples" >Examples</a></li>
+		  
+		    
+		        
+		    
+		    <li><a href="/metaknowledge/cli" >CLI</a></li>
+		  
+		    
+		        
+		        
+		    <li><a href="https://github.com/networks-lab/metaknowledge" target="_blank">GitHub</a></li>
+		  
+		    
+		        
+		        
+		    <li><a href="http://www.networkslab.org" target="_blank">NetworksLab</a></li>
+		  
+		    
+		        
+		    
+		    <li><a href="/metaknowledge/search" >Search</a></li>
+		  
+	    </ul>
+	</nav>
+</div><!-- /.navigation-wrapper -->
+
+<!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
+
+<header class="masthead">
+	<div class="wrap">
+      
+  		<a href="/metaknowledge/" class="site-logo" rel="home" title="metaknowledge"><img src="/metaknowledge/images/site-logo.png" width="200" height="200" alt="metaknowledge logo" class="animated fadeInDown"></a>
+      
+      <h1 class="site-title animated fadeIn"><a href="/metaknowledge/">metaknowledge</a></h1>
+		<h2 class="site-description animated fadeIn" itemprop="description">A Python3 Library for Bibliometric and Sociology of Knowledge Research.</h2>
+	</div>
+</header><!-- /.masthead -->
+
+<div class="js-menu-screen menu-screen"></div>
+
+
+<div id="main" role="main">
+  <article class="entry">
+    
+    <div class="entry-wrapper">
+      <header class="entry-header">
+        <h1 class="entry-title">Record</h1>
+      </header>
+      <div class="entry-content">
+        <p><a name="metaknowledge.Record"></a>metaknowledge.<strong>Record</strong>(<em>inRecord, taglist=(), sFile=’’, sLine=0</em>):</p>
+
+<p>      Class for full WOS records</p>
+
+<p>      It is meant to be immutable; many of the methods and attributes are evaluated when first called, not when the object is created, and the results are stored in a private dictionary.</p>
+
+<p>      The record’s meta-data is stored in an ordered dictionary labeled by WOS tags. To access the raw data stored in the original record the <a href="#Record.getTag">getTag()</a> method can be used. To access data that has been processed and cleaned the attributes named after the tags are used.</p>
+
+<h5 id="nbspnbspnbsp-customizations">    Customizations</h5>
+
+<p>      The Record’s hashing and equality testing are based on the WOS number (the tag is ‘UT’, and also called the accession number). They are strings starting with “WOS:” and followed by 15 or so numbers and letters, although both the length and character set are known to vary. The numbers are unique to each record so are used for comparisons. If a record is <code>bad</code>  all equality checks return <code>False</code>.</p>
+
+<p>      When converted to a string the records title is used so for a record <code>R</code>, R.TI == R.title == str(R).</p>
+
+<h5 id="nbspnbspnbsp-attributes">    Attributes</h5>
+
+<p>      When a record is created if the parsing of the WOS file failed it is marked as <code>bad</code>. The <code>bad</code> attribute is set to True and the <code>error</code> attribute is created to contain the exception object.</p>
+
+<p>      Generally, to get the information from a Record its attributes should be used. For a Record <code>R</code>, calling <code>R.CR</code> causes <a href="#metaknowledge.tagFuncs.citations">citations()</a> from the the <a href="#metaknowledge.tagFuncs">tagFuncs</a> module to be called on the contents of the raw ‘CR’ field. Then the result is saved and returned. In this case, a list of Citation objects is returned. You can also call <code>R.citations</code> to get the same effect, as each known field tag has a longer name (currently there are 61 field tags). These names are meant to make accessing tags more readable and mapping from tag to name can be found in the tagToFull dict. If a tag is known (in <a href="#metaknowledge">tagToFull</a>) but not in the raw data <code>None</code> is returned instead. Most tags when cleaned return a string or list of strings, the exact results can be found in the help for the particular function.</p>
+
+<p>      The attribute <code>authors</code> is also defined as a convience and returns the same as ‘AF’ or if that is not found ‘AU’.</p>
+
+<h5 id="nbspnbspnbsp-init">    __Init__</h5>
+
+<p>      Records are generally create as collections in  <a href="#metaknowledge.RecordCollection">Recordcollections</a>, and not as individual objects. If you wish to create one on its own it is possible, the arguments are as follows.</p>
+
+<h5 id="nbspnbspnbsp-parameters">    Parameters</h5>
+
+<p>      <em>inRecord</em>: <code>files stream, dict, str or itertools.chain</code></p>
+
+<p>             If it is a file stream the file must be open at the location of the first tag in the record, usually ‘PT’, and the file will be read until ‘ER’ is found, which indicates the end of the record in the file.</p>
+
+<p>             If a dict is passed the dictionary is used as the database of fields and tags, so each key is considered a WOS tag and each value a list of the lines of the original associated with the tag. This is the same form of dict that <a href="#metaknowledge.recordParser">recordParser</a> returns.</p>
+
+<p>             For a str the input is the raw textual data of a single record in the WOS style, like the file stream it must start at the first tag and end in ‘ER’.</p>
+
+<p>             itertools.chain is treated identically to a file stream and is used by <a href="#metaknowledge.RecordCollection">RecordCollections</a>.</p>
+
+<p>      <em>sFile</em> : <code>optional [str]</code></p>
+
+<p>             Is the name of the file the raw data was in, by default it is blank. It is mostly used to make error messages more informative.</p>
+
+<p>      <em>sLine</em> : <code>optional [int]</code></p>
+
+<p>             Is the line the record starts on in the raw data file. It is mostly used to make error messages more informative.</p>
+
+<p><a name="Record.activeTags"></a>Record.<strong>activeTags</strong>():</p>
+
+<p>      Returns a list of all the tags the original WOS record had. These are all the tags that <a href="#Record.getTag">‘getTag()’</a> will not return <code>None</code> for.</p>
+
+<h5 id="nbspnbspnbsp-returns">    Returns</h5>
+
+<p>      <code>List[str]</code></p>
+
+<p>             a list of WOS tags in the Record</p>
+
+<p><a name="Record.createCitation"></a>Record.<strong>createCitation</strong>():</p>
+
+<p>      Creates a citation string, using the same format as other WOS citations, for the <a href="#metaknowledge.Record">Record</a> by reading the relevant tags (year, J9, volume, beginningPage, DOI) and using it to start a <a href="#metaknowledge.Citation">Citation</a> object.</p>
+
+<h5 id="nbspnbspnbsp-returns-1">    Returns</h5>
+
+<p>      <code>Citation</code></p>
+
+<p>             A <a href="#metaknowledge.Citation">Citation</a> object containing a citation for the Record.</p>
+
+<p><a name="Record.getTag"></a>Record.<strong>getTag</strong>(<em>tag, clean=False</em>):</p>
+
+<p>      Returns a list containing the raw data of the record associated with <em>tag</em>. Each line of the record is one string in the list.</p>
+
+<h5 id="nbspnbspnbsp-parameters-1">    Parameters</h5>
+
+<p>      <em>tag</em> : <code>str</code></p>
+
+<p>             <em>tag</em> can be a two character string corresponding to a WOS tag e.g. ‘J9’, the matching is case insensitive so ‘j9’ is the same as ‘J9’. Or it can be one of the full names for a tag with the mappings in <a href="#metaknowledge">fullToTag</a>. If the string is not found in the original record or after being translated through <a href="#metaknowledge">fullToTag</a>, <code>None</code> is returned.</p>
+
+<h5 id="nbspnbspnbsp-returns-2">    Returns</h5>
+
+<p>      <code>List [str]</code></p>
+
+<p>             Each string in the list is a line from the record associated with <em>tag</em> or None if not found.</p>
+
+<p><a name="Record.getTagsDict"></a>Record.<strong>getTagsDict</strong>(<em>taglst, cleaned=False</em>):</p>
+
+<p>      returns a dict of the results of getTag, with the elements of <em>taglst</em> as the keys and the results as the values.</p>
+
+<h5 id="nbspnbspnbsp-parameters-2">    Parameters</h5>
+<p>      <em>taglst</em> : <code>List[str]</code></p>
+
+<p>             Each string in <em>taglst</em> can be a two character string corresponding to a WOS tag e.g. ‘J9’, the matching is case insensitive so ‘j9’ is the same as ‘J9’. Or it can be one of the full names for a tag with the mappings in <a href="#metaknowledge">fullToTag</a>. If the string is not found in the oriagnal record before or after being translated through <a href="#metaknowledge">fullToTag</a>, <code>None</code> is used instead. Same as in <a href="#Record.getTag"><code>getTag()</code></a></p>
+
+<h5 id="nbspnbspnbsp-returns-3">    Returns</h5>
+
+<p>      <code>dict[str : List [str]]</code></p>
+
+<p>             a dictionary with keys as the original tags in <em>taglst</em> and the values as the results</p>
+
+<p><a name="Record.getTagsList"></a>Record.<strong>getTagsList</strong>(<em>taglst, cleaned=False</em>):</p>
+
+<p>      Returns a list of the results of <a href="#Record.getTag"><code>getTag()</code></a> for each tag in <em>taglist</em>, the return has the same order as the original.</p>
+
+<h5 id="nbspnbspnbsp-parameters-3">    Parameters</h5>
+<p>      <em>taglst</em> : <code>List[str]</code></p>
+
+<p>             Each string in <em>taglst</em> can be a two character string corresponding to a WOS tag e.g. ‘J9’, the matching is case insensitive so ‘j9’ is the same as ‘J9’. Or it can be one of the full names for a tag with the mappings in <a href="#metaknowledge">fullToTag</a>. If the string is not found in the original record before or after being translated through <a href="#metaknowledge">fullToTag</a>, <code>None</code> is used instead. Same as in <a href="#Record.getTag"><code>getTag()</code></a></p>
+
+<p>             Then they are compiled into a list in the same order as <em>taglst</em></p>
+
+<h5 id="nbspnbspnbsp-returns-4">    Returns</h5>
+
+<p>      <code>List[str]</code></p>
+
+<p>             a list of the values for each tag in <em>taglst</em>, in the same order</p>
+
+<p><a name="Record.writeRecord"></a>Record.<strong>writeRecord</strong>(<em>infile</em>):</p>
+
+<p>      Writes to <em>infile</em> the original contents of the Record. This is intended for use by <a href="#metaknowledge.RecordCollection">RecordCollections</a> to write to file. What is written to <em>infile</em> is bit for bit identical to the original record file. No newline is inserted above the write but the last character is a newline.</p>
+
+<h5 id="nbspnbspnbsp-parameters-4">    Parameters</h5>
+
+<p>      <em>infile</em> : <code>file stream</code></p>
+
+<p>             An open utf-8 encoded file</p>
+
+
+      </div><!-- /.entry-content -->
+    </div><!-- /.entry-wrapper -->
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrapper">
+  <footer role="contentinfo" class="entry-wrapper">
+    
+
+<span>&copy; 2015 John McLevey and Reid McIlroy-Young. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> using the <a href="http://mademistakes.com/so-simple/" rel="nofollow">So Simple Theme</a>.</span>
+<div class="social-icons">
+	
+	
+	
+	
+	
+	
+	
+	
+	
+  
+	
+  <a href="/metaknowledge/feed.xml" title="Atom/RSS feed"><i class="fa fa-rss-square fa-2x"></i></a>
+</div><!-- /.social-icons -->
+
+  </footer>
+</div><!-- /.footer-wrapper -->
+
+<script type="text/javascript">
+  var BASE_URL = '/metaknowledge';
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/metaknowledge/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="/metaknowledge/assets/js/scripts.min.js"></script>
+
+
+
+
+</body>
+</html>

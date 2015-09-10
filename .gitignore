@@ -1,6 +1,7 @@
 vagrant/
 notebooks/
 *.sh
+!MakeDocs.sh
 isilibDocs.md
 
 # Byte-compiled / optimized / DLL files

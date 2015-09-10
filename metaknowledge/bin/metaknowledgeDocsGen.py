@@ -13,28 +13,23 @@ documentedModules = ['tagFuncs','visual', 'journalAbbreviations']
 docsPrefix = time.strftime("%Y-%m-%d-")
 
 
-def makeHeader(title, excerpt):
+def makeHeader(title, excerpt, tags = (), weight = 10):
     return """---
 layout: page
-title: {}
+title: {0}
 categories: docs
-excerpt: {}
+excerpt: {1}
+tags: [{2}]
+weight: {3}
 ---
-""".format(title, excerpt)
+<a name="{0}"></a>
+""".format(title, excerpt, ', '.join(tags), weight)
 
 
-jekyllyHeader ="""---
-layout: page
-title: metaknowledge Docs
-categories: docs
-excerpt: the full documentation
----
-<a name="metaknowledge"></a>"""
 
 def argumentParser():
     parser = argparse.ArgumentParser(description="A simple script to genrate docs for metaknowledge")
-    parser.add_argument("--output", "-o", default = 'metaknowledgeDocs.md', nargs='?')
-    parser.add_argument("dir", default = os.path.normpath('.') ,nargs='?', help = 'Directory to write files to')
+    parser.add_argument("-dir", "-d", default = os.path.normpath('.') ,nargs='?', help = 'Directory to write files to')
     return parser.parse_args()
 
 def cleanargs(obj):
@@ -61,8 +56,7 @@ def cleanedDoc(obj, lvl):
             nds += "&nbsp;" * 6 + line + '\n'
     return '{}\n\n'.format(nds)
 
-def writeFunc(fn, f, prefix = 'metaknowledge.', level = 4):
-    #print("Writing {0}{1}".format(prefix, fn[0]))
+def writeFunc(fn, f, prefix = '', level = 4):
     s = '<a name="{0}{1}"></a>{0}**{1}**{2}:\n\n'.format(prefix, fn[0], cleanargs(fn[1]))
     f.write(s)
     try:
@@ -71,7 +65,7 @@ def writeFunc(fn, f, prefix = 'metaknowledge.', level = 4):
         f.write("# Needs to be written\n\n")
         print("\033[93m{0}{1} had no docs\033[0m".format(prefix, fn[0]))
 
-def writeClass(cl, f, prefix = 'metaknowledge.', level = 4):
+def writeClass(cl, f, prefix = '', level = 4):
     #print("Writing {0}{1}".format(prefix, cl[0]))
     s = '<a name="{0}{1}"></a>{0}**{1}**{2}:\n\n'.format(prefix, cl[0], cleanargs(cl[1].__init__))
     f.write(s)
@@ -102,13 +96,13 @@ def proccessClass(cl, f):
 def writeClassFile(name, typ):
     fname = docsPrefix + "{}.md".format(name)
     f = open(fname, 'w')
-    f.write(makeHeader(name, "The {} Class".format(name)))
+    f.write(makeHeader(name, "The {} Class".format(name), tags = ["class"], weight = 2))
     proccessClass((name, typ), f)
 
 def writeModuleFile(mod):
     fname = docsPrefix + "{}.md".format(mod)
     f = open(fname, 'w')
-    f.write(makeHeader(mod, "The {} Module".format(mod)))
+    f.write(makeHeader(mod, "The {} Module".format(mod), tags = ["module"], weight = 3))
     module = importlib.__import__('metaknowledge.{}'.format(mod))
     funcs = []
     for m in inspect.getmembers(module):
@@ -122,11 +116,11 @@ def writeModuleFile(mod):
             first = False
         else:
             f.write("- - -\n\n")
-        writeFunc(fnc, f)
+        writeFunc(fnc, f, prefix = "{}.".format(mod))
 
 def writeMainBody(funcs, vrs, exceptions):
     f = open(docsPrefix + "metaknowledge.md", 'w')
-    f.write(makeHeader("metaknowledge", "The metaknowledge Package"))
+    f.write(makeHeader("metaknowledge", "The metaknowledge Package", tags = ["main"], weight = 1))
     first = True
     for fnc in funcs:
         if first:

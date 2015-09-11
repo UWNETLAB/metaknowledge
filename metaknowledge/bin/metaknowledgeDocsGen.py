@@ -36,10 +36,10 @@ def cleanargs(obj):
     argStr = inspect.formatargspec(*inspect.getfullargspec(obj))
     argStr =  argStr.replace(", *args", '').replace(", **kwargs", '').replace('self, ', '').replace('self', '')[1:-1]
     if len(argStr) > 0:
+        argStr = ', '.join([a for a in argStr.split(', ') if a[0] != '_'])
         return "(_{0}_)".format(argStr)
     else:
         return '()'
-
 
 def cleanedDoc(obj, lvl):
     ds = inspect.getdoc(obj)
@@ -51,7 +51,10 @@ def cleanedDoc(obj, lvl):
         elif line[0] == '#':
             nds += '#' * (lvl + 1) + "&nbsp;" * 3 + line[1:] + '\n'
         elif line[0] == '>':
-            nds += "&nbsp;" * 12 + line[1:] + '\n'
+            if line[1] != '>':
+                nds += "&nbsp;" * 12 + line[1:] + '\n'
+            else:
+                nds += "> " +  line[2:] + '\n'
         else:
             nds += "&nbsp;" * 6 + line + '\n'
     return '{}\n\n'.format(nds)
@@ -103,9 +106,9 @@ def writeModuleFile(mod):
     fname = docsPrefix + "{}.md".format(mod)
     f = open(fname, 'w')
     f.write(makeHeader(mod, "The {} Module".format(mod), tags = ["module"], weight = 3))
-    module = importlib.__import__('metaknowledge.{}'.format(mod))
+    module = importlib.import_module('metaknowledge.{}'.format(mod))
     funcs = []
-    for m in inspect.getmembers(module):
+    for m in inspect.getmembers(module, predicate = inspect.isfunction):
         if inspect.isbuiltin(m[1]) or m[0][0] == '_':
             pass
         elif inspect.isfunction(m[1]):
@@ -121,14 +124,9 @@ def writeModuleFile(mod):
 def writeMainBody(funcs, vrs, exceptions):
     f = open(docsPrefix + "metaknowledge.md", 'w')
     f.write(makeHeader("metaknowledge", "The metaknowledge Package", tags = ["main"], weight = 1))
-
     f.write(inspect.getdoc(metaknowledge) + '\n\n')
-    first = True
     for fnc in funcs:
-        if first:
-            first = False
-        else:
-            f.write("- - -\n\n")
+        f.write("- - -\n\n")
         writeFunc(fnc, f)
     first = True
     for excpt in exceptions:

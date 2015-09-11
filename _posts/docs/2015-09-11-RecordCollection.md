@@ -416,3 +416,6 @@ weight: 2
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A RecordCollection of Records from _startYear_ to _endYear_
 
 
+
+
+{% include docsFooter.md %}

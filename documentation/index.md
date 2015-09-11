@@ -26,26 +26,31 @@ image:
 
 ## Installation
 
-The [download](https://github.com/networks-lab/isilib) from Github includes a customized [Vagrant](https://www.vagrantup.com) file that installs [isilib](https://github.com/networks-lab/isilib/archive/master.zip) and other useful Python libraries into a virtual machine. It is currently the easiest way of getting isilib working if you are not already familiar with Python. Alternatively you can run `setup.py install` to install locally
+metaknowledge has two distributions the simplest is found under the release branch of the git [repo](https://github.com/networks-lab/metaknowledge/tree/release). This can be installed the usual way with pip
 
-Please note that isilib is under active development and these instructions may be out of date.
+{% highlight bash %}
+pip3 install metaknowledge
+{% endhighlight %}
+
+The second version is at the master branch on [github](https://github.com/networks-lab/metaknowledge) and comes with documents extra resources for teaching.
+
+The [download](https://github.com/networks-lab/metaknowledge) from Github includes a customized [Vagrant](https://www.vagrantup.com) file that installs [metaknowledge](https://github.com/networks-lab/metaknowledge/archive/release.zip) and other useful Python libraries into a virtual machine. It is currently the easiest way of getting metaknowledge working if you are not already familiar with Python.
 
 ## Install with Vagrant
 
-The vagrant method is intended for students and those not familiar with python it creates a virtual machine with isilib installed, also the python scientific stack numpy, scipy and matplotlib as well a series of iPython notebooks for teaching people to use isilib and python.
+The vagrant method is intended for students and those not familiar with python it creates a virtual machine with metaknowledge installed, as well as the python scientific stack numpy, scipy and matplotlib as well a series of iPython notebooks for teaching people to use metaknowledge and python.
 
 The instructions for those familiar with the command line use the advanced instructions otherwise use the easy instructions.
 
 ###Easy instructions
 
-First you need to install [Vagrant](https://www.vagrantup.com/downloads.html) and [VirtualBox](https://www.virtualbox.org/wiki/Downloads) before you can install isilib.
+First you need to install [Vagrant](https://www.vagrantup.com/downloads.html) and [VirtualBox](https://www.virtualbox.org/wiki/Downloads) before you can install metaknowledge.
 
-Once vagrant and virtualBox are installed, download [isilib](https://github.com/networks-lab/isilib/archive/master.zip). Unzip the file, if you do not have a tool to do this you can download [7-Zip](http://www.7-zip.org/) and use it.
+Once vagrant and virtualBox are installed, download [metaknowledge](https://github.com/networks-lab/metaknowledge/archive/release.zip). Unzip the file, if you do not have a tool to do this you can download [7-Zip](http://www.7-zip.org/) and use it.
 
-Open the directory isilib then go to the vagrant subdirectory. If you are using windows double click on win\_run or if you are using a Macintosh double click on mac\_run, if you are using Linux you will need to read the advanced instructions.
+Open the directory metaknowledge then go to the vagrant subdirectory. If you are using windows double click on win\_run or if you are using a Macintosh double click on mac\_run, if you are using Linux use linux\_run.
 
 A window should pop up and say something like:
-
 
     Bringing machine 'default' up with 'virtualbox' provider...
     ==> default: Box 'ubuntu/trusty64' could not be found. Attempting to find and in
@@ -53,7 +58,7 @@ A window should pop up and say something like:
     default: Box Provider: virtualbox
     default: Box Version: >= 0
 
-It will also tell how long it will take, which is usually around 20 minutes. Now you just have to wait for it to finish. Once that is done a bunch of text will appear, it should take another 10 minutes. Then a browser window will appear at the notebooks and everthing is done. If a browser window opens and it is showing `No data received` hit refresh a couple times.
+It will also tell how long it will take, which is usually around 20 minutes. Now you just have to wait for it to finish. Once that is done a bunch of text will appear, it should take another 10 minutes. Then a browser window will appear at the notebooks and everything is done. If a browser window opens and it is showing `No data received` hit refresh a couple times.
 
 If you see:
 
@@ -68,7 +73,7 @@ To open the page again just double click on which ever of mac\_run and win\_run 
 
 ###Advanced Instructions
 0. Install [Vagrant](https://www.vagrantup.com/downloads.html) and [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
-1. Clone the git [repo](https://github.com/networks-lab/isilib.git)
+1. Clone the git [repo](https://github.com/networks-lab/metaknowledge.git)
 2. Go to the vagrant directory
 3. Run `vagrant up`
 4. Once vagrant has finished go to [http://localhost:1159/](http://localhost:1159/)
@@ -83,57 +88,6 @@ You can also use `vagrant ssh` to ssh into the VM or `vagrant provision` to reru
 
 ## Install without Vagrant
 
-Installing without Vagrant is done with [setuptools](https://pypi.python.org/pypi/setuptools). Go to the isilib directory and run `python3 setup.py install`
+Installing without Vagrant is done with [setuptools](https://pypi.python.org/pypi/setuptools). Go to the metaknowledge directory and run `python3 setup.py install`. This is the same version as the that on PyPi with some extra command line tools.
 
-
-## pip
-
-{% highlight bash %}
-pip3 install metaknowledge
-{% endhighlight %}
-
-
----
-
-## Processing Web of Science Files
-
-
----
-
-## Creating Data Frames
-
-
----
-
-## Creating Co-Authorship Networks
-
-
----
-
-## Creating Citation & Co-Citation Networks
-
-
----
-
-## Creating Multi-Mode Networks
-
-
----
-
-## Writing Data for Other Programs
-
-
----
-
-## Questions?
-
-If you find bugs, or have questions, please write to:
-
-Reid McIlroy-Young <reid@reidmcy.com>
-John McLevey <john.mclevey@uwaterloo.ca>
-
----
-
-## License
-
-*metaknowledge* is free and open source software, distributed under the GPL License.
+{% include docsFooter.md %}

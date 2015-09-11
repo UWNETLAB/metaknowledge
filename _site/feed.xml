@@ -4,7 +4,7 @@
 <generator uri="https://github.com/jekyll/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="http://networkslab.org/feed.xml" />
 <link rel="alternate" type="text/html" href="http://networkslab.org" />
-<updated>2015-09-11T04:07:22-04:00</updated>
+<updated>2015-09-11T11:35:38-04:00</updated>
 <id>http://networkslab.org/</id>
 <author>
   <name>John McLevey and Reid McIlroy-Young</name>
@@ -44,6 +44,20 @@ visual docstring&lt;/p&gt;
 
 &lt;p&gt;      just makes a simple matplolib figure and displays it&lt;/p&gt;
 
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;questions&quot;&gt;Questions?&lt;/h2&gt;
+
+&lt;p&gt;If you find bugs, or have questions, please write to:&lt;/p&gt;
+
+&lt;p&gt;Reid McIlroy-Young &lt;a href=&quot;&amp;#109;&amp;#097;&amp;#105;&amp;#108;&amp;#116;&amp;#111;:&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#064;&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#109;&amp;#099;&amp;#121;&amp;#046;&amp;#099;&amp;#111;&amp;#109;&quot;&gt;&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#064;&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#109;&amp;#099;&amp;#121;&amp;#046;&amp;#099;&amp;#111;&amp;#109;&lt;/a&gt;
+John McLevey &lt;a href=&quot;&amp;#109;&amp;#097;&amp;#105;&amp;#108;&amp;#116;&amp;#111;:&amp;#106;&amp;#111;&amp;#104;&amp;#110;&amp;#046;&amp;#109;&amp;#099;&amp;#108;&amp;#101;&amp;#118;&amp;#101;&amp;#121;&amp;#064;&amp;#117;&amp;#119;&amp;#097;&amp;#116;&amp;#101;&amp;#114;&amp;#108;&amp;#111;&amp;#111;&amp;#046;&amp;#099;&amp;#097;&quot;&gt;&amp;#106;&amp;#111;&amp;#104;&amp;#110;&amp;#046;&amp;#109;&amp;#099;&amp;#108;&amp;#101;&amp;#118;&amp;#101;&amp;#121;&amp;#064;&amp;#117;&amp;#119;&amp;#097;&amp;#116;&amp;#101;&amp;#114;&amp;#108;&amp;#111;&amp;#111;&amp;#046;&amp;#099;&amp;#097;&lt;/a&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;license&quot;&gt;License&lt;/h2&gt;
+
+&lt;p&gt;&lt;em&gt;metaknowledge&lt;/em&gt; is free and open source software, distributed under the GPL License.&lt;/p&gt;
 
     &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/visual&quot;&gt;visual&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on September 11, 2015.&lt;/p&gt;
   </content>
@@ -569,6 +583,20 @@ Doc String of tagFuncs&lt;/p&gt;
 
 &lt;p&gt;      PY tag&lt;/p&gt;
 
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;questions&quot;&gt;Questions?&lt;/h2&gt;
+
+&lt;p&gt;If you find bugs, or have questions, please write to:&lt;/p&gt;
+
+&lt;p&gt;Reid McIlroy-Young &lt;a href=&quot;&amp;#109;&amp;#097;&amp;#105;&amp;#108;&amp;#116;&amp;#111;:&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#064;&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#109;&amp;#099;&amp;#121;&amp;#046;&amp;#099;&amp;#111;&amp;#109;&quot;&gt;&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#064;&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#109;&amp;#099;&amp;#121;&amp;#046;&amp;#099;&amp;#111;&amp;#109;&lt;/a&gt;
+John McLevey &lt;a href=&quot;&amp;#109;&amp;#097;&amp;#105;&amp;#108;&amp;#116;&amp;#111;:&amp;#106;&amp;#111;&amp;#104;&amp;#110;&amp;#046;&amp;#109;&amp;#099;&amp;#108;&amp;#101;&amp;#118;&amp;#101;&amp;#121;&amp;#064;&amp;#117;&amp;#119;&amp;#097;&amp;#116;&amp;#101;&amp;#114;&amp;#108;&amp;#111;&amp;#111;&amp;#046;&amp;#099;&amp;#097;&quot;&gt;&amp;#106;&amp;#111;&amp;#104;&amp;#110;&amp;#046;&amp;#109;&amp;#099;&amp;#108;&amp;#101;&amp;#118;&amp;#101;&amp;#121;&amp;#064;&amp;#117;&amp;#119;&amp;#097;&amp;#116;&amp;#101;&amp;#114;&amp;#108;&amp;#111;&amp;#111;&amp;#046;&amp;#099;&amp;#097;&lt;/a&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;license&quot;&gt;License&lt;/h2&gt;
+
+&lt;p&gt;&lt;em&gt;metaknowledge&lt;/em&gt; is free and open source software, distributed under the GPL License.&lt;/p&gt;
 
     &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/tagFuncs&quot;&gt;tagFuncs&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on September 11, 2015.&lt;/p&gt;
   </content>
@@ -882,6 +910,20 @@ Doc String for metaknowledge main&lt;/p&gt;
 
 &lt;p&gt;      Records with a BadISIRecord error are likely incomplete or the combination of two or more single records.&lt;/p&gt;
 
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;questions&quot;&gt;Questions?&lt;/h2&gt;
+
+&lt;p&gt;If you find bugs, or have questions, please write to:&lt;/p&gt;
+
+&lt;p&gt;Reid McIlroy-Young &lt;a href=&quot;&amp;#109;&amp;#097;&amp;#105;&amp;#108;&amp;#116;&amp;#111;:&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#064;&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#109;&amp;#099;&amp;#121;&amp;#046;&amp;#099;&amp;#111;&amp;#109;&quot;&gt;&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#064;&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#109;&amp;#099;&amp;#121;&amp;#046;&amp;#099;&amp;#111;&amp;#109;&lt;/a&gt;
+John McLevey &lt;a href=&quot;&amp;#109;&amp;#097;&amp;#105;&amp;#108;&amp;#116;&amp;#111;:&amp;#106;&amp;#111;&amp;#104;&amp;#110;&amp;#046;&amp;#109;&amp;#099;&amp;#108;&amp;#101;&amp;#118;&amp;#101;&amp;#121;&amp;#064;&amp;#117;&amp;#119;&amp;#097;&amp;#116;&amp;#101;&amp;#114;&amp;#108;&amp;#111;&amp;#111;&amp;#046;&amp;#099;&amp;#097;&quot;&gt;&amp;#106;&amp;#111;&amp;#104;&amp;#110;&amp;#046;&amp;#109;&amp;#099;&amp;#108;&amp;#101;&amp;#118;&amp;#101;&amp;#121;&amp;#064;&amp;#117;&amp;#119;&amp;#097;&amp;#116;&amp;#101;&amp;#114;&amp;#108;&amp;#111;&amp;#111;&amp;#046;&amp;#099;&amp;#097;&lt;/a&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;license&quot;&gt;License&lt;/h2&gt;
+
+&lt;p&gt;&lt;em&gt;metaknowledge&lt;/em&gt; is free and open source software, distributed under the GPL License.&lt;/p&gt;
 
     &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/metaknowledge&quot;&gt;metaknowledge&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on September 11, 2015.&lt;/p&gt;
   </content>
@@ -972,6 +1014,20 @@ journalAbbreviations docstring&lt;/p&gt;
 
 &lt;p&gt;             Determines if the original HTML of the pages is stored, default &lt;code&gt;False&lt;/code&gt;. If &lt;code&gt;True&lt;/code&gt; they are saved in a directory inside j9Raws begining with todays date.&lt;/p&gt;
 
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;questions&quot;&gt;Questions?&lt;/h2&gt;
+
+&lt;p&gt;If you find bugs, or have questions, please write to:&lt;/p&gt;
+
+&lt;p&gt;Reid McIlroy-Young &lt;a href=&quot;&amp;#109;&amp;#097;&amp;#105;&amp;#108;&amp;#116;&amp;#111;:&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#064;&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#109;&amp;#099;&amp;#121;&amp;#046;&amp;#099;&amp;#111;&amp;#109;&quot;&gt;&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#064;&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#109;&amp;#099;&amp;#121;&amp;#046;&amp;#099;&amp;#111;&amp;#109;&lt;/a&gt;
+John McLevey &lt;a href=&quot;&amp;#109;&amp;#097;&amp;#105;&amp;#108;&amp;#116;&amp;#111;:&amp;#106;&amp;#111;&amp;#104;&amp;#110;&amp;#046;&amp;#109;&amp;#099;&amp;#108;&amp;#101;&amp;#118;&amp;#101;&amp;#121;&amp;#064;&amp;#117;&amp;#119;&amp;#097;&amp;#116;&amp;#101;&amp;#114;&amp;#108;&amp;#111;&amp;#111;&amp;#046;&amp;#099;&amp;#097;&quot;&gt;&amp;#106;&amp;#111;&amp;#104;&amp;#110;&amp;#046;&amp;#109;&amp;#099;&amp;#108;&amp;#101;&amp;#118;&amp;#101;&amp;#121;&amp;#064;&amp;#117;&amp;#119;&amp;#097;&amp;#116;&amp;#101;&amp;#114;&amp;#108;&amp;#111;&amp;#111;&amp;#046;&amp;#099;&amp;#097;&lt;/a&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;license&quot;&gt;License&lt;/h2&gt;
+
+&lt;p&gt;&lt;em&gt;metaknowledge&lt;/em&gt; is free and open source software, distributed under the GPL License.&lt;/p&gt;
 
     &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/journalAbbreviations&quot;&gt;journalAbbreviations&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on September 11, 2015.&lt;/p&gt;
   </content>
@@ -1395,6 +1451,20 @@ journalAbbreviations docstring&lt;/p&gt;
 
 &lt;p&gt;             A RecordCollection of Records from &lt;em&gt;startYear&lt;/em&gt; to &lt;em&gt;endYear&lt;/em&gt;&lt;/p&gt;
 
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;questions&quot;&gt;Questions?&lt;/h2&gt;
+
+&lt;p&gt;If you find bugs, or have questions, please write to:&lt;/p&gt;
+
+&lt;p&gt;Reid McIlroy-Young &lt;a href=&quot;&amp;#109;&amp;#097;&amp;#105;&amp;#108;&amp;#116;&amp;#111;:&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#064;&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#109;&amp;#099;&amp;#121;&amp;#046;&amp;#099;&amp;#111;&amp;#109;&quot;&gt;&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#064;&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#109;&amp;#099;&amp;#121;&amp;#046;&amp;#099;&amp;#111;&amp;#109;&lt;/a&gt;
+John McLevey &lt;a href=&quot;&amp;#109;&amp;#097;&amp;#105;&amp;#108;&amp;#116;&amp;#111;:&amp;#106;&amp;#111;&amp;#104;&amp;#110;&amp;#046;&amp;#109;&amp;#099;&amp;#108;&amp;#101;&amp;#118;&amp;#101;&amp;#121;&amp;#064;&amp;#117;&amp;#119;&amp;#097;&amp;#116;&amp;#101;&amp;#114;&amp;#108;&amp;#111;&amp;#111;&amp;#046;&amp;#099;&amp;#097;&quot;&gt;&amp;#106;&amp;#111;&amp;#104;&amp;#110;&amp;#046;&amp;#109;&amp;#099;&amp;#108;&amp;#101;&amp;#118;&amp;#101;&amp;#121;&amp;#064;&amp;#117;&amp;#119;&amp;#097;&amp;#116;&amp;#101;&amp;#114;&amp;#108;&amp;#111;&amp;#111;&amp;#046;&amp;#099;&amp;#097;&lt;/a&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;license&quot;&gt;License&lt;/h2&gt;
+
+&lt;p&gt;&lt;em&gt;metaknowledge&lt;/em&gt; is free and open source software, distributed under the GPL License.&lt;/p&gt;
 
     &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/RecordCollection&quot;&gt;RecordCollection&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on September 11, 2015.&lt;/p&gt;
   </content>
@@ -1540,6 +1610,20 @@ journalAbbreviations docstring&lt;/p&gt;
 
 &lt;p&gt;             An open utf-8 encoded file&lt;/p&gt;
 
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;questions&quot;&gt;Questions?&lt;/h2&gt;
+
+&lt;p&gt;If you find bugs, or have questions, please write to:&lt;/p&gt;
+
+&lt;p&gt;Reid McIlroy-Young &lt;a href=&quot;&amp;#109;&amp;#097;&amp;#105;&amp;#108;&amp;#116;&amp;#111;:&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#064;&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#109;&amp;#099;&amp;#121;&amp;#046;&amp;#099;&amp;#111;&amp;#109;&quot;&gt;&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#064;&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#109;&amp;#099;&amp;#121;&amp;#046;&amp;#099;&amp;#111;&amp;#109;&lt;/a&gt;
+John McLevey &lt;a href=&quot;&amp;#109;&amp;#097;&amp;#105;&amp;#108;&amp;#116;&amp;#111;:&amp;#106;&amp;#111;&amp;#104;&amp;#110;&amp;#046;&amp;#109;&amp;#099;&amp;#108;&amp;#101;&amp;#118;&amp;#101;&amp;#121;&amp;#064;&amp;#117;&amp;#119;&amp;#097;&amp;#116;&amp;#101;&amp;#114;&amp;#108;&amp;#111;&amp;#111;&amp;#046;&amp;#099;&amp;#097;&quot;&gt;&amp;#106;&amp;#111;&amp;#104;&amp;#110;&amp;#046;&amp;#109;&amp;#099;&amp;#108;&amp;#101;&amp;#118;&amp;#101;&amp;#121;&amp;#064;&amp;#117;&amp;#119;&amp;#097;&amp;#116;&amp;#101;&amp;#114;&amp;#108;&amp;#111;&amp;#111;&amp;#046;&amp;#099;&amp;#097;&lt;/a&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;license&quot;&gt;License&lt;/h2&gt;
+
+&lt;p&gt;&lt;em&gt;metaknowledge&lt;/em&gt; is free and open source software, distributed under the GPL License.&lt;/p&gt;
 
     &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/Record&quot;&gt;Record&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on September 11, 2015.&lt;/p&gt;
   </content>
@@ -1678,6 +1762,20 @@ journalAbbreviations docstring&lt;/p&gt;
 
 &lt;p&gt;             &lt;code&gt;True&lt;/code&gt; if the Citation is for a journal&lt;/p&gt;
 
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;questions&quot;&gt;Questions?&lt;/h2&gt;
+
+&lt;p&gt;If you find bugs, or have questions, please write to:&lt;/p&gt;
+
+&lt;p&gt;Reid McIlroy-Young &lt;a href=&quot;&amp;#109;&amp;#097;&amp;#105;&amp;#108;&amp;#116;&amp;#111;:&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#064;&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#109;&amp;#099;&amp;#121;&amp;#046;&amp;#099;&amp;#111;&amp;#109;&quot;&gt;&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#064;&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#109;&amp;#099;&amp;#121;&amp;#046;&amp;#099;&amp;#111;&amp;#109;&lt;/a&gt;
+John McLevey &lt;a href=&quot;&amp;#109;&amp;#097;&amp;#105;&amp;#108;&amp;#116;&amp;#111;:&amp;#106;&amp;#111;&amp;#104;&amp;#110;&amp;#046;&amp;#109;&amp;#099;&amp;#108;&amp;#101;&amp;#118;&amp;#101;&amp;#121;&amp;#064;&amp;#117;&amp;#119;&amp;#097;&amp;#116;&amp;#101;&amp;#114;&amp;#108;&amp;#111;&amp;#111;&amp;#046;&amp;#099;&amp;#097;&quot;&gt;&amp;#106;&amp;#111;&amp;#104;&amp;#110;&amp;#046;&amp;#109;&amp;#099;&amp;#108;&amp;#101;&amp;#118;&amp;#101;&amp;#121;&amp;#064;&amp;#117;&amp;#119;&amp;#097;&amp;#116;&amp;#101;&amp;#114;&amp;#108;&amp;#111;&amp;#111;&amp;#046;&amp;#099;&amp;#097;&lt;/a&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;license&quot;&gt;License&lt;/h2&gt;
+
+&lt;p&gt;&lt;em&gt;metaknowledge&lt;/em&gt; is free and open source software, distributed under the GPL License.&lt;/p&gt;
 
     &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/Citation&quot;&gt;Citation&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on September 11, 2015.&lt;/p&gt;
   </content>

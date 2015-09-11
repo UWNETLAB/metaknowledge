@@ -311,3 +311,6 @@ Doc String for metaknowledge main
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Records with a BadISIRecord error are likely incomplete or the combination of two or more single records.
 
 
+
+
+{% include docsFooter.md %}

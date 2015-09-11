@@ -7,18 +7,6 @@ tags: [module]
 weight: 3
 ---
 <a name="journalAbbreviations"></a>
-<a name="journalAbbreviations.blondel"></a>journalAbbreviations.**blondel**(_G, weightParameter=None, communityParameter='community'_):
-
-# Needs to be written
-
-- - -
-
-<a name="journalAbbreviations.btest"></a>journalAbbreviations.**btest**(_quite=False_):
-
-# Needs to be written
-
-- - -
-
 <a name="journalAbbreviations.drop_edges"></a>journalAbbreviations.**drop_edges**(_grph, minWeight=-inf, maxWeight=inf, parameterName='weight', ignoreUnweighted=False, dropSelfLoops=False_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a graph with edges whose weight is within the inclusive bounds of minWeight and maxWeight, i.e minWeight <= edges weight <= maxWeight, will throw a Keyerror if the graph is unweighted
@@ -77,13 +65,6 @@ weight: 3
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;isiParser() reads the file given by the path isifile, checks that the header is correct then reads until it reaches EF.
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Each it finds is used to initialize a Record then all Record are returned as a list.
-
-
-- - -
-
-<a name="journalAbbreviations.modularity"></a>journalAbbreviations.**modularity**(_G, weightParameter=None, communityParameter='community'_):
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Gets modularity of network, currently not tuned
 
 
 - - -

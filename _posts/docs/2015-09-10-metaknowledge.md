@@ -9,18 +9,6 @@ weight: 1
 <a name="metaknowledge"></a>
 Doc String for metaknowledge main
 
-<a name="blondel"></a>**blondel**(_G, weightParameter=None, communityParameter='community'_):
-
-# Needs to be written
-
-- - -
-
-<a name="btest"></a>**btest**(_quite=False_):
-
-# Needs to be written
-
-- - -
-
 <a name="drop_edges"></a>**drop_edges**(_grph, minWeight=-inf, maxWeight=inf, parameterName='weight', ignoreUnweighted=False, dropSelfLoops=False_):
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a graph with edges whose weight is within the inclusive bounds of minWeight and maxWeight, i.e minWeight <= edges weight <= maxWeight, will throw a Keyerror if the graph is unweighted
@@ -79,13 +67,6 @@ Doc String for metaknowledge main
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;isiParser() reads the file given by the path isifile, checks that the header is correct then reads until it reaches EF.
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Each it finds is used to initialize a Record then all Record are returned as a list.
-
-
-- - -
-
-<a name="modularity"></a>**modularity**(_G, weightParameter=None, communityParameter='community'_):
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Gets modularity of network, currently not tuned
 
 
 - - -

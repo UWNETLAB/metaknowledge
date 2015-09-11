@@ -4,7 +4,7 @@
 <generator uri="https://github.com/jekyll/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="http://networkslab.org/feed.xml" />
 <link rel="alternate" type="text/html" href="http://networkslab.org" />
-<updated>2015-09-10T23:42:03-04:00</updated>
+<updated>2015-09-10T23:54:05-04:00</updated>
 <id>http://networkslab.org/</id>
 <author>
   <name>John McLevey and Reid McIlroy-Young</name>
@@ -28,19 +28,7 @@
   </author>
   <content type="html">
     &lt;p&gt;&lt;a name=&quot;visual&quot;&gt;&lt;/a&gt;
-&lt;a name=&quot;visual.blondel&quot;&gt;&lt;/a&gt;visual.&lt;strong&gt;blondel&lt;/strong&gt;(&lt;em&gt;G, weightParameter=None, communityParameter=’community’&lt;/em&gt;):&lt;/p&gt;
-
-&lt;h1 id=&quot;needs-to-be-written&quot;&gt;Needs to be written&lt;/h1&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;&lt;a name=&quot;visual.btest&quot;&gt;&lt;/a&gt;visual.&lt;strong&gt;btest&lt;/strong&gt;(&lt;em&gt;quite=False&lt;/em&gt;):&lt;/p&gt;
-
-&lt;h1 id=&quot;needs-to-be-written-1&quot;&gt;Needs to be written&lt;/h1&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;&lt;a name=&quot;visual.drop_edges&quot;&gt;&lt;/a&gt;visual.&lt;strong&gt;drop_edges&lt;/strong&gt;(&lt;em&gt;grph, minWeight=-inf, maxWeight=inf, parameterName=’weight’, ignoreUnweighted=False, dropSelfLoops=False&lt;/em&gt;):&lt;/p&gt;
+&lt;a name=&quot;visual.drop_edges&quot;&gt;&lt;/a&gt;visual.&lt;strong&gt;drop_edges&lt;/strong&gt;(&lt;em&gt;grph, minWeight=-inf, maxWeight=inf, parameterName=’weight’, ignoreUnweighted=False, dropSelfLoops=False&lt;/em&gt;):&lt;/p&gt;
 
 &lt;p&gt;      Returns a graph with edges whose weight is within the inclusive bounds of minWeight and maxWeight, i.e minWeight &amp;lt;= edges weight &amp;lt;= maxWeight, will throw a Keyerror if the graph is unweighted&lt;/p&gt;
 
@@ -80,13 +68,13 @@
 
 &lt;p&gt;&lt;a name=&quot;visual.filterNonJournals&quot;&gt;&lt;/a&gt;visual.&lt;strong&gt;filterNonJournals&lt;/strong&gt;(&lt;em&gt;citesLst, invert=False&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h1 id=&quot;needs-to-be-written-2&quot;&gt;Needs to be written&lt;/h1&gt;
+&lt;h1 id=&quot;needs-to-be-written&quot;&gt;Needs to be written&lt;/h1&gt;
 
 &lt;hr /&gt;
 
 &lt;p&gt;&lt;a name=&quot;visual.graphStats&quot;&gt;&lt;/a&gt;visual.&lt;strong&gt;graphStats&lt;/strong&gt;(&lt;em&gt;G, stats=(‘nodes’, ‘edges’, ‘isolates’, ‘loops’, ‘density’, ‘transitivity’), makeString=True&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h1 id=&quot;needs-to-be-written-3&quot;&gt;Needs to be written&lt;/h1&gt;
+&lt;h1 id=&quot;needs-to-be-written-1&quot;&gt;Needs to be written&lt;/h1&gt;
 
 &lt;hr /&gt;
 
@@ -94,12 +82,6 @@
 
 &lt;p&gt;      isiParser() reads the file given by the path isifile, checks that the header is correct then reads until it reaches EF.
       Each it finds is used to initialize a Record then all Record are returned as a list.&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;&lt;a name=&quot;visual.modularity&quot;&gt;&lt;/a&gt;visual.&lt;strong&gt;modularity&lt;/strong&gt;(&lt;em&gt;G, weightParameter=None, communityParameter=’community’&lt;/em&gt;):&lt;/p&gt;
-
-&lt;p&gt;      Gets modularity of network, currently not tuned&lt;/p&gt;
 
 &lt;hr /&gt;
 
@@ -187,19 +169,7 @@
   </author>
   <content type="html">
     &lt;p&gt;&lt;a name=&quot;tagFuncs&quot;&gt;&lt;/a&gt;
-&lt;a name=&quot;tagFuncs.blondel&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;blondel&lt;/strong&gt;(&lt;em&gt;G, weightParameter=None, communityParameter=’community’&lt;/em&gt;):&lt;/p&gt;
-
-&lt;h1 id=&quot;needs-to-be-written&quot;&gt;Needs to be written&lt;/h1&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;&lt;a name=&quot;tagFuncs.btest&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;btest&lt;/strong&gt;(&lt;em&gt;quite=False&lt;/em&gt;):&lt;/p&gt;
-
-&lt;h1 id=&quot;needs-to-be-written-1&quot;&gt;Needs to be written&lt;/h1&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;&lt;a name=&quot;tagFuncs.drop_edges&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;drop_edges&lt;/strong&gt;(&lt;em&gt;grph, minWeight=-inf, maxWeight=inf, parameterName=’weight’, ignoreUnweighted=False, dropSelfLoops=False&lt;/em&gt;):&lt;/p&gt;
+&lt;a name=&quot;tagFuncs.drop_edges&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;drop_edges&lt;/strong&gt;(&lt;em&gt;grph, minWeight=-inf, maxWeight=inf, parameterName=’weight’, ignoreUnweighted=False, dropSelfLoops=False&lt;/em&gt;):&lt;/p&gt;
 
 &lt;p&gt;      Returns a graph with edges whose weight is within the inclusive bounds of minWeight and maxWeight, i.e minWeight &amp;lt;= edges weight &amp;lt;= maxWeight, will throw a Keyerror if the graph is unweighted&lt;/p&gt;
 
@@ -239,13 +209,13 @@
 
 &lt;p&gt;&lt;a name=&quot;tagFuncs.filterNonJournals&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;filterNonJournals&lt;/strong&gt;(&lt;em&gt;citesLst, invert=False&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h1 id=&quot;needs-to-be-written-2&quot;&gt;Needs to be written&lt;/h1&gt;
+&lt;h1 id=&quot;needs-to-be-written&quot;&gt;Needs to be written&lt;/h1&gt;
 
 &lt;hr /&gt;
 
 &lt;p&gt;&lt;a name=&quot;tagFuncs.graphStats&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;graphStats&lt;/strong&gt;(&lt;em&gt;G, stats=(‘nodes’, ‘edges’, ‘isolates’, ‘loops’, ‘density’, ‘transitivity’), makeString=True&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h1 id=&quot;needs-to-be-written-3&quot;&gt;Needs to be written&lt;/h1&gt;
+&lt;h1 id=&quot;needs-to-be-written-1&quot;&gt;Needs to be written&lt;/h1&gt;
 
 &lt;hr /&gt;
 
@@ -253,12 +223,6 @@
 
 &lt;p&gt;      isiParser() reads the file given by the path isifile, checks that the header is correct then reads until it reaches EF.
       Each it finds is used to initialize a Record then all Record are returned as a list.&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;&lt;a name=&quot;tagFuncs.modularity&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;modularity&lt;/strong&gt;(&lt;em&gt;G, weightParameter=None, communityParameter=’community’&lt;/em&gt;):&lt;/p&gt;
-
-&lt;p&gt;      Gets modularity of network, currently not tuned&lt;/p&gt;
 
 &lt;hr /&gt;
 
@@ -348,18 +312,6 @@
     &lt;p&gt;&lt;a name=&quot;metaknowledge&quot;&gt;&lt;/a&gt;
 Doc String for metaknowledge main&lt;/p&gt;
 
-&lt;p&gt;&lt;a name=&quot;blondel&quot;&gt;&lt;/a&gt;&lt;strong&gt;blondel&lt;/strong&gt;(&lt;em&gt;G, weightParameter=None, communityParameter=’community’&lt;/em&gt;):&lt;/p&gt;
-
-&lt;h1 id=&quot;needs-to-be-written&quot;&gt;Needs to be written&lt;/h1&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;&lt;a name=&quot;btest&quot;&gt;&lt;/a&gt;&lt;strong&gt;btest&lt;/strong&gt;(&lt;em&gt;quite=False&lt;/em&gt;):&lt;/p&gt;
-
-&lt;h1 id=&quot;needs-to-be-written-1&quot;&gt;Needs to be written&lt;/h1&gt;
-
-&lt;hr /&gt;
-
 &lt;p&gt;&lt;a name=&quot;drop_edges&quot;&gt;&lt;/a&gt;&lt;strong&gt;drop_edges&lt;/strong&gt;(&lt;em&gt;grph, minWeight=-inf, maxWeight=inf, parameterName=’weight’, ignoreUnweighted=False, dropSelfLoops=False&lt;/em&gt;):&lt;/p&gt;
 
 &lt;p&gt;      Returns a graph with edges whose weight is within the inclusive bounds of minWeight and maxWeight, i.e minWeight &amp;lt;= edges weight &amp;lt;= maxWeight, will throw a Keyerror if the graph is unweighted&lt;/p&gt;
@@ -400,13 +352,13 @@ Doc String for metaknowledge main&lt;/p&gt;
 
 &lt;p&gt;&lt;a name=&quot;filterNonJournals&quot;&gt;&lt;/a&gt;&lt;strong&gt;filterNonJournals&lt;/strong&gt;(&lt;em&gt;citesLst, invert=False&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h1 id=&quot;needs-to-be-written-2&quot;&gt;Needs to be written&lt;/h1&gt;
+&lt;h1 id=&quot;needs-to-be-written&quot;&gt;Needs to be written&lt;/h1&gt;
 
 &lt;hr /&gt;
 
 &lt;p&gt;&lt;a name=&quot;graphStats&quot;&gt;&lt;/a&gt;&lt;strong&gt;graphStats&lt;/strong&gt;(&lt;em&gt;G, stats=(‘nodes’, ‘edges’, ‘isolates’, ‘loops’, ‘density’, ‘transitivity’), makeString=True&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h1 id=&quot;needs-to-be-written-3&quot;&gt;Needs to be written&lt;/h1&gt;
+&lt;h1 id=&quot;needs-to-be-written-1&quot;&gt;Needs to be written&lt;/h1&gt;
 
 &lt;hr /&gt;
 
@@ -414,12 +366,6 @@ Doc String for metaknowledge main&lt;/p&gt;
 
 &lt;p&gt;      isiParser() reads the file given by the path isifile, checks that the header is correct then reads until it reaches EF.
       Each it finds is used to initialize a Record then all Record are returned as a list.&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;&lt;a name=&quot;modularity&quot;&gt;&lt;/a&gt;&lt;strong&gt;modularity&lt;/strong&gt;(&lt;em&gt;G, weightParameter=None, communityParameter=’community’&lt;/em&gt;):&lt;/p&gt;
-
-&lt;p&gt;      Gets modularity of network, currently not tuned&lt;/p&gt;
 
 &lt;hr /&gt;
 
@@ -527,19 +473,7 @@ Doc String for metaknowledge main&lt;/p&gt;
   </author>
   <content type="html">
     &lt;p&gt;&lt;a name=&quot;journalAbbreviations&quot;&gt;&lt;/a&gt;
-&lt;a name=&quot;journalAbbreviations.blondel&quot;&gt;&lt;/a&gt;journalAbbreviations.&lt;strong&gt;blondel&lt;/strong&gt;(&lt;em&gt;G, weightParameter=None, communityParameter=’community’&lt;/em&gt;):&lt;/p&gt;
-
-&lt;h1 id=&quot;needs-to-be-written&quot;&gt;Needs to be written&lt;/h1&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;&lt;a name=&quot;journalAbbreviations.btest&quot;&gt;&lt;/a&gt;journalAbbreviations.&lt;strong&gt;btest&lt;/strong&gt;(&lt;em&gt;quite=False&lt;/em&gt;):&lt;/p&gt;
-
-&lt;h1 id=&quot;needs-to-be-written-1&quot;&gt;Needs to be written&lt;/h1&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;&lt;a name=&quot;journalAbbreviations.drop_edges&quot;&gt;&lt;/a&gt;journalAbbreviations.&lt;strong&gt;drop_edges&lt;/strong&gt;(&lt;em&gt;grph, minWeight=-inf, maxWeight=inf, parameterName=’weight’, ignoreUnweighted=False, dropSelfLoops=False&lt;/em&gt;):&lt;/p&gt;
+&lt;a name=&quot;journalAbbreviations.drop_edges&quot;&gt;&lt;/a&gt;journalAbbreviations.&lt;strong&gt;drop_edges&lt;/strong&gt;(&lt;em&gt;grph, minWeight=-inf, maxWeight=inf, parameterName=’weight’, ignoreUnweighted=False, dropSelfLoops=False&lt;/em&gt;):&lt;/p&gt;
 
 &lt;p&gt;      Returns a graph with edges whose weight is within the inclusive bounds of minWeight and maxWeight, i.e minWeight &amp;lt;= edges weight &amp;lt;= maxWeight, will throw a Keyerror if the graph is unweighted&lt;/p&gt;
 
@@ -579,13 +513,13 @@ Doc String for metaknowledge main&lt;/p&gt;
 
 &lt;p&gt;&lt;a name=&quot;journalAbbreviations.filterNonJournals&quot;&gt;&lt;/a&gt;journalAbbreviations.&lt;strong&gt;filterNonJournals&lt;/strong&gt;(&lt;em&gt;citesLst, invert=False&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h1 id=&quot;needs-to-be-written-2&quot;&gt;Needs to be written&lt;/h1&gt;
+&lt;h1 id=&quot;needs-to-be-written&quot;&gt;Needs to be written&lt;/h1&gt;
 
 &lt;hr /&gt;
 
 &lt;p&gt;&lt;a name=&quot;journalAbbreviations.graphStats&quot;&gt;&lt;/a&gt;journalAbbreviations.&lt;strong&gt;graphStats&lt;/strong&gt;(&lt;em&gt;G, stats=(‘nodes’, ‘edges’, ‘isolates’, ‘loops’, ‘density’, ‘transitivity’), makeString=True&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h1 id=&quot;needs-to-be-written-3&quot;&gt;Needs to be written&lt;/h1&gt;
+&lt;h1 id=&quot;needs-to-be-written-1&quot;&gt;Needs to be written&lt;/h1&gt;
 
 &lt;hr /&gt;
 
@@ -593,12 +527,6 @@ Doc String for metaknowledge main&lt;/p&gt;
 
 &lt;p&gt;      isiParser() reads the file given by the path isifile, checks that the header is correct then reads until it reaches EF.
       Each it finds is used to initialize a Record then all Record are returned as a list.&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;&lt;a name=&quot;journalAbbreviations.modularity&quot;&gt;&lt;/a&gt;journalAbbreviations.&lt;strong&gt;modularity&lt;/strong&gt;(&lt;em&gt;G, weightParameter=None, communityParameter=’community’&lt;/em&gt;):&lt;/p&gt;
-
-&lt;p&gt;      Gets modularity of network, currently not tuned&lt;/p&gt;
 
 &lt;hr /&gt;
 

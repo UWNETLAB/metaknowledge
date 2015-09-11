@@ -197,7 +197,21 @@
 
 <p><a name="Citation.addToDB"></a>Citation.<strong>addToDB</strong>(<em>manualName=None, manaulDB=’manualj9Abbreviations’, invert=False</em>):</p>
 
-<h1 id="needs-to-be-written">Needs to be written</h1>
+<p>      Adds the journal of this Citation to the user created database of journals. This will cause <a href="#Citation.isJournal">isJournal()</a> to return <code>True</code> for this Citation and all others with its <code>.journal</code>.</p>
+
+<h5 id="nbspnbspnbsp-parameters-1">    Parameters</h5>
+
+<p>      <em>manualName</em> : <code>optional [str]</code></p>
+
+<p>             Default <code>None</code>, the full name of journal to use. If not provided the full name will be the same as the abbreviation.</p>
+
+<p>      <em>manaulDB</em> : <code>optional [str]</code></p>
+
+<p>             The name of the database file, the default is <a href="#journalAbbreviations.manaulDBname">metaknowledge.journalAbbreviations.manaulDBname</a></p>
+
+<p>      <em>invert</em> : <code>optional [bool]</code></p>
+
+<p>             Default <code>False</code>, if <code>True</code> the journal will be removed instead of added</p>
 
 <p><a name="Citation.getExtra"></a>Citation.<strong>getExtra</strong>():</p>
 

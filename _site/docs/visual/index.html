@@ -147,125 +147,21 @@
       </header>
       <div class="entry-content">
         <p><a name="visual"></a>
-<a name="visual.drop_edges"></a>visual.<strong>drop_edges</strong>(<em>grph, minWeight=-inf, maxWeight=inf, parameterName=’weight’, ignoreUnweighted=False, dropSelfLoops=False</em>):</p>
-
-<p>      Returns a graph with edges whose weight is within the inclusive bounds of minWeight and maxWeight, i.e minWeight &lt;= edges weight &lt;= maxWeight, will throw a Keyerror if the graph is unweighted</p>
-
-<p>      minWeight and maxWeight default to negative and positive infinity respectively so without specifying either the output should be the input</p>
-
-<p>      parameterName is key to weight field in the edge’s dictionary, default is weight as that is almost always correct</p>
-
-<p>      ignoreUnweighted can be set False to suppress the KeyError and make unweighted edges be ignored</p>
+visual docstring</p>
 
 <hr />
 
-<p><a name="visual.drop_nodesByCount"></a>visual.<strong>drop_nodesByCount</strong>(<em>grph, minCount=-inf, maxCount=inf, parameterName=’count’, ignoreMissing=False</em>):</p>
+<p><a name="visual.graphDensityContourPlot"></a>visual.<strong>graphDensityContourPlot</strong>(<em>G, layout=None, layoutScaleFactor=1, shifAxis=False, overlay=False, axisSamples=100, blurringFactor=0.1, contours=15, nodeSize=10, graphType=’coloured’, iters=50</em>):</p>
 
-<p>      Returns a graph whose nodes have a occurrence count that is within inclusive bounds of minCount and maxCount, i.e minCount &lt;= count &lt;= maxCount. Occurrence count is determined by reading the variable associated with the node named parameterName.</p>
+<p>      Requires numpy and matplotlib</p>
 
-<p>      minCount and maxCount default to negative and positive infinity respectively so without specifying either the output should be the input</p>
-
-<p>      parameterName is key to count field in the node’s dictionary, default is count as that is often correct</p>
-
-<p>      ignoreMissing can be set False to suppress the KeyError and make nodes missing counts be dropped instead of throwing errors</p>
+<p>      graphType is either “coloured or “solid”</p>
 
 <hr />
 
-<p><a name="visual.drop_nodesByDegree"></a>visual.<strong>drop_nodesByDegree</strong>(<em>grph, minDegree=-inf, maxDegree=inf, useWeight=True, parameterName=’weight’, ignoreUnweighted=True</em>):</p>
+<p><a name="visual.quickGraph"></a>visual.<strong>quickGraph</strong>(<em>G</em>):</p>
 
-<p>      Returns a graph whose nodes have a degree that is within inclusive bounds of minDegree and maxDegree, i.e minDegree &lt;= degree &lt;= maxDegree. Degree can be determined in two ways by default it is the total number of edges touching a node, alternative if useWeight is True it is the sum of the weight of all the edges touching a node.</p>
-
-<p>      minDegree and maxDegree default to negative and positive infinity respectively so without specifying either the output should be the input</p>
-
-<p>      useWeight can be set True to use an alternative method for calculating degree, the total weight of all edges</p>
-
-<p>      parameterName is key to weight field in the edge’s dictionary, default is weight as that is almost always correct, only used if useWeight is True</p>
-
-<p>      ignoreUnweighted can be set False to suppress the KeyError and make unweighted edges be not counted, only used if useWeight is True</p>
-
-<hr />
-
-<p><a name="visual.filterNonJournals"></a>visual.<strong>filterNonJournals</strong>(<em>citesLst, invert=False</em>):</p>
-
-<h1 id="needs-to-be-written">Needs to be written</h1>
-
-<hr />
-
-<p><a name="visual.graphStats"></a>visual.<strong>graphStats</strong>(<em>G, stats=(‘nodes’, ‘edges’, ‘isolates’, ‘loops’, ‘density’, ‘transitivity’), makeString=True</em>):</p>
-
-<h1 id="needs-to-be-written-1">Needs to be written</h1>
-
-<hr />
-
-<p><a name="visual.isiParser"></a>visual.<strong>isiParser</strong>(<em>isifile</em>):</p>
-
-<p>      isiParser() reads the file given by the path isifile, checks that the header is correct then reads until it reaches EF.
-      Each it finds is used to initialize a Record then all Record are returned as a list.</p>
-
-<hr />
-
-<p><a name="visual.read_graph"></a>visual.<strong>read_graph</strong>(<em>edgeList, nodeList=None, directed=False, idKey=’ID’, eSource=’From’, eDest=’To’</em>):</p>
-
-<p>      Reads the files given by edgeList and if given nodeList and produces a networkx graph
-      This is designed only for the files produced by metaknowledge and is meant to be the reverse of write_graph()</p>
-
-<p>      nodeList must be given if any of the attributes of the node are needed
-      directed controls if the resultant graph is directional eSource and eDest control the direction
-      idKey, eSource and  eDest are the labels for the edge’s id, source and destination respectively, they must match headers in the file or a keyError exception will be thrown</p>
-
-<p>      igraph Style</p>
-
-<hr />
-
-<p><a name="visual.recordParser"></a>visual.<strong>recordParser</strong>(<em>paper</em>):</p>
-
-<p>      Reads the file <em>paper</em> until it reaches ‘ER’.</p>
-
-<p>      For each field tag it adds an entry to the returned dict with the tag as the key and a list of the entries as the value, the list has each line separately, so for the following string in a record:</p>
-
-<p>      “AF BREVIK, I</p>
-
-<p>          ANICIN, B”</p>
-
-<p>      The entry in the returned dict would be <code>{'AF' : ["BREVIK, I", "ANICIN, B"]}</code></p>
-
-<p>      <a href="#metaknowledge.Record">Record</a> objects can be created with these dictionaries as the initializer.</p>
-
-<h5 id="nbspnbspnbsp-parameters">    Parameters</h5>
-
-<p>      <em>paper</em> : <code>file stream</code></p>
-
-<p>             An open file, with the current line at the beginning of the record.</p>
-
-<h5 id="nbspnbspnbsp-returns">    Returns</h5>
-
-<p>      <code>dict[str : List[str]]</code></p>
-
-<p>             A dictionary mapping WOS tags to lists, the lists are of strings, each string is a line of the record associated with the tag.</p>
-
-<hr />
-
-<p><a name="visual.write_edgeList"></a>visual.<strong>write_edgeList</strong>(<em>grph, name, extraInfo=True, progBar=None</em>):</p>
-
-<p>      writes an edge list of grph with filename name, if extraInfo is true the additional information about the edges, e.g. weight, will be written.
-      All edges must have the same tags</p>
-
-<hr />
-
-<p><a name="visual.write_graph"></a>visual.<strong>write_graph</strong>(<em>grph, name, edgeInfo=True, typing=False, suffix=’csv’, overwrite=True</em>):</p>
-
-<p>      Writes both the edge list and the node attribute list of grph.
-      The output files start with name, the file type[edgeList, nodeAttributes] then if typing is True the type of graph (directed or undirected) then the suffix, it appears as follows:
-          name_fileType_Graphtype.suffix
-      If edgeInfo is true the extra information about the edges will be included in their list, i.e. their weight will be given
-      If overwrite is False write_graph will throw an exception if either of the files it is attempting to write exist</p>
-
-<hr />
-
-<p><a name="visual.write_nodeAttributeFile"></a>visual.<strong>write_nodeAttributeFile</strong>(<em>grph, name, progBar=None</em>):</p>
-
-<p>      writes a node attribute list of grph with filename name, the first column is the node’s ID then all after it are its associated information.
-      All nodes must have the same tags.</p>
+<p>      just makes a simple matplolib figure and displays it</p>
 
 
       </div><!-- /.entry-content -->

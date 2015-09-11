@@ -210,10 +210,6 @@ weight: 2
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; _wosNum_ is the WOS number of the Record to be dropped. _wosNum_ must begin with 'WOS:' or a valueError is raise.
 
 
-<a name="RecordCollection.extractTagged"></a>RecordCollection.**extractTagged**(_taglist_):
-
-# Needs to be written
-
 <a name="RecordCollection.getBadRecords"></a>RecordCollection.**getBadRecords**():
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns RecordCollection containing all the Record which have their bad flag set to True, i.e. all those removed by dropBadRecords()
@@ -266,11 +262,65 @@ weight: 2
 
 <a name="RecordCollection.nModeNetwork"></a>RecordCollection.**nModeNetwork**(_tags, recordType=True, nodeCount=True, edgeWeight=True_):
 
-# Needs to be written
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a network of the objects found by all WOS tags in _tags_.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A **nModeNetwork()** looks are each Record in the RecordCollection and extracts its values for the tags given by _tags_. Then for all objects returned an edge is created between them, regardless of their type. Each node will have an attribute call `"type"` that gives the tag that created it or both if both created it, e.g. if `"LA"` were in _tags_ node `"English"` would have the type attribute be `"LA"`.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For example if _tags_ was set to `['CR', 'UT', 'LA']`, a three mode network would be created, composed of a co-citation network from the `"CR"` tag. Then each citation would also have edges to all the languages of Records that cited it and to the WOS number of the those Records.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The number of times each object occurs is count if _nodeCount_ is `True` and the edges count the number of co-occurrences if _edgeWeight_ is `True`. Both are`True` by default.
+
+#####&nbsp;&nbsp;&nbsp; Parameters
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_mode_ : `str`
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A two character WOS tag or one of the full names for a tag
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_nodeCount_ : `optional [bool]`
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Default `True`, if `True` each node will have an attribute called "count" that contains an int giving the number of time the object occurred.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_edgeWeight_ : `optional [bool]`
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Default `True`, if `True` each edge will have an attribute called "weight" that contains an int giving the number of time the two objects co-occurrenced.
+
+#####&nbsp;&nbsp;&nbsp; Returns
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`networkx Graph`
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A networkx Graph with the objects of the tags _tags_ as nodes and their co-occurrences as edges
+
 
 <a name="RecordCollection.oneModeNetwork"></a>RecordCollection.**oneModeNetwork**(_mode, nodeCount=True, edgeWeight=True_):
 
-# Needs to be written
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a network of the objects found by one WOS tag _mode_.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A **oneModeNetwork()** looks are each Record in the RecordCollection and extracts its values for the tag given by _mode_, e.g. the `"AF"` tag. Then if multiple are returned an edge is created between them. So in the case of the author tag `"AF"` a co-authorship network is created.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The number of times each object occurs is count if _nodeCount_ is `True` and the edges count the number of co-occurrences if _edgeWeight_ is `True`. Both are`True` by default.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Note** Do not use this for the construction of co-citation networks use [Recordcollection.coCiteNetwork()](#Recordcollection.coCiteNetwork) it is more accurate and has more options.
+
+#####&nbsp;&nbsp;&nbsp; Parameters
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_mode_ : `str`
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A two character WOS tag or one of the full names for a tag
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_nodeCount_ : `optional [bool]`
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Default `True`, if `True` each node will have an attribute called "count" that contains an int giving the number of time the object occurred.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_edgeWeight_ : `optional [bool]`
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Default `True`, if `True` each edge will have an attribute called "weight" that contains an int giving the number of time the two objects co-occurrenced.
+
+#####&nbsp;&nbsp;&nbsp; Returns
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`networkx Graph`
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A networkx Graph with the objects of the tag _mode_ as nodes and their co-occurrences as edges
+
 
 <a name="RecordCollection.peak"></a>RecordCollection.**peak**():
 
@@ -284,7 +334,38 @@ weight: 2
 
 <a name="RecordCollection.twoModeNetwork"></a>RecordCollection.**twoModeNetwork**(_tag1, tag2, directed=False, recordType=True, nodeCount=True, edgeWeight=True_):
 
-# Needs to be written
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a network of the objects found by two WOS tags _tag1_ and _tag2_.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A **twoModeNetwork()** looks are each Record in the RecordCollection and extracts its values for the tags given by _tag1_ and _tag2_, e.g. the `"WC"` and `"LA"` tags. Then for each object returned by each tag and edge is created between it and every other object of the other tag. So the WOS defined subject tag `"WC"` and language tag `"LA"`, will give a two-mode network showing the connections between subjects and languages. Each node will have an attribute call `"type"` that gives the tag that created it or both if both created it, e.g. the node `"English"` would have the type attribute be `"LA"`.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The number of times each object occurs is count if _nodeCount_ is `True` and the edges count the number of co-occurrences if _edgeWeight_ is `True`. Both are`True` by default.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The _directed_ parameter if `True` will cause the network to be directed with the first tag as the source and the second as the destination.
+
+#####&nbsp;&nbsp;&nbsp; Parameters
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_mode_ : `str`
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A two character WOS tag or one of the full names for a tag
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_directed_ : `optional [bool]`
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Default `False`, if `True` the returned network is directed
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_nodeCount_ : `optional [bool]`
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Default `True`, if `True` each node will have an attribute called "count" that contains an int giving the number of time the object occurred.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_edgeWeight_ : `optional [bool]`
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Default `True`, if `True` each edge will have an attribute called "weight" that contains an int giving the number of time the two objects co-occurrenced.
+
+#####&nbsp;&nbsp;&nbsp; Returns
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`networkx Graph or networkx DiGraph`
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A networkx Graph with the objects of the tags _tag1_ and _tag2_ as nodes and their co-occurrences as edges.
+
 
 <a name="RecordCollection.writeCSV"></a>RecordCollection.**writeCSV**(_fname=None, onlyTheseTags=None, longNames=False, firstTags=['UT', 'PT', 'TI', 'AF', 'CR'], csvDelimiter=',', csvQuote='"', listDelimiter='|'_):
 
@@ -316,5 +397,22 @@ weight: 2
 
 <a name="RecordCollection.yearSplit"></a>RecordCollection.**yearSplit**(_startYear, endYear_):
 
-# Needs to be written
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a RecordCollection of Records from the years between _startYear_ and _endYear_ inclusive.
+
+#####&nbsp;&nbsp;&nbsp; Parameters
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_startYear_ : `int`
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; The smallest year to be included in the retuned RecordCollection
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_endYear_ : `int`
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; The largest year to be included in the retuned RecordCollection
+
+#####&nbsp;&nbsp;&nbsp; Returns
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`RecordCollection`
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A RecordCollection of Records from _startYear_ to _endYear_
+
 

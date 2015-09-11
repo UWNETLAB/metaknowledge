@@ -342,10 +342,6 @@
 
 <p>             <em>wosNum</em> is the WOS number of the Record to be dropped. <em>wosNum</em> must begin with ‘WOS:’ or a valueError is raise.</p>
 
-<p><a name="RecordCollection.extractTagged"></a>RecordCollection.<strong>extractTagged</strong>(<em>taglist</em>):</p>
-
-<h1 id="needs-to-be-written">Needs to be written</h1>
-
 <p><a name="RecordCollection.getBadRecords"></a>RecordCollection.<strong>getBadRecords</strong>():</p>
 
 <p>      returns RecordCollection containing all the Record which have their bad flag set to True, i.e. all those removed by dropBadRecords()</p>
@@ -393,11 +389,63 @@
 
 <p><a name="RecordCollection.nModeNetwork"></a>RecordCollection.<strong>nModeNetwork</strong>(<em>tags, recordType=True, nodeCount=True, edgeWeight=True</em>):</p>
 
-<h1 id="needs-to-be-written-1">Needs to be written</h1>
+<p>      Creates a network of the objects found by all WOS tags in <em>tags</em>.</p>
+
+<p>      A <strong>nModeNetwork()</strong> looks are each Record in the RecordCollection and extracts its values for the tags given by <em>tags</em>. Then for all objects returned an edge is created between them, regardless of their type. Each node will have an attribute call <code>"type"</code> that gives the tag that created it or both if both created it, e.g. if <code>"LA"</code> were in <em>tags</em> node <code>"English"</code> would have the type attribute be <code>"LA"</code>.</p>
+
+<p>      For example if <em>tags</em> was set to <code>['CR', 'UT', 'LA']</code>, a three mode network would be created, composed of a co-citation network from the <code>"CR"</code> tag. Then each citation would also have edges to all the languages of Records that cited it and to the WOS number of the those Records.</p>
+
+<p>      The number of times each object occurs is count if <em>nodeCount</em> is <code>True</code> and the edges count the number of co-occurrences if <em>edgeWeight</em> is <code>True</code>. Both are<code>True</code> by default.</p>
+
+<h5 id="nbspnbspnbsp-parameters-7">    Parameters</h5>
+
+<p>      <em>mode</em> : <code>str</code></p>
+
+<p>             A two character WOS tag or one of the full names for a tag</p>
+
+<p>      <em>nodeCount</em> : <code>optional [bool]</code></p>
+
+<p>             Default <code>True</code>, if <code>True</code> each node will have an attribute called “count” that contains an int giving the number of time the object occurred.</p>
+
+<p>      <em>edgeWeight</em> : <code>optional [bool]</code></p>
+
+<p>             Default <code>True</code>, if <code>True</code> each edge will have an attribute called “weight” that contains an int giving the number of time the two objects co-occurrenced.</p>
+
+<h5 id="nbspnbspnbsp-returns-4">    Returns</h5>
+
+<p>      <code>networkx Graph</code></p>
+
+<p>             A networkx Graph with the objects of the tags <em>tags</em> as nodes and their co-occurrences as edges</p>
 
 <p><a name="RecordCollection.oneModeNetwork"></a>RecordCollection.<strong>oneModeNetwork</strong>(<em>mode, nodeCount=True, edgeWeight=True</em>):</p>
 
-<h1 id="needs-to-be-written-2">Needs to be written</h1>
+<p>      Creates a network of the objects found by one WOS tag <em>mode</em>.</p>
+
+<p>      A <strong>oneModeNetwork()</strong> looks are each Record in the RecordCollection and extracts its values for the tag given by <em>mode</em>, e.g. the <code>"AF"</code> tag. Then if multiple are returned an edge is created between them. So in the case of the author tag <code>"AF"</code> a co-authorship network is created.</p>
+
+<p>      The number of times each object occurs is count if <em>nodeCount</em> is <code>True</code> and the edges count the number of co-occurrences if <em>edgeWeight</em> is <code>True</code>. Both are<code>True</code> by default.</p>
+
+<p>      <strong>Note</strong> Do not use this for the construction of co-citation networks use <a href="#Recordcollection.coCiteNetwork">Recordcollection.coCiteNetwork()</a> it is more accurate and has more options.</p>
+
+<h5 id="nbspnbspnbsp-parameters-8">    Parameters</h5>
+
+<p>      <em>mode</em> : <code>str</code></p>
+
+<p>             A two character WOS tag or one of the full names for a tag</p>
+
+<p>      <em>nodeCount</em> : <code>optional [bool]</code></p>
+
+<p>             Default <code>True</code>, if <code>True</code> each node will have an attribute called “count” that contains an int giving the number of time the object occurred.</p>
+
+<p>      <em>edgeWeight</em> : <code>optional [bool]</code></p>
+
+<p>             Default <code>True</code>, if <code>True</code> each edge will have an attribute called “weight” that contains an int giving the number of time the two objects co-occurrenced.</p>
+
+<h5 id="nbspnbspnbsp-returns-5">    Returns</h5>
+
+<p>      <code>networkx Graph</code></p>
+
+<p>             A networkx Graph with the objects of the tag <em>mode</em> as nodes and their co-occurrences as edges</p>
 
 <p><a name="RecordCollection.peak"></a>RecordCollection.<strong>peak</strong>():</p>
 
@@ -409,7 +457,37 @@
 
 <p><a name="RecordCollection.twoModeNetwork"></a>RecordCollection.<strong>twoModeNetwork</strong>(<em>tag1, tag2, directed=False, recordType=True, nodeCount=True, edgeWeight=True</em>):</p>
 
-<h1 id="needs-to-be-written-3">Needs to be written</h1>
+<p>      Creates a network of the objects found by two WOS tags <em>tag1</em> and <em>tag2</em>.</p>
+
+<p>      A <strong>twoModeNetwork()</strong> looks are each Record in the RecordCollection and extracts its values for the tags given by <em>tag1</em> and <em>tag2</em>, e.g. the <code>"WC"</code> and <code>"LA"</code> tags. Then for each object returned by each tag and edge is created between it and every other object of the other tag. So the WOS defined subject tag <code>"WC"</code> and language tag <code>"LA"</code>, will give a two-mode network showing the connections between subjects and languages. Each node will have an attribute call <code>"type"</code> that gives the tag that created it or both if both created it, e.g. the node <code>"English"</code> would have the type attribute be <code>"LA"</code>.</p>
+
+<p>      The number of times each object occurs is count if <em>nodeCount</em> is <code>True</code> and the edges count the number of co-occurrences if <em>edgeWeight</em> is <code>True</code>. Both are<code>True</code> by default.</p>
+
+<p>      The <em>directed</em> parameter if <code>True</code> will cause the network to be directed with the first tag as the source and the second as the destination.</p>
+
+<h5 id="nbspnbspnbsp-parameters-9">    Parameters</h5>
+
+<p>      <em>mode</em> : <code>str</code></p>
+
+<p>             A two character WOS tag or one of the full names for a tag</p>
+
+<p>      <em>directed</em> : <code>optional [bool]</code></p>
+
+<p>             Default <code>False</code>, if <code>True</code> the returned network is directed</p>
+
+<p>      <em>nodeCount</em> : <code>optional [bool]</code></p>
+
+<p>             Default <code>True</code>, if <code>True</code> each node will have an attribute called “count” that contains an int giving the number of time the object occurred.</p>
+
+<p>      <em>edgeWeight</em> : <code>optional [bool]</code></p>
+
+<p>             Default <code>True</code>, if <code>True</code> each edge will have an attribute called “weight” that contains an int giving the number of time the two objects co-occurrenced.</p>
+
+<h5 id="nbspnbspnbsp-returns-6">    Returns</h5>
+
+<p>      <code>networkx Graph or networkx DiGraph</code></p>
+
+<p>             A networkx Graph with the objects of the tags <em>tag1</em> and <em>tag2</em> as nodes and their co-occurrences as edges.</p>
 
 <table>
   <tbody>
@@ -453,7 +531,23 @@
 
 <p><a name="RecordCollection.yearSplit"></a>RecordCollection.<strong>yearSplit</strong>(<em>startYear, endYear</em>):</p>
 
-<h1 id="needs-to-be-written-4">Needs to be written</h1>
+<p>      Creates a RecordCollection of Records from the years between <em>startYear</em> and <em>endYear</em> inclusive.</p>
+
+<h5 id="nbspnbspnbsp-parameters-10">    Parameters</h5>
+
+<p>      <em>startYear</em> : <code>int</code></p>
+
+<p>             The smallest year to be included in the retuned RecordCollection</p>
+
+<p>      <em>endYear</em> : <code>int</code></p>
+
+<p>             The largest year to be included in the retuned RecordCollection</p>
+
+<h5 id="nbspnbspnbsp-returns-7">    Returns</h5>
+
+<p>      <code>RecordCollection</code></p>
+
+<p>             A RecordCollection of Records from <em>startYear</em> to <em>endYear</em></p>
 
 
       </div><!-- /.entry-content -->

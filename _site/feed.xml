@@ -4,7 +4,7 @@
 <generator uri="https://github.com/jekyll/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="http://networkslab.org/feed.xml" />
 <link rel="alternate" type="text/html" href="http://networkslab.org" />
-<updated>2015-09-10T23:54:05-04:00</updated>
+<updated>2015-09-11T04:07:22-04:00</updated>
 <id>http://networkslab.org/</id>
 <author>
   <name>John McLevey and Reid McIlroy-Young</name>
@@ -19,8 +19,8 @@
   <title type="html"><![CDATA[visual]]></title>
   <link rel="alternate" type="text/html" href="http://networkslab.org/docs/visual" />
   <id>http://networkslab.org/docs/visual</id>
-  <published>2015-09-10T00:00:00-04:00</published>
-  <updated>2015-09-10T00:00:00-04:00</updated>
+  <published>2015-09-11T00:00:00-04:00</published>
+  <updated>2015-09-11T00:00:00-04:00</updated>
   <author>
     <name>John McLevey and Reid McIlroy-Young</name>
     <uri>http://networkslab.org</uri>
@@ -28,128 +28,24 @@
   </author>
   <content type="html">
     &lt;p&gt;&lt;a name=&quot;visual&quot;&gt;&lt;/a&gt;
-&lt;a name=&quot;visual.drop_edges&quot;&gt;&lt;/a&gt;visual.&lt;strong&gt;drop_edges&lt;/strong&gt;(&lt;em&gt;grph, minWeight=-inf, maxWeight=inf, parameterName=’weight’, ignoreUnweighted=False, dropSelfLoops=False&lt;/em&gt;):&lt;/p&gt;
-
-&lt;p&gt;      Returns a graph with edges whose weight is within the inclusive bounds of minWeight and maxWeight, i.e minWeight &amp;lt;= edges weight &amp;lt;= maxWeight, will throw a Keyerror if the graph is unweighted&lt;/p&gt;
-
-&lt;p&gt;      minWeight and maxWeight default to negative and positive infinity respectively so without specifying either the output should be the input&lt;/p&gt;
-
-&lt;p&gt;      parameterName is key to weight field in the edge’s dictionary, default is weight as that is almost always correct&lt;/p&gt;
-
-&lt;p&gt;      ignoreUnweighted can be set False to suppress the KeyError and make unweighted edges be ignored&lt;/p&gt;
+visual docstring&lt;/p&gt;
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;a name=&quot;visual.drop_nodesByCount&quot;&gt;&lt;/a&gt;visual.&lt;strong&gt;drop_nodesByCount&lt;/strong&gt;(&lt;em&gt;grph, minCount=-inf, maxCount=inf, parameterName=’count’, ignoreMissing=False&lt;/em&gt;):&lt;/p&gt;
+&lt;p&gt;&lt;a name=&quot;visual.graphDensityContourPlot&quot;&gt;&lt;/a&gt;visual.&lt;strong&gt;graphDensityContourPlot&lt;/strong&gt;(&lt;em&gt;G, layout=None, layoutScaleFactor=1, shifAxis=False, overlay=False, axisSamples=100, blurringFactor=0.1, contours=15, nodeSize=10, graphType=’coloured’, iters=50&lt;/em&gt;):&lt;/p&gt;
 
-&lt;p&gt;      Returns a graph whose nodes have a occurrence count that is within inclusive bounds of minCount and maxCount, i.e minCount &amp;lt;= count &amp;lt;= maxCount. Occurrence count is determined by reading the variable associated with the node named parameterName.&lt;/p&gt;
+&lt;p&gt;      Requires numpy and matplotlib&lt;/p&gt;
 
-&lt;p&gt;      minCount and maxCount default to negative and positive infinity respectively so without specifying either the output should be the input&lt;/p&gt;
-
-&lt;p&gt;      parameterName is key to count field in the node’s dictionary, default is count as that is often correct&lt;/p&gt;
-
-&lt;p&gt;      ignoreMissing can be set False to suppress the KeyError and make nodes missing counts be dropped instead of throwing errors&lt;/p&gt;
+&lt;p&gt;      graphType is either “coloured or “solid”&lt;/p&gt;
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;a name=&quot;visual.drop_nodesByDegree&quot;&gt;&lt;/a&gt;visual.&lt;strong&gt;drop_nodesByDegree&lt;/strong&gt;(&lt;em&gt;grph, minDegree=-inf, maxDegree=inf, useWeight=True, parameterName=’weight’, ignoreUnweighted=True&lt;/em&gt;):&lt;/p&gt;
+&lt;p&gt;&lt;a name=&quot;visual.quickGraph&quot;&gt;&lt;/a&gt;visual.&lt;strong&gt;quickGraph&lt;/strong&gt;(&lt;em&gt;G&lt;/em&gt;):&lt;/p&gt;
 
-&lt;p&gt;      Returns a graph whose nodes have a degree that is within inclusive bounds of minDegree and maxDegree, i.e minDegree &amp;lt;= degree &amp;lt;= maxDegree. Degree can be determined in two ways by default it is the total number of edges touching a node, alternative if useWeight is True it is the sum of the weight of all the edges touching a node.&lt;/p&gt;
-
-&lt;p&gt;      minDegree and maxDegree default to negative and positive infinity respectively so without specifying either the output should be the input&lt;/p&gt;
-
-&lt;p&gt;      useWeight can be set True to use an alternative method for calculating degree, the total weight of all edges&lt;/p&gt;
-
-&lt;p&gt;      parameterName is key to weight field in the edge’s dictionary, default is weight as that is almost always correct, only used if useWeight is True&lt;/p&gt;
-
-&lt;p&gt;      ignoreUnweighted can be set False to suppress the KeyError and make unweighted edges be not counted, only used if useWeight is True&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;&lt;a name=&quot;visual.filterNonJournals&quot;&gt;&lt;/a&gt;visual.&lt;strong&gt;filterNonJournals&lt;/strong&gt;(&lt;em&gt;citesLst, invert=False&lt;/em&gt;):&lt;/p&gt;
-
-&lt;h1 id=&quot;needs-to-be-written&quot;&gt;Needs to be written&lt;/h1&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;&lt;a name=&quot;visual.graphStats&quot;&gt;&lt;/a&gt;visual.&lt;strong&gt;graphStats&lt;/strong&gt;(&lt;em&gt;G, stats=(‘nodes’, ‘edges’, ‘isolates’, ‘loops’, ‘density’, ‘transitivity’), makeString=True&lt;/em&gt;):&lt;/p&gt;
-
-&lt;h1 id=&quot;needs-to-be-written-1&quot;&gt;Needs to be written&lt;/h1&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;&lt;a name=&quot;visual.isiParser&quot;&gt;&lt;/a&gt;visual.&lt;strong&gt;isiParser&lt;/strong&gt;(&lt;em&gt;isifile&lt;/em&gt;):&lt;/p&gt;
-
-&lt;p&gt;      isiParser() reads the file given by the path isifile, checks that the header is correct then reads until it reaches EF.
-      Each it finds is used to initialize a Record then all Record are returned as a list.&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;&lt;a name=&quot;visual.read_graph&quot;&gt;&lt;/a&gt;visual.&lt;strong&gt;read_graph&lt;/strong&gt;(&lt;em&gt;edgeList, nodeList=None, directed=False, idKey=’ID’, eSource=’From’, eDest=’To’&lt;/em&gt;):&lt;/p&gt;
-
-&lt;p&gt;      Reads the files given by edgeList and if given nodeList and produces a networkx graph
-      This is designed only for the files produced by metaknowledge and is meant to be the reverse of write_graph()&lt;/p&gt;
-
-&lt;p&gt;      nodeList must be given if any of the attributes of the node are needed
-      directed controls if the resultant graph is directional eSource and eDest control the direction
-      idKey, eSource and  eDest are the labels for the edge’s id, source and destination respectively, they must match headers in the file or a keyError exception will be thrown&lt;/p&gt;
-
-&lt;p&gt;      igraph Style&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;&lt;a name=&quot;visual.recordParser&quot;&gt;&lt;/a&gt;visual.&lt;strong&gt;recordParser&lt;/strong&gt;(&lt;em&gt;paper&lt;/em&gt;):&lt;/p&gt;
-
-&lt;p&gt;      Reads the file &lt;em&gt;paper&lt;/em&gt; until it reaches ‘ER’.&lt;/p&gt;
-
-&lt;p&gt;      For each field tag it adds an entry to the returned dict with the tag as the key and a list of the entries as the value, the list has each line separately, so for the following string in a record:&lt;/p&gt;
-
-&lt;p&gt;      “AF BREVIK, I&lt;/p&gt;
-
-&lt;p&gt;          ANICIN, B”&lt;/p&gt;
-
-&lt;p&gt;      The entry in the returned dict would be &lt;code&gt;{&#39;AF&#39; : [&quot;BREVIK, I&quot;, &quot;ANICIN, B&quot;]}&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;      &lt;a href=&quot;#metaknowledge.Record&quot;&gt;Record&lt;/a&gt; objects can be created with these dictionaries as the initializer.&lt;/p&gt;
-
-&lt;h5 id=&quot;nbspnbspnbsp-parameters&quot;&gt;    Parameters&lt;/h5&gt;
-
-&lt;p&gt;      &lt;em&gt;paper&lt;/em&gt; : &lt;code&gt;file stream&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;             An open file, with the current line at the beginning of the record.&lt;/p&gt;
-
-&lt;h5 id=&quot;nbspnbspnbsp-returns&quot;&gt;    Returns&lt;/h5&gt;
-
-&lt;p&gt;      &lt;code&gt;dict[str : List[str]]&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;             A dictionary mapping WOS tags to lists, the lists are of strings, each string is a line of the record associated with the tag.&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;&lt;a name=&quot;visual.write_edgeList&quot;&gt;&lt;/a&gt;visual.&lt;strong&gt;write_edgeList&lt;/strong&gt;(&lt;em&gt;grph, name, extraInfo=True, progBar=None&lt;/em&gt;):&lt;/p&gt;
-
-&lt;p&gt;      writes an edge list of grph with filename name, if extraInfo is true the additional information about the edges, e.g. weight, will be written.
-      All edges must have the same tags&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;&lt;a name=&quot;visual.write_graph&quot;&gt;&lt;/a&gt;visual.&lt;strong&gt;write_graph&lt;/strong&gt;(&lt;em&gt;grph, name, edgeInfo=True, typing=False, suffix=’csv’, overwrite=True&lt;/em&gt;):&lt;/p&gt;
-
-&lt;p&gt;      Writes both the edge list and the node attribute list of grph.
-      The output files start with name, the file type[edgeList, nodeAttributes] then if typing is True the type of graph (directed or undirected) then the suffix, it appears as follows:
-          name_fileType_Graphtype.suffix
-      If edgeInfo is true the extra information about the edges will be included in their list, i.e. their weight will be given
-      If overwrite is False write_graph will throw an exception if either of the files it is attempting to write exist&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;&lt;a name=&quot;visual.write_nodeAttributeFile&quot;&gt;&lt;/a&gt;visual.&lt;strong&gt;write_nodeAttributeFile&lt;/strong&gt;(&lt;em&gt;grph, name, progBar=None&lt;/em&gt;):&lt;/p&gt;
-
-&lt;p&gt;      writes a node attribute list of grph with filename name, the first column is the node’s ID then all after it are its associated information.
-      All nodes must have the same tags.&lt;/p&gt;
+&lt;p&gt;      just makes a simple matplolib figure and displays it&lt;/p&gt;
 
 
-    &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/visual&quot;&gt;visual&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on September 10, 2015.&lt;/p&gt;
+    &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/visual&quot;&gt;visual&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on September 11, 2015.&lt;/p&gt;
   </content>
 </entry>
 
@@ -160,8 +56,8 @@
   <title type="html"><![CDATA[tagFuncs]]></title>
   <link rel="alternate" type="text/html" href="http://networkslab.org/docs/tagFuncs" />
   <id>http://networkslab.org/docs/tagFuncs</id>
-  <published>2015-09-10T00:00:00-04:00</published>
-  <updated>2015-09-10T00:00:00-04:00</updated>
+  <published>2015-09-11T00:00:00-04:00</published>
+  <updated>2015-09-11T00:00:00-04:00</updated>
   <author>
     <name>John McLevey and Reid McIlroy-Young</name>
     <uri>http://networkslab.org</uri>
@@ -169,128 +65,512 @@
   </author>
   <content type="html">
     &lt;p&gt;&lt;a name=&quot;tagFuncs&quot;&gt;&lt;/a&gt;
-&lt;a name=&quot;tagFuncs.drop_edges&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;drop_edges&lt;/strong&gt;(&lt;em&gt;grph, minWeight=-inf, maxWeight=inf, parameterName=’weight’, ignoreUnweighted=False, dropSelfLoops=False&lt;/em&gt;):&lt;/p&gt;
-
-&lt;p&gt;      Returns a graph with edges whose weight is within the inclusive bounds of minWeight and maxWeight, i.e minWeight &amp;lt;= edges weight &amp;lt;= maxWeight, will throw a Keyerror if the graph is unweighted&lt;/p&gt;
-
-&lt;p&gt;      minWeight and maxWeight default to negative and positive infinity respectively so without specifying either the output should be the input&lt;/p&gt;
-
-&lt;p&gt;      parameterName is key to weight field in the edge’s dictionary, default is weight as that is almost always correct&lt;/p&gt;
-
-&lt;p&gt;      ignoreUnweighted can be set False to suppress the KeyError and make unweighted edges be ignored&lt;/p&gt;
+Doc String of tagFuncs&lt;/p&gt;
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;a name=&quot;tagFuncs.drop_nodesByCount&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;drop_nodesByCount&lt;/strong&gt;(&lt;em&gt;grph, minCount=-inf, maxCount=inf, parameterName=’count’, ignoreMissing=False&lt;/em&gt;):&lt;/p&gt;
+&lt;p&gt;&lt;a name=&quot;tagFuncs.DOI&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;DOI&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
 
-&lt;p&gt;      Returns a graph whose nodes have a occurrence count that is within inclusive bounds of minCount and maxCount, i.e minCount &amp;lt;= count &amp;lt;= maxCount. Occurrence count is determined by reading the variable associated with the node named parameterName.&lt;/p&gt;
+&lt;p&gt;      return the DOI number of the record&lt;/p&gt;
 
-&lt;p&gt;      minCount and maxCount default to negative and positive infinity respectively so without specifying either the output should be the input&lt;/p&gt;
-
-&lt;p&gt;      parameterName is key to count field in the node’s dictionary, default is count as that is often correct&lt;/p&gt;
-
-&lt;p&gt;      ignoreMissing can be set False to suppress the KeyError and make nodes missing counts be dropped instead of throwing errors&lt;/p&gt;
+&lt;p&gt;      DI tag&lt;/p&gt;
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;a name=&quot;tagFuncs.drop_nodesByDegree&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;drop_nodesByDegree&lt;/strong&gt;(&lt;em&gt;grph, minDegree=-inf, maxDegree=inf, useWeight=True, parameterName=’weight’, ignoreUnweighted=True&lt;/em&gt;):&lt;/p&gt;
+&lt;p&gt;&lt;a name=&quot;tagFuncs.ISBN&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;ISBN&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
 
-&lt;p&gt;      Returns a graph whose nodes have a degree that is within inclusive bounds of minDegree and maxDegree, i.e minDegree &amp;lt;= degree &amp;lt;= maxDegree. Degree can be determined in two ways by default it is the total number of edges touching a node, alternative if useWeight is True it is the sum of the weight of all the edges touching a node.&lt;/p&gt;
+&lt;p&gt;      returns a list of ISBNs assocaited with the Record&lt;/p&gt;
 
-&lt;p&gt;      minDegree and maxDegree default to negative and positive infinity respectively so without specifying either the output should be the input&lt;/p&gt;
-
-&lt;p&gt;      useWeight can be set True to use an alternative method for calculating degree, the total weight of all edges&lt;/p&gt;
-
-&lt;p&gt;      parameterName is key to weight field in the edge’s dictionary, default is weight as that is almost always correct, only used if useWeight is True&lt;/p&gt;
-
-&lt;p&gt;      ignoreUnweighted can be set False to suppress the KeyError and make unweighted edges be not counted, only used if useWeight is True&lt;/p&gt;
+&lt;p&gt;      BN tag&lt;/p&gt;
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;a name=&quot;tagFuncs.filterNonJournals&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;filterNonJournals&lt;/strong&gt;(&lt;em&gt;citesLst, invert=False&lt;/em&gt;):&lt;/p&gt;
+&lt;p&gt;&lt;a name=&quot;tagFuncs.ISSN&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;ISSN&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h1 id=&quot;needs-to-be-written&quot;&gt;Needs to be written&lt;/h1&gt;
+&lt;p&gt;      returns the ISSN of the Record&lt;/p&gt;
 
-&lt;hr /&gt;
-
-&lt;p&gt;&lt;a name=&quot;tagFuncs.graphStats&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;graphStats&lt;/strong&gt;(&lt;em&gt;G, stats=(‘nodes’, ‘edges’, ‘isolates’, ‘loops’, ‘density’, ‘transitivity’), makeString=True&lt;/em&gt;):&lt;/p&gt;
-
-&lt;h1 id=&quot;needs-to-be-written-1&quot;&gt;Needs to be written&lt;/h1&gt;
+&lt;p&gt;      SN tag&lt;/p&gt;
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;a name=&quot;tagFuncs.isiParser&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;isiParser&lt;/strong&gt;(&lt;em&gt;isifile&lt;/em&gt;):&lt;/p&gt;
+&lt;p&gt;&lt;a name=&quot;tagFuncs.ResearcherIDnumber&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;ResearcherIDnumber&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
 
-&lt;p&gt;      isiParser() reads the file given by the path isifile, checks that the header is correct then reads until it reaches EF.
-      Each it finds is used to initialize a Record then all Record are returned as a list.&lt;/p&gt;
+&lt;p&gt;      returns a lsit of the research ids of the Record&lt;/p&gt;
 
-&lt;hr /&gt;
-
-&lt;p&gt;&lt;a name=&quot;tagFuncs.read_graph&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;read_graph&lt;/strong&gt;(&lt;em&gt;edgeList, nodeList=None, directed=False, idKey=’ID’, eSource=’From’, eDest=’To’&lt;/em&gt;):&lt;/p&gt;
-
-&lt;p&gt;      Reads the files given by edgeList and if given nodeList and produces a networkx graph
-      This is designed only for the files produced by metaknowledge and is meant to be the reverse of write_graph()&lt;/p&gt;
-
-&lt;p&gt;      nodeList must be given if any of the attributes of the node are needed
-      directed controls if the resultant graph is directional eSource and eDest control the direction
-      idKey, eSource and  eDest are the labels for the edge’s id, source and destination respectively, they must match headers in the file or a keyError exception will be thrown&lt;/p&gt;
-
-&lt;p&gt;      igraph Style&lt;/p&gt;
+&lt;p&gt;      RI tag&lt;/p&gt;
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;a name=&quot;tagFuncs.recordParser&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;recordParser&lt;/strong&gt;(&lt;em&gt;paper&lt;/em&gt;):&lt;/p&gt;
+&lt;p&gt;&lt;a name=&quot;tagFuncs.abstract&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;abstract&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
 
-&lt;p&gt;      Reads the file &lt;em&gt;paper&lt;/em&gt; until it reaches ‘ER’.&lt;/p&gt;
+&lt;p&gt;      return abstract of the record, with newlines hopefully in the correct places&lt;/p&gt;
 
-&lt;p&gt;      For each field tag it adds an entry to the returned dict with the tag as the key and a list of the entries as the value, the list has each line separately, so for the following string in a record:&lt;/p&gt;
-
-&lt;p&gt;      “AF BREVIK, I&lt;/p&gt;
-
-&lt;p&gt;          ANICIN, B”&lt;/p&gt;
-
-&lt;p&gt;      The entry in the returned dict would be &lt;code&gt;{&#39;AF&#39; : [&quot;BREVIK, I&quot;, &quot;ANICIN, B&quot;]}&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;      &lt;a href=&quot;#metaknowledge.Record&quot;&gt;Record&lt;/a&gt; objects can be created with these dictionaries as the initializer.&lt;/p&gt;
-
-&lt;h5 id=&quot;nbspnbspnbsp-parameters&quot;&gt;    Parameters&lt;/h5&gt;
-
-&lt;p&gt;      &lt;em&gt;paper&lt;/em&gt; : &lt;code&gt;file stream&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;             An open file, with the current line at the beginning of the record.&lt;/p&gt;
-
-&lt;h5 id=&quot;nbspnbspnbsp-returns&quot;&gt;    Returns&lt;/h5&gt;
-
-&lt;p&gt;      &lt;code&gt;dict[str : List[str]]&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;             A dictionary mapping WOS tags to lists, the lists are of strings, each string is a line of the record associated with the tag.&lt;/p&gt;
+&lt;p&gt;      AB tag&lt;/p&gt;
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;a name=&quot;tagFuncs.write_edgeList&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;write_edgeList&lt;/strong&gt;(&lt;em&gt;grph, name, extraInfo=True, progBar=None&lt;/em&gt;):&lt;/p&gt;
+&lt;p&gt;&lt;a name=&quot;tagFuncs.articleNumber&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;articleNumber&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
 
-&lt;p&gt;      writes an edge list of grph with filename name, if extraInfo is true the additional information about the edges, e.g. weight, will be written.
-      All edges must have the same tags&lt;/p&gt;
+&lt;p&gt;      returns a string giving the article number, not all are integers&lt;/p&gt;
 
-&lt;hr /&gt;
-
-&lt;p&gt;&lt;a name=&quot;tagFuncs.write_graph&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;write_graph&lt;/strong&gt;(&lt;em&gt;grph, name, edgeInfo=True, typing=False, suffix=’csv’, overwrite=True&lt;/em&gt;):&lt;/p&gt;
-
-&lt;p&gt;      Writes both the edge list and the node attribute list of grph.
-      The output files start with name, the file type[edgeList, nodeAttributes] then if typing is True the type of graph (directed or undirected) then the suffix, it appears as follows:
-          name_fileType_Graphtype.suffix
-      If edgeInfo is true the extra information about the edges will be included in their list, i.e. their weight will be given
-      If overwrite is False write_graph will throw an exception if either of the files it is attempting to write exist&lt;/p&gt;
+&lt;p&gt;      AR tag&lt;/p&gt;
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;a name=&quot;tagFuncs.write_nodeAttributeFile&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;write_nodeAttributeFile&lt;/strong&gt;(&lt;em&gt;grph, name, progBar=None&lt;/em&gt;):&lt;/p&gt;
+&lt;p&gt;&lt;a name=&quot;tagFuncs.authAddress&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;authAddress&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
 
-&lt;p&gt;      writes a node attribute list of grph with filename name, the first column is the node’s ID then all after it are its associated information.
-      All nodes must have the same tags.&lt;/p&gt;
+&lt;p&gt;      C1 tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;tagFuncs.authKeyWords&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;authKeyWords&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns the keywords assigned by the author of the Record&lt;/p&gt;
+
+&lt;p&gt;      DE tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;tagFuncs.authorsFull&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;authorsFull&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns a list of authors full names&lt;/p&gt;
+
+&lt;p&gt;      AF tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;tagFuncs.authorsShort&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;authorsShort&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns a list of authors shortened names&lt;/p&gt;
+
+&lt;p&gt;      AU tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;tagFuncs.beginningPage&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;beginningPage&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns the first page the record occurs on as a string not an int&lt;/p&gt;
+
+&lt;p&gt;      BP tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;tagFuncs.bookAuthor&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;bookAuthor&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns a list of the short names of the authors of a book Record&lt;/p&gt;
+
+&lt;p&gt;      BA tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;tagFuncs.bookAuthorFull&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;bookAuthorFull&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns a list of the long names of the authors of a book Record&lt;/p&gt;
+
+&lt;p&gt;      BF tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;tagFuncs.bookDOI&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;bookDOI&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns the book DOI of the Record&lt;/p&gt;
+
+&lt;p&gt;      D2 tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;tagFuncs.citations&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;citations&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns a list of all the citations in the record&lt;/p&gt;
+
+&lt;p&gt;      CR tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;tagFuncs.citedRefsCount&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;citedRefsCount&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns the numer citations, length of CR list&lt;/p&gt;
+
+&lt;p&gt;      NR tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;tagFuncs.confDate&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;confDate&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns the date string of the conference associated with the Record&lt;/p&gt;
+
+&lt;p&gt;      CY tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;tagFuncs.confHost&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;confHost&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns the host of the conference&lt;/p&gt;
+
+&lt;p&gt;      HO tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;tagFuncs.confLocation&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;confLocation&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns the sting giving the confrence’s location&lt;/p&gt;
+
+&lt;p&gt;      CL tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;tagFuncs.confSponsors&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;confSponsors&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns a list of sponsors for the conference associated with the record&lt;/p&gt;
+
+&lt;p&gt;      SP tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;tagFuncs.confTitle&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;confTitle&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns the title of the conference associated with the Record&lt;/p&gt;
+
+&lt;p&gt;      CT tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;tagFuncs.docType&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;docType&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns the type of document the Record contains&lt;/p&gt;
+
+&lt;p&gt;      DT tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;tagFuncs.documentDeliveryNumber&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;documentDeliveryNumber&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns the document delivery number of the Record&lt;/p&gt;
+
+&lt;p&gt;      GA tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;tagFuncs.eISSN&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;eISSN&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns the EISSN of the Record&lt;/p&gt;
+
+&lt;p&gt;      EI tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;tagFuncs.editedBy&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;editedBy&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns a list of the editors of the Record&lt;/p&gt;
+
+&lt;p&gt;      BE tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;tagFuncs.editors&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;editors&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;h5 id=&quot;nbspnbspnbsp-needs-work&quot;&gt;    Needs Work&lt;/h5&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;tagFuncs.email&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;email&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns a list of emails given by the authors of the Record&lt;/p&gt;
+
+&lt;p&gt;      EM tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;tagFuncs.endingPage&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;endingPage&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      return the last page the record occurs on as a string not an int&lt;/p&gt;
+
+&lt;p&gt;      EP tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;tagFuncs.funding&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;funding&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      Returns a list of the groups funding the Record&lt;/p&gt;
+
+&lt;p&gt;      FU tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;tagFuncs.fundingText&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;fundingText&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      Returns a string of the funding thanks&lt;/p&gt;
+
+&lt;p&gt;      FX tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;tagFuncs.getMonth&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;getMonth&lt;/strong&gt;(&lt;em&gt;s&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      Known formats:
+      Month (“%b”)
+      Month Day (“%b %d”)
+      Month-Month (“%b-%b”) — this gets coerced to the first %b, dropping the month range
+      Season (“%s”) — this gets coerced to use the first month of the given season
+      Month Day Year (“%b %d %Y”)
+      Month Year (“%b %Y”)&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;tagFuncs.group&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;group&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns the group associated with the Record&lt;/p&gt;
+
+&lt;p&gt;      GP tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;tagFuncs.groupName&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;groupName&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns the name of the group associated with the Record&lt;/p&gt;
+
+&lt;p&gt;      CA tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;tagFuncs.isoAbbreviation&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;isoAbbreviation&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns the iso abbreviation of the journal&lt;/p&gt;
+
+&lt;p&gt;      JI tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;tagFuncs.issue&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;issue&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns a string giving the issue or range of issues the Record was in&lt;/p&gt;
+
+&lt;p&gt;      IS tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;tagFuncs.j9&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;j9&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns the J9 (29-Character Source Abbreviation) of the publication&lt;/p&gt;
+
+&lt;p&gt;      J9 tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;tagFuncs.journal&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;journal&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns the full name of the publication&lt;/p&gt;
+
+&lt;p&gt;      SO tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;tagFuncs.keyWords&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;keyWords&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns the WOS keywords of the Record&lt;/p&gt;
+
+&lt;p&gt;      ID tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;tagFuncs.language&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;language&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns the languages of the Record as a string with languages seperated by ‘, ‘, usually there is only one language&lt;/p&gt;
+
+&lt;p&gt;      LA tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;tagFuncs.makeReversed&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;makeReversed&lt;/strong&gt;(&lt;em&gt;d&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      Simple function for reversing a dictionary&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;tagFuncs.meetingAbstract&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;meetingAbstract&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns the ID of the meeting abstract prefixed by ‘EPA-‘&lt;/p&gt;
+
+&lt;p&gt;      MA tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;tagFuncs.month&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;month&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns the month the record was published in as an int with January as 1, February 2, …&lt;/p&gt;
+
+&lt;p&gt;      PD tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;tagFuncs.orcID&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;orcID&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns a list of orc IDs of the Record&lt;/p&gt;
+
+&lt;p&gt;      OI tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;tagFuncs.pageCount&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;pageCount&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns an interger giving the number of pages of the Record&lt;/p&gt;
+
+&lt;p&gt;      PG tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;tagFuncs.partNumber&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;partNumber&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      return an integer giving the part of the issue the Record is in&lt;/p&gt;
+
+&lt;p&gt;      PN tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;tagFuncs.pubMedID&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;pubMedID&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns the pubmed idof the record&lt;/p&gt;
+
+&lt;p&gt;      PM tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;tagFuncs.pubType&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;pubType&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns the type of publication as a character: conference, book, journal, book in series, or patent&lt;/p&gt;
+
+&lt;p&gt;      PT tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;tagFuncs.publisher&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;publisher&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns the publisher of the Record&lt;/p&gt;
+
+&lt;p&gt;      PU tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;tagFuncs.publisherAddress&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;publisherAddress&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns the publishers address&lt;/p&gt;
+
+&lt;p&gt;      PA tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;tagFuncs.publisherCity&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;publisherCity&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      Returns the city the publisher is in&lt;/p&gt;
+
+&lt;p&gt;      PI tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;tagFuncs.reprintAddress&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;reprintAddress&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns the reprint address string&lt;/p&gt;
+
+&lt;p&gt;      RP tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;tagFuncs.seriesSubtitle&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;seriesSubtitle&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns the title of the series the Record is in&lt;/p&gt;
+
+&lt;p&gt;      BS tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;tagFuncs.seriesTitle&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;seriesTitle&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns the title of the series the Record is in&lt;/p&gt;
+
+&lt;p&gt;      SE tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;tagFuncs.specialIssue&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;specialIssue&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns the special issue value&lt;/p&gt;
+
+&lt;p&gt;      SI tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;tagFuncs.subjectCategory&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;subjectCategory&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns a list of the subjects associated with the Record&lt;/p&gt;
+
+&lt;p&gt;      SC tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;tagFuncs.subjects&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;subjects&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns a list of subjects as assigned by WOS&lt;/p&gt;
+
+&lt;p&gt;      WC tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;tagFuncs.supplement&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;supplement&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns the supplemtn number&lt;/p&gt;
+
+&lt;p&gt;      SU tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;tagFuncs.title&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;title&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns the title of the record&lt;/p&gt;
+
+&lt;p&gt;      TI tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;tagFuncs.totalTimesCited&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;totalTimesCited&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns the total number of citations of the record&lt;/p&gt;
+
+&lt;p&gt;      Z9 tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;tagFuncs.volume&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;volume&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      return the volume the record is in as a string not an int&lt;/p&gt;
+
+&lt;p&gt;      VL tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;tagFuncs.wosString&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;wosString&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns the WOS number of the record as a string preceded by “WOS:”&lt;/p&gt;
+
+&lt;p&gt;      UT tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;tagFuncs.wosTimesCited&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;wosTimesCited&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns the number of times the Record has been cited byr records in WOS&lt;/p&gt;
+
+&lt;p&gt;      TC tag&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;tagFuncs.year&quot;&gt;&lt;/a&gt;tagFuncs.&lt;strong&gt;year&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      returns the year the record was published in as an int&lt;/p&gt;
+
+&lt;p&gt;      PY tag&lt;/p&gt;
 
 
-    &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/tagFuncs&quot;&gt;tagFuncs&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on September 10, 2015.&lt;/p&gt;
+    &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/tagFuncs&quot;&gt;tagFuncs&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on September 11, 2015.&lt;/p&gt;
   </content>
 </entry>
 
@@ -301,8 +581,8 @@
   <title type="html"><![CDATA[metaknowledge]]></title>
   <link rel="alternate" type="text/html" href="http://networkslab.org/docs/metaknowledge" />
   <id>http://networkslab.org/docs/metaknowledge</id>
-  <published>2015-09-10T00:00:00-04:00</published>
-  <updated>2015-09-10T00:00:00-04:00</updated>
+  <published>2015-09-11T00:00:00-04:00</published>
+  <updated>2015-09-11T00:00:00-04:00</updated>
   <author>
     <name>John McLevey and Reid McIlroy-Young</name>
     <uri>http://networkslab.org</uri>
@@ -311,6 +591,8 @@
   <content type="html">
     &lt;p&gt;&lt;a name=&quot;metaknowledge&quot;&gt;&lt;/a&gt;
 Doc String for metaknowledge main&lt;/p&gt;
+
+&lt;hr /&gt;
 
 &lt;p&gt;&lt;a name=&quot;drop_edges&quot;&gt;&lt;/a&gt;&lt;strong&gt;drop_edges&lt;/strong&gt;(&lt;em&gt;grph, minWeight=-inf, maxWeight=inf, parameterName=’weight’, ignoreUnweighted=False, dropSelfLoops=False&lt;/em&gt;):&lt;/p&gt;
 
@@ -352,13 +634,60 @@ Doc String for metaknowledge main&lt;/p&gt;
 
 &lt;p&gt;&lt;a name=&quot;filterNonJournals&quot;&gt;&lt;/a&gt;&lt;strong&gt;filterNonJournals&lt;/strong&gt;(&lt;em&gt;citesLst, invert=False&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h1 id=&quot;needs-to-be-written&quot;&gt;Needs to be written&lt;/h1&gt;
+&lt;p&gt;      Removes the Citations from &lt;em&gt;citesLst&lt;/em&gt; that are not journals.&lt;/p&gt;
+
+&lt;h5 id=&quot;nbspnbspnbsp-parameters&quot;&gt;    Parameters&lt;/h5&gt;
+
+&lt;p&gt;      &lt;em&gt;citesLst&lt;/em&gt; : &lt;code&gt;list [Citation]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             A list of citations to be filtered&lt;/p&gt;
+
+&lt;p&gt;      &lt;em&gt;invert&lt;/em&gt; : &lt;code&gt;optional [bool]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             Default &lt;code&gt;False&lt;/code&gt;, if &lt;code&gt;True&lt;/code&gt; non-journals will be kept istead of journals&lt;/p&gt;
+
+&lt;h5 id=&quot;nbspnbspnbsp-returns&quot;&gt;    Returns&lt;/h5&gt;
+
+&lt;p&gt;      &lt;code&gt;list [Citation]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             A filtered list of Citations from &lt;em&gt;citesLst&lt;/em&gt;&lt;/p&gt;
 
 &lt;hr /&gt;
 
 &lt;p&gt;&lt;a name=&quot;graphStats&quot;&gt;&lt;/a&gt;&lt;strong&gt;graphStats&lt;/strong&gt;(&lt;em&gt;G, stats=(‘nodes’, ‘edges’, ‘isolates’, ‘loops’, ‘density’, ‘transitivity’), makeString=True&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h1 id=&quot;needs-to-be-written-1&quot;&gt;Needs to be written&lt;/h1&gt;
+&lt;p&gt;      Returns a string or list containing statistics about the graph &lt;em&gt;G&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;      &lt;strong&gt;graphStats()&lt;/strong&gt; gives 6 different statistics: number of nodes, number of edges, number of isolates, number of loops, density and transitivity. The ones wanted can be given to &lt;em&gt;stats&lt;/em&gt;. By default a string giving a sentence containing all the requested statistics is returned but the raw values can be accessed instead by setting &lt;em&gt;makeString&lt;/em&gt; to &lt;code&gt;False&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h5 id=&quot;nbspnbspnbsp-parameters-1&quot;&gt;    Parameters&lt;/h5&gt;
+
+&lt;p&gt;      &lt;em&gt;G&lt;/em&gt; : &lt;code&gt;networkx Graph&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             The graph for the statistics to be determined of&lt;/p&gt;
+
+&lt;p&gt;      &lt;em&gt;stats&lt;/em&gt; : &lt;code&gt;optional [list or tuple [str]]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             Default ‘nodes’, ‘edges’, ‘isolates’, ‘loops’, ‘density’, ‘transitivity’), a list or tuple containing any number or combination of the strings:&lt;/p&gt;
+
+&lt;p&gt;             &lt;code&gt;&quot;nodes&quot;&lt;/code&gt;, &lt;code&gt;&quot;edges&quot;&lt;/code&gt;, &lt;code&gt;&quot;isolates&quot;&lt;/code&gt;, &lt;code&gt;&quot;loops&quot;&lt;/code&gt;, &lt;code&gt;&quot;density&quot;&lt;/code&gt; and &lt;code&gt;&quot;transitivity&quot;&lt;/code&gt;`&lt;/p&gt;
+
+&lt;p&gt;             At least one occurrence of the corresponding string causes the statistics to be provided in the string output. For the non-string (tuple) output the returned tuple has the same length as the input and each output is at the same index as the string that requested it, e.g.&lt;/p&gt;
+
+&lt;p&gt;             &lt;code&gt;_stats_ = (&quot;edges&quot;, &quot;loops&quot;, &quot;edges&quot;)&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             The return is a tuple with 2 elements the first and last of which are the number of edges and the second is the number of loops&lt;/p&gt;
+
+&lt;p&gt;      &lt;em&gt;makeString&lt;/em&gt; : &lt;code&gt;optional [bool]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             Default &lt;code&gt;True&lt;/code&gt;, if &lt;code&gt;True&lt;/code&gt; a string is returned if &lt;code&gt;False&lt;/code&gt; a tuple&lt;/p&gt;
+
+&lt;h5 id=&quot;nbspnbspnbsp-returns-1&quot;&gt;    Returns&lt;/h5&gt;
+
+&lt;p&gt;      &lt;code&gt;str or tuple [float and int]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             The type is determined by &lt;em&gt;makeString&lt;/em&gt; and the layout by &lt;em&gt;stats&lt;/em&gt;
+      &lt;/p&gt;
 
 &lt;hr /&gt;
 
@@ -371,14 +700,49 @@ Doc String for metaknowledge main&lt;/p&gt;
 
 &lt;p&gt;&lt;a name=&quot;read_graph&quot;&gt;&lt;/a&gt;&lt;strong&gt;read_graph&lt;/strong&gt;(&lt;em&gt;edgeList, nodeList=None, directed=False, idKey=’ID’, eSource=’From’, eDest=’To’&lt;/em&gt;):&lt;/p&gt;
 
-&lt;p&gt;      Reads the files given by edgeList and if given nodeList and produces a networkx graph
-      This is designed only for the files produced by metaknowledge and is meant to be the reverse of write_graph()&lt;/p&gt;
+&lt;p&gt;      Reads the files given by edgeList and if given nodeList. Outputs a networkx graph for the lists.&lt;/p&gt;
 
-&lt;p&gt;      nodeList must be given if any of the attributes of the node are needed
-      directed controls if the resultant graph is directional eSource and eDest control the direction
-      idKey, eSource and  eDest are the labels for the edge’s id, source and destination respectively, they must match headers in the file or a keyError exception will be thrown&lt;/p&gt;
+&lt;p&gt;      This is designed only for the files produced by metaknowledge and is meant to be the reverse of &lt;a href=&quot;#metaknowledge.write_graph&quot;&gt;write_graph()&lt;/a&gt;, if this dow not produce the desired results the networkx builtin &lt;a href=&quot;https://networkx.github.io/documentation/networkx-1.9.1/reference/generated/networkx.readwrite.edgelist.read_edgelist.html&quot;&gt;networkx.read_edgelist()&lt;/a&gt; could be tried.&lt;/p&gt;
 
-&lt;p&gt;      igraph Style&lt;/p&gt;
+&lt;p&gt;      The read edge list format assumes the column named &lt;em&gt;eSource&lt;/em&gt; (From) is the source node, then the next column &lt;em&gt;eDest&lt;/em&gt; (To) givens the destination and all other columns are attributes of the edge, e.g. weight.&lt;/p&gt;
+
+&lt;p&gt;      The read nodeList format assumes the column called &lt;em&gt;idKey&lt;/em&gt; is the ID of the node as used by the edge list and the resulting network. All other columns are considered attributes of the node, e.g. count.&lt;/p&gt;
+
+&lt;p&gt;      If the names of the columns do not match those given to &lt;strong&gt;read_graph()&lt;/strong&gt; a KeyError exception will be raised.&lt;/p&gt;
+
+&lt;p&gt;      &lt;strong&gt;Note&lt;/strong&gt;: if nodes appear in the edgelist but not the nodeList they will be created with no attributes.&lt;/p&gt;
+
+&lt;h5 id=&quot;nbspnbspnbsp-parameters-2&quot;&gt;    Parameters&lt;/h5&gt;
+
+&lt;p&gt;      &lt;em&gt;edgeList&lt;/em&gt; : &lt;code&gt;str&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             a string giving the path to the edge list file&lt;/p&gt;
+
+&lt;p&gt;      &lt;em&gt;nodeList&lt;/em&gt; : &lt;code&gt;optional [str]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             a string giving the path to the node list file&lt;/p&gt;
+
+&lt;p&gt;      &lt;em&gt;directed&lt;/em&gt; : &lt;code&gt;optional [bool]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             default &lt;code&gt;False&lt;/code&gt;, if &lt;code&gt;True&lt;/code&gt; the produced network is directed instead of undirected&lt;/p&gt;
+
+&lt;p&gt;      &lt;em&gt;idKey&lt;/em&gt; : &lt;code&gt;optional [str]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             default &lt;code&gt;&quot;ID&quot;&lt;/code&gt;, the name of the ID column in the node list&lt;/p&gt;
+
+&lt;p&gt;      &lt;em&gt;eSource&lt;/em&gt; : &lt;code&gt;optional [str]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             default &lt;code&gt;&quot;From&quot;&lt;/code&gt;, the name of the source column in the edge list&lt;/p&gt;
+
+&lt;p&gt;      &lt;em&gt;eDest&lt;/em&gt; : &lt;code&gt;optional [str]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             default &lt;code&gt;&quot;To&quot;&lt;/code&gt;, the name of the destination column in the edge list&lt;/p&gt;
+
+&lt;h5 id=&quot;nbspnbspnbsp-returns-2&quot;&gt;    Returns&lt;/h5&gt;
+
+&lt;p&gt;      &lt;code&gt;networkx Graph&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             the Graph described by the files&lt;/p&gt;
 
 &lt;hr /&gt;
 
@@ -396,13 +760,13 @@ Doc String for metaknowledge main&lt;/p&gt;
 
 &lt;p&gt;      &lt;a href=&quot;#metaknowledge.Record&quot;&gt;Record&lt;/a&gt; objects can be created with these dictionaries as the initializer.&lt;/p&gt;
 
-&lt;h5 id=&quot;nbspnbspnbsp-parameters&quot;&gt;    Parameters&lt;/h5&gt;
+&lt;h5 id=&quot;nbspnbspnbsp-parameters-3&quot;&gt;    Parameters&lt;/h5&gt;
 
 &lt;p&gt;      &lt;em&gt;paper&lt;/em&gt; : &lt;code&gt;file stream&lt;/code&gt;&lt;/p&gt;
 
 &lt;p&gt;             An open file, with the current line at the beginning of the record.&lt;/p&gt;
 
-&lt;h5 id=&quot;nbspnbspnbsp-returns&quot;&gt;    Returns&lt;/h5&gt;
+&lt;h5 id=&quot;nbspnbspnbsp-returns-3&quot;&gt;    Returns&lt;/h5&gt;
 
 &lt;p&gt;      &lt;code&gt;dict[str : List[str]]&lt;/code&gt;&lt;/p&gt;
 
@@ -410,27 +774,93 @@ Doc String for metaknowledge main&lt;/p&gt;
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;a name=&quot;write_edgeList&quot;&gt;&lt;/a&gt;&lt;strong&gt;write_edgeList&lt;/strong&gt;(&lt;em&gt;grph, name, extraInfo=True, progBar=None&lt;/em&gt;):&lt;/p&gt;
+&lt;p&gt;&lt;a name=&quot;write_edgeList&quot;&gt;&lt;/a&gt;&lt;strong&gt;write_edgeList&lt;/strong&gt;(&lt;em&gt;grph, name, extraInfo=True&lt;/em&gt;):&lt;/p&gt;
 
-&lt;p&gt;      writes an edge list of grph with filename name, if extraInfo is true the additional information about the edges, e.g. weight, will be written.
-      All edges must have the same tags&lt;/p&gt;
+&lt;p&gt;      Writes an edge list of &lt;em&gt;grph&lt;/em&gt; at the destination &lt;em&gt;name&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;      The edge list has two columns for the source and destination of the edge, “From” and “To” respectively, then, if &lt;em&gt;edgeInfo&lt;/em&gt; is &lt;code&gt;True&lt;/code&gt;, for each attribute of the node another column is created.&lt;/p&gt;
+
+&lt;p&gt;      &lt;strong&gt;Note&lt;/strong&gt;: If any edges are missing an attribute &lt;code&gt;KeyError&lt;/code&gt; will be raised.&lt;/p&gt;
+
+&lt;h5 id=&quot;nbspnbspnbsp-parameters-4&quot;&gt;    Parameters&lt;/h5&gt;
+
+&lt;p&gt;      &lt;em&gt;grph&lt;/em&gt; : &lt;code&gt;networkx Graph&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             The graph to be written to &lt;em&gt;name&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;      &lt;em&gt;name&lt;/em&gt; : &lt;code&gt;str&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             The name of the file to be written&lt;/p&gt;
+
+&lt;p&gt;      &lt;em&gt;edgeInfo&lt;/em&gt; : &lt;code&gt;optional [bool]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             Default &lt;code&gt;True&lt;/code&gt;, if &lt;code&gt;True&lt;/code&gt; the attributes of each edge will be written&lt;/p&gt;
 
 &lt;hr /&gt;
 
 &lt;p&gt;&lt;a name=&quot;write_graph&quot;&gt;&lt;/a&gt;&lt;strong&gt;write_graph&lt;/strong&gt;(&lt;em&gt;grph, name, edgeInfo=True, typing=False, suffix=’csv’, overwrite=True&lt;/em&gt;):&lt;/p&gt;
 
-&lt;p&gt;      Writes both the edge list and the node attribute list of grph.
-      The output files start with name, the file type[edgeList, nodeAttributes] then if typing is True the type of graph (directed or undirected) then the suffix, it appears as follows:
-          name_fileType_Graphtype.suffix
-      If edgeInfo is true the extra information about the edges will be included in their list, i.e. their weight will be given
-      If overwrite is False write_graph will throw an exception if either of the files it is attempting to write exist&lt;/p&gt;
+&lt;p&gt;      Writes both the edge list and the node attribute list of &lt;em&gt;grph&lt;/em&gt; to files starting with &lt;em&gt;name&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;      The output files start with &lt;em&gt;name&lt;/em&gt;, the file type (edgeList, nodeAttributes) then if typing is True the type of graph (directed or undirected) then the suffix, the default is as follows:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;name_fileType.suffix&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;      Both files are csv’s with comma delimiters and double quote quoting characters. The edge list has two columns for the source and destination of the edge, “From” and “To” respectively, then, if &lt;em&gt;edgeInfo&lt;/em&gt; is &lt;code&gt;True&lt;/code&gt;, for each attribute of the node another column is created. The node list has one column call “ID” with the node ids used by networkx and all other columns are the node attributes.&lt;/p&gt;
+
+&lt;p&gt;      To read back these files use &lt;a href=&quot;#metaknowledge.read_graph&quot;&gt;read_graph()&lt;/a&gt; and to write only one type of lsit use &lt;a href=&quot;#metaknowledge.write_edgeList&quot;&gt;write_edgeList()&lt;/a&gt; or &lt;a href=&quot;#metaknowledge.write_nodeAttributeFile&quot;&gt;write_nodeAttributeFile()&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;      &lt;strong&gt;Warning&lt;/strong&gt;: this function will overwrite files, if they are in the way of the output, to prevent this set &lt;em&gt;overwrite&lt;/em&gt; to &lt;code&gt;False&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;      &lt;strong&gt;Note&lt;/strong&gt;: If any nodes or edges are missing an attribute a &lt;code&gt;KeyError&lt;/code&gt; will be raised.&lt;/p&gt;
+
+&lt;h5 id=&quot;nbspnbspnbsp-parameters-5&quot;&gt;    Parameters&lt;/h5&gt;
+
+&lt;p&gt;      &lt;em&gt;grph&lt;/em&gt; : &lt;code&gt;networkx Graph&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             A networkx graph of the network to be written.&lt;/p&gt;
+
+&lt;p&gt;      &lt;em&gt;name&lt;/em&gt; : &lt;code&gt;str&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             The start of the file name to be written, can include a path.&lt;/p&gt;
+
+&lt;p&gt;      &lt;em&gt;edgeInfo&lt;/em&gt; : &lt;code&gt;optional [bool]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             Default &lt;code&gt;True&lt;/code&gt;, if &lt;code&gt;True&lt;/code&gt; the the attributes of each edge are written to the edge list.&lt;/p&gt;
+
+&lt;p&gt;      &lt;em&gt;typing&lt;/em&gt; : &lt;code&gt;optional [bool]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             Default &lt;code&gt;False&lt;/code&gt;, if &lt;code&gt;True&lt;/code&gt; the directed ness of the graph will be added to the file names.&lt;/p&gt;
+
+&lt;p&gt;      &lt;em&gt;suffix&lt;/em&gt; : &lt;code&gt;optional [str]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             Default &lt;code&gt;&quot;csv&quot;&lt;/code&gt;, the suffix of the file.&lt;/p&gt;
+
+&lt;p&gt;      &lt;em&gt;overwrite&lt;/em&gt; : &lt;code&gt;optional [bool]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             Default &lt;code&gt;True&lt;/code&gt;, if &lt;code&gt;True&lt;/code&gt; files will be overwritten silently, otherwise an &lt;code&gt;OSError&lt;/code&gt; exception will be raised.&lt;/p&gt;
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;a name=&quot;write_nodeAttributeFile&quot;&gt;&lt;/a&gt;&lt;strong&gt;write_nodeAttributeFile&lt;/strong&gt;(&lt;em&gt;grph, name, progBar=None&lt;/em&gt;):&lt;/p&gt;
+&lt;p&gt;&lt;a name=&quot;write_nodeAttributeFile&quot;&gt;&lt;/a&gt;&lt;strong&gt;write_nodeAttributeFile&lt;/strong&gt;(&lt;em&gt;grph, name&lt;/em&gt;):&lt;/p&gt;
 
-&lt;p&gt;      writes a node attribute list of grph with filename name, the first column is the node’s ID then all after it are its associated information.
-      All nodes must have the same tags.&lt;/p&gt;
+&lt;p&gt;      Writes a node attribute list of &lt;em&gt;grph&lt;/em&gt; with filename &lt;em&gt;name&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;      The node list has one column call “ID” with the node ids used by networkx and all other columns are the node attributes.&lt;/p&gt;
+
+&lt;p&gt;      &lt;strong&gt;Note&lt;/strong&gt;: If any edges are missing an attribute &lt;code&gt;KeyError&lt;/code&gt; will be raised.&lt;/p&gt;
+
+&lt;h5 id=&quot;nbspnbspnbsp-parameters-6&quot;&gt;    Parameters&lt;/h5&gt;
+
+&lt;p&gt;      &lt;em&gt;grph&lt;/em&gt; : &lt;code&gt;networkx Graph&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             The graph to be written to &lt;em&gt;name&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;      &lt;em&gt;name&lt;/em&gt; : &lt;code&gt;str&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             The name of the file to be written&lt;/p&gt;
 
 &lt;p&gt;&lt;a name=&quot;BadCitation&quot;&gt;&lt;/a&gt;&lt;strong&gt;BadCitation&lt;/strong&gt;():&lt;/p&gt;
 
@@ -453,7 +883,7 @@ Doc String for metaknowledge main&lt;/p&gt;
 &lt;p&gt;      Records with a BadISIRecord error are likely incomplete or the combination of two or more single records.&lt;/p&gt;
 
 
-    &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/metaknowledge&quot;&gt;metaknowledge&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on September 10, 2015.&lt;/p&gt;
+    &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/metaknowledge&quot;&gt;metaknowledge&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on September 11, 2015.&lt;/p&gt;
   </content>
 </entry>
 
@@ -464,8 +894,8 @@ Doc String for metaknowledge main&lt;/p&gt;
   <title type="html"><![CDATA[journalAbbreviations]]></title>
   <link rel="alternate" type="text/html" href="http://networkslab.org/docs/journalAbbreviations" />
   <id>http://networkslab.org/docs/journalAbbreviations</id>
-  <published>2015-09-10T00:00:00-04:00</published>
-  <updated>2015-09-10T00:00:00-04:00</updated>
+  <published>2015-09-11T00:00:00-04:00</published>
+  <updated>2015-09-11T00:00:00-04:00</updated>
   <author>
     <name>John McLevey and Reid McIlroy-Young</name>
     <uri>http://networkslab.org</uri>
@@ -473,128 +903,77 @@ Doc String for metaknowledge main&lt;/p&gt;
   </author>
   <content type="html">
     &lt;p&gt;&lt;a name=&quot;journalAbbreviations&quot;&gt;&lt;/a&gt;
-&lt;a name=&quot;journalAbbreviations.drop_edges&quot;&gt;&lt;/a&gt;journalAbbreviations.&lt;strong&gt;drop_edges&lt;/strong&gt;(&lt;em&gt;grph, minWeight=-inf, maxWeight=inf, parameterName=’weight’, ignoreUnweighted=False, dropSelfLoops=False&lt;/em&gt;):&lt;/p&gt;
-
-&lt;p&gt;      Returns a graph with edges whose weight is within the inclusive bounds of minWeight and maxWeight, i.e minWeight &amp;lt;= edges weight &amp;lt;= maxWeight, will throw a Keyerror if the graph is unweighted&lt;/p&gt;
-
-&lt;p&gt;      minWeight and maxWeight default to negative and positive infinity respectively so without specifying either the output should be the input&lt;/p&gt;
-
-&lt;p&gt;      parameterName is key to weight field in the edge’s dictionary, default is weight as that is almost always correct&lt;/p&gt;
-
-&lt;p&gt;      ignoreUnweighted can be set False to suppress the KeyError and make unweighted edges be ignored&lt;/p&gt;
+journalAbbreviations docstring&lt;/p&gt;
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;a name=&quot;journalAbbreviations.drop_nodesByCount&quot;&gt;&lt;/a&gt;journalAbbreviations.&lt;strong&gt;drop_nodesByCount&lt;/strong&gt;(&lt;em&gt;grph, minCount=-inf, maxCount=inf, parameterName=’count’, ignoreMissing=False&lt;/em&gt;):&lt;/p&gt;
+&lt;p&gt;&lt;a name=&quot;journalAbbreviations.addToDB&quot;&gt;&lt;/a&gt;journalAbbreviations.&lt;strong&gt;addToDB&lt;/strong&gt;(&lt;em&gt;abbr=None, dbname=’manualj9Abbreviations’&lt;/em&gt;):&lt;/p&gt;
 
-&lt;p&gt;      Returns a graph whose nodes have a occurrence count that is within inclusive bounds of minCount and maxCount, i.e minCount &amp;lt;= count &amp;lt;= maxCount. Occurrence count is determined by reading the variable associated with the node named parameterName.&lt;/p&gt;
-
-&lt;p&gt;      minCount and maxCount default to negative and positive infinity respectively so without specifying either the output should be the input&lt;/p&gt;
-
-&lt;p&gt;      parameterName is key to count field in the node’s dictionary, default is count as that is often correct&lt;/p&gt;
-
-&lt;p&gt;      ignoreMissing can be set False to suppress the KeyError and make nodes missing counts be dropped instead of throwing errors&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;&lt;a name=&quot;journalAbbreviations.drop_nodesByDegree&quot;&gt;&lt;/a&gt;journalAbbreviations.&lt;strong&gt;drop_nodesByDegree&lt;/strong&gt;(&lt;em&gt;grph, minDegree=-inf, maxDegree=inf, useWeight=True, parameterName=’weight’, ignoreUnweighted=True&lt;/em&gt;):&lt;/p&gt;
-
-&lt;p&gt;      Returns a graph whose nodes have a degree that is within inclusive bounds of minDegree and maxDegree, i.e minDegree &amp;lt;= degree &amp;lt;= maxDegree. Degree can be determined in two ways by default it is the total number of edges touching a node, alternative if useWeight is True it is the sum of the weight of all the edges touching a node.&lt;/p&gt;
-
-&lt;p&gt;      minDegree and maxDegree default to negative and positive infinity respectively so without specifying either the output should be the input&lt;/p&gt;
-
-&lt;p&gt;      useWeight can be set True to use an alternative method for calculating degree, the total weight of all edges&lt;/p&gt;
-
-&lt;p&gt;      parameterName is key to weight field in the edge’s dictionary, default is weight as that is almost always correct, only used if useWeight is True&lt;/p&gt;
-
-&lt;p&gt;      ignoreUnweighted can be set False to suppress the KeyError and make unweighted edges be not counted, only used if useWeight is True&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;&lt;a name=&quot;journalAbbreviations.filterNonJournals&quot;&gt;&lt;/a&gt;journalAbbreviations.&lt;strong&gt;filterNonJournals&lt;/strong&gt;(&lt;em&gt;citesLst, invert=False&lt;/em&gt;):&lt;/p&gt;
-
-&lt;h1 id=&quot;needs-to-be-written&quot;&gt;Needs to be written&lt;/h1&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;&lt;a name=&quot;journalAbbreviations.graphStats&quot;&gt;&lt;/a&gt;journalAbbreviations.&lt;strong&gt;graphStats&lt;/strong&gt;(&lt;em&gt;G, stats=(‘nodes’, ‘edges’, ‘isolates’, ‘loops’, ‘density’, ‘transitivity’), makeString=True&lt;/em&gt;):&lt;/p&gt;
-
-&lt;h1 id=&quot;needs-to-be-written-1&quot;&gt;Needs to be written&lt;/h1&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;&lt;a name=&quot;journalAbbreviations.isiParser&quot;&gt;&lt;/a&gt;journalAbbreviations.&lt;strong&gt;isiParser&lt;/strong&gt;(&lt;em&gt;isifile&lt;/em&gt;):&lt;/p&gt;
-
-&lt;p&gt;      isiParser() reads the file given by the path isifile, checks that the header is correct then reads until it reaches EF.
-      Each it finds is used to initialize a Record then all Record are returned as a list.&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;&lt;a name=&quot;journalAbbreviations.read_graph&quot;&gt;&lt;/a&gt;journalAbbreviations.&lt;strong&gt;read_graph&lt;/strong&gt;(&lt;em&gt;edgeList, nodeList=None, directed=False, idKey=’ID’, eSource=’From’, eDest=’To’&lt;/em&gt;):&lt;/p&gt;
-
-&lt;p&gt;      Reads the files given by edgeList and if given nodeList and produces a networkx graph
-      This is designed only for the files produced by metaknowledge and is meant to be the reverse of write_graph()&lt;/p&gt;
-
-&lt;p&gt;      nodeList must be given if any of the attributes of the node are needed
-      directed controls if the resultant graph is directional eSource and eDest control the direction
-      idKey, eSource and  eDest are the labels for the edge’s id, source and destination respectively, they must match headers in the file or a keyError exception will be thrown&lt;/p&gt;
-
-&lt;p&gt;      igraph Style&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;&lt;a name=&quot;journalAbbreviations.recordParser&quot;&gt;&lt;/a&gt;journalAbbreviations.&lt;strong&gt;recordParser&lt;/strong&gt;(&lt;em&gt;paper&lt;/em&gt;):&lt;/p&gt;
-
-&lt;p&gt;      Reads the file &lt;em&gt;paper&lt;/em&gt; until it reaches ‘ER’.&lt;/p&gt;
-
-&lt;p&gt;      For each field tag it adds an entry to the returned dict with the tag as the key and a list of the entries as the value, the list has each line separately, so for the following string in a record:&lt;/p&gt;
-
-&lt;p&gt;      “AF BREVIK, I&lt;/p&gt;
-
-&lt;p&gt;          ANICIN, B”&lt;/p&gt;
-
-&lt;p&gt;      The entry in the returned dict would be &lt;code&gt;{&#39;AF&#39; : [&quot;BREVIK, I&quot;, &quot;ANICIN, B&quot;]}&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;      &lt;a href=&quot;#metaknowledge.Record&quot;&gt;Record&lt;/a&gt; objects can be created with these dictionaries as the initializer.&lt;/p&gt;
+&lt;p&gt;      Adds &lt;em&gt;abbr&lt;/em&gt; to the database of journals. The database is kept separate from the one scraped from WOS, this supersedes it. The database by default is stored with the WOS one and the name is given by &lt;code&gt;metaknowledge.journalAbbreviations.manaulDBname&lt;/code&gt;. To create an empty database run &lt;strong&gt;addToDB&lt;/strong&gt; without an &lt;em&gt;abbr&lt;/em&gt; argument.&lt;/p&gt;
 
 &lt;h5 id=&quot;nbspnbspnbsp-parameters&quot;&gt;    Parameters&lt;/h5&gt;
 
-&lt;p&gt;      &lt;em&gt;paper&lt;/em&gt; : &lt;code&gt;file stream&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;      &lt;em&gt;abbr&lt;/em&gt; : &lt;code&gt;optional [str or dict[str : str]]&lt;/code&gt;&lt;/p&gt;
 
-&lt;p&gt;             An open file, with the current line at the beginning of the record.&lt;/p&gt;
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;             The journal abbreviation to be added to the database, it can either be a single string in which case that string will be added with its self as the full name, or a dict can be given with the abbreviations as keys and their names as strings, use pipes (‘&lt;/td&gt;
+      &lt;td&gt;’) to separate multiple names. Note, if the empty string is given as a name the abbreviation will be considered manually &lt;strong&gt;excluded&lt;/strong&gt;, i.e. having excludeFromDB() run on it.&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
 
-&lt;h5 id=&quot;nbspnbspnbsp-returns&quot;&gt;    Returns&lt;/h5&gt;
+&lt;p&gt;      &lt;em&gt;dbname&lt;/em&gt; : &lt;code&gt;optional [str]&lt;/code&gt;&lt;/p&gt;
 
-&lt;p&gt;      &lt;code&gt;dict[str : List[str]]&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;             A dictionary mapping WOS tags to lists, the lists are of strings, each string is a line of the record associated with the tag.&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;&lt;a name=&quot;journalAbbreviations.write_edgeList&quot;&gt;&lt;/a&gt;journalAbbreviations.&lt;strong&gt;write_edgeList&lt;/strong&gt;(&lt;em&gt;grph, name, extraInfo=True, progBar=None&lt;/em&gt;):&lt;/p&gt;
-
-&lt;p&gt;      writes an edge list of grph with filename name, if extraInfo is true the additional information about the edges, e.g. weight, will be written.
-      All edges must have the same tags&lt;/p&gt;
+&lt;p&gt;             The name of the database file, default is &lt;code&gt;metaknowledge.journalAbbreviations.manaulDBname&lt;/code&gt;.&lt;/p&gt;
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;a name=&quot;journalAbbreviations.write_graph&quot;&gt;&lt;/a&gt;journalAbbreviations.&lt;strong&gt;write_graph&lt;/strong&gt;(&lt;em&gt;grph, name, edgeInfo=True, typing=False, suffix=’csv’, overwrite=True&lt;/em&gt;):&lt;/p&gt;
+&lt;p&gt;&lt;a name=&quot;journalAbbreviations.excludeFromDB&quot;&gt;&lt;/a&gt;journalAbbreviations.&lt;strong&gt;excludeFromDB&lt;/strong&gt;(&lt;em&gt;abbr=None, dbname=’manualj9Abbreviations’&lt;/em&gt;):&lt;/p&gt;
 
-&lt;p&gt;      Writes both the edge list and the node attribute list of grph.
-      The output files start with name, the file type[edgeList, nodeAttributes] then if typing is True the type of graph (directed or undirected) then the suffix, it appears as follows:
-          name_fileType_Graphtype.suffix
-      If edgeInfo is true the extra information about the edges will be included in their list, i.e. their weight will be given
-      If overwrite is False write_graph will throw an exception if either of the files it is attempting to write exist&lt;/p&gt;
+&lt;p&gt;      Marks &lt;em&gt;abbr&lt;/em&gt; to be excluded the database of journals. The database is kept separate from the one scraped from WOS, this supersedes it. The database by default is stored with the WOS one and the name is given by &lt;code&gt;metaknowledge.journalAbbreviations.manaulDBname&lt;/code&gt;. To create an empty database run &lt;strong&gt;addToDB&lt;/strong&gt; without an &lt;em&gt;abbr&lt;/em&gt; argument.&lt;/p&gt;
+
+&lt;h5 id=&quot;nbspnbspnbsp-parameters-1&quot;&gt;    Parameters&lt;/h5&gt;
+
+&lt;p&gt;      &lt;em&gt;abbr&lt;/em&gt; : &lt;code&gt;optional [str or tuple[str] or list[str]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             The journal abbreviation to be excluded from the database, it can either be a single string in which case that string will be exclude or a list/tuple of strings can be given with the abbreviations.&lt;/p&gt;
+
+&lt;p&gt;      &lt;em&gt;dbname&lt;/em&gt; : &lt;code&gt;optional [str]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             The name of the database file, default is &lt;code&gt;metaknowledge.journalAbbreviations.manaulDBname&lt;/code&gt;.&lt;/p&gt;
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;a name=&quot;journalAbbreviations.write_nodeAttributeFile&quot;&gt;&lt;/a&gt;journalAbbreviations.&lt;strong&gt;write_nodeAttributeFile&lt;/strong&gt;(&lt;em&gt;grph, name, progBar=None&lt;/em&gt;):&lt;/p&gt;
+&lt;p&gt;&lt;a name=&quot;journalAbbreviations.getj9dict&quot;&gt;&lt;/a&gt;journalAbbreviations.&lt;strong&gt;getj9dict&lt;/strong&gt;(&lt;em&gt;dbname=’j9Abbreviations’, manualDB=’manualj9Abbreviations’, returnDict=’both’&lt;/em&gt;):&lt;/p&gt;
 
-&lt;p&gt;      writes a node attribute list of grph with filename name, the first column is the node’s ID then all after it are its associated information.
-      All nodes must have the same tags.&lt;/p&gt;
+&lt;p&gt;      Returns the dictionary of journal abbreviations to a list of the associated journal names. By default the local database is used. The database is in the file &lt;em&gt;dbname&lt;/em&gt; in the same directory as this source file&lt;/p&gt;
+
+&lt;h5 id=&quot;nbspnbspnbsp-parameters-2&quot;&gt;    Parameters&lt;/h5&gt;
+
+&lt;p&gt;      &lt;em&gt;dbname&lt;/em&gt; : &lt;code&gt;optional [str]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             The name of the database file&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;journalAbbreviations.updatej9DB&quot;&gt;&lt;/a&gt;journalAbbreviations.&lt;strong&gt;updatej9DB&lt;/strong&gt;(&lt;em&gt;dbname=’j9Abbreviations’, saveRawHTML=False&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;      Updates the database of Journal Title Abbreviations. Requires an internet connection. The data base is saved relative to the source file not the working directory.&lt;/p&gt;
+
+&lt;h5 id=&quot;nbspnbspnbsp-parameters-3&quot;&gt;    Parameters&lt;/h5&gt;
+
+&lt;p&gt;      &lt;em&gt;dbname&lt;/em&gt; : &lt;code&gt;optional [str]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             The name of the database file, default is “j9Abbreviations.db”&lt;/p&gt;
+
+&lt;p&gt;      &lt;em&gt;saveRawHTML&lt;/em&gt; : &lt;code&gt;optional [bool]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             Determines if the original HTML of the pages is stored, default &lt;code&gt;False&lt;/code&gt;. If &lt;code&gt;True&lt;/code&gt; they are saved in a directory inside j9Raws begining with todays date.&lt;/p&gt;
 
 
-    &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/journalAbbreviations&quot;&gt;journalAbbreviations&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on September 10, 2015.&lt;/p&gt;
+    &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/journalAbbreviations&quot;&gt;journalAbbreviations&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on September 11, 2015.&lt;/p&gt;
   </content>
 </entry>
 
@@ -605,8 +984,8 @@ Doc String for metaknowledge main&lt;/p&gt;
   <title type="html"><![CDATA[RecordCollection]]></title>
   <link rel="alternate" type="text/html" href="http://networkslab.org/docs/RecordCollection" />
   <id>http://networkslab.org/docs/RecordCollection</id>
-  <published>2015-09-10T00:00:00-04:00</published>
-  <updated>2015-09-10T00:00:00-04:00</updated>
+  <published>2015-09-11T00:00:00-04:00</published>
+  <updated>2015-09-11T00:00:00-04:00</updated>
   <author>
     <name>John McLevey and Reid McIlroy-Young</name>
     <uri>http://networkslab.org</uri>
@@ -809,10 +1188,6 @@ Doc String for metaknowledge main&lt;/p&gt;
 
 &lt;p&gt;             &lt;em&gt;wosNum&lt;/em&gt; is the WOS number of the Record to be dropped. &lt;em&gt;wosNum&lt;/em&gt; must begin with ‘WOS:’ or a valueError is raise.&lt;/p&gt;
 
-&lt;p&gt;&lt;a name=&quot;RecordCollection.extractTagged&quot;&gt;&lt;/a&gt;RecordCollection.&lt;strong&gt;extractTagged&lt;/strong&gt;(&lt;em&gt;taglist&lt;/em&gt;):&lt;/p&gt;
-
-&lt;h1 id=&quot;needs-to-be-written&quot;&gt;Needs to be written&lt;/h1&gt;
-
 &lt;p&gt;&lt;a name=&quot;RecordCollection.getBadRecords&quot;&gt;&lt;/a&gt;RecordCollection.&lt;strong&gt;getBadRecords&lt;/strong&gt;():&lt;/p&gt;
 
 &lt;p&gt;      returns RecordCollection containing all the Record which have their bad flag set to True, i.e. all those removed by dropBadRecords()&lt;/p&gt;
@@ -860,11 +1235,63 @@ Doc String for metaknowledge main&lt;/p&gt;
 
 &lt;p&gt;&lt;a name=&quot;RecordCollection.nModeNetwork&quot;&gt;&lt;/a&gt;RecordCollection.&lt;strong&gt;nModeNetwork&lt;/strong&gt;(&lt;em&gt;tags, recordType=True, nodeCount=True, edgeWeight=True&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h1 id=&quot;needs-to-be-written-1&quot;&gt;Needs to be written&lt;/h1&gt;
+&lt;p&gt;      Creates a network of the objects found by all WOS tags in &lt;em&gt;tags&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;      A &lt;strong&gt;nModeNetwork()&lt;/strong&gt; looks are each Record in the RecordCollection and extracts its values for the tags given by &lt;em&gt;tags&lt;/em&gt;. Then for all objects returned an edge is created between them, regardless of their type. Each node will have an attribute call &lt;code&gt;&quot;type&quot;&lt;/code&gt; that gives the tag that created it or both if both created it, e.g. if &lt;code&gt;&quot;LA&quot;&lt;/code&gt; were in &lt;em&gt;tags&lt;/em&gt; node &lt;code&gt;&quot;English&quot;&lt;/code&gt; would have the type attribute be &lt;code&gt;&quot;LA&quot;&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;      For example if &lt;em&gt;tags&lt;/em&gt; was set to &lt;code&gt;[&#39;CR&#39;, &#39;UT&#39;, &#39;LA&#39;]&lt;/code&gt;, a three mode network would be created, composed of a co-citation network from the &lt;code&gt;&quot;CR&quot;&lt;/code&gt; tag. Then each citation would also have edges to all the languages of Records that cited it and to the WOS number of the those Records.&lt;/p&gt;
+
+&lt;p&gt;      The number of times each object occurs is count if &lt;em&gt;nodeCount&lt;/em&gt; is &lt;code&gt;True&lt;/code&gt; and the edges count the number of co-occurrences if &lt;em&gt;edgeWeight&lt;/em&gt; is &lt;code&gt;True&lt;/code&gt;. Both are&lt;code&gt;True&lt;/code&gt; by default.&lt;/p&gt;
+
+&lt;h5 id=&quot;nbspnbspnbsp-parameters-7&quot;&gt;    Parameters&lt;/h5&gt;
+
+&lt;p&gt;      &lt;em&gt;mode&lt;/em&gt; : &lt;code&gt;str&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             A two character WOS tag or one of the full names for a tag&lt;/p&gt;
+
+&lt;p&gt;      &lt;em&gt;nodeCount&lt;/em&gt; : &lt;code&gt;optional [bool]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             Default &lt;code&gt;True&lt;/code&gt;, if &lt;code&gt;True&lt;/code&gt; each node will have an attribute called “count” that contains an int giving the number of time the object occurred.&lt;/p&gt;
+
+&lt;p&gt;      &lt;em&gt;edgeWeight&lt;/em&gt; : &lt;code&gt;optional [bool]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             Default &lt;code&gt;True&lt;/code&gt;, if &lt;code&gt;True&lt;/code&gt; each edge will have an attribute called “weight” that contains an int giving the number of time the two objects co-occurrenced.&lt;/p&gt;
+
+&lt;h5 id=&quot;nbspnbspnbsp-returns-4&quot;&gt;    Returns&lt;/h5&gt;
+
+&lt;p&gt;      &lt;code&gt;networkx Graph&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             A networkx Graph with the objects of the tags &lt;em&gt;tags&lt;/em&gt; as nodes and their co-occurrences as edges&lt;/p&gt;
 
 &lt;p&gt;&lt;a name=&quot;RecordCollection.oneModeNetwork&quot;&gt;&lt;/a&gt;RecordCollection.&lt;strong&gt;oneModeNetwork&lt;/strong&gt;(&lt;em&gt;mode, nodeCount=True, edgeWeight=True&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h1 id=&quot;needs-to-be-written-2&quot;&gt;Needs to be written&lt;/h1&gt;
+&lt;p&gt;      Creates a network of the objects found by one WOS tag &lt;em&gt;mode&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;      A &lt;strong&gt;oneModeNetwork()&lt;/strong&gt; looks are each Record in the RecordCollection and extracts its values for the tag given by &lt;em&gt;mode&lt;/em&gt;, e.g. the &lt;code&gt;&quot;AF&quot;&lt;/code&gt; tag. Then if multiple are returned an edge is created between them. So in the case of the author tag &lt;code&gt;&quot;AF&quot;&lt;/code&gt; a co-authorship network is created.&lt;/p&gt;
+
+&lt;p&gt;      The number of times each object occurs is count if &lt;em&gt;nodeCount&lt;/em&gt; is &lt;code&gt;True&lt;/code&gt; and the edges count the number of co-occurrences if &lt;em&gt;edgeWeight&lt;/em&gt; is &lt;code&gt;True&lt;/code&gt;. Both are&lt;code&gt;True&lt;/code&gt; by default.&lt;/p&gt;
+
+&lt;p&gt;      &lt;strong&gt;Note&lt;/strong&gt; Do not use this for the construction of co-citation networks use &lt;a href=&quot;#Recordcollection.coCiteNetwork&quot;&gt;Recordcollection.coCiteNetwork()&lt;/a&gt; it is more accurate and has more options.&lt;/p&gt;
+
+&lt;h5 id=&quot;nbspnbspnbsp-parameters-8&quot;&gt;    Parameters&lt;/h5&gt;
+
+&lt;p&gt;      &lt;em&gt;mode&lt;/em&gt; : &lt;code&gt;str&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             A two character WOS tag or one of the full names for a tag&lt;/p&gt;
+
+&lt;p&gt;      &lt;em&gt;nodeCount&lt;/em&gt; : &lt;code&gt;optional [bool]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             Default &lt;code&gt;True&lt;/code&gt;, if &lt;code&gt;True&lt;/code&gt; each node will have an attribute called “count” that contains an int giving the number of time the object occurred.&lt;/p&gt;
+
+&lt;p&gt;      &lt;em&gt;edgeWeight&lt;/em&gt; : &lt;code&gt;optional [bool]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             Default &lt;code&gt;True&lt;/code&gt;, if &lt;code&gt;True&lt;/code&gt; each edge will have an attribute called “weight” that contains an int giving the number of time the two objects co-occurrenced.&lt;/p&gt;
+
+&lt;h5 id=&quot;nbspnbspnbsp-returns-5&quot;&gt;    Returns&lt;/h5&gt;
+
+&lt;p&gt;      &lt;code&gt;networkx Graph&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             A networkx Graph with the objects of the tag &lt;em&gt;mode&lt;/em&gt; as nodes and their co-occurrences as edges&lt;/p&gt;
 
 &lt;p&gt;&lt;a name=&quot;RecordCollection.peak&quot;&gt;&lt;/a&gt;RecordCollection.&lt;strong&gt;peak&lt;/strong&gt;():&lt;/p&gt;
 
@@ -876,7 +1303,37 @@ Doc String for metaknowledge main&lt;/p&gt;
 
 &lt;p&gt;&lt;a name=&quot;RecordCollection.twoModeNetwork&quot;&gt;&lt;/a&gt;RecordCollection.&lt;strong&gt;twoModeNetwork&lt;/strong&gt;(&lt;em&gt;tag1, tag2, directed=False, recordType=True, nodeCount=True, edgeWeight=True&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h1 id=&quot;needs-to-be-written-3&quot;&gt;Needs to be written&lt;/h1&gt;
+&lt;p&gt;      Creates a network of the objects found by two WOS tags &lt;em&gt;tag1&lt;/em&gt; and &lt;em&gt;tag2&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;      A &lt;strong&gt;twoModeNetwork()&lt;/strong&gt; looks are each Record in the RecordCollection and extracts its values for the tags given by &lt;em&gt;tag1&lt;/em&gt; and &lt;em&gt;tag2&lt;/em&gt;, e.g. the &lt;code&gt;&quot;WC&quot;&lt;/code&gt; and &lt;code&gt;&quot;LA&quot;&lt;/code&gt; tags. Then for each object returned by each tag and edge is created between it and every other object of the other tag. So the WOS defined subject tag &lt;code&gt;&quot;WC&quot;&lt;/code&gt; and language tag &lt;code&gt;&quot;LA&quot;&lt;/code&gt;, will give a two-mode network showing the connections between subjects and languages. Each node will have an attribute call &lt;code&gt;&quot;type&quot;&lt;/code&gt; that gives the tag that created it or both if both created it, e.g. the node &lt;code&gt;&quot;English&quot;&lt;/code&gt; would have the type attribute be &lt;code&gt;&quot;LA&quot;&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;      The number of times each object occurs is count if &lt;em&gt;nodeCount&lt;/em&gt; is &lt;code&gt;True&lt;/code&gt; and the edges count the number of co-occurrences if &lt;em&gt;edgeWeight&lt;/em&gt; is &lt;code&gt;True&lt;/code&gt;. Both are&lt;code&gt;True&lt;/code&gt; by default.&lt;/p&gt;
+
+&lt;p&gt;      The &lt;em&gt;directed&lt;/em&gt; parameter if &lt;code&gt;True&lt;/code&gt; will cause the network to be directed with the first tag as the source and the second as the destination.&lt;/p&gt;
+
+&lt;h5 id=&quot;nbspnbspnbsp-parameters-9&quot;&gt;    Parameters&lt;/h5&gt;
+
+&lt;p&gt;      &lt;em&gt;mode&lt;/em&gt; : &lt;code&gt;str&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             A two character WOS tag or one of the full names for a tag&lt;/p&gt;
+
+&lt;p&gt;      &lt;em&gt;directed&lt;/em&gt; : &lt;code&gt;optional [bool]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             Default &lt;code&gt;False&lt;/code&gt;, if &lt;code&gt;True&lt;/code&gt; the returned network is directed&lt;/p&gt;
+
+&lt;p&gt;      &lt;em&gt;nodeCount&lt;/em&gt; : &lt;code&gt;optional [bool]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             Default &lt;code&gt;True&lt;/code&gt;, if &lt;code&gt;True&lt;/code&gt; each node will have an attribute called “count” that contains an int giving the number of time the object occurred.&lt;/p&gt;
+
+&lt;p&gt;      &lt;em&gt;edgeWeight&lt;/em&gt; : &lt;code&gt;optional [bool]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             Default &lt;code&gt;True&lt;/code&gt;, if &lt;code&gt;True&lt;/code&gt; each edge will have an attribute called “weight” that contains an int giving the number of time the two objects co-occurrenced.&lt;/p&gt;
+
+&lt;h5 id=&quot;nbspnbspnbsp-returns-6&quot;&gt;    Returns&lt;/h5&gt;
+
+&lt;p&gt;      &lt;code&gt;networkx Graph or networkx DiGraph&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             A networkx Graph with the objects of the tags &lt;em&gt;tag1&lt;/em&gt; and &lt;em&gt;tag2&lt;/em&gt; as nodes and their co-occurrences as edges.&lt;/p&gt;
 
 &lt;table&gt;
   &lt;tbody&gt;
@@ -920,10 +1377,26 @@ Doc String for metaknowledge main&lt;/p&gt;
 
 &lt;p&gt;&lt;a name=&quot;RecordCollection.yearSplit&quot;&gt;&lt;/a&gt;RecordCollection.&lt;strong&gt;yearSplit&lt;/strong&gt;(&lt;em&gt;startYear, endYear&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h1 id=&quot;needs-to-be-written-4&quot;&gt;Needs to be written&lt;/h1&gt;
+&lt;p&gt;      Creates a RecordCollection of Records from the years between &lt;em&gt;startYear&lt;/em&gt; and &lt;em&gt;endYear&lt;/em&gt; inclusive.&lt;/p&gt;
+
+&lt;h5 id=&quot;nbspnbspnbsp-parameters-10&quot;&gt;    Parameters&lt;/h5&gt;
+
+&lt;p&gt;      &lt;em&gt;startYear&lt;/em&gt; : &lt;code&gt;int&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             The smallest year to be included in the retuned RecordCollection&lt;/p&gt;
+
+&lt;p&gt;      &lt;em&gt;endYear&lt;/em&gt; : &lt;code&gt;int&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             The largest year to be included in the retuned RecordCollection&lt;/p&gt;
+
+&lt;h5 id=&quot;nbspnbspnbsp-returns-7&quot;&gt;    Returns&lt;/h5&gt;
+
+&lt;p&gt;      &lt;code&gt;RecordCollection&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             A RecordCollection of Records from &lt;em&gt;startYear&lt;/em&gt; to &lt;em&gt;endYear&lt;/em&gt;&lt;/p&gt;
 
 
-    &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/RecordCollection&quot;&gt;RecordCollection&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on September 10, 2015.&lt;/p&gt;
+    &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/RecordCollection&quot;&gt;RecordCollection&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on September 11, 2015.&lt;/p&gt;
   </content>
 </entry>
 
@@ -934,8 +1407,8 @@ Doc String for metaknowledge main&lt;/p&gt;
   <title type="html"><![CDATA[Record]]></title>
   <link rel="alternate" type="text/html" href="http://networkslab.org/docs/Record" />
   <id>http://networkslab.org/docs/Record</id>
-  <published>2015-09-10T00:00:00-04:00</published>
-  <updated>2015-09-10T00:00:00-04:00</updated>
+  <published>2015-09-11T00:00:00-04:00</published>
+  <updated>2015-09-11T00:00:00-04:00</updated>
   <author>
     <name>John McLevey and Reid McIlroy-Young</name>
     <uri>http://networkslab.org</uri>
@@ -1068,7 +1541,7 @@ Doc String for metaknowledge main&lt;/p&gt;
 &lt;p&gt;             An open utf-8 encoded file&lt;/p&gt;
 
 
-    &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/Record&quot;&gt;Record&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on September 10, 2015.&lt;/p&gt;
+    &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/Record&quot;&gt;Record&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on September 11, 2015.&lt;/p&gt;
   </content>
 </entry>
 
@@ -1079,8 +1552,8 @@ Doc String for metaknowledge main&lt;/p&gt;
   <title type="html"><![CDATA[Citation]]></title>
   <link rel="alternate" type="text/html" href="http://networkslab.org/docs/Citation" />
   <id>http://networkslab.org/docs/Citation</id>
-  <published>2015-09-10T00:00:00-04:00</published>
-  <updated>2015-09-10T00:00:00-04:00</updated>
+  <published>2015-09-11T00:00:00-04:00</published>
+  <updated>2015-09-11T00:00:00-04:00</updated>
   <author>
     <name>John McLevey and Reid McIlroy-Young</name>
     <uri>http://networkslab.org</uri>
@@ -1138,7 +1611,21 @@ Doc String for metaknowledge main&lt;/p&gt;
 
 &lt;p&gt;&lt;a name=&quot;Citation.addToDB&quot;&gt;&lt;/a&gt;Citation.&lt;strong&gt;addToDB&lt;/strong&gt;(&lt;em&gt;manualName=None, manaulDB=’manualj9Abbreviations’, invert=False&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h1 id=&quot;needs-to-be-written&quot;&gt;Needs to be written&lt;/h1&gt;
+&lt;p&gt;      Adds the journal of this Citation to the user created database of journals. This will cause &lt;a href=&quot;#Citation.isJournal&quot;&gt;isJournal()&lt;/a&gt; to return &lt;code&gt;True&lt;/code&gt; for this Citation and all others with its &lt;code&gt;.journal&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h5 id=&quot;nbspnbspnbsp-parameters-1&quot;&gt;    Parameters&lt;/h5&gt;
+
+&lt;p&gt;      &lt;em&gt;manualName&lt;/em&gt; : &lt;code&gt;optional [str]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             Default &lt;code&gt;None&lt;/code&gt;, the full name of journal to use. If not provided the full name will be the same as the abbreviation.&lt;/p&gt;
+
+&lt;p&gt;      &lt;em&gt;manaulDB&lt;/em&gt; : &lt;code&gt;optional [str]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             The name of the database file, the default is &lt;a href=&quot;#journalAbbreviations.manaulDBname&quot;&gt;metaknowledge.journalAbbreviations.manaulDBname&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;      &lt;em&gt;invert&lt;/em&gt; : &lt;code&gt;optional [bool]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;             Default &lt;code&gt;False&lt;/code&gt;, if &lt;code&gt;True&lt;/code&gt; the journal will be removed instead of added&lt;/p&gt;
 
 &lt;p&gt;&lt;a name=&quot;Citation.getExtra&quot;&gt;&lt;/a&gt;Citation.&lt;strong&gt;getExtra&lt;/strong&gt;():&lt;/p&gt;
 
@@ -1192,7 +1679,7 @@ Doc String for metaknowledge main&lt;/p&gt;
 &lt;p&gt;             &lt;code&gt;True&lt;/code&gt; if the Citation is for a journal&lt;/p&gt;
 
 
-    &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/Citation&quot;&gt;Citation&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on September 10, 2015.&lt;/p&gt;
+    &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/Citation&quot;&gt;Citation&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on September 11, 2015.&lt;/p&gt;
   </content>
 </entry>
 

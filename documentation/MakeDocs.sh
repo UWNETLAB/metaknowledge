@@ -5,6 +5,6 @@ echo "WARNING: /_post/docs is overwritten"
 cd "$(dirname "$0")"
 cd ../_posts/
 
-rm -r docs
+rm -rf docs
 
 metaknowledge-DocsGen -d docs

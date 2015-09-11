@@ -149,6 +149,8 @@
         <p><a name="metaknowledge"></a>
 Doc String for metaknowledge main</p>
 
+<hr />
+
 <p><a name="drop_edges"></a><strong>drop_edges</strong>(<em>grph, minWeight=-inf, maxWeight=inf, parameterName=’weight’, ignoreUnweighted=False, dropSelfLoops=False</em>):</p>
 
 <p>      Returns a graph with edges whose weight is within the inclusive bounds of minWeight and maxWeight, i.e minWeight &lt;= edges weight &lt;= maxWeight, will throw a Keyerror if the graph is unweighted</p>
@@ -189,13 +191,60 @@ Doc String for metaknowledge main</p>
 
 <p><a name="filterNonJournals"></a><strong>filterNonJournals</strong>(<em>citesLst, invert=False</em>):</p>
 
-<h1 id="needs-to-be-written">Needs to be written</h1>
+<p>      Removes the Citations from <em>citesLst</em> that are not journals.</p>
+
+<h5 id="nbspnbspnbsp-parameters">    Parameters</h5>
+
+<p>      <em>citesLst</em> : <code>list [Citation]</code></p>
+
+<p>             A list of citations to be filtered</p>
+
+<p>      <em>invert</em> : <code>optional [bool]</code></p>
+
+<p>             Default <code>False</code>, if <code>True</code> non-journals will be kept istead of journals</p>
+
+<h5 id="nbspnbspnbsp-returns">    Returns</h5>
+
+<p>      <code>list [Citation]</code></p>
+
+<p>             A filtered list of Citations from <em>citesLst</em></p>
 
 <hr />
 
 <p><a name="graphStats"></a><strong>graphStats</strong>(<em>G, stats=(‘nodes’, ‘edges’, ‘isolates’, ‘loops’, ‘density’, ‘transitivity’), makeString=True</em>):</p>
 
-<h1 id="needs-to-be-written-1">Needs to be written</h1>
+<p>      Returns a string or list containing statistics about the graph <em>G</em>.</p>
+
+<p>      <strong>graphStats()</strong> gives 6 different statistics: number of nodes, number of edges, number of isolates, number of loops, density and transitivity. The ones wanted can be given to <em>stats</em>. By default a string giving a sentence containing all the requested statistics is returned but the raw values can be accessed instead by setting <em>makeString</em> to <code>False</code>.</p>
+
+<h5 id="nbspnbspnbsp-parameters-1">    Parameters</h5>
+
+<p>      <em>G</em> : <code>networkx Graph</code></p>
+
+<p>             The graph for the statistics to be determined of</p>
+
+<p>      <em>stats</em> : <code>optional [list or tuple [str]]</code></p>
+
+<p>             Default ‘nodes’, ‘edges’, ‘isolates’, ‘loops’, ‘density’, ‘transitivity’), a list or tuple containing any number or combination of the strings:</p>
+
+<p>             <code>"nodes"</code>, <code>"edges"</code>, <code>"isolates"</code>, <code>"loops"</code>, <code>"density"</code> and <code>"transitivity"</code>`</p>
+
+<p>             At least one occurrence of the corresponding string causes the statistics to be provided in the string output. For the non-string (tuple) output the returned tuple has the same length as the input and each output is at the same index as the string that requested it, e.g.</p>
+
+<p>             <code>_stats_ = ("edges", "loops", "edges")</code></p>
+
+<p>             The return is a tuple with 2 elements the first and last of which are the number of edges and the second is the number of loops</p>
+
+<p>      <em>makeString</em> : <code>optional [bool]</code></p>
+
+<p>             Default <code>True</code>, if <code>True</code> a string is returned if <code>False</code> a tuple</p>
+
+<h5 id="nbspnbspnbsp-returns-1">    Returns</h5>
+
+<p>      <code>str or tuple [float and int]</code></p>
+
+<p>             The type is determined by <em>makeString</em> and the layout by <em>stats</em>
+      </p>
 
 <hr />
 
@@ -208,14 +257,49 @@ Doc String for metaknowledge main</p>
 
 <p><a name="read_graph"></a><strong>read_graph</strong>(<em>edgeList, nodeList=None, directed=False, idKey=’ID’, eSource=’From’, eDest=’To’</em>):</p>
 
-<p>      Reads the files given by edgeList and if given nodeList and produces a networkx graph
-      This is designed only for the files produced by metaknowledge and is meant to be the reverse of write_graph()</p>
+<p>      Reads the files given by edgeList and if given nodeList. Outputs a networkx graph for the lists.</p>
 
-<p>      nodeList must be given if any of the attributes of the node are needed
-      directed controls if the resultant graph is directional eSource and eDest control the direction
-      idKey, eSource and  eDest are the labels for the edge’s id, source and destination respectively, they must match headers in the file or a keyError exception will be thrown</p>
+<p>      This is designed only for the files produced by metaknowledge and is meant to be the reverse of <a href="#metaknowledge.write_graph">write_graph()</a>, if this dow not produce the desired results the networkx builtin <a href="https://networkx.github.io/documentation/networkx-1.9.1/reference/generated/networkx.readwrite.edgelist.read_edgelist.html">networkx.read_edgelist()</a> could be tried.</p>
 
-<p>      igraph Style</p>
+<p>      The read edge list format assumes the column named <em>eSource</em> (From) is the source node, then the next column <em>eDest</em> (To) givens the destination and all other columns are attributes of the edge, e.g. weight.</p>
+
+<p>      The read nodeList format assumes the column called <em>idKey</em> is the ID of the node as used by the edge list and the resulting network. All other columns are considered attributes of the node, e.g. count.</p>
+
+<p>      If the names of the columns do not match those given to <strong>read_graph()</strong> a KeyError exception will be raised.</p>
+
+<p>      <strong>Note</strong>: if nodes appear in the edgelist but not the nodeList they will be created with no attributes.</p>
+
+<h5 id="nbspnbspnbsp-parameters-2">    Parameters</h5>
+
+<p>      <em>edgeList</em> : <code>str</code></p>
+
+<p>             a string giving the path to the edge list file</p>
+
+<p>      <em>nodeList</em> : <code>optional [str]</code></p>
+
+<p>             a string giving the path to the node list file</p>
+
+<p>      <em>directed</em> : <code>optional [bool]</code></p>
+
+<p>             default <code>False</code>, if <code>True</code> the produced network is directed instead of undirected</p>
+
+<p>      <em>idKey</em> : <code>optional [str]</code></p>
+
+<p>             default <code>"ID"</code>, the name of the ID column in the node list</p>
+
+<p>      <em>eSource</em> : <code>optional [str]</code></p>
+
+<p>             default <code>"From"</code>, the name of the source column in the edge list</p>
+
+<p>      <em>eDest</em> : <code>optional [str]</code></p>
+
+<p>             default <code>"To"</code>, the name of the destination column in the edge list</p>
+
+<h5 id="nbspnbspnbsp-returns-2">    Returns</h5>
+
+<p>      <code>networkx Graph</code></p>
+
+<p>             the Graph described by the files</p>
 
 <hr />
 
@@ -233,13 +317,13 @@ Doc String for metaknowledge main</p>
 
 <p>      <a href="#metaknowledge.Record">Record</a> objects can be created with these dictionaries as the initializer.</p>
 
-<h5 id="nbspnbspnbsp-parameters">    Parameters</h5>
+<h5 id="nbspnbspnbsp-parameters-3">    Parameters</h5>
 
 <p>      <em>paper</em> : <code>file stream</code></p>
 
 <p>             An open file, with the current line at the beginning of the record.</p>
 
-<h5 id="nbspnbspnbsp-returns">    Returns</h5>
+<h5 id="nbspnbspnbsp-returns-3">    Returns</h5>
 
 <p>      <code>dict[str : List[str]]</code></p>
 
@@ -247,27 +331,93 @@ Doc String for metaknowledge main</p>
 
 <hr />
 
-<p><a name="write_edgeList"></a><strong>write_edgeList</strong>(<em>grph, name, extraInfo=True, progBar=None</em>):</p>
+<p><a name="write_edgeList"></a><strong>write_edgeList</strong>(<em>grph, name, extraInfo=True</em>):</p>
 
-<p>      writes an edge list of grph with filename name, if extraInfo is true the additional information about the edges, e.g. weight, will be written.
-      All edges must have the same tags</p>
+<p>      Writes an edge list of <em>grph</em> at the destination <em>name</em>.</p>
+
+<p>      The edge list has two columns for the source and destination of the edge, “From” and “To” respectively, then, if <em>edgeInfo</em> is <code>True</code>, for each attribute of the node another column is created.</p>
+
+<p>      <strong>Note</strong>: If any edges are missing an attribute <code>KeyError</code> will be raised.</p>
+
+<h5 id="nbspnbspnbsp-parameters-4">    Parameters</h5>
+
+<p>      <em>grph</em> : <code>networkx Graph</code></p>
+
+<p>             The graph to be written to <em>name</em></p>
+
+<p>      <em>name</em> : <code>str</code></p>
+
+<p>             The name of the file to be written</p>
+
+<p>      <em>edgeInfo</em> : <code>optional [bool]</code></p>
+
+<p>             Default <code>True</code>, if <code>True</code> the attributes of each edge will be written</p>
 
 <hr />
 
 <p><a name="write_graph"></a><strong>write_graph</strong>(<em>grph, name, edgeInfo=True, typing=False, suffix=’csv’, overwrite=True</em>):</p>
 
-<p>      Writes both the edge list and the node attribute list of grph.
-      The output files start with name, the file type[edgeList, nodeAttributes] then if typing is True the type of graph (directed or undirected) then the suffix, it appears as follows:
-          name_fileType_Graphtype.suffix
-      If edgeInfo is true the extra information about the edges will be included in their list, i.e. their weight will be given
-      If overwrite is False write_graph will throw an exception if either of the files it is attempting to write exist</p>
+<p>      Writes both the edge list and the node attribute list of <em>grph</em> to files starting with <em>name</em>.</p>
+
+<p>      The output files start with <em>name</em>, the file type (edgeList, nodeAttributes) then if typing is True the type of graph (directed or undirected) then the suffix, the default is as follows:</p>
+
+<blockquote>
+  <p>name_fileType.suffix</p>
+</blockquote>
+
+<p>      Both files are csv’s with comma delimiters and double quote quoting characters. The edge list has two columns for the source and destination of the edge, “From” and “To” respectively, then, if <em>edgeInfo</em> is <code>True</code>, for each attribute of the node another column is created. The node list has one column call “ID” with the node ids used by networkx and all other columns are the node attributes.</p>
+
+<p>      To read back these files use <a href="#metaknowledge.read_graph">read_graph()</a> and to write only one type of lsit use <a href="#metaknowledge.write_edgeList">write_edgeList()</a> or <a href="#metaknowledge.write_nodeAttributeFile">write_nodeAttributeFile()</a>.</p>
+
+<p>      <strong>Warning</strong>: this function will overwrite files, if they are in the way of the output, to prevent this set <em>overwrite</em> to <code>False</code></p>
+
+<p>      <strong>Note</strong>: If any nodes or edges are missing an attribute a <code>KeyError</code> will be raised.</p>
+
+<h5 id="nbspnbspnbsp-parameters-5">    Parameters</h5>
+
+<p>      <em>grph</em> : <code>networkx Graph</code></p>
+
+<p>             A networkx graph of the network to be written.</p>
+
+<p>      <em>name</em> : <code>str</code></p>
+
+<p>             The start of the file name to be written, can include a path.</p>
+
+<p>      <em>edgeInfo</em> : <code>optional [bool]</code></p>
+
+<p>             Default <code>True</code>, if <code>True</code> the the attributes of each edge are written to the edge list.</p>
+
+<p>      <em>typing</em> : <code>optional [bool]</code></p>
+
+<p>             Default <code>False</code>, if <code>True</code> the directed ness of the graph will be added to the file names.</p>
+
+<p>      <em>suffix</em> : <code>optional [str]</code></p>
+
+<p>             Default <code>"csv"</code>, the suffix of the file.</p>
+
+<p>      <em>overwrite</em> : <code>optional [bool]</code></p>
+
+<p>             Default <code>True</code>, if <code>True</code> files will be overwritten silently, otherwise an <code>OSError</code> exception will be raised.</p>
 
 <hr />
 
-<p><a name="write_nodeAttributeFile"></a><strong>write_nodeAttributeFile</strong>(<em>grph, name, progBar=None</em>):</p>
+<p><a name="write_nodeAttributeFile"></a><strong>write_nodeAttributeFile</strong>(<em>grph, name</em>):</p>
 
-<p>      writes a node attribute list of grph with filename name, the first column is the node’s ID then all after it are its associated information.
-      All nodes must have the same tags.</p>
+<p>      Writes a node attribute list of <em>grph</em> with filename <em>name</em></p>
+
+<p>      The node list has one column call “ID” with the node ids used by networkx and all other columns are the node attributes.</p>
+
+<p>      <strong>Note</strong>: If any edges are missing an attribute <code>KeyError</code> will be raised.</p>
+
+<h5 id="nbspnbspnbsp-parameters-6">    Parameters</h5>
+
+<p>      <em>grph</em> : <code>networkx Graph</code></p>
+
+<p>             The graph to be written to <em>name</em></p>
+
+<p>      <em>name</em> : <code>str</code></p>
+
+<p>             The name of the file to be written</p>
 
 <p><a name="BadCitation"></a><strong>BadCitation</strong>():</p>
 

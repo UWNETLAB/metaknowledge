@@ -471,7 +471,7 @@ def specialIssue(val):
 
 def subjects(val):
     """
-    returns a lsit of subjects as assigned by WOS
+    returns a list of subjects as assigned by WOS
 
     WC tag
     """

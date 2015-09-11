@@ -2,35 +2,41 @@
 layout: page
 title: Command Line Tool
 excerpt: "How to use the metaknowledge command line tool."
-search_omit: true
+tags: CLI
 ---
 
+The metaknowledge comes with a command-line application named metaknowledge. This provides a simple interface to the python package an allows the generation of most of networks the package can along with ways to manage the WOS records themselves.
 
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+## Overview
 
-{% highlight python %}
-import metaknowledge as mk
-import networkx as nx 
-import matplotlib.pyplot as plt 
+To start the tool run:
 
-RC = mk.RecordCollection('/path/to/directory/with/WoS/files')
-
-print(RC)
-
-tags = ['AU', 'TI','AB', 'SO', 'LA', 'C1', 'RP', 'CR', 'TC', 'PY']
-RC.writeCSV('data/rc_can_soc.csv', onlyTheseTags = tags) 
+{% highlight bash %}
+$ metaknowledge
 {% endhighlight %}
 
-Filter to a subset of records that cite a specific author...
+You will be asked for the location of the file or files to use. These can be given by paths to the files or paths to directories with the files. Note, if a directory is used all files the the proper header will be read.
 
-{% highlight python %}
-authorname = RC.citeFilter(keyString='someauthor',  field='all', reverse=False, caseSensitive=False)
-print(len(authorname))
+You will then be asked what to do with the records:
 
-authorname.writeCSV('authorname.csv', onlyTheseTags = tags) 
-{% endhighlight %}
+    A collection of 537 WOS records has been created
+    What do you wish to do with it:
+    1) Make a graph
+    2) Write the collection as a single WOS style file
+    3) Write the collection as a single WOS style file and make a graph
+    4) Write the collection as a single csv file
+    5) Write the collection as a single csv file and make a graph
+    6) Write all the citations to a single file
+    7) Go over non-journal citations
+    i) open python console
+    q) quit
+    What is your selection:
+
+Select the option you want by typing the corresponding number or character and pressing enter.
+
+The second last option `i)` will start an interactive python session will all the objects you have created thus far accessible, their names will be given when it starts, Graphs are called `G` and RecordCollections `RC`.
+
+The last option `q)` will cause the program to exit. You can also quit ar anytime by pressing `ctr-c`.
+
+
+{% include docsFooter.md %}

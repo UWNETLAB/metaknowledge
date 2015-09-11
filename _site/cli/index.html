@@ -7,7 +7,7 @@
 <meta charset="utf-8">
 <title>Command Line Tool &#8211; metaknowledge</title>
 <meta name="description" content="How to use the metaknowledge command line tool.">
-
+<meta name="keywords" content="CLI">
 
 
 
@@ -92,6 +92,11 @@
 		    
 		        
 		    
+		    <li><a href="/metaknowledge/documentation/#Installing" >install</a></li>
+		  
+		    
+		        
+		    
 		    <li><a href="/metaknowledge/documentation" >Documentation</a></li>
 		  
 		    
@@ -146,30 +151,52 @@
         <h1 class="entry-title">Command Line Tool</h1>
       </header>
       <div class="entry-content">
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <p>The metaknowledge comes with a command-line application named metaknowledge. This provides a simple interface to the python package an allows the generation of most of networks the package can along with ways to manage the WOS records themselves.</p>
 
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">metaknowledge</span> <span class="kn">as</span> <span class="nn">mk</span>
-<span class="kn">import</span> <span class="nn">networkx</span> <span class="kn">as</span> <span class="nn">nx</span> 
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span> 
+<h2 id="overview">Overview</h2>
 
-<span class="n">RC</span> <span class="o">=</span> <span class="n">mk</span><span class="o">.</span><span class="n">RecordCollection</span><span class="p">(</span><span class="s">&#39;/path/to/directory/with/WoS/files&#39;</span><span class="p">)</span>
+<p>To start the tool run:</p>
 
-<span class="k">print</span><span class="p">(</span><span class="n">RC</span><span class="p">)</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>metaknowledge</code></pre></div>
 
-<span class="n">tags</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;AU&#39;</span><span class="p">,</span> <span class="s">&#39;TI&#39;</span><span class="p">,</span><span class="s">&#39;AB&#39;</span><span class="p">,</span> <span class="s">&#39;SO&#39;</span><span class="p">,</span> <span class="s">&#39;LA&#39;</span><span class="p">,</span> <span class="s">&#39;C1&#39;</span><span class="p">,</span> <span class="s">&#39;RP&#39;</span><span class="p">,</span> <span class="s">&#39;CR&#39;</span><span class="p">,</span> <span class="s">&#39;TC&#39;</span><span class="p">,</span> <span class="s">&#39;PY&#39;</span><span class="p">]</span>
-<span class="n">RC</span><span class="o">.</span><span class="n">writeCSV</span><span class="p">(</span><span class="s">&#39;data/rc_can_soc.csv&#39;</span><span class="p">,</span> <span class="n">onlyTheseTags</span> <span class="o">=</span> <span class="n">tags</span><span class="p">)</span></code></pre></div>
+<p>You will be asked for the location of the file or files to use. These can be given by paths to the files or paths to directories with the files. Note, if a directory is used all files the the proper header will be read.</p>
 
-<p>Filter to a subset of records that cite a specific author…</p>
+<p>You will then be asked what to do with the records:</p>
 
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">authorname</span> <span class="o">=</span> <span class="n">RC</span><span class="o">.</span><span class="n">citeFilter</span><span class="p">(</span><span class="n">keyString</span><span class="o">=</span><span class="s">&#39;someauthor&#39;</span><span class="p">,</span>  <span class="n">field</span><span class="o">=</span><span class="s">&#39;all&#39;</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">caseSensitive</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">authorname</span><span class="p">))</span>
+<pre><code>A collection of 537 WOS records has been created
+What do you wish to do with it:
+1) Make a graph
+2) Write the collection as a single WOS style file
+3) Write the collection as a single WOS style file and make a graph
+4) Write the collection as a single csv file
+5) Write the collection as a single csv file and make a graph
+6) Write all the citations to a single file
+7) Go over non-journal citations
+i) open python console
+q) quit
+What is your selection:
+</code></pre>
 
-<span class="n">authorname</span><span class="o">.</span><span class="n">writeCSV</span><span class="p">(</span><span class="s">&#39;authorname.csv&#39;</span><span class="p">,</span> <span class="n">onlyTheseTags</span> <span class="o">=</span> <span class="n">tags</span><span class="p">)</span></code></pre></div>
+<p>Select the option you want by typing the corresponding number or character and pressing enter.</p>
+
+<p>The second last option <code>i)</code> will start an interactive python session will all the objects you have created thus far accessible, their names will be given when it starts, Graphs are called <code>G</code> and RecordCollections <code>RC</code>.</p>
+
+<p>The last option <code>q)</code> will cause the program to exit. You can also quit ar anytime by pressing <code>ctr-c</code>.</p>
+
+<hr />
+
+<h2 id="questions">Questions?</h2>
+
+<p>If you find bugs, or have questions, please write to:</p>
+
+<p>Reid McIlroy-Young <a href="&#109;&#097;&#105;&#108;&#116;&#111;:&#114;&#101;&#105;&#100;&#064;&#114;&#101;&#105;&#100;&#109;&#099;&#121;&#046;&#099;&#111;&#109;">&#114;&#101;&#105;&#100;&#064;&#114;&#101;&#105;&#100;&#109;&#099;&#121;&#046;&#099;&#111;&#109;</a>
+John McLevey <a href="&#109;&#097;&#105;&#108;&#116;&#111;:&#106;&#111;&#104;&#110;&#046;&#109;&#099;&#108;&#101;&#118;&#101;&#121;&#064;&#117;&#119;&#097;&#116;&#101;&#114;&#108;&#111;&#111;&#046;&#099;&#097;">&#106;&#111;&#104;&#110;&#046;&#109;&#099;&#108;&#101;&#118;&#101;&#121;&#064;&#117;&#119;&#097;&#116;&#101;&#114;&#108;&#111;&#111;&#046;&#099;&#097;</a></p>
+
+<hr />
+
+<h2 id="license">License</h2>
+
+<p><em>metaknowledge</em> is free and open source software, distributed under the GPL License.</p>
 
 
       </div><!-- /.entry-content -->

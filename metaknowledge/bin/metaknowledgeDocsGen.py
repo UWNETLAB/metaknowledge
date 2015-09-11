@@ -121,6 +121,8 @@ def writeModuleFile(mod):
 def writeMainBody(funcs, vrs, exceptions):
     f = open(docsPrefix + "metaknowledge.md", 'w')
     f.write(makeHeader("metaknowledge", "The metaknowledge Package", tags = ["main"], weight = 1))
+
+    f.write(inspect.getdoc(metaknowledge) + '\n\n')
     first = True
     for fnc in funcs:
         if first:

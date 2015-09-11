@@ -8,7 +8,6 @@ class TestRecord(unittest.TestCase):
         self.Rbad = metaknowledge.Record(simplePaperString[:-3])
     def test_isRecord(self):
         self.assertTrue(isinstance(self.R, metaknowledge.Record))
-        metaknowledge.btest(quite = True)
     def test_bad(self):
         self.assertTrue(self.Rbad.bad)
         with self.assertRaises(TypeError):

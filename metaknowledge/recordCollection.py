@@ -642,7 +642,7 @@ class RecordCollection(object):
             PBar.finish("Done making a citation network of " + repr(self))
         return tmpgrph
 
-    def extractTagged(self, taglist):
+    def _extractTagged(self, taglist):
         recordsWithTags = set()
         for R in self:
             for t in taglist:
@@ -655,6 +655,25 @@ class RecordCollection(object):
         return RecordCollection(recordsWithTags, repr(self) + "_tags(" + ','.join(taglist) + ')')
 
     def yearSplit(self, startYear, endYear):
+        """Creates a RecordCollection of Records from the years between _startYear_ and _endYear_ inclusive.
+
+        # Parameters
+
+        _startYear_ : `int`
+
+        > The smallest year to be included in the retuned RecordCollection
+
+        _endYear_ : `int`
+
+        > The largest year to be included in the retuned RecordCollection
+
+        # Returns
+
+        `RecordCollection`
+
+        > A RecordCollection of Records from _startYear_ to _endYear_
+        """
+
         recordsInRange = set()
         for R in self._Records:
             if R.year >= startYear and R.year <= endYear:

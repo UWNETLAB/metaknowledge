@@ -556,6 +556,39 @@ def drop_nodesByCount(grph, minCount = -float('inf'), maxCount = float('inf'), p
     return grph.subgraph(goodNodes)
 
 def graphStats(G, stats = ('nodes', 'edges', 'isolates', 'loops', 'density', 'transitivity'), makeString = True):
+    """Returns a string or list containing statistics about the graph _G_.
+
+    **graphStats()** gives 6 different statistics: number of nodes, number of edges, number of isolates, number of loops, density and transitivity. The ones wanted can be given to _stats_. By default a string giving a sentence containing all the requested statistics is returned but the raw values can be accessed instead by setting _makeString_ to `False`.
+
+    # Parameters
+
+    _G_ : `networkx Graph`
+
+    > The graph for the statistics to be determined of
+
+    _stats_ : `optional [list or tuple [str]]`
+
+    > Default 'nodes', 'edges', 'isolates', 'loops', 'density', 'transitivity'), a list or tuple containing any number or combination of the strings:
+
+    > `"nodes"`, `"edges"`, `"isolates"`, `"loops"`, `"density"` and `"transitivity"``
+
+    > At least one occurrence of the corresponding string causes the statistics to be provided in the string output. For the non-string (tuple) output the returned tuple has the same length as the input and each output is at the same index as the string that requested it, e.g.
+
+    > `_stats_ = ("edges", "loops", "edges")`
+
+    > The return is a tuple with 2 elements the first and last of which are the number of edges and the second is the number of loops
+
+    _makeString_ : `optional [bool]`
+
+    > Default `True`, if `True` a string is returned if `False` a tuple
+
+    # Returns
+
+    `str or tuple [float and int]`
+
+    > The type is determined by _makeString_ and the layout by _stats_
+     """
+
     for sts in stats:
         if sts not in ['nodes', 'edges', 'isolates', 'loops', 'density', 'transitivity']:
             raise RuntimeError('"{}" is not a valid stat.'.format(sts))

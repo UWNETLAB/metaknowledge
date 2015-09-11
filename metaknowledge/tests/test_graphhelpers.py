@@ -27,7 +27,7 @@ class TestHelpers(unittest.TestCase):
         metaknowledge.VERBOSE_MODE = True
         tmpIO = io.StringIO()
         P = _ProgressBar(0, "testing", output = tmpIO)
-        metaknowledge.write_edgeList(self.G, fileEName, progBar = P)
+        metaknowledge.write_edgeList(self.G, fileEName, _progBar = P)
         tmpIO.seek(0)
         s = ''.join(tmpIO.readlines())
         self.assertFalse(

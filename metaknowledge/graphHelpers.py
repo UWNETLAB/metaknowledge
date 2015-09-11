@@ -8,15 +8,49 @@ import time
 import math
 
 def read_graph(edgeList, nodeList = None, directed = False, idKey = 'ID', eSource = 'From', eDest = 'To'):
-    """
-    Reads the files given by edgeList and if given nodeList and produces a networkx graph
-    This is designed only for the files produced by metaknowledge and is meant to be the reverse of write_graph()
+    """Reads the files given by edgeList and if given nodeList. Outputs a networkx graph for the lists.
 
-    nodeList must be given if any of the attributes of the node are needed
-    directed controls if the resultant graph is directional eSource and eDest control the direction
-    idKey, eSource and  eDest are the labels for the edge's id, source and destination respectively, they must match headers in the file or a keyError exception will be thrown
+    This is designed only for the files produced by metaknowledge and is meant to be the reverse of [write_graph()](#metaknowledge.write_graph), if this dow not produce the desired results the networkx builtin [networkx.read_edgelist()](https://networkx.github.io/documentation/networkx-1.9.1/reference/generated/networkx.readwrite.edgelist.read_edgelist.html) could be tried.
 
-    igraph Style
+    The read edge list format assumes the column named _eSource_ (From) is the source node, then the next column _eDest_ (To) givens the destination and all other columns are attributes of the edge, e.g. weight.
+
+    The read nodeList format assumes the column called _idKey_ is the ID of the node as used by the edge list and the resulting network. All other columns are considered attributes of the node, e.g. count.
+
+    If the names of the columns do not match those given to **read_graph()** a KeyError exception will be raised.
+
+    **Note**: if nodes appear in the edgelist but not the nodeList they will be created with no attributes.
+
+    # Parameters
+
+    _edgeList_ : `str`
+
+    > a string giving the path to the edge list file
+
+    _nodeList_ : `optional [str]`
+
+    > a string giving the path to the node list file
+
+    _directed_ : `optional [bool]`
+
+    > default `False`, if `True` the produced network is directed instead of undirected
+
+    _idKey_ : `optional [str]`
+
+    > default `"ID"`, the name of the ID column in the node list
+
+    _eSource_ : `optional [str]`
+
+    > default `"From"`, the name of the source column in the edge list
+
+    _eDest_ : `optional [str]`
+
+    > default `"To"`, the name of the destination column in the edge list
+
+    # Returns
+
+    `networkx Graph`
+
+    > the Graph described by the files
     """
     if metaknowledge.VERBOSE_MODE:
         PBar = _ProgressBar(0, "Starting to reading graphs")
@@ -60,12 +94,45 @@ def read_graph(edgeList, nodeList = None, directed = False, idKey = 'ID', eSourc
     return grph
 
 def write_graph(grph, name, edgeInfo = True, typing = False, suffix = 'csv', overwrite = True):
-    """
-    Writes both the edge list and the node attribute list of grph.
-    The output files start with name, the file type[edgeList, nodeAttributes] then if typing is True the type of graph (directed or undirected) then the suffix, it appears as follows:
-        name_fileType_Graphtype.suffix
-    If edgeInfo is true the extra information about the edges will be included in their list, i.e. their weight will be given
-    If overwrite is False write_graph will throw an exception if either of the files it is attempting to write exist
+    """Writes both the edge list and the node attribute list of _grph_ to files starting with _name_.
+
+    The output files start with _name_, the file type (edgeList, nodeAttributes) then if typing is True the type of graph (directed or undirected) then the suffix, the default is as follows:
+
+    >> name_fileType.suffix
+
+    Both files are csv's with comma delimiters and double quote quoting characters. The edge list has two columns for the source and destination of the edge, "From" and "To" respectively, then, if _edgeInfo_ is `True`, for each attribute of the node another column is created. The node list has one column call "ID" with the node ids used by networkx and all other columns are the node attributes.
+
+    To read back these files use [read_graph()](#metaknowledge.read_graph) and to write only one type of lsit use [write_edgeList()](#metaknowledge.write_edgeList) or [write_nodeAttributeFile()](#metaknowledge.write_nodeAttributeFile).
+
+    **Warning**: this function will overwrite files, if they are in the way of the output, to prevent this set _overwrite_ to `False`
+
+    **Note**: If any nodes or edges are missing an attribute a `KeyError` will be raised.
+
+    # Parameters
+
+    _grph_ : `networkx Graph`
+
+    > A networkx graph of the network to be written.
+
+    _name_ : `str`
+
+    > The start of the file name to be written, can include a path.
+
+    _edgeInfo_ : `optional [bool]`
+
+    > Default `True`, if `True` the the attributes of each edge are written to the edge list.
+
+    _typing_ : `optional [bool]`
+
+    > Default `False`, if `True` the directed ness of the graph will be added to the file names.
+
+    _suffix_ : `optional [str]`
+
+    > Default `"csv"`, the suffix of the file.
+
+    _overwrite_ : `optional [bool]`
+
+    > Default `True`, if `True` files will be overwritten silently, otherwise an `OSError` exception will be raised.
     """
     if metaknowledge.VERBOSE_MODE:
         PBar = _ProgressBar(0, "Writing the graph to two files starting with: " + name)
@@ -96,31 +163,47 @@ def write_graph(grph, name, edgeInfo = True, typing = False, suffix = 'csv', ove
             raise OSError(edgeListName+ " already exists")
         if os.path.isfile(nodesAtrName):
             raise OSError(nodesAtrName + " already exists")
-    write_edgeList(grph, edgeListName, extraInfo = edgeInfo, progBar = PBar)
+    write_edgeList(grph, edgeListName, extraInfo = edgeInfo, _progBar = PBar)
     if PBar:
         PBar.jumpUp()
-    write_nodeAttributeFile(grph, nodesAtrName, progBar = PBar)
+    write_nodeAttributeFile(grph, nodesAtrName, _progBar = PBar)
     if PBar:
         PBar.finish(str(len(grph.nodes())) + " nodes and " + str(len(grph.edges())) + " edges written to file")
 
-def write_edgeList(grph, name, extraInfo = True, progBar = None):
+def write_edgeList(grph, name, extraInfo = True, _progBar = None):
+    """Writes an edge list of _grph_ at the destination _name_.
+
+    The edge list has two columns for the source and destination of the edge, "From" and "To" respectively, then, if _edgeInfo_ is `True`, for each attribute of the node another column is created.
+
+    **Note**: If any edges are missing an attribute `KeyError` will be raised.
+
+    # Parameters
+
+    _grph_ : `networkx Graph`
+
+    > The graph to be written to _name_
+
+    _name_ : `str`
+
+    > The name of the file to be written
+
+    _edgeInfo_ : `optional [bool]`
+
+    > Default `True`, if `True` the attributes of each edge will be written
     """
-    writes an edge list of grph with filename name, if extraInfo is true the additional information about the edges, e.g. weight, will be written.
-    All edges must have the same tags
-    """
-    if progBar:
+    if _progBar:
         count = 0
         eMax = len(grph.edges(data = True))
-        if isinstance(progBar, _ProgressBar):
-            progBar.updateVal(0, "Writing edge list " + name)
+        if isinstance(_progBar, _ProgressBar):
+            _progBar.updateVal(0, "Writing edge list " + name)
         else:
-            progBar = _ProgressBar(0, "Writing edge list " + name)
+            _progBar = _ProgressBar(0, "Writing edge list " + name)
     if len(grph.edges(data = True)) < 1:
         outFile = open(name, 'w')
         outFile.write('"From","To"\n')
         outFile.close()
-        if progBar:
-            progBar.updateVal(1, "Done edge list " + name + ", 0 edges written.")
+        if _progBar:
+            _progBar.updateVal(1, "Done edge list " + name + ", 0 edges written.")
     else:
         if extraInfo:
             csvDict = ['From'] +  ['To'] + list(grph.edges_iter(data = True).__next__()[2].keys())
@@ -131,10 +214,10 @@ def write_edgeList(grph, name, extraInfo = True, progBar = None):
         outFile.writeheader()
         if extraInfo:
             for e in grph.edges_iter(data = True):
-                if progBar:
+                if _progBar:
                     count += 1
                     if count % 10000 == 0:
-                        progBar.updateVal(count / eMax)
+                        _progBar.updateVal(count / eMax)
                 eDict = e[2].copy()
                 eDict['From'] = e[0]
                 eDict['To'] = e[1]
@@ -144,53 +227,65 @@ def write_edgeList(grph, name, extraInfo = True, progBar = None):
                     raise ValueError("Some edges in " + str(grph) + " do not have the same attributes")
         else:
             for e in grph.edges_iter():
-                if progBar:
+                if _progBar:
                     count += 1
                     if count % 100 == 0:
-                        progBar.updateVal(count / eMax)
+                        _progBar.updateVal(count / eMax)
                 eDict['From'] = e[0]
                 eDict['To'] = e[1]
                 outFile.writerow(eDict)
-        if progBar:
-            progBar.finish("Done edge list " + name + ", " + str(count) + " edges written.")
+        if _progBar:
+            _progBar.finish("Done edge list " + name + ", " + str(count) + " edges written.")
         f.close()
 
-def write_nodeAttributeFile(grph, name, progBar = None):
+def write_nodeAttributeFile(grph, name, _progBar = None):
+    """Writes a node attribute list of _grph_ with filename _name_
+
+    The node list has one column call "ID" with the node ids used by networkx and all other columns are the node attributes.
+
+    **Note**: If any edges are missing an attribute `KeyError` will be raised.
+
+    # Parameters
+
+    _grph_ : `networkx Graph`
+
+    > The graph to be written to _name_
+
+    _name_ : `str`
+
+    > The name of the file to be written
     """
-    writes a node attribute list of grph with filename name, the first column is the node's ID then all after it are its associated information.
-    All nodes must have the same tags.
-    """
-    if progBar:
+    if _progBar:
         count = 0
         nMax = len(grph.nodes())
-        if isinstance(progBar, _ProgressBar):
-            progBar.updateVal(0, "Writing edgelist " + name)
+        if isinstance(_progBar, _ProgressBar):
+            _progBar.updateVal(0, "Writing edgelist " + name)
         else:
-            progBar = _ProgressBar(0, "Writing edgelist " + name)
+            _progBar = _ProgressBar(0, "Writing edgelist " + name)
     if len(grph.nodes(data = True)) < 1:
         outFile = open(name, 'w')
         outFile.write('ID\n')
         outFile.close()
-        if progBar:
-            progBar.updateVal(1, "Done node attribute list: " + name + ", 0 nodes written.")
+        if _progBar:
+            _progBar.updateVal(1, "Done node attribute list: " + name + ", 0 nodes written.")
     else:
         csvDict = ['ID'] + list(grph.nodes_iter(data = True).__next__()[1].keys())
         f = open(name, 'w')
         outFile = csv.DictWriter(f, csvDict, delimiter = ',', quotechar = '"', quoting=csv.QUOTE_ALL)
         outFile.writeheader()
         for n in grph.nodes_iter(data = True):
-            if progBar:
+            if _progBar:
                 count += 1
                 if count % 50 == 0:
-                    progBar.updateVal(count / nMax)
+                    _progBar.updateVal(count / nMax)
             nDict = n[1].copy()
             nDict['ID'] = n[0]
             try:
                 outFile.writerow(nDict)
             except ValueError:
                 raise ValueError("Some nodes in " + str(grph) + " do not have the same attributes")
-        if progBar:
-            progBar.updateVal(1, "Done node attribute list: " + name + ", " + str(count) + " nodes written.")
+        if _progBar:
+            _progBar.updateVal(1, "Done node attribute list: " + name + ", " + str(count) + " nodes written.")
         f.close()
 
 class _ProgressBar(object):

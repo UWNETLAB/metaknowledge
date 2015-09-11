@@ -681,6 +681,34 @@ class RecordCollection(object):
         return RecordCollection(recordsInRange, repr(self) + "_(" + str(startYear) + " ," + str(endYear) + ")")
 
     def oneModeNetwork(self, mode, nodeCount = True, edgeWeight = True):
+        """Creates a network of the objects found by one WOS tag _mode_.
+
+        A **oneModeNetwork()** looks are each Record in the RecordCollection and extracts its values for the tag given by _mode_, e.g. the `"AF"` tag. Then if multiple are returned an edge is created between them. So in the case of the author tag `"AF"` a co-authorship network is created.
+
+        The number of times each object occurs is count if _nodeCount_ is `True` and the edges count the number of co-occurrences if _edgeWeight_ is `True`. Both are`True` by default.
+
+        **Note** Do not use this for the construction of co-citation networks use [Recordcollection.coCiteNetwork()](#Recordcollection.coCiteNetwork) it is more accurate and has more options.
+
+        # Parameters
+
+        _mode_ : `str`
+
+        > A two character WOS tag or one of the full names for a tag
+
+        _nodeCount_ : `optional [bool]`
+
+        > Default `True`, if `True` each node will have an attribute called "count" that contains an int giving the number of time the object occurred.
+
+        _edgeWeight_ : `optional [bool]`
+
+        > Default `True`, if `True` each edge will have an attribute called "weight" that contains an int giving the number of time the two objects co-occurrenced.
+
+        # Returns
+
+        `networkx Graph`
+
+        > A networkx Graph with the objects of the tag _mode_ as nodes and their co-occurrences as edges
+        """
         if mode not in tagsAndNames:
             raise TypeError(str(mode) + " is not a known tag, or the name of a known tag.")
         if metaknowledge.VERBOSE_MODE:
@@ -742,6 +770,38 @@ class RecordCollection(object):
         return grph
 
     def twoModeNetwork(self, tag1, tag2, directed = False, recordType = True, nodeCount = True, edgeWeight = True):
+        """Creates a network of the objects found by two WOS tags _tag1_ and _tag2_.
+
+        A **twoModeNetwork()** looks are each Record in the RecordCollection and extracts its values for the tags given by _tag1_ and _tag2_, e.g. the `"WC"` and `"LA"` tags. Then for each object returned by each tag and edge is created between it and every other object of the other tag. So the WOS defined subject tag `"WC"` and language tag `"LA"`, will give a two-mode network showing the connections between subjects and languages. Each node will have an attribute call `"type"` that gives the tag that created it or both if both created it, e.g. the node `"English"` would have the type attribute be `"LA"`.
+
+        The number of times each object occurs is count if _nodeCount_ is `True` and the edges count the number of co-occurrences if _edgeWeight_ is `True`. Both are`True` by default.
+
+        The _directed_ parameter if `True` will cause the network to be directed with the first tag as the source and the second as the destination.
+
+        # Parameters
+
+        _mode_ : `str`
+
+        > A two character WOS tag or one of the full names for a tag
+
+        _directed_ : `optional [bool]`
+
+        > Default `False`, if `True` the returned network is directed
+
+        _nodeCount_ : `optional [bool]`
+
+        > Default `True`, if `True` each node will have an attribute called "count" that contains an int giving the number of time the object occurred.
+
+        _edgeWeight_ : `optional [bool]`
+
+        > Default `True`, if `True` each edge will have an attribute called "weight" that contains an int giving the number of time the two objects co-occurrenced.
+
+        # Returns
+
+        `networkx Graph or networkx DiGraph`
+
+        > A networkx Graph with the objects of the tags _tag1_ and _tag2_ as nodes and their co-occurrences as edges.
+        """
         if (not tag1 in tagsAndNames) or (not tag2 in tagsAndNames):
             raise TypeError(str(tag1) + " or " + str(tag2) + " is not a known tag, or the name of a known tag.")
         if metaknowledge.VERBOSE_MODE:
@@ -831,6 +891,34 @@ class RecordCollection(object):
         return grph
 
     def nModeNetwork(self, tags, recordType = True, nodeCount = True, edgeWeight = True):
+        """Creates a network of the objects found by all WOS tags in _tags_.
+
+        A **nModeNetwork()** looks are each Record in the RecordCollection and extracts its values for the tags given by _tags_. Then for all objects returned an edge is created between them, regardless of their type. Each node will have an attribute call `"type"` that gives the tag that created it or both if both created it, e.g. if `"LA"` were in _tags_ node `"English"` would have the type attribute be `"LA"`.
+
+        For example if _tags_ was set to `['CR', 'UT', 'LA']`, a three mode network would be created, composed of a co-citation network from the `"CR"` tag. Then each citation would also have edges to all the languages of Records that cited it and to the WOS number of the those Records.
+
+        The number of times each object occurs is count if _nodeCount_ is `True` and the edges count the number of co-occurrences if _edgeWeight_ is `True`. Both are`True` by default.
+
+        # Parameters
+
+        _mode_ : `str`
+
+        > A two character WOS tag or one of the full names for a tag
+
+        _nodeCount_ : `optional [bool]`
+
+        > Default `True`, if `True` each node will have an attribute called "count" that contains an int giving the number of time the object occurred.
+
+        _edgeWeight_ : `optional [bool]`
+
+        > Default `True`, if `True` each edge will have an attribute called "weight" that contains an int giving the number of time the two objects co-occurrenced.
+
+        # Returns
+
+        `networkx Graph`
+
+        > A networkx Graph with the objects of the tags _tags_ as nodes and their co-occurrences as edges
+        """
         for t in tags:
             if t not in tagsAndNames:
                 raise TypeError(str(t) + " is not a known tag, or the name of a known tag.")

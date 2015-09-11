@@ -107,19 +107,15 @@ def writeModuleFile(mod):
     f = open(fname, 'w')
     f.write(makeHeader(mod, "The {} Module".format(mod), tags = ["module"], weight = 3))
     module = importlib.import_module('metaknowledge.{}'.format(mod))
+    f.write(inspect.getdoc(module) + '\n\n')
     funcs = []
     for m in inspect.getmembers(module, predicate = inspect.isfunction):
         if inspect.isbuiltin(m[1]) or m[0][0] == '_':
             pass
         elif inspect.isfunction(m[1]):
-            funcs.append(m)
-    first = True
-    for fnc in funcs:
-        if first:
-            first = False
-        else:
             f.write("- - -\n\n")
-        writeFunc(fnc, f, prefix = "{}.".format(mod))
+            writeFunc(m, f, prefix = "{}.".format(mod))
+            funcs.append(m)
 
 def writeMainBody(funcs, vrs, exceptions):
     f = open(docsPrefix + "metaknowledge.md", 'w')
@@ -136,10 +132,8 @@ def writeMainBody(funcs, vrs, exceptions):
             f.write("- - -\n\n")
         proccessClass(excpt, f)
 
-
 def main(args):
     wDir = os.path.expanduser(os.path.normpath(args.dir))
-    print(wDir)
     if not os.path.isdir(wDir):
         try:
             os.mkdir(wDir)

@@ -1201,10 +1201,11 @@ def makeID(citation, nodeType, cSet, G):
         cHash = hash(citation)
         if cHash in G:
             return cHash
-        else:
+        elif citation in cSet:
             for c in cSet:
                 if citation == c:
                     return hash(c)
+        else:
             cSet.add(citation)
             return cHash
     else:

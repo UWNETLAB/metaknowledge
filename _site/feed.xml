@@ -4,7 +4,7 @@
 <generator uri="https://github.com/jekyll/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="http://networkslab.org/feed.xml" />
 <link rel="alternate" type="text/html" href="http://networkslab.org" />
-<updated>2015-09-10T13:48:53-04:00</updated>
+<updated>2015-09-10T23:42:03-04:00</updated>
 <id>http://networkslab.org/</id>
 <author>
   <name>John McLevey and Reid McIlroy-Young</name>
@@ -346,7 +346,9 @@
   </author>
   <content type="html">
     &lt;p&gt;&lt;a name=&quot;metaknowledge&quot;&gt;&lt;/a&gt;
-&lt;a name=&quot;blondel&quot;&gt;&lt;/a&gt;&lt;strong&gt;blondel&lt;/strong&gt;(&lt;em&gt;G, weightParameter=None, communityParameter=’community’&lt;/em&gt;):&lt;/p&gt;
+Doc String for metaknowledge main&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&quot;blondel&quot;&gt;&lt;/a&gt;&lt;strong&gt;blondel&lt;/strong&gt;(&lt;em&gt;G, weightParameter=None, communityParameter=’community’&lt;/em&gt;):&lt;/p&gt;
 
 &lt;h1 id=&quot;needs-to-be-written&quot;&gt;Needs to be written&lt;/h1&gt;
 

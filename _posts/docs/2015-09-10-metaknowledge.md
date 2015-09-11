@@ -7,6 +7,8 @@ tags: [main]
 weight: 1
 ---
 <a name="metaknowledge"></a>
+Doc String for metaknowledge main
+
 <a name="blondel"></a>**blondel**(_G, weightParameter=None, communityParameter='community'_):
 
 # Needs to be written

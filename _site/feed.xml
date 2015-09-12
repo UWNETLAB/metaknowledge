@@ -4,7 +4,7 @@
 <generator uri="https://github.com/jekyll/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="http://networkslab.org/feed.xml" />
 <link rel="alternate" type="text/html" href="http://networkslab.org" />
-<updated>2015-09-11T20:41:03-04:00</updated>
+<updated>2015-09-11T23:17:22-04:00</updated>
 <id>http://networkslab.org/</id>
 <author>
   <name>John McLevey and Reid McIlroy-Young</name>
@@ -732,7 +732,7 @@ Doc String for metaknowledge main&lt;/p&gt;
 
 &lt;p&gt;      Reads the files given by edgeList and if given nodeList. Outputs a networkx graph for the lists.&lt;/p&gt;
 
-&lt;p&gt;      This is designed only for the files produced by metaknowledge and is meant to be the reverse of &lt;a href=&quot;#metaknowledge.write_graph&quot;&gt;write_graph()&lt;/a&gt;, if this dow not produce the desired results the networkx builtin &lt;a href=&quot;https://networkx.github.io/documentation/networkx-1.9.1/reference/generated/networkx.readwrite.edgelist.read_edgelist.html&quot;&gt;networkx.read_edgelist()&lt;/a&gt; could be tried.&lt;/p&gt;
+&lt;p&gt;      This is designed only for the files produced by metaknowledge and is meant to be the reverse of &lt;a href=&quot;/metaknowledge/docs/metaknowledge#metaknowledge&quot;&gt;write_graph()&lt;/a&gt;, if this dow not produce the desired results the networkx builtin &lt;a href=&quot;https://networkx.github.io/documentation/networkx-1.9.1/reference/generated/networkx.readwrite.edgelist.read_edgelist.html&quot;&gt;networkx.read_edgelist()&lt;/a&gt; could be tried.&lt;/p&gt;
 
 &lt;p&gt;      The read edge list format assumes the column named &lt;em&gt;eSource&lt;/em&gt; (From) is the source node, then the next column &lt;em&gt;eDest&lt;/em&gt; (To) givens the destination and all other columns are attributes of the edge, e.g. weight.&lt;/p&gt;
 
@@ -788,7 +788,7 @@ Doc String for metaknowledge main&lt;/p&gt;
 
 &lt;p&gt;      The entry in the returned dict would be &lt;code&gt;{&#39;AF&#39; : [&quot;BREVIK, I&quot;, &quot;ANICIN, B&quot;]}&lt;/code&gt;&lt;/p&gt;
 
-&lt;p&gt;      &lt;a href=&quot;#metaknowledge.Record&quot;&gt;Record&lt;/a&gt; objects can be created with these dictionaries as the initializer.&lt;/p&gt;
+&lt;p&gt;      &lt;a href=&quot;/metaknowledge/docs/metaknowledge#metaknowledge&quot;&gt;Record&lt;/a&gt; objects can be created with these dictionaries as the initializer.&lt;/p&gt;
 
 &lt;h5 id=&quot;nbspnbspnbsp-parameters-3&quot;&gt;    Parameters&lt;/h5&gt;
 
@@ -840,7 +840,7 @@ Doc String for metaknowledge main&lt;/p&gt;
 
 &lt;p&gt;      Both files are csv’s with comma delimiters and double quote quoting characters. The edge list has two columns for the source and destination of the edge, “From” and “To” respectively, then, if &lt;em&gt;edgeInfo&lt;/em&gt; is &lt;code&gt;True&lt;/code&gt;, for each attribute of the node another column is created. The node list has one column call “ID” with the node ids used by networkx and all other columns are the node attributes.&lt;/p&gt;
 
-&lt;p&gt;      To read back these files use &lt;a href=&quot;#metaknowledge.read_graph&quot;&gt;read_graph()&lt;/a&gt; and to write only one type of lsit use &lt;a href=&quot;#metaknowledge.write_edgeList&quot;&gt;write_edgeList()&lt;/a&gt; or &lt;a href=&quot;#metaknowledge.write_nodeAttributeFile&quot;&gt;write_nodeAttributeFile()&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;      To read back these files use &lt;a href=&quot;/metaknowledge/docs/metaknowledge#metaknowledge&quot;&gt;read_graph()&lt;/a&gt; and to write only one type of lsit use &lt;a href=&quot;/metaknowledge/docs/metaknowledge#metaknowledge&quot;&gt;write_edgeList()&lt;/a&gt; or &lt;a href=&quot;/metaknowledge/docs/metaknowledge#metaknowledge&quot;&gt;write_nodeAttributeFile()&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;      &lt;strong&gt;Warning&lt;/strong&gt;: this function will overwrite files, if they are in the way of the output, to prevent this set &lt;em&gt;overwrite&lt;/em&gt; to &lt;code&gt;False&lt;/code&gt;&lt;/p&gt;
 
@@ -1098,7 +1098,7 @@ journalAbbreviations docstring&lt;/p&gt;
 
 &lt;p&gt;      &lt;em&gt;nodeType&lt;/em&gt; : &lt;code&gt;optional [str]&lt;/code&gt;&lt;/p&gt;
 
-&lt;p&gt;             One of &lt;code&gt;&quot;full&quot;&lt;/code&gt;, &lt;code&gt;&quot;original&quot;&lt;/code&gt;, &lt;code&gt;&quot;author&quot;&lt;/code&gt;, &lt;code&gt;&quot;journal&quot;&lt;/code&gt; or &lt;code&gt;&quot;year&quot;&lt;/code&gt;. Specifies the value of the nodes in the graph. The default &lt;code&gt;&quot;full&quot;&lt;/code&gt; causes the citations to be compared holistically using the &lt;a href=&quot;metaknowledge.Citation&quot;&gt;&lt;code&gt;metaknowledge.Citation&lt;/code&gt;&lt;/a&gt; builtin comparison operators. &lt;code&gt;&quot;original&quot;&lt;/code&gt; uses the raw original strings of the citations. While &lt;code&gt;&quot;author&quot;&lt;/code&gt;, &lt;code&gt;&quot;journal&quot;&lt;/code&gt; and &lt;code&gt;&quot;year&quot;&lt;/code&gt; each use the author, journal and year respectively.&lt;/p&gt;
+&lt;p&gt;             One of &lt;code&gt;&quot;full&quot;&lt;/code&gt;, &lt;code&gt;&quot;original&quot;&lt;/code&gt;, &lt;code&gt;&quot;author&quot;&lt;/code&gt;, &lt;code&gt;&quot;journal&quot;&lt;/code&gt; or &lt;code&gt;&quot;year&quot;&lt;/code&gt;. Specifies the value of the nodes in the graph. The default &lt;code&gt;&quot;full&quot;&lt;/code&gt; causes the citations to be compared holistically using the &lt;a href=&quot;/metaknowledge/docs/Citation#Citation&quot;&gt;&lt;code&gt;metaknowledge.Citation&lt;/code&gt;&lt;/a&gt; builtin comparison operators. &lt;code&gt;&quot;original&quot;&lt;/code&gt; uses the raw original strings of the citations. While &lt;code&gt;&quot;author&quot;&lt;/code&gt;, &lt;code&gt;&quot;journal&quot;&lt;/code&gt; and &lt;code&gt;&quot;year&quot;&lt;/code&gt; each use the author, journal and year respectively.&lt;/p&gt;
 
 &lt;p&gt;      &lt;em&gt;dropAnon&lt;/em&gt; : &lt;code&gt;optional [bool]&lt;/code&gt;&lt;/p&gt;
 
@@ -1180,7 +1180,7 @@ journalAbbreviations docstring&lt;/p&gt;
 
 &lt;p&gt;      &lt;em&gt;nodeType&lt;/em&gt; : &lt;code&gt;optional [str]&lt;/code&gt;&lt;/p&gt;
 
-&lt;p&gt;             One of &lt;code&gt;&quot;full&quot;&lt;/code&gt;, &lt;code&gt;&quot;original&quot;&lt;/code&gt;, &lt;code&gt;&quot;author&quot;&lt;/code&gt;, &lt;code&gt;&quot;journal&quot;&lt;/code&gt; or &lt;code&gt;&quot;year&quot;&lt;/code&gt;. Specifies the value of the nodes in the graph. The default &lt;code&gt;&quot;full&quot;&lt;/code&gt; causes the citations to be compared holistically using the &lt;a href=&quot;metaknowledge.Citation&quot;&gt;&lt;code&gt;metaknowledge.Citation&lt;/code&gt;&lt;/a&gt; builtin comparison operators. &lt;code&gt;&quot;original&quot;&lt;/code&gt; uses the raw original strings of the citations. While &lt;code&gt;&quot;author&quot;&lt;/code&gt;, &lt;code&gt;&quot;journal&quot;&lt;/code&gt; and &lt;code&gt;&quot;year&quot;&lt;/code&gt; each use the author, journal and year respectively.&lt;/p&gt;
+&lt;p&gt;             One of &lt;code&gt;&quot;full&quot;&lt;/code&gt;, &lt;code&gt;&quot;original&quot;&lt;/code&gt;, &lt;code&gt;&quot;author&quot;&lt;/code&gt;, &lt;code&gt;&quot;journal&quot;&lt;/code&gt; or &lt;code&gt;&quot;year&quot;&lt;/code&gt;. Specifies the value of the nodes in the graph. The default &lt;code&gt;&quot;full&quot;&lt;/code&gt; causes the citations to be compared holistically using the &lt;a href=&quot;/metaknowledge/docs/Citation#Citation&quot;&gt;&lt;code&gt;metaknowledge.Citation&lt;/code&gt;&lt;/a&gt; builtin comparison operators. &lt;code&gt;&quot;original&quot;&lt;/code&gt; uses the raw original strings of the citations. While &lt;code&gt;&quot;author&quot;&lt;/code&gt;, &lt;code&gt;&quot;journal&quot;&lt;/code&gt; and &lt;code&gt;&quot;year&quot;&lt;/code&gt; each use the author, journal and year respectively.&lt;/p&gt;
 
 &lt;p&gt;      &lt;em&gt;dropAnon&lt;/em&gt; : &lt;code&gt;optional [bool]&lt;/code&gt;&lt;/p&gt;
 
@@ -1264,7 +1264,7 @@ journalAbbreviations docstring&lt;/p&gt;
 
 &lt;p&gt;      &lt;em&gt;drop&lt;/em&gt; : &lt;code&gt;optional [bool]&lt;/code&gt;&lt;/p&gt;
 
-&lt;p&gt;             Default &lt;code&gt;False&lt;/code&gt;. If &lt;code&gt;True&lt;/code&gt; the Record is dropped from the collection after being extract, i.e. if &lt;code&gt;False&lt;/code&gt; &lt;a href=&quot;#RecordCollection.getWOS&quot;&gt;getWOS()&lt;/a&gt; acts like &lt;a href=&quot;#RecordCollection.peak&quot;&gt;peak()&lt;/a&gt;, if &lt;code&gt;True&lt;/code&gt; it acts like &lt;a href=&quot;#RecordCollection.pop&quot;&gt;pop()&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;             Default &lt;code&gt;False&lt;/code&gt;. If &lt;code&gt;True&lt;/code&gt; the Record is dropped from the collection after being extract, i.e. if &lt;code&gt;False&lt;/code&gt; &lt;a href=&quot;/metaknowledge/docs/RecordCollection#RecordCollection&quot;&gt;getWOS()&lt;/a&gt; acts like &lt;a href=&quot;/metaknowledge/docs/RecordCollection#RecordCollection&quot;&gt;peak()&lt;/a&gt;, if &lt;code&gt;True&lt;/code&gt; it acts like &lt;a href=&quot;/metaknowledge/docs/RecordCollection#RecordCollection&quot;&gt;pop()&lt;/a&gt;&lt;/p&gt;
 
 &lt;h5 id=&quot;nbspnbspnbsp-returns-3&quot;&gt;    Returns&lt;/h5&gt;
 
@@ -1331,7 +1331,7 @@ journalAbbreviations docstring&lt;/p&gt;
 
 &lt;p&gt;      The number of times each object occurs is count if &lt;em&gt;nodeCount&lt;/em&gt; is &lt;code&gt;True&lt;/code&gt; and the edges count the number of co-occurrences if &lt;em&gt;edgeWeight&lt;/em&gt; is &lt;code&gt;True&lt;/code&gt;. Both are&lt;code&gt;True&lt;/code&gt; by default.&lt;/p&gt;
 
-&lt;p&gt;      &lt;strong&gt;Note&lt;/strong&gt; Do not use this for the construction of co-citation networks use &lt;a href=&quot;#Recordcollection.coCiteNetwork&quot;&gt;Recordcollection.coCiteNetwork()&lt;/a&gt; it is more accurate and has more options.&lt;/p&gt;
+&lt;p&gt;      &lt;strong&gt;Note&lt;/strong&gt; Do not use this for the construction of co-citation networks use &lt;a href=&quot;/metaknowledge/docs/RecordCollection#RecordCollection&quot;&gt;Recordcollection.coCiteNetwork()&lt;/a&gt; it is more accurate and has more options.&lt;/p&gt;
 
 &lt;h5 id=&quot;nbspnbspnbsp-parameters-8&quot;&gt;    Parameters&lt;/h5&gt;
 
@@ -1497,7 +1497,7 @@ journalAbbreviations docstring&lt;/p&gt;
 
 &lt;p&gt;      It is meant to be immutable; many of the methods and attributes are evaluated when first called, not when the object is created, and the results are stored in a private dictionary.&lt;/p&gt;
 
-&lt;p&gt;      The record’s meta-data is stored in an ordered dictionary labeled by WOS tags. To access the raw data stored in the original record the &lt;a href=&quot;#Record.getTag&quot;&gt;getTag()&lt;/a&gt; method can be used. To access data that has been processed and cleaned the attributes named after the tags are used.&lt;/p&gt;
+&lt;p&gt;      The record’s meta-data is stored in an ordered dictionary labeled by WOS tags. To access the raw data stored in the original record the &lt;a href=&quot;/metaknowledge/docs/Record#Record&quot;&gt;getTag()&lt;/a&gt; method can be used. To access data that has been processed and cleaned the attributes named after the tags are used.&lt;/p&gt;
 
 &lt;h5 id=&quot;nbspnbspnbsp-customizations&quot;&gt;    Customizations&lt;/h5&gt;
 
@@ -1509,13 +1509,13 @@ journalAbbreviations docstring&lt;/p&gt;
 
 &lt;p&gt;      When a record is created if the parsing of the WOS file failed it is marked as &lt;code&gt;bad&lt;/code&gt;. The &lt;code&gt;bad&lt;/code&gt; attribute is set to True and the &lt;code&gt;error&lt;/code&gt; attribute is created to contain the exception object.&lt;/p&gt;
 
-&lt;p&gt;      Generally, to get the information from a Record its attributes should be used. For a Record &lt;code&gt;R&lt;/code&gt;, calling &lt;code&gt;R.CR&lt;/code&gt; causes &lt;a href=&quot;#metaknowledge.tagFuncs.citations&quot;&gt;citations()&lt;/a&gt; from the the &lt;a href=&quot;#metaknowledge.tagFuncs&quot;&gt;tagFuncs&lt;/a&gt; module to be called on the contents of the raw ‘CR’ field. Then the result is saved and returned. In this case, a list of Citation objects is returned. You can also call &lt;code&gt;R.citations&lt;/code&gt; to get the same effect, as each known field tag has a longer name (currently there are 61 field tags). These names are meant to make accessing tags more readable and mapping from tag to name can be found in the tagToFull dict. If a tag is known (in &lt;a href=&quot;#metaknowledge&quot;&gt;tagToFull&lt;/a&gt;) but not in the raw data &lt;code&gt;None&lt;/code&gt; is returned instead. Most tags when cleaned return a string or list of strings, the exact results can be found in the help for the particular function.&lt;/p&gt;
+&lt;p&gt;      Generally, to get the information from a Record its attributes should be used. For a Record &lt;code&gt;R&lt;/code&gt;, calling &lt;code&gt;R.CR&lt;/code&gt; causes &lt;a href=&quot;/metaknowledge/docs/tagFuncs#tagFuncs&quot;&gt;citations()&lt;/a&gt; from the the &lt;a href=&quot;/metaknowledge/docs/tagFuncs#tagFuncs&quot;&gt;tagFuncs&lt;/a&gt; module to be called on the contents of the raw ‘CR’ field. Then the result is saved and returned. In this case, a list of Citation objects is returned. You can also call &lt;code&gt;R.citations&lt;/code&gt; to get the same effect, as each known field tag has a longer name (currently there are 61 field tags). These names are meant to make accessing tags more readable and mapping from tag to name can be found in the tagToFull dict. If a tag is known (in &lt;a href=&quot;/metaknowledge/docs/metaknowledge#metaknowledge&quot;&gt;tagToFull&lt;/a&gt; but not in the raw data &lt;code&gt;None&lt;/code&gt; is returned instead. Most tags when cleaned return a string or list of strings, the exact results can be found in the help for the particular function.&lt;/p&gt;
 
 &lt;p&gt;      The attribute &lt;code&gt;authors&lt;/code&gt; is also defined as a convience and returns the same as ‘AF’ or if that is not found ‘AU’.&lt;/p&gt;
 
 &lt;h5 id=&quot;nbspnbspnbsp-init&quot;&gt;    __Init__&lt;/h5&gt;
 
-&lt;p&gt;      Records are generally create as collections in  &lt;a href=&quot;#metaknowledge.RecordCollection&quot;&gt;Recordcollections&lt;/a&gt;, and not as individual objects. If you wish to create one on its own it is possible, the arguments are as follows.&lt;/p&gt;
+&lt;p&gt;      Records are generally create as collections in  &lt;a href=&quot;/metaknowledge/docs/RecordCollection#RecordCollection&quot;&gt;Recordcollections&lt;/a&gt;, and not as individual objects. If you wish to create one on its own it is possible, the arguments are as follows.&lt;/p&gt;
 
 &lt;h5 id=&quot;nbspnbspnbsp-parameters&quot;&gt;    Parameters&lt;/h5&gt;
 
@@ -1523,11 +1523,11 @@ journalAbbreviations docstring&lt;/p&gt;
 
 &lt;p&gt;             If it is a file stream the file must be open at the location of the first tag in the record, usually ‘PT’, and the file will be read until ‘ER’ is found, which indicates the end of the record in the file.&lt;/p&gt;
 
-&lt;p&gt;             If a dict is passed the dictionary is used as the database of fields and tags, so each key is considered a WOS tag and each value a list of the lines of the original associated with the tag. This is the same form of dict that &lt;a href=&quot;#metaknowledge.recordParser&quot;&gt;recordParser&lt;/a&gt; returns.&lt;/p&gt;
+&lt;p&gt;             If a dict is passed the dictionary is used as the database of fields and tags, so each key is considered a WOS tag and each value a list of the lines of the original associated with the tag. This is the same form of dict that &lt;a href=&quot;/metaknowledge/docs/metaknowledge#metaknowledge&quot;&gt;recordParser&lt;/a&gt; returns.&lt;/p&gt;
 
 &lt;p&gt;             For a str the input is the raw textual data of a single record in the WOS style, like the file stream it must start at the first tag and end in ‘ER’.&lt;/p&gt;
 
-&lt;p&gt;             itertools.chain is treated identically to a file stream and is used by &lt;a href=&quot;#metaknowledge.RecordCollection&quot;&gt;RecordCollections&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;             itertools.chain is treated identically to a file stream and is used by &lt;a href=&quot;/metaknowledge/docs/RecordCollection#RecordCollection&quot;&gt;RecordCollections&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;      &lt;em&gt;sFile&lt;/em&gt; : &lt;code&gt;optional [str]&lt;/code&gt;&lt;/p&gt;
 
@@ -1539,7 +1539,7 @@ journalAbbreviations docstring&lt;/p&gt;
 
 &lt;p&gt;&lt;a name=&quot;Record.activeTags&quot;&gt;&lt;/a&gt;Record.&lt;strong&gt;activeTags&lt;/strong&gt;():&lt;/p&gt;
 
-&lt;p&gt;      Returns a list of all the tags the original WOS record had. These are all the tags that &lt;a href=&quot;#Record.getTag&quot;&gt;‘getTag()’&lt;/a&gt; will not return &lt;code&gt;None&lt;/code&gt; for.&lt;/p&gt;
+&lt;p&gt;      Returns a list of all the tags the original WOS record had. These are all the tags that &lt;a href=&quot;/metaknowledge/docs/Record#Record&quot;&gt;‘getTag()’&lt;/a&gt; will not return &lt;code&gt;None&lt;/code&gt; for.&lt;/p&gt;
 
 &lt;h5 id=&quot;nbspnbspnbsp-returns&quot;&gt;    Returns&lt;/h5&gt;
 
@@ -1549,13 +1549,13 @@ journalAbbreviations docstring&lt;/p&gt;
 
 &lt;p&gt;&lt;a name=&quot;Record.createCitation&quot;&gt;&lt;/a&gt;Record.&lt;strong&gt;createCitation&lt;/strong&gt;():&lt;/p&gt;
 
-&lt;p&gt;      Creates a citation string, using the same format as other WOS citations, for the &lt;a href=&quot;#metaknowledge.Record&quot;&gt;Record&lt;/a&gt; by reading the relevant tags (year, J9, volume, beginningPage, DOI) and using it to start a &lt;a href=&quot;#metaknowledge.Citation&quot;&gt;Citation&lt;/a&gt; object.&lt;/p&gt;
+&lt;p&gt;      Creates a citation string, using the same format as other WOS citations, for the &lt;a href=&quot;/metaknowledge/docs/Record#Record&quot;&gt;Record&lt;/a&gt; by reading the relevant tags (year, J9, volume, beginningPage, DOI) and using it to start a &lt;a href=&quot;/metaknowledge/docs/Citation#Citation&quot;&gt;Citation&lt;/a&gt; object.&lt;/p&gt;
 
 &lt;h5 id=&quot;nbspnbspnbsp-returns-1&quot;&gt;    Returns&lt;/h5&gt;
 
 &lt;p&gt;      &lt;code&gt;Citation&lt;/code&gt;&lt;/p&gt;
 
-&lt;p&gt;             A &lt;a href=&quot;#metaknowledge.Citation&quot;&gt;Citation&lt;/a&gt; object containing a citation for the Record.&lt;/p&gt;
+&lt;p&gt;             A &lt;a href=&quot;/metaknowledge/docs/Citation#Citation&quot;&gt;Citation&lt;/a&gt; object containing a citation for the Record.&lt;/p&gt;
 
 &lt;p&gt;&lt;a name=&quot;Record.getTag&quot;&gt;&lt;/a&gt;Record.&lt;strong&gt;getTag&lt;/strong&gt;(&lt;em&gt;tag, clean=False&lt;/em&gt;):&lt;/p&gt;
 
@@ -1580,7 +1580,7 @@ journalAbbreviations docstring&lt;/p&gt;
 &lt;h5 id=&quot;nbspnbspnbsp-parameters-2&quot;&gt;    Parameters&lt;/h5&gt;
 &lt;p&gt;      &lt;em&gt;taglst&lt;/em&gt; : &lt;code&gt;List[str]&lt;/code&gt;&lt;/p&gt;
 
-&lt;p&gt;             Each string in &lt;em&gt;taglst&lt;/em&gt; can be a two character string corresponding to a WOS tag e.g. ‘J9’, the matching is case insensitive so ‘j9’ is the same as ‘J9’. Or it can be one of the full names for a tag with the mappings in &lt;a href=&quot;#metaknowledge&quot;&gt;fullToTag&lt;/a&gt;. If the string is not found in the oriagnal record before or after being translated through &lt;a href=&quot;#metaknowledge&quot;&gt;fullToTag&lt;/a&gt;, &lt;code&gt;None&lt;/code&gt; is used instead. Same as in &lt;a href=&quot;#Record.getTag&quot;&gt;&lt;code&gt;getTag()&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;             Each string in &lt;em&gt;taglst&lt;/em&gt; can be a two character string corresponding to a WOS tag e.g. ‘J9’, the matching is case insensitive so ‘j9’ is the same as ‘J9’. Or it can be one of the full names for a tag with the mappings in &lt;a href=&quot;/metaknowledge/docs/metaknowledge#metaknowledge&quot;&gt;fullToTag&lt;/a&gt;. If the string is not found in the oriagnal record before or after being translated through &lt;a href=&quot;#metaknowledge&quot;&gt;fullToTag&lt;/a&gt;, &lt;code&gt;None&lt;/code&gt; is used instead. Same as in &lt;a href=&quot;/metaknowledge/docs/Record#Record&quot;&gt;&lt;code&gt;getTag()&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
 
 &lt;h5 id=&quot;nbspnbspnbsp-returns-3&quot;&gt;    Returns&lt;/h5&gt;
 
@@ -1590,12 +1590,12 @@ journalAbbreviations docstring&lt;/p&gt;
 
 &lt;p&gt;&lt;a name=&quot;Record.getTagsList&quot;&gt;&lt;/a&gt;Record.&lt;strong&gt;getTagsList&lt;/strong&gt;(&lt;em&gt;taglst, cleaned=False&lt;/em&gt;):&lt;/p&gt;
 
-&lt;p&gt;      Returns a list of the results of &lt;a href=&quot;#Record.getTag&quot;&gt;&lt;code&gt;getTag()&lt;/code&gt;&lt;/a&gt; for each tag in &lt;em&gt;taglist&lt;/em&gt;, the return has the same order as the original.&lt;/p&gt;
+&lt;p&gt;      Returns a list of the results of &lt;a href=&quot;/metaknowledge/docs/Record#Record&quot;&gt;&lt;code&gt;getTag()&lt;/code&gt;&lt;/a&gt; for each tag in &lt;em&gt;taglist&lt;/em&gt;, the return has the same order as the original.&lt;/p&gt;
 
 &lt;h5 id=&quot;nbspnbspnbsp-parameters-3&quot;&gt;    Parameters&lt;/h5&gt;
 &lt;p&gt;      &lt;em&gt;taglst&lt;/em&gt; : &lt;code&gt;List[str]&lt;/code&gt;&lt;/p&gt;
 
-&lt;p&gt;             Each string in &lt;em&gt;taglst&lt;/em&gt; can be a two character string corresponding to a WOS tag e.g. ‘J9’, the matching is case insensitive so ‘j9’ is the same as ‘J9’. Or it can be one of the full names for a tag with the mappings in &lt;a href=&quot;#metaknowledge&quot;&gt;fullToTag&lt;/a&gt;. If the string is not found in the original record before or after being translated through &lt;a href=&quot;#metaknowledge&quot;&gt;fullToTag&lt;/a&gt;, &lt;code&gt;None&lt;/code&gt; is used instead. Same as in &lt;a href=&quot;#Record.getTag&quot;&gt;&lt;code&gt;getTag()&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;             Each string in &lt;em&gt;taglst&lt;/em&gt; can be a two character string corresponding to a WOS tag e.g. ‘J9’, the matching is case insensitive so ‘j9’ is the same as ‘J9’. Or it can be one of the full names for a tag with the mappings in &lt;a href=&quot;/metaknowledge/docs/metaknowledge#metaknowledge&quot;&gt;fullToTag&lt;/a&gt;. If the string is not found in the original record before or after being translated through &lt;a href=&quot;/metaknowledge/docs/metaknowledge#metaknowledge&quot;&gt;fullToTag&lt;/a&gt;, &lt;code&gt;None&lt;/code&gt; is used instead. Same as in &lt;a href=&quot;/metaknowledge/docs/Record#Record&quot;&gt;&lt;code&gt;getTag()&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;             Then they are compiled into a list in the same order as &lt;em&gt;taglst&lt;/em&gt;&lt;/p&gt;
 
@@ -1607,7 +1607,7 @@ journalAbbreviations docstring&lt;/p&gt;
 
 &lt;p&gt;&lt;a name=&quot;Record.writeRecord&quot;&gt;&lt;/a&gt;Record.&lt;strong&gt;writeRecord&lt;/strong&gt;(&lt;em&gt;infile&lt;/em&gt;):&lt;/p&gt;
 
-&lt;p&gt;      Writes to &lt;em&gt;infile&lt;/em&gt; the original contents of the Record. This is intended for use by &lt;a href=&quot;#metaknowledge.RecordCollection&quot;&gt;RecordCollections&lt;/a&gt; to write to file. What is written to &lt;em&gt;infile&lt;/em&gt; is bit for bit identical to the original record file. No newline is inserted above the write but the last character is a newline.&lt;/p&gt;
+&lt;p&gt;      Writes to &lt;em&gt;infile&lt;/em&gt; the original contents of the Record. This is intended for use by &lt;a href=&quot;/metaknowledge/docs/RecordCollection#RecordCollection&quot;&gt;RecordCollections&lt;/a&gt; to write to file. What is written to &lt;em&gt;infile&lt;/em&gt; is bit for bit identical to the original record file. No newline is inserted above the write but the last character is a newline.&lt;/p&gt;
 
 &lt;h5 id=&quot;nbspnbspnbsp-parameters-4&quot;&gt;    Parameters&lt;/h5&gt;
 
@@ -1685,13 +1685,13 @@ journalAbbreviations docstring&lt;/p&gt;
 
 &lt;p&gt;      As noted above, citations are considered to be divided into six distinct fields (Author, Year, Journal, Volume, Page and DOI) with a seventh misc for anything not in those. Records thus have an attribute with a name corresponding to each &lt;code&gt;author&lt;/code&gt;, &lt;code&gt;year&lt;/code&gt;, &lt;code&gt;journal&lt;/code&gt;, &lt;code&gt;V&lt;/code&gt;, &lt;code&gt;P&lt;/code&gt;, &lt;code&gt;DOI&lt;/code&gt; and &lt;code&gt;misc&lt;/code&gt; respectively. These are created if there is anything in the field. So a Citation created from the string: “Nunez R., 1998, MATH COGNITION” would have &lt;code&gt;author&lt;/code&gt;, &lt;code&gt;year&lt;/code&gt; and &lt;code&gt;journal&lt;/code&gt; defined. While one from “Nunez R.” would have only the attribute &lt;code&gt;misc&lt;/code&gt;.&lt;/p&gt;
 
-&lt;p&gt;      If the parsing of a citation string fails the attribute &lt;code&gt;bad&lt;/code&gt; is set to True and the attribute &lt;code&gt;error&lt;/code&gt; is created to contain the error, which is a &lt;a href=&quot;#metaknowledge.BadCitation&quot;&gt;BadCitation&lt;/a&gt; object. If no errors occur &lt;code&gt;bad&lt;/code&gt; is &lt;code&gt;False&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;      If the parsing of a citation string fails the attribute &lt;code&gt;bad&lt;/code&gt; is set to True and the attribute &lt;code&gt;error&lt;/code&gt; is created to contain the error, which is a &lt;a href=&quot;/metaknowledge/docs/metaknowledge#metaknowledge&quot;&gt;BadCitation&lt;/a&gt; object. If no errors occur &lt;code&gt;bad&lt;/code&gt; is &lt;code&gt;False&lt;/code&gt;.&lt;/p&gt;
 
 &lt;p&gt;      The attribute &lt;code&gt;original&lt;/code&gt; is the unmodified string (&lt;em&gt;cite&lt;/em&gt;) given to create the Citation, it can also be accessed by converting to a string, e.g. with &lt;code&gt;str()&lt;/code&gt;.&lt;/p&gt;
 
 &lt;h5 id=&quot;nbspnbspnbsp-init&quot;&gt;    __Init__&lt;/h5&gt;
 
-&lt;p&gt;      Citations can be created by &lt;a href=&quot;#metaknowledge.Record&quot;&gt;Records&lt;/a&gt; or by giving the initializer a string containing a WOS style citation.&lt;/p&gt;
+&lt;p&gt;      Citations can be created by &lt;a href=&quot;/metaknowledge/docs/metaknowledge#metaknowledge&quot;&gt;Records&lt;/a&gt; or by giving the initializer a string containing a WOS style citation.&lt;/p&gt;
 
 &lt;h5 id=&quot;nbspnbspnbsp-parameters&quot;&gt;    Parameters&lt;/h5&gt;
 
@@ -1701,7 +1701,7 @@ journalAbbreviations docstring&lt;/p&gt;
 
 &lt;p&gt;&lt;a name=&quot;Citation.addToDB&quot;&gt;&lt;/a&gt;Citation.&lt;strong&gt;addToDB&lt;/strong&gt;(&lt;em&gt;manualName=None, manaulDB=’manualj9Abbreviations’, invert=False&lt;/em&gt;):&lt;/p&gt;
 
-&lt;p&gt;      Adds the journal of this Citation to the user created database of journals. This will cause &lt;a href=&quot;#Citation.isJournal&quot;&gt;isJournal()&lt;/a&gt; to return &lt;code&gt;True&lt;/code&gt; for this Citation and all others with its &lt;code&gt;.journal&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;      Adds the journal of this Citation to the user created database of journals. This will cause &lt;a href=&quot;/metaknowledge/docs/Citation#Citation&quot;&gt;isJournal()&lt;/a&gt; to return &lt;code&gt;True&lt;/code&gt; for this Citation and all others with its &lt;code&gt;.journal&lt;/code&gt;.&lt;/p&gt;
 
 &lt;h5 id=&quot;nbspnbspnbsp-parameters-1&quot;&gt;    Parameters&lt;/h5&gt;
 
@@ -1711,7 +1711,7 @@ journalAbbreviations docstring&lt;/p&gt;
 
 &lt;p&gt;      &lt;em&gt;manaulDB&lt;/em&gt; : &lt;code&gt;optional [str]&lt;/code&gt;&lt;/p&gt;
 
-&lt;p&gt;             The name of the database file, the default is &lt;a href=&quot;#journalAbbreviations.manaulDBname&quot;&gt;metaknowledge.journalAbbreviations.manaulDBname&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;             The name of the database file, the default is &lt;a href=&quot;/metaknowledge/docs/journalAbbreviations#journalAbbreviations&quot;&gt;metaknowledge.journalAbbreviations.manaulDBname&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;      &lt;em&gt;invert&lt;/em&gt; : &lt;code&gt;optional [bool]&lt;/code&gt;&lt;/p&gt;
 
@@ -1719,7 +1719,7 @@ journalAbbreviations docstring&lt;/p&gt;
 
 &lt;p&gt;&lt;a name=&quot;Citation.getExtra&quot;&gt;&lt;/a&gt;Citation.&lt;strong&gt;getExtra&lt;/strong&gt;():&lt;/p&gt;
 
-&lt;p&gt;      Returns any V, P or misc values as a string. These are all the values not returned by &lt;a href=&quot;#Citation.getID&quot;&gt;&lt;code&gt;getID()&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;      Returns any V, P or misc values as a string. These are all the values not returned by &lt;a href=&quot;/metaknowledge/docs/Citation#Citation&quot;&gt;&lt;code&gt;getID()&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;
 
 &lt;h5 id=&quot;nbspnbspnbsp-returns&quot;&gt;    Returns&lt;/h5&gt;
 
@@ -1740,7 +1740,7 @@ journalAbbreviations docstring&lt;/p&gt;
 
 &lt;p&gt;&lt;a name=&quot;Citation.getID&quot;&gt;&lt;/a&gt;Citation.&lt;strong&gt;getID&lt;/strong&gt;():&lt;/p&gt;
 
-&lt;p&gt;      Returns “author, year, journal” if available and “misc” otherwise. It is for shortening labels when creating networks as the resultant strings are often unique. &lt;a href=&quot;#Citation.getExtra&quot;&gt;&lt;code&gt;getExtra()&lt;/code&gt;&lt;/a&gt; gets everthing not returned by &lt;code&gt;getID()&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;      Returns “author, year, journal” if available and “misc” otherwise. It is for shortening labels when creating networks as the resultant strings are often unique. &lt;a href=&quot;/metaknowledge/docs/Citation#Citation&quot;&gt;&lt;code&gt;getExtra()&lt;/code&gt;&lt;/a&gt; gets everthing not returned by &lt;code&gt;getID()&lt;/code&gt;.&lt;/p&gt;
 
 &lt;h5 id=&quot;nbspnbspnbsp-returns-2&quot;&gt;    Returns&lt;/h5&gt;
 

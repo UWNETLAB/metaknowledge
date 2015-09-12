@@ -264,7 +264,7 @@ Doc String for metaknowledge main</p>
 
 <p>      Reads the files given by edgeList and if given nodeList. Outputs a networkx graph for the lists.</p>
 
-<p>      This is designed only for the files produced by metaknowledge and is meant to be the reverse of <a href="#metaknowledge.write_graph">write_graph()</a>, if this dow not produce the desired results the networkx builtin <a href="https://networkx.github.io/documentation/networkx-1.9.1/reference/generated/networkx.readwrite.edgelist.read_edgelist.html">networkx.read_edgelist()</a> could be tried.</p>
+<p>      This is designed only for the files produced by metaknowledge and is meant to be the reverse of <a href="/metaknowledge/docs/metaknowledge#metaknowledge">write_graph()</a>, if this dow not produce the desired results the networkx builtin <a href="https://networkx.github.io/documentation/networkx-1.9.1/reference/generated/networkx.readwrite.edgelist.read_edgelist.html">networkx.read_edgelist()</a> could be tried.</p>
 
 <p>      The read edge list format assumes the column named <em>eSource</em> (From) is the source node, then the next column <em>eDest</em> (To) givens the destination and all other columns are attributes of the edge, e.g. weight.</p>
 
@@ -320,7 +320,7 @@ Doc String for metaknowledge main</p>
 
 <p>      The entry in the returned dict would be <code>{'AF' : ["BREVIK, I", "ANICIN, B"]}</code></p>
 
-<p>      <a href="#metaknowledge.Record">Record</a> objects can be created with these dictionaries as the initializer.</p>
+<p>      <a href="/metaknowledge/docs/metaknowledge#metaknowledge">Record</a> objects can be created with these dictionaries as the initializer.</p>
 
 <h5 id="nbspnbspnbsp-parameters-3">    Parameters</h5>
 
@@ -372,7 +372,7 @@ Doc String for metaknowledge main</p>
 
 <p>      Both files are csv’s with comma delimiters and double quote quoting characters. The edge list has two columns for the source and destination of the edge, “From” and “To” respectively, then, if <em>edgeInfo</em> is <code>True</code>, for each attribute of the node another column is created. The node list has one column call “ID” with the node ids used by networkx and all other columns are the node attributes.</p>
 
-<p>      To read back these files use <a href="#metaknowledge.read_graph">read_graph()</a> and to write only one type of lsit use <a href="#metaknowledge.write_edgeList">write_edgeList()</a> or <a href="#metaknowledge.write_nodeAttributeFile">write_nodeAttributeFile()</a>.</p>
+<p>      To read back these files use <a href="/metaknowledge/docs/metaknowledge#metaknowledge">read_graph()</a> and to write only one type of lsit use <a href="/metaknowledge/docs/metaknowledge#metaknowledge">write_edgeList()</a> or <a href="/metaknowledge/docs/metaknowledge#metaknowledge">write_nodeAttributeFile()</a>.</p>
 
 <p>      <strong>Warning</strong>: this function will overwrite files, if they are in the way of the output, to prevent this set <em>overwrite</em> to <code>False</code></p>
 

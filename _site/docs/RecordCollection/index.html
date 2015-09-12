@@ -197,7 +197,7 @@
 
 <p>      <em>nodeType</em> : <code>optional [str]</code></p>
 
-<p>             One of <code>"full"</code>, <code>"original"</code>, <code>"author"</code>, <code>"journal"</code> or <code>"year"</code>. Specifies the value of the nodes in the graph. The default <code>"full"</code> causes the citations to be compared holistically using the <a href="metaknowledge.Citation"><code>metaknowledge.Citation</code></a> builtin comparison operators. <code>"original"</code> uses the raw original strings of the citations. While <code>"author"</code>, <code>"journal"</code> and <code>"year"</code> each use the author, journal and year respectively.</p>
+<p>             One of <code>"full"</code>, <code>"original"</code>, <code>"author"</code>, <code>"journal"</code> or <code>"year"</code>. Specifies the value of the nodes in the graph. The default <code>"full"</code> causes the citations to be compared holistically using the <a href="/metaknowledge/docs/Citation#Citation"><code>metaknowledge.Citation</code></a> builtin comparison operators. <code>"original"</code> uses the raw original strings of the citations. While <code>"author"</code>, <code>"journal"</code> and <code>"year"</code> each use the author, journal and year respectively.</p>
 
 <p>      <em>dropAnon</em> : <code>optional [bool]</code></p>
 
@@ -279,7 +279,7 @@
 
 <p>      <em>nodeType</em> : <code>optional [str]</code></p>
 
-<p>             One of <code>"full"</code>, <code>"original"</code>, <code>"author"</code>, <code>"journal"</code> or <code>"year"</code>. Specifies the value of the nodes in the graph. The default <code>"full"</code> causes the citations to be compared holistically using the <a href="metaknowledge.Citation"><code>metaknowledge.Citation</code></a> builtin comparison operators. <code>"original"</code> uses the raw original strings of the citations. While <code>"author"</code>, <code>"journal"</code> and <code>"year"</code> each use the author, journal and year respectively.</p>
+<p>             One of <code>"full"</code>, <code>"original"</code>, <code>"author"</code>, <code>"journal"</code> or <code>"year"</code>. Specifies the value of the nodes in the graph. The default <code>"full"</code> causes the citations to be compared holistically using the <a href="/metaknowledge/docs/Citation#Citation"><code>metaknowledge.Citation</code></a> builtin comparison operators. <code>"original"</code> uses the raw original strings of the citations. While <code>"author"</code>, <code>"journal"</code> and <code>"year"</code> each use the author, journal and year respectively.</p>
 
 <p>      <em>dropAnon</em> : <code>optional [bool]</code></p>
 
@@ -363,7 +363,7 @@
 
 <p>      <em>drop</em> : <code>optional [bool]</code></p>
 
-<p>             Default <code>False</code>. If <code>True</code> the Record is dropped from the collection after being extract, i.e. if <code>False</code> <a href="#RecordCollection.getWOS">getWOS()</a> acts like <a href="#RecordCollection.peak">peak()</a>, if <code>True</code> it acts like <a href="#RecordCollection.pop">pop()</a></p>
+<p>             Default <code>False</code>. If <code>True</code> the Record is dropped from the collection after being extract, i.e. if <code>False</code> <a href="/metaknowledge/docs/RecordCollection#RecordCollection">getWOS()</a> acts like <a href="/metaknowledge/docs/RecordCollection#RecordCollection">peak()</a>, if <code>True</code> it acts like <a href="/metaknowledge/docs/RecordCollection#RecordCollection">pop()</a></p>
 
 <h5 id="nbspnbspnbsp-returns-3">    Returns</h5>
 
@@ -430,7 +430,7 @@
 
 <p>      The number of times each object occurs is count if <em>nodeCount</em> is <code>True</code> and the edges count the number of co-occurrences if <em>edgeWeight</em> is <code>True</code>. Both are<code>True</code> by default.</p>
 
-<p>      <strong>Note</strong> Do not use this for the construction of co-citation networks use <a href="#Recordcollection.coCiteNetwork">Recordcollection.coCiteNetwork()</a> it is more accurate and has more options.</p>
+<p>      <strong>Note</strong> Do not use this for the construction of co-citation networks use <a href="/metaknowledge/docs/RecordCollection#RecordCollection">Recordcollection.coCiteNetwork()</a> it is more accurate and has more options.</p>
 
 <h5 id="nbspnbspnbsp-parameters-8">    Parameters</h5>
 

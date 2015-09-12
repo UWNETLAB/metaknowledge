@@ -186,13 +186,13 @@
 
 <p>      As noted above, citations are considered to be divided into six distinct fields (Author, Year, Journal, Volume, Page and DOI) with a seventh misc for anything not in those. Records thus have an attribute with a name corresponding to each <code>author</code>, <code>year</code>, <code>journal</code>, <code>V</code>, <code>P</code>, <code>DOI</code> and <code>misc</code> respectively. These are created if there is anything in the field. So a Citation created from the string: “Nunez R., 1998, MATH COGNITION” would have <code>author</code>, <code>year</code> and <code>journal</code> defined. While one from “Nunez R.” would have only the attribute <code>misc</code>.</p>
 
-<p>      If the parsing of a citation string fails the attribute <code>bad</code> is set to True and the attribute <code>error</code> is created to contain the error, which is a <a href="#metaknowledge.BadCitation">BadCitation</a> object. If no errors occur <code>bad</code> is <code>False</code>.</p>
+<p>      If the parsing of a citation string fails the attribute <code>bad</code> is set to True and the attribute <code>error</code> is created to contain the error, which is a <a href="/metaknowledge/docs/metaknowledge#metaknowledge">BadCitation</a> object. If no errors occur <code>bad</code> is <code>False</code>.</p>
 
 <p>      The attribute <code>original</code> is the unmodified string (<em>cite</em>) given to create the Citation, it can also be accessed by converting to a string, e.g. with <code>str()</code>.</p>
 
 <h5 id="nbspnbspnbsp-init">    __Init__</h5>
 
-<p>      Citations can be created by <a href="#metaknowledge.Record">Records</a> or by giving the initializer a string containing a WOS style citation.</p>
+<p>      Citations can be created by <a href="/metaknowledge/docs/metaknowledge#metaknowledge">Records</a> or by giving the initializer a string containing a WOS style citation.</p>
 
 <h5 id="nbspnbspnbsp-parameters">    Parameters</h5>
 
@@ -202,7 +202,7 @@
 
 <p><a name="Citation.addToDB"></a>Citation.<strong>addToDB</strong>(<em>manualName=None, manaulDB=’manualj9Abbreviations’, invert=False</em>):</p>
 
-<p>      Adds the journal of this Citation to the user created database of journals. This will cause <a href="#Citation.isJournal">isJournal()</a> to return <code>True</code> for this Citation and all others with its <code>.journal</code>.</p>
+<p>      Adds the journal of this Citation to the user created database of journals. This will cause <a href="/metaknowledge/docs/Citation#Citation">isJournal()</a> to return <code>True</code> for this Citation and all others with its <code>.journal</code>.</p>
 
 <h5 id="nbspnbspnbsp-parameters-1">    Parameters</h5>
 
@@ -212,7 +212,7 @@
 
 <p>      <em>manaulDB</em> : <code>optional [str]</code></p>
 
-<p>             The name of the database file, the default is <a href="#journalAbbreviations.manaulDBname">metaknowledge.journalAbbreviations.manaulDBname</a></p>
+<p>             The name of the database file, the default is <a href="/metaknowledge/docs/journalAbbreviations#journalAbbreviations">metaknowledge.journalAbbreviations.manaulDBname</a></p>
 
 <p>      <em>invert</em> : <code>optional [bool]</code></p>
 
@@ -220,7 +220,7 @@
 
 <p><a name="Citation.getExtra"></a>Citation.<strong>getExtra</strong>():</p>
 
-<p>      Returns any V, P or misc values as a string. These are all the values not returned by <a href="#Citation.getID"><code>getID()</code></a>.</p>
+<p>      Returns any V, P or misc values as a string. These are all the values not returned by <a href="/metaknowledge/docs/Citation#Citation"><code>getID()</code></a>.</p>
 
 <h5 id="nbspnbspnbsp-returns">    Returns</h5>
 
@@ -241,7 +241,7 @@
 
 <p><a name="Citation.getID"></a>Citation.<strong>getID</strong>():</p>
 
-<p>      Returns “author, year, journal” if available and “misc” otherwise. It is for shortening labels when creating networks as the resultant strings are often unique. <a href="#Citation.getExtra"><code>getExtra()</code></a> gets everthing not returned by <code>getID()</code>.</p>
+<p>      Returns “author, year, journal” if available and “misc” otherwise. It is for shortening labels when creating networks as the resultant strings are often unique. <a href="/metaknowledge/docs/Citation#Citation"><code>getExtra()</code></a> gets everthing not returned by <code>getID()</code>.</p>
 
 <h5 id="nbspnbspnbsp-returns-2">    Returns</h5>
 

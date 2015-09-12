@@ -126,7 +126,7 @@ Doc String for metaknowledge main
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reads the files given by edgeList and if given nodeList. Outputs a networkx graph for the lists.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This is designed only for the files produced by metaknowledge and is meant to be the reverse of [write_graph()](#metaknowledge.write_graph), if this dow not produce the desired results the networkx builtin [networkx.read_edgelist()](https://networkx.github.io/documentation/networkx-1.9.1/reference/generated/networkx.readwrite.edgelist.read_edgelist.html) could be tried.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This is designed only for the files produced by metaknowledge and is meant to be the reverse of [write_graph()]({{ site.baseurl }}{% post_url /docs/2015-09-11-metaknowledge %}#metaknowledge), if this dow not produce the desired results the networkx builtin [networkx.read_edgelist()](https://networkx.github.io/documentation/networkx-1.9.1/reference/generated/networkx.readwrite.edgelist.read_edgelist.html) could be tried.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The read edge list format assumes the column named _eSource_ (From) is the source node, then the next column _eDest_ (To) givens the destination and all other columns are attributes of the edge, e.g. weight.
 
@@ -183,7 +183,7 @@ Doc String for metaknowledge main
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The entry in the returned dict would be `{'AF' : ["BREVIK, I", "ANICIN, B"]}`
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Record](#metaknowledge.Record) objects can be created with these dictionaries as the initializer.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Record]({{ site.baseurl }}{% post_url /docs/2015-09-11-metaknowledge %}#metaknowledge) objects can be created with these dictionaries as the initializer.
 
 #####&nbsp;&nbsp;&nbsp; Parameters
 
@@ -235,7 +235,7 @@ Doc String for metaknowledge main
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Both files are csv's with comma delimiters and double quote quoting characters. The edge list has two columns for the source and destination of the edge, "From" and "To" respectively, then, if _edgeInfo_ is `True`, for each attribute of the node another column is created. The node list has one column call "ID" with the node ids used by networkx and all other columns are the node attributes.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To read back these files use [read_graph()](#metaknowledge.read_graph) and to write only one type of lsit use [write_edgeList()](#metaknowledge.write_edgeList) or [write_nodeAttributeFile()](#metaknowledge.write_nodeAttributeFile).
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To read back these files use [read_graph()]({{ site.baseurl }}{% post_url /docs/2015-09-11-metaknowledge %}#metaknowledge) and to write only one type of lsit use [write_edgeList()]({{ site.baseurl }}{% post_url /docs/2015-09-11-metaknowledge %}#metaknowledge) or [write_nodeAttributeFile()]({{ site.baseurl }}{% post_url /docs/2015-09-11-metaknowledge %}#metaknowledge).
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Warning**: this function will overwrite files, if they are in the way of the output, to prevent this set _overwrite_ to `False`
 

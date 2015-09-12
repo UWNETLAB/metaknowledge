@@ -4,7 +4,7 @@
 <generator uri="https://github.com/jekyll/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="http://networkslab.org/feed.xml" />
 <link rel="alternate" type="text/html" href="http://networkslab.org" />
-<updated>2015-09-11T12:01:58-04:00</updated>
+<updated>2015-09-11T20:41:03-04:00</updated>
 <id>http://networkslab.org/</id>
 <author>
   <name>John McLevey and Reid McIlroy-Young</name>
@@ -50,8 +50,9 @@ visual docstring&lt;/p&gt;
 
 &lt;p&gt;If you find bugs, or have questions, please write to:&lt;/p&gt;
 
-&lt;p&gt;Reid McIlroy-Young &lt;a href=&quot;&amp;#109;&amp;#097;&amp;#105;&amp;#108;&amp;#116;&amp;#111;:&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#064;&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#109;&amp;#099;&amp;#121;&amp;#046;&amp;#099;&amp;#111;&amp;#109;&quot;&gt;&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#064;&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#109;&amp;#099;&amp;#121;&amp;#046;&amp;#099;&amp;#111;&amp;#109;&lt;/a&gt;
-John McLevey &lt;a href=&quot;&amp;#109;&amp;#097;&amp;#105;&amp;#108;&amp;#116;&amp;#111;:&amp;#106;&amp;#111;&amp;#104;&amp;#110;&amp;#046;&amp;#109;&amp;#099;&amp;#108;&amp;#101;&amp;#118;&amp;#101;&amp;#121;&amp;#064;&amp;#117;&amp;#119;&amp;#097;&amp;#116;&amp;#101;&amp;#114;&amp;#108;&amp;#111;&amp;#111;&amp;#046;&amp;#099;&amp;#097;&quot;&gt;&amp;#106;&amp;#111;&amp;#104;&amp;#110;&amp;#046;&amp;#109;&amp;#099;&amp;#108;&amp;#101;&amp;#118;&amp;#101;&amp;#121;&amp;#064;&amp;#117;&amp;#119;&amp;#097;&amp;#116;&amp;#101;&amp;#114;&amp;#108;&amp;#111;&amp;#111;&amp;#046;&amp;#099;&amp;#097;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Reid McIlroy-Young &lt;a href=&quot;&amp;#109;&amp;#097;&amp;#105;&amp;#108;&amp;#116;&amp;#111;:&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#064;&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#109;&amp;#099;&amp;#121;&amp;#046;&amp;#099;&amp;#111;&amp;#109;&quot;&gt;&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#064;&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#109;&amp;#099;&amp;#121;&amp;#046;&amp;#099;&amp;#111;&amp;#109;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;John McLevey &lt;a href=&quot;&amp;#109;&amp;#097;&amp;#105;&amp;#108;&amp;#116;&amp;#111;:&amp;#106;&amp;#111;&amp;#104;&amp;#110;&amp;#046;&amp;#109;&amp;#099;&amp;#108;&amp;#101;&amp;#118;&amp;#101;&amp;#121;&amp;#064;&amp;#117;&amp;#119;&amp;#097;&amp;#116;&amp;#101;&amp;#114;&amp;#108;&amp;#111;&amp;#111;&amp;#046;&amp;#099;&amp;#097;&quot;&gt;&amp;#106;&amp;#111;&amp;#104;&amp;#110;&amp;#046;&amp;#109;&amp;#099;&amp;#108;&amp;#101;&amp;#118;&amp;#101;&amp;#121;&amp;#064;&amp;#117;&amp;#119;&amp;#097;&amp;#116;&amp;#101;&amp;#114;&amp;#108;&amp;#111;&amp;#111;&amp;#046;&amp;#099;&amp;#097;&lt;/a&gt;&lt;/p&gt;
 
 &lt;hr /&gt;
 
@@ -589,8 +590,9 @@ Doc String of tagFuncs&lt;/p&gt;
 
 &lt;p&gt;If you find bugs, or have questions, please write to:&lt;/p&gt;
 
-&lt;p&gt;Reid McIlroy-Young &lt;a href=&quot;&amp;#109;&amp;#097;&amp;#105;&amp;#108;&amp;#116;&amp;#111;:&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#064;&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#109;&amp;#099;&amp;#121;&amp;#046;&amp;#099;&amp;#111;&amp;#109;&quot;&gt;&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#064;&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#109;&amp;#099;&amp;#121;&amp;#046;&amp;#099;&amp;#111;&amp;#109;&lt;/a&gt;
-John McLevey &lt;a href=&quot;&amp;#109;&amp;#097;&amp;#105;&amp;#108;&amp;#116;&amp;#111;:&amp;#106;&amp;#111;&amp;#104;&amp;#110;&amp;#046;&amp;#109;&amp;#099;&amp;#108;&amp;#101;&amp;#118;&amp;#101;&amp;#121;&amp;#064;&amp;#117;&amp;#119;&amp;#097;&amp;#116;&amp;#101;&amp;#114;&amp;#108;&amp;#111;&amp;#111;&amp;#046;&amp;#099;&amp;#097;&quot;&gt;&amp;#106;&amp;#111;&amp;#104;&amp;#110;&amp;#046;&amp;#109;&amp;#099;&amp;#108;&amp;#101;&amp;#118;&amp;#101;&amp;#121;&amp;#064;&amp;#117;&amp;#119;&amp;#097;&amp;#116;&amp;#101;&amp;#114;&amp;#108;&amp;#111;&amp;#111;&amp;#046;&amp;#099;&amp;#097;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Reid McIlroy-Young &lt;a href=&quot;&amp;#109;&amp;#097;&amp;#105;&amp;#108;&amp;#116;&amp;#111;:&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#064;&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#109;&amp;#099;&amp;#121;&amp;#046;&amp;#099;&amp;#111;&amp;#109;&quot;&gt;&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#064;&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#109;&amp;#099;&amp;#121;&amp;#046;&amp;#099;&amp;#111;&amp;#109;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;John McLevey &lt;a href=&quot;&amp;#109;&amp;#097;&amp;#105;&amp;#108;&amp;#116;&amp;#111;:&amp;#106;&amp;#111;&amp;#104;&amp;#110;&amp;#046;&amp;#109;&amp;#099;&amp;#108;&amp;#101;&amp;#118;&amp;#101;&amp;#121;&amp;#064;&amp;#117;&amp;#119;&amp;#097;&amp;#116;&amp;#101;&amp;#114;&amp;#108;&amp;#111;&amp;#111;&amp;#046;&amp;#099;&amp;#097;&quot;&gt;&amp;#106;&amp;#111;&amp;#104;&amp;#110;&amp;#046;&amp;#109;&amp;#099;&amp;#108;&amp;#101;&amp;#118;&amp;#101;&amp;#121;&amp;#064;&amp;#117;&amp;#119;&amp;#097;&amp;#116;&amp;#101;&amp;#114;&amp;#108;&amp;#111;&amp;#111;&amp;#046;&amp;#099;&amp;#097;&lt;/a&gt;&lt;/p&gt;
 
 &lt;hr /&gt;
 
@@ -916,8 +918,9 @@ Doc String for metaknowledge main&lt;/p&gt;
 
 &lt;p&gt;If you find bugs, or have questions, please write to:&lt;/p&gt;
 
-&lt;p&gt;Reid McIlroy-Young &lt;a href=&quot;&amp;#109;&amp;#097;&amp;#105;&amp;#108;&amp;#116;&amp;#111;:&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#064;&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#109;&amp;#099;&amp;#121;&amp;#046;&amp;#099;&amp;#111;&amp;#109;&quot;&gt;&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#064;&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#109;&amp;#099;&amp;#121;&amp;#046;&amp;#099;&amp;#111;&amp;#109;&lt;/a&gt;
-John McLevey &lt;a href=&quot;&amp;#109;&amp;#097;&amp;#105;&amp;#108;&amp;#116;&amp;#111;:&amp;#106;&amp;#111;&amp;#104;&amp;#110;&amp;#046;&amp;#109;&amp;#099;&amp;#108;&amp;#101;&amp;#118;&amp;#101;&amp;#121;&amp;#064;&amp;#117;&amp;#119;&amp;#097;&amp;#116;&amp;#101;&amp;#114;&amp;#108;&amp;#111;&amp;#111;&amp;#046;&amp;#099;&amp;#097;&quot;&gt;&amp;#106;&amp;#111;&amp;#104;&amp;#110;&amp;#046;&amp;#109;&amp;#099;&amp;#108;&amp;#101;&amp;#118;&amp;#101;&amp;#121;&amp;#064;&amp;#117;&amp;#119;&amp;#097;&amp;#116;&amp;#101;&amp;#114;&amp;#108;&amp;#111;&amp;#111;&amp;#046;&amp;#099;&amp;#097;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Reid McIlroy-Young &lt;a href=&quot;&amp;#109;&amp;#097;&amp;#105;&amp;#108;&amp;#116;&amp;#111;:&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#064;&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#109;&amp;#099;&amp;#121;&amp;#046;&amp;#099;&amp;#111;&amp;#109;&quot;&gt;&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#064;&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#109;&amp;#099;&amp;#121;&amp;#046;&amp;#099;&amp;#111;&amp;#109;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;John McLevey &lt;a href=&quot;&amp;#109;&amp;#097;&amp;#105;&amp;#108;&amp;#116;&amp;#111;:&amp;#106;&amp;#111;&amp;#104;&amp;#110;&amp;#046;&amp;#109;&amp;#099;&amp;#108;&amp;#101;&amp;#118;&amp;#101;&amp;#121;&amp;#064;&amp;#117;&amp;#119;&amp;#097;&amp;#116;&amp;#101;&amp;#114;&amp;#108;&amp;#111;&amp;#111;&amp;#046;&amp;#099;&amp;#097;&quot;&gt;&amp;#106;&amp;#111;&amp;#104;&amp;#110;&amp;#046;&amp;#109;&amp;#099;&amp;#108;&amp;#101;&amp;#118;&amp;#101;&amp;#121;&amp;#064;&amp;#117;&amp;#119;&amp;#097;&amp;#116;&amp;#101;&amp;#114;&amp;#108;&amp;#111;&amp;#111;&amp;#046;&amp;#099;&amp;#097;&lt;/a&gt;&lt;/p&gt;
 
 &lt;hr /&gt;
 
@@ -1020,8 +1023,9 @@ journalAbbreviations docstring&lt;/p&gt;
 
 &lt;p&gt;If you find bugs, or have questions, please write to:&lt;/p&gt;
 
-&lt;p&gt;Reid McIlroy-Young &lt;a href=&quot;&amp;#109;&amp;#097;&amp;#105;&amp;#108;&amp;#116;&amp;#111;:&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#064;&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#109;&amp;#099;&amp;#121;&amp;#046;&amp;#099;&amp;#111;&amp;#109;&quot;&gt;&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#064;&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#109;&amp;#099;&amp;#121;&amp;#046;&amp;#099;&amp;#111;&amp;#109;&lt;/a&gt;
-John McLevey &lt;a href=&quot;&amp;#109;&amp;#097;&amp;#105;&amp;#108;&amp;#116;&amp;#111;:&amp;#106;&amp;#111;&amp;#104;&amp;#110;&amp;#046;&amp;#109;&amp;#099;&amp;#108;&amp;#101;&amp;#118;&amp;#101;&amp;#121;&amp;#064;&amp;#117;&amp;#119;&amp;#097;&amp;#116;&amp;#101;&amp;#114;&amp;#108;&amp;#111;&amp;#111;&amp;#046;&amp;#099;&amp;#097;&quot;&gt;&amp;#106;&amp;#111;&amp;#104;&amp;#110;&amp;#046;&amp;#109;&amp;#099;&amp;#108;&amp;#101;&amp;#118;&amp;#101;&amp;#121;&amp;#064;&amp;#117;&amp;#119;&amp;#097;&amp;#116;&amp;#101;&amp;#114;&amp;#108;&amp;#111;&amp;#111;&amp;#046;&amp;#099;&amp;#097;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Reid McIlroy-Young &lt;a href=&quot;&amp;#109;&amp;#097;&amp;#105;&amp;#108;&amp;#116;&amp;#111;:&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#064;&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#109;&amp;#099;&amp;#121;&amp;#046;&amp;#099;&amp;#111;&amp;#109;&quot;&gt;&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#064;&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#109;&amp;#099;&amp;#121;&amp;#046;&amp;#099;&amp;#111;&amp;#109;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;John McLevey &lt;a href=&quot;&amp;#109;&amp;#097;&amp;#105;&amp;#108;&amp;#116;&amp;#111;:&amp;#106;&amp;#111;&amp;#104;&amp;#110;&amp;#046;&amp;#109;&amp;#099;&amp;#108;&amp;#101;&amp;#118;&amp;#101;&amp;#121;&amp;#064;&amp;#117;&amp;#119;&amp;#097;&amp;#116;&amp;#101;&amp;#114;&amp;#108;&amp;#111;&amp;#111;&amp;#046;&amp;#099;&amp;#097;&quot;&gt;&amp;#106;&amp;#111;&amp;#104;&amp;#110;&amp;#046;&amp;#109;&amp;#099;&amp;#108;&amp;#101;&amp;#118;&amp;#101;&amp;#121;&amp;#064;&amp;#117;&amp;#119;&amp;#097;&amp;#116;&amp;#101;&amp;#114;&amp;#108;&amp;#111;&amp;#111;&amp;#046;&amp;#099;&amp;#097;&lt;/a&gt;&lt;/p&gt;
 
 &lt;hr /&gt;
 
@@ -1457,8 +1461,9 @@ John McLevey &lt;a href=&quot;&amp;#109;&amp;#097;&amp;#105;&amp;#108;&amp;#116;
 
 &lt;p&gt;If you find bugs, or have questions, please write to:&lt;/p&gt;
 
-&lt;p&gt;Reid McIlroy-Young &lt;a href=&quot;&amp;#109;&amp;#097;&amp;#105;&amp;#108;&amp;#116;&amp;#111;:&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#064;&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#109;&amp;#099;&amp;#121;&amp;#046;&amp;#099;&amp;#111;&amp;#109;&quot;&gt;&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#064;&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#109;&amp;#099;&amp;#121;&amp;#046;&amp;#099;&amp;#111;&amp;#109;&lt;/a&gt;
-John McLevey &lt;a href=&quot;&amp;#109;&amp;#097;&amp;#105;&amp;#108;&amp;#116;&amp;#111;:&amp;#106;&amp;#111;&amp;#104;&amp;#110;&amp;#046;&amp;#109;&amp;#099;&amp;#108;&amp;#101;&amp;#118;&amp;#101;&amp;#121;&amp;#064;&amp;#117;&amp;#119;&amp;#097;&amp;#116;&amp;#101;&amp;#114;&amp;#108;&amp;#111;&amp;#111;&amp;#046;&amp;#099;&amp;#097;&quot;&gt;&amp;#106;&amp;#111;&amp;#104;&amp;#110;&amp;#046;&amp;#109;&amp;#099;&amp;#108;&amp;#101;&amp;#118;&amp;#101;&amp;#121;&amp;#064;&amp;#117;&amp;#119;&amp;#097;&amp;#116;&amp;#101;&amp;#114;&amp;#108;&amp;#111;&amp;#111;&amp;#046;&amp;#099;&amp;#097;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Reid McIlroy-Young &lt;a href=&quot;&amp;#109;&amp;#097;&amp;#105;&amp;#108;&amp;#116;&amp;#111;:&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#064;&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#109;&amp;#099;&amp;#121;&amp;#046;&amp;#099;&amp;#111;&amp;#109;&quot;&gt;&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#064;&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#109;&amp;#099;&amp;#121;&amp;#046;&amp;#099;&amp;#111;&amp;#109;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;John McLevey &lt;a href=&quot;&amp;#109;&amp;#097;&amp;#105;&amp;#108;&amp;#116;&amp;#111;:&amp;#106;&amp;#111;&amp;#104;&amp;#110;&amp;#046;&amp;#109;&amp;#099;&amp;#108;&amp;#101;&amp;#118;&amp;#101;&amp;#121;&amp;#064;&amp;#117;&amp;#119;&amp;#097;&amp;#116;&amp;#101;&amp;#114;&amp;#108;&amp;#111;&amp;#111;&amp;#046;&amp;#099;&amp;#097;&quot;&gt;&amp;#106;&amp;#111;&amp;#104;&amp;#110;&amp;#046;&amp;#109;&amp;#099;&amp;#108;&amp;#101;&amp;#118;&amp;#101;&amp;#121;&amp;#064;&amp;#117;&amp;#119;&amp;#097;&amp;#116;&amp;#101;&amp;#114;&amp;#108;&amp;#111;&amp;#111;&amp;#046;&amp;#099;&amp;#097;&lt;/a&gt;&lt;/p&gt;
 
 &lt;hr /&gt;
 
@@ -1616,8 +1621,9 @@ John McLevey &lt;a href=&quot;&amp;#109;&amp;#097;&amp;#105;&amp;#108;&amp;#116;
 
 &lt;p&gt;If you find bugs, or have questions, please write to:&lt;/p&gt;
 
-&lt;p&gt;Reid McIlroy-Young &lt;a href=&quot;&amp;#109;&amp;#097;&amp;#105;&amp;#108;&amp;#116;&amp;#111;:&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#064;&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#109;&amp;#099;&amp;#121;&amp;#046;&amp;#099;&amp;#111;&amp;#109;&quot;&gt;&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#064;&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#109;&amp;#099;&amp;#121;&amp;#046;&amp;#099;&amp;#111;&amp;#109;&lt;/a&gt;
-John McLevey &lt;a href=&quot;&amp;#109;&amp;#097;&amp;#105;&amp;#108;&amp;#116;&amp;#111;:&amp;#106;&amp;#111;&amp;#104;&amp;#110;&amp;#046;&amp;#109;&amp;#099;&amp;#108;&amp;#101;&amp;#118;&amp;#101;&amp;#121;&amp;#064;&amp;#117;&amp;#119;&amp;#097;&amp;#116;&amp;#101;&amp;#114;&amp;#108;&amp;#111;&amp;#111;&amp;#046;&amp;#099;&amp;#097;&quot;&gt;&amp;#106;&amp;#111;&amp;#104;&amp;#110;&amp;#046;&amp;#109;&amp;#099;&amp;#108;&amp;#101;&amp;#118;&amp;#101;&amp;#121;&amp;#064;&amp;#117;&amp;#119;&amp;#097;&amp;#116;&amp;#101;&amp;#114;&amp;#108;&amp;#111;&amp;#111;&amp;#046;&amp;#099;&amp;#097;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Reid McIlroy-Young &lt;a href=&quot;&amp;#109;&amp;#097;&amp;#105;&amp;#108;&amp;#116;&amp;#111;:&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#064;&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#109;&amp;#099;&amp;#121;&amp;#046;&amp;#099;&amp;#111;&amp;#109;&quot;&gt;&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#064;&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#109;&amp;#099;&amp;#121;&amp;#046;&amp;#099;&amp;#111;&amp;#109;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;John McLevey &lt;a href=&quot;&amp;#109;&amp;#097;&amp;#105;&amp;#108;&amp;#116;&amp;#111;:&amp;#106;&amp;#111;&amp;#104;&amp;#110;&amp;#046;&amp;#109;&amp;#099;&amp;#108;&amp;#101;&amp;#118;&amp;#101;&amp;#121;&amp;#064;&amp;#117;&amp;#119;&amp;#097;&amp;#116;&amp;#101;&amp;#114;&amp;#108;&amp;#111;&amp;#111;&amp;#046;&amp;#099;&amp;#097;&quot;&gt;&amp;#106;&amp;#111;&amp;#104;&amp;#110;&amp;#046;&amp;#109;&amp;#099;&amp;#108;&amp;#101;&amp;#118;&amp;#101;&amp;#121;&amp;#064;&amp;#117;&amp;#119;&amp;#097;&amp;#116;&amp;#101;&amp;#114;&amp;#108;&amp;#111;&amp;#111;&amp;#046;&amp;#099;&amp;#097;&lt;/a&gt;&lt;/p&gt;
 
 &lt;hr /&gt;
 
@@ -1768,8 +1774,9 @@ John McLevey &lt;a href=&quot;&amp;#109;&amp;#097;&amp;#105;&amp;#108;&amp;#116;
 
 &lt;p&gt;If you find bugs, or have questions, please write to:&lt;/p&gt;
 
-&lt;p&gt;Reid McIlroy-Young &lt;a href=&quot;&amp;#109;&amp;#097;&amp;#105;&amp;#108;&amp;#116;&amp;#111;:&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#064;&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#109;&amp;#099;&amp;#121;&amp;#046;&amp;#099;&amp;#111;&amp;#109;&quot;&gt;&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#064;&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#109;&amp;#099;&amp;#121;&amp;#046;&amp;#099;&amp;#111;&amp;#109;&lt;/a&gt;
-John McLevey &lt;a href=&quot;&amp;#109;&amp;#097;&amp;#105;&amp;#108;&amp;#116;&amp;#111;:&amp;#106;&amp;#111;&amp;#104;&amp;#110;&amp;#046;&amp;#109;&amp;#099;&amp;#108;&amp;#101;&amp;#118;&amp;#101;&amp;#121;&amp;#064;&amp;#117;&amp;#119;&amp;#097;&amp;#116;&amp;#101;&amp;#114;&amp;#108;&amp;#111;&amp;#111;&amp;#046;&amp;#099;&amp;#097;&quot;&gt;&amp;#106;&amp;#111;&amp;#104;&amp;#110;&amp;#046;&amp;#109;&amp;#099;&amp;#108;&amp;#101;&amp;#118;&amp;#101;&amp;#121;&amp;#064;&amp;#117;&amp;#119;&amp;#097;&amp;#116;&amp;#101;&amp;#114;&amp;#108;&amp;#111;&amp;#111;&amp;#046;&amp;#099;&amp;#097;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Reid McIlroy-Young &lt;a href=&quot;&amp;#109;&amp;#097;&amp;#105;&amp;#108;&amp;#116;&amp;#111;:&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#064;&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#109;&amp;#099;&amp;#121;&amp;#046;&amp;#099;&amp;#111;&amp;#109;&quot;&gt;&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#064;&amp;#114;&amp;#101;&amp;#105;&amp;#100;&amp;#109;&amp;#099;&amp;#121;&amp;#046;&amp;#099;&amp;#111;&amp;#109;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;John McLevey &lt;a href=&quot;&amp;#109;&amp;#097;&amp;#105;&amp;#108;&amp;#116;&amp;#111;:&amp;#106;&amp;#111;&amp;#104;&amp;#110;&amp;#046;&amp;#109;&amp;#099;&amp;#108;&amp;#101;&amp;#118;&amp;#101;&amp;#121;&amp;#064;&amp;#117;&amp;#119;&amp;#097;&amp;#116;&amp;#101;&amp;#114;&amp;#108;&amp;#111;&amp;#111;&amp;#046;&amp;#099;&amp;#097;&quot;&gt;&amp;#106;&amp;#111;&amp;#104;&amp;#110;&amp;#046;&amp;#109;&amp;#099;&amp;#108;&amp;#101;&amp;#118;&amp;#101;&amp;#121;&amp;#064;&amp;#117;&amp;#119;&amp;#097;&amp;#116;&amp;#101;&amp;#114;&amp;#108;&amp;#111;&amp;#111;&amp;#046;&amp;#099;&amp;#097;&lt;/a&gt;&lt;/p&gt;
 
 &lt;hr /&gt;
 

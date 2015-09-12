@@ -152,74 +152,74 @@
       </header>
       <div class="entry-content">
         <p><a name="journalAbbreviations"></a>
-      journalAbbreviations docstring</p>
+journalAbbreviations docstring</p>
 
 <hr />
 
 <p><a name="journalAbbreviations.addToDB"></a>journalAbbreviations.<strong>addToDB</strong>(<em>abbr=None, dbname=’manualj9Abbreviations’</em>):</p>
 
-<p>      Adds <em>abbr</em> to the database of journals. The database is kept separate from the one scraped from WOS, this supersedes it. The database by default is stored with the WOS one and the name is given by <code>metaknowledge.journalAbbreviations.manaulDBname</code>. To create an empty database run <strong>addToDB</strong> without an <em>abbr</em> argument.</p>
+<p>Adds <em>abbr</em> to the database of journals. The database is kept separate from the one scraped from WOS, this supersedes it. The database by default is stored with the WOS one and the name is given by <code>metaknowledge.journalAbbreviations.manaulDBname</code>. To create an empty database run <strong>addToDB</strong> without an <em>abbr</em> argument.</p>
 
-<h5 id="nbspnbspnbsp-parameters">    Parameters</h5>
+<h5 id="parameters">Parameters</h5>
 
-<p>      <em>abbr</em> : <code>optional [str or dict[str : str]]</code></p>
+<p><em>abbr</em> : <code>optional [str or dict[str : str]]</code></p>
 
 <table>
   <tbody>
     <tr>
-      <td>             The journal abbreviation to be added to the database, it can either be a single string in which case that string will be added with its self as the full name, or a dict can be given with the abbreviations as keys and their names as strings, use pipes (‘</td>
+      <td>The journal abbreviation to be added to the database, it can either be a single string in which case that string will be added with its self as the full name, or a dict can be given with the abbreviations as keys and their names as strings, use pipes (‘</td>
       <td>’) to separate multiple names. Note, if the empty string is given as a name the abbreviation will be considered manually <strong>excluded</strong>, i.e. having excludeFromDB() run on it.</td>
     </tr>
   </tbody>
 </table>
 
-<p>      <em>dbname</em> : <code>optional [str]</code></p>
+<p><em>dbname</em> : <code>optional [str]</code></p>
 
-<p>             The name of the database file, default is <code>metaknowledge.journalAbbreviations.manaulDBname</code>.</p>
+<p>The name of the database file, default is <code>metaknowledge.journalAbbreviations.manaulDBname</code>.</p>
 
 <hr />
 
 <p><a name="journalAbbreviations.excludeFromDB"></a>journalAbbreviations.<strong>excludeFromDB</strong>(<em>abbr=None, dbname=’manualj9Abbreviations’</em>):</p>
 
-<p>      Marks <em>abbr</em> to be excluded the database of journals. The database is kept separate from the one scraped from WOS, this supersedes it. The database by default is stored with the WOS one and the name is given by <code>metaknowledge.journalAbbreviations.manaulDBname</code>. To create an empty database run <strong>addToDB</strong> without an <em>abbr</em> argument.</p>
+<p>Marks <em>abbr</em> to be excluded the database of journals. The database is kept separate from the one scraped from WOS, this supersedes it. The database by default is stored with the WOS one and the name is given by <code>metaknowledge.journalAbbreviations.manaulDBname</code>. To create an empty database run <strong>addToDB</strong> without an <em>abbr</em> argument.</p>
 
-<h5 id="nbspnbspnbsp-parameters-1">    Parameters</h5>
+<h5 id="parameters-1">Parameters</h5>
 
-<p>      <em>abbr</em> : <code>optional [str or tuple[str] or list[str]</code></p>
+<p><em>abbr</em> : <code>optional [str or tuple[str] or list[str]</code></p>
 
-<p>             The journal abbreviation to be excluded from the database, it can either be a single string in which case that string will be exclude or a list/tuple of strings can be given with the abbreviations.</p>
+<p>The journal abbreviation to be excluded from the database, it can either be a single string in which case that string will be exclude or a list/tuple of strings can be given with the abbreviations.</p>
 
-<p>      <em>dbname</em> : <code>optional [str]</code></p>
+<p><em>dbname</em> : <code>optional [str]</code></p>
 
-<p>             The name of the database file, default is <code>metaknowledge.journalAbbreviations.manaulDBname</code>.</p>
+<p>The name of the database file, default is <code>metaknowledge.journalAbbreviations.manaulDBname</code>.</p>
 
 <hr />
 
 <p><a name="journalAbbreviations.getj9dict"></a>journalAbbreviations.<strong>getj9dict</strong>(<em>dbname=’j9Abbreviations’, manualDB=’manualj9Abbreviations’, returnDict=’both’</em>):</p>
 
-<p>      Returns the dictionary of journal abbreviations to a list of the associated journal names. By default the local database is used. The database is in the file <em>dbname</em> in the same directory as this source file</p>
+<p>Returns the dictionary of journal abbreviations to a list of the associated journal names. By default the local database is used. The database is in the file <em>dbname</em> in the same directory as this source file</p>
 
-<h5 id="nbspnbspnbsp-parameters-2">    Parameters</h5>
+<h5 id="parameters-2">Parameters</h5>
 
-<p>      <em>dbname</em> : <code>optional [str]</code></p>
+<p><em>dbname</em> : <code>optional [str]</code></p>
 
-<p>             The name of the database file</p>
+<p>The name of the database file</p>
 
 <hr />
 
 <p><a name="journalAbbreviations.updatej9DB"></a>journalAbbreviations.<strong>updatej9DB</strong>(<em>dbname=’j9Abbreviations’, saveRawHTML=False</em>):</p>
 
-<p>      Updates the database of Journal Title Abbreviations. Requires an internet connection. The data base is saved relative to the source file not the working directory.</p>
+<p>Updates the database of Journal Title Abbreviations. Requires an internet connection. The data base is saved relative to the source file not the working directory.</p>
 
-<h5 id="nbspnbspnbsp-parameters-3">    Parameters</h5>
+<h5 id="parameters-3">Parameters</h5>
 
-<p>      <em>dbname</em> : <code>optional [str]</code></p>
+<p><em>dbname</em> : <code>optional [str]</code></p>
 
-<p>             The name of the database file, default is “j9Abbreviations.db”</p>
+<p>The name of the database file, default is “j9Abbreviations.db”</p>
 
-<p>      <em>saveRawHTML</em> : <code>optional [bool]</code></p>
+<p><em>saveRawHTML</em> : <code>optional [bool]</code></p>
 
-<p>             Determines if the original HTML of the pages is stored, default <code>False</code>. If <code>True</code> they are saved in a directory inside j9Raws begining with todays date.</p>
+<p>Determines if the original HTML of the pages is stored, default <code>False</code>. If <code>True</code> they are saved in a directory inside j9Raws begining with todays date.</p>
 
 <hr />
 

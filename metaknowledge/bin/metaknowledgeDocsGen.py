@@ -7,11 +7,11 @@ import os
 import time
 import metaknowledge
 import importlib
+import re
 
 documentedModules = ['tagFuncs','visual', 'journalAbbreviations']
 
 docsPrefix = time.strftime("%Y-%m-%d-")
-
 
 def makeHeader(title, excerpt, tags = (), weight = 10):
     return """---
@@ -24,8 +24,6 @@ weight: {3}
 ---
 <a name="{0}"></a>
 """.format(title, excerpt, ', '.join(tags), weight)
-
-
 
 def argumentParser():
     parser = argparse.ArgumentParser(description="A simple script to genrate docs for metaknowledge")
@@ -41,11 +39,17 @@ def cleanargs(obj):
     else:
         return '()'
 
+def makeUrls(s):
+    #print(s.group(0))
+    #regex = re.match(r"\[(\S+)\]\(#(\S+)\.(\S+)\)", s)
+    return "[{0}]({{{{ site.baseurl }}}}{{% post_url /docs/{1}{2} %}}#{3})".format(s.group(1), docsPrefix, s.group(2), s.group(2))
+
 def cleanedDoc(obj, lvl):
     ds = inspect.getdoc(obj)
     lns = ds.split('\n')
     nds = ''
     for line in lns:
+        line = re.sub(r"\[(\S+)\]\(#(\S+)\.(\S+)\)", makeUrls,line, count = 99)
         if len(line) < 1:
             nds += '\n'
         elif line[0] == '#':
@@ -101,6 +105,8 @@ def writeClassFile(name, typ):
     f = open(fname, 'w')
     f.write(makeHeader(name, "The {} Class".format(name), tags = ["class"], weight = 2))
     proccessClass((name, typ), f)
+    f.write("\n\n{% include docsFooter.md %}")
+    f.close()
 
 def writeModuleFile(mod):
     fname = docsPrefix + "{}.md".format(mod)
@@ -116,6 +122,8 @@ def writeModuleFile(mod):
             f.write("- - -\n\n")
             writeFunc(m, f, prefix = "{}.".format(mod))
             funcs.append(m)
+    f.write("\n\n{% include docsFooter.md %}")
+    f.close()
 
 def writeMainBody(funcs, vrs, exceptions):
     f = open(docsPrefix + "metaknowledge.md", 'w')
@@ -131,6 +139,8 @@ def writeMainBody(funcs, vrs, exceptions):
         else:
             f.write("- - -\n\n")
         proccessClass(excpt, f)
+    f.write("\n\n{% include docsFooter.md %}")
+    f.close()
 
 def main(args):
     wDir = os.path.expanduser(os.path.normpath(args.dir))

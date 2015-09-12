@@ -48,13 +48,13 @@ class Record(object):
 
     When a record is created if the parsing of the WOS file failed it is marked as `bad`. The `bad` attribute is set to True and the `error` attribute is created to contain the exception object.
 
-    Generally, to get the information from a Record its attributes should be used. For a Record `R`, calling `R.CR` causes [citations()](#metaknowledge.tagFuncs.citations) from the the [tagFuncs](#metaknowledge.tagFuncs) module to be called on the contents of the raw 'CR' field. Then the result is saved and returned. In this case, a list of Citation objects is returned. You can also call `R.citations` to get the same effect, as each known field tag has a longer name (currently there are 61 field tags). These names are meant to make accessing tags more readable and mapping from tag to name can be found in the tagToFull dict. If a tag is known (in [tagToFull](#metaknowledge)) but not in the raw data `None` is returned instead. Most tags when cleaned return a string or list of strings, the exact results can be found in the help for the particular function.
+    Generally, to get the information from a Record its attributes should be used. For a Record `R`, calling `R.CR` causes [citations()](#tagFuncs.citations) from the the [tagFuncs](#tagFuncs.tagFuncs) module to be called on the contents of the raw 'CR' field. Then the result is saved and returned. In this case, a list of Citation objects is returned. You can also call `R.citations` to get the same effect, as each known field tag has a longer name (currently there are 61 field tags). These names are meant to make accessing tags more readable and mapping from tag to name can be found in the tagToFull dict. If a tag is known (in [tagToFull](#metaknowledge.metaknowledge)) but not in the raw data `None` is returned instead. Most tags when cleaned return a string or list of strings, the exact results can be found in the help for the particular function.
 
     The attribute `authors` is also defined as a convience and returns the same as 'AF' or if that is not found 'AU'.
 
     # \_\_Init\_\_
 
-    Records are generally create as collections in  [Recordcollections](#metaknowledge.RecordCollection), and not as individual objects. If you wish to create one on its own it is possible, the arguments are as follows.
+    Records are generally create as collections in  [Recordcollections](#RecordCollection.RecordCollection), and not as individual objects. If you wish to create one on its own it is possible, the arguments are as follows.
 
     # Parameters
 
@@ -66,7 +66,7 @@ class Record(object):
 
     > For a str the input is the raw textual data of a single record in the WOS style, like the file stream it must start at the first tag and end in 'ER'.
 
-    > itertools.chain is treated identically to a file stream and is used by [RecordCollections](#metaknowledge.RecordCollection).
+    > itertools.chain is treated identically to a file stream and is used by [RecordCollections](#RecordCollection.RecordCollection).
 
     _sFile_ : `optional [str]`
 
@@ -78,7 +78,7 @@ class Record(object):
     """
 
     def __init__(self, inRecord, taglist = (), sFile = "", sLine = 0):
-        """See help on [Record](#metaknowledge.Record) for details"""
+        """See help on [Record](#Record.Record) for details"""
         self._unComputedTags = set()
         self.bad = False
         self.error = None
@@ -281,13 +281,13 @@ class Record(object):
             return None
 
     def createCitation(self):
-        """Creates a citation string, using the same format as other WOS citations, for the [Record](#metaknowledge.Record) by reading the relevant tags (year, J9, volume, beginningPage, DOI) and using it to start a [Citation](#metaknowledge.Citation) object.
+        """Creates a citation string, using the same format as other WOS citations, for the [Record](#Record.Record) by reading the relevant tags (year, J9, volume, beginningPage, DOI) and using it to start a [Citation](#Citation.Citation) object.
 
         # Returns
 
         `Citation`
 
-        > A [Citation](#metaknowledge.Citation) object containing a citation for the Record.
+        > A [Citation](#Citation.Citation) object containing a citation for the Record.
         """
         valsLst = []
         if self.authorsShort:
@@ -310,7 +310,7 @@ class Record(object):
         # Parameters
         _taglst_ : `List[str]`
 
-        > Each string in _taglst_ can be a two character string corresponding to a WOS tag e.g. 'J9', the matching is case insensitive so 'j9' is the same as 'J9'. Or it can be one of the full names for a tag with the mappings in [fullToTag](#metaknowledge). If the string is not found in the original record before or after being translated through [fullToTag](#metaknowledge), `None` is used instead. Same as in [`getTag()`](#Record.getTag)
+        > Each string in _taglst_ can be a two character string corresponding to a WOS tag e.g. 'J9', the matching is case insensitive so 'j9' is the same as 'J9'. Or it can be one of the full names for a tag with the mappings in [fullToTag](#metaknowledge.metaknowledge). If the string is not found in the original record before or after being translated through [fullToTag](#metaknowledge.metaknowledge), `None` is used instead. Same as in [`getTag()`](#Record.getTag)
 
         > Then they are compiled into a list in the same order as _taglst_
 
@@ -331,7 +331,7 @@ class Record(object):
         # Parameters
         _taglst_ : `List[str]`
 
-        > Each string in _taglst_ can be a two character string corresponding to a WOS tag e.g. 'J9', the matching is case insensitive so 'j9' is the same as 'J9'. Or it can be one of the full names for a tag with the mappings in [fullToTag](#metaknowledge). If the string is not found in the oriagnal record before or after being translated through [fullToTag](#metaknowledge), `None` is used instead. Same as in [`getTag()`](#Record.getTag)
+        > Each string in _taglst_ can be a two character string corresponding to a WOS tag e.g. 'J9', the matching is case insensitive so 'j9' is the same as 'J9'. Or it can be one of the full names for a tag with the mappings in [fullToTag](#metaknowledge.metaknowledge). If the string is not found in the oriagnal record before or after being translated through [fullToTag](#metaknowledge), `None` is used instead. Same as in [`getTag()`](#Record.getTag)
 
         # Returns
 
@@ -356,7 +356,7 @@ class Record(object):
         return list(self._fieldDict.keys())
 
     def writeRecord(self, infile):
-        """Writes to _infile_ the original contents of the Record. This is intended for use by [RecordCollections](#metaknowledge.RecordCollection) to write to file. What is written to _infile_ is bit for bit identical to the original record file. No newline is inserted above the write but the last character is a newline.
+        """Writes to _infile_ the original contents of the Record. This is intended for use by [RecordCollections](#RecordCollection.RecordCollection) to write to file. What is written to _infile_ is bit for bit identical to the original record file. No newline is inserted above the write but the last character is a newline.
 
         # Parameters
 

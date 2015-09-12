@@ -29,7 +29,7 @@ mkdir -p /vagrant/vagrant/logs/
 
 echo "#!/bin/bash" > /etc/rc.local
 echo "while [ ! -d /vagrant/vagrant/profile_wosserver ] ; do sleep 1 ; done" >> /etc/rc.local
-echo "/usr/local/bin/jupyter-notebook --no-browser --ProfileDir.location=/vagrant/vagrant/profile_wosserver --ip='*' --port=8888 2>&1 | tee -a /vagrant/vagrant/logs/ipythonNoteBook.log /home/vagrant/ipythonNoteBook.log &" >> /etc/rc.local
+echo "/usr/local/bin/jupyter-notebook --no-browser --ProfileDir.location=/vagrant/vagrant/profile_wosserver --ip='*' --port=8888 --notebook-dir=/notebooks 2>&1 | tee -a /vagrant/vagrant/logs/ipythonNoteBook.log /home/vagrant/ipythonNoteBook.log &" >> /etc/rc.local
 echo "echo 'Starting Notebook server'" >> /etc/rc.local
 echo "exit 0" >> /etc/rc.local
 sudo chown root /etc/rc.local

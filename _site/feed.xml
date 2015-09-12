@@ -4,7 +4,7 @@
 <generator uri="https://github.com/jekyll/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="http://networkslab.org/feed.xml" />
 <link rel="alternate" type="text/html" href="http://networkslab.org" />
-<updated>2015-09-11T23:17:22-04:00</updated>
+<updated>2015-09-12T01:32:17-04:00</updated>
 <id>http://networkslab.org/</id>
 <author>
   <name>John McLevey and Reid McIlroy-Young</name>
@@ -19,8 +19,8 @@
   <title type="html"><![CDATA[visual]]></title>
   <link rel="alternate" type="text/html" href="http://networkslab.org/docs/visual" />
   <id>http://networkslab.org/docs/visual</id>
-  <published>2015-09-11T00:00:00-04:00</published>
-  <updated>2015-09-11T00:00:00-04:00</updated>
+  <published>2015-09-12T00:00:00-04:00</published>
+  <updated>2015-09-12T00:00:00-04:00</updated>
   <author>
     <name>John McLevey and Reid McIlroy-Young</name>
     <uri>http://networkslab.org</uri>
@@ -28,7 +28,7 @@
   </author>
   <content type="html">
     &lt;p&gt;&lt;a name=&quot;visual&quot;&gt;&lt;/a&gt;
-visual docstring&lt;/p&gt;
+      visual docstring&lt;/p&gt;
 
 &lt;hr /&gt;
 
@@ -60,7 +60,7 @@ visual docstring&lt;/p&gt;
 
 &lt;p&gt;&lt;em&gt;metaknowledge&lt;/em&gt; is free and open source software, distributed under the GPL License.&lt;/p&gt;
 
-    &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/visual&quot;&gt;visual&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on September 11, 2015.&lt;/p&gt;
+    &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/visual&quot;&gt;visual&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on September 12, 2015.&lt;/p&gt;
   </content>
 </entry>
 
@@ -71,8 +71,8 @@ visual docstring&lt;/p&gt;
   <title type="html"><![CDATA[tagFuncs]]></title>
   <link rel="alternate" type="text/html" href="http://networkslab.org/docs/tagFuncs" />
   <id>http://networkslab.org/docs/tagFuncs</id>
-  <published>2015-09-11T00:00:00-04:00</published>
-  <updated>2015-09-11T00:00:00-04:00</updated>
+  <published>2015-09-12T00:00:00-04:00</published>
+  <updated>2015-09-12T00:00:00-04:00</updated>
   <author>
     <name>John McLevey and Reid McIlroy-Young</name>
     <uri>http://networkslab.org</uri>
@@ -80,7 +80,7 @@ visual docstring&lt;/p&gt;
   </author>
   <content type="html">
     &lt;p&gt;&lt;a name=&quot;tagFuncs&quot;&gt;&lt;/a&gt;
-Doc String of tagFuncs&lt;/p&gt;
+      Doc String of tagFuncs&lt;/p&gt;
 
 &lt;hr /&gt;
 
@@ -600,7 +600,7 @@ Doc String of tagFuncs&lt;/p&gt;
 
 &lt;p&gt;&lt;em&gt;metaknowledge&lt;/em&gt; is free and open source software, distributed under the GPL License.&lt;/p&gt;
 
-    &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/tagFuncs&quot;&gt;tagFuncs&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on September 11, 2015.&lt;/p&gt;
+    &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/tagFuncs&quot;&gt;tagFuncs&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on September 12, 2015.&lt;/p&gt;
   </content>
 </entry>
 
@@ -611,8 +611,8 @@ Doc String of tagFuncs&lt;/p&gt;
   <title type="html"><![CDATA[metaknowledge]]></title>
   <link rel="alternate" type="text/html" href="http://networkslab.org/docs/metaknowledge" />
   <id>http://networkslab.org/docs/metaknowledge</id>
-  <published>2015-09-11T00:00:00-04:00</published>
-  <updated>2015-09-11T00:00:00-04:00</updated>
+  <published>2015-09-12T00:00:00-04:00</published>
+  <updated>2015-09-12T00:00:00-04:00</updated>
   <author>
     <name>John McLevey and Reid McIlroy-Young</name>
     <uri>http://networkslab.org</uri>
@@ -620,7 +620,34 @@ Doc String of tagFuncs&lt;/p&gt;
   </author>
   <content type="html">
     &lt;p&gt;&lt;a name=&quot;metaknowledge&quot;&gt;&lt;/a&gt;
-Doc String for metaknowledge main&lt;/p&gt;
+      metaknowledge is a Python3 package that simplifies bibliometric and computational analysis of Web of Science data.&lt;/p&gt;
+
+&lt;h4 id=&quot;nbspnbspnbsp-example&quot;&gt;    Example&lt;/h4&gt;
+
+&lt;p&gt;      To load the data from files and make a network:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;gt;&amp;gt;&amp;gt; import metaknowledge as mk
+&amp;gt;&amp;gt;&amp;gt; RC = mk.RecordCollection(&quot;records/&quot;)
+&amp;gt;&amp;gt;&amp;gt; print(RC)
+Collection of 33 records
+&amp;gt;&amp;gt;&amp;gt; G = RC.coCiteNetwork(nodeType = &#39;journal&#39;)
+Done making a co-citation network of files-from-records                 1.1s
+&amp;gt;&amp;gt;&amp;gt; print(len(G.nodes()))
+223
+&amp;gt;&amp;gt;&amp;gt; mk.write_graph(G, &quot;Cocitation-Network-of-Journals&quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&quot;nbspnbspnbsp-overview&quot;&gt;    Overview&lt;/h4&gt;
+
+&lt;p&gt;      This package can read the files downloaded from the &lt;a href=&quot;https://webofknowledge.com&quot;&gt;Thomson Reuters Web of Science&lt;/a&gt; (WOS) as plain text. These files contain metadata about scientific records, such as the authors, language, and citations. The records are saved in groups of up-to 500 individual records in a file.&lt;/p&gt;
+
+&lt;p&gt;      The &lt;a href=&quot;/metaknowledge/docs/RecordCollection#RecordCollection&quot;&gt;metaknowledge.RecordCollection&lt;/a&gt; class can take a path to one or more of these files load and parse them. The object is the main way for work to be done on multiple records. For each individual record it creates an instance of the &lt;a href=&quot;/metaknowledge/docs/Record#Record&quot;&gt;metaknowledge.Record&lt;/a&gt; class that contains the results of the parsing of the record.&lt;/p&gt;
+
+&lt;p&gt;      The files given by WOS are a flat database containing a series of 2 character tags, e.g. ‘TI’ is the title. Each WOS tag has one or more values and metaknowledge makes use of them to extract useful information. The approximate meanings of the tags are listed in the &lt;a href=&quot;/metaknowledge/docs/tagFuncs#tagFuncs&quot;&gt;tagFuncs&lt;/a&gt; package, there are no full official public listings of their meanings is available. metaknowledge is not attempting to provide the definitive meanings.&lt;/p&gt;
+
+&lt;p&gt;      As citations are of great importance to sociology their handling is done with the &lt;a href=&quot;/metaknowledge/docs/Citation#Citation&quot;&gt;Citation&lt;/a&gt; class. This class can parse the citations given by WOS as well as extra details about the full name of their journal and allow simple comparisons.&lt;/p&gt;
+
+&lt;p&gt;      Note for those reading the docstring. metaknowledge’s docs are written in markdown and are processed to produce the documentation found at &lt;a href=&quot;http://networkslab.org/metaknowledge/documentation/&quot;&gt;networkslab.org/metaknowledge/documentation&lt;/a&gt;.&lt;/p&gt;
 
 &lt;hr /&gt;
 
@@ -784,7 +811,8 @@ Doc String for metaknowledge main&lt;/p&gt;
 
 &lt;p&gt;      “AF BREVIK, I&lt;/p&gt;
 
-&lt;p&gt;          ANICIN, B”&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;ANICIN, B&quot;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;      The entry in the returned dict would be &lt;code&gt;{&#39;AF&#39; : [&quot;BREVIK, I&quot;, &quot;ANICIN, B&quot;]}&lt;/code&gt;&lt;/p&gt;
 
@@ -902,13 +930,14 @@ Doc String for metaknowledge main&lt;/p&gt;
 
 &lt;p&gt;      Exception thrown by the &lt;a href=&quot;#metaknowledge.recordParser&quot;&gt;record parser&lt;/a&gt; to indicate a mis-formated record. This occurs when some component of the record does not parse. The messages will be any of:&lt;/p&gt;
 
-&lt;p&gt;          * &lt;em&gt;Missing field on line (line Number):(line)&lt;/em&gt;, which indicates a line was to short, there should have been a tag followed by information&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;* _Missing field on line (line Number):(line)_, which indicates a line was to short, there should have been a tag followed by information
 
-&lt;p&gt;          * &lt;em&gt;End of file reached before ER&lt;/em&gt;, which indicates the file ended before the ‘ER’ indicator appeared, ‘ER’ indicates the end of a record. This is often due to a copy and paste error.&lt;/p&gt;
+* _End of file reached before ER_, which indicates the file ended before the &#39;ER&#39; indicator appeared, &#39;ER&#39; indicates the end of a record. This is often due to a copy and paste error.
 
-&lt;p&gt;          * &lt;em&gt;Duplicate tags in record&lt;/em&gt;, which indicates the record had 2 or more lines with the same tag.&lt;/p&gt;
+* _Duplicate tags in record_, which indicates the record had 2 or more lines with the same tag.
 
-&lt;p&gt;          * &lt;em&gt;Missing WOS number&lt;/em&gt;, which indicates the record did not have a ‘UT’ tag.&lt;/p&gt;
+* _Missing WOS number_, which indicates the record did not have a &#39;UT&#39; tag.
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;      Records with a BadISIRecord error are likely incomplete or the combination of two or more single records.&lt;/p&gt;
 
@@ -928,7 +957,7 @@ Doc String for metaknowledge main&lt;/p&gt;
 
 &lt;p&gt;&lt;em&gt;metaknowledge&lt;/em&gt; is free and open source software, distributed under the GPL License.&lt;/p&gt;
 
-    &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/metaknowledge&quot;&gt;metaknowledge&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on September 11, 2015.&lt;/p&gt;
+    &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/metaknowledge&quot;&gt;metaknowledge&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on September 12, 2015.&lt;/p&gt;
   </content>
 </entry>
 
@@ -939,8 +968,8 @@ Doc String for metaknowledge main&lt;/p&gt;
   <title type="html"><![CDATA[journalAbbreviations]]></title>
   <link rel="alternate" type="text/html" href="http://networkslab.org/docs/journalAbbreviations" />
   <id>http://networkslab.org/docs/journalAbbreviations</id>
-  <published>2015-09-11T00:00:00-04:00</published>
-  <updated>2015-09-11T00:00:00-04:00</updated>
+  <published>2015-09-12T00:00:00-04:00</published>
+  <updated>2015-09-12T00:00:00-04:00</updated>
   <author>
     <name>John McLevey and Reid McIlroy-Young</name>
     <uri>http://networkslab.org</uri>
@@ -948,7 +977,7 @@ Doc String for metaknowledge main&lt;/p&gt;
   </author>
   <content type="html">
     &lt;p&gt;&lt;a name=&quot;journalAbbreviations&quot;&gt;&lt;/a&gt;
-journalAbbreviations docstring&lt;/p&gt;
+      journalAbbreviations docstring&lt;/p&gt;
 
 &lt;hr /&gt;
 
@@ -1033,7 +1062,7 @@ journalAbbreviations docstring&lt;/p&gt;
 
 &lt;p&gt;&lt;em&gt;metaknowledge&lt;/em&gt; is free and open source software, distributed under the GPL License.&lt;/p&gt;
 
-    &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/journalAbbreviations&quot;&gt;journalAbbreviations&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on September 11, 2015.&lt;/p&gt;
+    &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/journalAbbreviations&quot;&gt;journalAbbreviations&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on September 12, 2015.&lt;/p&gt;
   </content>
 </entry>
 
@@ -1044,8 +1073,8 @@ journalAbbreviations docstring&lt;/p&gt;
   <title type="html"><![CDATA[RecordCollection]]></title>
   <link rel="alternate" type="text/html" href="http://networkslab.org/docs/RecordCollection" />
   <id>http://networkslab.org/docs/RecordCollection</id>
-  <published>2015-09-11T00:00:00-04:00</published>
-  <updated>2015-09-11T00:00:00-04:00</updated>
+  <published>2015-09-12T00:00:00-04:00</published>
+  <updated>2015-09-12T00:00:00-04:00</updated>
   <author>
     <name>John McLevey and Reid McIlroy-Young</name>
     <uri>http://networkslab.org</uri>
@@ -1280,8 +1309,7 @@ journalAbbreviations docstring&lt;/p&gt;
 
 &lt;p&gt;&lt;a name=&quot;RecordCollection.localCitesOf&quot;&gt;&lt;/a&gt;RecordCollection.&lt;strong&gt;localCitesOf&lt;/strong&gt;(&lt;em&gt;rec&lt;/em&gt;):&lt;/p&gt;
 
-&lt;p&gt;      Takes in a Record, WOS string, citation string or Citation and returns a list of all records that cite it.
-      &lt;/p&gt;
+&lt;p&gt;      Takes in a Record, WOS string, citation string or Citation and returns a list of all records that cite it.&lt;/p&gt;
 
 &lt;p&gt;&lt;a name=&quot;RecordCollection.makeDict&quot;&gt;&lt;/a&gt;RecordCollection.&lt;strong&gt;makeDict&lt;/strong&gt;(&lt;em&gt;onlyTheseTags=None, longNames=False, cleanedVal=True&lt;/em&gt;):&lt;/p&gt;
 
@@ -1471,7 +1499,7 @@ journalAbbreviations docstring&lt;/p&gt;
 
 &lt;p&gt;&lt;em&gt;metaknowledge&lt;/em&gt; is free and open source software, distributed under the GPL License.&lt;/p&gt;
 
-    &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/RecordCollection&quot;&gt;RecordCollection&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on September 11, 2015.&lt;/p&gt;
+    &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/RecordCollection&quot;&gt;RecordCollection&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on September 12, 2015.&lt;/p&gt;
   </content>
 </entry>
 
@@ -1482,8 +1510,8 @@ journalAbbreviations docstring&lt;/p&gt;
   <title type="html"><![CDATA[Record]]></title>
   <link rel="alternate" type="text/html" href="http://networkslab.org/docs/Record" />
   <id>http://networkslab.org/docs/Record</id>
-  <published>2015-09-11T00:00:00-04:00</published>
-  <updated>2015-09-11T00:00:00-04:00</updated>
+  <published>2015-09-12T00:00:00-04:00</published>
+  <updated>2015-09-12T00:00:00-04:00</updated>
   <author>
     <name>John McLevey and Reid McIlroy-Young</name>
     <uri>http://networkslab.org</uri>
@@ -1631,7 +1659,7 @@ journalAbbreviations docstring&lt;/p&gt;
 
 &lt;p&gt;&lt;em&gt;metaknowledge&lt;/em&gt; is free and open source software, distributed under the GPL License.&lt;/p&gt;
 
-    &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/Record&quot;&gt;Record&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on September 11, 2015.&lt;/p&gt;
+    &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/Record&quot;&gt;Record&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on September 12, 2015.&lt;/p&gt;
   </content>
 </entry>
 
@@ -1642,8 +1670,8 @@ journalAbbreviations docstring&lt;/p&gt;
   <title type="html"><![CDATA[Citation]]></title>
   <link rel="alternate" type="text/html" href="http://networkslab.org/docs/Citation" />
   <id>http://networkslab.org/docs/Citation</id>
-  <published>2015-09-11T00:00:00-04:00</published>
-  <updated>2015-09-11T00:00:00-04:00</updated>
+  <published>2015-09-12T00:00:00-04:00</published>
+  <updated>2015-09-12T00:00:00-04:00</updated>
   <author>
     <name>John McLevey and Reid McIlroy-Young</name>
     <uri>http://networkslab.org</uri>
@@ -1784,7 +1812,7 @@ journalAbbreviations docstring&lt;/p&gt;
 
 &lt;p&gt;&lt;em&gt;metaknowledge&lt;/em&gt; is free and open source software, distributed under the GPL License.&lt;/p&gt;
 
-    &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/Citation&quot;&gt;Citation&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on September 11, 2015.&lt;/p&gt;
+    &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/Citation&quot;&gt;Citation&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on September 12, 2015.&lt;/p&gt;
   </content>
 </entry>
 

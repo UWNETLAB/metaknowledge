@@ -7,7 +7,36 @@ tags: [main]
 weight: 1
 ---
 <a name="metaknowledge"></a>
-Doc String for metaknowledge main
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;metaknowledge is a Python3 package that simplifies bibliometric and computational analysis of Web of Science data.
+
+####&nbsp;&nbsp;&nbsp; Example
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To load the data from files and make a network:
+
+    >>> import metaknowledge as mk
+    >>> RC = mk.RecordCollection("records/")
+    >>> print(RC)
+    Collection of 33 records
+    >>> G = RC.coCiteNetwork(nodeType = 'journal')
+    Done making a co-citation network of files-from-records                 1.1s
+    >>> print(len(G.nodes()))
+    223
+    >>> mk.write_graph(G, "Cocitation-Network-of-Journals")
+
+####&nbsp;&nbsp;&nbsp; Overview
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This package can read the files downloaded from the [Thomson Reuters Web of Science](https://webofknowledge.com) (WOS) as plain text. These files contain metadata about scientific records, such as the authors, language, and citations. The records are saved in groups of up-to 500 individual records in a file.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The [metaknowledge.RecordCollection]({{ site.baseurl }}{% post_url /docs/2015-09-12-RecordCollection %}#RecordCollection) class can take a path to one or more of these files load and parse them. The object is the main way for work to be done on multiple records. For each individual record it creates an instance of the [metaknowledge.Record]({{ site.baseurl }}{% post_url /docs/2015-09-12-Record %}#Record) class that contains the results of the parsing of the record.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The files given by WOS are a flat database containing a series of 2 character tags, e.g. 'TI' is the title. Each WOS tag has one or more values and metaknowledge makes use of them to extract useful information. The approximate meanings of the tags are listed in the [tagFuncs]({{ site.baseurl }}{% post_url /docs/2015-09-12-tagFuncs %}#tagFuncs) package, there are no full official public listings of their meanings is available. metaknowledge is not attempting to provide the definitive meanings.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;As citations are of great importance to sociology their handling is done with the [Citation]({{ site.baseurl }}{% post_url /docs/2015-09-12-Citation %}#Citation) class. This class can parse the citations given by WOS as well as extra details about the full name of their journal and allow simple comparisons.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Note for those reading the docstring. metaknowledge's docs are written in markdown and are processed to produce the documentation found at [networkslab.org/metaknowledge/documentation](http://networkslab.org/metaknowledge/documentation/).
+
+
+
 
 - - -
 
@@ -126,7 +155,7 @@ Doc String for metaknowledge main
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reads the files given by edgeList and if given nodeList. Outputs a networkx graph for the lists.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This is designed only for the files produced by metaknowledge and is meant to be the reverse of [write_graph()]({{ site.baseurl }}{% post_url /docs/2015-09-11-metaknowledge %}#metaknowledge), if this dow not produce the desired results the networkx builtin [networkx.read_edgelist()](https://networkx.github.io/documentation/networkx-1.9.1/reference/generated/networkx.readwrite.edgelist.read_edgelist.html) could be tried.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This is designed only for the files produced by metaknowledge and is meant to be the reverse of [write_graph()]({{ site.baseurl }}{% post_url /docs/2015-09-12-metaknowledge %}#metaknowledge), if this dow not produce the desired results the networkx builtin [networkx.read_edgelist()](https://networkx.github.io/documentation/networkx-1.9.1/reference/generated/networkx.readwrite.edgelist.read_edgelist.html) could be tried.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The read edge list format assumes the column named _eSource_ (From) is the source node, then the next column _eDest_ (To) givens the destination and all other columns are attributes of the edge, e.g. weight.
 
@@ -179,11 +208,11 @@ Doc String for metaknowledge main
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"AF BREVIK, I
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    ANICIN, B"
+    ANICIN, B"
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The entry in the returned dict would be `{'AF' : ["BREVIK, I", "ANICIN, B"]}`
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Record]({{ site.baseurl }}{% post_url /docs/2015-09-11-metaknowledge %}#metaknowledge) objects can be created with these dictionaries as the initializer.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Record]({{ site.baseurl }}{% post_url /docs/2015-09-12-metaknowledge %}#metaknowledge) objects can be created with these dictionaries as the initializer.
 
 #####&nbsp;&nbsp;&nbsp; Parameters
 
@@ -235,7 +264,7 @@ Doc String for metaknowledge main
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Both files are csv's with comma delimiters and double quote quoting characters. The edge list has two columns for the source and destination of the edge, "From" and "To" respectively, then, if _edgeInfo_ is `True`, for each attribute of the node another column is created. The node list has one column call "ID" with the node ids used by networkx and all other columns are the node attributes.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To read back these files use [read_graph()]({{ site.baseurl }}{% post_url /docs/2015-09-11-metaknowledge %}#metaknowledge) and to write only one type of lsit use [write_edgeList()]({{ site.baseurl }}{% post_url /docs/2015-09-11-metaknowledge %}#metaknowledge) or [write_nodeAttributeFile()]({{ site.baseurl }}{% post_url /docs/2015-09-11-metaknowledge %}#metaknowledge).
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To read back these files use [read_graph()]({{ site.baseurl }}{% post_url /docs/2015-09-12-metaknowledge %}#metaknowledge) and to write only one type of lsit use [write_edgeList()]({{ site.baseurl }}{% post_url /docs/2015-09-12-metaknowledge %}#metaknowledge) or [write_nodeAttributeFile()]({{ site.baseurl }}{% post_url /docs/2015-09-12-metaknowledge %}#metaknowledge).
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Warning**: this function will overwrite files, if they are in the way of the output, to prevent this set _overwrite_ to `False`
 
@@ -300,13 +329,13 @@ Doc String for metaknowledge main
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Exception thrown by the [record parser](#metaknowledge.recordParser) to indicate a mis-formated record. This occurs when some component of the record does not parse. The messages will be any of:
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    * _Missing field on line (line Number):(line)_, which indicates a line was to short, there should have been a tag followed by information
+    * _Missing field on line (line Number):(line)_, which indicates a line was to short, there should have been a tag followed by information
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    * _End of file reached before ER_, which indicates the file ended before the 'ER' indicator appeared, 'ER' indicates the end of a record. This is often due to a copy and paste error.
+    * _End of file reached before ER_, which indicates the file ended before the 'ER' indicator appeared, 'ER' indicates the end of a record. This is often due to a copy and paste error.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    * _Duplicate tags in record_, which indicates the record had 2 or more lines with the same tag.
+    * _Duplicate tags in record_, which indicates the record had 2 or more lines with the same tag.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    * _Missing WOS number_, which indicates the record did not have a 'UT' tag.
+    * _Missing WOS number_, which indicates the record did not have a 'UT' tag.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Records with a BadISIRecord error are likely incomplete or the combination of two or more single records.
 

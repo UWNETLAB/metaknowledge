@@ -49,11 +49,13 @@ def cleanedDoc(obj, lvl):
     lns = ds.split('\n')
     nds = ''
     for line in lns:
-        line = re.sub(r"\[(\S+)\]\(#(\S+)\.(\S+)\)", makeUrls,line, count = 99)
+        line = re.sub(r"\[(\S+)\]\(\#(\S+)\.(\S+)\)", makeUrls,line, count = 99)
         if len(line) < 1:
             nds += '\n'
         elif line[0] == '#':
             nds += '#' * (lvl + 1) + "&nbsp;" * 3 + line[1:] + '\n'
+        elif line[0:4] == '    ':
+            nds += '    ' + line[4:] + '\n'
         elif line[0] == '>':
             if line[1] != '>':
                 nds += "&nbsp;" * 12 + line[1:] + '\n'
@@ -113,7 +115,7 @@ def writeModuleFile(mod):
     f = open(fname, 'w')
     f.write(makeHeader(mod, "The {} Module".format(mod), tags = ["module"], weight = 3))
     module = importlib.import_module('metaknowledge.{}'.format(mod))
-    f.write(inspect.getdoc(module) + '\n\n')
+    f.write(cleanedDoc(module, 3) + '\n\n')
     funcs = []
     for m in inspect.getmembers(module, predicate = inspect.isfunction):
         if inspect.isbuiltin(m[1]) or m[0][0] == '_':
@@ -128,7 +130,7 @@ def writeModuleFile(mod):
 def writeMainBody(funcs, vrs, exceptions):
     f = open(docsPrefix + "metaknowledge.md", 'w')
     f.write(makeHeader("metaknowledge", "The metaknowledge Package", tags = ["main"], weight = 1))
-    f.write(inspect.getdoc(metaknowledge) + '\n\n')
+    f.write(cleanedDoc(metaknowledge, 3) + '\n\n')
     for fnc in funcs:
         f.write("- - -\n\n")
         writeFunc(fnc, f)

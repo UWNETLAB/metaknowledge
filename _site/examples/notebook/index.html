@@ -1,17 +1,157 @@
----
-layout: page
-title: Examples
-excerpt: "Examples showing how to use metaknowledge to analyze data."
-search_omit: true
----
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>notebook &#8211; metaknowledge</title>
+<meta name="description" content="You want to construct a weighted citation network.">
+<meta name="keywords" content="preprocessing, dataframe">
 
-<ul class="post-list">
-{% for post in site.categories.examples %}
-  <li><article><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}{% if post.excerpt %} <span class="excerpt">{{ post.excerpt }}</span>{% endif %}</a></article></li>
-{% endfor %}
-</ul>
+  
 
-<div class="cell border-box-sizing text_cell rendered">
+<!-- Twitter Cards -->
+<meta name="twitter:title" content="notebook">
+<meta name="twitter:description" content="You want to construct a weighted citation network.">
+
+<meta name="twitter:creator" content="@johnmclevey">
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="/metaknowledge/images/site-logo.png">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="notebook">
+<meta property="og:description" content="You want to construct a weighted citation network.">
+<meta property="og:url" content="/metaknowledge/examples/notebook">
+<meta property="og:site_name" content="metaknowledge">
+
+
+
+
+
+
+<link rel="canonical" href="/metaknowledge/examples/notebook">
+<link href="/metaknowledge/feed.xml" type="application/atom+xml" rel="alternate" title="metaknowledge Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/metaknowledge/assets/css/main.css">
+<!-- Webfonts -->
+<script src="https://use.edgefonts.net/source-sans-pro:n2,i2,n3,i3,n4,i4,n6,i6,n7,i7,n9,i9;source-code-pro:n4,n7;volkhov.js"></script>
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- HTML5 Shiv and Media Query Support -->
+<!--[if lt IE 9]>
+  <script src="/metaknowledge/assets/js/vendor/html5shiv.min.js"></script>
+  <script src="/metaknowledge/assets/js/vendor/respond.min.js"></script>
+<![endif]-->
+
+<!-- Modernizr -->
+<script src="/metaknowledge/assets/js/vendor/modernizr-2.7.1.custom.min.js"></script>
+
+
+<!-- MathJax -->
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="/metaknowledge/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="/metaknowledge/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="/metaknowledge/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="/metaknowledge/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="/metaknowledge/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/metaknowledge/images/apple-touch-icon-144x144-precomposed.png">
+
+</head>
+
+<body id="page">
+
+<div class="navigation-wrapper">
+	<nav role="navigation" id="site-nav" class="animated drop">
+	    <ul>
+      
+		    
+		        
+		    
+		    <li><a href="/metaknowledge/" >Home</a></li>
+		  
+		    
+		        
+		    
+		    <li><a href="/metaknowledge/documentation/#Installing" >install</a></li>
+		  
+		    
+		        
+		    
+		    <li><a href="/metaknowledge/documentation" >Documentation</a></li>
+		  
+		    
+		        
+		    
+		    <li><a href="/metaknowledge/examples" >Examples</a></li>
+		  
+		    
+		        
+		    
+		    <li><a href="/metaknowledge/cli" >CLI</a></li>
+		  
+		    
+		        
+		        
+		    <li><a href="https://github.com/networks-lab/metaknowledge" target="_blank">GitHub</a></li>
+		  
+		    
+		        
+		        
+		    <li><a href="http://www.networkslab.org" target="_blank">NetworksLab</a></li>
+		  
+		    
+		        
+		    
+		    <li><a href="/metaknowledge/search" >Search</a></li>
+		  
+	    </ul>
+	</nav>
+</div><!-- /.navigation-wrapper -->
+
+<!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
+
+<header class="masthead">
+	<div class="wrap">
+      
+  		<a href="/metaknowledge/" class="site-logo" rel="home" title="metaknowledge"><img src="/metaknowledge/images/site-logo.png" width="200" height="200" alt="metaknowledge logo" class="animated fadeInDown"></a>
+      
+      <h1 class="site-title animated fadeIn"><a href="/metaknowledge/">metaknowledge</a></h1>
+		<h2 class="site-description animated fadeIn" itemprop="description">A Python3 Library for Bibliometric and Sociology of Knowledge Research.</h2>
+	</div>
+</header><!-- /.masthead -->
+
+<div class="js-menu-screen menu-screen"></div>
+
+
+<div id="main" role="main">
+  <article class="entry">
+    
+    <div class="entry-wrapper">
+      <header class="entry-header">
+        <h1 class="entry-title">notebook</h1>
+      </header>
+      <div class="entry-content">
+        <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
@@ -807,8 +947,7 @@ IiKTMfgSERGZjMGXiIjIZAy+REREJmPwJSIiMhmDLxERkckYfImIiEzG4EtERGQyBl8iIiKTMfgS
 ERGZjMGXiIjIZAy+REREJmPwJSIiMhmDLxERkckYfImIiEzG4EtERGQyBl8iIiKTMfgSERGZjMGX
 iIjIZAy+REREJmPwJSIiMhmDLxERkckYfImIiEzG4EtERGQyBl8iIiKTMfgSERGZ7P8DpPtp8OxN
 ZxEAAAAASUVORK5CYII=
-"
->
+" />
 </div>
 
 </div>
@@ -844,7 +983,7 @@ ZxEAAAAASUVORK5CYII=
     <span class="k">else</span><span class="p">:</span>
         <span class="n">colourslst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;r&#39;</span><span class="p">)</span>
         <span class="n">sizelst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">300</span><span class="p">)</span>
-    
+
 <span class="c">#Now all the variables have been set we can use them as optional arguments in nx.draw_networkx_nodes() and nx.draw_networkx_edges()</span>
 <span class="c">#Read the networkx documentation if you want to learn about what each one does</span>
 
@@ -1292,8 +1431,7 @@ x3EqDBd+x3GcCsOF33Ecp8Jw4Xccx6kwXPgdx3EqDBd+x3GcCsOF33Ecp8Jw4Xccx6kwXPgdx3Eq
 DBd+x3GcCsOF33Ecp8Jw4Xccx6kwXPgdx3EqDBd+x3GcCsOF33Ecp8Jw4Xccx6kwXPgdx3EqDBd+
 x3GcCsOF33Ecp8Jw4Xccx6kwXPgdx3EqDBd+x3GcCsOF33Ecp8Jw4Xccx6kwXPgdx3EqDBd+x3Gc
 CsOF33Ecp8L4/xDKKrcPoY0lAAAAAElFTkSuQmCC
-"
->
+" />
 </div>
 
 </div>
@@ -1328,7 +1466,7 @@ CsOF33Ecp8L4/xDKKrcPoY0lAAAAAElFTkSuQmCC
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre> 
+<div class=" highlight hl-ipython3"><pre>
 </pre></div>
 
 </div>
@@ -1336,4 +1474,45 @@ CsOF33Ecp8L4/xDKKrcPoY0lAAAAAElFTkSuQmCC
 </div>
 
 </div>
-{% include docsFooter.md %}
+
+      </div><!-- /.entry-content -->
+    </div><!-- /.entry-wrapper -->
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrapper">
+  <footer role="contentinfo" class="entry-wrapper">
+    
+
+<span>&copy; 2015 John McLevey and Reid McIlroy-Young. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> using the <a href="http://mademistakes.com/so-simple/" rel="nofollow">So Simple Theme</a>.</span>
+<div class="social-icons">
+	
+	
+	
+	
+	
+	
+	
+	
+	
+  
+	
+  <a href="/metaknowledge/feed.xml" title="Atom/RSS feed"><i class="fa fa-rss-square fa-2x"></i></a>
+</div><!-- /.social-icons -->
+
+  </footer>
+</div><!-- /.footer-wrapper -->
+
+<script type="text/javascript">
+  var BASE_URL = '/metaknowledge';
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/metaknowledge/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="/metaknowledge/assets/js/scripts.min.js"></script>
+
+
+
+
+</body>
+</html>

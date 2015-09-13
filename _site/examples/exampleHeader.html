@@ -5,17 +5,17 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
 <head>
 <meta charset="utf-8">
-<title>Extract Text &#8211; metaknowledge</title>
-<meta name="description" content="You want to extract textual data to analyze.">
-<meta name="keywords" content="preprocessing, dataframe">
+<title>Examples &#8211; metaknowledge</title>
+<meta name="description" content="Examples showing how to use metaknowledge to analyze data.">
 
-  
+
+
 
 <!-- Twitter Cards -->
-<meta name="twitter:title" content="Extract Text">
-<meta name="twitter:description" content="You want to extract textual data to analyze.">
+<meta name="twitter:title" content="Examples">
+<meta name="twitter:description" content="Examples showing how to use metaknowledge to analyze data.">
 
-<meta name="twitter:creator" content="@johnmclevey">
+
 
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="/metaknowledge/images/site-logo.png">
@@ -23,9 +23,9 @@
 <!-- Open Graph -->
 <meta property="og:locale" content="en_US">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Extract Text">
-<meta property="og:description" content="You want to extract textual data to analyze.">
-<meta property="og:url" content="/metaknowledge/examples/textual">
+<meta property="og:title" content="Examples">
+<meta property="og:description" content="Examples showing how to use metaknowledge to analyze data.">
+<meta property="og:url" content="/metaknowledge/examples/exampleHeader.html">
 <meta property="og:site_name" content="metaknowledge">
 
 
@@ -33,7 +33,7 @@
 
 
 
-<link rel="canonical" href="/metaknowledge/examples/textual">
+<link rel="canonical" href="/metaknowledge/examples/exampleHeader.html">
 <link href="/metaknowledge/feed.xml" type="application/atom+xml" rel="alternate" title="metaknowledge Feed">
 
 <!-- https://t.co/dKP3o1e -->
@@ -78,7 +78,7 @@
 
 </head>
 
-<body id="post">
+<body id="page">
 
 <div class="navigation-wrapper">
 	<nav role="navigation" id="site-nav" class="animated drop">
@@ -144,64 +144,37 @@
 
 
 <div id="main" role="main">
-  <article class="hentry">
+  <article class="entry">
     
     <div class="entry-wrapper">
       <header class="entry-header">
-        <span class="entry-tags"><a href="http://networkslab.org/tags/#preprocessing" title="Pages tagged preprocessing">preprocessing</a>&nbsp;&bull;&nbsp;<a href="http://networkslab.org/tags/#dataframe" title="Pages tagged dataframe">dataframe</a></span>
-        
-          <h1 class="entry-title">Extract Text</h1>
-        
+        <h1 class="entry-title">Examples</h1>
       </header>
-      <footer class="entry-meta">
-        
-          
-        
-        <span class="author vcard">By <span class="fn">John McLevey</span></span>
-        <span class="entry-date date published"><time datetime="2015-09-04T00:00:00-04:00"><i class="fa fa-calendar-o"></i> September 04, 2015</time></span>
-        
-        
-        
-        
-      </footer>
       <div class="entry-content">
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <ul class="post-list">
 
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">metaknowledge</span> <span class="kn">as</span> <span class="nn">mk</span>
-<span class="kn">import</span> <span class="nn">networkx</span> <span class="kn">as</span> <span class="nn">nx</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+  <li><article><a href="/metaknowledge/examples/textual">Extract Text <span class="excerpt">You want to extract textual data to analyze.</span></a></article></li>
 
-<span class="n">RC</span> <span class="o">=</span> <span class="n">mk</span><span class="o">.</span><span class="n">RecordCollection</span><span class="p">(</span><span class="s">&#39;/path/to/directory/with/WoS/files&#39;</span><span class="p">)</span>
+  <li><article><a href="/metaknowledge/examples/notebook">notebook <span class="excerpt">You want to construct a weighted citation network.</span></a></article></li>
 
-<span class="k">print</span><span class="p">(</span><span class="n">RC</span><span class="p">)</span>
+  <li><article><a href="/metaknowledge/examples/multimode">Contruct a Multi-Mode Network <span class="excerpt">You want to construct a Multi-Mode Network.</span></a></article></li>
 
-<span class="n">tags</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;AU&#39;</span><span class="p">,</span> <span class="s">&#39;TI&#39;</span><span class="p">,</span><span class="s">&#39;AB&#39;</span><span class="p">,</span> <span class="s">&#39;SO&#39;</span><span class="p">,</span> <span class="s">&#39;LA&#39;</span><span class="p">,</span> <span class="s">&#39;C1&#39;</span><span class="p">,</span> <span class="s">&#39;RP&#39;</span><span class="p">,</span> <span class="s">&#39;CR&#39;</span><span class="p">,</span> <span class="s">&#39;TC&#39;</span><span class="p">,</span> <span class="s">&#39;PY&#39;</span><span class="p">]</span>
-<span class="n">RC</span><span class="o">.</span><span class="n">writeCSV</span><span class="p">(</span><span class="s">&#39;data/rc_can_soc.csv&#39;</span><span class="p">,</span> <span class="n">onlyTheseTags</span> <span class="o">=</span> <span class="n">tags</span><span class="p">)</span></code></pre></div>
+  <li><article><a href="/metaknowledge/examples/journalcocitation">Contruct a Journal Co-Citation Network <span class="excerpt">You want to construct a Weighted Co-Citation Network of Journals.</span></a></article></li>
 
-<p>Filter to a subset of records that cite a specific author…</p>
+  <li><article><a href="/metaknowledge/examples/documentcocitation">Contruct a Document Co-Citation Network <span class="excerpt">You want to construct a weighted co-citation network of documents.</span></a></article></li>
 
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">authorname</span> <span class="o">=</span> <span class="n">RC</span><span class="o">.</span><span class="n">citeFilter</span><span class="p">(</span><span class="n">keyString</span><span class="o">=</span><span class="s">&#39;someauthor&#39;</span><span class="p">,</span>  <span class="n">field</span><span class="o">=</span><span class="s">&#39;all&#39;</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">caseSensitive</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">authorname</span><span class="p">))</span>
+  <li><article><a href="/metaknowledge/examples/dataframe">Contruct a Data Frame <span class="excerpt">You want to construct a dataset from a folder of Web of Science files.</span></a></article></li>
 
-<span class="n">authorname</span><span class="o">.</span><span class="n">writeCSV</span><span class="p">(</span><span class="s">&#39;authorname.csv&#39;</span><span class="p">,</span> <span class="n">onlyTheseTags</span> <span class="o">=</span> <span class="n">tags</span><span class="p">)</span></code></pre></div>
+  <li><article><a href="/metaknowledge/examples/coauthor">Contruct a Co-Author Network <span class="excerpt">You want to construct a weighted network of co-authors.</span></a></article></li>
 
+  <li><article><a href="/metaknowledge/examples/citation">Contruct a Citation Network <span class="excerpt">You want to construct a weighted citation network.</span></a></article></li>
 
-        
+  <li><article><a href="/metaknowledge/examples/authorcocitation">Contruct an Author Co-Citation Network <span class="excerpt">You want to construct a weighted co-citation network of authors.</span></a></article></li>
+
+</ul>
+
       </div><!-- /.entry-content -->
     </div><!-- /.entry-wrapper -->
-    <nav class="pagination" role="navigation">
-      
-        <a href="http://networkslab.org/examples/notebook" class="btn" title="notebook">Previous</a>
-      
-      
-        <a href="http://networkslab.org/docs/Citation" class="btn" title="Citation">Next</a>
-      
-    </nav><!-- /.pagination -->
   </article>
 </div><!-- /#main -->
 

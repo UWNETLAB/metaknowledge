@@ -66,6 +66,14 @@
 
   
     ,{
+      "title"			: "notebook",
+      "link"			: "http://networkslab.org/examples/notebook",
+      "excerpt"		: "You want to construct a weighted citation network."
+    }
+  
+
+  
+    ,{
       "title"			: "Contruct a Multi-Mode Network",
       "link"			: "http://networkslab.org/examples/multimode",
       "excerpt"		: "You want to construct a Multi-Mode Network."
@@ -129,14 +137,6 @@
   
 
   
-    ,{
-      "title"			: "Documentation",
-      "link"			: "http://networkslab.org/documentation/",
-      "excerpt"		: "Instructions on how to install and use metaknowledge."
-    }
-  
-
-  
 
   
 
@@ -155,6 +155,18 @@
       "title"			: "Command Line Tool",
       "link"			: "http://networkslab.org/cli/",
       "excerpt"		: "How to use the metaknowledge command line tool."
+    }
+  
+
+  
+
+  
+
+  
+    ,{
+      "title"			: "Documentation",
+      "link"			: "http://networkslab.org/documentation/",
+      "excerpt"		: "Instructions on how to install and use metaknowledge."
     }
   
 

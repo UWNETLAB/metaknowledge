@@ -14,6 +14,6 @@ search_omit: true
   <a href="{{ site.baseurl }}/examples/#Reading-Files">Reading Files</a>
   </article></li>
   <li><article>
-  <a href="{{ site.baseurl }}/examples/#The-RecordCollections-object">The RecordCollections object</a>
+  <a href="{{ site.baseurl }}/examples/#The-RecordCollection-Object">The RecordCollection Object</a>
   </article></li>
 </ul>

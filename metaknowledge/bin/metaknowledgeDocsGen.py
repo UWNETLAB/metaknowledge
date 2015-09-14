@@ -53,16 +53,16 @@ def cleanedDoc(obj, lvl):
         if len(line) < 1:
             nds += '\n'
         elif line[0] == '#':
-            nds += '#' * (lvl + 1) + "&nbsp;" * 3 + line[1:] + '\n'
+            nds += '#' * (lvl + 1) + line[1:] + '\n'
         elif line[0:4] == '    ':
             nds += '    ' + line[4:] + '\n'
         elif line[0] == '>':
             if line[1] != '>':
-                nds += "&nbsp;" * 12 + line[1:] + '\n'
+                nds += line[1:] + '\n'
             else:
                 nds += "> " +  line[2:] + '\n'
         else:
-            nds += "&nbsp;" * 6 + line + '\n'
+            nds += line + '\n'
     return '{}\n\n'.format(nds)
 
 def writeFunc(fn, f, prefix = '', level = 4):

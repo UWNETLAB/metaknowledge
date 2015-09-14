@@ -1023,7 +1023,7 @@ class RecordCollection(object):
             return citesDict
 
     def localCitesOf(self, rec):
-        """Takes in a Record, WOS string, citation string or Citation and returns a list of all records that cite it.
+        """Takes in a Record, WOS string, citation string or Citation and returns a RecordCollection of all records that cite it.
         """
         recCite = []
         localCites = []

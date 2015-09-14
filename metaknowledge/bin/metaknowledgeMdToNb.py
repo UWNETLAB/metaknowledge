@@ -12,7 +12,7 @@ startString = """{
   """
 
 
-endString = """ ],
+endString = """  ],
  "metadata": {
    "kernelspec": {
    "display_name": "Python 3",

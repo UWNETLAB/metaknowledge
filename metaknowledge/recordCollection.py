@@ -264,6 +264,20 @@ class RecordCollection(object):
                 self._Records.remove(R)
                 break
 
+    def addRec(self, Rec):
+        """Adds a Record or Records to the RecordCollection.
+
+        # Parameters
+
+        _Rec_ : `Record or iterable[Record]`
+
+        > A Record or some iterable containg records to add
+        """
+        if hasattr(Rec, '__iter__'):
+            self._Records |= set(Rec)
+        elif Rec not in self:
+            self._Records.add(Rec)
+
     def getWOS(self, wosNum, drop = False):
         """Gets the Record from the collection by its WOS number.
 

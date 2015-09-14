@@ -40,6 +40,15 @@ class TestRecordCollection(unittest.TestCase):
         RCcopy.dropNonJournals(ptVal = 'B')
         self.assertEqual(len(RCcopy), 1)
 
+    def test_addRec(self):
+        l = len(self.RC)
+        R = self.RC.pop()
+        self.assertEqual(len(self.RC), l - 1)
+        self.RC.addRec(R)
+        self.assertEqual(len(self.RC), l)
+        RC2 = metaknowledge.RecordCollection("metaknowledge/tests/TwoPaper.isi")
+        self.RC.addRec(RC2)
+        self.assertEqual(len(self.RC), l + 2)
 
     def test_getWOS(self):
         self.RC.dropBadRecords()

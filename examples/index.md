@@ -35,7 +35,7 @@ search_omit: true
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>This document was made from a <a href="https://jupyter.org">jupyter</a> notebook you can download the notebook <a href="{{site.baseurl}}/examples/mkExamples.ipynb">here</a>.</p>
+<p>This document was made from a <a href="https://jupyter.org">jupyter</a> notebook you can download the notebook <a href="{{site.baseurl}}/examples/mkExamples.ipynb">here</a> if you wish to see an interactive version of these examples.</p>
 
 </div>
 </div>
@@ -109,14 +109,5 @@ search_omit: true
 </div>
 </div>
 
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Tests">Tests<a class="anchor-link" href="#Tests">&#182;</a></h1>
-</div>
-</div>
 </div>
 {% include docsFooter.md %}

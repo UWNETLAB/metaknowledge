@@ -9,31 +9,31 @@ codeRegex = re.compile(r'\[([0-9]*)\](.*)')
 
 startString = """{
  "cells": [
-    """
+  """
 
 
-endString = """],
-"metadata": {
-"kernelspec": {
- "display_name": "Python 3",
- "language": "python",
- "name": "python3"
-},
-"language_info": {
- "codemirror_mode": {
-  "name": "ipython",
-  "version": 3
+endString = """ ],
+ "metadata": {
+   "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
  },
- "file_extension": ".py",
- "mimetype": "text/x-python",
- "name": "python",
- "nbconvert_exporter": "python",
- "pygments_lexer": "ipython3",
- "version": "3.4.3"
-}
-},
-"nbformat": 4,
-"nbformat_minor": 0
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.4.3"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 0
 }"""
 
 def argumentParser():
@@ -90,7 +90,7 @@ def convertString(file):
             stringResult.append(writeMDcell(stringBuffer))
         else:
             stringResult.append(writePYcell(stringBuffer, excount = currentExNum))
-    return startString + ','.join(stringResult) + endString
+    return startString + ',\n  '.join(stringResult) + endString
 
 def convert(file):
     nameCompts = os.path.splitext( os.path.expanduser(os.path.normpath(file.name)))
@@ -107,27 +107,25 @@ def stringPreprossesing(s):
 
 def writeMDcell(s):
     return """{{
-    "cell_type": "markdown",
-    "metadata": {{}},
-    "source": [
-     "{0}"
-    ]
-    }}
-""".format(stringPreprossesing(s))
+   "cell_type": "markdown",
+   "metadata": {{}},
+   "source": [
+    "{0}"
+   ]
+  }}""".format(stringPreprossesing(s))
 
 def writePYcell(s, excount = ''):
     return """{{
-    "cell_type": "code",
-    "execution_count": {0},
-    "metadata": {{
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {{
      "collapsed": false
-    }},
-    "outputs": [],
-    "source": [
-     "{1}"
-    ]
-   }}
-""".format(excount, stringPreprossesing(s))
+   }},
+   "outputs": [],
+   "source": [
+    "{1}"
+   ]
+  }}""".format(excount, stringPreprossesing(s))
 
 def mkMdToNb():
     args = argumentParser()

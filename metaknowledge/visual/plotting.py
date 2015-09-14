@@ -3,10 +3,25 @@ import matplotlib.pyplot as plt
 import numpy as np
 import scipy.ndimage as ndi
 
-def quickGraph(G):
-    """just makes a simple matplolib figure and displays it"""
-    nx.draw_spring(G)
-    plt.show()
+def quickGraph(G, showLabel = False):
+    """just makes a simple matplolib figure and displays it, with each node coloured by its type"""
+    colours = "brcmykwg"
+    ndTypes = []
+    ndColours = []
+    layout = nx.spring_layout(G)
+    for nd in G.nodes(data = True):
+        if 'type' in nd[1]:
+            if nd[1]['type'] not in ndTypes:
+                ndTypes.append(nd[1]['type'])
+            ndColours.append(colours[ndTypes.index(nd[1]['type']) % len(colours)])
+        elif len(ndColours) > 1:
+            raise RuntimeError("Some nodes do not have a type")
+    if len(ndColours) < 1:
+        ndColours = 'b'
+    nx.draw_networkx_nodes(G, pos = layout, node_color = ndColours, node_shape = '8')
+    nx.draw_networkx_edges(G, pos = layout, width = .7)
+    if showLabel:
+        nx.draw_networkx_labels(G, pos = layout)
 
 def graphDensityContourPlot(G, layout = None, layoutScaleFactor = 1, shifAxis = False, overlay = False, axisSamples = 100, blurringFactor = .1, contours = 15, nodeSize = 10, graphType = 'coloured', iters = 50):
     """

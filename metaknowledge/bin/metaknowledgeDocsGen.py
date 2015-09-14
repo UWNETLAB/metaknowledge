@@ -9,7 +9,7 @@ import metaknowledge
 import importlib
 import re
 
-documentedModules = ['tagFuncs','visual', 'journalAbbreviations']
+documentedModules = ['tagFuncs', 'visual', 'journalAbbreviations']
 
 docsPrefix = time.strftime("%Y-%m-%d-")
 
@@ -107,7 +107,7 @@ def writeClassFile(name, typ):
     f = open(fname, 'w')
     f.write(makeHeader(name, "The {} Class".format(name), tags = ["class"], weight = 2))
     proccessClass((name, typ), f)
-    f.write("\n\n{% include docsFooter.md %}")
+    f.write("\n{% include docsFooter.md %}")
     f.close()
 
 def writeModuleFile(mod):
@@ -124,7 +124,7 @@ def writeModuleFile(mod):
             f.write("- - -\n\n")
             writeFunc(m, f, prefix = "{}.".format(mod))
             funcs.append(m)
-    f.write("\n\n{% include docsFooter.md %}")
+    f.write("\n{% include docsFooter.md %}")
     f.close()
 
 def writeMainBody(funcs, vrs, exceptions):
@@ -141,7 +141,7 @@ def writeMainBody(funcs, vrs, exceptions):
         else:
             f.write("- - -\n\n")
         proccessClass(excpt, f)
-    f.write("\n\n{% include docsFooter.md %}")
+    f.write("\n{% include docsFooter.md %}")
     f.close()
 
 def main(args):

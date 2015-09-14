@@ -1,11 +1,11 @@
 #!/bin/bash -e
 
-echo "Generating the example file examples/index.md"
 cd "$(dirname "$0")"
-
-
-jupyter nbconvert --to html --template basic mkExamples.ipynb
-
-cat exampleHeader.md mkExamples.html exampleFooter.md> index.md
-
-rm mkExamples.html
+echo "Rewriting examples/mkExamples.ipynb"
+metaknowledge-mdToNb metaknowledgeExamples.md
+echo "Generating the example file examples/mkExamples.html"
+jupyter nbconvert --to html --template basic --execute metaknowledgeExamples.ipynb
+echo "Rewriting examples/index.md"
+cat exampleHeader.md metaknowledgeExamples.html exampleFooter.md > index.md
+echo "Cleaning up"
+rm metaknowledgeExamples.html

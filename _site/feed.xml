@@ -4,7 +4,7 @@
 <generator uri="https://github.com/jekyll/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="http://networkslab.org/feed.xml" />
 <link rel="alternate" type="text/html" href="http://networkslab.org" />
-<updated>2015-09-13T17:11:23-04:00</updated>
+<updated>2015-09-14T02:09:25-04:00</updated>
 <id>http://networkslab.org/</id>
 <author>
   <name>John McLevey and Reid McIlroy-Young</name>
@@ -19,8 +19,8 @@
   <title type="html"><![CDATA[visual]]></title>
   <link rel="alternate" type="text/html" href="http://networkslab.org/docs/visual" />
   <id>http://networkslab.org/docs/visual</id>
-  <published>2015-09-12T00:00:00-04:00</published>
-  <updated>2015-09-12T00:00:00-04:00</updated>
+  <published>2015-09-14T00:00:00-04:00</published>
+  <updated>2015-09-14T00:00:00-04:00</updated>
   <author>
     <name>John McLevey and Reid McIlroy-Young</name>
     <uri>http://networkslab.org</uri>
@@ -60,7 +60,7 @@ visual docstring&lt;/p&gt;
 
 &lt;p&gt;&lt;em&gt;metaknowledge&lt;/em&gt; is free and open source software, distributed under the GPL License.&lt;/p&gt;
 
-    &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/visual&quot;&gt;visual&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on September 12, 2015.&lt;/p&gt;
+    &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/visual&quot;&gt;visual&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on September 14, 2015.&lt;/p&gt;
   </content>
 </entry>
 
@@ -71,8 +71,8 @@ visual docstring&lt;/p&gt;
   <title type="html"><![CDATA[tagFuncs]]></title>
   <link rel="alternate" type="text/html" href="http://networkslab.org/docs/tagFuncs" />
   <id>http://networkslab.org/docs/tagFuncs</id>
-  <published>2015-09-12T00:00:00-04:00</published>
-  <updated>2015-09-12T00:00:00-04:00</updated>
+  <published>2015-09-14T00:00:00-04:00</published>
+  <updated>2015-09-14T00:00:00-04:00</updated>
   <author>
     <name>John McLevey and Reid McIlroy-Young</name>
     <uri>http://networkslab.org</uri>
@@ -600,7 +600,7 @@ Month Year (“%b %Y”)&lt;/p&gt;
 
 &lt;p&gt;&lt;em&gt;metaknowledge&lt;/em&gt; is free and open source software, distributed under the GPL License.&lt;/p&gt;
 
-    &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/tagFuncs&quot;&gt;tagFuncs&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on September 12, 2015.&lt;/p&gt;
+    &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/tagFuncs&quot;&gt;tagFuncs&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on September 14, 2015.&lt;/p&gt;
   </content>
 </entry>
 
@@ -611,8 +611,8 @@ Month Year (“%b %Y”)&lt;/p&gt;
   <title type="html"><![CDATA[metaknowledge]]></title>
   <link rel="alternate" type="text/html" href="http://networkslab.org/docs/metaknowledge" />
   <id>http://networkslab.org/docs/metaknowledge</id>
-  <published>2015-09-12T00:00:00-04:00</published>
-  <updated>2015-09-12T00:00:00-04:00</updated>
+  <published>2015-09-14T00:00:00-04:00</published>
+  <updated>2015-09-14T00:00:00-04:00</updated>
   <author>
     <name>John McLevey and Reid McIlroy-Young</name>
     <uri>http://networkslab.org</uri>
@@ -956,7 +956,7 @@ Each it finds is used to initialize a Record then all Record are returned as a l
 
 &lt;p&gt;&lt;em&gt;metaknowledge&lt;/em&gt; is free and open source software, distributed under the GPL License.&lt;/p&gt;
 
-    &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/metaknowledge&quot;&gt;metaknowledge&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on September 12, 2015.&lt;/p&gt;
+    &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/metaknowledge&quot;&gt;metaknowledge&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on September 14, 2015.&lt;/p&gt;
   </content>
 </entry>
 
@@ -967,8 +967,8 @@ Each it finds is used to initialize a Record then all Record are returned as a l
   <title type="html"><![CDATA[journalAbbreviations]]></title>
   <link rel="alternate" type="text/html" href="http://networkslab.org/docs/journalAbbreviations" />
   <id>http://networkslab.org/docs/journalAbbreviations</id>
-  <published>2015-09-12T00:00:00-04:00</published>
-  <updated>2015-09-12T00:00:00-04:00</updated>
+  <published>2015-09-14T00:00:00-04:00</published>
+  <updated>2015-09-14T00:00:00-04:00</updated>
   <author>
     <name>John McLevey and Reid McIlroy-Young</name>
     <uri>http://networkslab.org</uri>
@@ -1061,7 +1061,7 @@ journalAbbreviations docstring&lt;/p&gt;
 
 &lt;p&gt;&lt;em&gt;metaknowledge&lt;/em&gt; is free and open source software, distributed under the GPL License.&lt;/p&gt;
 
-    &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/journalAbbreviations&quot;&gt;journalAbbreviations&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on September 12, 2015.&lt;/p&gt;
+    &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/journalAbbreviations&quot;&gt;journalAbbreviations&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on September 14, 2015.&lt;/p&gt;
   </content>
 </entry>
 
@@ -1072,8 +1072,8 @@ journalAbbreviations docstring&lt;/p&gt;
   <title type="html"><![CDATA[RecordCollection]]></title>
   <link rel="alternate" type="text/html" href="http://networkslab.org/docs/RecordCollection" />
   <id>http://networkslab.org/docs/RecordCollection</id>
-  <published>2015-09-12T00:00:00-04:00</published>
-  <updated>2015-09-12T00:00:00-04:00</updated>
+  <published>2015-09-14T00:00:00-04:00</published>
+  <updated>2015-09-14T00:00:00-04:00</updated>
   <author>
     <name>John McLevey and Reid McIlroy-Young</name>
     <uri>http://networkslab.org</uri>
@@ -1118,11 +1118,21 @@ The comparison operators &amp;lt;, &amp;lt;=, &amp;gt;, &amp;gt;= are based stri
 
 &lt;p&gt;The extension to search for when reading a directoy for files. &lt;em&gt;extension&lt;/em&gt; is the suffix searched for when a direcorty is read for files, by default it is empty so all files are read.&lt;/p&gt;
 
+&lt;p&gt;&lt;a name=&quot;RecordCollection.addRec&quot;&gt;&lt;/a&gt;RecordCollection.&lt;strong&gt;addRec&lt;/strong&gt;(&lt;em&gt;Rec&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;Adds a Record or Records to the RecordCollection.&lt;/p&gt;
+
+&lt;h5 id=&quot;parameters-1&quot;&gt;Parameters&lt;/h5&gt;
+
+&lt;p&gt;&lt;em&gt;Rec&lt;/em&gt; : &lt;code&gt;Record or iterable[Record]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;A Record or some iterable containg records to add&lt;/p&gt;
+
 &lt;p&gt;&lt;a name=&quot;RecordCollection.citationNetwork&quot;&gt;&lt;/a&gt;RecordCollection.&lt;strong&gt;citationNetwork&lt;/strong&gt;(&lt;em&gt;dropAnon=True, nodeType=’full’, nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, directed=True, keyWords=None&lt;/em&gt;):&lt;/p&gt;
 
 &lt;p&gt;Creates a citation network for the RecordCollection.&lt;/p&gt;
 
-&lt;h5 id=&quot;parameters-1&quot;&gt;Parameters&lt;/h5&gt;
+&lt;h5 id=&quot;parameters-2&quot;&gt;Parameters&lt;/h5&gt;
 
 &lt;p&gt;&lt;em&gt;nodeType&lt;/em&gt; : &lt;code&gt;optional [str]&lt;/code&gt;&lt;/p&gt;
 
@@ -1204,7 +1214,7 @@ bad, searches for bad citations, keyString is not used&lt;/p&gt;
 
 &lt;p&gt;Creates a co-citation network for the RecordCollection.&lt;/p&gt;
 
-&lt;h5 id=&quot;parameters-2&quot;&gt;Parameters&lt;/h5&gt;
+&lt;h5 id=&quot;parameters-3&quot;&gt;Parameters&lt;/h5&gt;
 
 &lt;p&gt;&lt;em&gt;nodeType&lt;/em&gt; : &lt;code&gt;optional [str]&lt;/code&gt;&lt;/p&gt;
 
@@ -1252,7 +1262,7 @@ bad, searches for bad citations, keyString is not used&lt;/p&gt;
 
 &lt;p&gt;Drops the non journal type Records from the collection&lt;/p&gt;
 
-&lt;h5 id=&quot;parameters-3&quot;&gt;Parameters&lt;/h5&gt;
+&lt;h5 id=&quot;parameters-4&quot;&gt;Parameters&lt;/h5&gt;
 
 &lt;p&gt;&lt;em&gt;ptVal&lt;/em&gt; : &lt;code&gt;optional [str]&lt;/code&gt;&lt;/p&gt;
 
@@ -1270,7 +1280,7 @@ bad, searches for bad citations, keyString is not used&lt;/p&gt;
 
 &lt;p&gt;Removes the Record with WOS number (ID number) &lt;em&gt;wosNum&lt;/em&gt;&lt;/p&gt;
 
-&lt;h5 id=&quot;parameters-4&quot;&gt;Parameters&lt;/h5&gt;
+&lt;h5 id=&quot;parameters-5&quot;&gt;Parameters&lt;/h5&gt;
 
 &lt;p&gt;&lt;em&gt;wosNum&lt;/em&gt; : &lt;code&gt;str&lt;/code&gt;&lt;/p&gt;
 
@@ -1284,7 +1294,7 @@ bad, searches for bad citations, keyString is not used&lt;/p&gt;
 
 &lt;p&gt;Gets the Record from the collection by its WOS number.&lt;/p&gt;
 
-&lt;h5 id=&quot;parameters-5&quot;&gt;Parameters&lt;/h5&gt;
+&lt;h5 id=&quot;parameters-6&quot;&gt;Parameters&lt;/h5&gt;
 
 &lt;p&gt;&lt;em&gt;wosNum&lt;/em&gt; : &lt;code&gt;str&lt;/code&gt;&lt;/p&gt;
 
@@ -1316,7 +1326,7 @@ bad, searches for bad citations, keyString is not used&lt;/p&gt;
 
 &lt;p&gt;When used in pandas: &lt;code&gt;pandas.DataFrame(RC.makeDict())&lt;/code&gt; returns a data frame with each column a tag and each row a Record.&lt;/p&gt;
 
-&lt;h5 id=&quot;parameters-6&quot;&gt;Parameters&lt;/h5&gt;
+&lt;h5 id=&quot;parameters-7&quot;&gt;Parameters&lt;/h5&gt;
 
 &lt;p&gt;See writeCSV()&lt;/p&gt;
 
@@ -1330,7 +1340,7 @@ bad, searches for bad citations, keyString is not used&lt;/p&gt;
 
 &lt;p&gt;The number of times each object occurs is count if &lt;em&gt;nodeCount&lt;/em&gt; is &lt;code&gt;True&lt;/code&gt; and the edges count the number of co-occurrences if &lt;em&gt;edgeWeight&lt;/em&gt; is &lt;code&gt;True&lt;/code&gt;. Both are&lt;code&gt;True&lt;/code&gt; by default.&lt;/p&gt;
 
-&lt;h5 id=&quot;parameters-7&quot;&gt;Parameters&lt;/h5&gt;
+&lt;h5 id=&quot;parameters-8&quot;&gt;Parameters&lt;/h5&gt;
 
 &lt;p&gt;&lt;em&gt;mode&lt;/em&gt; : &lt;code&gt;str&lt;/code&gt;&lt;/p&gt;
 
@@ -1360,7 +1370,7 @@ bad, searches for bad citations, keyString is not used&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt; Do not use this for the construction of co-citation networks use &lt;a href=&quot;/metaknowledge/docs/RecordCollection#RecordCollection&quot;&gt;Recordcollection.coCiteNetwork()&lt;/a&gt; it is more accurate and has more options.&lt;/p&gt;
 
-&lt;h5 id=&quot;parameters-8&quot;&gt;Parameters&lt;/h5&gt;
+&lt;h5 id=&quot;parameters-9&quot;&gt;Parameters&lt;/h5&gt;
 
 &lt;p&gt;&lt;em&gt;mode&lt;/em&gt; : &lt;code&gt;str&lt;/code&gt;&lt;/p&gt;
 
@@ -1398,7 +1408,7 @@ bad, searches for bad citations, keyString is not used&lt;/p&gt;
 
 &lt;p&gt;The &lt;em&gt;directed&lt;/em&gt; parameter if &lt;code&gt;True&lt;/code&gt; will cause the network to be directed with the first tag as the source and the second as the destination.&lt;/p&gt;
 
-&lt;h5 id=&quot;parameters-9&quot;&gt;Parameters&lt;/h5&gt;
+&lt;h5 id=&quot;parameters-10&quot;&gt;Parameters&lt;/h5&gt;
 
 &lt;p&gt;&lt;em&gt;mode&lt;/em&gt; : &lt;code&gt;str&lt;/code&gt;&lt;/p&gt;
 
@@ -1466,7 +1476,7 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 &lt;p&gt;Creates a RecordCollection of Records from the years between &lt;em&gt;startYear&lt;/em&gt; and &lt;em&gt;endYear&lt;/em&gt; inclusive.&lt;/p&gt;
 
-&lt;h5 id=&quot;parameters-10&quot;&gt;Parameters&lt;/h5&gt;
+&lt;h5 id=&quot;parameters-11&quot;&gt;Parameters&lt;/h5&gt;
 
 &lt;p&gt;&lt;em&gt;startYear&lt;/em&gt; : &lt;code&gt;int&lt;/code&gt;&lt;/p&gt;
 
@@ -1498,7 +1508,7 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 &lt;p&gt;&lt;em&gt;metaknowledge&lt;/em&gt; is free and open source software, distributed under the GPL License.&lt;/p&gt;
 
-    &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/RecordCollection&quot;&gt;RecordCollection&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on September 12, 2015.&lt;/p&gt;
+    &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/RecordCollection&quot;&gt;RecordCollection&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on September 14, 2015.&lt;/p&gt;
   </content>
 </entry>
 
@@ -1509,8 +1519,8 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
   <title type="html"><![CDATA[Record]]></title>
   <link rel="alternate" type="text/html" href="http://networkslab.org/docs/Record" />
   <id>http://networkslab.org/docs/Record</id>
-  <published>2015-09-12T00:00:00-04:00</published>
-  <updated>2015-09-12T00:00:00-04:00</updated>
+  <published>2015-09-14T00:00:00-04:00</published>
+  <updated>2015-09-14T00:00:00-04:00</updated>
   <author>
     <name>John McLevey and Reid McIlroy-Young</name>
     <uri>http://networkslab.org</uri>
@@ -1658,7 +1668,7 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 &lt;p&gt;&lt;em&gt;metaknowledge&lt;/em&gt; is free and open source software, distributed under the GPL License.&lt;/p&gt;
 
-    &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/Record&quot;&gt;Record&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on September 12, 2015.&lt;/p&gt;
+    &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/Record&quot;&gt;Record&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on September 14, 2015.&lt;/p&gt;
   </content>
 </entry>
 
@@ -1669,8 +1679,8 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
   <title type="html"><![CDATA[Citation]]></title>
   <link rel="alternate" type="text/html" href="http://networkslab.org/docs/Citation" />
   <id>http://networkslab.org/docs/Citation</id>
-  <published>2015-09-12T00:00:00-04:00</published>
-  <updated>2015-09-12T00:00:00-04:00</updated>
+  <published>2015-09-14T00:00:00-04:00</published>
+  <updated>2015-09-14T00:00:00-04:00</updated>
   <author>
     <name>John McLevey and Reid McIlroy-Young</name>
     <uri>http://networkslab.org</uri>
@@ -1810,7 +1820,7 @@ Combined they look like:&lt;/p&gt;
 
 &lt;p&gt;&lt;em&gt;metaknowledge&lt;/em&gt; is free and open source software, distributed under the GPL License.&lt;/p&gt;
 
-    &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/Citation&quot;&gt;Citation&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on September 12, 2015.&lt;/p&gt;
+    &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/Citation&quot;&gt;Citation&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on September 14, 2015.&lt;/p&gt;
   </content>
 </entry>
 

@@ -189,11 +189,21 @@ The comparison operators &lt;, &lt;=, &gt;, &gt;= are based strictly on the numb
 
 <p>The extension to search for when reading a directoy for files. <em>extension</em> is the suffix searched for when a direcorty is read for files, by default it is empty so all files are read.</p>
 
+<p><a name="RecordCollection.addRec"></a>RecordCollection.<strong>addRec</strong>(<em>Rec</em>):</p>
+
+<p>Adds a Record or Records to the RecordCollection.</p>
+
+<h5 id="parameters-1">Parameters</h5>
+
+<p><em>Rec</em> : <code>Record or iterable[Record]</code></p>
+
+<p>A Record or some iterable containg records to add</p>
+
 <p><a name="RecordCollection.citationNetwork"></a>RecordCollection.<strong>citationNetwork</strong>(<em>dropAnon=True, nodeType=’full’, nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, directed=True, keyWords=None</em>):</p>
 
 <p>Creates a citation network for the RecordCollection.</p>
 
-<h5 id="parameters-1">Parameters</h5>
+<h5 id="parameters-2">Parameters</h5>
 
 <p><em>nodeType</em> : <code>optional [str]</code></p>
 
@@ -275,7 +285,7 @@ bad, searches for bad citations, keyString is not used</p>
 
 <p>Creates a co-citation network for the RecordCollection.</p>
 
-<h5 id="parameters-2">Parameters</h5>
+<h5 id="parameters-3">Parameters</h5>
 
 <p><em>nodeType</em> : <code>optional [str]</code></p>
 
@@ -323,7 +333,7 @@ bad, searches for bad citations, keyString is not used</p>
 
 <p>Drops the non journal type Records from the collection</p>
 
-<h5 id="parameters-3">Parameters</h5>
+<h5 id="parameters-4">Parameters</h5>
 
 <p><em>ptVal</em> : <code>optional [str]</code></p>
 
@@ -341,7 +351,7 @@ bad, searches for bad citations, keyString is not used</p>
 
 <p>Removes the Record with WOS number (ID number) <em>wosNum</em></p>
 
-<h5 id="parameters-4">Parameters</h5>
+<h5 id="parameters-5">Parameters</h5>
 
 <p><em>wosNum</em> : <code>str</code></p>
 
@@ -355,7 +365,7 @@ bad, searches for bad citations, keyString is not used</p>
 
 <p>Gets the Record from the collection by its WOS number.</p>
 
-<h5 id="parameters-5">Parameters</h5>
+<h5 id="parameters-6">Parameters</h5>
 
 <p><em>wosNum</em> : <code>str</code></p>
 
@@ -387,7 +397,7 @@ bad, searches for bad citations, keyString is not used</p>
 
 <p>When used in pandas: <code>pandas.DataFrame(RC.makeDict())</code> returns a data frame with each column a tag and each row a Record.</p>
 
-<h5 id="parameters-6">Parameters</h5>
+<h5 id="parameters-7">Parameters</h5>
 
 <p>See writeCSV()</p>
 
@@ -401,7 +411,7 @@ bad, searches for bad citations, keyString is not used</p>
 
 <p>The number of times each object occurs is count if <em>nodeCount</em> is <code>True</code> and the edges count the number of co-occurrences if <em>edgeWeight</em> is <code>True</code>. Both are<code>True</code> by default.</p>
 
-<h5 id="parameters-7">Parameters</h5>
+<h5 id="parameters-8">Parameters</h5>
 
 <p><em>mode</em> : <code>str</code></p>
 
@@ -431,7 +441,7 @@ bad, searches for bad citations, keyString is not used</p>
 
 <p><strong>Note</strong> Do not use this for the construction of co-citation networks use <a href="/metaknowledge/docs/RecordCollection#RecordCollection">Recordcollection.coCiteNetwork()</a> it is more accurate and has more options.</p>
 
-<h5 id="parameters-8">Parameters</h5>
+<h5 id="parameters-9">Parameters</h5>
 
 <p><em>mode</em> : <code>str</code></p>
 
@@ -469,7 +479,7 @@ bad, searches for bad citations, keyString is not used</p>
 
 <p>The <em>directed</em> parameter if <code>True</code> will cause the network to be directed with the first tag as the source and the second as the destination.</p>
 
-<h5 id="parameters-9">Parameters</h5>
+<h5 id="parameters-10">Parameters</h5>
 
 <p><em>mode</em> : <code>str</code></p>
 
@@ -537,7 +547,7 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>Creates a RecordCollection of Records from the years between <em>startYear</em> and <em>endYear</em> inclusive.</p>
 
-<h5 id="parameters-10">Parameters</h5>
+<h5 id="parameters-11">Parameters</h5>
 
 <p><em>startYear</em> : <code>int</code></p>
 
@@ -591,7 +601,7 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 	
   
 	
-  <a href="/metaknowledge/feed.xml" title="Atom/RSS feed"><i class="fa fa-rss-square fa-2x"></i></a>
+  
 </div><!-- /.social-icons -->
 
   </footer>

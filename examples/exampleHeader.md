@@ -6,7 +6,14 @@ search_omit: true
 ---
 
 <ul class="post-list">
-{% for post in site.categories.examples %}
-  <li><article><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}{% if post.excerpt %} <span class="excerpt">{{ post.excerpt }}</span>{% endif %}</a></article></li>
-{% endfor %}
+
+  <li><article>
+  <a href="{{ site.baseurl }}/examples/#Getting-Started">Getting Started</a>
+  </article></li>
+  <li><article>
+  <a href="{{ site.baseurl }}/examples/#Reading-Files">Reading Files</a>
+  </article></li>
+  <li><article>
+  <a href="{{ site.baseurl }}/examples/#The-RecordCollections-object">The RecordCollections object</a>
+  </article></li>
 </ul>

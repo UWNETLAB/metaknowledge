@@ -4,7 +4,7 @@ import numpy as np
 import scipy.ndimage as ndi
 import math
 
-def quickGraph(G, showLabel = False):
+def quickVisual(G, showLabel = False):
     """just makes a simple matplolib figure and displays it, with each node coloured by its type"""
     colours = "brcmykwg"
     f = plt.figure(1)

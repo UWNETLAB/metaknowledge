@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 import metaknowledge
 import metaknowledge.journalAbbreviations
 import networkx as nx
@@ -292,7 +290,7 @@ def  outputNetwork(clargs, grph):
     print("The network contains {} nodes and {} edges.".format(len(grph.nodes()), len(grph.edges())))
     outID = int(inputMenu(outDict, header = "What type of output to you want? "))
     if outID == 0:
-        metaknowledge.visual.quickGraph(grph)
+        metaknowledge.visual.quickVisual(grph)
         outputNetwork(clargs, grph)
     elif outID == 1:
         while True:
@@ -323,7 +321,7 @@ def  outputNetwork(clargs, grph):
         outName = getOutputName(clargs, '.graphml')
         nx.write_graphml(grph, outName)
 
-def main():
+def mkCLI():
     try:
         args = argumentParser()
         if args.progress:
@@ -348,4 +346,4 @@ def main():
         return 1
 
 if __name__ == "__main__":
-    main()
+    mkCLI()

@@ -8,7 +8,7 @@ search_omit: true
 <ul class="post-list">
 
   <li><article>
-  <a href="{{ site.baseurl }}/examples/#Getting-Started">Getting Started</a>
+  <a href="{{ site.baseurl }}/examples/#Context">Context</a>
   </article></li>
   <li><article>
   <a href="{{ site.baseurl }}/examples/#Importing">Importing</a>
@@ -17,13 +17,13 @@ search_omit: true
   <a href="{{ site.baseurl }}/examples/#Reading-Files">Reading Files</a>
   </article></li>
   <li><article>
-  <a href="{{ site.baseurl }}/examples/#The-Record-object">The Record object</a>
+  <a href="{{ site.baseurl }}/examples/#Record-object">Record object</a>
   </article></li>
   <li><article>
-  <a href="{{ site.baseurl }}/examples/#The-RecordCollection-object">The RecordCollection oject</a>
+  <a href="{{ site.baseurl }}/examples/#RecordCollection-object">RecordCollection object</a>
   </article></li>
   <li><article>
-  <a href="{{ site.baseurl }}/examples/#The-Citation-object">The Citation oject</a>
+  <a href="{{ site.baseurl }}/examples/#Citation-object">Citation object</a>
   </article></li>
   <li><article>
   <a href="{{ site.baseurl }}/examples/#Filtering">Filtering</a>

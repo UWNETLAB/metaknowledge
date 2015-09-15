@@ -64,7 +64,7 @@ When you see a page with:
 
 You have installed everything successfully.
 
-To open the page again just double click on which ever of mac\_run and win\_run you used. It should take less than a minute the second time.
+To open the page again just double click on which ever of win\_run, mac\_run or linux\_run you used. It should take less than a minute the second time.
 
 ###Advanced Instructions
 0. Install [Vagrant](https://www.vagrantup.com/downloads.html) and [VirtualBox](https://www.virtualbox.org/wiki/Downloads)

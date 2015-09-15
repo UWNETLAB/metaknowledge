@@ -1,4 +1,4 @@
-# Getting Started
+#Context
 
 
 {% comment %}
@@ -66,7 +66,7 @@ Now you have a `RecordCollection` composed of all the WOS records in the selecte
 You might have noticed I used two different ways to display the `RecordCollection`. `repr(RC)` will give you where _metaknowledge_ thinks the collection came from. While `str(RC)` will give you a nice string containing the number of `Records`.
 
 
-#The `Record` object
+#`Record` object
 
 
 [`Record`]({{ site.baseurl }}/docs/Record#Record) is an object that contains a simple WOS record, for example a journal article, book, or conference proceedings. They are what [`RecordCollections`]({{ site.baseurl }}/docs/RecordCollection#RecordCollection) contain. To see an individual [`Record`]({{ site.baseurl }}/docs/Record#Record) at random from a `RecordCollection` you can use `peak()`
@@ -91,7 +91,7 @@ There are two ways of getting each tag, one is using the WOS 2 letter abbreviati
 []print(R.activeTags())
 
 
-#The `RecordCollection` object
+#`RecordCollection` object
 
 
 [`RecordCollection`]({{ site.baseurl }}/docs/RecordCollection#RecordCollection) is the object that _metaknowledge_ uses the most. It is your interface with the data you want.
@@ -106,7 +106,7 @@ The individual `Records` are index by their WOS numbers so you can access a spec
 []RC.getWOS("WOS:A1979GV55600001")
 
 
-#The `Citation` object
+#`Citation` object
 
 
 [`Citation`]({{ site.baseurl }}/docs/Citation#Citation) is an object to contain the results of parsing a citation. They can be created from a `Record`
@@ -209,10 +209,10 @@ A bit basic but gives a general idea. If you want to make a much better looking 
 # Making a citation network
 
 
-The [`citationNetwork()`]({{ site.baseurl }}/docs/RecordCollection#citationNetwork) method is nearly identical to `coCiteNetwork()` in its parameters. It has one additional keyword argument `directed` which controls wether it produces a directed network, but the rest is the same. So read [**Making a co-citation network**]({{ site.baseurl }}/examples/#Making-a-co-citation-network) to learn more about `citationNetwork()`.
+The [`citationNetwork()`]({{ site.baseurl }}/docs/RecordCollection#citationNetwork) method is nearly identical to `coCiteNetwork()` in its parameters. It has one additional keyword argument `directed` that controls if it produces a directed network. Read [**Making a co-citation network**]({{ site.baseurl }}/examples/#Making-a-co-citation-network) to learn more about `citationNetwork()`.
 
 
-One small example is still worth providing. If you wanted to make a network of the citations of years by other years and have the letter `'A'` in them then you would write:
+One small example is still worth providing. If you want to make a network of the citations of years by other years and have the letter `'A'` in them then you would write:
 
 []citationsA = RC.citationNetwork(nodeType = 'year', keyWords = ['A'])
 []print(mk.graphStats(citationsA))

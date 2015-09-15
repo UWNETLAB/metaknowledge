@@ -28,7 +28,6 @@ def quickVisual(G, showLabel = False):
         nx.draw_networkx_labels(G, pos = layout, font_size = 8, ax = ax)
     plt.axis('off')
     f.set_facecolor('w')
-    plt.legend()
 
 def graphDensityContourPlot(G, layout = None, layoutScaleFactor = 1, shifAxis = False, overlay = False, axisSamples = 100, blurringFactor = .1, contours = 15, nodeSize = 10, graphType = 'coloured', iters = 50):
     """

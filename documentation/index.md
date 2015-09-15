@@ -42,7 +42,7 @@ The instructions for those familiar with the command line use the advanced instr
 
 First you need to install [Vagrant](https://www.vagrantup.com/downloads.html) and [VirtualBox](https://www.virtualbox.org/wiki/Downloads) before you can install metaknowledge.
 
-Once vagrant and virtualBox are installed, download [metaknowledge](https://github.com/networks-lab/metaknowledge/archive/release.zip). Unzip the file, if you do not have a tool to do this you can download [7-Zip](http://www.7-zip.org/) and use it.
+Once vagrant and virtualBox are installed, download [metaknowledge](https://github.com/networks-lab/metaknowledge/archive/master.zip). Unzip the file, if you do not have a tool to do this you can download [7-Zip](http://www.7-zip.org/) and use it.
 
 Open the directory metaknowledge then go to the vagrant subdirectory. If you are using windows double click on win\_run or if you are using a Macintosh double click on mac\_run, if you are using Linux use linux\_run.
 
@@ -60,7 +60,6 @@ Then if you a page with see:
 
     Lesson-0
     Lesson-1
-    Lesson-2
     ...
 
 You have installed everything successfully.
@@ -69,7 +68,7 @@ To open the page again just double click on which ever of mac\_run and win\_run 
 
 ###Advanced Instructions
 0. Install [Vagrant](https://www.vagrantup.com/downloads.html) and [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
-1. Clone the git [repo](https://github.com/networks-lab/metaknowledge.git)
+1. Clone the [git repo](https://github.com/networks-lab/metaknowledge.git)
 2. Make sure you are on the master branch
 3. Go to the vagrant directory
 4. Run `vagrant up`

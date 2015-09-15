@@ -1,1 +1,3 @@
-from .plotting import graphDensityContourPlot, quickGraph
+"""visual docstring"""
+
+from .plotting import graphDensityContourPlot, quickVisual

@@ -40,6 +40,15 @@ class TestRecordCollection(unittest.TestCase):
         RCcopy.dropNonJournals(ptVal = 'B')
         self.assertEqual(len(RCcopy), 1)
 
+    def test_addRec(self):
+        l = len(self.RC)
+        R = self.RC.pop()
+        self.assertEqual(len(self.RC), l - 1)
+        self.RC.addRec(R)
+        self.assertEqual(len(self.RC), l)
+        RC2 = metaknowledge.RecordCollection("metaknowledge/tests/TwoPaper.isi")
+        self.RC.addRec(RC2)
+        self.assertEqual(len(self.RC), l + 2)
 
     def test_getWOS(self):
         self.RC.dropBadRecords()
@@ -94,7 +103,6 @@ class TestRecordCollection(unittest.TestCase):
         d = self.RC.makeDict(longNames = False, cleanedVal = False)
         self.assertEqual(len(d), 42)
         self.assertEqual(len(d['UT']), len(self.RC))
-        self.assertEqual(d['EI'][0], None)
         self.assertIsInstance(d['CR'], list)
 
     def test_coCite(self):
@@ -103,7 +111,7 @@ class TestRecordCollection(unittest.TestCase):
         GauthsNoExtra = self.RC.coCiteNetwork(nodeType = "author", nodeInfo = False)
         Gunwei = self.RC.coCiteNetwork(nodeType = 'original', weighted = False)
         Gjour = self.RC.coCiteNetwork(nodeType = "journal", dropNonJournals = True)
-        Gyear = self.RC.coCiteNetwork(nodeType = "year", fullInfo = True)
+        Gyear = self.RC.coCiteNetwork(nodeType = "year", fullInfo = True, count = False)
         self.assertIsInstance(Gdefault, nx.classes.graph.Graph)
         self.assertLessEqual(len(Gdefault.edges()), len(Gunwei.edges()))
         self.assertLessEqual(len(Gdefault.nodes()), len(Gunwei.nodes()))
@@ -114,13 +122,13 @@ class TestRecordCollection(unittest.TestCase):
         self.assertTrue('fullCite' in Gdefault.nodes(data = True)[0][1])
         self.assertFalse('weight' in Gunwei.edges(data = True)[0][2])
         self.assertEqual(len(Gdefault.nodes()), 518)
-        self.assertEqual(len(Gdefault.edges()), 14775)
+        self.assertEqual(len(Gdefault.edges()), 14261)
         self.assertEqual(len(Gauths.nodes()), 322)
-        self.assertEqual(len(Gauths.edges()), 6996)
+        self.assertEqual(len(Gauths.edges()), 6743)
         self.assertEqual(len(Gyear.nodes()), 91)
-        self.assertEqual(len(Gyear.edges()), 1962)
+        self.assertEqual(len(Gyear.edges()), 1925)
         self.assertEqual(len(Gjour.nodes()), 84)
-        self.assertEqual(len(Gjour.edges()), 1215)
+        self.assertEqual(len(Gjour.edges()), 1167)
         self.assertTrue('info' in Gjour.nodes(data=True)[0][1])
         self.assertTrue('info' in Gyear.nodes(data=True)[0][1])
         self.assertTrue('fullCite' in Gyear.nodes(data = True)[0][1])
@@ -132,13 +140,13 @@ class TestRecordCollection(unittest.TestCase):
         self.assertEqual(len(Gdefault.edges()), 46)
 
     def test_Cite(self):
-        Gdefault = self.RC.citationNetwork(extraInfo = True)
+        Gdefault = self.RC.citationNetwork(fullInfo = True, count = False)
         Ganon = self.RC.citationNetwork(dropAnon = False)
         Gauths = self.RC.citationNetwork(nodeType = "author")
-        GauthsNoExtra = self.RC.citationNetwork(nodeType = "author", extraInfo = False)
+        GauthsNoExtra = self.RC.citationNetwork(nodeType = "author", nodeInfo = False)
         Gunwei = self.RC.citationNetwork(nodeType = 'original', weighted = False)
-        Gjour = self.RC.citationNetwork(nodeType = "author", dropNonJournals = True, saveJournalNames = True)
-        Gyear = self.RC.citationNetwork(nodeType = "year", saveJournalNames = True)
+        Gjour = self.RC.citationNetwork(nodeType = "author", dropNonJournals = True, nodeInfo = True, count = False)
+        Gyear = self.RC.citationNetwork(nodeType = "year", nodeInfo = True)
         self.assertIsInstance(Gdefault, nx.classes.digraph.DiGraph)
         self.assertLessEqual(len(Gdefault.edges()), len(Gunwei.edges()))
         self.assertLessEqual(len(Gdefault.nodes()), len(Gunwei.nodes()))
@@ -147,8 +155,6 @@ class TestRecordCollection(unittest.TestCase):
         self.assertTrue('weight' in Gdefault.edges(data = True)[0][2])
         self.assertTrue('info' in Gdefault.nodes(data = True)[0][1])
         self.assertFalse('weight' in Gunwei.edges(data = True)[0][2])
-        self.assertGreater(len(Gdefault.nodes()), len(Gauths.nodes()))
-        self.assertGreater(len(Ganon.nodes()), len(Gdefault.nodes()))
         self.assertEqual(len(Gdefault.nodes()), 535)
         self.assertEqual(len(Ganon.nodes()), 536)
         self.assertEqual(len(Gauths.nodes()), 325)
@@ -156,8 +162,8 @@ class TestRecordCollection(unittest.TestCase):
         self.assertEqual(len(Ganon.edges()), 848)
         self.assertEqual(len(Gauths.edges()), 569)
         self.assertEqual(len(Gjour.edges()), 429)
-        self.assertTrue('journal' in Gjour.nodes(data=True)[0][1])
-        self.assertTrue('journal' in Gyear.nodes(data=True)[0][1])
+        self.assertTrue('info' in Gjour.nodes(data=True)[0][1])
+        self.assertTrue('info' in Gyear.nodes(data=True)[0][1])
 
 
     def test_oneMode(self):
@@ -196,6 +202,18 @@ class TestRecordCollection(unittest.TestCase):
         G = self.RC.nModeNetwork(metaknowledge.tagToFull.keys())
         self.assertEqual(len(G.nodes()), 1186)
         self.assertEqual(len(G.edges()), 38592)
+
+    def test_localCiteStats(self):
+        d = self.RC.localCiteStats()
+        dPan = self.RC.localCiteStats(pandasFriendly = True)
+        self.assertEqual(d[metaknowledge.Citation("PHYS REV LETT, V4, P224, DOI 10.1103/PhysRevLett.4.224")], 1)
+        self.assertEqual(len(dPan['Citations']),len(d))
+        self.assertTrue(dPan['Citations'][0] in d)
+
+    def test_localCitesOf(self):
+        C = metaknowledge.Citation("COSTADEB.O, 1974, LETT NUOVO CIMENTO, V10, P852")
+        self.assertEqual("WOS:A1976CW02200002", self.RC.localCitesOf(C).peak().UT)
+        self.assertEqual(self.RC.localCitesOf(self.RC.peak().UT), self.RC.localCitesOf(self.RC.peak().createCitation()))
 
     def test_citeFilter(self):
         RCmin = self.RC.citeFilter('', reverse = True)

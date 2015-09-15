@@ -260,6 +260,22 @@ class Citation(object):
             return None
 
     def addToDB(self, manualName = None, manaulDB = manaulDBname, invert = False):
+        """Adds the journal of this Citation to the user created database of journals. This will cause [isJournal()](#Citation.isJournal) to return `True` for this Citation and all others with its `.journal`.
+
+        # Parameters
+
+        _manualName_ : `optional [str]`
+
+        > Default `None`, the full name of journal to use. If not provided the full name will be the same as the abbreviation.
+
+        _manaulDB_ : `optional [str]`
+
+        > The name of the database file, the default is [metaknowledge.journalAbbreviations.manaulDBname](#journalAbbreviations.manaulDBname)
+
+        _invert_ : `optional [bool]`
+
+        > Default `False`, if `True` the journal will be removed instead of added
+        """
         try:
             if invert:
                 d = {self.journal : ''}
@@ -275,6 +291,25 @@ class Citation(object):
             abbrevDict.update(d)
 
 def filterNonJournals(citesLst, invert = False):
+    """Removes the Citations from _citesLst_ that are not journals.
+
+    # Parameters
+
+    _citesLst_ : `list [Citation]`
+
+    > A list of citations to be filtered
+
+    _invert_ : `optional [bool]`
+
+    > Default `False`, if `True` non-journals will be kept istead of journals
+
+    # Returns
+
+    `list [Citation]`
+
+    > A filtered list of Citations from _citesLst_
+    """
+
     retCites = []
     for c in citesLst:
         if c.isJournal():

@@ -11,10 +11,19 @@ search_omit: true
   <a href="{{ site.baseurl }}/examples/#Getting-Started">Getting Started</a>
   </article></li>
   <li><article>
+  <a href="{{ site.baseurl }}/examples/#Importing">Importing</a>
+  </article></li>
+  <li><article>
   <a href="{{ site.baseurl }}/examples/#Reading-Files">Reading Files</a>
   </article></li>
   <li><article>
-  <a href="{{ site.baseurl }}/examples/#The-RecordCollection-Object">The RecordCollection Object</a>
+  <a href="{{ site.baseurl }}/examples/#The-Record-object">The Record object</a>
+  </article></li>
+  <li><article>
+  <a href="{{ site.baseurl }}/examples/#The-RecordCollection-object">The RecordCollection oject</a>
+  </article></li>
+  <li><article>
+  <a href="{{ site.baseurl }}/examples/#The-Citation-object">The Citation oject</a>
   </article></li>
   <li><article>
   <a href="{{ site.baseurl }}/examples/#Filtering">Filtering</a>

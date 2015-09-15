@@ -290,7 +290,7 @@ def  outputNetwork(clargs, grph):
     print("The network contains {} nodes and {} edges.".format(len(grph.nodes()), len(grph.edges())))
     outID = int(inputMenu(outDict, header = "What type of output to you want? "))
     if outID == 0:
-        metaknowledge.visual.quickGraph(grph)
+        metaknowledge.visual.quickVisual(grph)
         outputNetwork(clargs, grph)
     elif outID == 1:
         while True:

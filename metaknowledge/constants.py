@@ -4,7 +4,7 @@ def isInteractive():
     """
     import sys
     try:
-        s = sys.ps1 #pylint: disable=all
+        s = sys.ps1
         if isinstance(s, str) and sys.stdout.isatty():
             import os
             if os.name != 'nt':

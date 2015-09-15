@@ -1,21 +1,17 @@
+import os
+import sys
+
 def isInteractive():
     """
     A basic check of if the program is running in interactive mode
     """
-    import sys
-    try:
-        s = sys.ps1
-        if isinstance(s, str) and sys.stdout.isatty():
-            import os
-            if os.name != 'nt':
-                return True
-            else:
-                return False
+    if sys.stdout.isatty():
+        if os.name != 'nt':
+            return True
         else:
             return False
-    except AttributeError:
+    else:
         return False
-
 
 VERBOSE_MODE = isInteractive()
 

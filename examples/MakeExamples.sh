@@ -8,4 +8,4 @@ jupyter nbconvert --to html --template basic --execute metaknowledgeExamples.ipy
 echo "Rewriting examples/index.md"
 cat exampleHeader.md metaknowledgeExamples.html exampleFooter.md > index.md
 echo "Cleaning up"
-rm metaknowledgeExamples.html
+rm metaknowledgeExamples.html FinalJournalCoCites_nodeAttributes.csv FinalJournalCoCites_edgeList.csv Records_Starting_with_A.csv Records_Starting_with_A.txt

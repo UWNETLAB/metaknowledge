@@ -19,4 +19,31 @@ search_omit: true
   <li><article>
   <a href="{{ site.baseurl }}/examples/#Filtering">Filtering</a>
   </article></li>
+  <li><article>
+  <a href="{{ site.baseurl }}/examples/#Exporting-RecordCollections">Exporting RecordCollections</a>
+  </article></li>
+  <li><article>
+  <a href="{{ site.baseurl }}/examples/#Making-a-co-citation-network">Making a co-citation network</a>
+  </article></li>
+  <li><article>
+  <a href="{{ site.baseurl }}/examples/#Making-a-citation-network">Making a citation network</a>
+  </article></li>
+  <li><article>
+  <a href="{{ site.baseurl }}/examples/#Making-a-co-author-network">Making a co-author network</a>
+  </article></li>
+  <li><article>
+  <a href="{{ site.baseurl }}/examples/#Making-a-one-mode-network">Making a one-mode network</a>
+  </article></li>
+  <li><article>
+  <a href="{{ site.baseurl }}/examples/#Making-a-two-mode-network">Making a two-mode network</a>
+  </article></li>
+  <li><article>
+  <a href="{{ site.baseurl }}/examples/#Making-a-multi-mode-network">Making a multi-mode network</a>
+  </article></li>
+  <li><article>
+  <a href="{{ site.baseurl }}/examples/#Post-processing-graphs">Post processing graphs</a>
+  </article></li>
+  <li><article>
+  <a href="{{ site.baseurl }}/examples/#Exporting-graphs">Exporting graphs</a>
+  </article></li>
 </ul>

@@ -15,7 +15,7 @@ setup(name='metaknowledge',
     author_email = "rmcilroy@uwaterloo.ca, john.mclevey@uwaterloo.ca",
     license = 'GPL',
     url="https://github.com/networks-lab/metaknowledge",
-    download_url = "https://github.com/networks-lab/metaknowledge/archive/0.3.5.tar.gz",
+    download_url = "https://github.com/networks-lab/metaknowledge/archive/0.9.0.tar.gz",
     keywords= 'WOS',
     classifiers = [
     'Development Status :: 4 - Beta',

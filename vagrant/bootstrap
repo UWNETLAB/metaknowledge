@@ -14,13 +14,13 @@ echo "alias pip='pip3'" >> /home/vagrant/.bashrc
 echo "alias ipython='ipython3'" >> /home/vagrant/.bashrc
 echo "alias easy_install='easy_install3'" >> /home/vagrant/.bashrc
 
-pip3 install networkx ipython matplotlib pandas seaborn igraph jupyter metaknowledge#Add to pip here
+pip3 install networkx ipython matplotlib pandas seaborn igraph jupyter metaknowledge #Add to pip here
 
 mkdir -p /vagrant/vagrant/logs/
 
 echo "#!/bin/bash" > /etc/rc.local
-echo "while [ ! -d /vagrant/vagrant/profile_wosserver ] ; do sleep 1 ; done" >> /etc/rc.local
-echo "/usr/local/bin/jupyter-notebook --no-browser --ProfileDir.location=/vagrant/vagrant/profile_wosserver --ip='*' --port=8888 --notebook-dir=/notebooks 2>&1 | tee -a /vagrant/vagrant/logs/ipythonNoteBook.log /home/vagrant/ipythonNoteBook.log &" >> /etc/rc.local
+echo "while [ ! -d /vagrant/vagrant ] ; do sleep 1 ; done" >> /etc/rc.local
+echo "/usr/local/bin/jupyter-notebook --no-browser --ip='*' --port=8888 --notebook-dir=/notebooks 2>&1 | tee -a /vagrant/vagrant/logs/ipythonNoteBook.log /home/vagrant/ipythonNoteBook.log &" >> /etc/rc.local
 echo "echo 'Starting Notebook server'" >> /etc/rc.local
 echo "echo 'Pulling metaknowledge'" >> /etc/rc.local
 echo "git -C /vagrant pull" >> /etc/rc.local

@@ -2,13 +2,16 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import numpy as np
 import scipy.ndimage as ndi
+import math
 
 def quickGraph(G, showLabel = False):
     """just makes a simple matplolib figure and displays it, with each node coloured by its type"""
     colours = "brcmykwg"
+    f = plt.figure(1)
+    ax = f.add_subplot(1,1,1)
     ndTypes = []
     ndColours = []
-    layout = nx.spring_layout(G)
+    layout = nx.spring_layout(G, k = 4 / math.sqrt(len(G.nodes())))
     for nd in G.nodes(data = True):
         if 'type' in nd[1]:
             if nd[1]['type'] not in ndTypes:
@@ -17,11 +20,15 @@ def quickGraph(G, showLabel = False):
         elif len(ndColours) > 1:
             raise RuntimeError("Some nodes do not have a type")
     if len(ndColours) < 1:
-        ndColours = 'b'
-    nx.draw_networkx_nodes(G, pos = layout, node_color = ndColours, node_shape = '8')
-    nx.draw_networkx_edges(G, pos = layout, width = .7)
+        nx.draw_networkx_nodes(G, pos = layout, node_color = colours[0], node_shape = '8', node_size = 100, ax = ax)
+    else:
+        nx.draw_networkx_nodes(G, pos = layout, node_color = ndColours, node_shape = '8', node_size = 100, ax = ax)
+    nx.draw_networkx_edges(G, pos = layout, width = .7, ax = ax)
     if showLabel:
-        nx.draw_networkx_labels(G, pos = layout)
+        nx.draw_networkx_labels(G, pos = layout, font_size = 8, ax = ax)
+    plt.axis('off')
+    f.set_facecolor('w')
+    plt.legend()
 
 def graphDensityContourPlot(G, layout = None, layoutScaleFactor = 1, shifAxis = False, overlay = False, axisSamples = 100, blurringFactor = .1, contours = 15, nodeSize = 10, graphType = 'coloured', iters = 50):
     """

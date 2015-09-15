@@ -173,17 +173,15 @@
 
 </ul>
 
-<p><a name="Installing"></a></p>
+<h2 id="a-nameinstallingainstallation"><a name="Installing"></a>Installation</h2>
 
-<h2 id="installation">Installation</h2>
-
-<p>metaknowledge has two distributions the simplest is found under the release branch of the git <a href="https://github.com/networks-lab/metaknowledge/tree/release">repo</a>. This can be installed the usual way with pip</p>
+<p>metaknowledge has two distributions the simplest is found under the release branch of the <a href="https://github.com/networks-lab/metaknowledge/tree/release">git repo</a>. This can be installed the usual way with pip</p>
 
 <div class="highlight"><pre><code class="language-bash" data-lang="bash">pip3 install metaknowledge</code></pre></div>
 
-<p>The second version is at the master branch on <a href="https://github.com/networks-lab/metaknowledge">github</a> and comes with documents extra resources for teaching.</p>
+<p>The second version is at the master branch on <a href="https://github.com/networks-lab/metaknowledge">github</a> and comes with extra documents and resources for teaching.</p>
 
-<p>The <a href="https://github.com/networks-lab/metaknowledge">download</a> from Github includes a customized <a href="https://www.vagrantup.com">Vagrant</a> file that installs <a href="https://github.com/networks-lab/metaknowledge/archive/release.zip">metaknowledge</a> and other useful Python libraries into a virtual machine. It is currently the easiest way of getting metaknowledge working if you are not already familiar with Python.</p>
+<p>The <a href="https://github.com/networks-lab/metaknowledge/archive/master.zip">download</a> from Github includes a customized <a href="https://www.vagrantup.com">Vagrant</a> file that installs metaknowledge and other useful Python libraries into a virtual machine. It is the easiest way of getting metaknowledge working if you are not familiar with Python.</p>
 
 <h2 id="install-with-vagrant">Install with Vagrant</h2>
 
@@ -210,7 +208,7 @@ default: Box Version: &gt;= 0
 
 <p>It will also tell how long it will take, which is usually around 20 minutes. Now you just have to wait for it to finish. Once that is done a bunch of text will appear, it should take another 10 minutes. Then a browser window will appear at the notebooks and everything is done. If a browser window opens and it is showing <code>No data received</code> hit refresh a couple times.</p>
 
-<p>If you see:</p>
+<p>Then if you a page with see:</p>
 
 <pre><code>Lesson-0
 Lesson-1
@@ -226,12 +224,13 @@ Lesson-2
 <ol>
   <li>Install <a href="https://www.vagrantup.com/downloads.html">Vagrant</a> and <a href="https://www.virtualbox.org/wiki/Downloads">VirtualBox</a></li>
   <li>Clone the git <a href="https://github.com/networks-lab/metaknowledge.git">repo</a></li>
+  <li>Make sure you are on the master branch</li>
   <li>Go to the vagrant directory</li>
   <li>Run <code>vagrant up</code></li>
   <li>Once vagrant has finished go to <a href="http://localhost:1159/">http://localhost:1159/</a></li>
 </ol>
 
-<p>What you are doing by running <code>vagrant up</code> is creating an Ubuntu VM and provisioning it with the script bootstrap also in vagrant. If you run<code>vagrant up</code> again it only starts the VM. So to access the VM once it is created:</p>
+<p>What you are doing by running <code>vagrant up</code> is creating an Ubuntu VM and provisioning it with the script <code>bootstrap</code> also in vagrant. If you run<code>vagrant up</code> again it only starts the VM. To access the VM]s notebook once it is created:</p>
 
 <ol>
   <li>Go to the vagrant directory</li>
@@ -239,11 +238,11 @@ Lesson-2
   <li>Once vagrant has finished go to <a href="http://localhost:1159/">http://localhost:1159/</a></li>
 </ol>
 
-<p>You can also use <code>vagrant ssh</code> to ssh into the VM or <code>vagrant provision</code> to rerun bootstrap. If you want to access the vm directly you can open VirtualBox and run the VM called Networks_Lab, the user name is vagrant and the password is password.</p>
+<p>You can also use <code>vagrant ssh</code> to ssh into the VM or <code>vagrant provision</code> to rerun bootstrap.</p>
 
 <h2 id="install-without-vagrant">Install without Vagrant</h2>
 
-<p>Installing without Vagrant is done with <a href="https://pypi.python.org/pypi/setuptools">setuptools</a>. Go to the metaknowledge directory and run <code>python3 setup.py install</code>. This is the same version as the that on PyPi with some extra command line tools.</p>
+<p>Installing without Vagrant is done with <a href="https://pypi.python.org/pypi/setuptools">setuptools</a>. Go to the metaknowledge directory and run <code>python3 setup.py install</code>. This is the same version as the that on PyPi with some extra development command line tools.</p>
 
 <hr />
 

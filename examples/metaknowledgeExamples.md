@@ -1,5 +1,6 @@
 # Getting Started
 
+
 {% comment %}
 
 # Notes for those who downloaded the notebook
@@ -251,4 +252,4 @@ These files are simple CSVs an can be read easily by most systems. If you want t
 [] FinalJournalCoCites = mk.read_graph("FinalJournalCoCites_edgeList.csv", "FinalJournalCoCites_nodeAttributes.csv")
 []mk.graphStats(FinalJournalCoCites)
 
-This is full example workflow for metaknowledge, the package is flexible and you hopefully will be able to customize it to do what you want (I assume you do not want the Records staring with 'A'). 
+This is full example workflow for metaknowledge, the package is flexible and you hopefully will be able to customize it to do what you want (I assume you do not want the Records staring with 'A').

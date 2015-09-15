@@ -56,7 +56,7 @@ A window should pop up and say something like:
 
 It will also tell how long it will take, which is usually around 20 minutes. Now you just have to wait for it to finish. Once that is done a bunch of text will appear, it should take another 10 minutes. Then a browser window will appear at the showing the notebooks. If a browser window opens and it is showing `No data received` hit refresh a couple times.
 
-Then if you see a page with:
+When you see a page with:
 
     Lesson-0
     Lesson-1

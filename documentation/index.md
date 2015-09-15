@@ -54,7 +54,7 @@ A window should pop up and say something like:
     default: Box Provider: virtualbox
     default: Box Version: >= 0
 
-It will also tell how long it will take, which is usually around 20 minutes. Now you just have to wait for it to finish. Once that is done a bunch of text will appear, it should take another 10 minutes. Then a browser window will appear at the notebooks and everything is done. If a browser window opens and it is showing `No data received` hit refresh a couple times.
+It will also tell how long it will take, which is usually around 20 minutes. Now you just have to wait for it to finish. Once that is done a bunch of text will appear, it should take another 10 minutes. Then a browser window will appear at the showing the notebooks. If a browser window opens and it is showing `No data received` hit refresh a couple times.
 
 Then if you a page with see:
 

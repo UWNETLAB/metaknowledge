@@ -3,7 +3,7 @@ import metaknowledge
 from .record import Record, BadISIFile
 from .graphHelpers import _ProgressBar
 from .constants import tagsAndNames, tagToFull, fullToTag
-from .citation import filterNonJournals, Citation
+from .citation import Citation
 
 import itertools
 import os.path
@@ -370,7 +370,7 @@ class RecordCollection(object):
         f.write('EF')
         f.close()
 
-    def writeCSV(self, fname = None, onlyTheseTags = None, longNames = False, firstTags = ['UT', 'PT', 'TI', 'AF', 'CR'], csvDelimiter = ',', csvQuote = '"', listDelimiter = '|'):
+    def writeCSV(self, fname = None, onlyTheseTags = None, longNames = False, firstTags = None, csvDelimiter = ',', csvQuote = '"', listDelimiter = '|'):
         """Writes all the Records from the collection into a csv file with each row a record and each column a tag
 
         fname is the name of the file to write to, if none is given it uses the Collections name suffixed by .csv
@@ -389,6 +389,8 @@ class RecordCollection(object):
 
         listDelimiter is the delimiter used between values of the same cell if the tag for that record has multiple outputs, default is the pipe (|)
         """
+        if firstTags is None:
+            firstTags = ['UT', 'PT', 'TI', 'AF', 'CR']
         for i in range(len(firstTags)):
             if firstTags[i] in fullToTag:
                 firstTags[i] = fullToTag[firstTags[i]]
@@ -547,8 +549,6 @@ class RecordCollection(object):
 
         > A networkx graph with hashes as ID and co-citation as edges
         """
-
-        builinFilters = ["dropAnon", "dropNonJournals", "dropJournals"]
         allowedTypes = ["full", "original", "author", "journal", "year"]
         if nodeType not in allowedTypes:
             raise ValueError("{} is not an allowed nodeType.".format(nodeType))

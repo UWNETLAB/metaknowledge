@@ -123,9 +123,9 @@ def writePYcell(s, excount = ''):
    }},
    "outputs": [],
    "source": [
-    "{1}"
+    "{}"
    ]
-  }}""".format(excount, stringPreprossesing(s))
+  }}""".format(stringPreprossesing(s))
 
 def mkMdToNb():
     args = argumentParser()

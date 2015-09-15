@@ -150,7 +150,7 @@ def main(args):
         try:
             os.mkdir(wDir)
         except OSError:
-            print('Creating the directory {} failed'.format(os.dir))
+            print('Creating the directory {} failed'.format(wDir))
             return 1
     os.chdir(wDir)
     classes = []

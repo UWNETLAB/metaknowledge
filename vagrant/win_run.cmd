@@ -1,5 +1,5 @@
 @Echo OFF
 vagrant up
-ping localhost
+vagrant provision
 start "" http://localhost:1159
 pause

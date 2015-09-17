@@ -3,6 +3,7 @@
 import argparse
 import re
 import os.path
+import subprocess
 
 args = argparse.Namespace()
 codeRegex = re.compile(r'\[([0-9]*)\](.*)')
@@ -39,7 +40,9 @@ endString = """  ],
 def argumentParser():
     parser = argparse.ArgumentParser(description="A simple script to convert markdown (.md) files to iPython Notebooks (.ipynb)")
     #parser.add_argument("--output", "-o")
+    #parser.add_argument("--execute", "-e", action = "store_true", default = False)
     parser.add_argument("files", type=argparse.FileType('r'), default = [], nargs = '*')
+
     return parser.parse_args()
 
 def convertString(file):
@@ -94,8 +97,10 @@ def convertString(file):
 
 def convert(file):
     nameCompts = os.path.splitext( os.path.expanduser(os.path.normpath(file.name)))
-    outFile = open(nameCompts[0] + '.ipynb', 'w+')
+    fileName = nameCompts[0] + '.ipynb'
+    outFile = open(fileName, 'w+')
     outFile.write(convertString(file))
+    return fileName
 
 
 def stringPreprossesing(s):
@@ -130,7 +135,6 @@ def writePYcell(s, excount = ''):
 def mkMdToNb():
     args = argumentParser()
     for f in args.files:
-        convert(f)
-
+        fname = convert(f)
 if __name__ =='__main__':
     mkMdToNb()

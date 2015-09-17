@@ -3,7 +3,7 @@
 cd "$(dirname "$0")"
 
 vagrant up
-sleep 1
+vagrant provision
 open http://localhost:1159
 tput bel
 vagrant ssh

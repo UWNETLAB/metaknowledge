@@ -389,7 +389,7 @@ bad, searches for bad citations, keyString is not used</p>
 
 <p><a name="RecordCollection.localCitesOf"></a>RecordCollection.<strong>localCitesOf</strong>(<em>rec</em>):</p>
 
-<p>Takes in a Record, WOS string, citation string or Citation and returns a list of all records that cite it.</p>
+<p>Takes in a Record, WOS string, citation string or Citation and returns a RecordCollection of all records that cite it.</p>
 
 <p><a name="RecordCollection.makeDict"></a>RecordCollection.<strong>makeDict</strong>(<em>onlyTheseTags=None, longNames=False, cleanedVal=True</em>):</p>
 
@@ -506,7 +506,7 @@ bad, searches for bad citations, keyString is not used</p>
 <table>
   <tbody>
     <tr>
-      <td><a name="RecordCollection.writeCSV"></a>RecordCollection.<strong>writeCSV</strong>(_fname=None, onlyTheseTags=None, longNames=False, firstTags=[‘UT’, ‘PT’, ‘TI’, ‘AF’, ‘CR’], csvDelimiter=’,’, csvQuote=’”’, listDelimiter=’</td>
+      <td><a name="RecordCollection.writeCSV"></a>RecordCollection.<strong>writeCSV</strong>(_fname=None, onlyTheseTags=None, longNames=False, firstTags=None, csvDelimiter=’,’, csvQuote=’”’, listDelimiter=’</td>
       <td>‘_):</td>
     </tr>
   </tbody>

@@ -42,7 +42,7 @@ _metaknowledge_ also has a _matplotlib_ based graph [visualizer]({{ site.baseurl
 
 []import pandas
 
-#Reading Files
+# Reading Files
 
 The files from the Web of Science (WOS) can be loaded into a [`RecordCollections`]({{ site.baseurl }}/docs/RecordCollection#RecordCollection) by creating a `RecordCollection` with the path to the files given to it as a string.
 
@@ -66,7 +66,7 @@ Now you have a `RecordCollection` composed of all the WOS records in the selecte
 You might have noticed I used two different ways to display the `RecordCollection`. `repr(RC)` will give you where _metaknowledge_ thinks the collection came from. While `str(RC)` will give you a nice string containing the number of `Records`.
 
 
-#`Record` object
+# `Record` object
 
 
 [`Record`]({{ site.baseurl }}/docs/Record#Record) is an object that contains a simple WOS record, for example a journal article, book, or conference proceedings. They are what [`RecordCollections`]({{ site.baseurl }}/docs/RecordCollection#RecordCollection) contain. To see an individual [`Record`]({{ site.baseurl }}/docs/Record#Record) at random from a `RecordCollection` you can use `peak()`
@@ -129,12 +129,10 @@ First create a new RecordCollection
 
 Then add the records that meet your condition, in this case that their title's start with `'A'`
 
-[]for R in RC:
-[]    if R.title[0] == 'A':
-[]        RCfiltered.addRec(R)
-
-
-[]print(RCfiltered)
+[1]for R in RC:
+[1]    if R.title[0] == 'A':
+[1]        RCfiltered.addRec(R)
+[2]print(RCfiltered)
 
 Now you have a RecordCollection `RCfiltered` of all the `Records` whose titles begin with `'A'`.
 

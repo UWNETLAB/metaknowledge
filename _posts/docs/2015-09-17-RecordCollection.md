@@ -64,7 +64,7 @@ Creates a citation network for the RecordCollection.
 
 _nodeType_ : `optional [str]`
 
- One of `"full"`, `"original"`, `"author"`, `"journal"` or `"year"`. Specifies the value of the nodes in the graph. The default `"full"` causes the citations to be compared holistically using the [`metaknowledge.Citation`]({{ site.baseurl }}{% post_url /docs/2015-09-14-Citation %}#Citation) builtin comparison operators. `"original"` uses the raw original strings of the citations. While `"author"`, `"journal"` and `"year"` each use the author, journal and year respectively.
+ One of `"full"`, `"original"`, `"author"`, `"journal"` or `"year"`. Specifies the value of the nodes in the graph. The default `"full"` causes the citations to be compared holistically using the [`metaknowledge.Citation`]({{ site.baseurl }}{% post_url /docs/2015-09-17-Citation %}#Citation) builtin comparison operators. `"original"` uses the raw original strings of the citations. While `"author"`, `"journal"` and `"year"` each use the author, journal and year respectively.
 
 _dropAnon_ : `optional [bool]`
 
@@ -149,7 +149,7 @@ Creates a co-citation network for the RecordCollection.
 
 _nodeType_ : `optional [str]`
 
- One of `"full"`, `"original"`, `"author"`, `"journal"` or `"year"`. Specifies the value of the nodes in the graph. The default `"full"` causes the citations to be compared holistically using the [`metaknowledge.Citation`]({{ site.baseurl }}{% post_url /docs/2015-09-14-Citation %}#Citation) builtin comparison operators. `"original"` uses the raw original strings of the citations. While `"author"`, `"journal"` and `"year"` each use the author, journal and year respectively.
+ One of `"full"`, `"original"`, `"author"`, `"journal"` or `"year"`. Specifies the value of the nodes in the graph. The default `"full"` causes the citations to be compared holistically using the [`metaknowledge.Citation`]({{ site.baseurl }}{% post_url /docs/2015-09-17-Citation %}#Citation) builtin comparison operators. `"original"` uses the raw original strings of the citations. While `"author"`, `"journal"` and `"year"` each use the author, journal and year respectively.
 
 _dropAnon_ : `optional [bool]`
 
@@ -238,7 +238,7 @@ _wosNum_ : `str`
 
 _drop_ : `optional [bool]`
 
- Default `False`. If `True` the Record is dropped from the collection after being extract, i.e. if `False` [getWOS()]({{ site.baseurl }}{% post_url /docs/2015-09-14-RecordCollection %}#RecordCollection) acts like [peak()]({{ site.baseurl }}{% post_url /docs/2015-09-14-RecordCollection %}#RecordCollection), if `True` it acts like [pop()]({{ site.baseurl }}{% post_url /docs/2015-09-14-RecordCollection %}#RecordCollection)
+ Default `False`. If `True` the Record is dropped from the collection after being extract, i.e. if `False` [getWOS()]({{ site.baseurl }}{% post_url /docs/2015-09-17-RecordCollection %}#RecordCollection) acts like [peak()]({{ site.baseurl }}{% post_url /docs/2015-09-17-RecordCollection %}#RecordCollection), if `True` it acts like [pop()]({{ site.baseurl }}{% post_url /docs/2015-09-17-RecordCollection %}#RecordCollection)
 
 ##### Returns
 
@@ -256,7 +256,7 @@ pandasFriendly makes the output be a dict with two keys one "Citations" is the c
 
 <a name="RecordCollection.localCitesOf"></a>RecordCollection.**localCitesOf**(_rec_):
 
-Takes in a Record, WOS string, citation string or Citation and returns a list of all records that cite it.
+Takes in a Record, WOS string, citation string or Citation and returns a RecordCollection of all records that cite it.
         
 
 
@@ -310,7 +310,7 @@ A **oneModeNetwork()** looks are each Record in the RecordCollection and extract
 
 The number of times each object occurs is count if _nodeCount_ is `True` and the edges count the number of co-occurrences if _edgeWeight_ is `True`. Both are`True` by default.
 
-**Note** Do not use this for the construction of co-citation networks use [Recordcollection.coCiteNetwork()]({{ site.baseurl }}{% post_url /docs/2015-09-14-RecordCollection %}#RecordCollection) it is more accurate and has more options.
+**Note** Do not use this for the construction of co-citation networks use [Recordcollection.coCiteNetwork()]({{ site.baseurl }}{% post_url /docs/2015-09-17-RecordCollection %}#RecordCollection) it is more accurate and has more options.
 
 ##### Parameters
 
@@ -378,7 +378,7 @@ _edgeWeight_ : `optional [bool]`
  A networkx Graph with the objects of the tags _tag1_ and _tag2_ as nodes and their co-occurrences as edges.
 
 
-<a name="RecordCollection.writeCSV"></a>RecordCollection.**writeCSV**(_fname=None, onlyTheseTags=None, longNames=False, firstTags=['UT', 'PT', 'TI', 'AF', 'CR'], csvDelimiter=',', csvQuote='"', listDelimiter='|'_):
+<a name="RecordCollection.writeCSV"></a>RecordCollection.**writeCSV**(_fname=None, onlyTheseTags=None, longNames=False, firstTags=None, csvDelimiter=',', csvQuote='"', listDelimiter='|'_):
 
 Writes all the Records from the collection into a csv file with each row a record and each column a tag
 

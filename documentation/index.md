@@ -11,7 +11,12 @@ image:
 
 {% assign sortedDocs = site.categories.docs | sort:"weight"  %}
 <ul class="post-list">
-   <li><article><a href="#Installing">Installing<span class="excerpt">How to install metaknowledge</span></a></article></li>
+   <li><article>
+   <a href="#Installing">Installing<span class="excerpt">How to install metaknowledge</span></a>
+   </article></li>
+   <li><article>
+   <a href="#Students">Students Install<span class="excerpt">How to install metaknowledge for class</span></a>
+   </article></li>
 
 {% for post in sortedDocs %}
   <li><article><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}{% if post.excerpt %} <span class="excerpt">{{ post.excerpt }}</span>{% endif %}</a></article></li>
@@ -22,29 +27,29 @@ image:
 
 ##<a name="Installing"></a>Installation
 
-metaknowledge has two distributions the simplest is found under the release branch of the [git repo](https://github.com/networks-lab/metaknowledge/tree/release). This can be installed the usual way with pip
+_metaknowledge_ has two distributions the simplest is found under the release branch of the [git repo](https://github.com/networks-lab/metaknowledge/tree/release). This can be installed the usual way with pip
 
 {% highlight bash %}
 pip3 install metaknowledge
 {% endhighlight %}
 
-The second version is at the master branch on [github](https://github.com/networks-lab/metaknowledge) and comes with extra documents and resources for teaching.
+The second version is at the master branch on [_Github_](https://github.com/networks-lab/metaknowledge) and comes with extra documents and resources for teaching.
 
-The [download](https://github.com/networks-lab/metaknowledge/archive/master.zip) from Github includes a customized [Vagrant](https://www.vagrantup.com) file that installs metaknowledge and other useful Python libraries into a virtual machine. It is the easiest way of getting metaknowledge working if you are not familiar with Python.
+The [download](https://github.com/networks-lab/metaknowledge/archive/master.zip) from _Github_ includes a customized [_Vagrant_](https://www.vagrantup.com) file that installs _metaknowledge_ and other useful _Python_ libraries into a virtual machine. It is the easiest way of getting _metaknowledge_ working if you are not familiar with _Python_.
 
 ##Install with Vagrant
 
-The vagrant method is intended for students and those not familiar with python it creates a virtual machine with metaknowledge installed, as well as the python scientific stack numpy, scipy and matplotlib as well a series of iPython notebooks for teaching people to use metaknowledge and python.
+The _Vagrant_ method is intended for students and those not familiar with _Python_ it creates a virtual machine with _metaknowledge_ installed, as well as the _Python_ scientific stack _numpy_, _scipy_ and _matplotlib_ as well a series of iPython notebooks for teaching people to use _metaknowledge_ and _Python_.
 
-The instructions for those familiar with the command line use the advanced instructions otherwise use the easy instructions.
+The instructions for those familiar with the command line use the advanced instructions otherwise use the Student Install.
 
-###Easy instructions
+###<a name="Students">Student Install
 
-First you need to install [Vagrant](https://www.vagrantup.com/downloads.html) and [VirtualBox](https://www.virtualbox.org/wiki/Downloads) before you can install metaknowledge.
+First you need to install [_Vagrant_](https://www.vagrantup.com/downloads.html) and [_VirtualBox_](https://www.virtualbox.org/wiki/Downloads) before you can install _metaknowledge_.
 
-Once vagrant and virtualBox are installed, download [metaknowledge](https://github.com/networks-lab/metaknowledge/archive/master.zip). Unzip the file. If you are unable to, download [7-Zip](http://www.7-zip.org/) and use it.
+Once _Vagrant_ and _VirtualBox_ are installed, download [_metaknowledge_](https://github.com/networks-lab/metaknowledge/archive/master.zip). Unzip the file. If you are unable to, download [_7-Zip_](http://www.7-zip.org/) and use it.
 
-Open the directory metaknowledge then go to the vagrant subdirectory. If you are using windows double click on win\_run or if you are using a Macintosh double click on mac\_run, if you are using Linux use linux\_run.
+Open the directory _metaknowledge_ then go to the vagrant subdirectory. If you are using windows double click on win\_run or if you are using a Macintosh double click on mac\_run, if you are using Linux use linux\_run.
 
 A window should pop up and say something like:
 
@@ -58,8 +63,9 @@ It will also tell how long it will take, which is usually around 20 minutes. Now
 
 When you see a page with:
 
-    Lesson-0
-    Lesson-1
+    Lesson-1-Getting-Started
+    Lesson-2-Reading-Files
+    Lesson-3-Objects
     ...
 
 You have installed everything successfully.
@@ -74,16 +80,23 @@ To open the page again just double click on which ever of win\_run, mac\_run or 
 4. Run `vagrant up`
 5. Once vagrant has finished go to [http://localhost:1159/](http://localhost:1159/)
 
-What you are doing by running `vagrant up` is creating an Ubuntu VM and provisioning it with the script `bootstrap` also in vagrant. If you run`vagrant up` again it only starts the VM. To access the VM]s notebook once it is created:
+What you are doing by running `vagrant up` is creating an Ubuntu VM and provisioning it with the script `bootstrap` also in vagrant. If you run`vagrant up` again it only starts the VM. To access the VM's notebook once it is created:
 
 1. Go to the vagrant directory
 2. Run `vagrant up`
 3. Once vagrant has finished go to [http://localhost:1159/](http://localhost:1159/)
 
-You can also use `vagrant ssh` to ssh into the VM or `vagrant provision` to rerun bootstrap.
+You can also use `vagrant ssh` to ssh into the VM or `vagrant provision` to rerun bootstrap. If `vagrant ssh` does not work on your machine, you should be able to ssh into it at:
+
+    HostName: 127.0.0.1
+    Port: 2222
+    Username: vagrant
+    Password: vagrant
+
+On Windows [_PuTTY_](http://www.chiark.greenend.org.uk/~sgtatham/putty/) has been tested and works well.
 
 ## Install without Vagrant
 
-Installing without Vagrant is done with [setuptools](https://pypi.python.org/pypi/setuptools). Go to the metaknowledge directory and run `python3 setup.py install`. This is the same version as the that on PyPi with some extra development command line tools.
+Installing without _Vagrant_ is done with [setuptools](https://pypi.python.org/pypi/setuptools). Go to the metaknowledge directory and run `python3 setup.py install`. This is the same version as the that on PyPi with some extra development command line tools.
 
 {% include docsFooter.md %}

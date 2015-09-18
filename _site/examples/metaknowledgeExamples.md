@@ -106,7 +106,7 @@ The individual `Records` are index by their WOS numbers so you can access a spec
 []RC.getWOS("WOS:A1979GV55600001")
 
 
-#`Citation` object
+# `Citation` object
 
 
 [`Citation`]({{ site.baseurl }}/docs/Citation#Citation) is an object to contain the results of parsing a citation. They can be created from a `Record`
@@ -117,7 +117,7 @@ The individual `Records` are index by their WOS numbers so you can access a spec
 `Citations` allow for the raw strings of citations to be manipulated easily by _metaknowledge_.
 
 
-#Filtering
+# Filtering
 
 
 The for loop shown above is the main way to filter a RecordCollection, that said there are a few builtin filters, e.g. [`yearSplit()`]({{ site.baseurl }}/docs/RecordCollection#yearSplit), but the for loop is an easily generalized way of filtering that is relatively simple to read so it the main way you should filter. An example of the workflow is as follows:
@@ -202,7 +202,7 @@ Lets take a look at the graph after a quick spring layout
 
 []nx.draw_spring(coCiteJournals)
 
-A bit basic but gives a general idea. If you want to make a much better looking and more informative visualization you could try [gephi](https://gephi.github.io/) or [visone](http://visone.info/). Exporting to them is covered below in [**Exporting graphs**](#exporting-graphs).
+A bit basic but gives a general idea. If you want to make a much better looking and more informative visualization you could try [R](https://briatte.github.io/ggnet/), [gephi](https://gephi.github.io/) or [visone](http://visone.info/). Exporting to them is covered below in [**Exporting graphs**](#exporting-graphs).
 
 # Making a citation network
 

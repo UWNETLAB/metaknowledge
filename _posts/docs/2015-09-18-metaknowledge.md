@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: mainDocsPage
 title: metaknowledge
 categories: docs
 excerpt: The metaknowledge Package
@@ -27,11 +27,11 @@ To load the data from files and make a network:
 
 This package can read the files downloaded from the [Thomson Reuters Web of Science](https://webofknowledge.com) (WOS) as plain text. These files contain metadata about scientific records, such as the authors, language, and citations. The records are saved in groups of up-to 500 individual records in a file.
 
-The [metaknowledge.RecordCollection]({{ site.baseurl }}{% post_url /docs/2015-09-17-RecordCollection %}#RecordCollection) class can take a path to one or more of these files load and parse them. The object is the main way for work to be done on multiple records. For each individual record it creates an instance of the [metaknowledge.Record]({{ site.baseurl }}{% post_url /docs/2015-09-17-Record %}#Record) class that contains the results of the parsing of the record.
+The [metaknowledge.RecordCollection]({{ site.baseurl }}{% post_url /docs/2015-09-18-RecordCollection %}#RecordCollection) class can take a path to one or more of these files load and parse them. The object is the main way for work to be done on multiple records. For each individual record it creates an instance of the [metaknowledge.Record]({{ site.baseurl }}{% post_url /docs/2015-09-18-Record %}#Record) class that contains the results of the parsing of the record.
 
-The files given by WOS are a flat database containing a series of 2 character tags, e.g. 'TI' is the title. Each WOS tag has one or more values and metaknowledge makes use of them to extract useful information. The approximate meanings of the tags are listed in the [tagFuncs]({{ site.baseurl }}{% post_url /docs/2015-09-17-tagFuncs %}#tagFuncs) package, there are no full official public listings of their meanings is available. metaknowledge is not attempting to provide the definitive meanings.
+The files given by WOS are a flat database containing a series of 2 character tags, e.g. 'TI' is the title. Each WOS tag has one or more values and metaknowledge makes use of them to extract useful information. The approximate meanings of the tags are listed in the [tagFuncs]({{ site.baseurl }}{% post_url /docs/2015-09-18-tagFuncs %}#tagFuncs) package, there are no full official public listings of their meanings is available. metaknowledge is not attempting to provide the definitive meanings.
 
-As citations are of great importance to sociology their handling is done with the [Citation]({{ site.baseurl }}{% post_url /docs/2015-09-17-Citation %}#Citation) class. This class can parse the citations given by WOS as well as extra details about the full name of their journal and allow simple comparisons.
+As citations are of great importance to sociology their handling is done with the [Citation]({{ site.baseurl }}{% post_url /docs/2015-09-18-Citation %}#Citation) class. This class can parse the citations given by WOS as well as extra details about the full name of their journal and allow simple comparisons.
 
 Note for those reading the docstring. metaknowledge's docs are written in markdown and are processed to produce the documentation found at [networkslab.org/metaknowledge/documentation](http://networkslab.org/metaknowledge/documentation/).
 
@@ -155,7 +155,7 @@ Each it finds is used to initialize a Record then all Record are returned as a l
 
 Reads the files given by edgeList and if given nodeList. Outputs a networkx graph for the lists.
 
-This is designed only for the files produced by metaknowledge and is meant to be the reverse of [write_graph()]({{ site.baseurl }}{% post_url /docs/2015-09-17-metaknowledge %}#metaknowledge), if this dow not produce the desired results the networkx builtin [networkx.read_edgelist()](https://networkx.github.io/documentation/networkx-1.9.1/reference/generated/networkx.readwrite.edgelist.read_edgelist.html) could be tried.
+This is designed only for the files produced by metaknowledge and is meant to be the reverse of [write_graph()]({{ site.baseurl }}{% post_url /docs/2015-09-18-metaknowledge %}#metaknowledge), if this dow not produce the desired results the networkx builtin [networkx.read_edgelist()](https://networkx.github.io/documentation/networkx-1.9.1/reference/generated/networkx.readwrite.edgelist.read_edgelist.html) could be tried.
 
 The read edge list format assumes the column named _eSource_ (From) is the source node, then the next column _eDest_ (To) givens the destination and all other columns are attributes of the edge, e.g. weight.
 
@@ -212,7 +212,7 @@ For each field tag it adds an entry to the returned dict with the tag as the key
 
 The entry in the returned dict would be `{'AF' : ["BREVIK, I", "ANICIN, B"]}`
 
-[Record]({{ site.baseurl }}{% post_url /docs/2015-09-17-metaknowledge %}#metaknowledge) objects can be created with these dictionaries as the initializer.
+[Record]({{ site.baseurl }}{% post_url /docs/2015-09-18-metaknowledge %}#metaknowledge) objects can be created with these dictionaries as the initializer.
 
 ##### Parameters
 
@@ -264,7 +264,7 @@ The output files start with _name_, the file type (edgeList, nodeAttributes) the
 
 Both files are csv's with comma delimiters and double quote quoting characters. The edge list has two columns for the source and destination of the edge, "From" and "To" respectively, then, if _edgeInfo_ is `True`, for each attribute of the node another column is created. The node list has one column call "ID" with the node ids used by networkx and all other columns are the node attributes.
 
-To read back these files use [read_graph()]({{ site.baseurl }}{% post_url /docs/2015-09-17-metaknowledge %}#metaknowledge) and to write only one type of lsit use [write_edgeList()]({{ site.baseurl }}{% post_url /docs/2015-09-17-metaknowledge %}#metaknowledge) or [write_nodeAttributeFile()]({{ site.baseurl }}{% post_url /docs/2015-09-17-metaknowledge %}#metaknowledge).
+To read back these files use [read_graph()]({{ site.baseurl }}{% post_url /docs/2015-09-18-metaknowledge %}#metaknowledge) and to write only one type of lsit use [write_edgeList()]({{ site.baseurl }}{% post_url /docs/2015-09-18-metaknowledge %}#metaknowledge) or [write_nodeAttributeFile()]({{ site.baseurl }}{% post_url /docs/2015-09-18-metaknowledge %}#metaknowledge).
 
 **Warning**: this function will overwrite files, if they are in the way of the output, to prevent this set _overwrite_ to `False`
 

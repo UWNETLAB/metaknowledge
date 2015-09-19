@@ -13,9 +13,9 @@ documentedModules = ['tagFuncs', 'visual', 'journalAbbreviations']
 
 docsPrefix = time.strftime("%Y-%m-%d-")
 
-def makeHeader(title, excerpt, tags = (), weight = 10):
+def makeHeader(title, excerpt, tags = (), weight = 10, layout = "page"):
     return """---
-layout: page
+layout: {4}
 title: {0}
 categories: docs
 excerpt: {1}
@@ -23,7 +23,7 @@ tags: [{2}]
 weight: {3}
 ---
 <a name="{0}"></a>
-""".format(title, excerpt, ', '.join(tags), weight)
+""".format(title, excerpt, ', '.join(tags), weight, layout)
 
 def argumentParser():
     parser = argparse.ArgumentParser(description="A simple script to genrate docs for metaknowledge")
@@ -129,7 +129,7 @@ def writeModuleFile(mod):
 
 def writeMainBody(funcs, vrs, exceptions):
     f = open(docsPrefix + "metaknowledge.md", 'w')
-    f.write(makeHeader("metaknowledge", "The metaknowledge Package", tags = ["main"], weight = 1))
+    f.write(makeHeader("metaknowledge", "The metaknowledge Package", tags = ["main"], weight = 1, layout = "mainDocsPage"))
     f.write(cleanedDoc(metaknowledge, 3) + '\n\n')
     for fnc in funcs:
         f.write("- - -\n\n")

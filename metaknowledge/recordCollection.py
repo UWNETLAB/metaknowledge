@@ -558,10 +558,6 @@ class RecordCollection(object):
             count = 0
         else:
             PBar = None
-        if nodeType == "full":
-            citesSet = set()
-        else:
-            citesSet = None
         for R in self:
             if PBar:
                 count += 1
@@ -569,7 +565,7 @@ class RecordCollection(object):
             Cites = R.citations
             if Cites:
                 filteredCites = filterCites(Cites, nodeType, dropAnon, dropNonJournals, keyWords)
-                addToNetwork(tmpgrph, filteredCites, count, weighted, nodeType, nodeInfo , fullInfo, headNd = None, cSet = citesSet)
+                addToNetwork(tmpgrph, filteredCites, count, weighted, nodeType, nodeInfo , fullInfo, headNd = None)
         if PBar:
             PBar.finish("Done making a co-citation network of " + repr(self))
         return tmpgrph
@@ -637,10 +633,6 @@ class RecordCollection(object):
             count = 0
         else:
             PBar = None
-        if nodeType == allowedTypes[0]:
-            citesSet = set()
-        else:
-            citesSet = None
         for R in self:
             if PBar:
                 count += 1
@@ -651,7 +643,7 @@ class RecordCollection(object):
             rCites = R.citations
             if rCites:
                 filteredCites = filterCites(rCites, nodeType, dropAnon, dropNonJournals, keyWords)
-                addToNetwork(tmpgrph, filteredCites, count, weighted, nodeType, nodeInfo , fullInfo, headNd = reRef, cSet = citesSet)
+                addToNetwork(tmpgrph, filteredCites, count, weighted, nodeType, nodeInfo , fullInfo, headNd = reRef)
         if PBar:
             PBar.finish("Done making a citation network of " + repr(self))
         return tmpgrph
@@ -1011,7 +1003,7 @@ class RecordCollection(object):
                             found = True
                             break
                     if not found:
-                         citesDict[c] = 1
+                        citesDict[c] = 1
         if pandasFriendly:
             citeLst = []
             countLst = []
@@ -1025,7 +1017,6 @@ class RecordCollection(object):
     def localCitesOf(self, rec):
         """Takes in a Record, WOS string, citation string or Citation and returns a RecordCollection of all records that cite it.
         """
-        recCite = []
         localCites = []
         if isinstance(rec, Record):
             recCite = rec.createCitation()
@@ -1268,22 +1259,20 @@ def edgeNodeReplacerGenerator(base, nodes, loc):
         yield tmpN
 
 
-def addToNetwork(grph, nds, count, weighted, nodeType, nodeInfo , fullInfo, headNd = None, cSet = None):
+def addToNetwork(grph, nds, count, weighted, nodeType, nodeInfo , fullInfo, headNd = None):
     """Addeds the citations _nds_ to _grph_, arroring to the rules give by _nodeType_, _fullInfo_, etc.
-
-    cSet is the set of known citations, used for _nodeType_ = "full"
 
     _headNd_ is the citation of the Record
     """
     if headNd is not None:
-        hID = makeID(headNd, nodeType, cSet, grph)
+        hID = makeID(headNd, nodeType)
         if hID not in grph:
             grph.add_node(*makeNodeTuple(headNd, hID, nodeInfo, fullInfo, nodeType, count))
     else:
         hID = None
     idList = []
     for n in nds:
-        nID = makeID(n, nodeType, cSet, grph)
+        nID = makeID(n, nodeType)
         if nID not in grph:
             grph.add_node(*makeNodeTuple(n, nID, nodeInfo, fullInfo, nodeType, count))
         elif count:
@@ -1311,26 +1300,12 @@ def addToNetwork(grph, nds, count, weighted, nodeType, nodeInfo , fullInfo, head
                     addedEdges.append((outerID, innerID))
     grph.add_edges_from(addedEdges)
 
-def makeID(citation, nodeType, cSet, G):
+def makeID(citation, nodeType):
     """Makes the id, of the correct type for the network"""
     if nodeType != "full":
-        if nodeType == 'author':
-            return citation.author.title()
-        else:
-            return getattr(citation, nodeType)
-    elif cSet is not None:
-        cHash = hash(citation)
-        if cHash in G:
-            return cHash
-        elif citation in cSet:
-            for c in cSet:
-                if citation == c:
-                    return hash(c)
-        else:
-            cSet.add(citation)
-            return cHash
+        return getattr(citation, nodeType)
     else:
-        raise ValueError("cSet must be a set of Citations if nodeType is 'full'.")
+        return citation.getID()
 
 def makeNodeTuple(citation, idVal, nodeInfo, fullInfo, nodeType, count):
     """Makes a tuple of idVal and a dict of the selected attributes"""
@@ -1356,7 +1331,7 @@ def makeNodeTuple(citation, idVal, nodeInfo, fullInfo, nodeType, count):
 def filterCites(cites, nodeType, dropAnon, dropNonJournals, keyWords):
     filteredCites = []
     for c in cites:
-        if nodeType != "full" and not hasattr(c, nodeType):
+        if nodeType != "full" and not getattr(c, nodeType):
             pass
         elif dropNonJournals and not c.isJournal():
             pass

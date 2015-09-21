@@ -206,7 +206,7 @@ class TestRecordCollection(unittest.TestCase):
     def test_localCiteStats(self):
         d = self.RC.localCiteStats()
         dPan = self.RC.localCiteStats(pandasFriendly = True)
-        self.assertEqual(d[metaknowledge.Citation("PHYS REV LETT, V4, P224, DOI 10.1103/PhysRevLett.4.224")], 1)
+        self.assertEqual(d[metaknowledge.Citation("Azzam R. M. A., 1977, ELLIPSOMETRY POLARIZ")], 1)
         self.assertEqual(len(dPan['Citations']),len(d))
         self.assertTrue(dPan['Citations'][0] in d)
 
@@ -219,7 +219,7 @@ class TestRecordCollection(unittest.TestCase):
         RCmin = self.RC.citeFilter('', reverse = True)
         RCmax = self.RC.citeFilter('')
         RCanon = self.RC.citeFilter('', 'anonymous')
-        RC1970 = self.RC.citeFilter('1970', 'year')
+        RC1970 = self.RC.citeFilter(1970, 'year')
         RCno1970 = self.RC.citeFilter(1970, 'year', reverse = True)
         RCMELLER = self.RC.citeFilter('meller', 'author')
         self.assertEqual(len(RCmin), 0)

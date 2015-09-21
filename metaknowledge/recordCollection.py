@@ -1086,7 +1086,7 @@ class RecordCollection(object):
                 elif field == 'author':
                     for cite in R.citations:
                         try:
-                            if keyString.upper() in cite.author:
+                            if keyString.upper() in cite.author.upper():
                                 retRecs.append(R)
                                 break
                         except AttributeError:
@@ -1102,7 +1102,7 @@ class RecordCollection(object):
                 elif field == 'year':
                     for cite in R.citations:
                         try:
-                            if keyString.upper() in cite.year:
+                            if int(keyString) == cite.year:
                                 retRecs.append(R)
                                 break
                         except AttributeError:

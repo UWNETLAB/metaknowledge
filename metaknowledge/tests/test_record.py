@@ -37,7 +37,7 @@ class TestRecord(unittest.TestCase):
     def test_WOS(self):
         self.assertEqual(self.R.wosString, 'WOS:123317623000007')
     def test_citationGen(self):
-        self.assertTrue(self.R.createCitation() == metaknowledge.Citation("John, Doe, 2015, EXAMPLE, V1, P1, DOI 10.1111"))
+        self.assertTrue(self.R.createCitation() == metaknowledge.Citation("John D, 2015, EXAMPLE, V1, P1, DOI 10.1111"))
     def test_journal(self):
         self.assertEqual(self.R.journal, 'TOPICS IN COGNITIVE SCIENCE')
     def test_tags(self):

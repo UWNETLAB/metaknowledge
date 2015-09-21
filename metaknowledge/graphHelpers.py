@@ -6,6 +6,7 @@ import os
 import sys
 import time
 import math
+import threading
 
 def read_graph(edgeList, nodeList = None, directed = False, idKey = 'ID', eSource = 'From', eDest = 'To'):
     """Reads the files given by edgeList and if given nodeList. Outputs a networkx graph for the lists.
@@ -216,8 +217,7 @@ def write_edgeList(grph, name, extraInfo = True, _progBar = None):
             for e in grph.edges_iter(data = True):
                 if _progBar:
                     count += 1
-                    if count % 10000 == 0:
-                        _progBar.updateVal(count / eMax)
+                    _progBar.updateVal(count / eMax)
                 eDict = e[2].copy()
                 eDict['From'] = e[0]
                 eDict['To'] = e[1]
@@ -276,8 +276,7 @@ def write_nodeAttributeFile(grph, name, _progBar = None):
         for n in grph.nodes_iter(data = True):
             if _progBar:
                 count += 1
-                if count % 50 == 0:
-                    _progBar.updateVal(count / nMax)
+                _progBar.updateVal(count / nMax)
             nDict = n[1].copy()
             nDict['ID'] = n[0]
             try:
@@ -295,6 +294,7 @@ class _ProgressBar(object):
         self.finished = False
         self.per = initPer
         self.out = output
+        self.inputString = initString
         self.sTime = time.time()
         try:
             self.barMaxLength = os.get_terminal_size(self.out.fileno()).columns - self.difTermAndBar
@@ -302,45 +302,26 @@ class _ProgressBar(object):
                 self.barMaxLength = 0
         except OSError:
             self.barMaxLength = 80 - self.difTermAndBar
-        self.dString = self.prepString(initString, self.barMaxLength + self.difTermAndBar - self.timeLength) + self.prepTime(time.time() - self.sTime, self.timeLength)
-        self.out.write('[' + ' ' * self.barMaxLength + ']' + '{:.1%}'.format(self.per).rjust(6, ' ') + '\n')
-        self.out.write(self.dString + '\033[F')
-        self.out.flush()
+        self.ioThread = threading.Thread(target = self.threadedUpdate, kwargs = {"self" : self})
+        self.ioThread.start()
 
     def __del__(self):
         if not self.finished:
             self.out.write('\n\n')
             self.out.flush()
+            self.finished = True
+            self.ioThread.join()
+
 
     def updateVal(self, inputPer, inputString = None):
-        try:
-            self.barMaxLength = os.get_terminal_size(self.out.fileno()).columns - self.difTermAndBar
-            if self.barMaxLength < 0:
-                self.barMaxLength = 0
-        except OSError:
-            self.barMaxLength = 80 - self.difTermAndBar
-        self.out.write('\r')
         self.per = inputPer
-        percentString = '{:.1%}'.format(self.per).rjust(6, ' ')
-        barLength = int(self.per * self.barMaxLength)
-        if inputString:
-            self.dString = self.prepString(inputString, self.barMaxLength + self.difTermAndBar - self.timeLength) + self.prepTime(time.time() - self.sTime, self.timeLength)
-            if barLength >= self.barMaxLength:
-                self.out.write('[' + '=' * barLength + ']' + percentString)
-                self.out.write('\n' + self.dString + '\033[F')
-            else:
-                self.out.write('[' + '=' * barLength + '>' + ' ' * (self.barMaxLength - barLength - 1) + ']' + percentString)
-                self.out.write('\n' + self.dString + '\033[F')
-        else:
-            if barLength >= self.barMaxLength:
-                self.out.write('[' + '=' * barLength + ']' + percentString + '\r')
-            else:
-                self.out.write('[' + '=' * barLength + '>' + ' ' * (self.barMaxLength - barLength - 1) + ']' + percentString + '\r')
-        self.out.flush()
+        if inputString is not None:
+            self.inputString = inputString
 
     def finish(self, inputString):
         self.finished = True
-        inputString = str(inputString)
+        self.inputString = str(inputString)
+        self.ioThread.join()
         try:
             self.barMaxLength = os.get_terminal_size(self.out.fileno()).columns - self.difTermAndBar
             if self.barMaxLength < 0:
@@ -348,13 +329,14 @@ class _ProgressBar(object):
         except OSError:
             self.barMaxLength = 80 - self.difTermAndBar
         self.out.write('\n' + ' ' * (self.barMaxLength + self.difTermAndBar) + '\033[F')
-        if len(inputString) < self.barMaxLength + self.difTermAndBar - self.timeLength:
-            tString = self.prepTime(time.time() - self.sTime, self.barMaxLength + self.difTermAndBar - len(inputString) - 1)
-            self.out.write(inputString + ' ' + tString)
+        if len(self.inputString) < self.barMaxLength + self.difTermAndBar - self.timeLength:
+            tString = self.prepTime(time.time() - self.sTime, self.barMaxLength + self.difTermAndBar - len(self.inputString) - 1)
+            self.out.write(self.inputString + ' ' + tString)
         else:
-            self.out.write(self.prepString(inputString, self.barMaxLength + self.difTermAndBar - self.timeLength) + self.prepTime(time.time() - self.sTime, self.timeLength))
+            self.out.write(self.prepString(self.inputString, self.barMaxLength + self.difTermAndBar - self.timeLength) + self.prepTime(time.time() - self.sTime, self.timeLength))
         self.out.write('\n')
         self.out.flush()
+
 
     def jumpUp(self):
         self.out.write('\033[F')
@@ -381,6 +363,33 @@ class _ProgressBar(object):
         except ValueError:
             return "{1:{0}.1f}s".format(maxLength - 1,t)
 
+    @staticmethod
+    def threadedUpdate(self = None):
+        while not self.finished:
+            try:
+                self.barMaxLength = os.get_terminal_size(self.out.fileno()).columns - self.difTermAndBar
+                if self.barMaxLength < 0:
+                    self.barMaxLength = 0
+            except OSError:
+                self.barMaxLength = 80 - self.difTermAndBar
+            self.out.write('\r')
+            percentString = '{:.1%}'.format(self.per).rjust(6, ' ')
+            barLength = int(self.per * self.barMaxLength)
+            if self.inputString:
+                self.dString = self.prepString(self.inputString, self.barMaxLength + self.difTermAndBar - self.timeLength) + self.prepTime(time.time() - self.sTime, self.timeLength)
+                if barLength >= self.barMaxLength:
+                    self.out.write('[' + '=' * barLength + ']' + percentString)
+                    self.out.write('\n' + self.dString + '\033[F')
+                else:
+                    self.out.write('[' + '=' * barLength + '>' + ' ' * (self.barMaxLength - barLength - 1) + ']' + percentString)
+                    self.out.write('\n' + self.dString + '\033[F')
+            else:
+                if barLength >= self.barMaxLength:
+                    self.out.write('[' + '=' * barLength + ']' + percentString + '\r')
+                else:
+                    self.out.write('[' + '=' * barLength + '>' + ' ' * (self.barMaxLength - barLength - 1) + ']' + percentString + '\r')
+            self.out.flush()
+            time.sleep(.1)
 
 def getWeight(grph, nd1, nd2, weightString = "weight", returnType = int):
     """

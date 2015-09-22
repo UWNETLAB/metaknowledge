@@ -180,27 +180,27 @@
 
 <h2 id="a-nameinstallingainstallation"><a name="Installing"></a>Installation</h2>
 
-<p><em>metaknowledge</em> has two distributions the simplest is found under the release branch of the <a href="https://github.com/networks-lab/metaknowledge/tree/release">git repo</a>. This can be installed the usual way with pip</p>
+<p><em>metaknowledge</em> has two distributions. The simplest is found under the release branch of the <a href="https://github.com/networks-lab/metaknowledge/tree/release">git repo</a>, which can be installed the usual way with pip:</p>
 
 <div class="highlight"><pre><code class="language-bash" data-lang="bash">pip3 install metaknowledge</code></pre></div>
 
-<p>The second version is at the master branch on <a href="https://github.com/networks-lab/metaknowledge"><em>Github</em></a> and comes with extra documents and resources for teaching.</p>
+<p>The second version is at the master branch on <a href="https://github.com/networks-lab/metaknowledge"><em>Github</em></a>. It comes with extra documents and resources for teaching.</p>
 
 <p>The <a href="https://github.com/networks-lab/metaknowledge/archive/master.zip">download</a> from <em>Github</em> includes a customized <a href="https://www.vagrantup.com"><em>Vagrant</em></a> file that installs <em>metaknowledge</em> and other useful <em>Python</em> libraries into a virtual machine. It is the easiest way of getting <em>metaknowledge</em> working if you are not familiar with <em>Python</em>.</p>
 
 <h2 id="install-with-vagrant">Install with Vagrant</h2>
 
-<p>The <em>Vagrant</em> method is intended for students and those not familiar with <em>Python</em> it creates a virtual machine with <em>metaknowledge</em> installed, as well as the <em>Python</em> scientific stack <em>numpy</em>, <em>scipy</em> and <em>matplotlib</em> as well a series of iPython notebooks for teaching people to use <em>metaknowledge</em> and <em>Python</em>.</p>
+<p>The <em>Vagrant</em> method is intended for students and anyone not familiar with <em>Python</em> it creates a virtual machine with <em>metaknowledge</em> installed, as well as the <em>Python</em> scientific stack <em>numpy</em>, <em>scipy</em> and <em>matplotlib</em> and a series of iPython notebooks for teaching <em>metaknowledge</em> and <em>Python</em>. Some notebooks are more complete than others.</p>
 
-<p>The instructions for those familiar with the command line use the advanced instructions otherwise use the Student Install.</p>
+<p>The instructions for those familiar with the command line use the advanced instructions. Otherwise, it is probably best to use the student install.</p>
 
 <h3 id="a-namestudentsstudent-install"><a name="Students">Student Install</a></h3>
 
-<p>First you need to install <a href="https://www.vagrantup.com/downloads.html"><em>Vagrant</em></a> and <a href="https://www.virtualbox.org/wiki/Downloads"><em>VirtualBox</em></a> before you can install <em>metaknowledge</em>.</p>
+<p>First, you need to install <a href="https://www.vagrantup.com/downloads.html"><em>Vagrant</em></a> and <a href="https://www.virtualbox.org/wiki/Downloads"><em>VirtualBox</em></a>. You need to do this before you can install <em>metaknowledge</em>.</p>
 
-<p>Once <em>Vagrant</em> and <em>VirtualBox</em> are installed, download <a href="https://github.com/networks-lab/metaknowledge/archive/master.zip"><em>metaknowledge</em></a>. Unzip the file. If you are unable to, download <a href="http://www.7-zip.org/"><em>7-Zip</em></a> and use it.</p>
+<p>Once <em>Vagrant</em> and <em>VirtualBox</em> are installed, download <a href="https://github.com/networks-lab/metaknowledge/archive/master.zip"><em>metaknowledge</em></a>. Unzip the file. If you are unable to unzip the file, download <a href="http://www.7-zip.org/"><em>7-Zip</em></a>.</p>
 
-<p>Open the directory <em>metaknowledge</em> then go to the vagrant subdirectory. If you are using windows double click on win_run or if you are using a Macintosh double click on mac_run, if you are using Linux use linux_run.</p>
+<p>Open the directory <em>metaknowledge</em> and go to the vagrant subdirectory. Depending on your operating system, double click either: win_run, mac_run, or linux_run.</p>
 
 <p>A window should pop up and say something like:</p>
 
@@ -211,7 +211,7 @@ default: Box Provider: virtualbox
 default: Box Version: &gt;= 0
 </code></pre>
 
-<p>It will also tell how long it will take, which is usually around 20 minutes. Now you just have to wait for it to finish. Once that is done a bunch of text will appear, it should take another 10 minutes. Then a browser window will appear at the showing the notebooks. If a browser window opens and it is showing <code>No data received</code> hit refresh a couple times.</p>
+<p>You will also see an estimate of how long the download and installation process will take (typically ~ 20 minutes). All you have to do it wait for it to finish. When it is done, a browser window will appear at the showing the notebooks. If a browser window opens and it is showing <code>No data received</code> hit refresh a couple times.</p>
 
 <p>When you see a page with:</p>
 
@@ -235,7 +235,7 @@ Lesson-3-Objects
   <li>Once vagrant has finished go to <a href="http://localhost:1159/">http://localhost:1159/</a></li>
 </ol>
 
-<p>What you are doing by running <code>vagrant up</code> is creating an Ubuntu VM and provisioning it with the script <code>bootstrap</code> also in vagrant. If you run<code>vagrant up</code> again it only starts the VM. To access the VM’s notebook once it is created:</p>
+<p>What you are doing by running <code>vagrant up</code> is creating an Ubuntu VM and provisioning it with the script <code>bootstrap,</code> which is also in vagrant. If you run<code>vagrant up</code> again it only starts the VM. To access the VM’s notebook once it is created:</p>
 
 <ol>
   <li>Go to the vagrant directory</li>
@@ -255,7 +255,7 @@ Password: vagrant
 
 <h2 id="install-without-vagrant">Install without Vagrant</h2>
 
-<p>Installing without <em>Vagrant</em> is done with <a href="https://pypi.python.org/pypi/setuptools">setuptools</a>. Go to the metaknowledge directory and run <code>python3 setup.py install</code>. This is the same version as the that on PyPi with some extra development command line tools.</p>
+<p>Installing without <em>Vagrant</em> is done with <a href="https://pypi.python.org/pypi/setuptools">setuptools</a>. Go to the metaknowledge directory and run <code>python3 setup.py install</code>. This is the same version that is installed via pip plus some extra development command line tools.</p>
 
 <hr />
 

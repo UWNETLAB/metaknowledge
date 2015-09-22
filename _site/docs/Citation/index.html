@@ -176,9 +176,7 @@ Combined they look like:</p>
 
 <h5 id="customizations">Customizations</h5>
 
-<p>Citation’s hashing and equality checking are based on what data they have. The equality checking first checks both Citation’s DOI’s and if either is missing moves to the other fields. If any of the fields disagree <code>False</code> is returned (note, authors are not compared if one is anonymous) if they all agree, including the <code>misc</code> field, then True is returned.</p>
-
-<p>Unfortunately this type of equality checking precludes hashes being identical so to compare Citation objects always use ==. Hashes, if identical, indicate the Citations are identical (excluding collisions), but the converse is not True.</p>
+<p>Citation’s hashing and equality checking are based on <a href="/metaknowledge/docs/Citation#Citation"><code>getID()</code></a> and use the values of <code>author</code>, <code>year</code> and <code>journal</code>.</p>
 
 <p>When converted to a string a Citation will return the original string.</p>
 
@@ -220,7 +218,7 @@ Combined they look like:</p>
 
 <p><a name="Citation.getExtra"></a>Citation.<strong>getExtra</strong>():</p>
 
-<p>Returns any V, P or misc values as a string. These are all the values not returned by <a href="/metaknowledge/docs/Citation#Citation"><code>getID()</code></a>.</p>
+<p>Returns any V, P, DOI or misc values as a string. These are all the values not returned by <a href="/metaknowledge/docs/Citation#Citation"><code>getID()</code></a>.</p>
 
 <h5 id="returns">Returns</h5>
 
@@ -240,7 +238,9 @@ Combined they look like:</p>
 
 <p><a name="Citation.getID"></a>Citation.<strong>getID</strong>():</p>
 
-<p>Returns “author, year, journal” if available and “misc” otherwise. It is for shortening labels when creating networks as the resultant strings are often unique. <a href="/metaknowledge/docs/Citation#Citation"><code>getExtra()</code></a> gets everthing not returned by <code>getID()</code>.</p>
+<p>Returns all of “author, year, journal” available. It is for shortening labels when creating networks as the resultant strings are often unique. <a href="/metaknowledge/docs/Citation#Citation"><code>getExtra()</code></a> gets everything not returned by <code>getID()</code>.</p>
+
+<p>This is also used for hashing and equality checking.</p>
 
 <h5 id="returns-2">Returns</h5>
 

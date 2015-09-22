@@ -381,11 +381,25 @@ bad, searches for bad citations, keyString is not used</p>
 
 <p>The Record whose WOS number is <em>wosNum</em></p>
 
-<p><a name="RecordCollection.localCiteStats"></a>RecordCollection.<strong>localCiteStats</strong>(<em>pandasFriendly=False</em>):</p>
+<p><a name="RecordCollection.localCiteStats"></a>RecordCollection.<strong>localCiteStats</strong>(<em>pandasFriendly=False, keyType=’citation’</em>):</p>
 
-<p>Returns a dict with all the citations in the CR field as keys and the number of time s they occur as the values</p>
+<p>Returns a dict with all the citations in the CR field as keys and the number of times they occur as the values</p>
 
-<p>pandasFriendly makes the output be a dict with two keys one “Citations” is the citations the other is their occurence counts as “Counts”.</p>
+<h5 id="parameters-7">Parameters</h5>
+
+<p><em>pandasFriendly</em> : <code>optional [bool]</code></p>
+
+<p>default <code>False</code>, makes the output be a dict with two keys one “Citations” is the citations the other is their occurence counts as “Counts”.</p>
+
+<p><em>keyType</em> : <code>optional [str]</code></p>
+
+<p>default <code>'citation'</code>, the type of key to use for the dictionary, the valid strings are <code>"citation"</code>, <code>"journal"</code>, <code>"year"</code> or <code>"author"</code></p>
+
+<h5 id="returns-4">Returns</h5>
+
+<p><code>dict[str, int or Citataion : int]</code></p>
+
+<p>A dictioanry with keys as given by <em>keyType</em> and integers giving their rates of occurnce in the collection</p>
 
 <p><a name="RecordCollection.localCitesOf"></a>RecordCollection.<strong>localCitesOf</strong>(<em>rec</em>):</p>
 
@@ -397,7 +411,7 @@ bad, searches for bad citations, keyString is not used</p>
 
 <p>When used in pandas: <code>pandas.DataFrame(RC.makeDict())</code> returns a data frame with each column a tag and each row a Record.</p>
 
-<h5 id="parameters-7">Parameters</h5>
+<h5 id="parameters-8">Parameters</h5>
 
 <p>See writeCSV()</p>
 
@@ -410,36 +424,6 @@ bad, searches for bad citations, keyString is not used</p>
 <p>For example if <em>tags</em> was set to <code>['CR', 'UT', 'LA']</code>, a three mode network would be created, composed of a co-citation network from the <code>"CR"</code> tag. Then each citation would also have edges to all the languages of Records that cited it and to the WOS number of the those Records.</p>
 
 <p>The number of times each object occurs is count if <em>nodeCount</em> is <code>True</code> and the edges count the number of co-occurrences if <em>edgeWeight</em> is <code>True</code>. Both are<code>True</code> by default.</p>
-
-<h5 id="parameters-8">Parameters</h5>
-
-<p><em>mode</em> : <code>str</code></p>
-
-<p>A two character WOS tag or one of the full names for a tag</p>
-
-<p><em>nodeCount</em> : <code>optional [bool]</code></p>
-
-<p>Default <code>True</code>, if <code>True</code> each node will have an attribute called “count” that contains an int giving the number of time the object occurred.</p>
-
-<p><em>edgeWeight</em> : <code>optional [bool]</code></p>
-
-<p>Default <code>True</code>, if <code>True</code> each edge will have an attribute called “weight” that contains an int giving the number of time the two objects co-occurrenced.</p>
-
-<h5 id="returns-4">Returns</h5>
-
-<p><code>networkx Graph</code></p>
-
-<p>A networkx Graph with the objects of the tags <em>tags</em> as nodes and their co-occurrences as edges</p>
-
-<p><a name="RecordCollection.oneModeNetwork"></a>RecordCollection.<strong>oneModeNetwork</strong>(<em>mode, nodeCount=True, edgeWeight=True</em>):</p>
-
-<p>Creates a network of the objects found by one WOS tag <em>mode</em>.</p>
-
-<p>A <strong>oneModeNetwork()</strong> looks are each Record in the RecordCollection and extracts its values for the tag given by <em>mode</em>, e.g. the <code>"AF"</code> tag. Then if multiple are returned an edge is created between them. So in the case of the author tag <code>"AF"</code> a co-authorship network is created.</p>
-
-<p>The number of times each object occurs is count if <em>nodeCount</em> is <code>True</code> and the edges count the number of co-occurrences if <em>edgeWeight</em> is <code>True</code>. Both are<code>True</code> by default.</p>
-
-<p><strong>Note</strong> Do not use this for the construction of co-citation networks use <a href="/metaknowledge/docs/RecordCollection#RecordCollection">Recordcollection.coCiteNetwork()</a> it is more accurate and has more options.</p>
 
 <h5 id="parameters-9">Parameters</h5>
 
@@ -456,6 +440,36 @@ bad, searches for bad citations, keyString is not used</p>
 <p>Default <code>True</code>, if <code>True</code> each edge will have an attribute called “weight” that contains an int giving the number of time the two objects co-occurrenced.</p>
 
 <h5 id="returns-5">Returns</h5>
+
+<p><code>networkx Graph</code></p>
+
+<p>A networkx Graph with the objects of the tags <em>tags</em> as nodes and their co-occurrences as edges</p>
+
+<p><a name="RecordCollection.oneModeNetwork"></a>RecordCollection.<strong>oneModeNetwork</strong>(<em>mode, nodeCount=True, edgeWeight=True</em>):</p>
+
+<p>Creates a network of the objects found by one WOS tag <em>mode</em>.</p>
+
+<p>A <strong>oneModeNetwork()</strong> looks are each Record in the RecordCollection and extracts its values for the tag given by <em>mode</em>, e.g. the <code>"AF"</code> tag. Then if multiple are returned an edge is created between them. So in the case of the author tag <code>"AF"</code> a co-authorship network is created.</p>
+
+<p>The number of times each object occurs is count if <em>nodeCount</em> is <code>True</code> and the edges count the number of co-occurrences if <em>edgeWeight</em> is <code>True</code>. Both are<code>True</code> by default.</p>
+
+<p><strong>Note</strong> Do not use this for the construction of co-citation networks use <a href="/metaknowledge/docs/RecordCollection#RecordCollection">Recordcollection.coCiteNetwork()</a> it is more accurate and has more options.</p>
+
+<h5 id="parameters-10">Parameters</h5>
+
+<p><em>mode</em> : <code>str</code></p>
+
+<p>A two character WOS tag or one of the full names for a tag</p>
+
+<p><em>nodeCount</em> : <code>optional [bool]</code></p>
+
+<p>Default <code>True</code>, if <code>True</code> each node will have an attribute called “count” that contains an int giving the number of time the object occurred.</p>
+
+<p><em>edgeWeight</em> : <code>optional [bool]</code></p>
+
+<p>Default <code>True</code>, if <code>True</code> each edge will have an attribute called “weight” that contains an int giving the number of time the two objects co-occurrenced.</p>
+
+<h5 id="returns-6">Returns</h5>
 
 <p><code>networkx Graph</code></p>
 
@@ -479,7 +493,7 @@ bad, searches for bad citations, keyString is not used</p>
 
 <p>The <em>directed</em> parameter if <code>True</code> will cause the network to be directed with the first tag as the source and the second as the destination.</p>
 
-<h5 id="parameters-10">Parameters</h5>
+<h5 id="parameters-11">Parameters</h5>
 
 <p><em>mode</em> : <code>str</code></p>
 
@@ -497,7 +511,7 @@ bad, searches for bad citations, keyString is not used</p>
 
 <p>Default <code>True</code>, if <code>True</code> each edge will have an attribute called “weight” that contains an int giving the number of time the two objects co-occurrenced.</p>
 
-<h5 id="returns-6">Returns</h5>
+<h5 id="returns-7">Returns</h5>
 
 <p><code>networkx Graph or networkx DiGraph</code></p>
 
@@ -547,7 +561,7 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>Creates a RecordCollection of Records from the years between <em>startYear</em> and <em>endYear</em> inclusive.</p>
 
-<h5 id="parameters-11">Parameters</h5>
+<h5 id="parameters-12">Parameters</h5>
 
 <p><em>startYear</em> : <code>int</code></p>
 
@@ -557,7 +571,7 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>The largest year to be included in the retuned RecordCollection</p>
 
-<h5 id="returns-7">Returns</h5>
+<h5 id="returns-8">Returns</h5>
 
 <p><code>RecordCollection</code></p>
 

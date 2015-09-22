@@ -4,7 +4,7 @@
 <generator uri="https://github.com/jekyll/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="http://networkslab.org/feed.xml" />
 <link rel="alternate" type="text/html" href="http://networkslab.org" />
-<updated>2015-09-18T20:21:48-04:00</updated>
+<updated>2015-09-22T12:45:09-04:00</updated>
 <id>http://networkslab.org/</id>
 <author>
   <name>John McLevey and Reid McIlroy-Young</name>
@@ -19,8 +19,8 @@
   <title type="html"><![CDATA[visual]]></title>
   <link rel="alternate" type="text/html" href="http://networkslab.org/docs/visual" />
   <id>http://networkslab.org/docs/visual</id>
-  <published>2015-09-18T00:00:00-04:00</published>
-  <updated>2015-09-18T00:00:00-04:00</updated>
+  <published>2015-09-22T00:00:00-04:00</published>
+  <updated>2015-09-22T00:00:00-04:00</updated>
   <author>
     <name>John McLevey and Reid McIlroy-Young</name>
     <uri>http://networkslab.org</uri>
@@ -60,7 +60,7 @@ visual docstring&lt;/p&gt;
 
 &lt;p&gt;&lt;em&gt;metaknowledge&lt;/em&gt; is free and open source software, distributed under the GPL License.&lt;/p&gt;
 
-    &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/visual&quot;&gt;visual&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on September 18, 2015.&lt;/p&gt;
+    &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/visual&quot;&gt;visual&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on September 22, 2015.&lt;/p&gt;
   </content>
 </entry>
 
@@ -71,8 +71,8 @@ visual docstring&lt;/p&gt;
   <title type="html"><![CDATA[tagFuncs]]></title>
   <link rel="alternate" type="text/html" href="http://networkslab.org/docs/tagFuncs" />
   <id>http://networkslab.org/docs/tagFuncs</id>
-  <published>2015-09-18T00:00:00-04:00</published>
-  <updated>2015-09-18T00:00:00-04:00</updated>
+  <published>2015-09-22T00:00:00-04:00</published>
+  <updated>2015-09-22T00:00:00-04:00</updated>
   <author>
     <name>John McLevey and Reid McIlroy-Young</name>
     <uri>http://networkslab.org</uri>
@@ -599,7 +599,7 @@ Month Year (“%b %Y”)&lt;/p&gt;
 
 &lt;p&gt;&lt;em&gt;metaknowledge&lt;/em&gt; is free and open source software, distributed under the GPL License.&lt;/p&gt;
 
-    &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/tagFuncs&quot;&gt;tagFuncs&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on September 18, 2015.&lt;/p&gt;
+    &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/tagFuncs&quot;&gt;tagFuncs&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on September 22, 2015.&lt;/p&gt;
   </content>
 </entry>
 
@@ -610,8 +610,8 @@ Month Year (“%b %Y”)&lt;/p&gt;
   <title type="html"><![CDATA[metaknowledge]]></title>
   <link rel="alternate" type="text/html" href="http://networkslab.org/docs/metaknowledge" />
   <id>http://networkslab.org/docs/metaknowledge</id>
-  <published>2015-09-18T00:00:00-04:00</published>
-  <updated>2015-09-18T00:00:00-04:00</updated>
+  <published>2015-09-22T00:00:00-04:00</published>
+  <updated>2015-09-22T00:00:00-04:00</updated>
   <author>
     <name>John McLevey and Reid McIlroy-Young</name>
     <uri>http://networkslab.org</uri>
@@ -955,7 +955,7 @@ Each it finds is used to initialize a Record then all Record are returned as a l
 
 &lt;p&gt;&lt;em&gt;metaknowledge&lt;/em&gt; is free and open source software, distributed under the GPL License.&lt;/p&gt;
 
-    &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/metaknowledge&quot;&gt;metaknowledge&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on September 18, 2015.&lt;/p&gt;
+    &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/metaknowledge&quot;&gt;metaknowledge&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on September 22, 2015.&lt;/p&gt;
   </content>
 </entry>
 
@@ -966,8 +966,8 @@ Each it finds is used to initialize a Record then all Record are returned as a l
   <title type="html"><![CDATA[journalAbbreviations]]></title>
   <link rel="alternate" type="text/html" href="http://networkslab.org/docs/journalAbbreviations" />
   <id>http://networkslab.org/docs/journalAbbreviations</id>
-  <published>2015-09-18T00:00:00-04:00</published>
-  <updated>2015-09-18T00:00:00-04:00</updated>
+  <published>2015-09-22T00:00:00-04:00</published>
+  <updated>2015-09-22T00:00:00-04:00</updated>
   <author>
     <name>John McLevey and Reid McIlroy-Young</name>
     <uri>http://networkslab.org</uri>
@@ -1059,7 +1059,7 @@ Each it finds is used to initialize a Record then all Record are returned as a l
 
 &lt;p&gt;&lt;em&gt;metaknowledge&lt;/em&gt; is free and open source software, distributed under the GPL License.&lt;/p&gt;
 
-    &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/journalAbbreviations&quot;&gt;journalAbbreviations&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on September 18, 2015.&lt;/p&gt;
+    &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/journalAbbreviations&quot;&gt;journalAbbreviations&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on September 22, 2015.&lt;/p&gt;
   </content>
 </entry>
 
@@ -1070,8 +1070,8 @@ Each it finds is used to initialize a Record then all Record are returned as a l
   <title type="html"><![CDATA[RecordCollection]]></title>
   <link rel="alternate" type="text/html" href="http://networkslab.org/docs/RecordCollection" />
   <id>http://networkslab.org/docs/RecordCollection</id>
-  <published>2015-09-18T00:00:00-04:00</published>
-  <updated>2015-09-18T00:00:00-04:00</updated>
+  <published>2015-09-22T00:00:00-04:00</published>
+  <updated>2015-09-22T00:00:00-04:00</updated>
   <author>
     <name>John McLevey and Reid McIlroy-Young</name>
     <uri>http://networkslab.org</uri>
@@ -1308,11 +1308,25 @@ bad, searches for bad citations, keyString is not used&lt;/p&gt;
 
 &lt;p&gt;The Record whose WOS number is &lt;em&gt;wosNum&lt;/em&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;a name=&quot;RecordCollection.localCiteStats&quot;&gt;&lt;/a&gt;RecordCollection.&lt;strong&gt;localCiteStats&lt;/strong&gt;(&lt;em&gt;pandasFriendly=False&lt;/em&gt;):&lt;/p&gt;
+&lt;p&gt;&lt;a name=&quot;RecordCollection.localCiteStats&quot;&gt;&lt;/a&gt;RecordCollection.&lt;strong&gt;localCiteStats&lt;/strong&gt;(&lt;em&gt;pandasFriendly=False, keyType=’citation’&lt;/em&gt;):&lt;/p&gt;
 
-&lt;p&gt;Returns a dict with all the citations in the CR field as keys and the number of time s they occur as the values&lt;/p&gt;
+&lt;p&gt;Returns a dict with all the citations in the CR field as keys and the number of times they occur as the values&lt;/p&gt;
 
-&lt;p&gt;pandasFriendly makes the output be a dict with two keys one “Citations” is the citations the other is their occurence counts as “Counts”.&lt;/p&gt;
+&lt;h5 id=&quot;parameters-7&quot;&gt;Parameters&lt;/h5&gt;
+
+&lt;p&gt;&lt;em&gt;pandasFriendly&lt;/em&gt; : &lt;code&gt;optional [bool]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;default &lt;code&gt;False&lt;/code&gt;, makes the output be a dict with two keys one “Citations” is the citations the other is their occurence counts as “Counts”.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;keyType&lt;/em&gt; : &lt;code&gt;optional [str]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;default &lt;code&gt;&#39;citation&#39;&lt;/code&gt;, the type of key to use for the dictionary, the valid strings are &lt;code&gt;&quot;citation&quot;&lt;/code&gt;, &lt;code&gt;&quot;journal&quot;&lt;/code&gt;, &lt;code&gt;&quot;year&quot;&lt;/code&gt; or &lt;code&gt;&quot;author&quot;&lt;/code&gt;&lt;/p&gt;
+
+&lt;h5 id=&quot;returns-4&quot;&gt;Returns&lt;/h5&gt;
+
+&lt;p&gt;&lt;code&gt;dict[str, int or Citataion : int]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;A dictioanry with keys as given by &lt;em&gt;keyType&lt;/em&gt; and integers giving their rates of occurnce in the collection&lt;/p&gt;
 
 &lt;p&gt;&lt;a name=&quot;RecordCollection.localCitesOf&quot;&gt;&lt;/a&gt;RecordCollection.&lt;strong&gt;localCitesOf&lt;/strong&gt;(&lt;em&gt;rec&lt;/em&gt;):&lt;/p&gt;
 
@@ -1324,7 +1338,7 @@ bad, searches for bad citations, keyString is not used&lt;/p&gt;
 
 &lt;p&gt;When used in pandas: &lt;code&gt;pandas.DataFrame(RC.makeDict())&lt;/code&gt; returns a data frame with each column a tag and each row a Record.&lt;/p&gt;
 
-&lt;h5 id=&quot;parameters-7&quot;&gt;Parameters&lt;/h5&gt;
+&lt;h5 id=&quot;parameters-8&quot;&gt;Parameters&lt;/h5&gt;
 
 &lt;p&gt;See writeCSV()&lt;/p&gt;
 
@@ -1337,36 +1351,6 @@ bad, searches for bad citations, keyString is not used&lt;/p&gt;
 &lt;p&gt;For example if &lt;em&gt;tags&lt;/em&gt; was set to &lt;code&gt;[&#39;CR&#39;, &#39;UT&#39;, &#39;LA&#39;]&lt;/code&gt;, a three mode network would be created, composed of a co-citation network from the &lt;code&gt;&quot;CR&quot;&lt;/code&gt; tag. Then each citation would also have edges to all the languages of Records that cited it and to the WOS number of the those Records.&lt;/p&gt;
 
 &lt;p&gt;The number of times each object occurs is count if &lt;em&gt;nodeCount&lt;/em&gt; is &lt;code&gt;True&lt;/code&gt; and the edges count the number of co-occurrences if &lt;em&gt;edgeWeight&lt;/em&gt; is &lt;code&gt;True&lt;/code&gt;. Both are&lt;code&gt;True&lt;/code&gt; by default.&lt;/p&gt;
-
-&lt;h5 id=&quot;parameters-8&quot;&gt;Parameters&lt;/h5&gt;
-
-&lt;p&gt;&lt;em&gt;mode&lt;/em&gt; : &lt;code&gt;str&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;A two character WOS tag or one of the full names for a tag&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;nodeCount&lt;/em&gt; : &lt;code&gt;optional [bool]&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;Default &lt;code&gt;True&lt;/code&gt;, if &lt;code&gt;True&lt;/code&gt; each node will have an attribute called “count” that contains an int giving the number of time the object occurred.&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;edgeWeight&lt;/em&gt; : &lt;code&gt;optional [bool]&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;Default &lt;code&gt;True&lt;/code&gt;, if &lt;code&gt;True&lt;/code&gt; each edge will have an attribute called “weight” that contains an int giving the number of time the two objects co-occurrenced.&lt;/p&gt;
-
-&lt;h5 id=&quot;returns-4&quot;&gt;Returns&lt;/h5&gt;
-
-&lt;p&gt;&lt;code&gt;networkx Graph&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;A networkx Graph with the objects of the tags &lt;em&gt;tags&lt;/em&gt; as nodes and their co-occurrences as edges&lt;/p&gt;
-
-&lt;p&gt;&lt;a name=&quot;RecordCollection.oneModeNetwork&quot;&gt;&lt;/a&gt;RecordCollection.&lt;strong&gt;oneModeNetwork&lt;/strong&gt;(&lt;em&gt;mode, nodeCount=True, edgeWeight=True&lt;/em&gt;):&lt;/p&gt;
-
-&lt;p&gt;Creates a network of the objects found by one WOS tag &lt;em&gt;mode&lt;/em&gt;.&lt;/p&gt;
-
-&lt;p&gt;A &lt;strong&gt;oneModeNetwork()&lt;/strong&gt; looks are each Record in the RecordCollection and extracts its values for the tag given by &lt;em&gt;mode&lt;/em&gt;, e.g. the &lt;code&gt;&quot;AF&quot;&lt;/code&gt; tag. Then if multiple are returned an edge is created between them. So in the case of the author tag &lt;code&gt;&quot;AF&quot;&lt;/code&gt; a co-authorship network is created.&lt;/p&gt;
-
-&lt;p&gt;The number of times each object occurs is count if &lt;em&gt;nodeCount&lt;/em&gt; is &lt;code&gt;True&lt;/code&gt; and the edges count the number of co-occurrences if &lt;em&gt;edgeWeight&lt;/em&gt; is &lt;code&gt;True&lt;/code&gt;. Both are&lt;code&gt;True&lt;/code&gt; by default.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt; Do not use this for the construction of co-citation networks use &lt;a href=&quot;/metaknowledge/docs/RecordCollection#RecordCollection&quot;&gt;Recordcollection.coCiteNetwork()&lt;/a&gt; it is more accurate and has more options.&lt;/p&gt;
 
 &lt;h5 id=&quot;parameters-9&quot;&gt;Parameters&lt;/h5&gt;
 
@@ -1383,6 +1367,36 @@ bad, searches for bad citations, keyString is not used&lt;/p&gt;
 &lt;p&gt;Default &lt;code&gt;True&lt;/code&gt;, if &lt;code&gt;True&lt;/code&gt; each edge will have an attribute called “weight” that contains an int giving the number of time the two objects co-occurrenced.&lt;/p&gt;
 
 &lt;h5 id=&quot;returns-5&quot;&gt;Returns&lt;/h5&gt;
+
+&lt;p&gt;&lt;code&gt;networkx Graph&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;A networkx Graph with the objects of the tags &lt;em&gt;tags&lt;/em&gt; as nodes and their co-occurrences as edges&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&quot;RecordCollection.oneModeNetwork&quot;&gt;&lt;/a&gt;RecordCollection.&lt;strong&gt;oneModeNetwork&lt;/strong&gt;(&lt;em&gt;mode, nodeCount=True, edgeWeight=True&lt;/em&gt;):&lt;/p&gt;
+
+&lt;p&gt;Creates a network of the objects found by one WOS tag &lt;em&gt;mode&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;A &lt;strong&gt;oneModeNetwork()&lt;/strong&gt; looks are each Record in the RecordCollection and extracts its values for the tag given by &lt;em&gt;mode&lt;/em&gt;, e.g. the &lt;code&gt;&quot;AF&quot;&lt;/code&gt; tag. Then if multiple are returned an edge is created between them. So in the case of the author tag &lt;code&gt;&quot;AF&quot;&lt;/code&gt; a co-authorship network is created.&lt;/p&gt;
+
+&lt;p&gt;The number of times each object occurs is count if &lt;em&gt;nodeCount&lt;/em&gt; is &lt;code&gt;True&lt;/code&gt; and the edges count the number of co-occurrences if &lt;em&gt;edgeWeight&lt;/em&gt; is &lt;code&gt;True&lt;/code&gt;. Both are&lt;code&gt;True&lt;/code&gt; by default.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt; Do not use this for the construction of co-citation networks use &lt;a href=&quot;/metaknowledge/docs/RecordCollection#RecordCollection&quot;&gt;Recordcollection.coCiteNetwork()&lt;/a&gt; it is more accurate and has more options.&lt;/p&gt;
+
+&lt;h5 id=&quot;parameters-10&quot;&gt;Parameters&lt;/h5&gt;
+
+&lt;p&gt;&lt;em&gt;mode&lt;/em&gt; : &lt;code&gt;str&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;A two character WOS tag or one of the full names for a tag&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;nodeCount&lt;/em&gt; : &lt;code&gt;optional [bool]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Default &lt;code&gt;True&lt;/code&gt;, if &lt;code&gt;True&lt;/code&gt; each node will have an attribute called “count” that contains an int giving the number of time the object occurred.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;edgeWeight&lt;/em&gt; : &lt;code&gt;optional [bool]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Default &lt;code&gt;True&lt;/code&gt;, if &lt;code&gt;True&lt;/code&gt; each edge will have an attribute called “weight” that contains an int giving the number of time the two objects co-occurrenced.&lt;/p&gt;
+
+&lt;h5 id=&quot;returns-6&quot;&gt;Returns&lt;/h5&gt;
 
 &lt;p&gt;&lt;code&gt;networkx Graph&lt;/code&gt;&lt;/p&gt;
 
@@ -1406,7 +1420,7 @@ bad, searches for bad citations, keyString is not used&lt;/p&gt;
 
 &lt;p&gt;The &lt;em&gt;directed&lt;/em&gt; parameter if &lt;code&gt;True&lt;/code&gt; will cause the network to be directed with the first tag as the source and the second as the destination.&lt;/p&gt;
 
-&lt;h5 id=&quot;parameters-10&quot;&gt;Parameters&lt;/h5&gt;
+&lt;h5 id=&quot;parameters-11&quot;&gt;Parameters&lt;/h5&gt;
 
 &lt;p&gt;&lt;em&gt;mode&lt;/em&gt; : &lt;code&gt;str&lt;/code&gt;&lt;/p&gt;
 
@@ -1424,7 +1438,7 @@ bad, searches for bad citations, keyString is not used&lt;/p&gt;
 
 &lt;p&gt;Default &lt;code&gt;True&lt;/code&gt;, if &lt;code&gt;True&lt;/code&gt; each edge will have an attribute called “weight” that contains an int giving the number of time the two objects co-occurrenced.&lt;/p&gt;
 
-&lt;h5 id=&quot;returns-6&quot;&gt;Returns&lt;/h5&gt;
+&lt;h5 id=&quot;returns-7&quot;&gt;Returns&lt;/h5&gt;
 
 &lt;p&gt;&lt;code&gt;networkx Graph or networkx DiGraph&lt;/code&gt;&lt;/p&gt;
 
@@ -1474,7 +1488,7 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 &lt;p&gt;Creates a RecordCollection of Records from the years between &lt;em&gt;startYear&lt;/em&gt; and &lt;em&gt;endYear&lt;/em&gt; inclusive.&lt;/p&gt;
 
-&lt;h5 id=&quot;parameters-11&quot;&gt;Parameters&lt;/h5&gt;
+&lt;h5 id=&quot;parameters-12&quot;&gt;Parameters&lt;/h5&gt;
 
 &lt;p&gt;&lt;em&gt;startYear&lt;/em&gt; : &lt;code&gt;int&lt;/code&gt;&lt;/p&gt;
 
@@ -1484,7 +1498,7 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 &lt;p&gt;The largest year to be included in the retuned RecordCollection&lt;/p&gt;
 
-&lt;h5 id=&quot;returns-7&quot;&gt;Returns&lt;/h5&gt;
+&lt;h5 id=&quot;returns-8&quot;&gt;Returns&lt;/h5&gt;
 
 &lt;p&gt;&lt;code&gt;RecordCollection&lt;/code&gt;&lt;/p&gt;
 
@@ -1506,7 +1520,7 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 &lt;p&gt;&lt;em&gt;metaknowledge&lt;/em&gt; is free and open source software, distributed under the GPL License.&lt;/p&gt;
 
-    &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/RecordCollection&quot;&gt;RecordCollection&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on September 18, 2015.&lt;/p&gt;
+    &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/RecordCollection&quot;&gt;RecordCollection&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on September 22, 2015.&lt;/p&gt;
   </content>
 </entry>
 
@@ -1517,8 +1531,8 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
   <title type="html"><![CDATA[Record]]></title>
   <link rel="alternate" type="text/html" href="http://networkslab.org/docs/Record" />
   <id>http://networkslab.org/docs/Record</id>
-  <published>2015-09-18T00:00:00-04:00</published>
-  <updated>2015-09-18T00:00:00-04:00</updated>
+  <published>2015-09-22T00:00:00-04:00</published>
+  <updated>2015-09-22T00:00:00-04:00</updated>
   <author>
     <name>John McLevey and Reid McIlroy-Young</name>
     <uri>http://networkslab.org</uri>
@@ -1666,7 +1680,7 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 &lt;p&gt;&lt;em&gt;metaknowledge&lt;/em&gt; is free and open source software, distributed under the GPL License.&lt;/p&gt;
 
-    &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/Record&quot;&gt;Record&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on September 18, 2015.&lt;/p&gt;
+    &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/Record&quot;&gt;Record&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on September 22, 2015.&lt;/p&gt;
   </content>
 </entry>
 
@@ -1677,8 +1691,8 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
   <title type="html"><![CDATA[Citation]]></title>
   <link rel="alternate" type="text/html" href="http://networkslab.org/docs/Citation" />
   <id>http://networkslab.org/docs/Citation</id>
-  <published>2015-09-18T00:00:00-04:00</published>
-  <updated>2015-09-18T00:00:00-04:00</updated>
+  <published>2015-09-22T00:00:00-04:00</published>
+  <updated>2015-09-22T00:00:00-04:00</updated>
   <author>
     <name>John McLevey and Reid McIlroy-Young</name>
     <uri>http://networkslab.org</uri>
@@ -1710,9 +1724,7 @@ Combined they look like:&lt;/p&gt;
 
 &lt;h5 id=&quot;customizations&quot;&gt;Customizations&lt;/h5&gt;
 
-&lt;p&gt;Citation’s hashing and equality checking are based on what data they have. The equality checking first checks both Citation’s DOI’s and if either is missing moves to the other fields. If any of the fields disagree &lt;code&gt;False&lt;/code&gt; is returned (note, authors are not compared if one is anonymous) if they all agree, including the &lt;code&gt;misc&lt;/code&gt; field, then True is returned.&lt;/p&gt;
-
-&lt;p&gt;Unfortunately this type of equality checking precludes hashes being identical so to compare Citation objects always use ==. Hashes, if identical, indicate the Citations are identical (excluding collisions), but the converse is not True.&lt;/p&gt;
+&lt;p&gt;Citation’s hashing and equality checking are based on &lt;a href=&quot;/metaknowledge/docs/Citation#Citation&quot;&gt;&lt;code&gt;getID()&lt;/code&gt;&lt;/a&gt; and use the values of &lt;code&gt;author&lt;/code&gt;, &lt;code&gt;year&lt;/code&gt; and &lt;code&gt;journal&lt;/code&gt;.&lt;/p&gt;
 
 &lt;p&gt;When converted to a string a Citation will return the original string.&lt;/p&gt;
 
@@ -1754,7 +1766,7 @@ Combined they look like:&lt;/p&gt;
 
 &lt;p&gt;&lt;a name=&quot;Citation.getExtra&quot;&gt;&lt;/a&gt;Citation.&lt;strong&gt;getExtra&lt;/strong&gt;():&lt;/p&gt;
 
-&lt;p&gt;Returns any V, P or misc values as a string. These are all the values not returned by &lt;a href=&quot;/metaknowledge/docs/Citation#Citation&quot;&gt;&lt;code&gt;getID()&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Returns any V, P, DOI or misc values as a string. These are all the values not returned by &lt;a href=&quot;/metaknowledge/docs/Citation#Citation&quot;&gt;&lt;code&gt;getID()&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;
 
 &lt;h5 id=&quot;returns&quot;&gt;Returns&lt;/h5&gt;
 
@@ -1774,7 +1786,9 @@ Combined they look like:&lt;/p&gt;
 
 &lt;p&gt;&lt;a name=&quot;Citation.getID&quot;&gt;&lt;/a&gt;Citation.&lt;strong&gt;getID&lt;/strong&gt;():&lt;/p&gt;
 
-&lt;p&gt;Returns “author, year, journal” if available and “misc” otherwise. It is for shortening labels when creating networks as the resultant strings are often unique. &lt;a href=&quot;/metaknowledge/docs/Citation#Citation&quot;&gt;&lt;code&gt;getExtra()&lt;/code&gt;&lt;/a&gt; gets everthing not returned by &lt;code&gt;getID()&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Returns all of “author, year, journal” available. It is for shortening labels when creating networks as the resultant strings are often unique. &lt;a href=&quot;/metaknowledge/docs/Citation#Citation&quot;&gt;&lt;code&gt;getExtra()&lt;/code&gt;&lt;/a&gt; gets everything not returned by &lt;code&gt;getID()&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;This is also used for hashing and equality checking.&lt;/p&gt;
 
 &lt;h5 id=&quot;returns-2&quot;&gt;Returns&lt;/h5&gt;
 
@@ -1818,7 +1832,7 @@ Combined they look like:&lt;/p&gt;
 
 &lt;p&gt;&lt;em&gt;metaknowledge&lt;/em&gt; is free and open source software, distributed under the GPL License.&lt;/p&gt;
 
-    &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/Citation&quot;&gt;Citation&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on September 18, 2015.&lt;/p&gt;
+    &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/Citation&quot;&gt;Citation&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on September 22, 2015.&lt;/p&gt;
   </content>
 </entry>
 

@@ -32,9 +32,7 @@ class Citation(object):
 
     # Customizations
 
-    Citation's hashing and equality checking are based on what data they have. The equality checking first checks both Citation's DOI's and if either is missing moves to the other fields. If any of the fields disagree `False` is returned (note, authors are not compared if one is anonymous) if they all agree, including the `misc` field, then True is returned.
-
-    Unfortunately this type of equality checking precludes hashes being identical so to compare Citation objects always use ==. Hashes, if identical, indicate the Citations are identical (excluding collisions), but the converse is not True.
+    Citation's hashing and equality checking are based on [`getID()`](#Citation.getID) and use the values of `author`, `year` and `journal`.
 
     When converted to a string a Citation will return the original string.
 
@@ -105,7 +103,7 @@ class Citation(object):
 
     def __hash__(self):
         """
-        A hash for Citation that should be equal to the hash of other citations that are equal to it
+        A hash for Citation that should be equal to the hash of other citations that are equal to it. Based on the values returned by [`getID()`](#Citation.getID).
         """
         if self._hash:
             return self._hash
@@ -147,7 +145,9 @@ class Citation(object):
 
     def getID(self):
         """
-        Returns all of "author, year, journal" available. It is for shortening labels when creating networks as the resultant strings are often unique. [`getExtra()`](#Citation.getExtra) gets everthing not returned by `getID()`.
+        Returns all of "author, year, journal" available. It is for shortening labels when creating networks as the resultant strings are often unique. [`getExtra()`](#Citation.getExtra) gets everything not returned by `getID()`.
+
+        This is also used for hashing and equality checking.
 
         # Returns
 

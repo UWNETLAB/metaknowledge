@@ -986,24 +986,43 @@ class RecordCollection(object):
             PBar.finish("Done making a " + str(len(tags)) + "-mode network of: " +  ', '.join(tags))
         return grph
 
-    def localCiteStats(self, pandasFriendly = False):
-        """Returns a dict with all the citations in the CR field as keys and the number of time s they occur as the values
+    def localCiteStats(self, pandasFriendly = False, keyType = "citation"):
+        """Returns a dict with all the citations in the CR field as keys and the number of times they occur as the values
 
-        pandasFriendly makes the output be a dict with two keys one "Citations" is the citations the other is their occurence counts as "Counts".
+        # Parameters
+
+        _pandasFriendly_ : `optional [bool]`
+
+        > default `False`, makes the output be a dict with two keys one "Citations" is the citations the other is their occurence counts as "Counts".
+
+        _keyType_ : `optional [str]`
+
+        > default `'citation'`, the type of key to use for the dictionary, the valid strings are `"citation"`, `"journal"`, `"year"` or `"author"`
+
+        # Returns
+
+        `dict[str, int or Citataion : int]`
+
+        > A dictioanry with keys as given by _keyType_ and integers giving their rates of occurnce in the collection
         """
+        keyTypesLst = ["citation", "journal", "year", "author"]
         citesDict = {}
+        if keyType not in keyTypesLst:
+            raise TypeError("{} is not a valid key type, only '{}' or '{}' are.".format(keyType, "', '".join(keyTypesLst[:-1], keyTypesLst[-1]) ))
         for R in self:
             rCites = R.CR
             if rCites:
                 for c in rCites:
-                    found = False
-                    for dC, occus in citesDict.items():
-                        if dC == c:
-                            citesDict[dC] = occus + 1
-                            found = True
-                            break
-                    if not found:
-                        citesDict[c] = 1
+                    if keyType == keyTypesLst[0]:
+                        cVal = c
+                    else:
+                        cVal = getattr(c, keyType)
+                        if cVal is None:
+                            continue
+                    if cVal in citesDict:
+                        citesDict[cVal] += 1
+                    else:
+                        citesDict[cVal] = 1
         if pandasFriendly:
             citeLst = []
             countLst = []

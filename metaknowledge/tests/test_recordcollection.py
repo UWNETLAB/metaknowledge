@@ -65,7 +65,6 @@ class TestRecordCollection(unittest.TestCase):
             self.RC.getWOS("asdfghjkjhgfdsdfghj")
             self.RC.dropWOS("asdfghjkjhgfdsdfghj")
 
-
     def test_directoryRead(self):
         self.assertEqual(len(metaknowledge.RecordCollection('.')), 0)
         self.assertTrue(metaknowledge.RecordCollection('metaknowledge/tests/') >= self.RC)
@@ -206,9 +205,11 @@ class TestRecordCollection(unittest.TestCase):
     def test_localCiteStats(self):
         d = self.RC.localCiteStats()
         dPan = self.RC.localCiteStats(pandasFriendly = True)
+        dYear = self.RC.localCiteStats(keyType = 'year')
         self.assertEqual(d[metaknowledge.Citation("Azzam R. M. A., 1977, ELLIPSOMETRY POLARIZ")], 1)
         self.assertEqual(len(dPan['Citations']),len(d))
         self.assertTrue(dPan['Citations'][0] in d)
+        self.assertEqual(dYear[2009], 2)
 
     def test_localCitesOf(self):
         C = metaknowledge.Citation("COSTADEB.O, 1974, LETT NUOVO CIMENTO, V10, P852")

@@ -3,5 +3,4 @@
 cd "$(dirname "$0")"
 
 vagrant up
-vagrant provision
 vagrant ssh

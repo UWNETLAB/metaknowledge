@@ -290,8 +290,10 @@ def write_nodeAttributeFile(grph, name, _progBar = None):
 class _ProgressBar(object):
     difTermAndBar = 8 #the number of characters difference between the bar's length and the terminal's width
     timeLength = 6 # width of elapse time display
-    def __init__(self, initPer, initString = ' ', output = sys.stdout):
+    percLength = 6 # width of percent display
+    def __init__(self, initPer, initString = ' ', output = sys.stdout, secondRow = False):
         self.finished = False
+        self.big = secondRow
         self.per = initPer
         self.out = output
         self.inputString = initString
@@ -307,11 +309,10 @@ class _ProgressBar(object):
 
     def __del__(self):
         if not self.finished:
-            self.out.write('\n\n')
-            self.out.flush()
             self.finished = True
             self.ioThread.join()
-
+            self.out.write('\n\n')
+            self.out.flush()
 
     def updateVal(self, inputPer, inputString = None):
         self.per = inputPer
@@ -328,7 +329,10 @@ class _ProgressBar(object):
                 self.barMaxLength = 0
         except OSError:
             self.barMaxLength = 80 - self.difTermAndBar
-        self.out.write('\n' + ' ' * (self.barMaxLength + self.difTermAndBar) + '\033[F')
+        if self.big:
+            self.out.write('\n' + ' ' * (self.barMaxLength + self.difTermAndBar) + '\033[F')
+        else:
+            self.out.write('\r')
         if len(self.inputString) < self.barMaxLength + self.difTermAndBar - self.timeLength:
             tString = self.prepTime(time.time() - self.sTime, self.barMaxLength + self.difTermAndBar - len(self.inputString) - 1)
             self.out.write(self.inputString + ' ' + tString)
@@ -336,7 +340,6 @@ class _ProgressBar(object):
             self.out.write(self.prepString(self.inputString, self.barMaxLength + self.difTermAndBar - self.timeLength) + self.prepTime(time.time() - self.sTime, self.timeLength))
         self.out.write('\n')
         self.out.flush()
-
 
     def jumpUp(self):
         self.out.write('\033[F')
@@ -373,16 +376,19 @@ class _ProgressBar(object):
             except OSError:
                 self.barMaxLength = 80 - self.difTermAndBar
             self.out.write('\r')
-            percentString = '{:.1%}'.format(self.per).rjust(6, ' ')
+            percentString = '{:.1%}'.format(self.per).rjust(self.percLength, ' ')
             barLength = int(self.per * self.barMaxLength)
-            if self.inputString:
-                self.dString = self.prepString(self.inputString, self.barMaxLength + self.difTermAndBar - self.timeLength) + self.prepTime(time.time() - self.sTime, self.timeLength)
-                if barLength >= self.barMaxLength:
-                    self.out.write('[' + '=' * barLength + ']' + percentString)
-                    self.out.write('\n' + self.dString + '\033[F')
-                else:
-                    self.out.write('[' + '=' * barLength + '>' + ' ' * (self.barMaxLength - barLength - 1) + ']' + percentString)
-                    self.out.write('\n' + self.dString + '\033[F')
+            if self.big and self.inputString:
+                    self.dString = self.prepString(self.inputString, self.barMaxLength + self.difTermAndBar - self.timeLength) + self.prepTime(time.time() - self.sTime, self.timeLength)
+                    if barLength >= self.barMaxLength:
+                        self.out.write('[' + '=' * barLength + ']' + percentString)
+                        self.out.write('\n' + self.dString + '\033[F')
+                    else:
+                        self.out.write('[' + '=' * barLength + '>' + ' ' * (self.barMaxLength - barLength - 1) + ']' + percentString)
+                        self.out.write('\n' + self.dString + '\033[')
+            elif self.inputString:
+                self.dString = self.prepString(self.inputString, self.barMaxLength + self.difTermAndBar - self.timeLength - self.percLength - 2) + '[' + self.prepTime(time.time() - self.sTime, self.timeLength) +  ']' + percentString
+                self.out.write(self.dString)
             else:
                 if barLength >= self.barMaxLength:
                     self.out.write('[' + '=' * barLength + ']' + percentString + '\r')

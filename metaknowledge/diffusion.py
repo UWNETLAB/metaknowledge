@@ -1,7 +1,10 @@
 """
 """
 from .constants import tagsAndNames
+from .graphHelpers import _ProgressBar
+
 import networkx as nx
+import metaknowledge
 
 def diffusionGraph(source, target, sourceType = "raw", targetType = "raw"):
     """Takes in two [`RecordCollections`](#recordCollection.RecordCollection) and produces a graph of the citations of the `Records` of _source_ by the `Records` of _target_. By default the graph is of `Record` objects but this can be changed with the _sourceType_ and _targetType_ keywords.
@@ -36,17 +39,33 @@ def diffusionGraph(source, target, sourceType = "raw", targetType = "raw"):
         raise RuntimeError("{} is not a valid node type, only 'raw' or those strings in tagsAndNames are allowed".format(nodeType))
     if targetType != "raw" and targetType not in tagsAndNames:
         raise RuntimeError("{} is not a valid node type, only 'raw' or those strings in tagsAndNames are allowed".format(nodeType))
+    if metaknowledge.VERBOSE_MODE:
+        PBar = _ProgressBar(0, "Starting to make a diffusion network")
+        count = 0
+        maxCount = len(source)
+    else:
+        PBar = None
     sourceDict = {}
     workingGraph = nx.DiGraph()
     for Rs in source:
+        if PBar:
+            count += 1
+            PBar.updateVal(count / maxCount * .25, "Analyzing source: " + str(Rs))
         RsVal, RsExtras = makeNodeID(Rs, sourceType)
         if RsVal:
             sourceDict[Rs.createCitation()] = RsVal
             for val in RsVal:
                 if val not in workingGraph:
                     workingGraph.add_node(val, source = True, target = False, **RsExtras)
+    if PBar:
+        count = 0
+        maxCount = len(target)
+        PBar.updateVal(.25, "Done analyzing sources, stating on targets")
     for Rt in target:
         RtVal, RtExtras = makeNodeID(Rt, targetType)
+        if PBar:
+            count += 1
+            PBar.updateVal(count / maxCount * .75 + .25, "Analyzing target: " + str(Rt))
         if RtVal:
             for val in RtVal:
                 if val not in workingGraph:
@@ -58,6 +77,8 @@ def diffusionGraph(source, target, sourceType = "raw", targetType = "raw"):
                     for Rs in (sourceDict[c] for c in targetCites if c in sourceDict):
                         for sVal in Rs:
                             workingGraph.add_edge(val, sVal)
+    if PBar:
+        PBar.finish("Done making a diffusion network of {} sources and {} targets".format(len(source), len(target)))
     return workingGraph
 
 
@@ -86,20 +107,38 @@ def diffusionCount(source, target, sourceType = "raw"):
     """
     if sourceType != "raw" and sourceType not in tagsAndNames:
         raise RuntimeError("{} is not a valid node type, only 'raw' or those strings in tagsAndNames are allowed".format(nodeType))
+    if metaknowledge.VERBOSE_MODE:
+        PBar = _ProgressBar(0, "Starting to analyse a diffusion network")
+        count = 0
+        maxCount = len(source)
+    else:
+        PBar = None
+    if PBar:
+        count = 0
+        maxCount = len(target)
+        PBar.updateVal(.25, "Done analyzing sources, stating on targets")
     sourceDict = {}
     sourceSet = set()
     for Rs in source:
+        if PBar:
+            count += 1
+            PBar.updateVal(count / maxCount * .25, "Analyzing source: " + str(Rs))
         RsVal, RsExtras = makeNodeID(Rs, sourceType)
         if RsVal:
             sourceDict[Rs.createCitation()] = RsVal
             sourceSet.update(RsVal)
     sourceCounts = {s : 0 for s in sourceSet}
     for Rt in target:
+        if PBar:
+            count += 1
+            PBar.updateVal(count / maxCount * .75 + .25, "Analyzing target: " + str(Rs))
         targetCites = Rt.CR
         if targetCites:
             for Rs in (sourceDict[c] for c in targetCites if c in sourceDict):
                 for sVal in Rs:
                     sourceCounts[sVal] += 1
+    if PBar:
+        PBar.finish("Done making a diffusion network of {} sources and {} targets".format(len(source), len(target)))
     return sourceCounts
 
 def makeNodeID(Rec, ndType, extras = None):

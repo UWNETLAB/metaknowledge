@@ -205,6 +205,8 @@ class Record(object):
 
         if either is bad False is returned
         """
+        if not isinstance(other, Record):
+            raise RuntimeError("Equality checking between Records and non-Records is not implemented")
         if self.bad or other.bad:
             return False
         else:

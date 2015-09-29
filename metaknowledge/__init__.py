@@ -32,3 +32,4 @@ from .recordCollection import RecordCollection, isiParser
 from .graphHelpers import write_edgeList, write_nodeAttributeFile, write_graph, read_graph, _ProgressBar, drop_edges, drop_nodesByDegree, drop_nodesByCount, graphStats
 from .constants import VERBOSE_MODE, tagToFull, fullToTag, tagNameConverter, tagsAndNames, knownTagsList
 #from .blondel import blondel, modularity
+from .diffusion import diffusionNetwork

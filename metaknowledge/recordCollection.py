@@ -1005,12 +1005,22 @@ class RecordCollection(object):
 
         > A dictioanry with keys as given by _keyType_ and integers giving their rates of occurnce in the collection
         """
+        if metaknowledge.VERBOSE_MODE:
+            PBar = _ProgressBar(0, "Starting to get the local stats on {}s.".format(keyType))
+            count = 0
+            recCount = len(self)
+        else:
+            PBar = None
+
         keyTypesLst = ["citation", "journal", "year", "author"]
         citesDict = {}
         if keyType not in keyTypesLst:
             raise TypeError("{} is not a valid key type, only '{}' or '{}' are.".format(keyType, "', '".join(keyTypesLst[:-1], keyTypesLst[-1]) ))
         for R in self:
             rCites = R.CR
+            if PBar:
+                count += 1
+                PBar.update(count / recCount, "Analysing: {}".format(R.UT))
             if rCites:
                 for c in rCites:
                     if keyType == keyTypesLst[0]:
@@ -1023,6 +1033,8 @@ class RecordCollection(object):
                         citesDict[cVal] += 1
                     else:
                         citesDict[cVal] = 1
+        if PBar:
+            PBar.update(1, "Done, {} {} fields analysed".format(len(citesDict), keyType))
         if pandasFriendly:
             citeLst = []
             countLst = []

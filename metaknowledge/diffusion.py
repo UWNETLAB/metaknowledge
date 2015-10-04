@@ -7,7 +7,7 @@ import networkx as nx
 import metaknowledge
 
 def diffusionGraph(source, target, sourceType = "raw", targetType = "raw"):
-    """Takes in two [`RecordCollections`](#recordCollection.RecordCollection) and produces a graph of the citations of the `Records` of _source_ by the `Records` of _target_. By default the graph is of `Record` objects but this can be changed with the _sourceType_ and _targetType_ keywords.
+    """Takes in two [`RecordCollections`](#RecordCollection.RecordCollection) and produces a graph of the citations of the `Records` of _source_ by the `Records` of _target_. By default the graph is of `Record` objects but this can be changed with the _sourceType_ and _targetType_ keywords.
 
     Each node on the graph has two boolean attributes, `"source"` and `"target"` indicating if they are targets or sources. Note, if the types of the sources and targets are different the attributes will not be checked for overlap of the other type. e.g. if the source type is `'TI'` (title) and the target type is `'UT'` (WOS number), and there is some overlap of the targets and sources. Then the Record corresponding to a source node will not be checked for being one of the titles of the targets, only its WOS number will be considered.
 
@@ -83,7 +83,7 @@ def diffusionGraph(source, target, sourceType = "raw", targetType = "raw"):
 
 
 def diffusionCount(source, target, sourceType = "raw"):
-    """Takes in two [`RecordCollections`](#recordCollection.RecordCollection) and produces a `dict` counting the citations of the `Records` of _source_ by the `Records` of _target_. By default the `dict` uses `Record` objects as keys but this can be changed with the _sourceType_ keyword to any of the WOS tags.
+    """Takes in two [`RecordCollections`](#RecordCollection.RecordCollection) and produces a `dict` counting the citations of the `Records` of _source_ by the `Records` of _target_. By default the `dict` uses `Record` objects as keys but this can be changed with the _sourceType_ keyword to any of the WOS tags.
 
     # Parameters
 

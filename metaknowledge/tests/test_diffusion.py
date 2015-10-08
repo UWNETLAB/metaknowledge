@@ -23,10 +23,11 @@ class TestHelpers(unittest.TestCase):
 
     def test_diffusionPandas(self):
         d = metaknowledge.diffusionCount(self.RC, self.RC, pandasFriendly = True)
-        dwc = metaknowledge.diffusionCount(self.RC, self.RC, pandasFriendly = True, sourceType = "WC")
+        dwc = metaknowledge.diffusionCount(self.RC, self.RC, pandasFriendly = True, sourceType = "WC", compareCounts = True)
         self.assertTrue("TI" in d.keys())
         self.assertEqual(43, len(d))
         self.assertTrue(len(d["UT"]), len(self.RC))
         self.assertTrue("WC" in dwc)
-        self.assertEqual(2, len(dwc))
+        self.assertEqual(3, len(dwc))
         self.assertEqual(len(dwc["Count"]), 9)
+        self.assertEqual(dwc["Count"], dwc["localCount"])

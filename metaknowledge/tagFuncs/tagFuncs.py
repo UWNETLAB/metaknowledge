@@ -459,7 +459,7 @@ def partNumber(val):
 
     PN tag
     """
-    return int(val[0])
+    return val[0]
 
 def specialIssue(val):
     """

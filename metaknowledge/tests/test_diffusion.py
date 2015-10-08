@@ -20,3 +20,13 @@ class TestHelpers(unittest.TestCase):
         self.assertTrue(-1 < d.values().__iter__().__next__() < 8)
         self.assertIsInstance(dWC.keys().__iter__().__next__(), str)
         self.assertTrue(-1 < dWC.values().__iter__().__next__() < 22)
+
+    def test_diffusionPandas(self):
+        d = metaknowledge.diffusionCount(self.RC, self.RC, pandasFriendly = True)
+        dwc = metaknowledge.diffusionCount(self.RC, self.RC, pandasFriendly = True, sourceType = "WC")
+        self.assertTrue("TI" in d.keys())
+        self.assertEqual(43, len(d))
+        self.assertTrue(len(d["UT"]), len(self.RC))
+        self.assertTrue("WC" in dwc)
+        self.assertEqual(2, len(dwc))
+        self.assertEqual(len(dwc["Count"]), 9)

@@ -110,11 +110,17 @@ def diffusionCount(source, target, sourceType = "raw", pandasFriendly = False,  
 
     > default `False`, makes the output be a dict with two keys one `"Record"` is the list of Records ( or data type requested by _sourceType_) the other is their occurence counts as `"Counts"`.
 
+    _compareCounts_ : `optional [boo]`
+
+    > default `False`, runs the diffusion analysis with the source `RecordCollection` as the target and source after the first analysis. This count is then added to the returned object.
+
     # Returns
 
     `dict[:int]`
 
-    >A dictionary with the type given by _sourceType_ as keys and integers as values.
+    > A dictionary with the type given by _sourceType_ as keys and integers as values, by default. If _compareCounts_ is `True` the values are tuples with the first integer being the diffusion in the target and the second the diffusion in the source.
+
+    > If _pandasFriendly_ is `True` the returned dict has keys with the names of the WOS tags and lists with their values, i.e. a table with labled columns. The counts are in the column named `"Count"` and if _compareCounts_ the local count is in a column called `"LocalCount"`.
     """
     if sourceType != "raw" and sourceType not in tagsAndNames:
         raise RuntimeError("{} is not a valid node type, only 'raw' or those strings in tagsAndNames are allowed".format(nodeType))

@@ -157,12 +157,26 @@ def diffusionCount(source, target, sourceType = "raw", pandasFriendly = False):
     if PBar:
         PBar.finish("Done making a diffusion network of {} sources and {} targets".format(len(source), len(target)))
     if pandasFriendly:
-        countLst = []
-        recLst = []
-        for rec, occ in sourceCounts.items():
-            countLst.append(occ)
-            recLst.append(rec)
-        retDict = {"Record" : recLst, "Count" : countLst}
+        retDict = {"Count" : []}
+        if sourceType == 'raw':
+            retrievedFields = []
+            for R in sourceCounts.keys():
+                tagsLst = [t for t in R.activeTags() if t not in retrievedFields]
+                retrievedFields += tagsLst
+            for tag in retrievedFields:
+                retDict[tag] = []
+            for R, occ in sourceCounts.items():
+                Rvals = R.getTagsDict(retrievedFields, cleaned = True)
+                for tag in retrievedFields:
+                    retDict[tag].append(Rvals[tag])
+                retDict["Count"].append(sourceCounts[R])
+        else:
+            countLst = []
+            recLst = []
+            for rec, occ in sourceCounts.items():
+                countLst.append(occ)
+                recLst.append(rec)
+            retDict = {sourceType : recLst, "Count" : countLst}
         return retDict
     else:
         return sourceCounts

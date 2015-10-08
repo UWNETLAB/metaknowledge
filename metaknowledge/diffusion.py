@@ -89,7 +89,7 @@ def diffusionGraph(source, target, sourceType = "raw", targetType = "raw"):
     return workingGraph
 
 
-def diffusionCount(source, target, sourceType = "raw", pandasFriendly = False):
+def diffusionCount(source, target, sourceType = "raw", pandasFriendly = False,  compareCounts = False, _ProgBar = None):
     """Takes in two [`RecordCollections`](#RecordCollection.RecordCollection) and produces a `dict` counting the citations of the `Records` of _source_ by the `Records` of _target_. By default the `dict` uses `Record` objects as keys but this can be changed with the _sourceType_ keyword to any of the WOS tags.
 
     # Parameters
@@ -120,8 +120,12 @@ def diffusionCount(source, target, sourceType = "raw", pandasFriendly = False):
         raise RuntimeError("{} is not a valid node type, only 'raw' or those strings in tagsAndNames are allowed".format(nodeType))
     if not isinstance(source, RecordCollection) or not isinstance(target, RecordCollection):
         raise RuntimeError("Source and target must be RecordCollections.")
-    if metaknowledge.VERBOSE_MODE:
-        PBar = _ProgressBar(0, "Starting to analyse a diffusion network")
+    if metaknowledge.VERBOSE_MODE or _ProgBar:
+        if _ProgBar:
+            PBar = _ProgBar
+            PBar.updateVal(0, "Starting to analyse a diffusion network")
+        else:
+            PBar = _ProgressBar(0, "Starting to analyse a diffusion network")
         count = 0
         maxCount = len(source)
     else:
@@ -154,10 +158,14 @@ def diffusionCount(source, target, sourceType = "raw", pandasFriendly = False):
             for Rs in (sourceDict[c] for c in targetCites if c in sourceDict):
                 for sVal in Rs:
                     sourceCounts[sVal] += 1
-    if PBar:
-        PBar.finish("Done making a diffusion network of {} sources and {} targets".format(len(source), len(target)))
+    if compareCounts:
+        localCounts = diffusionCount(source, target, sourceType = sourceType, pandasFriendly = False,  compareCounts = False, _ProgBar = PBar)
+    if PBar and not _ProgBar:
+        PBar.finish("Done counting the diffusion of {} sources into {} targets".format(len(source), len(target)))
     if pandasFriendly:
         retDict = {"Count" : []}
+        if compareCounts:
+            retDict["LocalCount"] = []
         if sourceType == 'raw':
             retrievedFields = []
             for R in sourceCounts.keys():
@@ -170,15 +178,26 @@ def diffusionCount(source, target, sourceType = "raw", pandasFriendly = False):
                 for tag in retrievedFields:
                     retDict[tag].append(Rvals[tag])
                 retDict["Count"].append(sourceCounts[R])
+                if compareCounts:
+                    retDict["LocalCount"].append(localCounts[R])
         else:
             countLst = []
             recLst = []
-            for rec, occ in sourceCounts.items():
+            locLst = []
+            for R, occ in sourceCounts.items():
                 countLst.append(occ)
-                recLst.append(rec)
-            retDict = {sourceType : recLst, "Count" : countLst}
+                recLst.append(R)
+                if compareCounts:
+                    locLst.append(localCounts[R])
+            if compareCounts:
+                retDict = {sourceType : recLst, "Count" : countLst, "localCount" : locLst}
+            else:
+                retDict = {sourceType : recLst, "Count" : countLst}
         return retDict
     else:
+        if compareCounts:
+            for R, occ in localCounts.items():
+                sourceCounts[R] = (sourceCounts[R], occ)
         return sourceCounts
 
 def makeNodeID(Rec, ndType, extras = None):

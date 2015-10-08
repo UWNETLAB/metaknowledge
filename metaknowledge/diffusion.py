@@ -7,6 +7,9 @@ from .recordCollection import RecordCollection
 import networkx as nx
 import metaknowledge
 
+def diffusion(source, target):
+
+
 def diffusionGraph(source, target, sourceType = "raw", targetType = "raw"):
     """Takes in two [`RecordCollections`](#RecordCollection.RecordCollection) and produces a graph of the citations of the `Records` of _source_ by the `Records` of _target_. By default the graph is of `Record` objects but this can be changed with the _sourceType_ and _targetType_ keywords.
 

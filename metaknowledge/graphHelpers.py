@@ -305,6 +305,7 @@ class _ProgressBar(object):
         except OSError:
             self.barMaxLength = 80 - self.difTermAndBar
         self.ioThread = threading.Thread(target = self.threadedUpdate, kwargs = {"self" : self})
+        self.ioThread.daemon = True
         self.ioThread.start()
 
     def __del__(self):

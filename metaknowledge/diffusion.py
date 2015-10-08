@@ -2,6 +2,7 @@
 """
 from .constants import tagsAndNames
 from .graphHelpers import _ProgressBar
+from .recordCollection import RecordCollection
 
 import networkx as nx
 import metaknowledge
@@ -60,7 +61,7 @@ def diffusionGraph(source, target, sourceType = "raw", targetType = "raw"):
     if PBar:
         count = 0
         maxCount = len(target)
-        PBar.updateVal(.25, "Done analyzing sources, stating on targets")
+        PBar.updateVal(.25, "Done analyzing sources, starting on targets")
     for Rt in target:
         RtVal, RtExtras = makeNodeID(Rt, targetType)
         if PBar:
@@ -82,7 +83,7 @@ def diffusionGraph(source, target, sourceType = "raw", targetType = "raw"):
     return workingGraph
 
 
-def diffusionCount(source, target, sourceType = "raw"):
+def diffusionCount(source, target, sourceType = "raw", pandasFriendly = False):
     """Takes in two [`RecordCollections`](#RecordCollection.RecordCollection) and produces a `dict` counting the citations of the `Records` of _source_ by the `Records` of _target_. By default the `dict` uses `Record` objects as keys but this can be changed with the _sourceType_ keyword to any of the WOS tags.
 
     # Parameters
@@ -95,18 +96,24 @@ def diffusionCount(source, target, sourceType = "raw"):
 
     >A metaknowledge `RecordCollection` containing the `Records` citing those in _source_
 
-    _sourceType_ : `str`
+    _sourceType_ : `optional [str]`
 
     >default `'raw'`, if `'raw'` the returned `dict` will contain `Records` as keys. If it is a WOS tag of the long name of one then the keys will be of that type.
+
+    _pandasFriendly_ : `optional [bool]`
+
+    > default `False`, makes the output be a dict with two keys one `"Record"` is the list of Records ( or data type requested by _sourceType_) the other is their occurence counts as `"Counts"`.
 
     # Returns
 
     `dict[:int]`
 
-    >A dictioanry with the type given by _sourceType_ as keys and integers as values.
+    >A dictionary with the type given by _sourceType_ as keys and integers as values.
     """
     if sourceType != "raw" and sourceType not in tagsAndNames:
         raise RuntimeError("{} is not a valid node type, only 'raw' or those strings in tagsAndNames are allowed".format(nodeType))
+    if not isinstance(source, RecordCollection) or not isinstance(target, RecordCollection):
+        raise RuntimeError("Source and target must be RecordCollections.")
     if metaknowledge.VERBOSE_MODE:
         PBar = _ProgressBar(0, "Starting to analyse a diffusion network")
         count = 0
@@ -115,8 +122,8 @@ def diffusionCount(source, target, sourceType = "raw"):
         PBar = None
     if PBar:
         count = 0
-        maxCount = len(target)
-        PBar.updateVal(.25, "Done analyzing sources, stating on targets")
+        maxCount = len(source)
+        PBar.updateVal(.25, "Done analyzing sources, starting on targets")
     sourceDict = {}
     sourceSet = set()
     for Rs in source:
@@ -128,10 +135,14 @@ def diffusionCount(source, target, sourceType = "raw"):
             sourceDict[Rs.createCitation()] = RsVal
             sourceSet.update(RsVal)
     sourceCounts = {s : 0 for s in sourceSet}
+    if PBar:
+        count = 0
+        maxCount = len(target)
+        PBar.updateVal(.25, "Done analyzing sources, starting on targets")
     for Rt in target:
         if PBar:
             count += 1
-            PBar.updateVal(count / maxCount * .75 + .25, "Analyzing target: " + str(Rs))
+            PBar.updateVal(count / maxCount * .75 + .25, "Analyzing target: " + str(Rt))
         targetCites = Rt.CR
         if targetCites:
             for Rs in (sourceDict[c] for c in targetCites if c in sourceDict):
@@ -139,7 +150,16 @@ def diffusionCount(source, target, sourceType = "raw"):
                     sourceCounts[sVal] += 1
     if PBar:
         PBar.finish("Done making a diffusion network of {} sources and {} targets".format(len(source), len(target)))
-    return sourceCounts
+    if pandasFriendly:
+        countLst = []
+        recLst = []
+        for rec, occ in sourceCounts.items():
+            countLst.append(occ)
+            recLst.append(rec)
+        retDict = {"Record" : recLst, "Count" : countLst}
+        return retDict
+    else:
+        return sourceCounts
 
 def makeNodeID(Rec, ndType, extras = None):
     """Helper to make a node ID, extras is currently not used"""

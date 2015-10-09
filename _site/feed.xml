@@ -4,7 +4,7 @@
 <generator uri="https://github.com/jekyll/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="http://networkslab.org/feed.xml" />
 <link rel="alternate" type="text/html" href="http://networkslab.org" />
-<updated>2015-10-10T00:13:48+06:30</updated>
+<updated>2015-10-10T00:16:00+06:30</updated>
 <id>http://networkslab.org/</id>
 <author>
   <name>John McLevey and Reid McIlroy-Young</name>
@@ -386,7 +386,7 @@
 
 &lt;h6 id=&quot;the-bn-tag&quot;&gt;The BN Tag&lt;/h6&gt;
 
-&lt;p&gt;returns a list of ISBNs associated with the Record&lt;/p&gt;
+&lt;p&gt;extracts a list of ISBNs associated with the Record&lt;/p&gt;
 
 &lt;h6 id=&quot;parameters-1&quot;&gt;Parameters&lt;/h6&gt;
 
@@ -426,7 +426,7 @@
 
 &lt;h6 id=&quot;the-ri-tag&quot;&gt;The RI Tag&lt;/h6&gt;
 
-&lt;p&gt;returns a list of the research IDs of the Record&lt;/p&gt;
+&lt;p&gt;extracts a list of the research IDs of the Record&lt;/p&gt;
 
 &lt;h6 id=&quot;parameters-3&quot;&gt;Parameters&lt;/h6&gt;
 
@@ -466,7 +466,7 @@
 
 &lt;h6 id=&quot;the-ar-tag&quot;&gt;The AR Tag&lt;/h6&gt;
 
-&lt;p&gt;returns a string giving the article number, not all are integers&lt;/p&gt;
+&lt;p&gt;extracts a string giving the article number, not all are integers&lt;/p&gt;
 
 &lt;h6 id=&quot;parameters-5&quot;&gt;Parameters&lt;/h6&gt;
 
@@ -526,7 +526,7 @@
 
 &lt;h6 id=&quot;the-af-tag&quot;&gt;The AF Tag&lt;/h6&gt;
 
-&lt;p&gt;returns a list of authors full names&lt;/p&gt;
+&lt;p&gt;extracts a list of authors full names&lt;/p&gt;
 
 &lt;h6 id=&quot;parameters-8&quot;&gt;Parameters&lt;/h6&gt;
 
@@ -546,7 +546,7 @@
 
 &lt;h6 id=&quot;the-au-tag&quot;&gt;The AU Tag&lt;/h6&gt;
 
-&lt;p&gt;returns a list of authors shortened names&lt;/p&gt;
+&lt;p&gt;extracts a list of authors shortened names&lt;/p&gt;
 
 &lt;h6 id=&quot;parameters-9&quot;&gt;Parameters&lt;/h6&gt;
 
@@ -586,7 +586,7 @@
 
 &lt;h6 id=&quot;the-ba-tag&quot;&gt;The BA Tag&lt;/h6&gt;
 
-&lt;p&gt;returns a list of the short names of the authors of a book Record&lt;/p&gt;
+&lt;p&gt;extracts a list of the short names of the authors of a book Record&lt;/p&gt;
 
 &lt;h6 id=&quot;parameters-11&quot;&gt;Parameters&lt;/h6&gt;
 
@@ -606,7 +606,7 @@
 
 &lt;h6 id=&quot;the-bf-tag&quot;&gt;The BF Tag&lt;/h6&gt;
 
-&lt;p&gt;returns a list of the long names of the authors of a book Record&lt;/p&gt;
+&lt;p&gt;extracts a list of the long names of the authors of a book Record&lt;/p&gt;
 
 &lt;h6 id=&quot;parameters-12&quot;&gt;Parameters&lt;/h6&gt;
 
@@ -646,7 +646,7 @@
 
 &lt;h6 id=&quot;the-cr-tag&quot;&gt;The CR Tag&lt;/h6&gt;
 
-&lt;p&gt;returns a list of all the citations in the record, the citations are the &lt;a href=&quot;/metaknowledge/docs/Citation#Citation&quot;&gt;metaknowledge.Citation&lt;/a&gt; class.&lt;/p&gt;
+&lt;p&gt;extracts a list of all the citations in the record, the citations are the &lt;a href=&quot;/metaknowledge/docs/Citation#Citation&quot;&gt;metaknowledge.Citation&lt;/a&gt; class.&lt;/p&gt;
 
 &lt;h6 id=&quot;parameters-14&quot;&gt;Parameters&lt;/h6&gt;
 
@@ -746,7 +746,7 @@
 
 &lt;h6 id=&quot;the-sp-tag&quot;&gt;The SP Tag&lt;/h6&gt;
 
-&lt;p&gt;returns a list of sponsors for the conference associated with the record&lt;/p&gt;
+&lt;p&gt;extracts a list of sponsors for the conference associated with the record&lt;/p&gt;
 
 &lt;h6 id=&quot;parameters-19&quot;&gt;Parameters&lt;/h6&gt;
 
@@ -846,7 +846,7 @@
 
 &lt;h6 id=&quot;the-be-tag&quot;&gt;The BE Tag&lt;/h6&gt;
 
-&lt;p&gt;returns a list of the editors of the Record&lt;/p&gt;
+&lt;p&gt;extracts a list of the editors of the Record&lt;/p&gt;
 
 &lt;h6 id=&quot;parameters-24&quot;&gt;Parameters&lt;/h6&gt;
 
@@ -874,7 +874,7 @@
 
 &lt;h6 id=&quot;the-em-tag&quot;&gt;The EM Tag&lt;/h6&gt;
 
-&lt;p&gt;returns a list of emails given by the authors of the Record&lt;/p&gt;
+&lt;p&gt;extracts a list of emails given by the authors of the Record&lt;/p&gt;
 
 &lt;h6 id=&quot;parameters-25&quot;&gt;Parameters&lt;/h6&gt;
 
@@ -914,7 +914,7 @@
 
 &lt;h6 id=&quot;the-fu-tag&quot;&gt;The FU Tag&lt;/h6&gt;
 
-&lt;p&gt;Returns a list of the groups funding the Record&lt;/p&gt;
+&lt;p&gt;extracts a list of the groups funding the Record&lt;/p&gt;
 
 &lt;h6 id=&quot;parameters-27&quot;&gt;Parameters&lt;/h6&gt;
 
@@ -934,7 +934,7 @@
 
 &lt;h6 id=&quot;the-fx-tag&quot;&gt;The FX Tag&lt;/h6&gt;
 
-&lt;p&gt;Returns a string of the funding thanks&lt;/p&gt;
+&lt;p&gt;extracts a string of the funding thanks&lt;/p&gt;
 
 &lt;h6 id=&quot;parameters-28&quot;&gt;Parameters&lt;/h6&gt;
 
@@ -1026,7 +1026,7 @@ Month Year (“%b %Y”)&lt;/p&gt;
 
 &lt;h6 id=&quot;the-is-tag&quot;&gt;The IS Tag&lt;/h6&gt;
 
-&lt;p&gt;returns a string giving the issue or range of issues the Record was in, not all are integers&lt;/p&gt;
+&lt;p&gt;extracts a string giving the issue or range of issues the Record was in, not all are integers&lt;/p&gt;
 
 &lt;h6 id=&quot;parameters-32&quot;&gt;Parameters&lt;/h6&gt;
 
@@ -1172,7 +1172,7 @@ Month Year (“%b %Y”)&lt;/p&gt;
 
 &lt;h6 id=&quot;the-oi-tag&quot;&gt;The OI Tag&lt;/h6&gt;
 
-&lt;p&gt;returns a list of orc IDs of the Record&lt;/p&gt;
+&lt;p&gt;extracts a list of orc IDs of the Record&lt;/p&gt;
 
 &lt;h6 id=&quot;parameters-39&quot;&gt;Parameters&lt;/h6&gt;
 
@@ -1412,7 +1412,7 @@ Month Year (“%b %Y”)&lt;/p&gt;
 
 &lt;h6 id=&quot;the-sc-tag&quot;&gt;The SC Tag&lt;/h6&gt;
 
-&lt;p&gt;returns a list of the subjects associated with the Record&lt;/p&gt;
+&lt;p&gt;extracts a list of the subjects associated with the Record&lt;/p&gt;
 
 &lt;h6 id=&quot;parameters-51&quot;&gt;Parameters&lt;/h6&gt;
 
@@ -1432,7 +1432,7 @@ Month Year (“%b %Y”)&lt;/p&gt;
 
 &lt;h6 id=&quot;the-wc-tag&quot;&gt;The WC Tag&lt;/h6&gt;
 
-&lt;p&gt;returns a list of subjects as assigned by WOS&lt;/p&gt;
+&lt;p&gt;extracts a list of subjects as assigned by WOS&lt;/p&gt;
 
 &lt;h6 id=&quot;parameters-52&quot;&gt;Parameters&lt;/h6&gt;
 

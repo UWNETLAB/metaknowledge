@@ -8,14 +8,14 @@ else:
 
 from setuptools import setup, find_packages
 setup(name='metaknowledge',
-    version='0.9.0',
+    version='0.9.1',
     description = "A library for handling Web of science files",
     long_description = long_description,
     author="Reid McIlroy-Young, John McLevey",
     author_email = "rmcilroy@uwaterloo.ca, john.mclevey@uwaterloo.ca",
     license = 'GPL',
     url="https://github.com/networks-lab/metaknowledge",
-    download_url = "https://github.com/networks-lab/metaknowledge/archive/0.9.0.tar.gz",
+    download_url = "https://github.com/networks-lab/metaknowledge/archive/0.9.1.tar.gz",
     keywords= 'WOS',
     classifiers = [
     'Development Status :: 4 - Beta',

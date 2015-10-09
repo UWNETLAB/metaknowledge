@@ -32,7 +32,7 @@ class TestHelpers(unittest.TestCase):
         s = ''.join(tmpIO.readlines())
         self.assertFalse(
         "==================================================]100.0%" in s)
-        self.assertTrue("Writing edge list testNetworks_edgeList.tst" in s)
+        self.assertTrue("Done edge list" in s)
         os.remove(fileEName)
         metaknowledge.VERBOSE_MODE = False
     """

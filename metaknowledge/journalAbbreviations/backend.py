@@ -137,7 +137,7 @@ def getj9dict(dbname = abrevDBname, manualDB = manaulDBname, returnDict = 'both'
     if returnDict == 'both' or returnDict == 'WOS':
         with dbm.dumb.open(dbLoc + '/{}'.format(dbname)) as db:
             if len(db) == 0:
-                raise RuntimeError("J9 Database empty or missing, to regenerate it run updatej9DB().")
+                raise RuntimeError("J9 Database empty or missing, to regenerate it run metaknowledge.journalAbbreviations.updatej9DB().")
             for k, v in db.items():
                 retDict[k.decode('utf-8')] = v.decode('utf-8').split('|')
     if returnDict == 'both' or returnDict == 'manual':
@@ -157,7 +157,7 @@ def addToDB(abbr = None, dbname = manaulDBname):
 
     _abbr_ : `optional [str or dict[str : str]]`
 
-    > The journal abbreviation to be added to the database, it can either be a single string in which case that string will be added with its self as the full name, or a dict can be given with the abbreviations as keys and their names as strings, use pipes ('|') to separate multiple names. Note, if the empty string is given as a name the abbreviation will be considered manually __excluded__, i.e. having excludeFromDB() run on it.
+    > The journal abbreviation to be added to the database, it can either be a single string in which case that string will be added with its self as the full name, or a dict can be given with the abbreviations as keys and their names as strings, use pipes (`'|'`) to separate multiple names. Note, if the empty string is given as a name the abbreviation will be considered manually __excluded__, i.e. having excludeFromDB() run on it.
 
     _dbname_ : `optional [str]`
 

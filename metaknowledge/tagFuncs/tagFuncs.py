@@ -6,7 +6,7 @@ def pubType(val):
     """
     #The PT Tag
 
-    returns the type of publication as a character: conference, book, journal, book in series, or patent
+    extracts the type of publication as a character: conference, book, journal, book in series, or patent
 
     # Parameters
 
@@ -28,7 +28,7 @@ def authorsFull(val):
     """
     #The AF Tag
 
-    returns a list of authors full names
+    extracts a list of authors full names
 
     # Parameters
 
@@ -49,7 +49,7 @@ def group(val):
     """
     #The GP Tag
 
-    returns the group associated with the Record
+    extracts the group associated with the Record
 
     # Parameters
 
@@ -70,7 +70,7 @@ def editedBy(val):
     """
     #The BE Tag
 
-    returns a list of the editors of the Record
+    extracts a list of the editors of the Record
 
     # Parameters
 
@@ -91,7 +91,7 @@ def authorsShort(val):
     """
     #The AU Tag
 
-    returns a list of authors shortened names
+    extracts a list of authors shortened names
 
     # Parameters
 
@@ -112,7 +112,7 @@ def bookAuthor(val):
     """
     #The BA Tag
 
-    returns a list of the short names of the authors of a book Record
+    extracts a list of the short names of the authors of a book Record
 
     # Parameters
 
@@ -133,7 +133,7 @@ def bookAuthorFull(val):
     """
     #The BF Tag
 
-    returns a list of the long names of the authors of a book Record
+    extracts a list of the long names of the authors of a book Record
 
     # Parameters
 
@@ -154,7 +154,7 @@ def groupName(val):
     """
     #The CA Tag
 
-    returns the name of the group associated with the Record
+    extracts the name of the group associated with the Record
 
     # Parameters
 
@@ -175,7 +175,7 @@ def title(val):
     """
     #The TI Tag
 
-    returns the title of the record
+    extracts the title of the record
 
     # Parameters
 
@@ -204,7 +204,7 @@ def journal(val):
     """
     #The SO Tag
 
-    returns the full name of the publication
+    extracts the full name of the publication
 
     # Parameters
 
@@ -225,7 +225,7 @@ def seriesTitle(val):
     """
     #The SE Tag
 
-    returns the title of the series the Record is in
+    extracts the title of the series the Record is in
 
     # Parameters
 
@@ -246,7 +246,7 @@ def seriesSubtitle(val):
     """
     #The BS Tag
 
-    returns the title of the series the Record is in
+    extracts the title of the series the Record is in
 
     # Parameters
 
@@ -267,7 +267,7 @@ def language(val):
     """
     #The LA Tag
 
-    returns the languages of the Record as a string with languages separated by ', ', usually there is only one language
+    extracts the languages of the Record as a string with languages separated by ', ', usually there is only one language
 
     # Parameters
 
@@ -288,7 +288,7 @@ def docType(val):
     """
     #The DT Tag
 
-    returns the type of document the Record contains
+    extracts the type of document the Record contains
 
     # Parameters
 
@@ -309,7 +309,7 @@ def confTitle(val):
     """
     #The CT Tag
 
-    returns the title of the conference associated with the Record
+    extracts the title of the conference associated with the Record
 
     # Parameters
 
@@ -330,7 +330,7 @@ def confDate(val):
     """
     #The CY Tag
 
-    returns the date string of the conference associated with the Record, the date is not normalized
+    extracts the date string of the conference associated with the Record, the date is not normalized
 
     # Parameters
 
@@ -351,7 +351,7 @@ def confSponsors(val):
     """
     #The SP Tag
 
-    returns a list of sponsors for the conference associated with the record
+    extracts a list of sponsors for the conference associated with the record
 
     # Parameters
 
@@ -372,7 +372,7 @@ def wosTimesCited(val):
     """
     #The TC Tag
 
-    returns the number of times the Record has been cited by records in WOS
+    extracts the number of times the Record has been cited by records in WOS
 
     # Parameters
 
@@ -393,7 +393,7 @@ def authAddress(val):
     """
     # The C1 Tag
 
-    Returns the address of the authors as given by WOS. **Warning** the mapping of author to address is not very good and is given in multiple ways.
+    extracts the address of the authors as given by WOS. **Warning** the mapping of author to address is not very good and is given in multiple ways.
 
     # Parameters
 
@@ -420,7 +420,7 @@ def confLocation(val):
     """
     #The CL Tag
 
-    returns the sting giving the conference's location
+    extracts the sting giving the conference's location
 
     # Parameters
 
@@ -441,7 +441,7 @@ def j9(val):
     """
     #The J9 Tag
 
-    returns the J9 (29-Character Source Abbreviation) of the publication
+    extracts the J9 (29-Character Source Abbreviation) of the publication
 
     # Parameters
 
@@ -462,7 +462,7 @@ def funding(val):
     """
     #The FU Tag
 
-    Returns a list of the groups funding the Record
+    extracts a list of the groups funding the Record
 
     # Parameters
 
@@ -483,7 +483,7 @@ def subjectCategory(val):
     """
     #The SC Tag
 
-    returns a list of the subjects associated with the Record
+    extracts a list of the subjects associated with the Record
 
     # Parameters
 
@@ -504,7 +504,7 @@ def citations(val):
     """
     #The CR Tag
 
-    returns a list of all the citations in the record, the citations are the [metaknowledge.Citation](#Citation.Citation) class.
+    extracts a list of all the citations in the record, the citations are the [metaknowledge.Citation](#Citation.Citation) class.
 
     # Parameters
 
@@ -528,7 +528,7 @@ def publisherCity(val):
     """
     #The PI Tag
 
-    Returns the city the publisher is in
+    extracts the city the publisher is in
 
     # Parameters
 
@@ -549,7 +549,7 @@ def ISSN(val):
     """
     #The SN Tag
 
-    returns the ISSN of the Record
+    extracts the ISSN of the Record
 
     # Parameters
 
@@ -570,7 +570,7 @@ def articleNumber(val):
     """
     #The AR Tag
 
-    returns a string giving the article number, not all are integers
+    extracts a string giving the article number, not all are integers
 
     # Parameters
 
@@ -591,7 +591,7 @@ def issue(val):
     """
     #The IS Tag
 
-    returns a string giving the issue or range of issues the Record was in, not all are integers
+    extracts a string giving the issue or range of issues the Record was in, not all are integers
 
     # Parameters
 
@@ -612,7 +612,7 @@ def email(val):
     """
     #The EM Tag
 
-    returns a list of emails given by the authors of the Record
+    extracts a list of emails given by the authors of the Record
 
     # Parameters
 
@@ -633,7 +633,7 @@ def eISSN(val):
     """
     #The EI Tag
 
-    returns the EISSN of the Record
+    extracts the EISSN of the Record
 
     # Parameters
 
@@ -675,7 +675,7 @@ def wosString(val):
     """
     #The UT Tag
 
-    returns the WOS number of the record as a string preceded by "WOS:"
+    extracts the WOS number of the record as a string preceded by "WOS:"
 
     # Parameters
 
@@ -696,7 +696,7 @@ def orcID(val):
     """
     #The OI Tag
 
-    returns a list of orc IDs of the Record
+    extracts a list of orc IDs of the Record
 
     # Parameters
 
@@ -717,7 +717,7 @@ def meetingAbstract(val):
     """
     #The MA Tag
 
-    returns the ID of the meeting abstract prefixed by 'EPA-'
+    extracts the ID of the meeting abstract prefixed by 'EPA-'
 
     # Parameters
 
@@ -738,7 +738,7 @@ def isoAbbreviation(val):
     """
     #The JI Tag
 
-    returns the iso abbreviation of the journal
+    extracts the iso abbreviation of the journal
 
     # Parameters
 
@@ -780,7 +780,7 @@ def publisher(val):
     """
     #The PU Tag
 
-    returns the publisher of the Record
+    extracts the publisher of the Record
 
     # Parameters
 
@@ -801,7 +801,7 @@ def ISBN(val):
     """
     #The BN Tag
 
-    returns a list of ISBNs associated with the Record
+    extracts a list of ISBNs associated with the Record
 
     # Parameters
 
@@ -822,7 +822,7 @@ def month(val):
     """
     #The PD Tag
 
-    returns the month the record was published in as an int with January as 1, February 2, ...
+    extracts the month the record was published in as an int with January as 1, February 2, ...
 
     # Parameters
 
@@ -843,7 +843,7 @@ def fundingText(val):
     """
     #The FX Tag
 
-    Returns a string of the funding thanks
+    extracts a string of the funding thanks
 
     # Parameters
 
@@ -864,7 +864,7 @@ def bookDOI(val):
     """
     #The D2 Tag
 
-    returns the book DOI of the Record
+    extracts the book DOI of the Record
 
     # Parameters
 
@@ -906,7 +906,7 @@ def ResearcherIDnumber(val):
     """
     #The RI Tag
 
-    returns a list of the research IDs of the Record
+    extracts a list of the research IDs of the Record
 
     # Parameters
 
@@ -927,7 +927,7 @@ def citedRefsCount(val):
     """
     #The NR Tag
 
-    returns the number citations, length of CR list
+    extracts the number citations, length of CR list
 
     # Parameters
 
@@ -948,7 +948,7 @@ def beginningPage(val):
     """
     #The BP Tag
 
-    returns the first page the record occurs on, not all are integers
+    extracts the first page the record occurs on, not all are integers
 
     # Parameters
 
@@ -990,7 +990,7 @@ def supplement(val):
     """
     #The SU Tag
 
-    returns the supplement number
+    extracts the supplement number
 
     # Parameters
 
@@ -1011,7 +1011,7 @@ def confHost(val):
     """
     #The HO Tag
 
-    returns the host of the conference
+    extracts the host of the conference
 
     # Parameters
 
@@ -1032,7 +1032,7 @@ def publisherAddress(val):
     """
     #The PA Tag
 
-    returns the publishers address
+    extracts the publishers address
 
     # Parameters
 
@@ -1074,7 +1074,7 @@ def year(val):
     """
     #The PY Tag
 
-    returns the year the record was published in as an int
+    extracts the year the record was published in as an int
 
     # Parameters
 
@@ -1099,7 +1099,7 @@ def authKeyWords(val):
     """
     #The DE Tag
 
-    returns the keywords assigned by the author of the Record
+    extracts the keywords assigned by the author of the Record
 
     # Parameters
 
@@ -1120,7 +1120,7 @@ def reprintAddress(val):
     """
     #The RP Tag
 
-    returns the reprint address string
+    extracts the reprint address string
 
     # Parameters
 
@@ -1141,7 +1141,7 @@ def totalTimesCited(val):
     """
     #The Z9 Tag
 
-    returns the total number of citations of the record
+    extracts the total number of citations of the record
 
     # Parameters
 
@@ -1183,7 +1183,7 @@ def specialIssue(val):
     """
     #The SI Tag
 
-    returns the special issue value
+    extracts the special issue value
 
     # Parameters
 
@@ -1204,7 +1204,7 @@ def subjects(val):
     """
     #The WC Tag
 
-    returns a list of subjects as assigned by WOS
+    extracts a list of subjects as assigned by WOS
 
     # Parameters
 
@@ -1225,7 +1225,7 @@ def keyWords(val):
     """
     #The ID Tag
 
-    returns the WOS keywords of the Record
+    extracts the WOS keywords of the Record
 
     # Parameters
 
@@ -1246,7 +1246,7 @@ def pubMedID(val):
     """
     #The PM Tag
 
-    returns the pubmed ID of the record
+    extracts the pubmed ID of the record
 
     # Parameters
 
@@ -1267,7 +1267,7 @@ def documentDeliveryNumber(val):
     """
     #The GA Tag
 
-    returns the document delivery number of the Record
+    extracts the document delivery number of the Record
 
     # Parameters
 

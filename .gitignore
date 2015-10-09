@@ -5,6 +5,7 @@ notebooks/
 !MakeExamples.sh
 isilibDocs.md
 .ipynb_checkpoints/
+.sass-cache/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

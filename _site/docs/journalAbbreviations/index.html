@@ -145,32 +145,23 @@
 
 <div id="main" role="main">
   <article class="entry">
-    
     <div class="entry-wrapper">
-      <header class="entry-header">
-        <h1 class="entry-title">journalAbbreviations</h1>
-      </header>
       <div class="entry-content">
         <p><a name="journalAbbreviations"></a></p>
 
+<h1 id="journalabbreviationsmetaknowledgedocsjournalabbreviationsjournalabbreviations"><a href="/metaknowledge/docs/journalAbbreviations#journalAbbreviations">journalAbbreviations</a></h1>
+
 <hr />
 
-<p><a name="journalAbbreviations.addToDB"></a>journalAbbreviations.<strong>addToDB</strong>(<em>abbr=None, dbname=’manualj9Abbreviations’</em>):</p>
+<p><a name="journalAbbreviations.addToDB"></a><small>journalAbbreviations.</small><strong><a href="/metaknowledge/docs/journalAbbreviations#journalAbbreviations.addToDB"><ins>addToDB</ins></a></strong>(<em>abbr=None, dbname=’manualj9Abbreviations’</em>):</p>
 
 <p>Adds <em>abbr</em> to the database of journals. The database is kept separate from the one scraped from WOS, this supersedes it. The database by default is stored with the WOS one and the name is given by <code>metaknowledge.journalAbbreviations.manaulDBname</code>. To create an empty database run <strong>addToDB</strong> without an <em>abbr</em> argument.</p>
 
-<h5 id="parameters">Parameters</h5>
+<h6 id="parameters">Parameters</h6>
 
 <p><em>abbr</em> : <code>optional [str or dict[str : str]]</code></p>
 
-<table>
-  <tbody>
-    <tr>
-      <td>The journal abbreviation to be added to the database, it can either be a single string in which case that string will be added with its self as the full name, or a dict can be given with the abbreviations as keys and their names as strings, use pipes (‘</td>
-      <td>’) to separate multiple names. Note, if the empty string is given as a name the abbreviation will be considered manually <strong>excluded</strong>, i.e. having excludeFromDB() run on it.</td>
-    </tr>
-  </tbody>
-</table>
+<p>The journal abbreviation to be added to the database, it can either be a single string in which case that string will be added with its self as the full name, or a dict can be given with the abbreviations as keys and their names as strings, use pipes (<code>'|'</code>) to separate multiple names. Note, if the empty string is given as a name the abbreviation will be considered manually <strong>excluded</strong>, i.e. having excludeFromDB() run on it.</p>
 
 <p><em>dbname</em> : <code>optional [str]</code></p>
 
@@ -178,11 +169,11 @@
 
 <hr />
 
-<p><a name="journalAbbreviations.excludeFromDB"></a>journalAbbreviations.<strong>excludeFromDB</strong>(<em>abbr=None, dbname=’manualj9Abbreviations’</em>):</p>
+<p><a name="journalAbbreviations.excludeFromDB"></a><small>journalAbbreviations.</small><strong><a href="/metaknowledge/docs/journalAbbreviations#journalAbbreviations.excludeFromDB"><ins>excludeFromDB</ins></a></strong>(<em>abbr=None, dbname=’manualj9Abbreviations’</em>):</p>
 
 <p>Marks <em>abbr</em> to be excluded the database of journals. The database is kept separate from the one scraped from WOS, this supersedes it. The database by default is stored with the WOS one and the name is given by <code>metaknowledge.journalAbbreviations.manaulDBname</code>. To create an empty database run <strong>addToDB</strong> without an <em>abbr</em> argument.</p>
 
-<h5 id="parameters-1">Parameters</h5>
+<h6 id="parameters-1">Parameters</h6>
 
 <p><em>abbr</em> : <code>optional [str or tuple[str] or list[str]</code></p>
 
@@ -194,11 +185,11 @@
 
 <hr />
 
-<p><a name="journalAbbreviations.getj9dict"></a>journalAbbreviations.<strong>getj9dict</strong>(<em>dbname=’j9Abbreviations’, manualDB=’manualj9Abbreviations’, returnDict=’both’</em>):</p>
+<p><a name="journalAbbreviations.getj9dict"></a><small>journalAbbreviations.</small><strong><a href="/metaknowledge/docs/journalAbbreviations#journalAbbreviations.getj9dict"><ins>getj9dict</ins></a></strong>(<em>dbname=’j9Abbreviations’, manualDB=’manualj9Abbreviations’, returnDict=’both’</em>):</p>
 
 <p>Returns the dictionary of journal abbreviations to a list of the associated journal names. By default the local database is used. The database is in the file <em>dbname</em> in the same directory as this source file</p>
 
-<h5 id="parameters-2">Parameters</h5>
+<h6 id="parameters-2">Parameters</h6>
 
 <p><em>dbname</em> : <code>optional [str]</code></p>
 
@@ -206,11 +197,11 @@
 
 <hr />
 
-<p><a name="journalAbbreviations.updatej9DB"></a>journalAbbreviations.<strong>updatej9DB</strong>(<em>dbname=’j9Abbreviations’, saveRawHTML=False</em>):</p>
+<p><a name="journalAbbreviations.updatej9DB"></a><small>journalAbbreviations.</small><strong><a href="/metaknowledge/docs/journalAbbreviations#journalAbbreviations.updatej9DB"><ins>updatej9DB</ins></a></strong>(<em>dbname=’j9Abbreviations’, saveRawHTML=False</em>):</p>
 
 <p>Updates the database of Journal Title Abbreviations. Requires an internet connection. The data base is saved relative to the source file not the working directory.</p>
 
-<h5 id="parameters-3">Parameters</h5>
+<h6 id="parameters-3">Parameters</h6>
 
 <p><em>dbname</em> : <code>optional [str]</code></p>
 

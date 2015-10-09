@@ -145,14 +145,10 @@
 
 <div id="main" role="main">
   <article class="entry">
-    
     <div class="entry-wrapper">
-      <header class="entry-header">
-        <h1 class="entry-title">Citation</h1>
-      </header>
       <div class="entry-content">
         <p><a name="Citation"></a>
-<a name="Citation"></a><strong>Citation</strong>(<em>cite</em>):</p>
+<a name="Citation"></a><small></small><strong><a href="/metaknowledge/docs/Citation#Citation"><ins>Citation</ins></a></strong>(<em>cite</em>):</p>
 
 <p>A class to hold citation strings and allow for comparison between them.</p>
 
@@ -198,7 +194,7 @@ Combined they look like:</p>
 
 <p>A str containing a WOS style citation.</p>
 
-<p><a name="Citation.addToDB"></a>Citation.<strong>addToDB</strong>(<em>manualName=None, manaulDB=’manualj9Abbreviations’, invert=False</em>):</p>
+<p><a name="Citation.addToDB"></a><small>Citation.</small><strong><a href="/metaknowledge/docs/Citation#Citation.addToDB"><ins>addToDB</ins></a></strong>(<em>manualName=None, manaulDB=’manualj9Abbreviations’, invert=False</em>):</p>
 
 <p>Adds the journal of this Citation to the user created database of journals. This will cause <a href="/metaknowledge/docs/Citation#Citation">isJournal()</a> to return <code>True</code> for this Citation and all others with its <code>.journal</code>.</p>
 
@@ -216,7 +212,7 @@ Combined they look like:</p>
 
 <p>Default <code>False</code>, if <code>True</code> the journal will be removed instead of added</p>
 
-<p><a name="Citation.getExtra"></a>Citation.<strong>getExtra</strong>():</p>
+<p><a name="Citation.getExtra"></a><small>Citation.</small><strong><a href="/metaknowledge/docs/Citation#Citation.getExtra"><ins>getExtra</ins></a></strong>():</p>
 
 <p>Returns any V, P, DOI or misc values as a string. These are all the values not returned by <a href="/metaknowledge/docs/Citation#Citation"><code>getID()</code></a>.</p>
 
@@ -226,7 +222,7 @@ Combined they look like:</p>
 
 <p>A string containing the data not in the ID of the Citation.</p>
 
-<p><a name="Citation.getFullJournalName"></a>Citation.<strong>getFullJournalName</strong>():</p>
+<p><a name="Citation.getFullJournalName"></a><small>Citation.</small><strong><a href="/metaknowledge/docs/Citation#Citation.getFullJournalName"><ins>getFullJournalName</ins></a></strong>():</p>
 
 <p>Returns the full name of the Citation’s journal field. Requires the j9Abbreviations database file.</p>
 
@@ -236,7 +232,7 @@ Combined they look like:</p>
 
 <p>The first full name given for the journal of the Citation (or the first name in the WOS list if multiple names exist), if there is not one then <code>None</code> is returned</p>
 
-<p><a name="Citation.getID"></a>Citation.<strong>getID</strong>():</p>
+<p><a name="Citation.getID"></a><small>Citation.</small><strong><a href="/metaknowledge/docs/Citation#Citation.getID"><ins>getID</ins></a></strong>():</p>
 
 <p>Returns all of “author, year, journal” available. It is for shortening labels when creating networks as the resultant strings are often unique. <a href="/metaknowledge/docs/Citation#Citation"><code>getExtra()</code></a> gets everything not returned by <code>getID()</code>.</p>
 
@@ -248,7 +244,7 @@ Combined they look like:</p>
 
 <p>A string to use as the shortened ID of a node.</p>
 
-<p><a name="Citation.isAnonymous"></a>Citation.<strong>isAnonymous</strong>():</p>
+<p><a name="Citation.isAnonymous"></a><small>Citation.</small><strong><a href="/metaknowledge/docs/Citation#Citation.isAnonymous"><ins>isAnonymous</ins></a></strong>():</p>
 
 <p>Checks if the author is given as “[ANONYMOUS]” and returns <code>True</code> if so.</p>
 
@@ -258,7 +254,7 @@ Combined they look like:</p>
 
 <p>True if the author is ANONYMOUS otherwise <code>False</code>.</p>
 
-<p><a name="Citation.isJournal"></a>Citation.<strong>isJournal</strong>(<em>manaulDB=’manualj9Abbreviations’, returnDict=’both’, checkIfExcluded=False</em>):</p>
+<p><a name="Citation.isJournal"></a><small>Citation.</small><strong><a href="/metaknowledge/docs/Citation#Citation.isJournal"><ins>isJournal</ins></a></strong>(<em>manaulDB=’manualj9Abbreviations’, returnDict=’both’, checkIfExcluded=False</em>):</p>
 
 <p>Returns <code>True</code> if the Citation’s journal field is a journal abbreviation given by WOS, i.e. checks if the citation is citing a journal. Requires the j9Abbreviations database file.</p>
 

@@ -112,7 +112,7 @@ def diffusionCount(source, target, sourceType = "raw", pandasFriendly = False,  
 
     _compareCounts_ : `optional [boo]`
 
-    > default `False`, runs the diffusion analysis with the source `RecordCollection` as the target and source after the first analysis. This count is then added to the returned object.
+    > default `False`, if `True` the diffusion analysis will be run twice, first with source and target setup like the default (global scope) then using only the source `RecordCollection` (local scope).
 
     # Returns
 

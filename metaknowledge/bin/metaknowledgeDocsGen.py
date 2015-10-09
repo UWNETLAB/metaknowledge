@@ -64,7 +64,7 @@ def cleanedDoc(obj, lvl):
     return '{}\n\n'.format(nds)
 
 def makeTitle(module, name, args = ''):
-    s = '<a name="{0}{1}"></a>{0}**[{1}]({{{{ site.baseurl }}}}{{{{ page.url }}}}#{0}{1})**{2}:\n\n'.format(module, name, args)
+    s = '<a name="{0}{1}"></a><small>{0}</small>**[<ins>{1}</ins>]({{{{ site.baseurl }}}}{{{{ page.url }}}}#{0}{1})**{2}:\n\n'.format(module, name, args)
     return s
 
 def writeFunc(fn, f, prefix = '', level = 4):
@@ -113,7 +113,7 @@ def writeModuleFile(mod):
             pass
         elif inspect.isfunction(m[1]):
             f.write("- - -\n\n")
-            writeFunc(m, f, prefix = "{}.".format(mod))
+            writeFunc(m, f, prefix = "{}.".format(mod), level = 5)
             funcs.append(m)
     f.write("\n{% include docsFooter.md %}")
     f.close()

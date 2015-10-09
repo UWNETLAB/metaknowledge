@@ -4,159 +4,409 @@ from ..citation import Citation
 
 def pubType(val):
     """
+    #The PT Tag
+
     returns the type of publication as a character: conference, book, journal, book in series, or patent
 
-    PT tag
+    # Parameters
+
+    _val_: `list[str]`
+
+    > The raw data from a WOS file
+
+    # Returns
+
+    `str`
+
+    > A string
+
     """
     return val[0]
 
 
 def authorsFull(val):
     """
+    #The AF Tag
+
     returns a list of authors full names
 
-    AF tag
+    # Parameters
+
+    _val_: `list[str]`
+
+    > The raw data from a WOS file
+
+    # Returns
+
+    `list[str]`
+
+    > A list of author's names
+
     """
     return val
 
 def group(val):
     """
+    #The GP Tag
+
     returns the group associated with the Record
 
-    GP tag
+    # Parameters
+
+    _val_: `list[str]`
+
+    > The raw data from a WOS file
+
+    # Returns
+
+    `str`
+
+    > A the name of the group
+
     """
     return val[0]
 
 def editedBy(val):
     """
+    #The BE Tag
+
     returns a list of the editors of the Record
 
-    BE tag
+    # Parameters
+
+    _val_: `list[str]`
+
+    > The raw data from a WOS file
+
+    # Returns
+
+    `list[str]`
+
+    > A list of editors
+
     """
     return val
 
 def authorsShort(val):
     """
+    #The AU Tag
+
     returns a list of authors shortened names
 
-    AU tag
+    # Parameters
+
+    _val_: `list[str]`
+
+    > The raw data from a WOS file
+
+    # Returns
+
+    `list[str]`
+
+    > A list of shortened author's names
+
     """
     return val
 
 def bookAuthor(val):
     """
+    #The BA Tag
+
     returns a list of the short names of the authors of a book Record
 
-    BA tag
+    # Parameters
+
+    _val_: `list[str]`
+
+    > The raw data from a WOS file
+
+    # Returns
+
+    `list[str]`
+
+    > A list of shortened author's names
+
     """
     return val
 
 def bookAuthorFull(val):
     """
+    #The BF Tag
+
     returns a list of the long names of the authors of a book Record
 
-    BF tag
+    # Parameters
+
+    _val_: `list[str]`
+
+    > The raw data from a WOS file
+
+    # Returns
+
+    `list[str]`
+
+    > A list of author's names
+
     """
     return val
 
 def groupName(val):
     """
+    #The CA Tag
+
     returns the name of the group associated with the Record
 
-    CA tag
+    # Parameters
+
+    _val_: `list[str]`
+
+    > The raw data from a WOS file
+
+    # Returns
+
+    `str`
+
+    > The group's name
+
     """
     return val[0]
 
 def title(val):
     """
+    #The TI Tag
+
     returns the title of the record
 
-    TI tag
+    # Parameters
+
+    _val_: `list[str]`
+
+    > The raw data from a WOS file
+
+    # Returns
+
+    `str`
+
+    > The title of the record
+
     """
     return ' '.join(val)
 
 def editors(val):
     """
     # Needs Work
+
+    currently not well understood, returns _val_
     """
     return val
 
 def journal(val):
     """
+    #The SO Tag
+
     returns the full name of the publication
 
-    SO tag
+    # Parameters
+
+    _val_: `list[str]`
+
+    > The raw data from a WOS file
+
+    # Returns
+
+    `str`
+
+    > The name of the journal
+
     """
     return ' '.join(val)
 
 def seriesTitle(val):
     """
+    #The SE Tag
+
     returns the title of the series the Record is in
 
-    SE tag
+    # Parameters
+
+    _val_: `list[str]`
+
+    > The raw data from a WOS file
+
+    # Returns
+
+    `str`
+
+    > The title of the series
+
     """
-    return val[0]
+    return ' '.join(val)
 
 def seriesSubtitle(val):
     """
+    #The BS Tag
+
     returns the title of the series the Record is in
 
-    BS tag
+    # Parameters
+
+    _val_: `list[str]`
+
+    > The raw data from a WOS file
+
+    # Returns
+
+    `str`
+
+    > The subtitle of the series
+
     """
-    return val[0]
+    return ' '.join(val)
 
 def language(val):
     """
-    returns the languages of the Record as a string with languages seperated by ', ', usually there is only one language
+    #The LA Tag
 
-    LA tag
+    returns the languages of the Record as a string with languages separated by ', ', usually there is only one language
+
+    # Parameters
+
+    _val_: `list[str]`
+
+    > The raw data from a WOS file
+
+    # Returns
+
+    `str`
+
+    > The language(s) of the record
+
     """
     return ', '.join(val)
 
 def docType(val):
     """
+    #The DT Tag
+
     returns the type of document the Record contains
 
-    DT tag
+    # Parameters
+
+    _val_: `list[str]`
+
+    > The raw data from a WOS file
+
+    # Returns
+
+    `str`
+
+    > The type of the Record
+
     """
     return val[0]
 
 def confTitle(val):
     """
+    #The CT Tag
+
     returns the title of the conference associated with the Record
 
-    CT tag
+    # Parameters
+
+    _val_: `list[str]`
+
+    > The raw data from a WOS file
+
+    # Returns
+
+    `str`
+
+    > The title of the conference
+
     """
     return ' '.join(val)
 
 def confDate(val):
     """
-    returns the date string of the conference associated with the Record
+    #The CY Tag
 
-    CY tag
+    returns the date string of the conference associated with the Record, the date is not normalized
+
+    # Parameters
+
+    _val_: `list[str]`
+
+    > The raw data from a WOS file
+
+    # Returns
+
+    `str`
+
+    > The data of the conference
+
     """
     return val[0]
 
 def confSponsors(val):
     """
+    #The SP Tag
+
     returns a list of sponsors for the conference associated with the record
 
-    SP tag
+    # Parameters
+
+    _val_: `list[str]`
+
+    > The raw data from a WOS file
+
+    # Returns
+
+    `str`
+
+    > A the list of of sponsors
+
     """
     return ', '.join(val).split(', ')
 
 def wosTimesCited(val):
     """
-    returns the number of times the Record has been cited byr records in WOS
+    #The TC Tag
 
-    TC tag
+    returns the number of times the Record has been cited by records in WOS
+
+    # Parameters
+
+    _val_: `list[str]`
+
+    > The raw data from a WOS file
+
+    # Returns
+
+    `int`
+
+    > The number of time the Record has been cited
+
     """
     return int(val[0])
 
 def authAddress(val):
     """
+    # The C1 Tag
 
-    C1 tag
+    Returns the address of the authors as given by WOS. **Warning** the mapping of author to address is not very good and is given in multiple ways.
+
+    # Parameters
+
+    _val_: `list[str]`
+
+    > The raw data from a WOS file
+
+    # Returns
+
+    `list[str]`
+
+    > A list of addresses
+
     """
     ret = []
     for a in val:
@@ -168,41 +418,106 @@ def authAddress(val):
 
 def confLocation(val):
     """
-    returns the sting giving the confrence's location
+    #The CL Tag
 
-    CL tag
+    returns the sting giving the conference's location
+
+    # Parameters
+
+    _val_: `list[str]`
+
+    > The raw data from a WOS file
+
+    # Returns
+
+    `str`
+
+    > The conferences address
+
     """
     return ' '.join(val)
 
 def j9(val):
     """
+    #The J9 Tag
+
     returns the J9 (29-Character Source Abbreviation) of the publication
 
-    J9 tag
+    # Parameters
+
+    _val_: `list[str]`
+
+    > The raw data from a WOS file
+
+    # Returns
+
+    `str`
+
+    > The 29-Character Source Abbreviation
+
     """
     return val[0]
 
 def funding(val):
     """
+    #The FU Tag
+
     Returns a list of the groups funding the Record
 
-    FU tag
+    # Parameters
+
+    _val_: `list[str]`
+
+    > The raw data from a WOS file
+
+    # Returns
+
+    `list[str]`
+
+    > A list of funding groups
+
     """
     return ' '.join(val).split('; ')
 
 def subjectCategory(val):
     """
+    #The SC Tag
+
     returns a list of the subjects associated with the Record
 
-    SC tag
+    # Parameters
+
+    _val_: `list[str]`
+
+    > The raw data from a WOS file
+
+    # Returns
+
+    `list[str]`
+
+    > A list of the subjects associated with the Record
+
     """
     return ' '.join(val).split('; ')
 
 def citations(val):
     """
-    returns a list of all the citations in the record
+    #The CR Tag
 
-    CR tag
+    returns a list of all the citations in the record, the citations are the [metaknowledge.Citation](#Citation.Citation) class.
+
+    # Parameters
+
+    _val_: `list[str]`
+
+    > The raw data from a WOS file
+
+    # Returns
+
+    ` list[metaknowledge.Citation]`
+
+    > A list of Citations
+
     """
     retCites = []
     for c in val:
@@ -211,217 +526,568 @@ def citations(val):
 
 def publisherCity(val):
     """
+    #The PI Tag
+
     Returns the city the publisher is in
 
-    PI tag
+    # Parameters
+
+    _val_: `list[str]`
+
+    > The raw data from a WOS file
+
+    # Returns
+
+    `str`
+
+    > The city of the publisher
+
     """
     return ' '.join(val).upper()
 
 def ISSN(val):
     """
+    #The SN Tag
+
     returns the ISSN of the Record
 
-    SN tag
+    # Parameters
+
+    _val_: `list[str]`
+
+    > The raw data from a WOS file
+
+    # Returns
+
+    `str`
+
+    > The ISSN string
+
     """
     return val[0]
 
 def articleNumber(val):
     """
+    #The AR Tag
+
     returns a string giving the article number, not all are integers
 
-    AR tag
+    # Parameters
+
+    _val_: `list[str]`
+
+    > The raw data from a WOS file
+
+    # Returns
+
+    `str`
+
+    > The article number
+
     """
     return val[0]
 
 def issue(val):
     """
-    returns a string giving the issue or range of issues the Record was in
+    #The IS Tag
 
-    IS tag
+    returns a string giving the issue or range of issues the Record was in, not all are integers
+
+    # Parameters
+
+    _val_: `list[str]`
+
+    > The raw data from a WOS file
+
+    # Returns
+
+    `str`
+
+    > The issue number/range
+
     """
     return val[0]
 
 def email(val):
     """
+    #The EM Tag
+
     returns a list of emails given by the authors of the Record
 
-    EM tag
+    # Parameters
+
+    _val_: `list[str]`
+
+    > The raw data from a WOS file
+
+    # Returns
+
+    `list[str]`
+
+    > A list of emails
+
     """
     return ' '.join(val).split('; ')
 
 def eISSN(val):
     """
+    #The EI Tag
+
     returns the EISSN of the Record
 
-    EI tag
+    # Parameters
+
+    _val_: `list[str]`
+
+    > The raw data from a WOS file
+
+    # Returns
+
+    `str`
+
+    > The EISSN string
+
     """
     return val[0]
 
 def DOI(val):
     """
+    #The DI Tag
+
     return the DOI number of the record
 
-    DI tag
+    # Parameters
+
+    _val_: `list[str]`
+
+    > The raw data from a WOS file
+
+    # Returns
+
+    `str`
+
+    > The DOI number string
+
     """
     return val[0]
 
 def wosString(val):
     """
+    #The UT Tag
+
     returns the WOS number of the record as a string preceded by "WOS:"
 
-    UT tag
+    # Parameters
+
+    _val_: `list[str]`
+
+    > The raw data from a WOS file
+
+    # Returns
+
+    `str`
+
+    > The WOS number
+
     """
     return val[0]
 
 def orcID(val):
     """
+    #The OI Tag
+
     returns a list of orc IDs of the Record
 
-    OI tag
+    # Parameters
+
+    _val_: `list[str]`
+
+    > The raw data from a WOS file
+
+    # Returns
+
+    `str`
+
+    > The orc ID
+
     """
     return ' '.join(val).split('; ')
 
 def meetingAbstract(val):
     """
+    #The MA Tag
+
     returns the ID of the meeting abstract prefixed by 'EPA-'
 
-    MA tag
+    # Parameters
+
+    _val_: `list[str]`
+
+    > The raw data from a WOS file
+
+    # Returns
+
+    `str`
+
+    > The meeting abstract prefixed
+
     """
     return val[0]
 
 def isoAbbreviation(val):
     """
+    #The JI Tag
+
     returns the iso abbreviation of the journal
 
-    JI tag
+    # Parameters
+
+    _val_: `list[str]`
+
+    > The raw data from a WOS file
+
+    # Returns
+
+    `str`
+
+    > The iso abbreviation of the journal
+
     """
     return ' '.join(val).upper()
 
 def pageCount(val):
     """
-    returns an interger giving the number of pages of the Record
+    #The PG Tag
 
-    PG tag
+    returns an integer giving the number of pages of the Record
+
+    # Parameters
+
+    _val_: `list[str]`
+
+    > The raw data from a WOS file
+
+    # Returns
+
+    `int`
+
+    > The page count
+
     """
     return int(val[0])
 
 def publisher(val):
     """
+    #The PU Tag
+
     returns the publisher of the Record
 
-    PU tag
+    # Parameters
+
+    _val_: `list[str]`
+
+    > The raw data from a WOS file
+
+    # Returns
+
+    `str`
+
+    > The publisher
+
     """
     return ' '.join(val).upper()
 
 def ISBN(val):
     """
-    returns a list of ISBNs assocaited with the Record
+    #The BN Tag
 
-    BN tag
+    returns a list of ISBNs associated with the Record
+
+    # Parameters
+
+    _val_: `list[str]`
+
+    > The raw data from a WOS file
+
+    # Returns
+
+    `list`
+
+    > The ISBNs
+
     """
     return ' '.join(val).split('; ')
 
 def month(val):
     """
+    #The PD Tag
+
     returns the month the record was published in as an int with January as 1, February 2, ...
 
-    PD tag
+    # Parameters
+
+    _val_: `list[str]`
+
+    > The raw data from a WOS file
+
+    # Returns
+
+    `int`
+
+    > A integer giving the month
+
     """
     return getMonth(val[0])
 
 def fundingText(val):
     """
+    #The FX Tag
+
     Returns a string of the funding thanks
 
-    FX tag
+    # Parameters
+
+    _val_: `list[str]`
+
+    > The raw data from a WOS file
+
+    # Returns
+
+    `str`
+
+    > The funding thank-you
+
     """
     return ' '.join(val)
 
 def bookDOI(val):
     """
+    #The D2 Tag
+
     returns the book DOI of the Record
 
-    D2 tag
+    # Parameters
+
+    _val_: `list[str]`
+
+    > The raw data from a WOS file
+
+    # Returns
+
+    `str`
+
+    > The DOI number
+
     """
     return val[0]
 
 def volume(val):
     """
-    return the volume the record is in as a string not an int
+    #The VL Tag
 
-    VL tag
+    return the volume the record is in as a string, not all are integers
+
+    # Parameters
+
+    _val_: `list[str]`
+
+    > The raw data from a WOS file
+
+    # Returns
+
+    `str`
+
+    > The volume number
+
     """
     return val[0].strip()
 
 def ResearcherIDnumber(val):
     """
-    returns a lsit of the research ids of the Record
+    #The RI Tag
 
-    RI tag
+    returns a list of the research IDs of the Record
+
+    # Parameters
+
+    _val_: `list[str]`
+
+    > The raw data from a WOS file
+
+    # Returns
+
+    `list[str]`
+
+    > The list of the research IDs
+
     """
     return ' '.join(val).split('; ')
 
 def citedRefsCount(val):
     """
-    returns the numer citations, length of CR list
+    #The NR Tag
 
-    NR tag
+    returns the number citations, length of CR list
+
+    # Parameters
+
+    _val_: `list[str]`
+
+    > The raw data from a WOS file
+
+    # Returns
+
+    `int`
+
+    > The number of CRs
+
     """
     return int(val[0])
 
 def beginningPage(val):
     """
-    returns the first page the record occurs on as a string not an int
+    #The BP Tag
 
-    BP tag
+    returns the first page the record occurs on, not all are integers
+
+    # Parameters
+
+    _val_: `list[str]`
+
+    > The raw data from a WOS file
+
+    # Returns
+
+    `str`
+
+    > The first page number
+
     """
     return val[0].strip()
 
 def abstract(val):
     """
+    #The AB Tag
+
     return abstract of the record, with newlines hopefully in the correct places
 
-    AB tag
+    # Parameters
+
+    _val_: `list[str]`
+
+    > The raw data from a WOS file
+
+    # Returns
+
+    `str`
+
+    > The abstract
+
     """
     return '\n'.join(val)
 
 def supplement(val):
     """
-    returns the supplemtn number
+    #The SU Tag
 
-    SU tag
+    returns the supplement number
+
+    # Parameters
+
+    _val_: `list[str]`
+
+    > The raw data from a WOS file
+
+    # Returns
+
+    `str`
+
+    > The supplement number
+
     """
     return ' '.join(val)
 
 def confHost(val):
     """
+    #The HO Tag
+
     returns the host of the conference
 
-    HO tag
+    # Parameters
+
+    _val_: `list[str]`
+
+    > The raw data from a WOS file
+
+    # Returns
+
+    `str`
+
+    > The host
+
     """
     return ' '.join(val)
 
 def publisherAddress(val):
     """
+    #The PA Tag
+
     returns the publishers address
 
-    PA tag
+    # Parameters
+
+    _val_: `list[str]`
+
+    > The raw data from a WOS file
+
+    # Returns
+
+    `str`
+
+    > The publisher address
+
     """
     return ' '.join(val)
 
 def endingPage(val):
     """
-    return the last page the record occurs on as a string not an int
+    #The EP Tag
 
-    EP tag
+    return the last page the record occurs on as a string, not aall are intergers
+
+    # Parameters
+
+    _val_: `list[str]`
+
+    > The raw data from a WOS file
+
+    # Returns
+
+    `str`
+
+    > The final page number
+
     """
     return val[0].strip()
 
 def year(val):
     """
+    #The PY Tag
+
     returns the year the record was published in as an int
 
-    PY tag
+    # Parameters
+
+    _val_: `list[str]`
+
+    > The raw data from a WOS file
+
+    # Returns
+
+    `int`
+
+    > The year
+
     """
     yearField = val[0]
     if len(yearField) == 4:
@@ -431,73 +1097,190 @@ def year(val):
 
 def authKeyWords(val):
     """
+    #The DE Tag
+
     returns the keywords assigned by the author of the Record
 
-    DE tag
+    # Parameters
+
+    _val_: `list[str]`
+
+    > The raw data from a WOS file
+
+    # Returns
+
+    `list[str]`
+
+    > The list of keywords
+
     """
     return ' '.join(val).split('; ')
 
 def reprintAddress(val):
     """
+    #The RP Tag
+
     returns the reprint address string
 
-    RP tag
+    # Parameters
+
+    _val_: `list[str]`
+
+    > The raw data from a WOS file
+
+    # Returns
+
+    `str`
+
+    > The reprint address
+
     """
     return val[0]
 
 def totalTimesCited(val):
     """
+    #The Z9 Tag
+
     returns the total number of citations of the record
 
-    Z9 tag
+    # Parameters
+
+    _val_: `list[str]`
+
+    > The raw data from a WOS file
+
+    # Returns
+
+    `int`
+
+    > The total number of citations
+
     """
     return int(val[0])
 
 def partNumber(val):
     """
+    #The PN Tag
+
     return an integer giving the part of the issue the Record is in
 
-    PN tag
+    # Parameters
+
+    _val_: `list[str]`
+
+    > The raw data from a WOS file
+
+    # Returns
+
+    `int`
+
+    > The part of the issue of the Record
+
     """
     return val[0]
 
 def specialIssue(val):
     """
+    #The SI Tag
+
     returns the special issue value
 
-    SI tag
+    # Parameters
+
+    _val_: `list[str]`
+
+    > The raw data from a WOS file
+
+    # Returns
+
+    `str`
+
+    > The special issue value
+
     """
     return val[0]
 
 def subjects(val):
     """
+    #The WC Tag
+
     returns a list of subjects as assigned by WOS
 
-    WC tag
+    # Parameters
+
+    _val_: `list[str]`
+
+    > The raw data from a WOS file
+
+    # Returns
+
+    `list[str]`
+
+    > The subjects list
+
     """
     return ' '.join(val).split('; ')
 
 def keyWords(val):
     """
+    #The ID Tag
+
     returns the WOS keywords of the Record
 
-    ID tag
+    # Parameters
+
+    _val_: `list[str]`
+
+    > The raw data from a WOS file
+
+    # Returns
+
+    `list[str]`
+
+    > The keyWords list
+
     """
     return ' '.join(val).split('; ')
 
 def pubMedID(val):
     """
-    returns the pubmed idof the record
+    #The PM Tag
 
-    PM tag
+    returns the pubmed ID of the record
+
+    # Parameters
+
+    _val_: `list[str]`
+
+    > The raw data from a WOS file
+
+    # Returns
+
+    `str`
+
+    > The pubmed ID
+
     """
     return val[0]
 
 def documentDeliveryNumber(val):
     """
+    #The GA Tag
+
     returns the document delivery number of the Record
 
-    GA tag
+    # Parameters
+
+    _val_: `list[str]`
+
+    > The raw data from a WOS file
+
+    # Returns
+
+    `str`
+
+    > The document delivery number
+
     """
     return val[0]
 

@@ -13,7 +13,7 @@ documentedModules = ['tagFuncs', 'visual', 'journalAbbreviations']
 
 docsPrefix = time.strftime("%Y-%m-%d-")
 
-def makeHeader(title, excerpt, tags = (), weight = 10, layout = "page"):
+def makeHeader(title, excerpt, tags = (), weight = 10, layout = "doc"):
     return """---
 layout: {4}
 title: {0}
@@ -40,8 +40,6 @@ def cleanargs(obj):
         return '()'
 
 def makeUrls(s):
-    #print(s.group(0))
-    #regex = re.match(r"\[(\S+)\]\(#(\S+)\.(\S+)\)", s)
     return "[{0}]({{{{ site.baseurl }}}}{{% post_url /docs/{1}{2} %}}#{3})".format(s.group(1), docsPrefix, s.group(2), s.group(2))
 
 def cleanedDoc(obj, lvl):
@@ -65,9 +63,12 @@ def cleanedDoc(obj, lvl):
             nds += line + '\n'
     return '{}\n\n'.format(nds)
 
+def makeTitle(module, name, args = ''):
+    s = '<a name="{0}{1}"></a>{0}**[{1}]({{{{ site.baseurl }}}}{{{{ page.url }}}}#{0}{1})**{2}:\n\n'.format(module, name, args)
+    return s
+
 def writeFunc(fn, f, prefix = '', level = 4):
-    s = '<a name="{0}{1}"></a>{0}**{1}**{2}:\n\n'.format(prefix, fn[0], cleanargs(fn[1]))
-    f.write(s)
+    f.write(makeTitle(prefix, fn[0], cleanargs(fn[1])))
     try:
         f.write(cleanedDoc(fn[1], lvl = level))
     except AttributeError:
@@ -75,23 +76,12 @@ def writeFunc(fn, f, prefix = '', level = 4):
         print("\033[93m{0}{1} had no docs\033[0m".format(prefix, fn[0]))
 
 def writeClass(cl, f, prefix = '', level = 4):
-    #print("Writing {0}{1}".format(prefix, cl[0]))
-    s = '<a name="{0}{1}"></a>{0}**{1}**{2}:\n\n'.format(prefix, cl[0], cleanargs(cl[1].__init__))
-    f.write(s)
+    f.write(makeTitle(prefix, cl[0], cleanargs(cl[1].__init__)))
     try:
         f.write(cleanedDoc(cl[1], lvl = level))
     except AttributeError:
         f.write("# Needs to be written\n\n")
         print("\033[93m{0}{1} had no docs\033[0m".format(prefix, cl[0]))
-
-def writeMod(md, f, prefix = 'metaknowledge.', level = 3):
-    #print("Writing {0}{1}".format(prefix, md[0]))
-    f.write('{0} <a name="{1}{2}"></a>{1}**{2}**:\n\n'.format('#' * level, prefix, md[0]))
-    f.write(cleanedDoc(md[1], lvl = level))
-    for m in inspect.getmembers(md[1], predicate = inspect.isfunction):
-        f.write("- - -\n\n")
-        if m[0][0] != '_':
-            writeFunc(m, f, prefix = '{0}{1}.'.format(prefix, md[0]), level = 4)
 
 def proccessClass(cl, f):
     writeClass(cl, f)
@@ -114,6 +104,7 @@ def writeModuleFile(mod):
     fname = docsPrefix + "{}.md".format(mod)
     f = open(fname, 'w')
     f.write(makeHeader(mod, "The {} Module".format(mod), tags = ["module"], weight = 3))
+    f.write('\n# [{0}]({{{{ site.baseurl }}}}{{{{ page.url }}}}#{0})\n\n'.format(mod))
     module = importlib.import_module('metaknowledge.{}'.format(mod))
     f.write(cleanedDoc(module, 3) + '\n\n')
     funcs = []
@@ -129,7 +120,7 @@ def writeModuleFile(mod):
 
 def writeMainBody(funcs, vrs, exceptions):
     f = open(docsPrefix + "metaknowledge.md", 'w')
-    f.write(makeHeader("metaknowledge", "The metaknowledge Package", tags = ["main"], weight = 1, layout = "mainDocsPage"))
+    f.write(makeHeader("metaknowledge", "The metaknowledge Package", tags = ["main"], weight = 1, layout = "doc"))
     f.write(cleanedDoc(metaknowledge, 3) + '\n\n')
     for fnc in funcs:
         f.write("- - -\n\n")

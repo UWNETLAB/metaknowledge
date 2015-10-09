@@ -21,6 +21,8 @@ metaknowledgeDocs.md
 j9Raws/
 /manualj9Abbreviations*
 /j9Abbreviations*
+notebooks/
+vagrant/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

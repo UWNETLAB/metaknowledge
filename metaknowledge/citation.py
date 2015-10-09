@@ -32,9 +32,7 @@ class Citation(object):
 
     # Customizations
 
-    Citation's hashing and equality checking are based on what data they have. The equality checking first checks both Citation's DOI's and if either is missing moves to the other fields. If any of the fields disagree `False` is returned (note, authors are not compared if one is anonymous) if they all agree, including the `misc` field, then True is returned.
-
-    Unfortunately this type of equality checking precludes hashes being identical so to compare Citation objects always use ==. Hashes, if identical, indicate the Citations are identical (excluding collisions), but the converse is not True.
+    Citation's hashing and equality checking are based on [`getID()`](#Citation.getID) and use the values of `author`, `year` and `journal`.
 
     When converted to a string a Citation will return the original string.
 
@@ -57,39 +55,45 @@ class Citation(object):
     > A str containing a WOS style citation.
     """
     def __init__(self, cite):
+        #save original
         self.original = cite
+        #setup attributes
         self.bad = False
         self._isjourn = None
+        self._hash = None
+        self.author = None
+        self.year = None
+        self.P = None
+        self.V = None
+        self.journal = None
+        self.DOI = None
+        self.misc = []
+        #split by citation seperator
         c = ' '.join(cite.upper().split()).split(', ')
         if 'DOI' in c[-1][:3]:
             self.DOI = c.pop().split(' ')[-1]
-        if len(c) < 3:
+        else:
+            self.DOI = None
+        if len(c) < 2:
             self.bad = True
             self.error = BadCitation("Too few elements")
-            if len(c) == 2:
-                self.author = c.pop(0).replace('.','')
-            self.misc = ', '.join(c)
-        else:
-            if not c[0].isnumeric():
-                self.author = c.pop(0).replace('.','')
-            if c[0].isnumeric():
-                self.year = c.pop(0)
-            if not c[0].isnumeric():
-                self.journal = c.pop(0)
+        while len(c) > 0:
+            field = c.pop(0).upper()
+            if field.isnumeric():
+                self.year = int(field)
+            elif not self.author:
+                self.author = field.replace('.','').title()
+            elif not self.journal:
+                self.journal = field
+            elif field[0] == 'V' and field[1:].isnumeric():
+                self.V = field
+            elif 'P' == field[0] and field[1:].isnumeric():
+                self.P = field
             else:
-                self.misc = c.pop(0)
-                self.bad = True
-                self.error = BadCitation("Too many numbers")
-            for field in c:
-                if 'V' == field[0] and field[1:].isnumeric():
-                    self.V = field
-                elif 'P' == field[0] and field[1:].isnumeric():
-                    self.P = field
-                else:
-                    if hasattr(self, 'misc'):
-                        self.misc += ', ' + field
-                    else:
-                        self.misc = field
+                self.misc.append(field)
+        if not self.author or not self.year or not self.journal and not self.bad:
+            self.bad = True
+            self.error = BadCitation("Not a complete set of author, year and journal")
 
     def __str__(self):
         """
@@ -99,19 +103,13 @@ class Citation(object):
 
     def __hash__(self):
         """
-        A hash for Citation that should be equal to the hash of other citations that are equal to it
+        A hash for Citation that should be equal to the hash of other citations that are equal to it. Based on the values returned by [`getID()`](#Citation.getID).
         """
-        if hasattr(self, 'DOI'):
-            return hash(self.DOI)
-        elif self.bad and getattr(self, 'misc', False):
-            return hash(getattr(self, 'misc'))
+        if self._hash:
+            return self._hash
         else:
-            hashedString = getattr(self, 'author', '')
-            hashedString += getattr(self, 'year', '')
-            hashedString += getattr(self, 'journal', '')
-            hashedString += getattr(self, 'V', '')
-            hashedString += getattr(self, 'P', '')
-            return hash(hashedString)
+            self._hash = hash(self.getID())
+            return self._hash
 
     def __eq__(self, other):
         """
@@ -119,22 +117,7 @@ class Citation(object):
         """
         if not isinstance(other, Citation):
             return NotImplemented
-        elif getattr(self, 'DOI', None) == getattr(other, 'DOI', False):
-            return True
-        elif getattr(self, 'author', None) != getattr(other, 'author', None) and getattr(self, 'author', None) != '[ANONYMOUS]' and getattr(other, 'author', False) != '[ANONYMOUS]':
-            return False
-        elif getattr(self, 'year', None) != getattr(other, 'year', None):
-            return False
-        elif  getattr(self, 'journal', None) != getattr(other, 'journal', None):
-            return False
-        elif getattr(self, 'V', None) and getattr(other, 'V', False) and getattr(self, 'V', None) != getattr(other, 'V', False):
-            return False
-        elif getattr(self, 'P', False) and getattr(other, 'P', False) and getattr(self, 'P', None) != getattr(other, 'P', False):
-            return False
-        elif self.bad and other.bad and not getattr(self, 'misc', None) == getattr(other, 'misc', None):
-            return False
-        else:
-            return True
+        return hash(self) == hash(other)
 
     def __ne__(self, other):
         """
@@ -158,14 +141,13 @@ class Citation(object):
 
         > True if the author is ANONYMOUS otherwise `False`.
         """
-        if hasattr(self, 'author'):
-            return self.author == "[ANONYMOUS]"
-        else:
-            return False
+        return self.author == "[Anonymous]"
 
     def getID(self):
         """
-        Returns "author, year, journal" if available and "misc" otherwise. It is for shortening labels when creating networks as the resultant strings are often unique. [`getExtra()`](#Citation.getExtra) gets everthing not returned by `getID()`.
+        Returns all of "author, year, journal" available. It is for shortening labels when creating networks as the resultant strings are often unique. [`getExtra()`](#Citation.getExtra) gets everything not returned by `getID()`.
+
+        This is also used for hashing and equality checking.
 
         # Returns
 
@@ -173,27 +155,21 @@ class Citation(object):
 
         > A string to use as the shortened ID of a node.
         """
-        if hasattr(self, 'author') or hasattr(self, 'journal'):
-            retid = ''
-            if hasattr(self, 'author'):
-                retid += self.author
-            if hasattr(self, 'year'):
-                if retid == '':
-                    retid += self.year
-                else:
-                    retid += ', '  + self.year
-            if hasattr(self, 'journal'):
-                if retid == '':
-                    retid += self.journal
-                else:
-                    retid += ', '  + self.journal
-            return retid
+        if self.bad:
+            atrLst = []
+            if self.author:
+                atrLst.append(self.author)
+            if self.year:
+                atrLst.append(str(self.year))
+            if self.journal:
+                atrLst.append(self.journal)
+            return ', '.join(atrLst)
         else:
-            return self.misc
+            return "{0}, {1}, {2}".format(self.author, self.year, self.journal)
 
     def getExtra(self):
         """
-        Returns any V, P or misc values as a string. These are all the values not returned by [`getID()`](#Citation.getID).
+        Returns any V, P, DOI or misc values as a string. These are all the values not returned by [`getID()`](#Citation.getID).
 
         # Returns
 
@@ -201,10 +177,10 @@ class Citation(object):
 
         > A string containing the data not in the ID of the Citation.
          """
-        extraTags = ['journal','V', 'P', 'misc']
+        extraTags = ['V', 'P', 'DOI', 'misc']
         retVal = ""
         for tag in extraTags:
-            if hasattr(self, tag):
+            if getattr(self, tag):
                 retVal += getattr(self, tag) + ', '
         if len(retVal) > 2:
             return retVal[:-2]
@@ -223,16 +199,16 @@ class Citation(object):
         global abbrevDict
         if abbrevDict is None:
             abbrevDict = getj9dict(manualDB = manaulDB, returnDict = returnDict)
-        if checkIfExcluded and hasattr(self, 'journal'):
+        if checkIfExcluded and self.journal:
             try:
-                if abbrevDict.get( self.journal, [True])[0]:
+                if abbrevDict.get(self.journal, [True])[0]:
                     return False
                 else:
                     return True
             except IndexError:
                 return False
         elif self._isjourn is None:
-            if hasattr(self, 'journal'):
+            if self.journal:
                 dictVal = abbrevDict.get(self.journal, [b''])[0]
                 if dictVal:
                     self._isjourn = dictVal

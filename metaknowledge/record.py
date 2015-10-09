@@ -205,6 +205,8 @@ class Record(object):
 
         if either is bad False is returned
         """
+        if not isinstance(other, Record):
+            raise RuntimeError("Equality checking between Records and non-Records is not implemented")
         if self.bad or other.bad:
             return False
         else:
@@ -296,6 +298,8 @@ class Record(object):
             valsLst.append(str(self.year))
         if getattr(self, "j9", False):
             valsLst.append(self.j9)
+        elif getattr(self, "TI", False):
+            valsLst.append(self.TI)
         if getattr(self, "volume", False):
             valsLst.append('V' + str(self.volume))
         if getattr(self, "beginningPage", False):

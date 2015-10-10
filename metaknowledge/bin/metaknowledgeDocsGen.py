@@ -152,7 +152,7 @@ def writeModuleFile(mod):
 
 def writeMainBody(funcs, vrs, exceptions):
     f = open(docsPrefix + "metaknowledge.md", 'w')
-    f.write(makeHeader("metaknowledge", "The metaknowledge Package", tags = ["main"], weight = 1, layout = "doc"))
+    f.write(makeHeader("Functions", "The metaknowledge Package", tags = ["main"], weight = 1, layout = "doc"))
     f.write(cleanedDoc(metaknowledge, 3) + '\n\n')
     f.write(makeTable(funcs, header = "The functions provided by metaknowledge are:"))
     for fnc in funcs:

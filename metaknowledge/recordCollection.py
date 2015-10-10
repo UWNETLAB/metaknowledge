@@ -370,13 +370,15 @@ class RecordCollection(object):
         f.write('EF')
         f.close()
 
-    def writeCSV(self, fname = None, onlyTheseTags = None, longNames = False, firstTags = None, csvDelimiter = ',', csvQuote = '"', listDelimiter = '|'):
+    def writeCSV(self, fname = None, onlyTheseTags = None, numAuthors = True, longNames = False, firstTags = None, csvDelimiter = ',', csvQuote = '"', listDelimiter = '|'):
         """Writes all the Records from the collection into a csv file with each row a record and each column a tag
 
         fname is the name of the file to write to, if none is given it uses the Collections name suffixed by .csv
 
         onlyTheseTags lets you specify which tags to use, if not given then all tags in the records are given.
         If you want to use all known tags the use onlyTheseTags = metaknowledge.knownTagsList
+
+        numAuthors adds the number of auhtors as the column numAuthors
 
         longNames if set to True will convert the tags to their longer names, otherwise the short 2 character ones will be used
 
@@ -413,10 +415,15 @@ class RecordCollection(object):
             f = open(fname, mode = 'w', encoding = 'utf-8')
         else:
             f = open(repr(self)[:200] + '.csv', mode = 'w', encoding = 'utf-8')
-        csvWriter = csv.DictWriter(f, retrievedFields, delimiter = csvDelimiter, quotechar = csvQuote, quoting=csv.QUOTE_ALL)
+        if numAuthors:
+            csvWriter = csv.DictWriter(f, retrievedFields + ["numAuthors"], delimiter = csvDelimiter, quotechar = csvQuote, quoting=csv.QUOTE_ALL)
+        else:
+            csvWriter = csv.DictWriter(f, retrievedFields, delimiter = csvDelimiter, quotechar = csvQuote, quoting=csv.QUOTE_ALL)
         csvWriter.writeheader()
         for R in self:
             recDict = R.getTagsDict(retrievedFields)
+            if numAuthors:
+                recDict["numAuthors"] = str(R.numAuthors())
             for k in recDict.keys():
                 value = recDict[k]
                 if hasattr(value, '__iter__'):
@@ -429,7 +436,7 @@ class RecordCollection(object):
         f.close()
 
 
-    def makeDict(self, onlyTheseTags = None, longNames = False, cleanedVal = True):
+    def makeDict(self, onlyTheseTags = None, longNames = False, cleanedVal = True, numAuthors = True):
         """Returns a dict with each key a tag and the values being lists of the values for each of the Records in the collection, `None` is given when there is no value and they are in the same order across each tag.
 
         When used in pandas: `pandas.DataFrame(RC.makeDict())` returns a data frame with each column a tag and each row a Record.
@@ -454,7 +461,11 @@ class RecordCollection(object):
             except KeyError:
                 raise KeyError("One of the tags could not be converted to a long name.")
         retDict = {k : [] for k in retrievedFields}
+        if numAuthors:
+            retDict["numAuthors"] = []
         for R in self:
+            if numAuthors:
+                retDict["numAuthors"].append(R.numAuthors())
             for k, v in R.getTagsDict(retrievedFields, cleaned = cleanedVal).items():
                 retDict[k].append(v)
         return retDict
@@ -1066,7 +1077,7 @@ class RecordCollection(object):
         elif isinstance(rec, Citation):
             recCite = rec
         else:
-            raise ValueError("{} is not a vaild input, rec must be a Record, string or Citation object.".format(rec))
+            raise ValueError("{} is not a valid input, rec must be a Record, string or Citation object.".format(rec))
         for R in self:
             rCites = R.CR
             if rCites:

@@ -1,12 +1,12 @@
 ---
 layout: doc
-title: metaknowledge
+title: Functions
 categories: docs
 excerpt: The metaknowledge Package
 tags: [main]
 weight: 1
 ---
-<a name="metaknowledge"></a>
+<a name="Functions"></a>
 metaknowledge is a Python3 package that simplifies bibliometric and computational analysis of Web of Science data.
 
 #### Example

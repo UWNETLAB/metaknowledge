@@ -89,7 +89,7 @@ def diffusionGraph(source, target, sourceType = "raw", targetType = "raw"):
     return workingGraph
 
 
-def diffusionCount(source, target, sourceType = "raw", pandasFriendly = False,  compareCounts = False, _ProgBar = None):
+def diffusionCount(source, target, sourceType = "raw", pandasFriendly = False,  compareCounts = False, numAuthors = True,_ProgBar = None):
     """Takes in two [`RecordCollections`](#RecordCollection.RecordCollection) and produces a `dict` counting the citations of the `Records` of _source_ by the `Records` of _target_. By default the `dict` uses `Record` objects as keys but this can be changed with the _sourceType_ keyword to any of the WOS tags.
 
     # Parameters
@@ -120,8 +120,10 @@ def diffusionCount(source, target, sourceType = "raw", pandasFriendly = False,  
 
     > A dictionary with the type given by _sourceType_ as keys and integers as values, by default. If _compareCounts_ is `True` the values are tuples with the first integer being the diffusion in the target and the second the diffusion in the source.
 
-    > If _pandasFriendly_ is `True` the returned dict has keys with the names of the WOS tags and lists with their values, i.e. a table with labled columns. The counts are in the column named `"Count"` and if _compareCounts_ the local count is in a column called `"LocalCount"`.
+    > If _pandasFriendly_ is `True` the returned dict has keys with the names of the WOS tags and lists with their values, i.e. a table with labled columns. The counts are in the column named `"TargetCount"` and if _compareCounts_ the local count is in a column called `"SourceCount"`.
     """
+    sourceCountString = "SourceCount"
+    targetCountString = "TargetCount"
     if sourceType != "raw" and sourceType not in tagsAndNames:
         raise RuntimeError("{} is not a valid node type, only 'raw' or those strings in tagsAndNames are allowed".format(nodeType))
     if not isinstance(source, RecordCollection) or not isinstance(target, RecordCollection):
@@ -165,13 +167,15 @@ def diffusionCount(source, target, sourceType = "raw", pandasFriendly = False,  
                 for sVal in Rs:
                     sourceCounts[sVal] += 1
     if compareCounts:
-        localCounts = diffusionCount(source, target, sourceType = sourceType, pandasFriendly = False,  compareCounts = False, _ProgBar = PBar)
+        localCounts = diffusionCount(source, source, sourceType = sourceType, pandasFriendly = False,  compareCounts = False, _ProgBar = PBar)
     if PBar and not _ProgBar:
         PBar.finish("Done counting the diffusion of {} sources into {} targets".format(len(source), len(target)))
     if pandasFriendly:
-        retDict = {"Count" : []}
+        retDict = {targetCountString : []}
+        if numAuthors:
+            retDict["numAuthors"] = []
         if compareCounts:
-            retDict["LocalCount"] = []
+            retDict[sourceCountString] = []
         if sourceType == 'raw':
             retrievedFields = []
             for R in sourceCounts.keys():
@@ -181,11 +185,13 @@ def diffusionCount(source, target, sourceType = "raw", pandasFriendly = False,  
                 retDict[tag] = []
             for R, occ in sourceCounts.items():
                 Rvals = R.getTagsDict(retrievedFields, cleaned = True)
+                if numAuthors:
+                    retDict["numAuthors"].append(R.numAuthors())
                 for tag in retrievedFields:
                     retDict[tag].append(Rvals[tag])
-                retDict["Count"].append(sourceCounts[R])
+                retDict[targetCountString].append(sourceCounts[R])
                 if compareCounts:
-                    retDict["LocalCount"].append(localCounts[R])
+                    retDict[sourceCountString].append(localCounts[R])
         else:
             countLst = []
             recLst = []
@@ -196,9 +202,9 @@ def diffusionCount(source, target, sourceType = "raw", pandasFriendly = False,  
                 if compareCounts:
                     locLst.append(localCounts[R])
             if compareCounts:
-                retDict = {sourceType : recLst, "Count" : countLst, "localCount" : locLst}
+                retDict = {sourceType : recLst, targetCountString : countLst, sourceCountString : locLst}
             else:
-                retDict = {sourceType : recLst, "Count" : countLst}
+                retDict = {sourceType : recLst, targetCountString : countLst}
         return retDict
     else:
         if compareCounts:

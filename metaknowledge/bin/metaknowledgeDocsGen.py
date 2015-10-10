@@ -89,10 +89,10 @@ def makeTable(entries, header = '', prefix = ''):
         prefix = prefix + '.'
     for e in entries:
         ents.append("""<li><article><a href="#{2}{0}"><b>{0}</b>{1}</a></article></li>""".format(e[0], cleanargs(e[1], basic = True), prefix))
-    s = """{}\n<ul class="post-list">\n{}\n</ul>""".format(header,'\n'.join(ents))
+    s = """{}\n\n<ul class="post-list">\n{}\n</ul>\n""".format(header,'\n'.join(ents))
     return s
 
-def writeFunc(fn, f, prefix = '', level = 4):
+def writeFunc(fn, f, prefix = '', level = 5):
     f.write(makeLine() + "\n\n")
     f.write(makeTitle(prefix, fn[0], cleanargs(fn[1])))
     try:
@@ -120,7 +120,7 @@ def proccessClass(cl, f):
             funcs.append(m)
     f.write(makeTable(funcs, prefix = cl[0], header = "The {} class has the following methods:".format(cl[0])))
     for m in funcs:
-        writeFunc(m, f, prefix = '{}.'.format(cl[0]), level = 4)
+        writeFunc(m, f, prefix = '{}.'.format(cl[0]))
 
 def writeClassFile(name, typ):
     fname = docsPrefix + "{}.md".format(name)
@@ -146,7 +146,7 @@ def writeModuleFile(mod):
     if mod != "tagFuncs":
         f.write(makeTable(funcs, prefix = mod ,header = "The {} modlue provides the following functions:".format(mod)))
     for fn in funcs:
-        writeFunc(fn, f, prefix = "{}.".format(mod), level = 5)
+        writeFunc(fn, f, prefix = "{}.".format(mod))
     f.write("\n{% include docsFooter.md %}")
     f.close()
 

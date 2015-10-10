@@ -32,5 +32,5 @@ class TestHelpers(unittest.TestCase):
         self.assertTrue(len(d["UT"]), len(self.RC))
         self.assertTrue("WC" in dwc)
         self.assertEqual(3, len(dwc))
-        self.assertEqual(len(dwc["Count"]), 9)
-        self.assertEqual(dwc["Count"], dwc["localCount"])
+        self.assertEqual(len(dwc["TargetCount"]), 9)
+        self.assertEqual(dwc["TargetCount"], dwc["SourceCount"])

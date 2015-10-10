@@ -45,6 +45,8 @@ _extension_ : `optional [str]`
  The extension to search for when reading a directoy for files. _extension_ is the suffix searched for when a direcorty is read for files, by default it is empty so all files are read.
 
 
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
 <a name="RecordCollection.addRec"></a><small>RecordCollection.</small>**[<ins>addRec</ins>]({{ site.baseurl }}{{ page.url }}#RecordCollection.addRec)**(_Rec_):
 
 Adds a Record or Records to the RecordCollection.
@@ -55,6 +57,8 @@ _Rec_ : `Record or iterable[Record]`
 
  A Record or some iterable containg records to add
 
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="RecordCollection.citationNetwork"></a><small>RecordCollection.</small>**[<ins>citationNetwork</ins>]({{ site.baseurl }}{{ page.url }}#RecordCollection.citationNetwork)**(_dropAnon=True, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, directed=True, keyWords=None_):
 
@@ -107,6 +111,8 @@ _directed_ : `optional [bool]`
  A networkx digraph with hashes as ID and citations as edges
 
 
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
 <a name="RecordCollection.citeFilter"></a><small>RecordCollection.</small>**[<ins>citeFilter</ins>]({{ site.baseurl }}{{ page.url }}#RecordCollection.citeFilter)**(_keyString='', field='all', reverse=False, caseSensitive=False_):
 
 Filters Records by some string, keyString, in all of their citations.
@@ -130,6 +136,8 @@ reverse being True causes all Records not matching the query to be returned, def
 caseSensitive if True causes the search across the original to be case sensitive, only the 'all' option can be case sensitive
 
 
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
 <a name="RecordCollection.coAuthNetwork"></a><small>RecordCollection.</small>**[<ins>coAuthNetwork</ins>]({{ site.baseurl }}{{ page.url }}#RecordCollection.coAuthNetwork)**():
 
 Creates a coauthorship network for the RecordCollection.
@@ -140,6 +148,8 @@ Creates a coauthorship network for the RecordCollection.
 
  A networkx graph with author names as nodes and collaborations as edges.
 
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="RecordCollection.coCiteNetwork"></a><small>RecordCollection.</small>**[<ins>coCiteNetwork</ins>]({{ site.baseurl }}{{ page.url }}#RecordCollection.coCiteNetwork)**(_dropAnon=True, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, keyWords=None_):
 
@@ -186,10 +196,14 @@ _keyWords_ : `optional [str] or [list[str]]`
  A networkx graph with hashes as ID and co-citation as edges
 
 
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
 <a name="RecordCollection.dropBadRecords"></a><small>RecordCollection.</small>**[<ins>dropBadRecords</ins>]({{ site.baseurl }}{{ page.url }}#RecordCollection.dropBadRecords)**():
 
 Removes all Records with bad attributes == True from the collection
 
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="RecordCollection.dropNonJournals"></a><small>RecordCollection.</small>**[<ins>dropNonJournals</ins>]({{ site.baseurl }}{{ page.url }}#RecordCollection.dropNonJournals)**(_ptVal='J', dropBad=True, invert=False_):
 
@@ -210,6 +224,8 @@ _invert_ : `optional [bool]`
  Set `True` to drop journals (or the PT tag given by _ptVal) instead of keeping them. Note, it still drops bad Records if _dropBad_ is `True`, default `False`
 
 
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
 <a name="RecordCollection.dropWOS"></a><small>RecordCollection.</small>**[<ins>dropWOS</ins>]({{ site.baseurl }}{{ page.url }}#RecordCollection.dropWOS)**(_wosNum_):
 
 Removes the Record with WOS number (ID number) _wosNum_
@@ -221,10 +237,14 @@ _wosNum_ : `str`
  _wosNum_ is the WOS number of the Record to be dropped. _wosNum_ must begin with 'WOS:' or a valueError is raise.
 
 
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
 <a name="RecordCollection.getBadRecords"></a><small>RecordCollection.</small>**[<ins>getBadRecords</ins>]({{ site.baseurl }}{{ page.url }}#RecordCollection.getBadRecords)**():
 
 returns RecordCollection containing all the Record which have their bad flag set to True, i.e. all those removed by dropBadRecords()
 
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="RecordCollection.getWOS"></a><small>RecordCollection.</small>**[<ins>getWOS</ins>]({{ site.baseurl }}{{ page.url }}#RecordCollection.getWOS)**(_wosNum, drop=False_):
 
@@ -247,6 +267,8 @@ _drop_ : `optional [bool]`
  The Record whose WOS number is _wosNum_
 
 
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
 <a name="RecordCollection.localCiteStats"></a><small>RecordCollection.</small>**[<ins>localCiteStats</ins>]({{ site.baseurl }}{{ page.url }}#RecordCollection.localCiteStats)**(_pandasFriendly=False, keyType='citation'_):
 
 Returns a dict with all the citations in the CR field as keys and the number of times they occur as the values
@@ -268,11 +290,15 @@ _keyType_ : `optional [str]`
  A dictioanry with keys as given by _keyType_ and integers giving their rates of occurnce in the collection
 
 
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
 <a name="RecordCollection.localCitesOf"></a><small>RecordCollection.</small>**[<ins>localCitesOf</ins>]({{ site.baseurl }}{{ page.url }}#RecordCollection.localCitesOf)**(_rec_):
 
 Takes in a Record, WOS string, citation string or Citation and returns a RecordCollection of all records that cite it.
         
 
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="RecordCollection.makeDict"></a><small>RecordCollection.</small>**[<ins>makeDict</ins>]({{ site.baseurl }}{{ page.url }}#RecordCollection.makeDict)**(_onlyTheseTags=None, longNames=False, cleanedVal=True_):
 
@@ -284,6 +310,8 @@ When used in pandas: `pandas.DataFrame(RC.makeDict())` returns a data frame with
 
 See writeCSV()
 
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="RecordCollection.nModeNetwork"></a><small>RecordCollection.</small>**[<ins>nModeNetwork</ins>]({{ site.baseurl }}{{ page.url }}#RecordCollection.nModeNetwork)**(_tags, recordType=True, nodeCount=True, edgeWeight=True_):
 
@@ -316,6 +344,8 @@ _edgeWeight_ : `optional [bool]`
  A networkx Graph with the objects of the tags _tags_ as nodes and their co-occurrences as edges
 
 
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
 <a name="RecordCollection.oneModeNetwork"></a><small>RecordCollection.</small>**[<ins>oneModeNetwork</ins>]({{ site.baseurl }}{{ page.url }}#RecordCollection.oneModeNetwork)**(_mode, nodeCount=True, edgeWeight=True_):
 
 Creates a network of the objects found by one WOS tag _mode_.
@@ -347,15 +377,21 @@ _edgeWeight_ : `optional [bool]`
  A networkx Graph with the objects of the tag _mode_ as nodes and their co-occurrences as edges
 
 
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
 <a name="RecordCollection.peak"></a><small>RecordCollection.</small>**[<ins>peak</ins>]({{ site.baseurl }}{{ page.url }}#RecordCollection.peak)**():
 
 Returns a random Record from the recordCollection, the Record is kept in the collection, use pop for faster destructive access
 
 
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
 <a name="RecordCollection.pop"></a><small>RecordCollection.</small>**[<ins>pop</ins>]({{ site.baseurl }}{{ page.url }}#RecordCollection.pop)**():
 
 Returns a random Record from the recordCollection, the Record is deleted from the collection, use peak for nondestructive access
 
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="RecordCollection.twoModeNetwork"></a><small>RecordCollection.</small>**[<ins>twoModeNetwork</ins>]({{ site.baseurl }}{{ page.url }}#RecordCollection.twoModeNetwork)**(_tag1, tag2, directed=False, recordType=True, nodeCount=True, edgeWeight=True_):
 
@@ -392,6 +428,8 @@ _edgeWeight_ : `optional [bool]`
  A networkx Graph with the objects of the tags _tag1_ and _tag2_ as nodes and their co-occurrences as edges.
 
 
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
 <a name="RecordCollection.writeCSV"></a><small>RecordCollection.</small>**[<ins>writeCSV</ins>]({{ site.baseurl }}{{ page.url }}#RecordCollection.writeCSV)**(_fname=None, onlyTheseTags=None, longNames=False, firstTags=None, csvDelimiter=',', csvQuote='"', listDelimiter='|'_):
 
 Writes all the Records from the collection into a csv file with each row a record and each column a tag
@@ -413,12 +451,16 @@ csvQuote is  the quote character used for the csv, default is the double quote (
 listDelimiter is the delimiter used between values of the same cell if the tag for that record has multiple outputs, default is the pipe (|)
 
 
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
 <a name="RecordCollection.writeFile"></a><small>RecordCollection.</small>**[<ins>writeFile</ins>]({{ site.baseurl }}{{ page.url }}#RecordCollection.writeFile)**(_fname=None_):
 
 Writes the RecordCollection to a file, the written file is identical to those download from WOS. The order of Records written is random.
 
 fname set the name of the file, if blank the RecordCollection's name's first 200 characters are use with the suffix .isi
 
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="RecordCollection.yearSplit"></a><small>RecordCollection.</small>**[<ins>yearSplit</ins>]({{ site.baseurl }}{{ page.url }}#RecordCollection.yearSplit)**(_startYear, endYear_):
 

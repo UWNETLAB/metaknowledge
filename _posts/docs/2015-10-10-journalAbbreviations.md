@@ -15,7 +15,7 @@ weight: 3
 
 
 
-- - -
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="journalAbbreviations.addToDB"></a><small>journalAbbreviations.</small>**[<ins>addToDB</ins>]({{ site.baseurl }}{{ page.url }}#journalAbbreviations.addToDB)**(_abbr=None, dbname='manualj9Abbreviations'_):
 
@@ -32,7 +32,7 @@ _dbname_ : `optional [str]`
  The name of the database file, default is `metaknowledge.journalAbbreviations.manaulDBname`.
 
 
-- - -
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="journalAbbreviations.excludeFromDB"></a><small>journalAbbreviations.</small>**[<ins>excludeFromDB</ins>]({{ site.baseurl }}{{ page.url }}#journalAbbreviations.excludeFromDB)**(_abbr=None, dbname='manualj9Abbreviations'_):
 
@@ -49,7 +49,7 @@ _dbname_ : `optional [str]`
  The name of the database file, default is `metaknowledge.journalAbbreviations.manaulDBname`.
 
 
-- - -
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="journalAbbreviations.getj9dict"></a><small>journalAbbreviations.</small>**[<ins>getj9dict</ins>]({{ site.baseurl }}{{ page.url }}#journalAbbreviations.getj9dict)**(_dbname='j9Abbreviations', manualDB='manualj9Abbreviations', returnDict='both'_):
 
@@ -62,7 +62,7 @@ _dbname_ : `optional [str]`
  The name of the database file
 
 
-- - -
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="journalAbbreviations.updatej9DB"></a><small>journalAbbreviations.</small>**[<ins>updatej9DB</ins>]({{ site.baseurl }}{{ page.url }}#journalAbbreviations.updatej9DB)**(_dbname='j9Abbreviations', saveRawHTML=False_):
 

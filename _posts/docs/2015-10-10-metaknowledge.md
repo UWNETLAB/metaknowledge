@@ -38,7 +38,7 @@ Note for those reading the docstring metaknowledge's docs are written in markdow
 
 
 
-- - -
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="diffusionCount"></a><small></small>**[<ins>diffusionCount</ins>]({{ site.baseurl }}{{ page.url }}#diffusionCount)**(_source, target, sourceType='raw', pandasFriendly=False, compareCounts=False_):
 
@@ -75,7 +75,7 @@ _compareCounts_ : `optional [boo]`
  If _pandasFriendly_ is `True` the returned dict has keys with the names of the WOS tags and lists with their values, i.e. a table with labled columns. The counts are in the column named `"Count"` and if _compareCounts_ the local count is in a column called `"LocalCount"`.
 
 
-- - -
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="diffusionGraph"></a><small></small>**[<ins>diffusionGraph</ins>]({{ site.baseurl }}{{ page.url }}#diffusionGraph)**(_source, target, sourceType='raw', targetType='raw'_):
 
@@ -108,7 +108,7 @@ default `'raw'`, if `'raw'` the returned graph will contain `Records` as target 
 A directed graph of the diffusion network
 
 
-- - -
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="drop_edges"></a><small></small>**[<ins>drop_edges</ins>]({{ site.baseurl }}{{ page.url }}#drop_edges)**(_grph, minWeight=-inf, maxWeight=inf, parameterName='weight', ignoreUnweighted=False, dropSelfLoops=False_):
 
@@ -121,7 +121,7 @@ parameterName is key to weight field in the edge's dictionary, default is weight
 ignoreUnweighted can be set False to suppress the KeyError and make unweighted edges be ignored
 
 
-- - -
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="drop_nodesByCount"></a><small></small>**[<ins>drop_nodesByCount</ins>]({{ site.baseurl }}{{ page.url }}#drop_nodesByCount)**(_grph, minCount=-inf, maxCount=inf, parameterName='count', ignoreMissing=False_):
 
@@ -135,7 +135,7 @@ parameterName is key to count field in the node's dictionary, default is count a
 ignoreMissing can be set False to suppress the KeyError and make nodes missing counts be dropped instead of throwing errors
 
 
-- - -
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="drop_nodesByDegree"></a><small></small>**[<ins>drop_nodesByDegree</ins>]({{ site.baseurl }}{{ page.url }}#drop_nodesByDegree)**(_grph, minDegree=-inf, maxDegree=inf, useWeight=True, parameterName='weight', ignoreUnweighted=True_):
 
@@ -150,7 +150,7 @@ parameterName is key to weight field in the edge's dictionary, default is weight
 ignoreUnweighted can be set False to suppress the KeyError and make unweighted edges be not counted, only used if useWeight is True
 
 
-- - -
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="filterNonJournals"></a><small></small>**[<ins>filterNonJournals</ins>]({{ site.baseurl }}{{ page.url }}#filterNonJournals)**(_citesLst, invert=False_):
 
@@ -173,7 +173,7 @@ _invert_ : `optional [bool]`
  A filtered list of Citations from _citesLst_
 
 
-- - -
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="graphStats"></a><small></small>**[<ins>graphStats</ins>]({{ site.baseurl }}{{ page.url }}#graphStats)**(_G, stats=('nodes', 'edges', 'isolates', 'loops', 'density', 'transitivity'), makeString=True_):
 
@@ -211,7 +211,7 @@ _makeString_ : `optional [bool]`
  
 
 
-- - -
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="isiParser"></a><small></small>**[<ins>isiParser</ins>]({{ site.baseurl }}{{ page.url }}#isiParser)**(_isifile_):
 
@@ -219,7 +219,7 @@ isiParser() reads the file given by the path isifile, checks that the header is 
 Each it finds is used to initialize a Record then all Record are returned as a list.
 
 
-- - -
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="read_graph"></a><small></small>**[<ins>read_graph</ins>]({{ site.baseurl }}{{ page.url }}#read_graph)**(_edgeList, nodeList=None, directed=False, idKey='ID', eSource='From', eDest='To'_):
 
@@ -268,7 +268,7 @@ _eDest_ : `optional [str]`
  the Graph described by the files
 
 
-- - -
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="recordParser"></a><small></small>**[<ins>recordParser</ins>]({{ site.baseurl }}{{ page.url }}#recordParser)**(_paper_):
 
@@ -297,7 +297,7 @@ _paper_ : `file stream`
  A dictionary mapping WOS tags to lists, the lists are of strings, each string is a line of the record associated with the tag.
 
 
-- - -
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="write_edgeList"></a><small></small>**[<ins>write_edgeList</ins>]({{ site.baseurl }}{{ page.url }}#write_edgeList)**(_grph, name, extraInfo=True_):
 
@@ -322,7 +322,7 @@ _edgeInfo_ : `optional [bool]`
  Default `True`, if `True` the attributes of each edge will be written
 
 
-- - -
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="write_graph"></a><small></small>**[<ins>write_graph</ins>]({{ site.baseurl }}{{ page.url }}#write_graph)**(_grph, name, edgeInfo=True, typing=False, suffix='csv', overwrite=True_):
 
@@ -367,7 +367,7 @@ _overwrite_ : `optional [bool]`
  Default `True`, if `True` files will be overwritten silently, otherwise an `OSError` exception will be raised.
 
 
-- - -
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="write_nodeAttributeFile"></a><small></small>**[<ins>write_nodeAttributeFile</ins>]({{ site.baseurl }}{{ page.url }}#write_nodeAttributeFile)**(_grph, name_):
 
@@ -393,7 +393,7 @@ _name_ : `str`
 Exception thrown by Citation
 
 
-- - -
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="BadISIRecord"></a><small></small>**[<ins>BadISIRecord</ins>]({{ site.baseurl }}{{ page.url }}#BadISIRecord)**():
 

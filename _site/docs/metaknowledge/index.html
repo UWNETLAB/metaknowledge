@@ -177,7 +177,7 @@ Done making a co-citation network of files-from-records                 1.1s
 
 <p>Note for those reading the docstring metaknowledge’s docs are written in markdown and are processed to produce the documentation found at <a href="http://networkslab.org/metaknowledge/documentation/">networkslab.org/metaknowledge/documentation</a>.</p>
 
-<hr />
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="diffusionCount"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#diffusionCount"><ins>diffusionCount</ins></a></strong>(<em>source, target, sourceType=’raw’, pandasFriendly=False, compareCounts=False</em>):</p>
 
@@ -213,7 +213,7 @@ Done making a co-citation network of files-from-records                 1.1s
 
 <p>If <em>pandasFriendly</em> is <code>True</code> the returned dict has keys with the names of the WOS tags and lists with their values, i.e. a table with labled columns. The counts are in the column named <code>"Count"</code> and if <em>compareCounts</em> the local count is in a column called <code>"LocalCount"</code>.</p>
 
-<hr />
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="diffusionGraph"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#diffusionGraph"><ins>diffusionGraph</ins></a></strong>(<em>source, target, sourceType=’raw’, targetType=’raw’</em>):</p>
 
@@ -245,7 +245,7 @@ Done making a co-citation network of files-from-records                 1.1s
 
 <p>A directed graph of the diffusion network</p>
 
-<hr />
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="drop_edges"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#drop_edges"><ins>drop_edges</ins></a></strong>(<em>grph, minWeight=-inf, maxWeight=inf, parameterName=’weight’, ignoreUnweighted=False, dropSelfLoops=False</em>):</p>
 
@@ -257,7 +257,7 @@ Done making a co-citation network of files-from-records                 1.1s
 
 <p>ignoreUnweighted can be set False to suppress the KeyError and make unweighted edges be ignored</p>
 
-<hr />
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="drop_nodesByCount"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#drop_nodesByCount"><ins>drop_nodesByCount</ins></a></strong>(<em>grph, minCount=-inf, maxCount=inf, parameterName=’count’, ignoreMissing=False</em>):</p>
 
@@ -269,7 +269,7 @@ Done making a co-citation network of files-from-records                 1.1s
 
 <p>ignoreMissing can be set False to suppress the KeyError and make nodes missing counts be dropped instead of throwing errors</p>
 
-<hr />
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="drop_nodesByDegree"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#drop_nodesByDegree"><ins>drop_nodesByDegree</ins></a></strong>(<em>grph, minDegree=-inf, maxDegree=inf, useWeight=True, parameterName=’weight’, ignoreUnweighted=True</em>):</p>
 
@@ -283,7 +283,7 @@ Done making a co-citation network of files-from-records                 1.1s
 
 <p>ignoreUnweighted can be set False to suppress the KeyError and make unweighted edges be not counted, only used if useWeight is True</p>
 
-<hr />
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="filterNonJournals"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#filterNonJournals"><ins>filterNonJournals</ins></a></strong>(<em>citesLst, invert=False</em>):</p>
 
@@ -305,7 +305,7 @@ Done making a co-citation network of files-from-records                 1.1s
 
 <p>A filtered list of Citations from <em>citesLst</em></p>
 
-<hr />
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="graphStats"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#graphStats"><ins>graphStats</ins></a></strong>(<em>G, stats=(‘nodes’, ‘edges’, ‘isolates’, ‘loops’, ‘density’, ‘transitivity’), makeString=True</em>):</p>
 
@@ -341,14 +341,14 @@ Done making a co-citation network of files-from-records                 1.1s
 
 <p>The type is determined by <em>makeString</em> and the layout by <em>stats</em></p>
 
-<hr />
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="isiParser"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#isiParser"><ins>isiParser</ins></a></strong>(<em>isifile</em>):</p>
 
 <p>isiParser() reads the file given by the path isifile, checks that the header is correct then reads until it reaches EF.
 Each it finds is used to initialize a Record then all Record are returned as a list.</p>
 
-<hr />
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="read_graph"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#read_graph"><ins>read_graph</ins></a></strong>(<em>edgeList, nodeList=None, directed=False, idKey=’ID’, eSource=’From’, eDest=’To’</em>):</p>
 
@@ -396,7 +396,7 @@ Each it finds is used to initialize a Record then all Record are returned as a l
 
 <p>the Graph described by the files</p>
 
-<hr />
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="recordParser"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#recordParser"><ins>recordParser</ins></a></strong>(<em>paper</em>):</p>
 
@@ -425,7 +425,7 @@ Each it finds is used to initialize a Record then all Record are returned as a l
 
 <p>A dictionary mapping WOS tags to lists, the lists are of strings, each string is a line of the record associated with the tag.</p>
 
-<hr />
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="write_edgeList"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#write_edgeList"><ins>write_edgeList</ins></a></strong>(<em>grph, name, extraInfo=True</em>):</p>
 
@@ -449,7 +449,7 @@ Each it finds is used to initialize a Record then all Record are returned as a l
 
 <p>Default <code>True</code>, if <code>True</code> the attributes of each edge will be written</p>
 
-<hr />
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="write_graph"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#write_graph"><ins>write_graph</ins></a></strong>(<em>grph, name, edgeInfo=True, typing=False, suffix=’csv’, overwrite=True</em>):</p>
 
@@ -495,7 +495,7 @@ Each it finds is used to initialize a Record then all Record are returned as a l
 
 <p>Default <code>True</code>, if <code>True</code> files will be overwritten silently, otherwise an <code>OSError</code> exception will be raised.</p>
 
-<hr />
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="write_nodeAttributeFile"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#write_nodeAttributeFile"><ins>write_nodeAttributeFile</ins></a></strong>(<em>grph, name</em>):</p>
 
@@ -519,7 +519,7 @@ Each it finds is used to initialize a Record then all Record are returned as a l
 
 <p>Exception thrown by Citation</p>
 
-<hr />
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="BadISIRecord"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#BadISIRecord"><ins>BadISIRecord</ins></a></strong>():</p>
 

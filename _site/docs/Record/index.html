@@ -194,6 +194,8 @@
 
 <p>Is the line the record starts on in the raw data file. It is mostly used to make error messages more informative.</p>
 
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
 <p><a name="Record.activeTags"></a><small>Record.</small><strong><a href="/metaknowledge/docs/Record#Record.activeTags"><ins>activeTags</ins></a></strong>():</p>
 
 <p>Returns a list of all the tags the original WOS record had. These are all the tags that <a href="/metaknowledge/docs/Record#Record">‘getTag()’</a> will not return <code>None</code> for.</p>
@@ -204,6 +206,8 @@
 
 <p>a list of WOS tags in the Record</p>
 
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
 <p><a name="Record.createCitation"></a><small>Record.</small><strong><a href="/metaknowledge/docs/Record#Record.createCitation"><ins>createCitation</ins></a></strong>():</p>
 
 <p>Creates a citation string, using the same format as other WOS citations, for the <a href="/metaknowledge/docs/Record#Record">Record</a> by reading the relevant tags (year, J9, volume, beginningPage, DOI) and using it to start a <a href="/metaknowledge/docs/Citation#Citation">Citation</a> object.</p>
@@ -213,6 +217,8 @@
 <p><code>Citation</code></p>
 
 <p>A <a href="/metaknowledge/docs/Citation#Citation">Citation</a> object containing a citation for the Record.</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="Record.getTag"></a><small>Record.</small><strong><a href="/metaknowledge/docs/Record#Record.getTag"><ins>getTag</ins></a></strong>(<em>tag, clean=False</em>):</p>
 
@@ -230,6 +236,8 @@
 
 <p>Each string in the list is a line from the record associated with <em>tag</em> or None if not found.</p>
 
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
 <p><a name="Record.getTagsDict"></a><small>Record.</small><strong><a href="/metaknowledge/docs/Record#Record.getTagsDict"><ins>getTagsDict</ins></a></strong>(<em>taglst, cleaned=False</em>):</p>
 
 <p>returns a dict of the results of getTag, with the elements of <em>taglst</em> as the keys and the results as the values.</p>
@@ -244,6 +252,8 @@
 <p><code>dict[str : List [str]]</code></p>
 
 <p>a dictionary with keys as the original tags in <em>taglst</em> and the values as the results</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="Record.getTagsList"></a><small>Record.</small><strong><a href="/metaknowledge/docs/Record#Record.getTagsList"><ins>getTagsList</ins></a></strong>(<em>taglst, cleaned=False</em>):</p>
 
@@ -261,6 +271,8 @@
 <p><code>List[str]</code></p>
 
 <p>a list of the values for each tag in <em>taglst</em>, in the same order</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="Record.writeRecord"></a><small>Record.</small><strong><a href="/metaknowledge/docs/Record#Record.writeRecord"><ins>writeRecord</ins></a></strong>(<em>infile</em>):</p>
 

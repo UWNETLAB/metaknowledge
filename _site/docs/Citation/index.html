@@ -194,6 +194,8 @@ Combined they look like:</p>
 
 <p>A str containing a WOS style citation.</p>
 
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
 <p><a name="Citation.addToDB"></a><small>Citation.</small><strong><a href="/metaknowledge/docs/Citation#Citation.addToDB"><ins>addToDB</ins></a></strong>(<em>manualName=None, manaulDB=’manualj9Abbreviations’, invert=False</em>):</p>
 
 <p>Adds the journal of this Citation to the user created database of journals. This will cause <a href="/metaknowledge/docs/Citation#Citation">isJournal()</a> to return <code>True</code> for this Citation and all others with its <code>.journal</code>.</p>
@@ -212,6 +214,8 @@ Combined they look like:</p>
 
 <p>Default <code>False</code>, if <code>True</code> the journal will be removed instead of added</p>
 
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
 <p><a name="Citation.getExtra"></a><small>Citation.</small><strong><a href="/metaknowledge/docs/Citation#Citation.getExtra"><ins>getExtra</ins></a></strong>():</p>
 
 <p>Returns any V, P, DOI or misc values as a string. These are all the values not returned by <a href="/metaknowledge/docs/Citation#Citation"><code>getID()</code></a>.</p>
@@ -222,6 +226,8 @@ Combined they look like:</p>
 
 <p>A string containing the data not in the ID of the Citation.</p>
 
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
 <p><a name="Citation.getFullJournalName"></a><small>Citation.</small><strong><a href="/metaknowledge/docs/Citation#Citation.getFullJournalName"><ins>getFullJournalName</ins></a></strong>():</p>
 
 <p>Returns the full name of the Citation’s journal field. Requires the j9Abbreviations database file.</p>
@@ -231,6 +237,8 @@ Combined they look like:</p>
 <p><code>str</code></p>
 
 <p>The first full name given for the journal of the Citation (or the first name in the WOS list if multiple names exist), if there is not one then <code>None</code> is returned</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="Citation.getID"></a><small>Citation.</small><strong><a href="/metaknowledge/docs/Citation#Citation.getID"><ins>getID</ins></a></strong>():</p>
 
@@ -244,6 +252,8 @@ Combined they look like:</p>
 
 <p>A string to use as the shortened ID of a node.</p>
 
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
 <p><a name="Citation.isAnonymous"></a><small>Citation.</small><strong><a href="/metaknowledge/docs/Citation#Citation.isAnonymous"><ins>isAnonymous</ins></a></strong>():</p>
 
 <p>Checks if the author is given as “[ANONYMOUS]” and returns <code>True</code> if so.</p>
@@ -253,6 +263,8 @@ Combined they look like:</p>
 <p><code>bool</code></p>
 
 <p>True if the author is ANONYMOUS otherwise <code>False</code>.</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="Citation.isJournal"></a><small>Citation.</small><strong><a href="/metaknowledge/docs/Citation#Citation.isJournal"><ins>isJournal</ins></a></strong>(<em>manaulDB=’manualj9Abbreviations’, returnDict=’both’, checkIfExcluded=False</em>):</p>
 

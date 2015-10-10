@@ -46,6 +46,7 @@ _extension_ : `optional [str]`
 
 
 The RecordCollection class has the following methods:
+
 <ul class="post-list">
 <li><article><a href="#RecordCollection.addRec"><b>addRec</b>(<i>Rec</i>)</a></article></li>
 <li><article><a href="#RecordCollection.citationNetwork"><b>citationNetwork</b>(<i>dropAnon=True, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, directed=True, keyWords=None</i>)</a></article></li>
@@ -68,7 +69,8 @@ The RecordCollection class has the following methods:
 <li><article><a href="#RecordCollection.writeCSV"><b>writeCSV</b>(<i>fname=None, onlyTheseTags=None, longNames=False, firstTags=None, csvDelimiter=',', csvQuote='"', listDelimiter='|'</i>)</a></article></li>
 <li><article><a href="#RecordCollection.writeFile"><b>writeFile</b>(<i>fname=None</i>)</a></article></li>
 <li><article><a href="#RecordCollection.yearSplit"><b>yearSplit</b>(<i>startYear, endYear</i>)</a></article></li>
-</ul><hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+</ul>
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="RecordCollection.addRec"></a><small>RecordCollection.</small>**[<ins>addRec</ins>]({{ site.baseurl }}{{ page.url }}#RecordCollection.addRec)**(_Rec_):
 

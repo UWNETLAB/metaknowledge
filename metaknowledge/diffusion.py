@@ -165,7 +165,7 @@ def diffusionCount(source, target, sourceType = "raw", pandasFriendly = False,  
                 for sVal in Rs:
                     sourceCounts[sVal] += 1
     if compareCounts:
-        localCounts = diffusionCount(source, target, sourceType = sourceType, pandasFriendly = False,  compareCounts = False, _ProgBar = PBar)
+        localCounts = diffusionCount(source, source, sourceType = sourceType, pandasFriendly = False,  compareCounts = False, _ProgBar = PBar)
     if PBar and not _ProgBar:
         PBar.finish("Done counting the diffusion of {} sources into {} targets".format(len(source), len(target)))
     if pandasFriendly:

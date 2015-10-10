@@ -81,6 +81,7 @@ def makeLine():
     return('<hr style="{}">'.format(''.join(style)))
 
 def writeFunc(fn, f, prefix = '', level = 4):
+    f.write(makeLine() + "\n\n")
     f.write(makeTitle(prefix, fn[0], cleanargs(fn[1])))
     try:
         f.write(cleanedDoc(fn[1], lvl = level))
@@ -125,7 +126,6 @@ def writeModuleFile(mod):
         if inspect.isbuiltin(m[1]) or m[0][0] == '_':
             pass
         elif inspect.isfunction(m[1]):
-            f.write(makeLine() + "\n\n")
             writeFunc(m, f, prefix = "{}.".format(mod), level = 5)
             funcs.append(m)
     f.write("\n{% include docsFooter.md %}")
@@ -136,7 +136,6 @@ def writeMainBody(funcs, vrs, exceptions):
     f.write(makeHeader("metaknowledge", "The metaknowledge Package", tags = ["main"], weight = 1, layout = "doc"))
     f.write(cleanedDoc(metaknowledge, 3) + '\n\n')
     for fnc in funcs:
-        f.write(makeLine() + "\n\n")
         writeFunc(fnc, f)
     first = True
     for excpt in exceptions:

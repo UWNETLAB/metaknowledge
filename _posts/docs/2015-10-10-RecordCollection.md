@@ -45,7 +45,30 @@ _extension_ : `optional [str]`
  The extension to search for when reading a directoy for files. _extension_ is the suffix searched for when a direcorty is read for files, by default it is empty so all files are read.
 
 
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+The RecordCollection class has the following methods:
+<ul class="post-list">
+<li><article><a href="#RecordCollection.addRec"><b>addRec</b>(<i>Rec</i>)</a></article></li>
+<li><article><a href="#RecordCollection.citationNetwork"><b>citationNetwork</b>(<i>dropAnon=True, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, directed=True, keyWords=None</i>)</a></article></li>
+<li><article><a href="#RecordCollection.citeFilter"><b>citeFilter</b>(<i>keyString='', field='all', reverse=False, caseSensitive=False</i>)</a></article></li>
+<li><article><a href="#RecordCollection.coAuthNetwork"><b>coAuthNetwork</b>()</a></article></li>
+<li><article><a href="#RecordCollection.coCiteNetwork"><b>coCiteNetwork</b>(<i>dropAnon=True, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, keyWords=None</i>)</a></article></li>
+<li><article><a href="#RecordCollection.dropBadRecords"><b>dropBadRecords</b>()</a></article></li>
+<li><article><a href="#RecordCollection.dropNonJournals"><b>dropNonJournals</b>(<i>ptVal='J', dropBad=True, invert=False</i>)</a></article></li>
+<li><article><a href="#RecordCollection.dropWOS"><b>dropWOS</b>(<i>wosNum</i>)</a></article></li>
+<li><article><a href="#RecordCollection.getBadRecords"><b>getBadRecords</b>()</a></article></li>
+<li><article><a href="#RecordCollection.getWOS"><b>getWOS</b>(<i>wosNum, drop=False</i>)</a></article></li>
+<li><article><a href="#RecordCollection.localCiteStats"><b>localCiteStats</b>(<i>pandasFriendly=False, keyType='citation'</i>)</a></article></li>
+<li><article><a href="#RecordCollection.localCitesOf"><b>localCitesOf</b>(<i>rec</i>)</a></article></li>
+<li><article><a href="#RecordCollection.makeDict"><b>makeDict</b>(<i>onlyTheseTags=None, longNames=False, cleanedVal=True</i>)</a></article></li>
+<li><article><a href="#RecordCollection.nModeNetwork"><b>nModeNetwork</b>(<i>tags, recordType=True, nodeCount=True, edgeWeight=True</i>)</a></article></li>
+<li><article><a href="#RecordCollection.oneModeNetwork"><b>oneModeNetwork</b>(<i>mode, nodeCount=True, edgeWeight=True</i>)</a></article></li>
+<li><article><a href="#RecordCollection.peak"><b>peak</b>()</a></article></li>
+<li><article><a href="#RecordCollection.pop"><b>pop</b>()</a></article></li>
+<li><article><a href="#RecordCollection.twoModeNetwork"><b>twoModeNetwork</b>(<i>tag1, tag2, directed=False, recordType=True, nodeCount=True, edgeWeight=True</i>)</a></article></li>
+<li><article><a href="#RecordCollection.writeCSV"><b>writeCSV</b>(<i>fname=None, onlyTheseTags=None, longNames=False, firstTags=None, csvDelimiter=',', csvQuote='"', listDelimiter='|'</i>)</a></article></li>
+<li><article><a href="#RecordCollection.writeFile"><b>writeFile</b>(<i>fname=None</i>)</a></article></li>
+<li><article><a href="#RecordCollection.yearSplit"><b>yearSplit</b>(<i>startYear, endYear</i>)</a></article></li>
+</ul><hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="RecordCollection.addRec"></a><small>RecordCollection.</small>**[<ins>addRec</ins>]({{ site.baseurl }}{{ page.url }}#RecordCollection.addRec)**(_Rec_):
 

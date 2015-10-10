@@ -177,6 +177,22 @@ Done making a co-citation network of files-from-records                 1.1s
 
 <p>Note for those reading the docstring metaknowledge’s docs are written in markdown and are processed to produce the documentation found at <a href="http://networkslab.org/metaknowledge/documentation/">networkslab.org/metaknowledge/documentation</a>.</p>
 
+<p>The functions provided by metaknowledge are:</p>
+<ul class="post-list">
+<li><article><a href="#diffusionCount"><b>diffusionCount</b>(<i>source, target, sourceType='raw', pandasFriendly=False, compareCounts=False</i>)</a></article></li>
+<li><article><a href="#diffusionGraph"><b>diffusionGraph</b>(<i>source, target, sourceType='raw', targetType='raw'</i>)</a></article></li>
+<li><article><a href="#drop_edges"><b>drop_edges</b>(<i>grph, minWeight=-inf, maxWeight=inf, parameterName='weight', ignoreUnweighted=False, dropSelfLoops=False</i>)</a></article></li>
+<li><article><a href="#drop_nodesByCount"><b>drop_nodesByCount</b>(<i>grph, minCount=-inf, maxCount=inf, parameterName='count', ignoreMissing=False</i>)</a></article></li>
+<li><article><a href="#drop_nodesByDegree"><b>drop_nodesByDegree</b>(<i>grph, minDegree=-inf, maxDegree=inf, useWeight=True, parameterName='weight', ignoreUnweighted=True</i>)</a></article></li>
+<li><article><a href="#filterNonJournals"><b>filterNonJournals</b>(<i>citesLst, invert=False</i>)</a></article></li>
+<li><article><a href="#graphStats"><b>graphStats</b>(<i>G, stats=('nodes', 'edges', 'isolates', 'loops', 'density', 'transitivity'), makeString=True</i>)</a></article></li>
+<li><article><a href="#isiParser"><b>isiParser</b>(<i>isifile</i>)</a></article></li>
+<li><article><a href="#read_graph"><b>read_graph</b>(<i>edgeList, nodeList=None, directed=False, idKey='ID', eSource='From', eDest='To'</i>)</a></article></li>
+<li><article><a href="#recordParser"><b>recordParser</b>(<i>paper</i>)</a></article></li>
+<li><article><a href="#write_edgeList"><b>write_edgeList</b>(<i>grph, name, extraInfo=True</i>)</a></article></li>
+<li><article><a href="#write_graph"><b>write_graph</b>(<i>grph, name, edgeInfo=True, typing=False, suffix='csv', overwrite=True</i>)</a></article></li>
+<li><article><a href="#write_nodeAttributeFile"><b>write_nodeAttributeFile</b>(<i>grph, name</i>)</a></article></li>
+</ul>
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="diffusionCount"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#diffusionCount"><ins>diffusionCount</ins></a></strong>(<em>source, target, sourceType=’raw’, pandasFriendly=False, compareCounts=False</em>):</p>
@@ -519,6 +535,10 @@ Each it finds is used to initialize a Record then all Record are returned as a l
 
 <p>Exception thrown by Citation</p>
 
+<p>The BadCitation class has the following methods:</p>
+<ul class="post-list">
+
+</ul>
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="BadISIRecord"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#BadISIRecord"><ins>BadISIRecord</ins></a></strong>():</p>
@@ -536,6 +556,10 @@ Each it finds is used to initialize a Record then all Record are returned as a l
 
 <p>Records with a BadISIRecord error are likely incomplete or the combination of two or more single records.</p>
 
+<p>The BadISIRecord class has the following methods:</p>
+<ul class="post-list">
+
+</ul>
 <hr />
 
 <h2 id="questions">Questions?</h2>

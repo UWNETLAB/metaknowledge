@@ -15,7 +15,13 @@ weight: 3
 
 
 
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+The journalAbbreviations modlue provides the following functions:
+<ul class="post-list">
+<li><article><a href="#journalAbbreviations.addToDB"><b>addToDB</b>(<i>abbr=None, dbname='manualj9Abbreviations'</i>)</a></article></li>
+<li><article><a href="#journalAbbreviations.excludeFromDB"><b>excludeFromDB</b>(<i>abbr=None, dbname='manualj9Abbreviations'</i>)</a></article></li>
+<li><article><a href="#journalAbbreviations.getj9dict"><b>getj9dict</b>(<i>dbname='j9Abbreviations', manualDB='manualj9Abbreviations', returnDict='both'</i>)</a></article></li>
+<li><article><a href="#journalAbbreviations.updatej9DB"><b>updatej9DB</b>(<i>dbname='j9Abbreviations', saveRawHTML=False</i>)</a></article></li>
+</ul><hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="journalAbbreviations.addToDB"></a><small>journalAbbreviations.</small>**[<ins>addToDB</ins>]({{ site.baseurl }}{{ page.url }}#journalAbbreviations.addToDB)**(_abbr=None, dbname='manualj9Abbreviations'_):
 

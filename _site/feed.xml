@@ -4,7 +4,7 @@
 <generator uri="https://github.com/jekyll/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="http://networkslab.org/feed.xml" />
 <link rel="alternate" type="text/html" href="http://networkslab.org" />
-<updated>2015-10-10T16:44:25+06:30</updated>
+<updated>2015-10-10T17:26:25+06:30</updated>
 <id>http://networkslab.org/</id>
 <author>
   <name>John McLevey and Reid McIlroy-Young</name>
@@ -33,6 +33,11 @@
 
 &lt;p&gt;visual docstring&lt;/p&gt;
 
+&lt;p&gt;The visual modlue provides the following functions:&lt;/p&gt;
+&lt;ul class=&quot;post-list&quot;&gt;
+&lt;li&gt;&lt;article&gt;&lt;a href=&quot;#visual.graphDensityContourPlot&quot;&gt;&lt;b&gt;graphDensityContourPlot&lt;/b&gt;(&lt;i&gt;G, layout=None, layoutScaleFactor=1, shifAxis=False, overlay=False, axisSamples=100, blurringFactor=0.1, contours=15, nodeSize=10, graphType=&#39;coloured&#39;, iters=50&lt;/i&gt;)&lt;/a&gt;&lt;/article&gt;&lt;/li&gt;
+&lt;li&gt;&lt;article&gt;&lt;a href=&quot;#visual.quickVisual&quot;&gt;&lt;b&gt;quickVisual&lt;/b&gt;(&lt;i&gt;G, showLabel=False&lt;/i&gt;)&lt;/a&gt;&lt;/article&gt;&lt;/li&gt;
+&lt;/ul&gt;
 &lt;hr style=&quot;padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;&quot; /&gt;
 
 &lt;p&gt;&lt;a name=&quot;visual.graphDensityContourPlot&quot;&gt;&lt;/a&gt;&lt;small&gt;visual.&lt;/small&gt;&lt;strong&gt;&lt;a href=&quot;/metaknowledge/docs/visual#visual.graphDensityContourPlot&quot;&gt;&lt;ins&gt;graphDensityContourPlot&lt;/ins&gt;&lt;/a&gt;&lt;/strong&gt;(&lt;em&gt;G, layout=None, layoutScaleFactor=1, shifAxis=False, overlay=False, axisSamples=100, blurringFactor=0.1, contours=15, nodeSize=10, graphType=’coloured’, iters=50&lt;/em&gt;):&lt;/p&gt;
@@ -1651,6 +1656,22 @@ Done making a co-citation network of files-from-records                 1.1s
 
 &lt;p&gt;Note for those reading the docstring metaknowledge’s docs are written in markdown and are processed to produce the documentation found at &lt;a href=&quot;http://networkslab.org/metaknowledge/documentation/&quot;&gt;networkslab.org/metaknowledge/documentation&lt;/a&gt;.&lt;/p&gt;
 
+&lt;p&gt;The functions provided by metaknowledge are:&lt;/p&gt;
+&lt;ul class=&quot;post-list&quot;&gt;
+&lt;li&gt;&lt;article&gt;&lt;a href=&quot;#diffusionCount&quot;&gt;&lt;b&gt;diffusionCount&lt;/b&gt;(&lt;i&gt;source, target, sourceType=&#39;raw&#39;, pandasFriendly=False, compareCounts=False&lt;/i&gt;)&lt;/a&gt;&lt;/article&gt;&lt;/li&gt;
+&lt;li&gt;&lt;article&gt;&lt;a href=&quot;#diffusionGraph&quot;&gt;&lt;b&gt;diffusionGraph&lt;/b&gt;(&lt;i&gt;source, target, sourceType=&#39;raw&#39;, targetType=&#39;raw&#39;&lt;/i&gt;)&lt;/a&gt;&lt;/article&gt;&lt;/li&gt;
+&lt;li&gt;&lt;article&gt;&lt;a href=&quot;#drop_edges&quot;&gt;&lt;b&gt;drop_edges&lt;/b&gt;(&lt;i&gt;grph, minWeight=-inf, maxWeight=inf, parameterName=&#39;weight&#39;, ignoreUnweighted=False, dropSelfLoops=False&lt;/i&gt;)&lt;/a&gt;&lt;/article&gt;&lt;/li&gt;
+&lt;li&gt;&lt;article&gt;&lt;a href=&quot;#drop_nodesByCount&quot;&gt;&lt;b&gt;drop_nodesByCount&lt;/b&gt;(&lt;i&gt;grph, minCount=-inf, maxCount=inf, parameterName=&#39;count&#39;, ignoreMissing=False&lt;/i&gt;)&lt;/a&gt;&lt;/article&gt;&lt;/li&gt;
+&lt;li&gt;&lt;article&gt;&lt;a href=&quot;#drop_nodesByDegree&quot;&gt;&lt;b&gt;drop_nodesByDegree&lt;/b&gt;(&lt;i&gt;grph, minDegree=-inf, maxDegree=inf, useWeight=True, parameterName=&#39;weight&#39;, ignoreUnweighted=True&lt;/i&gt;)&lt;/a&gt;&lt;/article&gt;&lt;/li&gt;
+&lt;li&gt;&lt;article&gt;&lt;a href=&quot;#filterNonJournals&quot;&gt;&lt;b&gt;filterNonJournals&lt;/b&gt;(&lt;i&gt;citesLst, invert=False&lt;/i&gt;)&lt;/a&gt;&lt;/article&gt;&lt;/li&gt;
+&lt;li&gt;&lt;article&gt;&lt;a href=&quot;#graphStats&quot;&gt;&lt;b&gt;graphStats&lt;/b&gt;(&lt;i&gt;G, stats=(&#39;nodes&#39;, &#39;edges&#39;, &#39;isolates&#39;, &#39;loops&#39;, &#39;density&#39;, &#39;transitivity&#39;), makeString=True&lt;/i&gt;)&lt;/a&gt;&lt;/article&gt;&lt;/li&gt;
+&lt;li&gt;&lt;article&gt;&lt;a href=&quot;#isiParser&quot;&gt;&lt;b&gt;isiParser&lt;/b&gt;(&lt;i&gt;isifile&lt;/i&gt;)&lt;/a&gt;&lt;/article&gt;&lt;/li&gt;
+&lt;li&gt;&lt;article&gt;&lt;a href=&quot;#read_graph&quot;&gt;&lt;b&gt;read_graph&lt;/b&gt;(&lt;i&gt;edgeList, nodeList=None, directed=False, idKey=&#39;ID&#39;, eSource=&#39;From&#39;, eDest=&#39;To&#39;&lt;/i&gt;)&lt;/a&gt;&lt;/article&gt;&lt;/li&gt;
+&lt;li&gt;&lt;article&gt;&lt;a href=&quot;#recordParser&quot;&gt;&lt;b&gt;recordParser&lt;/b&gt;(&lt;i&gt;paper&lt;/i&gt;)&lt;/a&gt;&lt;/article&gt;&lt;/li&gt;
+&lt;li&gt;&lt;article&gt;&lt;a href=&quot;#write_edgeList&quot;&gt;&lt;b&gt;write_edgeList&lt;/b&gt;(&lt;i&gt;grph, name, extraInfo=True&lt;/i&gt;)&lt;/a&gt;&lt;/article&gt;&lt;/li&gt;
+&lt;li&gt;&lt;article&gt;&lt;a href=&quot;#write_graph&quot;&gt;&lt;b&gt;write_graph&lt;/b&gt;(&lt;i&gt;grph, name, edgeInfo=True, typing=False, suffix=&#39;csv&#39;, overwrite=True&lt;/i&gt;)&lt;/a&gt;&lt;/article&gt;&lt;/li&gt;
+&lt;li&gt;&lt;article&gt;&lt;a href=&quot;#write_nodeAttributeFile&quot;&gt;&lt;b&gt;write_nodeAttributeFile&lt;/b&gt;(&lt;i&gt;grph, name&lt;/i&gt;)&lt;/a&gt;&lt;/article&gt;&lt;/li&gt;
+&lt;/ul&gt;
 &lt;hr style=&quot;padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;&quot; /&gt;
 
 &lt;p&gt;&lt;a name=&quot;diffusionCount&quot;&gt;&lt;/a&gt;&lt;small&gt;&lt;/small&gt;&lt;strong&gt;&lt;a href=&quot;/metaknowledge/docs/metaknowledge#diffusionCount&quot;&gt;&lt;ins&gt;diffusionCount&lt;/ins&gt;&lt;/a&gt;&lt;/strong&gt;(&lt;em&gt;source, target, sourceType=’raw’, pandasFriendly=False, compareCounts=False&lt;/em&gt;):&lt;/p&gt;
@@ -1993,6 +2014,10 @@ Each it finds is used to initialize a Record then all Record are returned as a l
 
 &lt;p&gt;Exception thrown by Citation&lt;/p&gt;
 
+&lt;p&gt;The BadCitation class has the following methods:&lt;/p&gt;
+&lt;ul class=&quot;post-list&quot;&gt;
+
+&lt;/ul&gt;
 &lt;hr style=&quot;padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;&quot; /&gt;
 
 &lt;p&gt;&lt;a name=&quot;BadISIRecord&quot;&gt;&lt;/a&gt;&lt;small&gt;&lt;/small&gt;&lt;strong&gt;&lt;a href=&quot;/metaknowledge/docs/metaknowledge#BadISIRecord&quot;&gt;&lt;ins&gt;BadISIRecord&lt;/ins&gt;&lt;/a&gt;&lt;/strong&gt;():&lt;/p&gt;
@@ -2010,6 +2035,10 @@ Each it finds is used to initialize a Record then all Record are returned as a l
 
 &lt;p&gt;Records with a BadISIRecord error are likely incomplete or the combination of two or more single records.&lt;/p&gt;
 
+&lt;p&gt;The BadISIRecord class has the following methods:&lt;/p&gt;
+&lt;ul class=&quot;post-list&quot;&gt;
+
+&lt;/ul&gt;
 &lt;hr /&gt;
 
 &lt;h2 id=&quot;questions&quot;&gt;Questions?&lt;/h2&gt;
@@ -2049,6 +2078,13 @@ Each it finds is used to initialize a Record then all Record are returned as a l
 
 &lt;h1 id=&quot;journalabbreviationsmetaknowledgedocsjournalabbreviationsjournalabbreviations&quot;&gt;&lt;a href=&quot;/metaknowledge/docs/journalAbbreviations#journalAbbreviations&quot;&gt;journalAbbreviations&lt;/a&gt;&lt;/h1&gt;
 
+&lt;p&gt;The journalAbbreviations modlue provides the following functions:&lt;/p&gt;
+&lt;ul class=&quot;post-list&quot;&gt;
+&lt;li&gt;&lt;article&gt;&lt;a href=&quot;#journalAbbreviations.addToDB&quot;&gt;&lt;b&gt;addToDB&lt;/b&gt;(&lt;i&gt;abbr=None, dbname=&#39;manualj9Abbreviations&#39;&lt;/i&gt;)&lt;/a&gt;&lt;/article&gt;&lt;/li&gt;
+&lt;li&gt;&lt;article&gt;&lt;a href=&quot;#journalAbbreviations.excludeFromDB&quot;&gt;&lt;b&gt;excludeFromDB&lt;/b&gt;(&lt;i&gt;abbr=None, dbname=&#39;manualj9Abbreviations&#39;&lt;/i&gt;)&lt;/a&gt;&lt;/article&gt;&lt;/li&gt;
+&lt;li&gt;&lt;article&gt;&lt;a href=&quot;#journalAbbreviations.getj9dict&quot;&gt;&lt;b&gt;getj9dict&lt;/b&gt;(&lt;i&gt;dbname=&#39;j9Abbreviations&#39;, manualDB=&#39;manualj9Abbreviations&#39;, returnDict=&#39;both&#39;&lt;/i&gt;)&lt;/a&gt;&lt;/article&gt;&lt;/li&gt;
+&lt;li&gt;&lt;article&gt;&lt;a href=&quot;#journalAbbreviations.updatej9DB&quot;&gt;&lt;b&gt;updatej9DB&lt;/b&gt;(&lt;i&gt;dbname=&#39;j9Abbreviations&#39;, saveRawHTML=False&lt;/i&gt;)&lt;/a&gt;&lt;/article&gt;&lt;/li&gt;
+&lt;/ul&gt;
 &lt;hr style=&quot;padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;&quot; /&gt;
 
 &lt;p&gt;&lt;a name=&quot;journalAbbreviations.addToDB&quot;&gt;&lt;/a&gt;&lt;small&gt;journalAbbreviations.&lt;/small&gt;&lt;strong&gt;&lt;a href=&quot;/metaknowledge/docs/journalAbbreviations#journalAbbreviations.addToDB&quot;&gt;&lt;ins&gt;addToDB&lt;/ins&gt;&lt;/a&gt;&lt;/strong&gt;(&lt;em&gt;abbr=None, dbname=’manualj9Abbreviations’&lt;/em&gt;):&lt;/p&gt;
@@ -2182,6 +2218,30 @@ The comparison operators &amp;lt;, &amp;lt;=, &amp;gt;, &amp;gt;= are based stri
 
 &lt;p&gt;The extension to search for when reading a directoy for files. &lt;em&gt;extension&lt;/em&gt; is the suffix searched for when a direcorty is read for files, by default it is empty so all files are read.&lt;/p&gt;
 
+&lt;p&gt;The RecordCollection class has the following methods:&lt;/p&gt;
+&lt;ul class=&quot;post-list&quot;&gt;
+&lt;li&gt;&lt;article&gt;&lt;a href=&quot;#RecordCollection.addRec&quot;&gt;&lt;b&gt;addRec&lt;/b&gt;(&lt;i&gt;Rec&lt;/i&gt;)&lt;/a&gt;&lt;/article&gt;&lt;/li&gt;
+&lt;li&gt;&lt;article&gt;&lt;a href=&quot;#RecordCollection.citationNetwork&quot;&gt;&lt;b&gt;citationNetwork&lt;/b&gt;(&lt;i&gt;dropAnon=True, nodeType=&#39;full&#39;, nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, directed=True, keyWords=None&lt;/i&gt;)&lt;/a&gt;&lt;/article&gt;&lt;/li&gt;
+&lt;li&gt;&lt;article&gt;&lt;a href=&quot;#RecordCollection.citeFilter&quot;&gt;&lt;b&gt;citeFilter&lt;/b&gt;(&lt;i&gt;keyString=&#39;&#39;, field=&#39;all&#39;, reverse=False, caseSensitive=False&lt;/i&gt;)&lt;/a&gt;&lt;/article&gt;&lt;/li&gt;
+&lt;li&gt;&lt;article&gt;&lt;a href=&quot;#RecordCollection.coAuthNetwork&quot;&gt;&lt;b&gt;coAuthNetwork&lt;/b&gt;()&lt;/a&gt;&lt;/article&gt;&lt;/li&gt;
+&lt;li&gt;&lt;article&gt;&lt;a href=&quot;#RecordCollection.coCiteNetwork&quot;&gt;&lt;b&gt;coCiteNetwork&lt;/b&gt;(&lt;i&gt;dropAnon=True, nodeType=&#39;full&#39;, nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, keyWords=None&lt;/i&gt;)&lt;/a&gt;&lt;/article&gt;&lt;/li&gt;
+&lt;li&gt;&lt;article&gt;&lt;a href=&quot;#RecordCollection.dropBadRecords&quot;&gt;&lt;b&gt;dropBadRecords&lt;/b&gt;()&lt;/a&gt;&lt;/article&gt;&lt;/li&gt;
+&lt;li&gt;&lt;article&gt;&lt;a href=&quot;#RecordCollection.dropNonJournals&quot;&gt;&lt;b&gt;dropNonJournals&lt;/b&gt;(&lt;i&gt;ptVal=&#39;J&#39;, dropBad=True, invert=False&lt;/i&gt;)&lt;/a&gt;&lt;/article&gt;&lt;/li&gt;
+&lt;li&gt;&lt;article&gt;&lt;a href=&quot;#RecordCollection.dropWOS&quot;&gt;&lt;b&gt;dropWOS&lt;/b&gt;(&lt;i&gt;wosNum&lt;/i&gt;)&lt;/a&gt;&lt;/article&gt;&lt;/li&gt;
+&lt;li&gt;&lt;article&gt;&lt;a href=&quot;#RecordCollection.getBadRecords&quot;&gt;&lt;b&gt;getBadRecords&lt;/b&gt;()&lt;/a&gt;&lt;/article&gt;&lt;/li&gt;
+&lt;li&gt;&lt;article&gt;&lt;a href=&quot;#RecordCollection.getWOS&quot;&gt;&lt;b&gt;getWOS&lt;/b&gt;(&lt;i&gt;wosNum, drop=False&lt;/i&gt;)&lt;/a&gt;&lt;/article&gt;&lt;/li&gt;
+&lt;li&gt;&lt;article&gt;&lt;a href=&quot;#RecordCollection.localCiteStats&quot;&gt;&lt;b&gt;localCiteStats&lt;/b&gt;(&lt;i&gt;pandasFriendly=False, keyType=&#39;citation&#39;&lt;/i&gt;)&lt;/a&gt;&lt;/article&gt;&lt;/li&gt;
+&lt;li&gt;&lt;article&gt;&lt;a href=&quot;#RecordCollection.localCitesOf&quot;&gt;&lt;b&gt;localCitesOf&lt;/b&gt;(&lt;i&gt;rec&lt;/i&gt;)&lt;/a&gt;&lt;/article&gt;&lt;/li&gt;
+&lt;li&gt;&lt;article&gt;&lt;a href=&quot;#RecordCollection.makeDict&quot;&gt;&lt;b&gt;makeDict&lt;/b&gt;(&lt;i&gt;onlyTheseTags=None, longNames=False, cleanedVal=True&lt;/i&gt;)&lt;/a&gt;&lt;/article&gt;&lt;/li&gt;
+&lt;li&gt;&lt;article&gt;&lt;a href=&quot;#RecordCollection.nModeNetwork&quot;&gt;&lt;b&gt;nModeNetwork&lt;/b&gt;(&lt;i&gt;tags, recordType=True, nodeCount=True, edgeWeight=True&lt;/i&gt;)&lt;/a&gt;&lt;/article&gt;&lt;/li&gt;
+&lt;li&gt;&lt;article&gt;&lt;a href=&quot;#RecordCollection.oneModeNetwork&quot;&gt;&lt;b&gt;oneModeNetwork&lt;/b&gt;(&lt;i&gt;mode, nodeCount=True, edgeWeight=True&lt;/i&gt;)&lt;/a&gt;&lt;/article&gt;&lt;/li&gt;
+&lt;li&gt;&lt;article&gt;&lt;a href=&quot;#RecordCollection.peak&quot;&gt;&lt;b&gt;peak&lt;/b&gt;()&lt;/a&gt;&lt;/article&gt;&lt;/li&gt;
+&lt;li&gt;&lt;article&gt;&lt;a href=&quot;#RecordCollection.pop&quot;&gt;&lt;b&gt;pop&lt;/b&gt;()&lt;/a&gt;&lt;/article&gt;&lt;/li&gt;
+&lt;li&gt;&lt;article&gt;&lt;a href=&quot;#RecordCollection.twoModeNetwork&quot;&gt;&lt;b&gt;twoModeNetwork&lt;/b&gt;(&lt;i&gt;tag1, tag2, directed=False, recordType=True, nodeCount=True, edgeWeight=True&lt;/i&gt;)&lt;/a&gt;&lt;/article&gt;&lt;/li&gt;
+&lt;li&gt;&lt;article&gt;&lt;a href=&quot;#RecordCollection.writeCSV&quot;&gt;&lt;b&gt;writeCSV&lt;/b&gt;(&lt;i&gt;fname=None, onlyTheseTags=None, longNames=False, firstTags=None, csvDelimiter=&#39;,&#39;, csvQuote=&#39;&quot;&#39;, listDelimiter=&#39;|&#39;&lt;/i&gt;)&lt;/a&gt;&lt;/article&gt;&lt;/li&gt;
+&lt;li&gt;&lt;article&gt;&lt;a href=&quot;#RecordCollection.writeFile&quot;&gt;&lt;b&gt;writeFile&lt;/b&gt;(&lt;i&gt;fname=None&lt;/i&gt;)&lt;/a&gt;&lt;/article&gt;&lt;/li&gt;
+&lt;li&gt;&lt;article&gt;&lt;a href=&quot;#RecordCollection.yearSplit&quot;&gt;&lt;b&gt;yearSplit&lt;/b&gt;(&lt;i&gt;startYear, endYear&lt;/i&gt;)&lt;/a&gt;&lt;/article&gt;&lt;/li&gt;
+&lt;/ul&gt;
 &lt;hr style=&quot;padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;&quot; /&gt;
 
 &lt;p&gt;&lt;a name=&quot;RecordCollection.addRec&quot;&gt;&lt;/a&gt;&lt;small&gt;RecordCollection.&lt;/small&gt;&lt;strong&gt;&lt;a href=&quot;/metaknowledge/docs/RecordCollection#RecordCollection.addRec&quot;&gt;&lt;ins&gt;addRec&lt;/ins&gt;&lt;/a&gt;&lt;/strong&gt;(&lt;em&gt;Rec&lt;/em&gt;):&lt;/p&gt;
@@ -2694,6 +2754,15 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 &lt;p&gt;Is the line the record starts on in the raw data file. It is mostly used to make error messages more informative.&lt;/p&gt;
 
+&lt;p&gt;The Record class has the following methods:&lt;/p&gt;
+&lt;ul class=&quot;post-list&quot;&gt;
+&lt;li&gt;&lt;article&gt;&lt;a href=&quot;#Record.activeTags&quot;&gt;&lt;b&gt;activeTags&lt;/b&gt;()&lt;/a&gt;&lt;/article&gt;&lt;/li&gt;
+&lt;li&gt;&lt;article&gt;&lt;a href=&quot;#Record.createCitation&quot;&gt;&lt;b&gt;createCitation&lt;/b&gt;()&lt;/a&gt;&lt;/article&gt;&lt;/li&gt;
+&lt;li&gt;&lt;article&gt;&lt;a href=&quot;#Record.getTag&quot;&gt;&lt;b&gt;getTag&lt;/b&gt;(&lt;i&gt;tag, clean=False&lt;/i&gt;)&lt;/a&gt;&lt;/article&gt;&lt;/li&gt;
+&lt;li&gt;&lt;article&gt;&lt;a href=&quot;#Record.getTagsDict&quot;&gt;&lt;b&gt;getTagsDict&lt;/b&gt;(&lt;i&gt;taglst, cleaned=False&lt;/i&gt;)&lt;/a&gt;&lt;/article&gt;&lt;/li&gt;
+&lt;li&gt;&lt;article&gt;&lt;a href=&quot;#Record.getTagsList&quot;&gt;&lt;b&gt;getTagsList&lt;/b&gt;(&lt;i&gt;taglst, cleaned=False&lt;/i&gt;)&lt;/a&gt;&lt;/article&gt;&lt;/li&gt;
+&lt;li&gt;&lt;article&gt;&lt;a href=&quot;#Record.writeRecord&quot;&gt;&lt;b&gt;writeRecord&lt;/b&gt;(&lt;i&gt;infile&lt;/i&gt;)&lt;/a&gt;&lt;/article&gt;&lt;/li&gt;
+&lt;/ul&gt;
 &lt;hr style=&quot;padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;&quot; /&gt;
 
 &lt;p&gt;&lt;a name=&quot;Record.activeTags&quot;&gt;&lt;/a&gt;&lt;small&gt;Record.&lt;/small&gt;&lt;strong&gt;&lt;a href=&quot;/metaknowledge/docs/Record#Record.activeTags&quot;&gt;&lt;ins&gt;activeTags&lt;/ins&gt;&lt;/a&gt;&lt;/strong&gt;():&lt;/p&gt;
@@ -2866,6 +2935,15 @@ Combined they look like:&lt;/p&gt;
 
 &lt;p&gt;A str containing a WOS style citation.&lt;/p&gt;
 
+&lt;p&gt;The Citation class has the following methods:&lt;/p&gt;
+&lt;ul class=&quot;post-list&quot;&gt;
+&lt;li&gt;&lt;article&gt;&lt;a href=&quot;#Citation.addToDB&quot;&gt;&lt;b&gt;addToDB&lt;/b&gt;(&lt;i&gt;manualName=None, manaulDB=&#39;manualj9Abbreviations&#39;, invert=False&lt;/i&gt;)&lt;/a&gt;&lt;/article&gt;&lt;/li&gt;
+&lt;li&gt;&lt;article&gt;&lt;a href=&quot;#Citation.getExtra&quot;&gt;&lt;b&gt;getExtra&lt;/b&gt;()&lt;/a&gt;&lt;/article&gt;&lt;/li&gt;
+&lt;li&gt;&lt;article&gt;&lt;a href=&quot;#Citation.getFullJournalName&quot;&gt;&lt;b&gt;getFullJournalName&lt;/b&gt;()&lt;/a&gt;&lt;/article&gt;&lt;/li&gt;
+&lt;li&gt;&lt;article&gt;&lt;a href=&quot;#Citation.getID&quot;&gt;&lt;b&gt;getID&lt;/b&gt;()&lt;/a&gt;&lt;/article&gt;&lt;/li&gt;
+&lt;li&gt;&lt;article&gt;&lt;a href=&quot;#Citation.isAnonymous&quot;&gt;&lt;b&gt;isAnonymous&lt;/b&gt;()&lt;/a&gt;&lt;/article&gt;&lt;/li&gt;
+&lt;li&gt;&lt;article&gt;&lt;a href=&quot;#Citation.isJournal&quot;&gt;&lt;b&gt;isJournal&lt;/b&gt;(&lt;i&gt;manaulDB=&#39;manualj9Abbreviations&#39;, returnDict=&#39;both&#39;, checkIfExcluded=False&lt;/i&gt;)&lt;/a&gt;&lt;/article&gt;&lt;/li&gt;
+&lt;/ul&gt;
 &lt;hr style=&quot;padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;&quot; /&gt;
 
 &lt;p&gt;&lt;a name=&quot;Citation.addToDB&quot;&gt;&lt;/a&gt;&lt;small&gt;Citation.&lt;/small&gt;&lt;strong&gt;&lt;a href=&quot;/metaknowledge/docs/Citation#Citation.addToDB&quot;&gt;&lt;ins&gt;addToDB&lt;/ins&gt;&lt;/a&gt;&lt;/strong&gt;(&lt;em&gt;manualName=None, manaulDB=’manualj9Abbreviations’, invert=False&lt;/em&gt;):&lt;/p&gt;

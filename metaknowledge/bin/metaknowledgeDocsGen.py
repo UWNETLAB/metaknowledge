@@ -30,12 +30,15 @@ def argumentParser():
     parser.add_argument("-dir", "-d", default = os.path.normpath('.') ,nargs='?', help = 'Directory to write files to')
     return parser.parse_args()
 
-def cleanargs(obj):
+def cleanargs(obj, basic = False):
     argStr = inspect.formatargspec(*inspect.getfullargspec(obj))
     argStr =  argStr.replace(", *args", '').replace(", **kwargs", '').replace('self, ', '').replace('self', '')[1:-1]
     if len(argStr) > 0:
         argStr = ', '.join([a for a in argStr.split(', ') if a[0] != '_'])
-        return "(_{0}_)".format(argStr)
+        if basic:
+            return "(<i>{0}</i>)".format(argStr)
+        else:
+            return "(_{0}_)".format(argStr)
     else:
         return '()'
 
@@ -67,7 +70,30 @@ def makeTitle(module, name, args = ''):
     s = '<a name="{0}{1}"></a><small>{0}</small>**[<ins>{1}</ins>]({{{{ site.baseurl }}}}{{{{ page.url }}}}#{0}{1})**{2}:\n\n'.format(module, name, args)
     return s
 
-def writeFunc(fn, f, prefix = '', level = 4):
+def makeLine():
+    style = [
+    "padding: 0;",
+    "border: none;",
+    "border-width: 3px;",
+    "height: 20px;",
+    "color: #333;",
+    "text-align: center;",
+    "border-top-style: solid;",
+    "border-bottom-style: solid;",
+    ]
+    return('<hr style="{}">'.format(''.join(style)))
+
+def makeTable(entries, header = '', prefix = ''):
+    ents = []
+    if prefix:
+        prefix = prefix + '.'
+    for e in entries:
+        ents.append("""<li><article><a href="#{2}{0}"><b>{0}</b>{1}</a></article></li>""".format(e[0], cleanargs(e[1], basic = True), prefix))
+    s = """{}\n\n<ul class="post-list">\n{}\n</ul>\n""".format(header,'\n'.join(ents))
+    return s
+
+def writeFunc(fn, f, prefix = '', level = 5):
+    f.write(makeLine() + "\n\n")
     f.write(makeTitle(prefix, fn[0], cleanargs(fn[1])))
     try:
         f.write(cleanedDoc(fn[1], lvl = level))
@@ -86,11 +112,15 @@ def writeClass(cl, f, prefix = '', level = 4):
 def proccessClass(cl, f):
     writeClass(cl, f)
     baseMems = inspect.getmembers(cl[1].__bases__[0])
+    funcs = []
     for m in inspect.getmembers(cl[1]):
         if m[0][0] == '_' or m in baseMems:
             pass
         elif inspect.isfunction(m[1]):
-            writeFunc(m, f, prefix = '{}.'.format(cl[0]), level = 4)
+            funcs.append(m)
+    f.write(makeTable(funcs, prefix = cl[0], header = "The {} class has the following methods:".format(cl[0])))
+    for m in funcs:
+        writeFunc(m, f, prefix = '{}.'.format(cl[0]))
 
 def writeClassFile(name, typ):
     fname = docsPrefix + "{}.md".format(name)
@@ -112,25 +142,27 @@ def writeModuleFile(mod):
         if inspect.isbuiltin(m[1]) or m[0][0] == '_':
             pass
         elif inspect.isfunction(m[1]):
-            f.write("- - -\n\n")
-            writeFunc(m, f, prefix = "{}.".format(mod), level = 5)
             funcs.append(m)
+    if mod != "tagFuncs":
+        f.write(makeTable(funcs, prefix = mod ,header = "The {} modlue provides the following functions:".format(mod)))
+    for fn in funcs:
+        writeFunc(fn, f, prefix = "{}.".format(mod))
     f.write("\n{% include docsFooter.md %}")
     f.close()
 
 def writeMainBody(funcs, vrs, exceptions):
     f = open(docsPrefix + "metaknowledge.md", 'w')
-    f.write(makeHeader("metaknowledge", "The metaknowledge Package", tags = ["main"], weight = 1, layout = "doc"))
+    f.write(makeHeader("Functions", "The metaknowledge Package", tags = ["main"], weight = 1, layout = "doc"))
     f.write(cleanedDoc(metaknowledge, 3) + '\n\n')
+    f.write(makeTable(funcs, header = "The functions provided by metaknowledge are:"))
     for fnc in funcs:
-        f.write("- - -\n\n")
         writeFunc(fnc, f)
     first = True
     for excpt in exceptions:
         if first:
             first = False
         else:
-            f.write("- - -\n\n")
+            f.write(makeLine() + "\n\n")
         proccessClass(excpt, f)
     f.write("\n{% include docsFooter.md %}")
     f.close()
@@ -167,7 +199,6 @@ def main(args):
         writeClassFile(*cls)
     for mod in documentedModules:
         writeModuleFile(mod)
-
 
 def mkDocs():
     args = argumentParser()

@@ -186,7 +186,7 @@ def diffusionCount(source, target, sourceType = "raw", pandasFriendly = False,  
             for R, occ in sourceCounts.items():
                 Rvals = R.getTagsDict(retrievedFields, cleaned = True)
                 if numAuthors:
-                    Rvals["numAuthors"] = R.numAuthors()
+                    retDict["numAuthors"].append(R.numAuthors())
                 for tag in retrievedFields:
                     retDict[tag].append(Rvals[tag])
                 retDict[targetCountString].append(sourceCounts[R])

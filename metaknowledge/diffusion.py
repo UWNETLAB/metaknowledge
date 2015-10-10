@@ -89,7 +89,7 @@ def diffusionGraph(source, target, sourceType = "raw", targetType = "raw"):
     return workingGraph
 
 
-def diffusionCount(source, target, sourceType = "raw", pandasFriendly = False,  compareCounts = False, _ProgBar = None):
+def diffusionCount(source, target, sourceType = "raw", pandasFriendly = False,  compareCounts = False, numAuthors = True,_ProgBar = None):
     """Takes in two [`RecordCollections`](#RecordCollection.RecordCollection) and produces a `dict` counting the citations of the `Records` of _source_ by the `Records` of _target_. By default the `dict` uses `Record` objects as keys but this can be changed with the _sourceType_ keyword to any of the WOS tags.
 
     # Parameters
@@ -172,6 +172,8 @@ def diffusionCount(source, target, sourceType = "raw", pandasFriendly = False,  
         PBar.finish("Done counting the diffusion of {} sources into {} targets".format(len(source), len(target)))
     if pandasFriendly:
         retDict = {targetCountString : []}
+        if numAuthors:
+            retDict["numAuthors"] = []
         if compareCounts:
             retDict[sourceCountString] = []
         if sourceType == 'raw':
@@ -183,6 +185,8 @@ def diffusionCount(source, target, sourceType = "raw", pandasFriendly = False,  
                 retDict[tag] = []
             for R, occ in sourceCounts.items():
                 Rvals = R.getTagsDict(retrievedFields, cleaned = True)
+                if numAuthors:
+                    Rvals["numAuthors"] = R.numAuthors()
                 for tag in retrievedFields:
                     retDict[tag].append(Rvals[tag])
                 retDict[targetCountString].append(sourceCounts[R])

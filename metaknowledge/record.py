@@ -255,6 +255,10 @@ class Record(object):
         else:
             return auth
 
+    def numAuthors(self):
+        """Returns the number of authors"""
+        return len(self.authors)
+
     def getTag(self, tag, clean = False):
         """Returns a list containing the raw data of the record associated with _tag_. Each line of the record is one string in the list.
 

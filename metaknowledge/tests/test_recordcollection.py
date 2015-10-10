@@ -84,22 +84,22 @@ class TestRecordCollection(unittest.TestCase):
         filename = "test_writeCSV_temporaryFile.csv"
         if os.path.isfile(filename):
             os.remove(filename)
-        self.RC.writeCSV(filename, onlyTheseTags=['UT', 'PT', 'TI', 'AF','J9' ,'CR', 'pubMedID'], firstTags = ['CR', 'UT', 'J9', 'citations'], csvDelimiter = '∂', csvQuote='≠', listDelimiter= '«', longNames=True)
+        self.RC.writeCSV(filename, onlyTheseTags=['UT', 'PT', 'TI', 'AF','J9' ,'CR', 'pubMedID'], firstTags = ['CR', 'UT', 'J9', 'citations'], csvDelimiter = '∂', csvQuote='≠', listDelimiter= '«', longNames=True, numAuthors = False)
         self.assertTrue(os.path.isfile(filename))
         self.assertEqual(os.path.getsize(filename), 106373)
         os.remove(filename)
         self.RC.writeCSV(filename)
         self.assertTrue(os.path.isfile(filename))
-        self.assertEqual(os.path.getsize(filename), 88201)
+        self.assertEqual(os.path.getsize(filename), 88346)
         os.remove(filename)
 
     def test_makeDict(self):
         d = self.RC.makeDict(onlyTheseTags = list(metaknowledge.tagsAndNames), longNames = True)
-        self.assertEqual(len(d), 61)
+        self.assertEqual(len(d), 62)
         self.assertEqual(len(d['wosString']), len(self.RC))
         self.assertEqual(d['eISSN'][0], None)
         self.assertIsInstance(d['citations'], list)
-        d = self.RC.makeDict(longNames = False, cleanedVal = False)
+        d = self.RC.makeDict(longNames = False, cleanedVal = False, numAuthors = False)
         self.assertEqual(len(d), 42)
         self.assertEqual(len(d['UT']), len(self.RC))
         self.assertIsInstance(d['CR'], list)

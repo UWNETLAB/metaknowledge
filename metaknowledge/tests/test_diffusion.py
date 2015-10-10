@@ -28,7 +28,7 @@ class TestHelpers(unittest.TestCase):
         d = metaknowledge.diffusionCount(self.RC, self.RC, pandasFriendly = True)
         dwc = metaknowledge.diffusionCount(self.RC, self.RC, pandasFriendly = True, sourceType = "WC", compareCounts = True)
         self.assertTrue("TI" in d.keys())
-        self.assertEqual(43, len(d))
+        self.assertEqual(len(d), 44)
         self.assertTrue(len(d["UT"]), len(self.RC))
         self.assertTrue("WC" in dwc)
         self.assertEqual(3, len(dwc))

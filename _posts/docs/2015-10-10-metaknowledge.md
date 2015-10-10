@@ -59,7 +59,7 @@ The functions provided by metaknowledge are:
 
 Takes in two [`RecordCollections`]({{ site.baseurl }}{% post_url /docs/2015-10-10-RecordCollection %}#RecordCollection) and produces a `dict` counting the citations of the `Records` of _source_ by the `Records` of _target_. By default the `dict` uses `Record` objects as keys but this can be changed with the _sourceType_ keyword to any of the WOS tags.
 
-##### Parameters
+###### Parameters
 
 _source_ : `RecordCollection`
 
@@ -81,7 +81,7 @@ _compareCounts_ : `optional [boo]`
 
  default `False`, if `True` the diffusion analysis will be run twice, first with source and target setup like the default (global scope) then using only the source `RecordCollection` (local scope).
 
-##### Returns
+###### Returns
 
 `dict[:int]`
 
@@ -98,7 +98,7 @@ Takes in two [`RecordCollections`]({{ site.baseurl }}{% post_url /docs/2015-10-1
 
 Each node on the graph has two boolean attributes, `"source"` and `"target"` indicating if they are targets or sources. Note, if the types of the sources and targets are different the attributes will not be checked for overlap of the other type. e.g. if the source type is `'TI'` (title) and the target type is `'UT'` (WOS number), and there is some overlap of the targets and sources. Then the Record corresponding to a source node will not be checked for being one of the titles of the targets, only its WOS number will be considered.
 
-##### Parameters
+###### Parameters
 
 _source_ : `RecordCollection`
 
@@ -116,7 +116,7 @@ _targetType_ : `str`
 
 default `'raw'`, if `'raw'` the returned graph will contain `Records` as target nodes. If it is a WOS tag of the long name of one then the nodes will be of that type.
 
-##### Returns
+###### Returns
 
 `networkx Directed Graph`
 
@@ -171,7 +171,7 @@ ignoreUnweighted can be set False to suppress the KeyError and make unweighted e
 
 Removes the Citations from _citesLst_ that are not journals.
 
-##### Parameters
+###### Parameters
 
 _citesLst_ : `list [Citation]`
 
@@ -181,7 +181,7 @@ _invert_ : `optional [bool]`
 
  Default `False`, if `True` non-journals will be kept istead of journals
 
-##### Returns
+###### Returns
 
 `list [Citation]`
 
@@ -196,7 +196,7 @@ Returns a string or list containing statistics about the graph _G_.
 
 **graphStats()** gives 6 different statistics: number of nodes, number of edges, number of isolates, number of loops, density and transitivity. The ones wanted can be given to _stats_. By default a string giving a sentence containing all the requested statistics is returned but the raw values can be accessed instead by setting _makeString_ to `False`.
 
-##### Parameters
+###### Parameters
 
 _G_ : `networkx Graph`
 
@@ -218,7 +218,7 @@ _makeString_ : `optional [bool]`
 
  Default `True`, if `True` a string is returned if `False` a tuple
 
-##### Returns
+###### Returns
 
 `str or tuple [float and int]`
 
@@ -250,7 +250,7 @@ If the names of the columns do not match those given to **read_graph()** a KeyEr
 
 **Note**: if nodes appear in the edgelist but not the nodeList they will be created with no attributes.
 
-##### Parameters
+###### Parameters
 
 _edgeList_ : `str`
 
@@ -276,7 +276,7 @@ _eDest_ : `optional [str]`
 
  default `"To"`, the name of the destination column in the edge list
 
-##### Returns
+###### Returns
 
 `networkx Graph`
 
@@ -299,13 +299,13 @@ The entry in the returned dict would be `{'AF' : ["BREVIK, I", "ANICIN, B"]}`
 
 [Record]({{ site.baseurl }}{% post_url /docs/2015-10-10-metaknowledge %}#metaknowledge) objects can be created with these dictionaries as the initializer.
 
-##### Parameters
+###### Parameters
 
 _paper_ : `file stream`
 
  An open file, with the current line at the beginning of the record.
 
-##### Returns
+###### Returns
 
 `dict[str : List[str]]`
 
@@ -322,7 +322,7 @@ The edge list has two columns for the source and destination of the edge, "From"
 
 **Note**: If any edges are missing an attribute `KeyError` will be raised.
 
-##### Parameters
+###### Parameters
 
 _grph_ : `networkx Graph`
 
@@ -355,7 +355,7 @@ To read back these files use [read_graph()]({{ site.baseurl }}{% post_url /docs/
 
 **Note**: If any nodes or edges are missing an attribute a `KeyError` will be raised.
 
-##### Parameters
+###### Parameters
 
 _grph_ : `networkx Graph`
 
@@ -392,7 +392,7 @@ The node list has one column call "ID" with the node ids used by networkx and al
 
 **Note**: If any edges are missing an attribute `KeyError` will be raised.
 
-##### Parameters
+###### Parameters
 
 _grph_ : `networkx Graph`
 

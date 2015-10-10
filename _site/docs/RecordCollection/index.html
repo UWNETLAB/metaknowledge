@@ -215,7 +215,7 @@ The comparison operators &lt;, &lt;=, &gt;, &gt;= are based strictly on the numb
 
 <p>Adds a Record or Records to the RecordCollection.</p>
 
-<h5 id="parameters-1">Parameters</h5>
+<h6 id="parameters-1">Parameters</h6>
 
 <p><em>Rec</em> : <code>Record or iterable[Record]</code></p>
 
@@ -227,7 +227,7 @@ The comparison operators &lt;, &lt;=, &gt;, &gt;= are based strictly on the numb
 
 <p>Creates a citation network for the RecordCollection.</p>
 
-<h5 id="parameters-2">Parameters</h5>
+<h6 id="parameters-2">Parameters</h6>
 
 <p><em>nodeType</em> : <code>optional [str]</code></p>
 
@@ -265,7 +265,7 @@ The comparison operators &lt;, &lt;=, &gt;, &gt;= are based strictly on the numb
 
 <p>Determines if the output graph is directed, default <code>True</code></p>
 
-<h5 id="returns">Returns</h5>
+<h6 id="returns">Returns</h6>
 
 <p><code>Networkx DiGraph or Networkx Graph</code></p>
 
@@ -303,7 +303,7 @@ bad, searches for bad citations, keyString is not used</p>
 
 <p>Creates a coauthorship network for the RecordCollection.</p>
 
-<h5 id="returns-1">Returns</h5>
+<h6 id="returns-1">Returns</h6>
 
 <p><code>Networkx Graph</code></p>
 
@@ -315,7 +315,7 @@ bad, searches for bad citations, keyString is not used</p>
 
 <p>Creates a co-citation network for the RecordCollection.</p>
 
-<h5 id="parameters-3">Parameters</h5>
+<h6 id="parameters-3">Parameters</h6>
 
 <p><em>nodeType</em> : <code>optional [str]</code></p>
 
@@ -349,7 +349,7 @@ bad, searches for bad citations, keyString is not used</p>
 
 <p>A string or list of strings that the citations are checked against, if they contain any of the strings they are removed from the network</p>
 
-<h5 id="returns-2">Returns</h5>
+<h6 id="returns-2">Returns</h6>
 
 <p><code>Networkx Graph</code></p>
 
@@ -367,7 +367,7 @@ bad, searches for bad citations, keyString is not used</p>
 
 <p>Drops the non journal type Records from the collection</p>
 
-<h5 id="parameters-4">Parameters</h5>
+<h6 id="parameters-4">Parameters</h6>
 
 <p><em>ptVal</em> : <code>optional [str]</code></p>
 
@@ -387,7 +387,7 @@ bad, searches for bad citations, keyString is not used</p>
 
 <p>Removes the Record with WOS number (ID number) <em>wosNum</em></p>
 
-<h5 id="parameters-5">Parameters</h5>
+<h6 id="parameters-5">Parameters</h6>
 
 <p><em>wosNum</em> : <code>str</code></p>
 
@@ -405,7 +405,7 @@ bad, searches for bad citations, keyString is not used</p>
 
 <p>Gets the Record from the collection by its WOS number.</p>
 
-<h5 id="parameters-6">Parameters</h5>
+<h6 id="parameters-6">Parameters</h6>
 
 <p><em>wosNum</em> : <code>str</code></p>
 
@@ -415,7 +415,7 @@ bad, searches for bad citations, keyString is not used</p>
 
 <p>Default <code>False</code>. If <code>True</code> the Record is dropped from the collection after being extract, i.e. if <code>False</code> <a href="/metaknowledge/docs/RecordCollection#RecordCollection">getWOS()</a> acts like <a href="/metaknowledge/docs/RecordCollection#RecordCollection">peak()</a>, if <code>True</code> it acts like <a href="/metaknowledge/docs/RecordCollection#RecordCollection">pop()</a></p>
 
-<h5 id="returns-3">Returns</h5>
+<h6 id="returns-3">Returns</h6>
 
 <p><code>metaknowledge.Record</code></p>
 
@@ -427,7 +427,7 @@ bad, searches for bad citations, keyString is not used</p>
 
 <p>Returns a dict with all the citations in the CR field as keys and the number of times they occur as the values</p>
 
-<h5 id="parameters-7">Parameters</h5>
+<h6 id="parameters-7">Parameters</h6>
 
 <p><em>pandasFriendly</em> : <code>optional [bool]</code></p>
 
@@ -437,7 +437,7 @@ bad, searches for bad citations, keyString is not used</p>
 
 <p>default <code>'citation'</code>, the type of key to use for the dictionary, the valid strings are <code>"citation"</code>, <code>"journal"</code>, <code>"year"</code> or <code>"author"</code></p>
 
-<h5 id="returns-4">Returns</h5>
+<h6 id="returns-4">Returns</h6>
 
 <p><code>dict[str, int or Citataion : int]</code></p>
 
@@ -457,7 +457,7 @@ bad, searches for bad citations, keyString is not used</p>
 
 <p>When used in pandas: <code>pandas.DataFrame(RC.makeDict())</code> returns a data frame with each column a tag and each row a Record.</p>
 
-<h5 id="parameters-8">Parameters</h5>
+<h6 id="parameters-8">Parameters</h6>
 
 <p>See writeCSV()</p>
 
@@ -473,7 +473,7 @@ bad, searches for bad citations, keyString is not used</p>
 
 <p>The number of times each object occurs is count if <em>nodeCount</em> is <code>True</code> and the edges count the number of co-occurrences if <em>edgeWeight</em> is <code>True</code>. Both are<code>True</code> by default.</p>
 
-<h5 id="parameters-9">Parameters</h5>
+<h6 id="parameters-9">Parameters</h6>
 
 <p><em>mode</em> : <code>str</code></p>
 
@@ -487,7 +487,7 @@ bad, searches for bad citations, keyString is not used</p>
 
 <p>Default <code>True</code>, if <code>True</code> each edge will have an attribute called “weight” that contains an int giving the number of time the two objects co-occurrenced.</p>
 
-<h5 id="returns-5">Returns</h5>
+<h6 id="returns-5">Returns</h6>
 
 <p><code>networkx Graph</code></p>
 
@@ -505,7 +505,7 @@ bad, searches for bad citations, keyString is not used</p>
 
 <p><strong>Note</strong> Do not use this for the construction of co-citation networks use <a href="/metaknowledge/docs/RecordCollection#RecordCollection">Recordcollection.coCiteNetwork()</a> it is more accurate and has more options.</p>
 
-<h5 id="parameters-10">Parameters</h5>
+<h6 id="parameters-10">Parameters</h6>
 
 <p><em>mode</em> : <code>str</code></p>
 
@@ -519,7 +519,7 @@ bad, searches for bad citations, keyString is not used</p>
 
 <p>Default <code>True</code>, if <code>True</code> each edge will have an attribute called “weight” that contains an int giving the number of time the two objects co-occurrenced.</p>
 
-<h5 id="returns-6">Returns</h5>
+<h6 id="returns-6">Returns</h6>
 
 <p><code>networkx Graph</code></p>
 
@@ -549,7 +549,7 @@ bad, searches for bad citations, keyString is not used</p>
 
 <p>The <em>directed</em> parameter if <code>True</code> will cause the network to be directed with the first tag as the source and the second as the destination.</p>
 
-<h5 id="parameters-11">Parameters</h5>
+<h6 id="parameters-11">Parameters</h6>
 
 <p><em>mode</em> : <code>str</code></p>
 
@@ -567,7 +567,7 @@ bad, searches for bad citations, keyString is not used</p>
 
 <p>Default <code>True</code>, if <code>True</code> each edge will have an attribute called “weight” that contains an int giving the number of time the two objects co-occurrenced.</p>
 
-<h5 id="returns-7">Returns</h5>
+<h6 id="returns-7">Returns</h6>
 
 <p><code>networkx Graph or networkx DiGraph</code></p>
 
@@ -623,7 +623,7 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>Creates a RecordCollection of Records from the years between <em>startYear</em> and <em>endYear</em> inclusive.</p>
 
-<h5 id="parameters-12">Parameters</h5>
+<h6 id="parameters-12">Parameters</h6>
 
 <p><em>startYear</em> : <code>int</code></p>
 
@@ -633,7 +633,7 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>The largest year to be included in the retuned RecordCollection</p>
 
-<h5 id="returns-8">Returns</h5>
+<h6 id="returns-8">Returns</h6>
 
 <p><code>RecordCollection</code></p>
 

@@ -199,7 +199,7 @@ Done making a co-citation network of files-from-records                 1.1s
 
 <p>Takes in two <a href="/metaknowledge/docs/RecordCollection#RecordCollection"><code>RecordCollections</code></a> and produces a <code>dict</code> counting the citations of the <code>Records</code> of <em>source</em> by the <code>Records</code> of <em>target</em>. By default the <code>dict</code> uses <code>Record</code> objects as keys but this can be changed with the <em>sourceType</em> keyword to any of the WOS tags.</p>
 
-<h5 id="parameters">Parameters</h5>
+<h6 id="parameters">Parameters</h6>
 
 <p><em>source</em> : <code>RecordCollection</code></p>
 
@@ -221,7 +221,7 @@ Done making a co-citation network of files-from-records                 1.1s
 
 <p>default <code>False</code>, if <code>True</code> the diffusion analysis will be run twice, first with source and target setup like the default (global scope) then using only the source <code>RecordCollection</code> (local scope).</p>
 
-<h5 id="returns">Returns</h5>
+<h6 id="returns">Returns</h6>
 
 <p><code>dict[:int]</code></p>
 
@@ -237,7 +237,7 @@ Done making a co-citation network of files-from-records                 1.1s
 
 <p>Each node on the graph has two boolean attributes, <code>"source"</code> and <code>"target"</code> indicating if they are targets or sources. Note, if the types of the sources and targets are different the attributes will not be checked for overlap of the other type. e.g. if the source type is <code>'TI'</code> (title) and the target type is <code>'UT'</code> (WOS number), and there is some overlap of the targets and sources. Then the Record corresponding to a source node will not be checked for being one of the titles of the targets, only its WOS number will be considered.</p>
 
-<h5 id="parameters-1">Parameters</h5>
+<h6 id="parameters-1">Parameters</h6>
 
 <p><em>source</em> : <code>RecordCollection</code></p>
 
@@ -255,7 +255,7 @@ Done making a co-citation network of files-from-records                 1.1s
 
 <p>default <code>'raw'</code>, if <code>'raw'</code> the returned graph will contain <code>Records</code> as target nodes. If it is a WOS tag of the long name of one then the nodes will be of that type.</p>
 
-<h5 id="returns-1">Returns</h5>
+<h6 id="returns-1">Returns</h6>
 
 <p><code>networkx Directed Graph</code></p>
 
@@ -305,7 +305,7 @@ Done making a co-citation network of files-from-records                 1.1s
 
 <p>Removes the Citations from <em>citesLst</em> that are not journals.</p>
 
-<h5 id="parameters-2">Parameters</h5>
+<h6 id="parameters-2">Parameters</h6>
 
 <p><em>citesLst</em> : <code>list [Citation]</code></p>
 
@@ -315,7 +315,7 @@ Done making a co-citation network of files-from-records                 1.1s
 
 <p>Default <code>False</code>, if <code>True</code> non-journals will be kept istead of journals</p>
 
-<h5 id="returns-2">Returns</h5>
+<h6 id="returns-2">Returns</h6>
 
 <p><code>list [Citation]</code></p>
 
@@ -329,7 +329,7 @@ Done making a co-citation network of files-from-records                 1.1s
 
 <p><strong>graphStats()</strong> gives 6 different statistics: number of nodes, number of edges, number of isolates, number of loops, density and transitivity. The ones wanted can be given to <em>stats</em>. By default a string giving a sentence containing all the requested statistics is returned but the raw values can be accessed instead by setting <em>makeString</em> to <code>False</code>.</p>
 
-<h5 id="parameters-3">Parameters</h5>
+<h6 id="parameters-3">Parameters</h6>
 
 <p><em>G</em> : <code>networkx Graph</code></p>
 
@@ -351,7 +351,7 @@ Done making a co-citation network of files-from-records                 1.1s
 
 <p>Default <code>True</code>, if <code>True</code> a string is returned if <code>False</code> a tuple</p>
 
-<h5 id="returns-3">Returns</h5>
+<h6 id="returns-3">Returns</h6>
 
 <p><code>str or tuple [float and int]</code></p>
 
@@ -380,7 +380,7 @@ Each it finds is used to initialize a Record then all Record are returned as a l
 
 <p><strong>Note</strong>: if nodes appear in the edgelist but not the nodeList they will be created with no attributes.</p>
 
-<h5 id="parameters-4">Parameters</h5>
+<h6 id="parameters-4">Parameters</h6>
 
 <p><em>edgeList</em> : <code>str</code></p>
 
@@ -406,7 +406,7 @@ Each it finds is used to initialize a Record then all Record are returned as a l
 
 <p>default <code>"To"</code>, the name of the destination column in the edge list</p>
 
-<h5 id="returns-4">Returns</h5>
+<h6 id="returns-4">Returns</h6>
 
 <p><code>networkx Graph</code></p>
 
@@ -429,13 +429,13 @@ Each it finds is used to initialize a Record then all Record are returned as a l
 
 <p><a href="/metaknowledge/docs/metaknowledge#metaknowledge">Record</a> objects can be created with these dictionaries as the initializer.</p>
 
-<h5 id="parameters-5">Parameters</h5>
+<h6 id="parameters-5">Parameters</h6>
 
 <p><em>paper</em> : <code>file stream</code></p>
 
 <p>An open file, with the current line at the beginning of the record.</p>
 
-<h5 id="returns-5">Returns</h5>
+<h6 id="returns-5">Returns</h6>
 
 <p><code>dict[str : List[str]]</code></p>
 
@@ -451,7 +451,7 @@ Each it finds is used to initialize a Record then all Record are returned as a l
 
 <p><strong>Note</strong>: If any edges are missing an attribute <code>KeyError</code> will be raised.</p>
 
-<h5 id="parameters-6">Parameters</h5>
+<h6 id="parameters-6">Parameters</h6>
 
 <p><em>grph</em> : <code>networkx Graph</code></p>
 
@@ -485,7 +485,7 @@ Each it finds is used to initialize a Record then all Record are returned as a l
 
 <p><strong>Note</strong>: If any nodes or edges are missing an attribute a <code>KeyError</code> will be raised.</p>
 
-<h5 id="parameters-7">Parameters</h5>
+<h6 id="parameters-7">Parameters</h6>
 
 <p><em>grph</em> : <code>networkx Graph</code></p>
 
@@ -521,7 +521,7 @@ Each it finds is used to initialize a Record then all Record are returned as a l
 
 <p><strong>Note</strong>: If any edges are missing an attribute <code>KeyError</code> will be raised.</p>
 
-<h5 id="parameters-8">Parameters</h5>
+<h6 id="parameters-8">Parameters</h6>
 
 <p><em>grph</em> : <code>networkx Graph</code></p>
 

@@ -74,7 +74,7 @@ The RecordCollection class has the following methods:
 
 Adds a Record or Records to the RecordCollection.
 
-##### Parameters
+###### Parameters
 
 _Rec_ : `Record or iterable[Record]`
 
@@ -87,7 +87,7 @@ _Rec_ : `Record or iterable[Record]`
 
 Creates a citation network for the RecordCollection.
 
-##### Parameters
+###### Parameters
 
 _nodeType_ : `optional [str]`
 
@@ -125,7 +125,7 @@ _directed_ : `optional [bool]`
 
  Determines if the output graph is directed, default `True`
 
-##### Returns
+###### Returns
 
 `Networkx DiGraph or Networkx Graph`
 
@@ -165,7 +165,7 @@ caseSensitive if True causes the search across the original to be case sensitive
 
 Creates a coauthorship network for the RecordCollection.
 
-##### Returns
+###### Returns
 
 `Networkx Graph`
 
@@ -178,7 +178,7 @@ Creates a coauthorship network for the RecordCollection.
 
 Creates a co-citation network for the RecordCollection.
 
-##### Parameters
+###### Parameters
 
 _nodeType_ : `optional [str]`
 
@@ -212,7 +212,7 @@ _keyWords_ : `optional [str] or [list[str]]`
 
  A string or list of strings that the citations are checked against, if they contain any of the strings they are removed from the network
 
-##### Returns
+###### Returns
 
 `Networkx Graph`
 
@@ -232,7 +232,7 @@ Removes all Records with bad attributes == True from the collection
 
 Drops the non journal type Records from the collection
 
-##### Parameters
+###### Parameters
 
 _ptVal_ : `optional [str]`
 
@@ -253,7 +253,7 @@ _invert_ : `optional [bool]`
 
 Removes the Record with WOS number (ID number) _wosNum_
 
-##### Parameters
+###### Parameters
 
 _wosNum_ : `str`
 
@@ -273,7 +273,7 @@ returns RecordCollection containing all the Record which have their bad flag set
 
 Gets the Record from the collection by its WOS number.
 
-##### Parameters
+###### Parameters
 
 _wosNum_ : `str`
 
@@ -283,7 +283,7 @@ _drop_ : `optional [bool]`
 
  Default `False`. If `True` the Record is dropped from the collection after being extract, i.e. if `False` [getWOS()]({{ site.baseurl }}{% post_url /docs/2015-10-10-RecordCollection %}#RecordCollection) acts like [peak()]({{ site.baseurl }}{% post_url /docs/2015-10-10-RecordCollection %}#RecordCollection), if `True` it acts like [pop()]({{ site.baseurl }}{% post_url /docs/2015-10-10-RecordCollection %}#RecordCollection)
 
-##### Returns
+###### Returns
 
 `metaknowledge.Record`
 
@@ -296,7 +296,7 @@ _drop_ : `optional [bool]`
 
 Returns a dict with all the citations in the CR field as keys and the number of times they occur as the values
 
-##### Parameters
+###### Parameters
 
 _pandasFriendly_ : `optional [bool]`
 
@@ -306,7 +306,7 @@ _keyType_ : `optional [str]`
 
  default `'citation'`, the type of key to use for the dictionary, the valid strings are `"citation"`, `"journal"`, `"year"` or `"author"`
 
-##### Returns
+###### Returns
 
 `dict[str, int or Citataion : int]`
 
@@ -329,7 +329,7 @@ Returns a dict with each key a tag and the values being lists of the values for 
 
 When used in pandas: `pandas.DataFrame(RC.makeDict())` returns a data frame with each column a tag and each row a Record.
 
-##### Parameters
+###### Parameters
 
 See writeCSV()
 
@@ -346,7 +346,7 @@ For example if _tags_ was set to `['CR', 'UT', 'LA']`, a three mode network woul
 
 The number of times each object occurs is count if _nodeCount_ is `True` and the edges count the number of co-occurrences if _edgeWeight_ is `True`. Both are`True` by default.
 
-##### Parameters
+###### Parameters
 
 _mode_ : `str`
 
@@ -360,7 +360,7 @@ _edgeWeight_ : `optional [bool]`
 
  Default `True`, if `True` each edge will have an attribute called "weight" that contains an int giving the number of time the two objects co-occurrenced.
 
-##### Returns
+###### Returns
 
 `networkx Graph`
 
@@ -379,7 +379,7 @@ The number of times each object occurs is count if _nodeCount_ is `True` and the
 
 **Note** Do not use this for the construction of co-citation networks use [Recordcollection.coCiteNetwork()]({{ site.baseurl }}{% post_url /docs/2015-10-10-RecordCollection %}#RecordCollection) it is more accurate and has more options.
 
-##### Parameters
+###### Parameters
 
 _mode_ : `str`
 
@@ -393,7 +393,7 @@ _edgeWeight_ : `optional [bool]`
 
  Default `True`, if `True` each edge will have an attribute called "weight" that contains an int giving the number of time the two objects co-occurrenced.
 
-##### Returns
+###### Returns
 
 `networkx Graph`
 
@@ -426,7 +426,7 @@ The number of times each object occurs is count if _nodeCount_ is `True` and the
 
 The _directed_ parameter if `True` will cause the network to be directed with the first tag as the source and the second as the destination.
 
-##### Parameters
+###### Parameters
 
 _mode_ : `str`
 
@@ -444,7 +444,7 @@ _edgeWeight_ : `optional [bool]`
 
  Default `True`, if `True` each edge will have an attribute called "weight" that contains an int giving the number of time the two objects co-occurrenced.
 
-##### Returns
+###### Returns
 
 `networkx Graph or networkx DiGraph`
 
@@ -489,7 +489,7 @@ fname set the name of the file, if blank the RecordCollection's name's first 200
 
 Creates a RecordCollection of Records from the years between _startYear_ and _endYear_ inclusive.
 
-##### Parameters
+###### Parameters
 
 _startYear_ : `int`
 
@@ -499,7 +499,7 @@ _endYear_ : `int`
 
  The largest year to be included in the retuned RecordCollection
 
-##### Returns
+###### Returns
 
 `RecordCollection`
 

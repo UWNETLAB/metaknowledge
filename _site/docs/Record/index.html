@@ -209,7 +209,7 @@
 
 <p>Returns a list of all the tags the original WOS record had. These are all the tags that <a href="/metaknowledge/docs/Record#Record">‘getTag()’</a> will not return <code>None</code> for.</p>
 
-<h5 id="returns">Returns</h5>
+<h6 id="returns">Returns</h6>
 
 <p><code>List[str]</code></p>
 
@@ -221,7 +221,7 @@
 
 <p>Creates a citation string, using the same format as other WOS citations, for the <a href="/metaknowledge/docs/Record#Record">Record</a> by reading the relevant tags (year, J9, volume, beginningPage, DOI) and using it to start a <a href="/metaknowledge/docs/Citation#Citation">Citation</a> object.</p>
 
-<h5 id="returns-1">Returns</h5>
+<h6 id="returns-1">Returns</h6>
 
 <p><code>Citation</code></p>
 
@@ -233,13 +233,13 @@
 
 <p>Returns a list containing the raw data of the record associated with <em>tag</em>. Each line of the record is one string in the list.</p>
 
-<h5 id="parameters-1">Parameters</h5>
+<h6 id="parameters-1">Parameters</h6>
 
 <p><em>tag</em> : <code>str</code></p>
 
 <p><em>tag</em> can be a two character string corresponding to a WOS tag e.g. ‘J9’, the matching is case insensitive so ‘j9’ is the same as ‘J9’. Or it can be one of the full names for a tag with the mappings in <a href="#metaknowledge">fullToTag</a>. If the string is not found in the original record or after being translated through <a href="#metaknowledge">fullToTag</a>, <code>None</code> is returned.</p>
 
-<h5 id="returns-2">Returns</h5>
+<h6 id="returns-2">Returns</h6>
 
 <p><code>List [str]</code></p>
 
@@ -251,12 +251,12 @@
 
 <p>returns a dict of the results of getTag, with the elements of <em>taglst</em> as the keys and the results as the values.</p>
 
-<h5 id="parameters-2">Parameters</h5>
+<h6 id="parameters-2">Parameters</h6>
 <p><em>taglst</em> : <code>List[str]</code></p>
 
 <p>Each string in <em>taglst</em> can be a two character string corresponding to a WOS tag e.g. ‘J9’, the matching is case insensitive so ‘j9’ is the same as ‘J9’. Or it can be one of the full names for a tag with the mappings in <a href="/metaknowledge/docs/metaknowledge#metaknowledge">fullToTag</a>. If the string is not found in the oriagnal record before or after being translated through <a href="#metaknowledge">fullToTag</a>, <code>None</code> is used instead. Same as in <a href="/metaknowledge/docs/Record#Record"><code>getTag()</code></a></p>
 
-<h5 id="returns-3">Returns</h5>
+<h6 id="returns-3">Returns</h6>
 
 <p><code>dict[str : List [str]]</code></p>
 
@@ -268,14 +268,14 @@
 
 <p>Returns a list of the results of <a href="/metaknowledge/docs/Record#Record"><code>getTag()</code></a> for each tag in <em>taglist</em>, the return has the same order as the original.</p>
 
-<h5 id="parameters-3">Parameters</h5>
+<h6 id="parameters-3">Parameters</h6>
 <p><em>taglst</em> : <code>List[str]</code></p>
 
 <p>Each string in <em>taglst</em> can be a two character string corresponding to a WOS tag e.g. ‘J9’, the matching is case insensitive so ‘j9’ is the same as ‘J9’. Or it can be one of the full names for a tag with the mappings in <a href="/metaknowledge/docs/metaknowledge#metaknowledge">fullToTag</a>. If the string is not found in the original record before or after being translated through <a href="/metaknowledge/docs/metaknowledge#metaknowledge">fullToTag</a>, <code>None</code> is used instead. Same as in <a href="/metaknowledge/docs/Record#Record"><code>getTag()</code></a></p>
 
 <p>Then they are compiled into a list in the same order as <em>taglst</em></p>
 
-<h5 id="returns-4">Returns</h5>
+<h6 id="returns-4">Returns</h6>
 
 <p><code>List[str]</code></p>
 
@@ -287,7 +287,7 @@
 
 <p>Writes to <em>infile</em> the original contents of the Record. This is intended for use by <a href="/metaknowledge/docs/RecordCollection#RecordCollection">RecordCollections</a> to write to file. What is written to <em>infile</em> is bit for bit identical to the original record file. No newline is inserted above the write but the last character is a newline.</p>
 
-<h5 id="parameters-4">Parameters</h5>
+<h6 id="parameters-4">Parameters</h6>
 
 <p><em>infile</em> : <code>file stream</code></p>
 

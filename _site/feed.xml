@@ -4,7 +4,7 @@
 <generator uri="https://github.com/jekyll/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="http://networkslab.org/feed.xml" />
 <link rel="alternate" type="text/html" href="http://networkslab.org" />
-<updated>2015-10-10T17:32:12+06:30</updated>
+<updated>2015-10-10T17:55:09+06:30</updated>
 <id>http://networkslab.org/</id>
 <author>
   <name>John McLevey and Reid McIlroy-Young</name>
@@ -1678,7 +1678,7 @@ Done making a co-citation network of files-from-records                 1.1s
 
 &lt;p&gt;Takes in two &lt;a href=&quot;/metaknowledge/docs/RecordCollection#RecordCollection&quot;&gt;&lt;code&gt;RecordCollections&lt;/code&gt;&lt;/a&gt; and produces a &lt;code&gt;dict&lt;/code&gt; counting the citations of the &lt;code&gt;Records&lt;/code&gt; of &lt;em&gt;source&lt;/em&gt; by the &lt;code&gt;Records&lt;/code&gt; of &lt;em&gt;target&lt;/em&gt;. By default the &lt;code&gt;dict&lt;/code&gt; uses &lt;code&gt;Record&lt;/code&gt; objects as keys but this can be changed with the &lt;em&gt;sourceType&lt;/em&gt; keyword to any of the WOS tags.&lt;/p&gt;
 
-&lt;h5 id=&quot;parameters&quot;&gt;Parameters&lt;/h5&gt;
+&lt;h6 id=&quot;parameters&quot;&gt;Parameters&lt;/h6&gt;
 
 &lt;p&gt;&lt;em&gt;source&lt;/em&gt; : &lt;code&gt;RecordCollection&lt;/code&gt;&lt;/p&gt;
 
@@ -1700,7 +1700,7 @@ Done making a co-citation network of files-from-records                 1.1s
 
 &lt;p&gt;default &lt;code&gt;False&lt;/code&gt;, if &lt;code&gt;True&lt;/code&gt; the diffusion analysis will be run twice, first with source and target setup like the default (global scope) then using only the source &lt;code&gt;RecordCollection&lt;/code&gt; (local scope).&lt;/p&gt;
 
-&lt;h5 id=&quot;returns&quot;&gt;Returns&lt;/h5&gt;
+&lt;h6 id=&quot;returns&quot;&gt;Returns&lt;/h6&gt;
 
 &lt;p&gt;&lt;code&gt;dict[:int]&lt;/code&gt;&lt;/p&gt;
 
@@ -1716,7 +1716,7 @@ Done making a co-citation network of files-from-records                 1.1s
 
 &lt;p&gt;Each node on the graph has two boolean attributes, &lt;code&gt;&quot;source&quot;&lt;/code&gt; and &lt;code&gt;&quot;target&quot;&lt;/code&gt; indicating if they are targets or sources. Note, if the types of the sources and targets are different the attributes will not be checked for overlap of the other type. e.g. if the source type is &lt;code&gt;&#39;TI&#39;&lt;/code&gt; (title) and the target type is &lt;code&gt;&#39;UT&#39;&lt;/code&gt; (WOS number), and there is some overlap of the targets and sources. Then the Record corresponding to a source node will not be checked for being one of the titles of the targets, only its WOS number will be considered.&lt;/p&gt;
 
-&lt;h5 id=&quot;parameters-1&quot;&gt;Parameters&lt;/h5&gt;
+&lt;h6 id=&quot;parameters-1&quot;&gt;Parameters&lt;/h6&gt;
 
 &lt;p&gt;&lt;em&gt;source&lt;/em&gt; : &lt;code&gt;RecordCollection&lt;/code&gt;&lt;/p&gt;
 
@@ -1734,7 +1734,7 @@ Done making a co-citation network of files-from-records                 1.1s
 
 &lt;p&gt;default &lt;code&gt;&#39;raw&#39;&lt;/code&gt;, if &lt;code&gt;&#39;raw&#39;&lt;/code&gt; the returned graph will contain &lt;code&gt;Records&lt;/code&gt; as target nodes. If it is a WOS tag of the long name of one then the nodes will be of that type.&lt;/p&gt;
 
-&lt;h5 id=&quot;returns-1&quot;&gt;Returns&lt;/h5&gt;
+&lt;h6 id=&quot;returns-1&quot;&gt;Returns&lt;/h6&gt;
 
 &lt;p&gt;&lt;code&gt;networkx Directed Graph&lt;/code&gt;&lt;/p&gt;
 
@@ -1784,7 +1784,7 @@ Done making a co-citation network of files-from-records                 1.1s
 
 &lt;p&gt;Removes the Citations from &lt;em&gt;citesLst&lt;/em&gt; that are not journals.&lt;/p&gt;
 
-&lt;h5 id=&quot;parameters-2&quot;&gt;Parameters&lt;/h5&gt;
+&lt;h6 id=&quot;parameters-2&quot;&gt;Parameters&lt;/h6&gt;
 
 &lt;p&gt;&lt;em&gt;citesLst&lt;/em&gt; : &lt;code&gt;list [Citation]&lt;/code&gt;&lt;/p&gt;
 
@@ -1794,7 +1794,7 @@ Done making a co-citation network of files-from-records                 1.1s
 
 &lt;p&gt;Default &lt;code&gt;False&lt;/code&gt;, if &lt;code&gt;True&lt;/code&gt; non-journals will be kept istead of journals&lt;/p&gt;
 
-&lt;h5 id=&quot;returns-2&quot;&gt;Returns&lt;/h5&gt;
+&lt;h6 id=&quot;returns-2&quot;&gt;Returns&lt;/h6&gt;
 
 &lt;p&gt;&lt;code&gt;list [Citation]&lt;/code&gt;&lt;/p&gt;
 
@@ -1808,7 +1808,7 @@ Done making a co-citation network of files-from-records                 1.1s
 
 &lt;p&gt;&lt;strong&gt;graphStats()&lt;/strong&gt; gives 6 different statistics: number of nodes, number of edges, number of isolates, number of loops, density and transitivity. The ones wanted can be given to &lt;em&gt;stats&lt;/em&gt;. By default a string giving a sentence containing all the requested statistics is returned but the raw values can be accessed instead by setting &lt;em&gt;makeString&lt;/em&gt; to &lt;code&gt;False&lt;/code&gt;.&lt;/p&gt;
 
-&lt;h5 id=&quot;parameters-3&quot;&gt;Parameters&lt;/h5&gt;
+&lt;h6 id=&quot;parameters-3&quot;&gt;Parameters&lt;/h6&gt;
 
 &lt;p&gt;&lt;em&gt;G&lt;/em&gt; : &lt;code&gt;networkx Graph&lt;/code&gt;&lt;/p&gt;
 
@@ -1830,7 +1830,7 @@ Done making a co-citation network of files-from-records                 1.1s
 
 &lt;p&gt;Default &lt;code&gt;True&lt;/code&gt;, if &lt;code&gt;True&lt;/code&gt; a string is returned if &lt;code&gt;False&lt;/code&gt; a tuple&lt;/p&gt;
 
-&lt;h5 id=&quot;returns-3&quot;&gt;Returns&lt;/h5&gt;
+&lt;h6 id=&quot;returns-3&quot;&gt;Returns&lt;/h6&gt;
 
 &lt;p&gt;&lt;code&gt;str or tuple [float and int]&lt;/code&gt;&lt;/p&gt;
 
@@ -1859,7 +1859,7 @@ Each it finds is used to initialize a Record then all Record are returned as a l
 
 &lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: if nodes appear in the edgelist but not the nodeList they will be created with no attributes.&lt;/p&gt;
 
-&lt;h5 id=&quot;parameters-4&quot;&gt;Parameters&lt;/h5&gt;
+&lt;h6 id=&quot;parameters-4&quot;&gt;Parameters&lt;/h6&gt;
 
 &lt;p&gt;&lt;em&gt;edgeList&lt;/em&gt; : &lt;code&gt;str&lt;/code&gt;&lt;/p&gt;
 
@@ -1885,7 +1885,7 @@ Each it finds is used to initialize a Record then all Record are returned as a l
 
 &lt;p&gt;default &lt;code&gt;&quot;To&quot;&lt;/code&gt;, the name of the destination column in the edge list&lt;/p&gt;
 
-&lt;h5 id=&quot;returns-4&quot;&gt;Returns&lt;/h5&gt;
+&lt;h6 id=&quot;returns-4&quot;&gt;Returns&lt;/h6&gt;
 
 &lt;p&gt;&lt;code&gt;networkx Graph&lt;/code&gt;&lt;/p&gt;
 
@@ -1908,13 +1908,13 @@ Each it finds is used to initialize a Record then all Record are returned as a l
 
 &lt;p&gt;&lt;a href=&quot;/metaknowledge/docs/metaknowledge#metaknowledge&quot;&gt;Record&lt;/a&gt; objects can be created with these dictionaries as the initializer.&lt;/p&gt;
 
-&lt;h5 id=&quot;parameters-5&quot;&gt;Parameters&lt;/h5&gt;
+&lt;h6 id=&quot;parameters-5&quot;&gt;Parameters&lt;/h6&gt;
 
 &lt;p&gt;&lt;em&gt;paper&lt;/em&gt; : &lt;code&gt;file stream&lt;/code&gt;&lt;/p&gt;
 
 &lt;p&gt;An open file, with the current line at the beginning of the record.&lt;/p&gt;
 
-&lt;h5 id=&quot;returns-5&quot;&gt;Returns&lt;/h5&gt;
+&lt;h6 id=&quot;returns-5&quot;&gt;Returns&lt;/h6&gt;
 
 &lt;p&gt;&lt;code&gt;dict[str : List[str]]&lt;/code&gt;&lt;/p&gt;
 
@@ -1930,7 +1930,7 @@ Each it finds is used to initialize a Record then all Record are returned as a l
 
 &lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: If any edges are missing an attribute &lt;code&gt;KeyError&lt;/code&gt; will be raised.&lt;/p&gt;
 
-&lt;h5 id=&quot;parameters-6&quot;&gt;Parameters&lt;/h5&gt;
+&lt;h6 id=&quot;parameters-6&quot;&gt;Parameters&lt;/h6&gt;
 
 &lt;p&gt;&lt;em&gt;grph&lt;/em&gt; : &lt;code&gt;networkx Graph&lt;/code&gt;&lt;/p&gt;
 
@@ -1964,7 +1964,7 @@ Each it finds is used to initialize a Record then all Record are returned as a l
 
 &lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: If any nodes or edges are missing an attribute a &lt;code&gt;KeyError&lt;/code&gt; will be raised.&lt;/p&gt;
 
-&lt;h5 id=&quot;parameters-7&quot;&gt;Parameters&lt;/h5&gt;
+&lt;h6 id=&quot;parameters-7&quot;&gt;Parameters&lt;/h6&gt;
 
 &lt;p&gt;&lt;em&gt;grph&lt;/em&gt; : &lt;code&gt;networkx Graph&lt;/code&gt;&lt;/p&gt;
 
@@ -2000,7 +2000,7 @@ Each it finds is used to initialize a Record then all Record are returned as a l
 
 &lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: If any edges are missing an attribute &lt;code&gt;KeyError&lt;/code&gt; will be raised.&lt;/p&gt;
 
-&lt;h5 id=&quot;parameters-8&quot;&gt;Parameters&lt;/h5&gt;
+&lt;h6 id=&quot;parameters-8&quot;&gt;Parameters&lt;/h6&gt;
 
 &lt;p&gt;&lt;em&gt;grph&lt;/em&gt; : &lt;code&gt;networkx Graph&lt;/code&gt;&lt;/p&gt;
 
@@ -2248,7 +2248,7 @@ The comparison operators &amp;lt;, &amp;lt;=, &amp;gt;, &amp;gt;= are based stri
 
 &lt;p&gt;Adds a Record or Records to the RecordCollection.&lt;/p&gt;
 
-&lt;h5 id=&quot;parameters-1&quot;&gt;Parameters&lt;/h5&gt;
+&lt;h6 id=&quot;parameters-1&quot;&gt;Parameters&lt;/h6&gt;
 
 &lt;p&gt;&lt;em&gt;Rec&lt;/em&gt; : &lt;code&gt;Record or iterable[Record]&lt;/code&gt;&lt;/p&gt;
 
@@ -2260,7 +2260,7 @@ The comparison operators &amp;lt;, &amp;lt;=, &amp;gt;, &amp;gt;= are based stri
 
 &lt;p&gt;Creates a citation network for the RecordCollection.&lt;/p&gt;
 
-&lt;h5 id=&quot;parameters-2&quot;&gt;Parameters&lt;/h5&gt;
+&lt;h6 id=&quot;parameters-2&quot;&gt;Parameters&lt;/h6&gt;
 
 &lt;p&gt;&lt;em&gt;nodeType&lt;/em&gt; : &lt;code&gt;optional [str]&lt;/code&gt;&lt;/p&gt;
 
@@ -2298,7 +2298,7 @@ The comparison operators &amp;lt;, &amp;lt;=, &amp;gt;, &amp;gt;= are based stri
 
 &lt;p&gt;Determines if the output graph is directed, default &lt;code&gt;True&lt;/code&gt;&lt;/p&gt;
 
-&lt;h5 id=&quot;returns&quot;&gt;Returns&lt;/h5&gt;
+&lt;h6 id=&quot;returns&quot;&gt;Returns&lt;/h6&gt;
 
 &lt;p&gt;&lt;code&gt;Networkx DiGraph or Networkx Graph&lt;/code&gt;&lt;/p&gt;
 
@@ -2336,7 +2336,7 @@ bad, searches for bad citations, keyString is not used&lt;/p&gt;
 
 &lt;p&gt;Creates a coauthorship network for the RecordCollection.&lt;/p&gt;
 
-&lt;h5 id=&quot;returns-1&quot;&gt;Returns&lt;/h5&gt;
+&lt;h6 id=&quot;returns-1&quot;&gt;Returns&lt;/h6&gt;
 
 &lt;p&gt;&lt;code&gt;Networkx Graph&lt;/code&gt;&lt;/p&gt;
 
@@ -2348,7 +2348,7 @@ bad, searches for bad citations, keyString is not used&lt;/p&gt;
 
 &lt;p&gt;Creates a co-citation network for the RecordCollection.&lt;/p&gt;
 
-&lt;h5 id=&quot;parameters-3&quot;&gt;Parameters&lt;/h5&gt;
+&lt;h6 id=&quot;parameters-3&quot;&gt;Parameters&lt;/h6&gt;
 
 &lt;p&gt;&lt;em&gt;nodeType&lt;/em&gt; : &lt;code&gt;optional [str]&lt;/code&gt;&lt;/p&gt;
 
@@ -2382,7 +2382,7 @@ bad, searches for bad citations, keyString is not used&lt;/p&gt;
 
 &lt;p&gt;A string or list of strings that the citations are checked against, if they contain any of the strings they are removed from the network&lt;/p&gt;
 
-&lt;h5 id=&quot;returns-2&quot;&gt;Returns&lt;/h5&gt;
+&lt;h6 id=&quot;returns-2&quot;&gt;Returns&lt;/h6&gt;
 
 &lt;p&gt;&lt;code&gt;Networkx Graph&lt;/code&gt;&lt;/p&gt;
 
@@ -2400,7 +2400,7 @@ bad, searches for bad citations, keyString is not used&lt;/p&gt;
 
 &lt;p&gt;Drops the non journal type Records from the collection&lt;/p&gt;
 
-&lt;h5 id=&quot;parameters-4&quot;&gt;Parameters&lt;/h5&gt;
+&lt;h6 id=&quot;parameters-4&quot;&gt;Parameters&lt;/h6&gt;
 
 &lt;p&gt;&lt;em&gt;ptVal&lt;/em&gt; : &lt;code&gt;optional [str]&lt;/code&gt;&lt;/p&gt;
 
@@ -2420,7 +2420,7 @@ bad, searches for bad citations, keyString is not used&lt;/p&gt;
 
 &lt;p&gt;Removes the Record with WOS number (ID number) &lt;em&gt;wosNum&lt;/em&gt;&lt;/p&gt;
 
-&lt;h5 id=&quot;parameters-5&quot;&gt;Parameters&lt;/h5&gt;
+&lt;h6 id=&quot;parameters-5&quot;&gt;Parameters&lt;/h6&gt;
 
 &lt;p&gt;&lt;em&gt;wosNum&lt;/em&gt; : &lt;code&gt;str&lt;/code&gt;&lt;/p&gt;
 
@@ -2438,7 +2438,7 @@ bad, searches for bad citations, keyString is not used&lt;/p&gt;
 
 &lt;p&gt;Gets the Record from the collection by its WOS number.&lt;/p&gt;
 
-&lt;h5 id=&quot;parameters-6&quot;&gt;Parameters&lt;/h5&gt;
+&lt;h6 id=&quot;parameters-6&quot;&gt;Parameters&lt;/h6&gt;
 
 &lt;p&gt;&lt;em&gt;wosNum&lt;/em&gt; : &lt;code&gt;str&lt;/code&gt;&lt;/p&gt;
 
@@ -2448,7 +2448,7 @@ bad, searches for bad citations, keyString is not used&lt;/p&gt;
 
 &lt;p&gt;Default &lt;code&gt;False&lt;/code&gt;. If &lt;code&gt;True&lt;/code&gt; the Record is dropped from the collection after being extract, i.e. if &lt;code&gt;False&lt;/code&gt; &lt;a href=&quot;/metaknowledge/docs/RecordCollection#RecordCollection&quot;&gt;getWOS()&lt;/a&gt; acts like &lt;a href=&quot;/metaknowledge/docs/RecordCollection#RecordCollection&quot;&gt;peak()&lt;/a&gt;, if &lt;code&gt;True&lt;/code&gt; it acts like &lt;a href=&quot;/metaknowledge/docs/RecordCollection#RecordCollection&quot;&gt;pop()&lt;/a&gt;&lt;/p&gt;
 
-&lt;h5 id=&quot;returns-3&quot;&gt;Returns&lt;/h5&gt;
+&lt;h6 id=&quot;returns-3&quot;&gt;Returns&lt;/h6&gt;
 
 &lt;p&gt;&lt;code&gt;metaknowledge.Record&lt;/code&gt;&lt;/p&gt;
 
@@ -2460,7 +2460,7 @@ bad, searches for bad citations, keyString is not used&lt;/p&gt;
 
 &lt;p&gt;Returns a dict with all the citations in the CR field as keys and the number of times they occur as the values&lt;/p&gt;
 
-&lt;h5 id=&quot;parameters-7&quot;&gt;Parameters&lt;/h5&gt;
+&lt;h6 id=&quot;parameters-7&quot;&gt;Parameters&lt;/h6&gt;
 
 &lt;p&gt;&lt;em&gt;pandasFriendly&lt;/em&gt; : &lt;code&gt;optional [bool]&lt;/code&gt;&lt;/p&gt;
 
@@ -2470,7 +2470,7 @@ bad, searches for bad citations, keyString is not used&lt;/p&gt;
 
 &lt;p&gt;default &lt;code&gt;&#39;citation&#39;&lt;/code&gt;, the type of key to use for the dictionary, the valid strings are &lt;code&gt;&quot;citation&quot;&lt;/code&gt;, &lt;code&gt;&quot;journal&quot;&lt;/code&gt;, &lt;code&gt;&quot;year&quot;&lt;/code&gt; or &lt;code&gt;&quot;author&quot;&lt;/code&gt;&lt;/p&gt;
 
-&lt;h5 id=&quot;returns-4&quot;&gt;Returns&lt;/h5&gt;
+&lt;h6 id=&quot;returns-4&quot;&gt;Returns&lt;/h6&gt;
 
 &lt;p&gt;&lt;code&gt;dict[str, int or Citataion : int]&lt;/code&gt;&lt;/p&gt;
 
@@ -2490,7 +2490,7 @@ bad, searches for bad citations, keyString is not used&lt;/p&gt;
 
 &lt;p&gt;When used in pandas: &lt;code&gt;pandas.DataFrame(RC.makeDict())&lt;/code&gt; returns a data frame with each column a tag and each row a Record.&lt;/p&gt;
 
-&lt;h5 id=&quot;parameters-8&quot;&gt;Parameters&lt;/h5&gt;
+&lt;h6 id=&quot;parameters-8&quot;&gt;Parameters&lt;/h6&gt;
 
 &lt;p&gt;See writeCSV()&lt;/p&gt;
 
@@ -2506,7 +2506,7 @@ bad, searches for bad citations, keyString is not used&lt;/p&gt;
 
 &lt;p&gt;The number of times each object occurs is count if &lt;em&gt;nodeCount&lt;/em&gt; is &lt;code&gt;True&lt;/code&gt; and the edges count the number of co-occurrences if &lt;em&gt;edgeWeight&lt;/em&gt; is &lt;code&gt;True&lt;/code&gt;. Both are&lt;code&gt;True&lt;/code&gt; by default.&lt;/p&gt;
 
-&lt;h5 id=&quot;parameters-9&quot;&gt;Parameters&lt;/h5&gt;
+&lt;h6 id=&quot;parameters-9&quot;&gt;Parameters&lt;/h6&gt;
 
 &lt;p&gt;&lt;em&gt;mode&lt;/em&gt; : &lt;code&gt;str&lt;/code&gt;&lt;/p&gt;
 
@@ -2520,7 +2520,7 @@ bad, searches for bad citations, keyString is not used&lt;/p&gt;
 
 &lt;p&gt;Default &lt;code&gt;True&lt;/code&gt;, if &lt;code&gt;True&lt;/code&gt; each edge will have an attribute called “weight” that contains an int giving the number of time the two objects co-occurrenced.&lt;/p&gt;
 
-&lt;h5 id=&quot;returns-5&quot;&gt;Returns&lt;/h5&gt;
+&lt;h6 id=&quot;returns-5&quot;&gt;Returns&lt;/h6&gt;
 
 &lt;p&gt;&lt;code&gt;networkx Graph&lt;/code&gt;&lt;/p&gt;
 
@@ -2538,7 +2538,7 @@ bad, searches for bad citations, keyString is not used&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt; Do not use this for the construction of co-citation networks use &lt;a href=&quot;/metaknowledge/docs/RecordCollection#RecordCollection&quot;&gt;Recordcollection.coCiteNetwork()&lt;/a&gt; it is more accurate and has more options.&lt;/p&gt;
 
-&lt;h5 id=&quot;parameters-10&quot;&gt;Parameters&lt;/h5&gt;
+&lt;h6 id=&quot;parameters-10&quot;&gt;Parameters&lt;/h6&gt;
 
 &lt;p&gt;&lt;em&gt;mode&lt;/em&gt; : &lt;code&gt;str&lt;/code&gt;&lt;/p&gt;
 
@@ -2552,7 +2552,7 @@ bad, searches for bad citations, keyString is not used&lt;/p&gt;
 
 &lt;p&gt;Default &lt;code&gt;True&lt;/code&gt;, if &lt;code&gt;True&lt;/code&gt; each edge will have an attribute called “weight” that contains an int giving the number of time the two objects co-occurrenced.&lt;/p&gt;
 
-&lt;h5 id=&quot;returns-6&quot;&gt;Returns&lt;/h5&gt;
+&lt;h6 id=&quot;returns-6&quot;&gt;Returns&lt;/h6&gt;
 
 &lt;p&gt;&lt;code&gt;networkx Graph&lt;/code&gt;&lt;/p&gt;
 
@@ -2582,7 +2582,7 @@ bad, searches for bad citations, keyString is not used&lt;/p&gt;
 
 &lt;p&gt;The &lt;em&gt;directed&lt;/em&gt; parameter if &lt;code&gt;True&lt;/code&gt; will cause the network to be directed with the first tag as the source and the second as the destination.&lt;/p&gt;
 
-&lt;h5 id=&quot;parameters-11&quot;&gt;Parameters&lt;/h5&gt;
+&lt;h6 id=&quot;parameters-11&quot;&gt;Parameters&lt;/h6&gt;
 
 &lt;p&gt;&lt;em&gt;mode&lt;/em&gt; : &lt;code&gt;str&lt;/code&gt;&lt;/p&gt;
 
@@ -2600,7 +2600,7 @@ bad, searches for bad citations, keyString is not used&lt;/p&gt;
 
 &lt;p&gt;Default &lt;code&gt;True&lt;/code&gt;, if &lt;code&gt;True&lt;/code&gt; each edge will have an attribute called “weight” that contains an int giving the number of time the two objects co-occurrenced.&lt;/p&gt;
 
-&lt;h5 id=&quot;returns-7&quot;&gt;Returns&lt;/h5&gt;
+&lt;h6 id=&quot;returns-7&quot;&gt;Returns&lt;/h6&gt;
 
 &lt;p&gt;&lt;code&gt;networkx Graph or networkx DiGraph&lt;/code&gt;&lt;/p&gt;
 
@@ -2656,7 +2656,7 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 &lt;p&gt;Creates a RecordCollection of Records from the years between &lt;em&gt;startYear&lt;/em&gt; and &lt;em&gt;endYear&lt;/em&gt; inclusive.&lt;/p&gt;
 
-&lt;h5 id=&quot;parameters-12&quot;&gt;Parameters&lt;/h5&gt;
+&lt;h6 id=&quot;parameters-12&quot;&gt;Parameters&lt;/h6&gt;
 
 &lt;p&gt;&lt;em&gt;startYear&lt;/em&gt; : &lt;code&gt;int&lt;/code&gt;&lt;/p&gt;
 
@@ -2666,7 +2666,7 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 &lt;p&gt;The largest year to be included in the retuned RecordCollection&lt;/p&gt;
 
-&lt;h5 id=&quot;returns-8&quot;&gt;Returns&lt;/h5&gt;
+&lt;h6 id=&quot;returns-8&quot;&gt;Returns&lt;/h6&gt;
 
 &lt;p&gt;&lt;code&gt;RecordCollection&lt;/code&gt;&lt;/p&gt;
 
@@ -2769,7 +2769,7 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 &lt;p&gt;Returns a list of all the tags the original WOS record had. These are all the tags that &lt;a href=&quot;/metaknowledge/docs/Record#Record&quot;&gt;‘getTag()’&lt;/a&gt; will not return &lt;code&gt;None&lt;/code&gt; for.&lt;/p&gt;
 
-&lt;h5 id=&quot;returns&quot;&gt;Returns&lt;/h5&gt;
+&lt;h6 id=&quot;returns&quot;&gt;Returns&lt;/h6&gt;
 
 &lt;p&gt;&lt;code&gt;List[str]&lt;/code&gt;&lt;/p&gt;
 
@@ -2781,7 +2781,7 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 &lt;p&gt;Creates a citation string, using the same format as other WOS citations, for the &lt;a href=&quot;/metaknowledge/docs/Record#Record&quot;&gt;Record&lt;/a&gt; by reading the relevant tags (year, J9, volume, beginningPage, DOI) and using it to start a &lt;a href=&quot;/metaknowledge/docs/Citation#Citation&quot;&gt;Citation&lt;/a&gt; object.&lt;/p&gt;
 
-&lt;h5 id=&quot;returns-1&quot;&gt;Returns&lt;/h5&gt;
+&lt;h6 id=&quot;returns-1&quot;&gt;Returns&lt;/h6&gt;
 
 &lt;p&gt;&lt;code&gt;Citation&lt;/code&gt;&lt;/p&gt;
 
@@ -2793,13 +2793,13 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 &lt;p&gt;Returns a list containing the raw data of the record associated with &lt;em&gt;tag&lt;/em&gt;. Each line of the record is one string in the list.&lt;/p&gt;
 
-&lt;h5 id=&quot;parameters-1&quot;&gt;Parameters&lt;/h5&gt;
+&lt;h6 id=&quot;parameters-1&quot;&gt;Parameters&lt;/h6&gt;
 
 &lt;p&gt;&lt;em&gt;tag&lt;/em&gt; : &lt;code&gt;str&lt;/code&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;em&gt;tag&lt;/em&gt; can be a two character string corresponding to a WOS tag e.g. ‘J9’, the matching is case insensitive so ‘j9’ is the same as ‘J9’. Or it can be one of the full names for a tag with the mappings in &lt;a href=&quot;#metaknowledge&quot;&gt;fullToTag&lt;/a&gt;. If the string is not found in the original record or after being translated through &lt;a href=&quot;#metaknowledge&quot;&gt;fullToTag&lt;/a&gt;, &lt;code&gt;None&lt;/code&gt; is returned.&lt;/p&gt;
 
-&lt;h5 id=&quot;returns-2&quot;&gt;Returns&lt;/h5&gt;
+&lt;h6 id=&quot;returns-2&quot;&gt;Returns&lt;/h6&gt;
 
 &lt;p&gt;&lt;code&gt;List [str]&lt;/code&gt;&lt;/p&gt;
 
@@ -2811,12 +2811,12 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 &lt;p&gt;returns a dict of the results of getTag, with the elements of &lt;em&gt;taglst&lt;/em&gt; as the keys and the results as the values.&lt;/p&gt;
 
-&lt;h5 id=&quot;parameters-2&quot;&gt;Parameters&lt;/h5&gt;
+&lt;h6 id=&quot;parameters-2&quot;&gt;Parameters&lt;/h6&gt;
 &lt;p&gt;&lt;em&gt;taglst&lt;/em&gt; : &lt;code&gt;List[str]&lt;/code&gt;&lt;/p&gt;
 
 &lt;p&gt;Each string in &lt;em&gt;taglst&lt;/em&gt; can be a two character string corresponding to a WOS tag e.g. ‘J9’, the matching is case insensitive so ‘j9’ is the same as ‘J9’. Or it can be one of the full names for a tag with the mappings in &lt;a href=&quot;/metaknowledge/docs/metaknowledge#metaknowledge&quot;&gt;fullToTag&lt;/a&gt;. If the string is not found in the oriagnal record before or after being translated through &lt;a href=&quot;#metaknowledge&quot;&gt;fullToTag&lt;/a&gt;, &lt;code&gt;None&lt;/code&gt; is used instead. Same as in &lt;a href=&quot;/metaknowledge/docs/Record#Record&quot;&gt;&lt;code&gt;getTag()&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
 
-&lt;h5 id=&quot;returns-3&quot;&gt;Returns&lt;/h5&gt;
+&lt;h6 id=&quot;returns-3&quot;&gt;Returns&lt;/h6&gt;
 
 &lt;p&gt;&lt;code&gt;dict[str : List [str]]&lt;/code&gt;&lt;/p&gt;
 
@@ -2828,14 +2828,14 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 &lt;p&gt;Returns a list of the results of &lt;a href=&quot;/metaknowledge/docs/Record#Record&quot;&gt;&lt;code&gt;getTag()&lt;/code&gt;&lt;/a&gt; for each tag in &lt;em&gt;taglist&lt;/em&gt;, the return has the same order as the original.&lt;/p&gt;
 
-&lt;h5 id=&quot;parameters-3&quot;&gt;Parameters&lt;/h5&gt;
+&lt;h6 id=&quot;parameters-3&quot;&gt;Parameters&lt;/h6&gt;
 &lt;p&gt;&lt;em&gt;taglst&lt;/em&gt; : &lt;code&gt;List[str]&lt;/code&gt;&lt;/p&gt;
 
 &lt;p&gt;Each string in &lt;em&gt;taglst&lt;/em&gt; can be a two character string corresponding to a WOS tag e.g. ‘J9’, the matching is case insensitive so ‘j9’ is the same as ‘J9’. Or it can be one of the full names for a tag with the mappings in &lt;a href=&quot;/metaknowledge/docs/metaknowledge#metaknowledge&quot;&gt;fullToTag&lt;/a&gt;. If the string is not found in the original record before or after being translated through &lt;a href=&quot;/metaknowledge/docs/metaknowledge#metaknowledge&quot;&gt;fullToTag&lt;/a&gt;, &lt;code&gt;None&lt;/code&gt; is used instead. Same as in &lt;a href=&quot;/metaknowledge/docs/Record#Record&quot;&gt;&lt;code&gt;getTag()&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;Then they are compiled into a list in the same order as &lt;em&gt;taglst&lt;/em&gt;&lt;/p&gt;
 
-&lt;h5 id=&quot;returns-4&quot;&gt;Returns&lt;/h5&gt;
+&lt;h6 id=&quot;returns-4&quot;&gt;Returns&lt;/h6&gt;
 
 &lt;p&gt;&lt;code&gt;List[str]&lt;/code&gt;&lt;/p&gt;
 
@@ -2847,7 +2847,7 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 &lt;p&gt;Writes to &lt;em&gt;infile&lt;/em&gt; the original contents of the Record. This is intended for use by &lt;a href=&quot;/metaknowledge/docs/RecordCollection#RecordCollection&quot;&gt;RecordCollections&lt;/a&gt; to write to file. What is written to &lt;em&gt;infile&lt;/em&gt; is bit for bit identical to the original record file. No newline is inserted above the write but the last character is a newline.&lt;/p&gt;
 
-&lt;h5 id=&quot;parameters-4&quot;&gt;Parameters&lt;/h5&gt;
+&lt;h6 id=&quot;parameters-4&quot;&gt;Parameters&lt;/h6&gt;
 
 &lt;p&gt;&lt;em&gt;infile&lt;/em&gt; : &lt;code&gt;file stream&lt;/code&gt;&lt;/p&gt;
 
@@ -2950,7 +2950,7 @@ Combined they look like:&lt;/p&gt;
 
 &lt;p&gt;Adds the journal of this Citation to the user created database of journals. This will cause &lt;a href=&quot;/metaknowledge/docs/Citation#Citation&quot;&gt;isJournal()&lt;/a&gt; to return &lt;code&gt;True&lt;/code&gt; for this Citation and all others with its &lt;code&gt;.journal&lt;/code&gt;.&lt;/p&gt;
 
-&lt;h5 id=&quot;parameters-1&quot;&gt;Parameters&lt;/h5&gt;
+&lt;h6 id=&quot;parameters-1&quot;&gt;Parameters&lt;/h6&gt;
 
 &lt;p&gt;&lt;em&gt;manualName&lt;/em&gt; : &lt;code&gt;optional [str]&lt;/code&gt;&lt;/p&gt;
 
@@ -2970,7 +2970,7 @@ Combined they look like:&lt;/p&gt;
 
 &lt;p&gt;Returns any V, P, DOI or misc values as a string. These are all the values not returned by &lt;a href=&quot;/metaknowledge/docs/Citation#Citation&quot;&gt;&lt;code&gt;getID()&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;
 
-&lt;h5 id=&quot;returns&quot;&gt;Returns&lt;/h5&gt;
+&lt;h6 id=&quot;returns&quot;&gt;Returns&lt;/h6&gt;
 
 &lt;p&gt;&lt;code&gt;str&lt;/code&gt;&lt;/p&gt;
 
@@ -2982,7 +2982,7 @@ Combined they look like:&lt;/p&gt;
 
 &lt;p&gt;Returns the full name of the Citation’s journal field. Requires the j9Abbreviations database file.&lt;/p&gt;
 
-&lt;h5 id=&quot;returns-1&quot;&gt;Returns&lt;/h5&gt;
+&lt;h6 id=&quot;returns-1&quot;&gt;Returns&lt;/h6&gt;
 
 &lt;p&gt;&lt;code&gt;str&lt;/code&gt;&lt;/p&gt;
 
@@ -2996,7 +2996,7 @@ Combined they look like:&lt;/p&gt;
 
 &lt;p&gt;This is also used for hashing and equality checking.&lt;/p&gt;
 
-&lt;h5 id=&quot;returns-2&quot;&gt;Returns&lt;/h5&gt;
+&lt;h6 id=&quot;returns-2&quot;&gt;Returns&lt;/h6&gt;
 
 &lt;p&gt;&lt;code&gt;str&lt;/code&gt;&lt;/p&gt;
 
@@ -3008,7 +3008,7 @@ Combined they look like:&lt;/p&gt;
 
 &lt;p&gt;Checks if the author is given as “[ANONYMOUS]” and returns &lt;code&gt;True&lt;/code&gt; if so.&lt;/p&gt;
 
-&lt;h5 id=&quot;returns-3&quot;&gt;Returns&lt;/h5&gt;
+&lt;h6 id=&quot;returns-3&quot;&gt;Returns&lt;/h6&gt;
 
 &lt;p&gt;&lt;code&gt;bool&lt;/code&gt;&lt;/p&gt;
 
@@ -3020,7 +3020,7 @@ Combined they look like:&lt;/p&gt;
 
 &lt;p&gt;Returns &lt;code&gt;True&lt;/code&gt; if the Citation’s journal field is a journal abbreviation given by WOS, i.e. checks if the citation is citing a journal. Requires the j9Abbreviations database file.&lt;/p&gt;
 
-&lt;h5 id=&quot;returns-4&quot;&gt;Returns&lt;/h5&gt;
+&lt;h6 id=&quot;returns-4&quot;&gt;Returns&lt;/h6&gt;
 
 &lt;p&gt;&lt;code&gt;bool&lt;/code&gt;&lt;/p&gt;
 

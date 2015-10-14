@@ -2,7 +2,7 @@
 import metaknowledge
 from .record import Record, BadISIFile
 from .graphHelpers import _ProgressBar
-from .constants import tagsAndNames, tagToFull, fullToTag
+from .tagProcessing.funcDicts import tagsAndNameSet, tagToFullDict, fullToTagDict
 from .citation import Citation
 
 import itertools
@@ -394,12 +394,12 @@ class RecordCollection(object):
         if firstTags is None:
             firstTags = ['UT', 'PT', 'TI', 'AF', 'CR']
         for i in range(len(firstTags)):
-            if firstTags[i] in fullToTag:
-                firstTags[i] = fullToTag[firstTags[i]]
+            if firstTags[i] in fullToTagDict:
+                firstTags[i] = fullToTagDict[firstTags[i]]
         if onlyTheseTags:
             for i in range(len(onlyTheseTags)):
-                if onlyTheseTags[i] in fullToTag:
-                    onlyTheseTags[i] = fullToTag[onlyTheseTags[i]]
+                if onlyTheseTags[i] in fullToTagDict:
+                    onlyTheseTags[i] = fullToTagDict[onlyTheseTags[i]]
             retrievedFields = [t for t in firstTags if t in onlyTheseTags] + [t for t in onlyTheseTags if t not in firstTags]
         else:
             retrievedFields = firstTags
@@ -408,7 +408,7 @@ class RecordCollection(object):
                 retrievedFields += tagsLst
         if longNames:
             try:
-                retrievedFields = [tagToFull[t] for t in retrievedFields]
+                retrievedFields = [tagToFullDict[t] for t in retrievedFields]
             except KeyError:
                 raise KeyError("One of the tags could not be converted to a long name.")
         if fname:
@@ -447,8 +447,8 @@ class RecordCollection(object):
         """
         if onlyTheseTags:
             for i in range(len(onlyTheseTags)):
-                if onlyTheseTags[i] in fullToTag:
-                    onlyTheseTags[i] = fullToTag[onlyTheseTags[i]]
+                if onlyTheseTags[i] in fullToTagDict:
+                    onlyTheseTags[i] = fullToTagDict[onlyTheseTags[i]]
             retrievedFields = onlyTheseTags
         else:
             retrievedFields = []
@@ -457,7 +457,7 @@ class RecordCollection(object):
                 retrievedFields += tagsLst
         if longNames:
             try:
-                retrievedFields = [tagToFull[t] for t in retrievedFields]
+                retrievedFields = [tagToFullDict[t] for t in retrievedFields]
             except KeyError:
                 raise KeyError("One of the tags could not be converted to a long name.")
         retDict = {k : [] for k in retrievedFields}
@@ -726,7 +726,7 @@ class RecordCollection(object):
 
         > A networkx Graph with the objects of the tag _mode_ as nodes and their co-occurrences as edges
         """
-        if mode not in tagsAndNames:
+        if mode not in tagsAndNameSet:
             raise TypeError(str(mode) + " is not a known tag, or the name of a known tag.")
         if metaknowledge.VERBOSE_MODE:
             PBar = _ProgressBar(0, "Starting to make a one mode network with " + mode)
@@ -819,7 +819,7 @@ class RecordCollection(object):
 
         > A networkx Graph with the objects of the tags _tag1_ and _tag2_ as nodes and their co-occurrences as edges.
         """
-        if (not tag1 in tagsAndNames) or (not tag2 in tagsAndNames):
+        if (not tag1 in tagsAndNameSet) or (not tag2 in tagsAndNameSet):
             raise TypeError(str(tag1) + " or " + str(tag2) + " is not a known tag, or the name of a known tag.")
         if metaknowledge.VERBOSE_MODE:
             PBar = _ProgressBar(0, "Starting to make a two mode network of " + tag1 + " and " + tag2)
@@ -937,7 +937,7 @@ class RecordCollection(object):
         > A networkx Graph with the objects of the tags _tags_ as nodes and their co-occurrences as edges
         """
         for t in tags:
-            if t not in tagsAndNames:
+            if t not in tagsAndNameSet:
                 raise TypeError(str(t) + " is not a known tag, or the name of a known tag.")
         if metaknowledge.VERBOSE_MODE:
             PBar = _ProgressBar(0, "Starting to make a " + str(len(tags)) + "-mode network of: " + ', '.join(tags))

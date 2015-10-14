@@ -1,5 +1,6 @@
 import unittest
 import metaknowledge
+import metaknowledge.tagProcessing
 import os
 import filecmp
 import copy
@@ -94,7 +95,7 @@ class TestRecordCollection(unittest.TestCase):
         os.remove(filename)
 
     def test_makeDict(self):
-        d = self.RC.makeDict(onlyTheseTags = list(metaknowledge.tagsAndNames), longNames = True)
+        d = self.RC.makeDict(onlyTheseTags = list(metaknowledge.tagProcessing.tagsAndNameSet), longNames = True)
         self.assertEqual(len(d), 62)
         self.assertEqual(len(d['wosString']), len(self.RC))
         self.assertEqual(d['eISSN'][0], None)
@@ -198,7 +199,7 @@ class TestRecordCollection(unittest.TestCase):
         self.assertTrue(nx.is_isomorphic(Gd2em, Gemd2))
 
     def test_nMode(self):
-        G = self.RC.nModeNetwork(metaknowledge.tagToFull.keys())
+        G = self.RC.nModeNetwork(metaknowledge.tagProcessing.tagToFullDict.keys())
         self.assertEqual(len(G.nodes()), 1186)
         self.assertEqual(len(G.edges()), 38592)
 

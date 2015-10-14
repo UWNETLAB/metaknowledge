@@ -151,9 +151,13 @@ def writeModuleFile(mod):
     f.close()
 
 def writeMainBody(funcs, vrs, exceptions):
-    f = open(docsPrefix + "metaknowledge.md", 'w')
-    f.write(makeHeader("Functions", "The metaknowledge Package", tags = ["main"], weight = 1, layout = "doc"))
+    f = open(docsPrefix + "overview.md", 'w')
+    f.write(makeHeader("Overview", "The metaknowledge Package", tags = ["main"], weight = 0, layout = "doc"))
     f.write(cleanedDoc(metaknowledge, 3) + '\n\n')
+    f.write("\n{% include docsFooter.md %}")
+    f.close()
+    f = open(docsPrefix + "metaknowledge.md", 'w')
+    f.write(makeHeader("Functions", "The metaknowledge Functions", tags = ["functions"], weight = 1, layout = "doc"))
     f.write(makeTable(funcs, header = "The functions provided by metaknowledge are:"))
     for fnc in funcs:
         writeFunc(fnc, f)
@@ -193,7 +197,6 @@ def main(args):
             funcs.append(m)
         else:
             vrs.append(m)
-
     writeMainBody(funcs, vrs, exceptions)
     for cls in classes:
         writeClassFile(*cls)

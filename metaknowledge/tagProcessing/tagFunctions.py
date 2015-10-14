@@ -1,6 +1,5 @@
-from .helpFuncs import getMonth, makeReversed
+from .helpFuncs import getMonth
 from ..citation import Citation
-
 
 def pubType(val):
     """
@@ -1284,7 +1283,9 @@ def documentDeliveryNumber(val):
     """
     return val[0]
 
-tagToFunc = makeReversed( {
+
+
+tagToFunc = {
             'PT' : pubType,
             'AF' : authorsFull,
             'GP' : group,
@@ -1346,4 +1347,4 @@ tagToFunc = makeReversed( {
             'GA' : documentDeliveryNumber,
             'UT' : wosString,
             'PM' : pubMedID,
-            })
+            }

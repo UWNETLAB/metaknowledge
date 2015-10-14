@@ -1,6 +1,6 @@
 """
 """
-from .constants import tagsAndNames
+from .tagProcessing.funcDicts import tagsAndNameSet
 from .graphHelpers import _ProgressBar
 from .recordCollection import RecordCollection
 
@@ -42,10 +42,10 @@ def diffusionGraph(source, target, sourceType = "raw", targetType = "raw"):
 
     >A directed graph of the diffusion network
     """
-    if sourceType != "raw" and sourceType not in tagsAndNames:
-        raise RuntimeError("{} is not a valid node type, only 'raw' or those strings in tagsAndNames are allowed".format(nodeType))
-    if targetType != "raw" and targetType not in tagsAndNames:
-        raise RuntimeError("{} is not a valid node type, only 'raw' or those strings in tagsAndNames are allowed".format(nodeType))
+    if sourceType != "raw" and sourceType not in tagsAndNameSet:
+        raise RuntimeError("{} is not a valid node type, only 'raw' or those strings in tagsAndNameSet are allowed".format(nodeType))
+    if targetType != "raw" and targetType not in tagsAndNameSet:
+        raise RuntimeError("{} is not a valid node type, only 'raw' or those strings in tagsAndNameSet are allowed".format(nodeType))
     if metaknowledge.VERBOSE_MODE:
         PBar = _ProgressBar(0, "Starting to make a diffusion network")
         count = 0
@@ -124,8 +124,8 @@ def diffusionCount(source, target, sourceType = "raw", pandasFriendly = False,  
     """
     sourceCountString = "SourceCount"
     targetCountString = "TargetCount"
-    if sourceType != "raw" and sourceType not in tagsAndNames:
-        raise RuntimeError("{} is not a valid node type, only 'raw' or those strings in tagsAndNames are allowed".format(nodeType))
+    if sourceType != "raw" and sourceType not in tagsAndNameSet:
+        raise RuntimeError("{} is not a valid node type, only 'raw' or those strings in tagsAndNameSet are allowed".format(nodeType))
     if not isinstance(source, RecordCollection) or not isinstance(target, RecordCollection):
         raise RuntimeError("Source and target must be RecordCollections.")
     if metaknowledge.VERBOSE_MODE or _ProgBar:

@@ -6,8 +6,10 @@ import io
 import collections
 
 from .citation import Citation
-from .constants import tagNameConverter, tagsAndNames, fullToTag
-from .tagFuncs import tagToFunc
+from .tagProcessing.funcDicts import tagNameConverterDict, tagsAndNameSet, fullToTagDict
+from .tagProcessing.tagFunctions import tagToFunc
+import importlib
+
 
 class BadISIRecord(Warning):
     """Exception thrown by the [record parser](#metaknowledge.recordParser) to indicate a mis-formated record. This occurs when some component of the record does not parse. The messages will be any of:
@@ -48,7 +50,7 @@ class Record(object):
 
     When a record is created if the parsing of the WOS file failed it is marked as `bad`. The `bad` attribute is set to True and the `error` attribute is created to contain the exception object.
 
-    Generally, to get the information from a Record its attributes should be used. For a Record `R`, calling `R.CR` causes [citations()](#tagFuncs.citations) from the the [tagFuncs](#tagFuncs.tagFuncs) module to be called on the contents of the raw 'CR' field. Then the result is saved and returned. In this case, a list of Citation objects is returned. You can also call `R.citations` to get the same effect, as each known field tag has a longer name (currently there are 61 field tags). These names are meant to make accessing tags more readable and mapping from tag to name can be found in the tagToFull dict. If a tag is known (in [tagToFull](#metaknowledge.metaknowledge)) but not in the raw data `None` is returned instead. Most tags when cleaned return a string or list of strings, the exact results can be found in the help for the particular function.
+    Generally, to get the information from a Record its attributes should be used. For a Record `R`, calling `R.CR` causes [citations()](#tagProcessing.citations) from the the [tagProcessing](#tagProcessing.tagProcessing) module to be called on the contents of the raw 'CR' field. Then the result is saved and returned. In this case, a list of Citation objects is returned. You can also call `R.citations` to get the same effect, as each known field tag has a longer name (currently there are 61 field tags). These names are meant to make accessing tags more readable and mapping from tag to name can be found in the tagToFull dict. If a tag is known (in [tagToFull](#metaknowledge.metaknowledge)) but not in the raw data `None` is returned instead. Most tags when cleaned return a string or list of strings, the exact results can be found in the help for the particular function.
 
     The attribute `authors` is also defined as a convience and returns the same as 'AF' or if that is not found 'AU'.
 
@@ -139,7 +141,7 @@ class Record(object):
                     self.__dict__[tag] = None
                     self._unComputedTags.add(tag)
                     try:
-                        fullName = tagNameConverter[tag]
+                        fullName = tagNameConverterDict[tag]
                     except KeyError:
                         pass
                     else:
@@ -153,17 +155,17 @@ class Record(object):
         try:
             val = object.__getattribute__(self, name)
         except AttributeError:
-            if name in tagsAndNames:
+            if name in tagsAndNameSet:
                 return None
             else:
                 raise
         else:
-            if val != None:
+            if val is not None:
                 return val
             else:
                 if name in self._unComputedTags:
                     try:
-                        otherName = tagNameConverter[name]
+                        otherName = tagNameConverterDict[name]
                     except KeyError:
                         try:
                             tagVal = tagToFunc[name](self._fieldDict[name])
@@ -284,8 +286,8 @@ class Record(object):
             return getattr(self, tag.upper(), None)
         if tag in self._fieldDict:
             return self._fieldDict[tag]
-        elif tag in fullToTag and fullToTag[tag] in self._fieldDict:
-            return self._fieldDict[fullToTag[tag]]
+        elif tag in fullToTagDict and fullToTagDict[tag] in self._fieldDict:
+            return self._fieldDict[fullToTagDict[tag]]
         else:
             return None
 

@@ -14,6 +14,22 @@ documentedModules = ['tagProcessing', 'visual', 'journalAbbreviations']
 
 docsPrefix = time.strftime("%Y-%m-%d-")
 
+blurbDict = {
+    'visual' : "A nicer matplotlib graph visualizer and contour plot",
+    'tagProcessing' : "All the tags and how they are handled",
+    'journalAbbreviations' : "Look here to get your J9 database",
+    'Citation' : "Citation are special, here is how they are handled",
+    'Record' : "The thing RecordCollections are made of",
+    'RecordCollection' : "Where all the stuff happens, look here if you want to make things",
+}
+
+def makeBlurb(name):
+    if name in blurbDict:
+        return blurbDict[name]
+    else:
+        raise RuntimeError("{} needs a blurb".format(name))
+
+
 def makeHeader(title, excerpt, tags = (), weight = 10, layout = "doc"):
     return """---
 layout: {4}
@@ -33,11 +49,12 @@ def argumentParser():
 
 def getLineNumber(objTuple):
     try:
-        ln = inspect.getsourcelines(objTuple[1])[1]
+        ln = str(inspect.getsourcelines(objTuple[1])[1])
+        fl = inspect.getfile(objTuple[1])
     except (OSError, TypeError):
-        return -1
+        return '-1' #Because
     else:
-        return ln
+        return fl + ln
 
 def cleanargs(obj, basic = False):
     argStr = inspect.formatargspec(*inspect.getfullargspec(obj))
@@ -52,14 +69,14 @@ def cleanargs(obj, basic = False):
         return '()'
 
 def makeUrls(s):
-    return "[{0}]({{{{ site.baseurl }}}}{{% post_url /docs/{1}{2} %}}#{3})".format(s.group(1), docsPrefix, s.group(2), s.group(2))
+    return "[{0}]({{{{ site.baseurl }}}}{{% post_url /docs/{1}{2} %}}#{3})".format(s.group(1), docsPrefix, s.group(2), s.group(3))
 
 def cleanedDoc(obj, lvl):
     ds = inspect.getdoc(obj)
     lns = ds.split('\n')
     nds = ''
     for line in lns:
-        line = re.sub(r"\[(\S+)\]\(\#(\S+)\.(\S+)\)", makeUrls,line, count = 99)
+        line = re.sub(r"\[(\S+)\]\(\#(\S+)\.(\S+)\)", makeUrls, line, count = 99)
         if len(line) < 1:
             nds += '\n'
         elif line[0] == '#':
@@ -76,7 +93,7 @@ def cleanedDoc(obj, lvl):
     return '{}\n\n'.format(nds)
 
 def makeTitle(module, name, args = ''):
-    s = '<a name="{0}{1}"></a><small>{0}</small>**[<ins>{1}</ins>]({{{{ site.baseurl }}}}{{{{ page.url }}}}#{0}{1})**{2}:\n\n'.format(module, name, args)
+    s = '<a name="{1}"></a><small>{0}</small>**[<ins>{1}</ins>]({{{{ site.baseurl }}}}{{{{ page.url }}}}#{1})**{2}:\n\n'.format(module, name, args)
     return s
 
 def makeLine():
@@ -97,7 +114,7 @@ def makeTable(entries, header = '', prefix = ''):
     if prefix:
         prefix = prefix + '.'
     for e in entries:
-        ents.append("""<li><article><a href="#{2}{0}"><b>{0}</b>{1}</a></article></li>""".format(e[0], cleanargs(e[1], basic = True), prefix))
+        ents.append("""<li><article><a href="#{0}"><b>{0}</b>{1}</a></article></li>""".format(e[0], cleanargs(e[1], basic = True), prefix))
     s = """{}\n\n<ul class="post-list">\n{}\n</ul>\n""".format(header,'\n'.join(ents))
     return s
 
@@ -134,7 +151,7 @@ def proccessClass(cl, f):
 def writeClassFile(name, typ):
     fname = docsPrefix + "{}.md".format(name)
     f = open(fname, 'w')
-    f.write(makeHeader(name, "The {} Class".format(name), tags = ["class"], weight = 2))
+    f.write(makeHeader(name, makeBlurb(name), tags = ["class"], weight = 2))
     proccessClass((name, typ), f)
     f.write("\n{% include docsFooter.md %}")
     f.close()
@@ -142,7 +159,7 @@ def writeClassFile(name, typ):
 def writeModuleFile(mod):
     fname = docsPrefix + "{}.md".format(mod)
     f = open(fname, 'w')
-    f.write(makeHeader(mod, "The {} Module".format(mod), tags = ["module"], weight = 3))
+    f.write(makeHeader(mod, makeBlurb(mod), tags = ["module"], weight = 3))
     f.write('\n# [{0}]({{{{ site.baseurl }}}}{{{{ page.url }}}}#{0})\n\n'.format(mod))
     module = importlib.import_module('metaknowledge.{}'.format(mod))
     f.write(cleanedDoc(module, 3) + '\n\n')
@@ -153,7 +170,7 @@ def writeModuleFile(mod):
         elif inspect.isfunction(m[1]):
             funcs.append(m)
     if mod != "tagProcessing":
-        f.write(makeTable(funcs, prefix = mod ,header = "The {} modlue provides the following functions:".format(mod)))
+        f.write(makeTable(funcs, prefix = mod, header = "The {} module provides the following functions:".format(mod)))
     for fn in funcs:
         writeFunc(fn, f, prefix = "{}.".format(mod))
     f.write("\n{% include docsFooter.md %}")
@@ -161,12 +178,12 @@ def writeModuleFile(mod):
 
 def writeMainBody(funcs, vrs, exceptions):
     f = open(docsPrefix + "overview.md", 'w')
-    f.write(makeHeader("Overview", "The metaknowledge Package", tags = ["main"], weight = 0, layout = "doc"))
+    f.write(makeHeader("Overview", "The metaknowledge Package, a quick tour", tags = ["main"], weight = 0, layout = "doc"))
     f.write(cleanedDoc(metaknowledge, 3) + '\n\n')
     f.write("\n{% include docsFooter.md %}")
     f.close()
     f = open(docsPrefix + "metaknowledge.md", 'w')
-    f.write(makeHeader("Functions", "The metaknowledge Functions", tags = ["functions"], weight = 1, layout = "doc"))
+    f.write(makeHeader("Functions", "The metaknowledge functions, for filtering reading and writing graphs", tags = ["functions"], weight = 1, layout = "doc"))
     f.write(makeTable(funcs, header = "The functions provided by metaknowledge are:"))
     for fnc in funcs:
         writeFunc(fnc, f)

@@ -9,7 +9,7 @@ import metaknowledge
 import importlib
 import re
 
-documentedModules = ['tagFuncs', 'visual', 'journalAbbreviations']
+documentedModules = ['tagProcessing', 'visual', 'journalAbbreviations']
 
 docsPrefix = time.strftime("%Y-%m-%d-")
 
@@ -29,6 +29,14 @@ def argumentParser():
     parser = argparse.ArgumentParser(description="A simple script to genrate docs for metaknowledge")
     parser.add_argument("-dir", "-d", default = os.path.normpath('.') ,nargs='?', help = 'Directory to write files to')
     return parser.parse_args()
+
+def getLineNumber(objTuple):
+    try:
+        ln = inspect.getsourcelines(objTuple[1])[1]
+    except (OSError, TypeError):
+        return -1
+    else:
+        return ln
 
 def cleanargs(obj, basic = False):
     argStr = inspect.formatargspec(*inspect.getfullargspec(obj))
@@ -113,7 +121,7 @@ def proccessClass(cl, f):
     writeClass(cl, f)
     baseMems = inspect.getmembers(cl[1].__bases__[0])
     funcs = []
-    for m in inspect.getmembers(cl[1]):
+    for m in sorted(inspect.getmembers(cl[1]), key = getLineNumber):
         if m[0][0] == '_' or m in baseMems:
             pass
         elif inspect.isfunction(m[1]):
@@ -138,12 +146,12 @@ def writeModuleFile(mod):
     module = importlib.import_module('metaknowledge.{}'.format(mod))
     f.write(cleanedDoc(module, 3) + '\n\n')
     funcs = []
-    for m in inspect.getmembers(module, predicate = inspect.isfunction):
+    for m in sorted(inspect.getmembers(module, predicate = inspect.isfunction), key = getLineNumber):
         if inspect.isbuiltin(m[1]) or m[0][0] == '_':
             pass
         elif inspect.isfunction(m[1]):
             funcs.append(m)
-    if mod != "tagFuncs":
+    if mod != "tagProcessing":
         f.write(makeTable(funcs, prefix = mod ,header = "The {} modlue provides the following functions:".format(mod)))
     for fn in funcs:
         writeFunc(fn, f, prefix = "{}.".format(mod))
@@ -185,7 +193,7 @@ def main(args):
     vrs = []
     exceptions = []
     builtins = []
-    for m in inspect.getmembers(metaknowledge):
+    for m in sorted(inspect.getmembers(metaknowledge), key = getLineNumber):
         if inspect.isbuiltin(m[1]) or m[0][0] == '_':
             builtins.append(m)
         elif inspect.isclass(m[1]):

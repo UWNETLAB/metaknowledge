@@ -6,14 +6,14 @@
 <head>
 <meta charset="utf-8">
 <title>Citation &#8211; metaknowledge</title>
-<meta name="description" content="The Citation Class">
+<meta name="description" content="Citation are special, here is how they are handled">
 <meta name="keywords" content="class">
 
 
 
 <!-- Twitter Cards -->
 <meta name="twitter:title" content="Citation">
-<meta name="twitter:description" content="The Citation Class">
+<meta name="twitter:description" content="Citation are special, here is how they are handled">
 
 
 
@@ -24,7 +24,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Citation">
-<meta property="og:description" content="The Citation Class">
+<meta property="og:description" content="Citation are special, here is how they are handled">
 <meta property="og:url" content="/metaknowledge/docs/Citation">
 <meta property="og:site_name" content="metaknowledge">
 
@@ -172,7 +172,7 @@ Combined they look like:</p>
 
 <h5 id="customizations">Customizations</h5>
 
-<p>Citation’s hashing and equality checking are based on <a href="/metaknowledge/docs/Citation#Citation"><code>getID()</code></a> and use the values of <code>author</code>, <code>year</code> and <code>journal</code>.</p>
+<p>Citation’s hashing and equality checking are based on <a href="/metaknowledge/docs/Citation#getID"><code>getID()</code></a> and use the values of <code>author</code>, <code>year</code> and <code>journal</code>.</p>
 
 <p>When converted to a string a Citation will return the original string.</p>
 
@@ -180,13 +180,13 @@ Combined they look like:</p>
 
 <p>As noted above, citations are considered to be divided into six distinct fields (Author, Year, Journal, Volume, Page and DOI) with a seventh misc for anything not in those. Records thus have an attribute with a name corresponding to each <code>author</code>, <code>year</code>, <code>journal</code>, <code>V</code>, <code>P</code>, <code>DOI</code> and <code>misc</code> respectively. These are created if there is anything in the field. So a Citation created from the string: “Nunez R., 1998, MATH COGNITION” would have <code>author</code>, <code>year</code> and <code>journal</code> defined. While one from “Nunez R.” would have only the attribute <code>misc</code>.</p>
 
-<p>If the parsing of a citation string fails the attribute <code>bad</code> is set to True and the attribute <code>error</code> is created to contain the error, which is a <a href="/metaknowledge/docs/metaknowledge#metaknowledge">BadCitation</a> object. If no errors occur <code>bad</code> is <code>False</code>.</p>
+<p>If the parsing of a citation string fails the attribute <code>bad</code> is set to True and the attribute <code>error</code> is created to contain the error, which is a <a href="/metaknowledge/docs/metaknowledge#BadCitation">BadCitation</a> object. If no errors occur <code>bad</code> is <code>False</code>.</p>
 
 <p>The attribute <code>original</code> is the unmodified string (<em>cite</em>) given to create the Citation, it can also be accessed by converting to a string, e.g. with <code>str()</code>.</p>
 
 <h5 id="init">__Init__</h5>
 
-<p>Citations can be created by <a href="/metaknowledge/docs/metaknowledge#metaknowledge">Records</a> or by giving the initializer a string containing a WOS style citation.</p>
+<p>Citations can be created by <a href="/metaknowledge/docs/metaknowledge#Record">Records</a> or by giving the initializer a string containing a WOS style citation.</p>
 
 <h5 id="parameters">Parameters</h5>
 
@@ -197,18 +197,80 @@ Combined they look like:</p>
 <p>The Citation class has the following methods:</p>
 
 <ul class="post-list">
-<li><article><a href="#Citation.addToDB"><b>addToDB</b>(<i>manualName=None, manaulDB='manualj9Abbreviations', invert=False</i>)</a></article></li>
-<li><article><a href="#Citation.getExtra"><b>getExtra</b>()</a></article></li>
-<li><article><a href="#Citation.getFullJournalName"><b>getFullJournalName</b>()</a></article></li>
-<li><article><a href="#Citation.getID"><b>getID</b>()</a></article></li>
-<li><article><a href="#Citation.isAnonymous"><b>isAnonymous</b>()</a></article></li>
-<li><article><a href="#Citation.isJournal"><b>isJournal</b>(<i>manaulDB='manualj9Abbreviations', returnDict='both', checkIfExcluded=False</i>)</a></article></li>
+<li><article><a href="#isAnonymous"><b>isAnonymous</b>()</a></article></li>
+<li><article><a href="#getID"><b>getID</b>()</a></article></li>
+<li><article><a href="#getExtra"><b>getExtra</b>()</a></article></li>
+<li><article><a href="#isJournal"><b>isJournal</b>(<i>manaulDB='manualj9Abbreviations', returnDict='both', checkIfExcluded=False</i>)</a></article></li>
+<li><article><a href="#getFullJournalName"><b>getFullJournalName</b>()</a></article></li>
+<li><article><a href="#addToDB"><b>addToDB</b>(<i>manualName=None, manaulDB='manualj9Abbreviations', invert=False</i>)</a></article></li>
 </ul>
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="Citation.addToDB"></a><small>Citation.</small><strong><a href="/metaknowledge/docs/Citation#Citation.addToDB"><ins>addToDB</ins></a></strong>(<em>manualName=None, manaulDB=’manualj9Abbreviations’, invert=False</em>):</p>
+<p><a name="isAnonymous"></a><small>Citation.</small><strong><a href="/metaknowledge/docs/Citation#isAnonymous"><ins>isAnonymous</ins></a></strong>():</p>
 
-<p>Adds the journal of this Citation to the user created database of journals. This will cause <a href="/metaknowledge/docs/Citation#Citation">isJournal()</a> to return <code>True</code> for this Citation and all others with its <code>.journal</code>.</p>
+<p>Checks if the author is given as “[ANONYMOUS]” and returns <code>True</code> if so.</p>
+
+<h6 id="returns">Returns</h6>
+
+<p><code>bool</code></p>
+
+<p>True if the author is ANONYMOUS otherwise <code>False</code>.</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="getID"></a><small>Citation.</small><strong><a href="/metaknowledge/docs/Citation#getID"><ins>getID</ins></a></strong>():</p>
+
+<p>Returns all of “author, year, journal” available. It is for shortening labels when creating networks as the resultant strings are often unique. <a href="/metaknowledge/docs/Citation#getExtra"><code>getExtra()</code></a> gets everything not returned by <code>getID()</code>.</p>
+
+<p>This is also used for hashing and equality checking.</p>
+
+<h6 id="returns-1">Returns</h6>
+
+<p><code>str</code></p>
+
+<p>A string to use as the shortened ID of a node.</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="getExtra"></a><small>Citation.</small><strong><a href="/metaknowledge/docs/Citation#getExtra"><ins>getExtra</ins></a></strong>():</p>
+
+<p>Returns any V, P, DOI or misc values as a string. These are all the values not returned by <a href="/metaknowledge/docs/Citation#getID"><code>getID()</code></a>.</p>
+
+<h6 id="returns-2">Returns</h6>
+
+<p><code>str</code></p>
+
+<p>A string containing the data not in the ID of the Citation.</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="isJournal"></a><small>Citation.</small><strong><a href="/metaknowledge/docs/Citation#isJournal"><ins>isJournal</ins></a></strong>(<em>manaulDB=’manualj9Abbreviations’, returnDict=’both’, checkIfExcluded=False</em>):</p>
+
+<p>Returns <code>True</code> if the Citation’s journal field is a journal abbreviation given by WOS, i.e. checks if the citation is citing a journal. Requires the j9Abbreviations database file.</p>
+
+<h6 id="returns-3">Returns</h6>
+
+<p><code>bool</code></p>
+
+<p><code>True</code> if the Citation is for a journal</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="getFullJournalName"></a><small>Citation.</small><strong><a href="/metaknowledge/docs/Citation#getFullJournalName"><ins>getFullJournalName</ins></a></strong>():</p>
+
+<p>Returns the full name of the Citation’s journal field. Requires the j9Abbreviations database file.</p>
+
+<h6 id="returns-4">Returns</h6>
+
+<p><code>str</code></p>
+
+<p>The first full name given for the journal of the Citation (or the first name in the WOS list if multiple names exist), if there is not one then <code>None</code> is returned</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="addToDB"></a><small>Citation.</small><strong><a href="/metaknowledge/docs/Citation#addToDB"><ins>addToDB</ins></a></strong>(<em>manualName=None, manaulDB=’manualj9Abbreviations’, invert=False</em>):</p>
+
+<p>Adds the journal of this Citation to the user created database of journals. This will cause <a href="/metaknowledge/docs/Citation#isJournal">isJournal()</a> to return <code>True</code> for this Citation and all others with its <code>.journal</code>.</p>
 
 <h6 id="parameters-1">Parameters</h6>
 
@@ -218,73 +280,11 @@ Combined they look like:</p>
 
 <p><em>manaulDB</em> : <code>optional [str]</code></p>
 
-<p>The name of the database file, the default is <a href="/metaknowledge/docs/journalAbbreviations#journalAbbreviations">metaknowledge.journalAbbreviations.manaulDBname</a></p>
+<p>The name of the database file, the default is <a href="/metaknowledge/docs/journalAbbreviations#manaulDBname">metaknowledge.journalAbbreviations.manaulDBname</a></p>
 
 <p><em>invert</em> : <code>optional [bool]</code></p>
 
 <p>Default <code>False</code>, if <code>True</code> the journal will be removed instead of added</p>
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
-
-<p><a name="Citation.getExtra"></a><small>Citation.</small><strong><a href="/metaknowledge/docs/Citation#Citation.getExtra"><ins>getExtra</ins></a></strong>():</p>
-
-<p>Returns any V, P, DOI or misc values as a string. These are all the values not returned by <a href="/metaknowledge/docs/Citation#Citation"><code>getID()</code></a>.</p>
-
-<h6 id="returns">Returns</h6>
-
-<p><code>str</code></p>
-
-<p>A string containing the data not in the ID of the Citation.</p>
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
-
-<p><a name="Citation.getFullJournalName"></a><small>Citation.</small><strong><a href="/metaknowledge/docs/Citation#Citation.getFullJournalName"><ins>getFullJournalName</ins></a></strong>():</p>
-
-<p>Returns the full name of the Citation’s journal field. Requires the j9Abbreviations database file.</p>
-
-<h6 id="returns-1">Returns</h6>
-
-<p><code>str</code></p>
-
-<p>The first full name given for the journal of the Citation (or the first name in the WOS list if multiple names exist), if there is not one then <code>None</code> is returned</p>
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
-
-<p><a name="Citation.getID"></a><small>Citation.</small><strong><a href="/metaknowledge/docs/Citation#Citation.getID"><ins>getID</ins></a></strong>():</p>
-
-<p>Returns all of “author, year, journal” available. It is for shortening labels when creating networks as the resultant strings are often unique. <a href="/metaknowledge/docs/Citation#Citation"><code>getExtra()</code></a> gets everything not returned by <code>getID()</code>.</p>
-
-<p>This is also used for hashing and equality checking.</p>
-
-<h6 id="returns-2">Returns</h6>
-
-<p><code>str</code></p>
-
-<p>A string to use as the shortened ID of a node.</p>
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
-
-<p><a name="Citation.isAnonymous"></a><small>Citation.</small><strong><a href="/metaknowledge/docs/Citation#Citation.isAnonymous"><ins>isAnonymous</ins></a></strong>():</p>
-
-<p>Checks if the author is given as “[ANONYMOUS]” and returns <code>True</code> if so.</p>
-
-<h6 id="returns-3">Returns</h6>
-
-<p><code>bool</code></p>
-
-<p>True if the author is ANONYMOUS otherwise <code>False</code>.</p>
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
-
-<p><a name="Citation.isJournal"></a><small>Citation.</small><strong><a href="/metaknowledge/docs/Citation#Citation.isJournal"><ins>isJournal</ins></a></strong>(<em>manaulDB=’manualj9Abbreviations’, returnDict=’both’, checkIfExcluded=False</em>):</p>
-
-<p>Returns <code>True</code> if the Citation’s journal field is a journal abbreviation given by WOS, i.e. checks if the citation is citing a journal. Requires the j9Abbreviations database file.</p>
-
-<h6 id="returns-4">Returns</h6>
-
-<p><code>bool</code></p>
-
-<p><code>True</code> if the Citation is for a journal</p>
 
 <hr />
 

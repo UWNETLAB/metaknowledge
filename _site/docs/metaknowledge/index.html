@@ -6,14 +6,14 @@
 <head>
 <meta charset="utf-8">
 <title>Functions &#8211; metaknowledge</title>
-<meta name="description" content="The metaknowledge Package">
-<meta name="keywords" content="main">
+<meta name="description" content="The metaknowledge functions, for filtering reading and writing graphs">
+<meta name="keywords" content="functions">
 
 
 
 <!-- Twitter Cards -->
 <meta name="twitter:title" content="Functions">
-<meta name="twitter:description" content="The metaknowledge Package">
+<meta name="twitter:description" content="The metaknowledge functions, for filtering reading and writing graphs">
 
 
 
@@ -24,7 +24,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Functions">
-<meta property="og:description" content="The metaknowledge Package">
+<meta property="og:description" content="The metaknowledge functions, for filtering reading and writing graphs">
 <meta property="og:url" content="/metaknowledge/docs/metaknowledge">
 <meta property="og:site_name" content="metaknowledge">
 
@@ -148,87 +148,48 @@
     <div class="entry-wrapper">
       <div class="entry-content">
         <p><a name="Functions"></a>
-metaknowledge is a Python3 package that simplifies bibliometric and computational analysis of Web of Science data.</p>
-
-<h4 id="example">Example</h4>
-
-<p>To load the data from files and make a network:</p>
-
-<pre><code>&gt;&gt;&gt; import metaknowledge as mk
-&gt;&gt;&gt; RC = mk.RecordCollection("records/")
-&gt;&gt;&gt; print(RC)
-Collection of 33 records
-&gt;&gt;&gt; G = RC.coCiteNetwork(nodeType = 'journal')
-Done making a co-citation network of files-from-records                 1.1s
-&gt;&gt;&gt; print(len(G.nodes()))
-223
-&gt;&gt;&gt; mk.write_graph(G, "Cocitation-Network-of-Journals")
-</code></pre>
-
-<h4 id="overview">Overview</h4>
-
-<p>This package can read the files downloaded from the <a href="https://webofknowledge.com">Thomson Reuters Web of Science</a> (WOS) as plain text. These files contain metadata about scientific records, such as the authors, language, and citations. The records are saved in groups of up-to 500 individual records in a file.</p>
-
-<p>The <a href="/metaknowledge/docs/RecordCollection#RecordCollection">metaknowledge.RecordCollection</a> class can take a path to one or more of these files load and parse them. The object is the main way for work to be done on multiple records. For each individual record it creates an instance of the <a href="/metaknowledge/docs/Record#Record">metaknowledge.Record</a> class that contains the results of the parsing of the record.</p>
-
-<p>The files given by WOS are a flat database containing a series of 2 character tags, e.g. ‘TI’ is the title. Each WOS tag has one or more values and metaknowledge makes use of them to extract useful information. The approximate meanings of the tags are listed in the <a href="/metaknowledge/docs/tagFuncs#tagFuncs">tagFuncs</a> package, if you simply want the mapping <code>tagToFull</code> is a dictionary that will provide it. There are no full official public listings of tag the meanings available. metaknowledge is not attempting to provide the definitive or authoritative meanings.</p>
-
-<p>As citations are of great importance to sociology their handling is done with the <a href="/metaknowledge/docs/Citation#Citation">Citation</a> class. This class can parse the citations given by WOS as well as extra details about the full name of their journal and allow simple comparisons.</p>
-
-<p>Note for those reading the docstring metaknowledge’s docs are written in markdown and are processed to produce the documentation found at <a href="http://networkslab.org/metaknowledge/documentation/">networkslab.org/metaknowledge/documentation</a>.</p>
-
-<p>The functions provided by metaknowledge are:</p>
+The functions provided by metaknowledge are:</p>
 
 <ul class="post-list">
-<li><article><a href="#diffusionCount"><b>diffusionCount</b>(<i>source, target, sourceType='raw', pandasFriendly=False, compareCounts=False</i>)</a></article></li>
-<li><article><a href="#diffusionGraph"><b>diffusionGraph</b>(<i>source, target, sourceType='raw', targetType='raw'</i>)</a></article></li>
-<li><article><a href="#drop_edges"><b>drop_edges</b>(<i>grph, minWeight=-inf, maxWeight=inf, parameterName='weight', ignoreUnweighted=False, dropSelfLoops=False</i>)</a></article></li>
-<li><article><a href="#drop_nodesByCount"><b>drop_nodesByCount</b>(<i>grph, minCount=-inf, maxCount=inf, parameterName='count', ignoreMissing=False</i>)</a></article></li>
-<li><article><a href="#drop_nodesByDegree"><b>drop_nodesByDegree</b>(<i>grph, minDegree=-inf, maxDegree=inf, useWeight=True, parameterName='weight', ignoreUnweighted=True</i>)</a></article></li>
 <li><article><a href="#filterNonJournals"><b>filterNonJournals</b>(<i>citesLst, invert=False</i>)</a></article></li>
-<li><article><a href="#graphStats"><b>graphStats</b>(<i>G, stats=('nodes', 'edges', 'isolates', 'loops', 'density', 'transitivity'), makeString=True</i>)</a></article></li>
-<li><article><a href="#isiParser"><b>isiParser</b>(<i>isifile</i>)</a></article></li>
+<li><article><a href="#diffusionGraph"><b>diffusionGraph</b>(<i>source, target, sourceType='raw', targetType='raw'</i>)</a></article></li>
+<li><article><a href="#diffusionCount"><b>diffusionCount</b>(<i>source, target, sourceType='raw', pandasFriendly=False, compareCounts=False, numAuthors=True</i>)</a></article></li>
 <li><article><a href="#read_graph"><b>read_graph</b>(<i>edgeList, nodeList=None, directed=False, idKey='ID', eSource='From', eDest='To'</i>)</a></article></li>
-<li><article><a href="#recordParser"><b>recordParser</b>(<i>paper</i>)</a></article></li>
-<li><article><a href="#write_edgeList"><b>write_edgeList</b>(<i>grph, name, extraInfo=True</i>)</a></article></li>
+<li><article><a href="#write_edgeList"><b>write_edgeList</b>(<i>grph, name, extraInfo=True, allSameAttribute=False</i>)</a></article></li>
+<li><article><a href="#write_nodeAttributeFile"><b>write_nodeAttributeFile</b>(<i>grph, name, allSameAttribute=False</i>)</a></article></li>
+<li><article><a href="#drop_edges"><b>drop_edges</b>(<i>grph, minWeight=-inf, maxWeight=inf, parameterName='weight', ignoreUnweighted=False, dropSelfLoops=False</i>)</a></article></li>
+<li><article><a href="#drop_nodesByDegree"><b>drop_nodesByDegree</b>(<i>grph, minDegree=-inf, maxDegree=inf, useWeight=True, parameterName='weight', ignoreUnweighted=True</i>)</a></article></li>
+<li><article><a href="#drop_nodesByCount"><b>drop_nodesByCount</b>(<i>grph, minCount=-inf, maxCount=inf, parameterName='count', ignoreMissing=False</i>)</a></article></li>
+<li><article><a href="#graphStats"><b>graphStats</b>(<i>G, stats=('nodes', 'edges', 'isolates', 'loops', 'density', 'transitivity'), makeString=True</i>)</a></article></li>
 <li><article><a href="#write_graph"><b>write_graph</b>(<i>grph, name, edgeInfo=True, typing=False, suffix='csv', overwrite=True</i>)</a></article></li>
-<li><article><a href="#write_nodeAttributeFile"><b>write_nodeAttributeFile</b>(<i>grph, name</i>)</a></article></li>
+<li><article><a href="#recordParser"><b>recordParser</b>(<i>paper</i>)</a></article></li>
+<li><article><a href="#isiParser"><b>isiParser</b>(<i>isifile</i>)</a></article></li>
+<li><article><a href="#tagToFull"><b>tagToFull</b>(<i>tag</i>)</a></article></li>
+<li><article><a href="#normalizeToTag"><b>normalizeToTag</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#normalizeToName"><b>normalizeToName</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#isTagOrName"><b>isTagOrName</b>(<i>val</i>)</a></article></li>
 </ul>
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="diffusionCount"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#diffusionCount"><ins>diffusionCount</ins></a></strong>(<em>source, target, sourceType=’raw’, pandasFriendly=False, compareCounts=False</em>):</p>
+<p><a name="filterNonJournals"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#filterNonJournals"><ins>filterNonJournals</ins></a></strong>(<em>citesLst, invert=False</em>):</p>
 
-<p>Takes in two <a href="/metaknowledge/docs/RecordCollection#RecordCollection"><code>RecordCollections</code></a> and produces a <code>dict</code> counting the citations of the <code>Records</code> of <em>source</em> by the <code>Records</code> of <em>target</em>. By default the <code>dict</code> uses <code>Record</code> objects as keys but this can be changed with the <em>sourceType</em> keyword to any of the WOS tags.</p>
+<p>Removes the Citations from <em>citesLst</em> that are not journals.</p>
 
 <h6 id="parameters">Parameters</h6>
 
-<p><em>source</em> : <code>RecordCollection</code></p>
+<p><em>citesLst</em> : <code>list [Citation]</code></p>
 
-<p>A metaknowledge <code>RecordCollection</code> containing the <code>Records</code> being cited</p>
+<p>A list of citations to be filtered</p>
 
-<p><em>target</em> : <code>RecordCollection</code></p>
+<p><em>invert</em> : <code>optional [bool]</code></p>
 
-<p>A metaknowledge <code>RecordCollection</code> containing the <code>Records</code> citing those in <em>source</em></p>
-
-<p><em>sourceType</em> : <code>optional [str]</code></p>
-
-<p>default <code>'raw'</code>, if <code>'raw'</code> the returned <code>dict</code> will contain <code>Records</code> as keys. If it is a WOS tag of the long name of one then the keys will be of that type.</p>
-
-<p><em>pandasFriendly</em> : <code>optional [bool]</code></p>
-
-<p>default <code>False</code>, makes the output be a dict with two keys one <code>"Record"</code> is the list of Records ( or data type requested by <em>sourceType</em>) the other is their occurence counts as <code>"Counts"</code>.</p>
-
-<p><em>compareCounts</em> : <code>optional [boo]</code></p>
-
-<p>default <code>False</code>, if <code>True</code> the diffusion analysis will be run twice, first with source and target setup like the default (global scope) then using only the source <code>RecordCollection</code> (local scope).</p>
+<p>Default <code>False</code>, if <code>True</code> non-journals will be kept istead of journals</p>
 
 <h6 id="returns">Returns</h6>
 
-<p><code>dict[:int]</code></p>
+<p><code>list [Citation]</code></p>
 
-<p>A dictionary with the type given by <em>sourceType</em> as keys and integers as values, by default. If <em>compareCounts</em> is <code>True</code> the values are tuples with the first integer being the diffusion in the target and the second the diffusion in the source.</p>
-
-<p>If <em>pandasFriendly</em> is <code>True</code> the returned dict has keys with the names of the WOS tags and lists with their values, i.e. a table with labled columns. The counts are in the column named <code>"Count"</code> and if <em>compareCounts</em> the local count is in a column called <code>"LocalCount"</code>.</p>
+<p>A filtered list of Citations from <em>citesLst</em></p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
@@ -264,106 +225,39 @@ Done making a co-citation network of files-from-records                 1.1s
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="drop_edges"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#drop_edges"><ins>drop_edges</ins></a></strong>(<em>grph, minWeight=-inf, maxWeight=inf, parameterName=’weight’, ignoreUnweighted=False, dropSelfLoops=False</em>):</p>
+<p><a name="diffusionCount"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#diffusionCount"><ins>diffusionCount</ins></a></strong>(<em>source, target, sourceType=’raw’, pandasFriendly=False, compareCounts=False, numAuthors=True</em>):</p>
 
-<p>Returns a graph with edges whose weight is within the inclusive bounds of minWeight and maxWeight, i.e minWeight &lt;= edges weight &lt;= maxWeight, will throw a Keyerror if the graph is unweighted</p>
-
-<p>minWeight and maxWeight default to negative and positive infinity respectively so without specifying either the output should be the input</p>
-
-<p>parameterName is key to weight field in the edge’s dictionary, default is weight as that is almost always correct</p>
-
-<p>ignoreUnweighted can be set False to suppress the KeyError and make unweighted edges be ignored</p>
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
-
-<p><a name="drop_nodesByCount"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#drop_nodesByCount"><ins>drop_nodesByCount</ins></a></strong>(<em>grph, minCount=-inf, maxCount=inf, parameterName=’count’, ignoreMissing=False</em>):</p>
-
-<p>Returns a graph whose nodes have a occurrence count that is within inclusive bounds of minCount and maxCount, i.e minCount &lt;= count &lt;= maxCount. Occurrence count is determined by reading the variable associated with the node named parameterName.</p>
-
-<p>minCount and maxCount default to negative and positive infinity respectively so without specifying either the output should be the input</p>
-
-<p>parameterName is key to count field in the node’s dictionary, default is count as that is often correct</p>
-
-<p>ignoreMissing can be set False to suppress the KeyError and make nodes missing counts be dropped instead of throwing errors</p>
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
-
-<p><a name="drop_nodesByDegree"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#drop_nodesByDegree"><ins>drop_nodesByDegree</ins></a></strong>(<em>grph, minDegree=-inf, maxDegree=inf, useWeight=True, parameterName=’weight’, ignoreUnweighted=True</em>):</p>
-
-<p>Returns a graph whose nodes have a degree that is within inclusive bounds of minDegree and maxDegree, i.e minDegree &lt;= degree &lt;= maxDegree. Degree can be determined in two ways by default it is the total number of edges touching a node, alternative if useWeight is True it is the sum of the weight of all the edges touching a node.</p>
-
-<p>minDegree and maxDegree default to negative and positive infinity respectively so without specifying either the output should be the input</p>
-
-<p>useWeight can be set True to use an alternative method for calculating degree, the total weight of all edges</p>
-
-<p>parameterName is key to weight field in the edge’s dictionary, default is weight as that is almost always correct, only used if useWeight is True</p>
-
-<p>ignoreUnweighted can be set False to suppress the KeyError and make unweighted edges be not counted, only used if useWeight is True</p>
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
-
-<p><a name="filterNonJournals"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#filterNonJournals"><ins>filterNonJournals</ins></a></strong>(<em>citesLst, invert=False</em>):</p>
-
-<p>Removes the Citations from <em>citesLst</em> that are not journals.</p>
+<p>Takes in two <a href="/metaknowledge/docs/RecordCollection#RecordCollection"><code>RecordCollections</code></a> and produces a <code>dict</code> counting the citations of the <code>Records</code> of <em>source</em> by the <code>Records</code> of <em>target</em>. By default the <code>dict</code> uses <code>Record</code> objects as keys but this can be changed with the <em>sourceType</em> keyword to any of the WOS tags.</p>
 
 <h6 id="parameters-2">Parameters</h6>
 
-<p><em>citesLst</em> : <code>list [Citation]</code></p>
+<p><em>source</em> : <code>RecordCollection</code></p>
 
-<p>A list of citations to be filtered</p>
+<p>A metaknowledge <code>RecordCollection</code> containing the <code>Records</code> being cited</p>
 
-<p><em>invert</em> : <code>optional [bool]</code></p>
+<p><em>target</em> : <code>RecordCollection</code></p>
 
-<p>Default <code>False</code>, if <code>True</code> non-journals will be kept istead of journals</p>
+<p>A metaknowledge <code>RecordCollection</code> containing the <code>Records</code> citing those in <em>source</em></p>
+
+<p><em>sourceType</em> : <code>optional [str]</code></p>
+
+<p>default <code>'raw'</code>, if <code>'raw'</code> the returned <code>dict</code> will contain <code>Records</code> as keys. If it is a WOS tag of the long name of one then the keys will be of that type.</p>
+
+<p><em>pandasFriendly</em> : <code>optional [bool]</code></p>
+
+<p>default <code>False</code>, makes the output be a dict with two keys one <code>"Record"</code> is the list of Records ( or data type requested by <em>sourceType</em>) the other is their occurence counts as <code>"Counts"</code>.</p>
+
+<p><em>compareCounts</em> : <code>optional [boo]</code></p>
+
+<p>default <code>False</code>, if <code>True</code> the diffusion analysis will be run twice, first with source and target setup like the default (global scope) then using only the source <code>RecordCollection</code> (local scope).</p>
 
 <h6 id="returns-2">Returns</h6>
 
-<p><code>list [Citation]</code></p>
+<p><code>dict[:int]</code></p>
 
-<p>A filtered list of Citations from <em>citesLst</em></p>
+<p>A dictionary with the type given by <em>sourceType</em> as keys and integers as values, by default. If <em>compareCounts</em> is <code>True</code> the values are tuples with the first integer being the diffusion in the target and the second the diffusion in the source.</p>
 
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
-
-<p><a name="graphStats"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#graphStats"><ins>graphStats</ins></a></strong>(<em>G, stats=(‘nodes’, ‘edges’, ‘isolates’, ‘loops’, ‘density’, ‘transitivity’), makeString=True</em>):</p>
-
-<p>Returns a string or list containing statistics about the graph <em>G</em>.</p>
-
-<p><strong>graphStats()</strong> gives 6 different statistics: number of nodes, number of edges, number of isolates, number of loops, density and transitivity. The ones wanted can be given to <em>stats</em>. By default a string giving a sentence containing all the requested statistics is returned but the raw values can be accessed instead by setting <em>makeString</em> to <code>False</code>.</p>
-
-<h6 id="parameters-3">Parameters</h6>
-
-<p><em>G</em> : <code>networkx Graph</code></p>
-
-<p>The graph for the statistics to be determined of</p>
-
-<p><em>stats</em> : <code>optional [list or tuple [str]]</code></p>
-
-<p>Default ‘nodes’, ‘edges’, ‘isolates’, ‘loops’, ‘density’, ‘transitivity’), a list or tuple containing any number or combination of the strings:</p>
-
-<p><code>"nodes"</code>, <code>"edges"</code>, <code>"isolates"</code>, <code>"loops"</code>, <code>"density"</code> and <code>"transitivity"</code>`</p>
-
-<p>At least one occurrence of the corresponding string causes the statistics to be provided in the string output. For the non-string (tuple) output the returned tuple has the same length as the input and each output is at the same index as the string that requested it, e.g.</p>
-
-<p><code>_stats_ = ("edges", "loops", "edges")</code></p>
-
-<p>The return is a tuple with 2 elements the first and last of which are the number of edges and the second is the number of loops</p>
-
-<p><em>makeString</em> : <code>optional [bool]</code></p>
-
-<p>Default <code>True</code>, if <code>True</code> a string is returned if <code>False</code> a tuple</p>
-
-<h6 id="returns-3">Returns</h6>
-
-<p><code>str or tuple [float and int]</code></p>
-
-<p>The type is determined by <em>makeString</em> and the layout by <em>stats</em></p>
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
-
-<p><a name="isiParser"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#isiParser"><ins>isiParser</ins></a></strong>(<em>isifile</em>):</p>
-
-<p>isiParser() reads the file given by the path isifile, checks that the header is correct then reads until it reaches EF.
-Each it finds is used to initialize a Record then all Record are returned as a list.</p>
+<p>If <em>pandasFriendly</em> is <code>True</code> the returned dict has keys with the names of the WOS tags and lists with their values, i.e. a table with labled columns. The counts are in the column named <code>"TargetCount"</code> and if <em>compareCounts</em> the local count is in a column called <code>"SourceCount"</code>.</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
@@ -371,7 +265,7 @@ Each it finds is used to initialize a Record then all Record are returned as a l
 
 <p>Reads the files given by edgeList and if given nodeList. Outputs a networkx graph for the lists.</p>
 
-<p>This is designed only for the files produced by metaknowledge and is meant to be the reverse of <a href="/metaknowledge/docs/metaknowledge#metaknowledge">write_graph()</a>, if this dow not produce the desired results the networkx builtin <a href="https://networkx.github.io/documentation/networkx-1.9.1/reference/generated/networkx.readwrite.edgelist.read_edgelist.html">networkx.read_edgelist()</a> could be tried.</p>
+<p>This is designed only for the files produced by metaknowledge and is meant to be the reverse of <a href="/metaknowledge/docs/metaknowledge#write_graph">write_graph()</a>, if this dow not produce the desired results the networkx builtin <a href="https://networkx.github.io/documentation/networkx-1.9.1/reference/generated/networkx.readwrite.edgelist.read_edgelist.html">networkx.read_edgelist()</a> could be tried.</p>
 
 <p>The read edge list format assumes the column named <em>eSource</em> (From) is the source node, then the next column <em>eDest</em> (To) givens the destination and all other columns are attributes of the edge, e.g. weight.</p>
 
@@ -381,7 +275,7 @@ Each it finds is used to initialize a Record then all Record are returned as a l
 
 <p><strong>Note</strong>: if nodes appear in the edgelist but not the nodeList they will be created with no attributes.</p>
 
-<h6 id="parameters-4">Parameters</h6>
+<h6 id="parameters-3">Parameters</h6>
 
 <p><em>edgeList</em> : <code>str</code></p>
 
@@ -407,7 +301,7 @@ Each it finds is used to initialize a Record then all Record are returned as a l
 
 <p>default <code>"To"</code>, the name of the destination column in the edge list</p>
 
-<h6 id="returns-4">Returns</h6>
+<h6 id="returns-3">Returns</h6>
 
 <p><code>networkx Graph</code></p>
 
@@ -415,36 +309,7 @@ Each it finds is used to initialize a Record then all Record are returned as a l
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="recordParser"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#recordParser"><ins>recordParser</ins></a></strong>(<em>paper</em>):</p>
-
-<p>Reads the file <em>paper</em> until it reaches ‘ER’.</p>
-
-<p>For each field tag it adds an entry to the returned dict with the tag as the key and a list of the entries as the value, the list has each line separately, so for the following string in a record:</p>
-
-<p>“AF BREVIK, I</p>
-
-<pre><code>ANICIN, B"
-</code></pre>
-
-<p>The entry in the returned dict would be <code>{'AF' : ["BREVIK, I", "ANICIN, B"]}</code></p>
-
-<p><a href="/metaknowledge/docs/metaknowledge#metaknowledge">Record</a> objects can be created with these dictionaries as the initializer.</p>
-
-<h6 id="parameters-5">Parameters</h6>
-
-<p><em>paper</em> : <code>file stream</code></p>
-
-<p>An open file, with the current line at the beginning of the record.</p>
-
-<h6 id="returns-5">Returns</h6>
-
-<p><code>dict[str : List[str]]</code></p>
-
-<p>A dictionary mapping WOS tags to lists, the lists are of strings, each string is a line of the record associated with the tag.</p>
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
-
-<p><a name="write_edgeList"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#write_edgeList"><ins>write_edgeList</ins></a></strong>(<em>grph, name, extraInfo=True</em>):</p>
+<p><a name="write_edgeList"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#write_edgeList"><ins>write_edgeList</ins></a></strong>(<em>grph, name, extraInfo=True, allSameAttribute=False</em>):</p>
 
 <p>Writes an edge list of <em>grph</em> at the destination <em>name</em>.</p>
 
@@ -452,7 +317,7 @@ Each it finds is used to initialize a Record then all Record are returned as a l
 
 <p><strong>Note</strong>: If any edges are missing an attribute <code>KeyError</code> will be raised.</p>
 
-<h6 id="parameters-6">Parameters</h6>
+<h6 id="parameters-4">Parameters</h6>
 
 <p><em>grph</em> : <code>networkx Graph</code></p>
 
@@ -465,6 +330,108 @@ Each it finds is used to initialize a Record then all Record are returned as a l
 <p><em>edgeInfo</em> : <code>optional [bool]</code></p>
 
 <p>Default <code>True</code>, if <code>True</code> the attributes of each edge will be written</p>
+
+<p><em>allSameAttribute</em> : <code>optional [bool]</code></p>
+
+<p>Default <code>False</code>, if <code>True</code> all the edges must have the same attributes or an exception will be raised. If <code>False</code> the missing attributes will be left blank.</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="write_nodeAttributeFile"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#write_nodeAttributeFile"><ins>write_nodeAttributeFile</ins></a></strong>(<em>grph, name, allSameAttribute=False</em>):</p>
+
+<p>Writes a node attribute list of <em>grph</em> with filename <em>name</em></p>
+
+<p>The node list has one column call “ID” with the node ids used by networkx and all other columns are the node attributes.</p>
+
+<p><strong>Note</strong>: If any edges are missing an attribute <code>KeyError</code> will be raised.</p>
+
+<h6 id="parameters-5">Parameters</h6>
+
+<p><em>grph</em> : <code>networkx Graph</code></p>
+
+<p>The graph to be written to <em>name</em></p>
+
+<p><em>name</em> : <code>str</code></p>
+
+<p>The name of the file to be written</p>
+
+<p><em>allSameAttribute</em> : <code>optional [bool]</code></p>
+
+<p>Default <code>False</code>, if <code>True</code> all the nodes must have the same attributes or an exception will be raised. If <code>False</code> the missing attributes will be left blank.</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="drop_edges"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#drop_edges"><ins>drop_edges</ins></a></strong>(<em>grph, minWeight=-inf, maxWeight=inf, parameterName=’weight’, ignoreUnweighted=False, dropSelfLoops=False</em>):</p>
+
+<p>Returns a graph with edges whose weight is within the inclusive bounds of minWeight and maxWeight, i.e minWeight &lt;= edges weight &lt;= maxWeight, will throw a Keyerror if the graph is unweighted</p>
+
+<p>minWeight and maxWeight default to negative and positive infinity respectively so without specifying either the output should be the input</p>
+
+<p>parameterName is key to weight field in the edge’s dictionary, default is weight as that is almost always correct</p>
+
+<p>ignoreUnweighted can be set False to suppress the KeyError and make unweighted edges be ignored</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="drop_nodesByDegree"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#drop_nodesByDegree"><ins>drop_nodesByDegree</ins></a></strong>(<em>grph, minDegree=-inf, maxDegree=inf, useWeight=True, parameterName=’weight’, ignoreUnweighted=True</em>):</p>
+
+<p>Returns a graph whose nodes have a degree that is within inclusive bounds of minDegree and maxDegree, i.e minDegree &lt;= degree &lt;= maxDegree. Degree can be determined in two ways by default it is the total number of edges touching a node, alternative if useWeight is True it is the sum of the weight of all the edges touching a node.</p>
+
+<p>minDegree and maxDegree default to negative and positive infinity respectively so without specifying either the output should be the input</p>
+
+<p>useWeight can be set True to use an alternative method for calculating degree, the total weight of all edges</p>
+
+<p>parameterName is key to weight field in the edge’s dictionary, default is weight as that is almost always correct, only used if useWeight is True</p>
+
+<p>ignoreUnweighted can be set False to suppress the KeyError and make unweighted edges be not counted, only used if useWeight is True</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="drop_nodesByCount"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#drop_nodesByCount"><ins>drop_nodesByCount</ins></a></strong>(<em>grph, minCount=-inf, maxCount=inf, parameterName=’count’, ignoreMissing=False</em>):</p>
+
+<p>Returns a graph whose nodes have a occurrence count that is within inclusive bounds of minCount and maxCount, i.e minCount &lt;= count &lt;= maxCount. Occurrence count is determined by reading the variable associated with the node named parameterName.</p>
+
+<p>minCount and maxCount default to negative and positive infinity respectively so without specifying either the output should be the input</p>
+
+<p>parameterName is key to count field in the node’s dictionary, default is count as that is often correct</p>
+
+<p>ignoreMissing can be set False to suppress the KeyError and make nodes missing counts be dropped instead of throwing errors</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="graphStats"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#graphStats"><ins>graphStats</ins></a></strong>(<em>G, stats=(‘nodes’, ‘edges’, ‘isolates’, ‘loops’, ‘density’, ‘transitivity’), makeString=True</em>):</p>
+
+<p>Returns a string or list containing statistics about the graph <em>G</em>.</p>
+
+<p><strong>graphStats()</strong> gives 6 different statistics: number of nodes, number of edges, number of isolates, number of loops, density and transitivity. The ones wanted can be given to <em>stats</em>. By default a string giving a sentence containing all the requested statistics is returned but the raw values can be accessed instead by setting <em>makeString</em> to <code>False</code>.</p>
+
+<h6 id="parameters-6">Parameters</h6>
+
+<p><em>G</em> : <code>networkx Graph</code></p>
+
+<p>The graph for the statistics to be determined of</p>
+
+<p><em>stats</em> : <code>optional [list or tuple [str]]</code></p>
+
+<p>Default ‘nodes’, ‘edges’, ‘isolates’, ‘loops’, ‘density’, ‘transitivity’), a list or tuple containing any number or combination of the strings:</p>
+
+<p><code>"nodes"</code>, <code>"edges"</code>, <code>"isolates"</code>, <code>"loops"</code>, <code>"density"</code> and <code>"transitivity"</code>`</p>
+
+<p>At least one occurrence of the corresponding string causes the statistics to be provided in the string output. For the non-string (tuple) output the returned tuple has the same length as the input and each output is at the same index as the string that requested it, e.g.</p>
+
+<p><code>_stats_ = ("edges", "loops", "edges")</code></p>
+
+<p>The return is a tuple with 2 elements the first and last of which are the number of edges and the second is the number of loops</p>
+
+<p><em>makeString</em> : <code>optional [bool]</code></p>
+
+<p>Default <code>True</code>, if <code>True</code> a string is returned if <code>False</code> a tuple</p>
+
+<h6 id="returns-4">Returns</h6>
+
+<p><code>str or tuple [float and int]</code></p>
+
+<p>The type is determined by <em>makeString</em> and the layout by <em>stats</em></p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
@@ -480,7 +447,7 @@ Each it finds is used to initialize a Record then all Record are returned as a l
 
 <p>Both files are csv’s with comma delimiters and double quote quoting characters. The edge list has two columns for the source and destination of the edge, “From” and “To” respectively, then, if <em>edgeInfo</em> is <code>True</code>, for each attribute of the node another column is created. The node list has one column call “ID” with the node ids used by networkx and all other columns are the node attributes.</p>
 
-<p>To read back these files use <a href="/metaknowledge/docs/metaknowledge#metaknowledge">read_graph()</a> and to write only one type of lsit use <a href="/metaknowledge/docs/metaknowledge#metaknowledge">write_edgeList()</a> or <a href="/metaknowledge/docs/metaknowledge#metaknowledge">write_nodeAttributeFile()</a>.</p>
+<p>To read back these files use <a href="/metaknowledge/docs/metaknowledge#read_graph">read_graph()</a> and to write only one type of lsit use <a href="/metaknowledge/docs/metaknowledge#write_edgeList">write_edgeList()</a> or <a href="/metaknowledge/docs/metaknowledge#write_nodeAttributeFile">write_nodeAttributeFile()</a>.</p>
 
 <p><strong>Warning</strong>: this function will overwrite files, if they are in the way of the output, to prevent this set <em>overwrite</em> to <code>False</code></p>
 
@@ -514,23 +481,111 @@ Each it finds is used to initialize a Record then all Record are returned as a l
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="write_nodeAttributeFile"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#write_nodeAttributeFile"><ins>write_nodeAttributeFile</ins></a></strong>(<em>grph, name</em>):</p>
+<p><a name="recordParser"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#recordParser"><ins>recordParser</ins></a></strong>(<em>paper</em>):</p>
 
-<p>Writes a node attribute list of <em>grph</em> with filename <em>name</em></p>
+<p>Reads the file <em>paper</em> until it reaches ‘ER’.</p>
 
-<p>The node list has one column call “ID” with the node ids used by networkx and all other columns are the node attributes.</p>
+<p>For each field tag it adds an entry to the returned dict with the tag as the key and a list of the entries as the value, the list has each line separately, so for the following string in a record:</p>
 
-<p><strong>Note</strong>: If any edges are missing an attribute <code>KeyError</code> will be raised.</p>
+<p>“AF BREVIK, I</p>
+
+<pre><code>ANICIN, B"
+</code></pre>
+
+<p>The entry in the returned dict would be <code>{'AF' : ["BREVIK, I", "ANICIN, B"]}</code></p>
+
+<p><a href="/metaknowledge/docs/metaknowledge#Record">Record</a> objects can be created with these dictionaries as the initializer.</p>
 
 <h6 id="parameters-8">Parameters</h6>
 
-<p><em>grph</em> : <code>networkx Graph</code></p>
+<p><em>paper</em> : <code>file stream</code></p>
 
-<p>The graph to be written to <em>name</em></p>
+<p>An open file, with the current line at the beginning of the record.</p>
 
-<p><em>name</em> : <code>str</code></p>
+<h6 id="returns-5">Returns</h6>
 
-<p>The name of the file to be written</p>
+<p><code>dict[str : List[str]]</code></p>
+
+<p>A dictionary mapping WOS tags to lists, the lists are of strings, each string is a line of the record associated with the tag.</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="isiParser"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#isiParser"><ins>isiParser</ins></a></strong>(<em>isifile</em>):</p>
+
+<p>isiParser() reads the file given by the path isifile, checks that the header is correct then reads until it reaches EF.
+Each it finds is used to initialize a Record then all Record are returned as a list.</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="tagToFull"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#tagToFull"><ins>tagToFull</ins></a></strong>(<em>tag</em>):</p>
+
+<p>A wrapper for <a href="/metaknowledge/docs/tagProcessing#tagProcessing"><code>tagToFullDict</code></a> it maps 2 character tags to thir full names.</p>
+
+<h6 id="parameters-9">Parameters</h6>
+
+<p><em>tag</em>: <code>str</code></p>
+
+<p>A two character string giving the tag</p>
+
+<h6 id="returns-6">Returns</h6>
+
+<p><code>str</code></p>
+
+<p>The full name of <em>tag</em></p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="normalizeToTag"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#normalizeToTag"><ins>normalizeToTag</ins></a></strong>(<em>val</em>):</p>
+
+<p>Converts tags or full names to tags</p>
+
+<h6 id="parameters-10">Parameters</h6>
+
+<p><em>val</em>: <code>str</code></p>
+
+<p>A two character string giving the tag or its full name</p>
+
+<h6 id="returns-7">Returns</h6>
+
+<p><code>str</code></p>
+
+<p>The short name of <em>val</em></p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="normalizeToName"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#normalizeToName"><ins>normalizeToName</ins></a></strong>(<em>val</em>):</p>
+
+<p>Converts tags or full names to full names</p>
+
+<h6 id="parameters-11">Parameters</h6>
+
+<p><em>val</em>: <code>str</code></p>
+
+<p>A two character string giving the tag or its full name</p>
+
+<h6 id="returns-8">Returns</h6>
+
+<p><code>str</code></p>
+
+<p>The full name of <em>val</em></p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="isTagOrName"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#isTagOrName"><ins>isTagOrName</ins></a></strong>(<em>val</em>):</p>
+
+<p>Checks if <em>val</em> is a tag or full name of tag if so returns <code>True</code></p>
+
+<h6 id="parameters-12">Parameters</h6>
+
+<p><em>val</em>: <code>str</code></p>
+
+<p>A string possible forming a tag or name</p>
+
+<h6 id="returns-9">Returns</h6>
+
+<p><code>bool</code></p>
+
+<p><code>True</code> if <em>val</em> is a tag or name, otherwise <code>False</code></p>
 
 <p><a name="BadCitation"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#BadCitation"><ins>BadCitation</ins></a></strong>():</p>
 

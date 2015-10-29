@@ -6,14 +6,14 @@
 <head>
 <meta charset="utf-8">
 <title>Record &#8211; metaknowledge</title>
-<meta name="description" content="The Record Class">
+<meta name="description" content="The thing RecordCollections are made of">
 <meta name="keywords" content="class">
 
 
 
 <!-- Twitter Cards -->
 <meta name="twitter:title" content="Record">
-<meta name="twitter:description" content="The Record Class">
+<meta name="twitter:description" content="The thing RecordCollections are made of">
 
 
 
@@ -24,7 +24,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Record">
-<meta property="og:description" content="The Record Class">
+<meta property="og:description" content="The thing RecordCollections are made of">
 <meta property="og:url" content="/metaknowledge/docs/Record">
 <meta property="og:site_name" content="metaknowledge">
 
@@ -154,7 +154,7 @@
 
 <p>It is meant to be immutable; many of the methods and attributes are evaluated when first called, not when the object is created, and the results are stored in a private dictionary.</p>
 
-<p>The record’s meta-data is stored in an ordered dictionary labeled by WOS tags. To access the raw data stored in the original record the <a href="/metaknowledge/docs/Record#Record">getTag()</a> method can be used. To access data that has been processed and cleaned the attributes named after the tags are used.</p>
+<p>The record’s meta-data is stored in an ordered dictionary labeled by WOS tags. To access the raw data stored in the original record the <a href="/metaknowledge/docs/Record#getTag">getTag()</a> method can be used. To access data that has been processed and cleaned the attributes named after the tags are used.</p>
 
 <h5 id="customizations">Customizations</h5>
 
@@ -166,7 +166,7 @@
 
 <p>When a record is created if the parsing of the WOS file failed it is marked as <code>bad</code>. The <code>bad</code> attribute is set to True and the <code>error</code> attribute is created to contain the exception object.</p>
 
-<p>Generally, to get the information from a Record its attributes should be used. For a Record <code>R</code>, calling <code>R.CR</code> causes <a href="/metaknowledge/docs/tagFuncs#tagFuncs">citations()</a> from the the <a href="/metaknowledge/docs/tagFuncs#tagFuncs">tagFuncs</a> module to be called on the contents of the raw ‘CR’ field. Then the result is saved and returned. In this case, a list of Citation objects is returned. You can also call <code>R.citations</code> to get the same effect, as each known field tag has a longer name (currently there are 61 field tags). These names are meant to make accessing tags more readable and mapping from tag to name can be found in the tagToFull dict. If a tag is known (in <a href="/metaknowledge/docs/metaknowledge#metaknowledge">tagToFull</a> but not in the raw data <code>None</code> is returned instead. Most tags when cleaned return a string or list of strings, the exact results can be found in the help for the particular function.</p>
+<p>Generally, to get the information from a Record its attributes should be used. For a Record <code>R</code>, calling <code>R.CR</code> causes <a href="/metaknowledge/docs/tagProcessing#citations">citations()</a> from the the <a href="/metaknowledge/docs/tagProcessing#tagProcessing">tagProcessing</a> module to be called on the contents of the raw ‘CR’ field. Then the result is saved and returned. In this case, a list of Citation objects is returned. You can also call <code>R.citations</code> to get the same effect, as each known field tag has a longer name (currently there are 61 field tags). These names are meant to make accessing tags more readable and mapping from tag to name can be found in the tagToFull dict. If a tag is known (in <a href="/metaknowledge/docs/metaknowledge#metaknowledge">tagToFull</a>) but not in the raw data <code>None</code> is returned instead. Most tags when cleaned return a string or list of strings, the exact results can be found in the help for the particular function.</p>
 
 <p>The attribute <code>authors</code> is also defined as a convience and returns the same as ‘AF’ or if that is not found ‘AU’.</p>
 
@@ -180,7 +180,7 @@
 
 <p>If it is a file stream the file must be open at the location of the first tag in the record, usually ‘PT’, and the file will be read until ‘ER’ is found, which indicates the end of the record in the file.</p>
 
-<p>If a dict is passed the dictionary is used as the database of fields and tags, so each key is considered a WOS tag and each value a list of the lines of the original associated with the tag. This is the same form of dict that <a href="/metaknowledge/docs/metaknowledge#metaknowledge">recordParser</a> returns.</p>
+<p>If a dict is passed the dictionary is used as the database of fields and tags, so each key is considered a WOS tag and each value a list of the lines of the original associated with the tag. This is the same form of dict that <a href="/metaknowledge/docs/metaknowledge#recordParser">recordParser</a> returns.</p>
 
 <p>For a str the input is the raw textual data of a single record in the WOS style, like the file stream it must start at the first tag and end in ‘ER’.</p>
 
@@ -197,28 +197,41 @@
 <p>The Record class has the following methods:</p>
 
 <ul class="post-list">
-<li><article><a href="#Record.activeTags"><b>activeTags</b>()</a></article></li>
-<li><article><a href="#Record.createCitation"><b>createCitation</b>()</a></article></li>
-<li><article><a href="#Record.getTag"><b>getTag</b>(<i>tag, clean=False</i>)</a></article></li>
-<li><article><a href="#Record.getTagsDict"><b>getTagsDict</b>(<i>taglst, cleaned=False</i>)</a></article></li>
-<li><article><a href="#Record.getTagsList"><b>getTagsList</b>(<i>taglst, cleaned=False</i>)</a></article></li>
-<li><article><a href="#Record.writeRecord"><b>writeRecord</b>(<i>infile</i>)</a></article></li>
+<li><article><a href="#numAuthors"><b>numAuthors</b>()</a></article></li>
+<li><article><a href="#getTag"><b>getTag</b>(<i>tag, clean=False</i>)</a></article></li>
+<li><article><a href="#createCitation"><b>createCitation</b>()</a></article></li>
+<li><article><a href="#getTagsList"><b>getTagsList</b>(<i>taglst, cleaned=False</i>)</a></article></li>
+<li><article><a href="#getTagsDict"><b>getTagsDict</b>(<i>taglst, cleaned=False</i>)</a></article></li>
+<li><article><a href="#activeTags"><b>activeTags</b>()</a></article></li>
+<li><article><a href="#writeRecord"><b>writeRecord</b>(<i>infile</i>)</a></article></li>
 </ul>
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="Record.activeTags"></a><small>Record.</small><strong><a href="/metaknowledge/docs/Record#Record.activeTags"><ins>activeTags</ins></a></strong>():</p>
+<p><a name="numAuthors"></a><small>Record.</small><strong><a href="/metaknowledge/docs/Record#numAuthors"><ins>numAuthors</ins></a></strong>():</p>
 
-<p>Returns a list of all the tags the original WOS record had. These are all the tags that <a href="/metaknowledge/docs/Record#Record">‘getTag()’</a> will not return <code>None</code> for.</p>
-
-<h6 id="returns">Returns</h6>
-
-<p><code>List[str]</code></p>
-
-<p>a list of WOS tags in the Record</p>
+<p>Returns the number of authors</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="Record.createCitation"></a><small>Record.</small><strong><a href="/metaknowledge/docs/Record#Record.createCitation"><ins>createCitation</ins></a></strong>():</p>
+<p><a name="getTag"></a><small>Record.</small><strong><a href="/metaknowledge/docs/Record#getTag"><ins>getTag</ins></a></strong>(<em>tag, clean=False</em>):</p>
+
+<p>Returns a list containing the raw data of the record associated with <em>tag</em>. Each line of the record is one string in the list.</p>
+
+<h6 id="parameters-1">Parameters</h6>
+
+<p><em>tag</em> : <code>str</code></p>
+
+<p><em>tag</em> can be a two character string corresponding to a WOS tag e.g. ‘J9’, the matching is case insensitive so ‘j9’ is the same as ‘J9’. Or it can be one of the full names for a tag with the mappings in <a href="#metaknowledge">fullToTag</a>. If the string is not found in the original record or after being translated through <a href="#metaknowledge">fullToTag</a>, <code>None</code> is returned.</p>
+
+<h6 id="returns">Returns</h6>
+
+<p><code>List [str]</code></p>
+
+<p>Each string in the list is a line from the record associated with <em>tag</em> or None if not found.</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="createCitation"></a><small>Record.</small><strong><a href="/metaknowledge/docs/Record#createCitation"><ins>createCitation</ins></a></strong>():</p>
 
 <p>Creates a citation string, using the same format as other WOS citations, for the <a href="/metaknowledge/docs/Record#Record">Record</a> by reading the relevant tags (year, J9, volume, beginningPage, DOI) and using it to start a <a href="/metaknowledge/docs/Citation#Citation">Citation</a> object.</p>
 
@@ -230,32 +243,33 @@
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="Record.getTag"></a><small>Record.</small><strong><a href="/metaknowledge/docs/Record#Record.getTag"><ins>getTag</ins></a></strong>(<em>tag, clean=False</em>):</p>
+<p><a name="getTagsList"></a><small>Record.</small><strong><a href="/metaknowledge/docs/Record#getTagsList"><ins>getTagsList</ins></a></strong>(<em>taglst, cleaned=False</em>):</p>
 
-<p>Returns a list containing the raw data of the record associated with <em>tag</em>. Each line of the record is one string in the list.</p>
-
-<h6 id="parameters-1">Parameters</h6>
-
-<p><em>tag</em> : <code>str</code></p>
-
-<p><em>tag</em> can be a two character string corresponding to a WOS tag e.g. ‘J9’, the matching is case insensitive so ‘j9’ is the same as ‘J9’. Or it can be one of the full names for a tag with the mappings in <a href="#metaknowledge">fullToTag</a>. If the string is not found in the original record or after being translated through <a href="#metaknowledge">fullToTag</a>, <code>None</code> is returned.</p>
-
-<h6 id="returns-2">Returns</h6>
-
-<p><code>List [str]</code></p>
-
-<p>Each string in the list is a line from the record associated with <em>tag</em> or None if not found.</p>
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
-
-<p><a name="Record.getTagsDict"></a><small>Record.</small><strong><a href="/metaknowledge/docs/Record#Record.getTagsDict"><ins>getTagsDict</ins></a></strong>(<em>taglst, cleaned=False</em>):</p>
-
-<p>returns a dict of the results of getTag, with the elements of <em>taglst</em> as the keys and the results as the values.</p>
+<p>Returns a list of the results of <a href="/metaknowledge/docs/Record#getTag"><code>getTag()</code></a> for each tag in <em>taglist</em>, the return has the same order as the original.</p>
 
 <h6 id="parameters-2">Parameters</h6>
 <p><em>taglst</em> : <code>List[str]</code></p>
 
-<p>Each string in <em>taglst</em> can be a two character string corresponding to a WOS tag e.g. ‘J9’, the matching is case insensitive so ‘j9’ is the same as ‘J9’. Or it can be one of the full names for a tag with the mappings in <a href="/metaknowledge/docs/metaknowledge#metaknowledge">fullToTag</a>. If the string is not found in the oriagnal record before or after being translated through <a href="#metaknowledge">fullToTag</a>, <code>None</code> is used instead. Same as in <a href="/metaknowledge/docs/Record#Record"><code>getTag()</code></a></p>
+<p>Each string in <em>taglst</em> can be a two character string corresponding to a WOS tag e.g. ‘J9’, the matching is case insensitive so ‘j9’ is the same as ‘J9’. Or it can be one of the full names for a tag with the mappings in <a href="/metaknowledge/docs/metaknowledge#metaknowledge">fullToTag</a>. If the string is not found in the original record before or after being translated through <a href="/metaknowledge/docs/metaknowledge#metaknowledge">fullToTag</a>, <code>None</code> is used instead. Same as in <a href="/metaknowledge/docs/Record#getTag"><code>getTag()</code></a></p>
+
+<p>Then they are compiled into a list in the same order as <em>taglst</em></p>
+
+<h6 id="returns-2">Returns</h6>
+
+<p><code>List[str]</code></p>
+
+<p>a list of the values for each tag in <em>taglst</em>, in the same order</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="getTagsDict"></a><small>Record.</small><strong><a href="/metaknowledge/docs/Record#getTagsDict"><ins>getTagsDict</ins></a></strong>(<em>taglst, cleaned=False</em>):</p>
+
+<p>returns a dict of the results of getTag, with the elements of <em>taglst</em> as the keys and the results as the values.</p>
+
+<h6 id="parameters-3">Parameters</h6>
+<p><em>taglst</em> : <code>List[str]</code></p>
+
+<p>Each string in <em>taglst</em> can be a two character string corresponding to a WOS tag e.g. ‘J9’, the matching is case insensitive so ‘j9’ is the same as ‘J9’. Or it can be one of the full names for a tag with the mappings in <a href="/metaknowledge/docs/metaknowledge#metaknowledge">fullToTag</a>. If the string is not found in the oriagnal record before or after being translated through <a href="#metaknowledge">fullToTag</a>, <code>None</code> is used instead. Same as in <a href="/metaknowledge/docs/Record#getTag"><code>getTag()</code></a></p>
 
 <h6 id="returns-3">Returns</h6>
 
@@ -265,26 +279,19 @@
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="Record.getTagsList"></a><small>Record.</small><strong><a href="/metaknowledge/docs/Record#Record.getTagsList"><ins>getTagsList</ins></a></strong>(<em>taglst, cleaned=False</em>):</p>
+<p><a name="activeTags"></a><small>Record.</small><strong><a href="/metaknowledge/docs/Record#activeTags"><ins>activeTags</ins></a></strong>():</p>
 
-<p>Returns a list of the results of <a href="/metaknowledge/docs/Record#Record"><code>getTag()</code></a> for each tag in <em>taglist</em>, the return has the same order as the original.</p>
-
-<h6 id="parameters-3">Parameters</h6>
-<p><em>taglst</em> : <code>List[str]</code></p>
-
-<p>Each string in <em>taglst</em> can be a two character string corresponding to a WOS tag e.g. ‘J9’, the matching is case insensitive so ‘j9’ is the same as ‘J9’. Or it can be one of the full names for a tag with the mappings in <a href="/metaknowledge/docs/metaknowledge#metaknowledge">fullToTag</a>. If the string is not found in the original record before or after being translated through <a href="/metaknowledge/docs/metaknowledge#metaknowledge">fullToTag</a>, <code>None</code> is used instead. Same as in <a href="/metaknowledge/docs/Record#Record"><code>getTag()</code></a></p>
-
-<p>Then they are compiled into a list in the same order as <em>taglst</em></p>
+<p>Returns a list of all the tags the original WOS record had. These are all the tags that <a href="/metaknowledge/docs/Record#getTag">‘getTag()’</a> will not return <code>None</code> for.</p>
 
 <h6 id="returns-4">Returns</h6>
 
 <p><code>List[str]</code></p>
 
-<p>a list of the values for each tag in <em>taglst</em>, in the same order</p>
+<p>a list of WOS tags in the Record</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="Record.writeRecord"></a><small>Record.</small><strong><a href="/metaknowledge/docs/Record#Record.writeRecord"><ins>writeRecord</ins></a></strong>(<em>infile</em>):</p>
+<p><a name="writeRecord"></a><small>Record.</small><strong><a href="/metaknowledge/docs/Record#writeRecord"><ins>writeRecord</ins></a></strong>(<em>infile</em>):</p>
 
 <p>Writes to <em>infile</em> the original contents of the Record. This is intended for use by <a href="/metaknowledge/docs/RecordCollection#RecordCollection">RecordCollections</a> to write to file. What is written to <em>infile</em> is bit for bit identical to the original record file. No newline is inserted above the write but the last character is a newline.</p>
 

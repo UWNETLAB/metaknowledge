@@ -15,7 +15,7 @@ image:
    <a href="#Installing">Installing<span class="excerpt">How to install metaknowledge</span></a>
    </article></li>
    <li><article>
-   <a href="#Students">Students Install<span class="excerpt">How to install metaknowledge for class</span></a>
+   <a href="#Students">Students Install<span class="excerpt">How to install metaknowledge for the class</span></a>
    </article></li>
 
 {% for post in sortedDocs %}

@@ -5,7 +5,7 @@ import scipy.ndimage as ndi
 import math
 
 def quickVisual(G, showLabel = False):
-    """just makes a simple matplolib figure and displays it, with each node coloured by its type"""
+    """just makes a simple matplotlib figure and displays it, with each node coloured by its type"""
     colours = "brcmykwg"
     f = plt.figure(1)
     ax = f.add_subplot(1,1,1)

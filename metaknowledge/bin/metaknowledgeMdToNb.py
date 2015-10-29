@@ -12,7 +12,6 @@ startString = """{
  "cells": [
   """
 
-
 endString = """  ],
  "metadata": {
    "kernelspec": {

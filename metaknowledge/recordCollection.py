@@ -6,7 +6,7 @@ from .tagProcessing.funcDicts import tagsAndNameSet, tagToFullDict, fullToTagDic
 from .citation import Citation
 
 import itertools
-import os.path
+import os
 import csv
 
 import networkx as nx

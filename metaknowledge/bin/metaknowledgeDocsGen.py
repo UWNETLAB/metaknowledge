@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 """This is intended for metaknowledge only and may not work with anything else"""
+
 import inspect
 import argparse
 import os

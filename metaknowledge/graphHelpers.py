@@ -171,7 +171,7 @@ def write_graph(grph, name, edgeInfo = True, typing = False, suffix = 'csv', ove
     if PBar:
         PBar.finish(str(len(grph.nodes())) + " nodes and " + str(len(grph.edges())) + " edges written to file")
 
-def write_edgeList(grph, name, extraInfo = True, _progBar = None):
+def write_edgeList(grph, name, extraInfo = True, allSameAttribute = False, _progBar = None):
     """Writes an edge list of _grph_ at the destination _name_.
 
     The edge list has two columns for the source and destination of the edge, "From" and "To" respectively, then, if _edgeInfo_ is `True`, for each attribute of the node another column is created.
@@ -191,6 +191,10 @@ def write_edgeList(grph, name, extraInfo = True, _progBar = None):
     _edgeInfo_ : `optional [bool]`
 
     > Default `True`, if `True` the attributes of each edge will be written
+
+    _allSameAttribute_ : `optional [bool]`
+
+    > Default `False`, if `True` all the edges must have the same attributes or an exception will be raised. If `False` the missing attributes will be left blank.
     """
     if _progBar:
         count = 0
@@ -207,11 +211,19 @@ def write_edgeList(grph, name, extraInfo = True, _progBar = None):
             _progBar.updateVal(1, "Done edge list " + name + ", 0 edges written.")
     else:
         if extraInfo:
-            csvDict = ['From'] +  ['To'] + list(grph.edges_iter(data = True).__next__()[2].keys())
+            csvHeader = []
+            if allSameAttribute:
+                csvHeader = ['From'] +  ['To'] + list(grph.edges_iter(data = True).__next__()[2].keys())
+            else:
+                for n1, n2, attribs in grph.edges_iter(data = True):
+                    for key in attribs.keys():
+                        if key not in csvHeader:
+                            csvHeader.append(key)
+                csvHeader += ['From', 'To']
         else:
-            csvDict = ['From'] +  ['To']
+            csvHeader = ['From'] +  ['To']
         f = open(name, 'w')
-        outFile = csv.DictWriter(f, csvDict, delimiter = ',', quotechar = '"', quoting=csv.QUOTE_ALL)
+        outFile = csv.DictWriter(f, csvHeader, delimiter = ',', quotechar = '"', quoting=csv.QUOTE_ALL)
         outFile.writeheader()
         if extraInfo:
             for e in grph.edges_iter(data = True):
@@ -224,7 +236,7 @@ def write_edgeList(grph, name, extraInfo = True, _progBar = None):
                 try:
                     outFile.writerow(eDict)
                 except ValueError:
-                    raise ValueError("Some edges in " + str(grph) + " do not have the same attributes")
+                    raise ValueError("Some edges in The graph do not have the same attributes")
         else:
             for e in grph.edges_iter():
                 if _progBar:
@@ -238,7 +250,7 @@ def write_edgeList(grph, name, extraInfo = True, _progBar = None):
             _progBar.finish("Done edge list " + name + ", " + str(count) + " edges written.")
         f.close()
 
-def write_nodeAttributeFile(grph, name, _progBar = None):
+def write_nodeAttributeFile(grph, name, allSameAttribute = False,_progBar = None):
     """Writes a node attribute list of _grph_ with filename _name_
 
     The node list has one column call "ID" with the node ids used by networkx and all other columns are the node attributes.
@@ -254,6 +266,10 @@ def write_nodeAttributeFile(grph, name, _progBar = None):
     _name_ : `str`
 
     > The name of the file to be written
+
+    _allSameAttribute_ : `optional [bool]`
+
+    > Default `False`, if `True` all the nodes must have the same attributes or an exception will be raised. If `False` the missing attributes will be left blank.
     """
     if _progBar:
         count = 0
@@ -269,9 +285,17 @@ def write_nodeAttributeFile(grph, name, _progBar = None):
         if _progBar:
             _progBar.updateVal(1, "Done node attribute list: " + name + ", 0 nodes written.")
     else:
-        csvDict = ['ID'] + list(grph.nodes_iter(data = True).__next__()[1].keys())
+        csvHeader = []
+        if allSameAttribute:
+            csvHeader = ['ID'] + list(grph.nodes_iter(data = True).__next__()[1].keys())
+        else:
+            for n, attribs in grph.nodes_iter(data = True):
+                for key in attribs.keys():
+                    if key not in csvHeader:
+                        csvHeader.append(key)
+            csvHeader.append('ID')
         f = open(name, 'w')
-        outFile = csv.DictWriter(f, csvDict, delimiter = ',', quotechar = '"', quoting=csv.QUOTE_ALL)
+        outFile = csv.DictWriter(f, csvHeader, delimiter = ',', quotechar = '"', quoting = csv.QUOTE_ALL)
         outFile.writeheader()
         for n in grph.nodes_iter(data = True):
             if _progBar:
@@ -282,7 +306,7 @@ def write_nodeAttributeFile(grph, name, _progBar = None):
             try:
                 outFile.writerow(nDict)
             except ValueError:
-                raise ValueError("Some nodes in " + str(grph) + " do not have the same attributes")
+                raise ValueError("Some nodes in the graph do not have the same attributes")
         if _progBar:
             _progBar.updateVal(1, "Done node attribute list: " + name + ", " + str(count) + " nodes written.")
         f.close()

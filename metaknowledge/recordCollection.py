@@ -671,7 +671,7 @@ class RecordCollection(object):
                 recordsWithTags.add(R)
         return RecordCollection(recordsWithTags, repr(self) + "_tags(" + ','.join(taglist) + ')')
 
-    def yearSplit(self, startYear, endYear):
+    def yearSplit(self, startYear, endYear, dropMissingYears = True):
         """Creates a RecordCollection of Records from the years between _startYear_ and _endYear_ inclusive.
 
         # Parameters
@@ -684,6 +684,10 @@ class RecordCollection(object):
 
         > The largest year to be included in the retuned RecordCollection
 
+        _dropMissingYears_ : `optional [bool]`
+
+        > Default `True`, if `True` Records with missing years will be dropped. If `False` a `TypeError` exception will be raised
+
         # Returns
 
         `RecordCollection`
@@ -693,8 +697,14 @@ class RecordCollection(object):
 
         recordsInRange = set()
         for R in self._Records:
-            if R.year >= startYear and R.year <= endYear:
-                recordsInRange.add(R)
+            try:
+                if R.year >= startYear and R.year <= endYear:
+                    recordsInRange.add(R)
+            except TypeError:
+                if dropMissingYears:
+                    pass
+                else:
+                    raise
         return RecordCollection(recordsInRange, repr(self) + "_(" + str(startYear) + " ," + str(endYear) + ")")
 
     def oneModeNetwork(self, mode, nodeCount = True, edgeWeight = True):

@@ -18,9 +18,132 @@ The classes and modules of metaknowledge are:
 <li><article><a href="#Citation"><b>Citation</b><span class="excerpt">Citation are special, here is how they are handled</span></a></article></li>
 <li><article><a href="#Record"><b>Record</b><span class="excerpt">What RecordCollections are made of</span></a></article></li>
 <li><article><a href="#RecordCollection"><b>RecordCollection</b><span class="excerpt">Where all the stuff happens, look here if you want to make things</span></a></article></li>
-<li><article><a href="#tagProcessing"><b>tagProcessing</b><span class="excerpt">All the tags and how they are handled</span></a></article></li>
 <li><article><a href="#visual"><b>visual</b><span class="excerpt">A nicer matplotlib graph visualizer and contour plot</span></a></article></li>
 <li><article><a href="#journalAbbreviations"><b>journalAbbreviations</b><span class="excerpt">Look here to get your J9 database</span></a></article></li>
+<li><article><a href="#tagProcessing"><b>tagProcessing</b><span class="excerpt">All the tags and how they are handled</span></a></article></li>
+</ul>
+All the functions and methods of metaknowledge are as follows:
+
+<ul class="post-list">
+<li><article><a href="#filterNonJournals"><b>filterNonJournals</b>(<i>citesLst, invert=False</i>)</a></article></li>
+<li><article><a href="#diffusionGraph"><b>diffusionGraph</b>(<i>source, target, sourceType='raw', targetType='raw'</i>)</a></article></li>
+<li><article><a href="#diffusionCount"><b>diffusionCount</b>(<i>source, target, sourceType='raw', pandasFriendly=False, compareCounts=False, numAuthors=True</i>)</a></article></li>
+<li><article><a href="#read_graph"><b>read_graph</b>(<i>edgeList, nodeList=None, directed=False, idKey='ID', eSource='From', eDest='To'</i>)</a></article></li>
+<li><article><a href="#write_edgeList"><b>write_edgeList</b>(<i>grph, name, extraInfo=True, allSameAttribute=False</i>)</a></article></li>
+<li><article><a href="#write_nodeAttributeFile"><b>write_nodeAttributeFile</b>(<i>grph, name, allSameAttribute=False</i>)</a></article></li>
+<li><article><a href="#drop_edges"><b>drop_edges</b>(<i>grph, minWeight=-inf, maxWeight=inf, parameterName='weight', ignoreUnweighted=False, dropSelfLoops=False</i>)</a></article></li>
+<li><article><a href="#drop_nodesByDegree"><b>drop_nodesByDegree</b>(<i>grph, minDegree=-inf, maxDegree=inf, useWeight=True, parameterName='weight', ignoreUnweighted=True</i>)</a></article></li>
+<li><article><a href="#drop_nodesByCount"><b>drop_nodesByCount</b>(<i>grph, minCount=-inf, maxCount=inf, parameterName='count', ignoreMissing=False</i>)</a></article></li>
+<li><article><a href="#graphStats"><b>graphStats</b>(<i>G, stats=('nodes', 'edges', 'isolates', 'loops', 'density', 'transitivity'), makeString=True</i>)</a></article></li>
+<li><article><a href="#write_graph"><b>write_graph</b>(<i>grph, name, edgeInfo=True, typing=False, suffix='csv', overwrite=True</i>)</a></article></li>
+<li><article><a href="#recordParser"><b>recordParser</b>(<i>paper</i>)</a></article></li>
+<li><article><a href="#isiParser"><b>isiParser</b>(<i>isifile</i>)</a></article></li>
+<li><article><a href="#tagToFull"><b>tagToFull</b>(<i>tag</i>)</a></article></li>
+<li><article><a href="#normalizeToTag"><b>normalizeToTag</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#normalizeToName"><b>normalizeToName</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#isTagOrName"><b>isTagOrName</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#isAnonymous"><small>Citation</small>.<b>isAnonymous</b>()</a></article></li>
+<li><article><a href="#getID"><small>Citation</small>.<b>getID</b>()</a></article></li>
+<li><article><a href="#getExtra"><small>Citation</small>.<b>getExtra</b>()</a></article></li>
+<li><article><a href="#isJournal"><small>Citation</small>.<b>isJournal</b>(<i>manaulDB='manualj9Abbreviations', returnDict='both', checkIfExcluded=False</i>)</a></article></li>
+<li><article><a href="#getFullJournalName"><small>Citation</small>.<b>getFullJournalName</b>()</a></article></li>
+<li><article><a href="#addToDB"><small>Citation</small>.<b>addToDB</b>(<i>manualName=None, manaulDB='manualj9Abbreviations', invert=False</i>)</a></article></li>
+<li><article><a href="#numAuthors"><small>Record</small>.<b>numAuthors</b>()</a></article></li>
+<li><article><a href="#getTag"><small>Record</small>.<b>getTag</b>(<i>tag, clean=False</i>)</a></article></li>
+<li><article><a href="#createCitation"><small>Record</small>.<b>createCitation</b>()</a></article></li>
+<li><article><a href="#getTagsList"><small>Record</small>.<b>getTagsList</b>(<i>taglst, cleaned=False</i>)</a></article></li>
+<li><article><a href="#getTagsDict"><small>Record</small>.<b>getTagsDict</b>(<i>taglst, cleaned=False</i>)</a></article></li>
+<li><article><a href="#activeTags"><small>Record</small>.<b>activeTags</b>()</a></article></li>
+<li><article><a href="#writeRecord"><small>Record</small>.<b>writeRecord</b>(<i>infile</i>)</a></article></li>
+<li><article><a href="#localCiteStats"><small>RecordCollection</small>.<b>localCiteStats</b>(<i>pandasFriendly=False, keyType='citation'</i>)</a></article></li>
+<li><article><a href="#localCitesOf"><small>RecordCollection</small>.<b>localCitesOf</b>(<i>rec</i>)</a></article></li>
+<li><article><a href="#citeFilter"><small>RecordCollection</small>.<b>citeFilter</b>(<i>keyString='', field='all', reverse=False, caseSensitive=False</i>)</a></article></li>
+<li><article><a href="#pop"><small>RecordCollection</small>.<b>pop</b>()</a></article></li>
+<li><article><a href="#peak"><small>RecordCollection</small>.<b>peak</b>()</a></article></li>
+<li><article><a href="#dropWOS"><small>RecordCollection</small>.<b>dropWOS</b>(<i>wosNum</i>)</a></article></li>
+<li><article><a href="#addRec"><small>RecordCollection</small>.<b>addRec</b>(<i>Rec</i>)</a></article></li>
+<li><article><a href="#getWOS"><small>RecordCollection</small>.<b>getWOS</b>(<i>wosNum, drop=False</i>)</a></article></li>
+<li><article><a href="#getBadRecords"><small>RecordCollection</small>.<b>getBadRecords</b>()</a></article></li>
+<li><article><a href="#dropBadRecords"><small>RecordCollection</small>.<b>dropBadRecords</b>()</a></article></li>
+<li><article><a href="#dropNonJournals"><small>RecordCollection</small>.<b>dropNonJournals</b>(<i>ptVal='J', dropBad=True, invert=False</i>)</a></article></li>
+<li><article><a href="#writeFile"><small>RecordCollection</small>.<b>writeFile</b>(<i>fname=None</i>)</a></article></li>
+<li><article><a href="#writeCSV"><small>RecordCollection</small>.<b>writeCSV</b>(<i>fname=None, onlyTheseTags=None, numAuthors=True, longNames=False, firstTags=None, csvDelimiter=',', csvQuote='"', listDelimiter='|'</i>)</a></article></li>
+<li><article><a href="#makeDict"><small>RecordCollection</small>.<b>makeDict</b>(<i>onlyTheseTags=None, longNames=False, cleanedVal=True, numAuthors=True</i>)</a></article></li>
+<li><article><a href="#coAuthNetwork"><small>RecordCollection</small>.<b>coAuthNetwork</b>()</a></article></li>
+<li><article><a href="#coCiteNetwork"><small>RecordCollection</small>.<b>coCiteNetwork</b>(<i>dropAnon=True, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, keyWords=None</i>)</a></article></li>
+<li><article><a href="#citationNetwork"><small>RecordCollection</small>.<b>citationNetwork</b>(<i>dropAnon=True, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, directed=True, keyWords=None</i>)</a></article></li>
+<li><article><a href="#yearSplit"><small>RecordCollection</small>.<b>yearSplit</b>(<i>startYear, endYear, dropMissingYears=True</i>)</a></article></li>
+<li><article><a href="#oneModeNetwork"><small>RecordCollection</small>.<b>oneModeNetwork</b>(<i>mode, nodeCount=True, edgeWeight=True</i>)</a></article></li>
+<li><article><a href="#twoModeNetwork"><small>RecordCollection</small>.<b>twoModeNetwork</b>(<i>tag1, tag2, directed=False, recordType=True, nodeCount=True, edgeWeight=True</i>)</a></article></li>
+<li><article><a href="#nModeNetwork"><small>RecordCollection</small>.<b>nModeNetwork</b>(<i>tags, recordType=True, nodeCount=True, edgeWeight=True</i>)</a></article></li>
+<li><article><a href="#graphDensityContourPlot"><small>visual</small>.<b>graphDensityContourPlot</b>(<i>G, layout=None, layoutScaleFactor=1, shifAxis=False, overlay=False, axisSamples=100, blurringFactor=0.1, contours=15, nodeSize=10, graphType='coloured', iters=50</i>)</a></article></li>
+<li><article><a href="#quickVisual"><small>visual</small>.<b>quickVisual</b>(<i>G, showLabel=False</i>)</a></article></li>
+<li><article><a href="#getj9dict"><small>journalAbbreviations</small>.<b>getj9dict</b>(<i>dbname='j9Abbreviations', manualDB='manualj9Abbreviations', returnDict='both'</i>)</a></article></li>
+<li><article><a href="#addToDB"><small>journalAbbreviations</small>.<b>addToDB</b>(<i>abbr=None, dbname='manualj9Abbreviations'</i>)</a></article></li>
+<li><article><a href="#excludeFromDB"><small>journalAbbreviations</small>.<b>excludeFromDB</b>(<i>abbr=None, dbname='manualj9Abbreviations'</i>)</a></article></li>
+<li><article><a href="#updatej9DB"><small>journalAbbreviations</small>.<b>updatej9DB</b>(<i>dbname='j9Abbreviations', saveRawHTML=False</i>)</a></article></li>
+<li><article><a href="#getMonth"><small>tagProcessing</small>.<b>getMonth</b>(<i>s</i>)</a></article></li>
+<li><article><a href="#confHost"><small>tagProcessing</small>.<b>confHost</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#publisherAddress"><small>tagProcessing</small>.<b>publisherAddress</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#endingPage"><small>tagProcessing</small>.<b>endingPage</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#year"><small>tagProcessing</small>.<b>year</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#authKeyWords"><small>tagProcessing</small>.<b>authKeyWords</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#bookAuthor"><small>tagProcessing</small>.<b>bookAuthor</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#reprintAddress"><small>tagProcessing</small>.<b>reprintAddress</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#totalTimesCited"><small>tagProcessing</small>.<b>totalTimesCited</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#partNumber"><small>tagProcessing</small>.<b>partNumber</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#specialIssue"><small>tagProcessing</small>.<b>specialIssue</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#subjects"><small>tagProcessing</small>.<b>subjects</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#keyWords"><small>tagProcessing</small>.<b>keyWords</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#pubMedID"><small>tagProcessing</small>.<b>pubMedID</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#documentDeliveryNumber"><small>tagProcessing</small>.<b>documentDeliveryNumber</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#bookAuthorFull"><small>tagProcessing</small>.<b>bookAuthorFull</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#groupName"><small>tagProcessing</small>.<b>groupName</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#title"><small>tagProcessing</small>.<b>title</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#editors"><small>tagProcessing</small>.<b>editors</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#journal"><small>tagProcessing</small>.<b>journal</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#seriesTitle"><small>tagProcessing</small>.<b>seriesTitle</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#seriesSubtitle"><small>tagProcessing</small>.<b>seriesSubtitle</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#authorsFull"><small>tagProcessing</small>.<b>authorsFull</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#language"><small>tagProcessing</small>.<b>language</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#docType"><small>tagProcessing</small>.<b>docType</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#confTitle"><small>tagProcessing</small>.<b>confTitle</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#confDate"><small>tagProcessing</small>.<b>confDate</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#confSponsors"><small>tagProcessing</small>.<b>confSponsors</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#wosTimesCited"><small>tagProcessing</small>.<b>wosTimesCited</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#authAddress"><small>tagProcessing</small>.<b>authAddress</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#pubType"><small>tagProcessing</small>.<b>pubType</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#confLocation"><small>tagProcessing</small>.<b>confLocation</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#j9"><small>tagProcessing</small>.<b>j9</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#funding"><small>tagProcessing</small>.<b>funding</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#group"><small>tagProcessing</small>.<b>group</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#subjectCategory"><small>tagProcessing</small>.<b>subjectCategory</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#citations"><small>tagProcessing</small>.<b>citations</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#publisherCity"><small>tagProcessing</small>.<b>publisherCity</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#ISSN"><small>tagProcessing</small>.<b>ISSN</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#articleNumber"><small>tagProcessing</small>.<b>articleNumber</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#issue"><small>tagProcessing</small>.<b>issue</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#email"><small>tagProcessing</small>.<b>email</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#eISSN"><small>tagProcessing</small>.<b>eISSN</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#DOI"><small>tagProcessing</small>.<b>DOI</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#wosString"><small>tagProcessing</small>.<b>wosString</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#editedBy"><small>tagProcessing</small>.<b>editedBy</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#orcID"><small>tagProcessing</small>.<b>orcID</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#meetingAbstract"><small>tagProcessing</small>.<b>meetingAbstract</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#isoAbbreviation"><small>tagProcessing</small>.<b>isoAbbreviation</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#pageCount"><small>tagProcessing</small>.<b>pageCount</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#publisher"><small>tagProcessing</small>.<b>publisher</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#ISBN"><small>tagProcessing</small>.<b>ISBN</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#month"><small>tagProcessing</small>.<b>month</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#fundingText"><small>tagProcessing</small>.<b>fundingText</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#bookDOI"><small>tagProcessing</small>.<b>bookDOI</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#volume"><small>tagProcessing</small>.<b>volume</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#authorsShort"><small>tagProcessing</small>.<b>authorsShort</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#ResearcherIDnumber"><small>tagProcessing</small>.<b>ResearcherIDnumber</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#citedRefsCount"><small>tagProcessing</small>.<b>citedRefsCount</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#beginningPage"><small>tagProcessing</small>.<b>beginningPage</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#abstract"><small>tagProcessing</small>.<b>abstract</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#supplement"><small>tagProcessing</small>.<b>supplement</b>(<i>val</i>)</a></article></li>
 </ul>
 metaknowledge is a Python3 package that simplifies bibliometric and computational analysis of Web of Science data.
 
@@ -1365,6 +1488,122 @@ _edgeWeight_ : `optional [bool]`
 `networkx Graph`
 
  A networkx Graph with the objects of the tags _tags_ as nodes and their co-occurrences as edges
+
+
+
+---
+<a name="visual"></a>
+
+# [visual]({{ site.baseurl }}{{ page.url }}#visual)
+
+visual docstring
+
+
+
+
+The visual module provides the following functions:
+
+<ul class="post-list">
+<li><article><a href="#graphDensityContourPlot"><b>graphDensityContourPlot</b>(<i>G, layout=None, layoutScaleFactor=1, shifAxis=False, overlay=False, axisSamples=100, blurringFactor=0.1, contours=15, nodeSize=10, graphType='coloured', iters=50</i>)</a></article></li>
+<li><article><a href="#quickVisual"><b>quickVisual</b>(<i>G, showLabel=False</i>)</a></article></li>
+</ul>
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="graphDensityContourPlot"></a><small>visual.</small>**[<ins>graphDensityContourPlot</ins>]({{ site.baseurl }}{{ page.url }}#graphDensityContourPlot)**(_G, layout=None, layoutScaleFactor=1, shifAxis=False, overlay=False, axisSamples=100, blurringFactor=0.1, contours=15, nodeSize=10, graphType='coloured', iters=50_):
+
+Requires numpy and matplotlib
+
+graphType is either "coloured or "solid"
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="quickVisual"></a><small>visual.</small>**[<ins>quickVisual</ins>]({{ site.baseurl }}{{ page.url }}#quickVisual)**(_G, showLabel=False_):
+
+just makes a simple matplotlib figure and displays it, with each node coloured by its type
+
+
+
+---
+<a name="journalAbbreviations"></a>
+
+# [journalAbbreviations]({{ site.baseurl }}{{ page.url }}#journalAbbreviations)
+
+
+
+
+
+
+The journalAbbreviations module provides the following functions:
+
+<ul class="post-list">
+<li><article><a href="#getj9dict"><b>getj9dict</b>(<i>dbname='j9Abbreviations', manualDB='manualj9Abbreviations', returnDict='both'</i>)</a></article></li>
+<li><article><a href="#addToDB"><b>addToDB</b>(<i>abbr=None, dbname='manualj9Abbreviations'</i>)</a></article></li>
+<li><article><a href="#excludeFromDB"><b>excludeFromDB</b>(<i>abbr=None, dbname='manualj9Abbreviations'</i>)</a></article></li>
+<li><article><a href="#updatej9DB"><b>updatej9DB</b>(<i>dbname='j9Abbreviations', saveRawHTML=False</i>)</a></article></li>
+</ul>
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="getj9dict"></a><small>journalAbbreviations.</small>**[<ins>getj9dict</ins>]({{ site.baseurl }}{{ page.url }}#getj9dict)**(_dbname='j9Abbreviations', manualDB='manualj9Abbreviations', returnDict='both'_):
+
+Returns the dictionary of journal abbreviations to a list of the associated journal names. By default the local database is used. The database is in the file _dbname_ in the same directory as this source file
+
+###### Parameters
+
+_dbname_ : `optional [str]`
+
+ The name of the database file
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="addToDB"></a><small>journalAbbreviations.</small>**[<ins>addToDB</ins>]({{ site.baseurl }}{{ page.url }}#addToDB)**(_abbr=None, dbname='manualj9Abbreviations'_):
+
+Adds _abbr_ to the database of journals. The database is kept separate from the one scraped from WOS, this supersedes it. The database by default is stored with the WOS one and the name is given by `metaknowledge.journalAbbreviations.manaulDBname`. To create an empty database run **addToDB** without an _abbr_ argument.
+
+###### Parameters
+
+_abbr_ : `optional [str or dict[str : str]]`
+
+ The journal abbreviation to be added to the database, it can either be a single string in which case that string will be added with its self as the full name, or a dict can be given with the abbreviations as keys and their names as strings, use pipes (`'|'`) to separate multiple names. Note, if the empty string is given as a name the abbreviation will be considered manually __excluded__, i.e. having excludeFromDB() run on it.
+
+_dbname_ : `optional [str]`
+
+ The name of the database file, default is `metaknowledge.journalAbbreviations.manaulDBname`.
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="excludeFromDB"></a><small>journalAbbreviations.</small>**[<ins>excludeFromDB</ins>]({{ site.baseurl }}{{ page.url }}#excludeFromDB)**(_abbr=None, dbname='manualj9Abbreviations'_):
+
+Marks _abbr_ to be excluded the database of journals. The database is kept separate from the one scraped from WOS, this supersedes it. The database by default is stored with the WOS one and the name is given by `metaknowledge.journalAbbreviations.manaulDBname`. To create an empty database run **addToDB** without an _abbr_ argument.
+
+###### Parameters
+
+_abbr_ : `optional [str or tuple[str] or list[str]`
+
+ The journal abbreviation to be excluded from the database, it can either be a single string in which case that string will be exclude or a list/tuple of strings can be given with the abbreviations.
+
+_dbname_ : `optional [str]`
+
+ The name of the database file, default is `metaknowledge.journalAbbreviations.manaulDBname`.
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="updatej9DB"></a><small>journalAbbreviations.</small>**[<ins>updatej9DB</ins>]({{ site.baseurl }}{{ page.url }}#updatej9DB)**(_dbname='j9Abbreviations', saveRawHTML=False_):
+
+Updates the database of Journal Title Abbreviations. Requires an internet connection. The data base is saved relative to the source file not the working directory.
+
+###### Parameters
+
+_dbname_ : `optional [str]`
+
+ The name of the database file, default is "j9Abbreviations.db"
+
+_saveRawHTML_ : `optional [bool]`
+
+ Determines if the original HTML of the pages is stored, default `False`. If `True` they are saved in a directory inside j9Raws begining with todays date.
 
 
 
@@ -2739,122 +2978,6 @@ _val_: `list[str]`
 `str`
 
  The supplement number
-
-
-
----
-<a name="visual"></a>
-
-# [visual]({{ site.baseurl }}{{ page.url }}#visual)
-
-visual docstring
-
-
-
-
-The visual module provides the following functions:
-
-<ul class="post-list">
-<li><article><a href="#graphDensityContourPlot"><b>graphDensityContourPlot</b>(<i>G, layout=None, layoutScaleFactor=1, shifAxis=False, overlay=False, axisSamples=100, blurringFactor=0.1, contours=15, nodeSize=10, graphType='coloured', iters=50</i>)</a></article></li>
-<li><article><a href="#quickVisual"><b>quickVisual</b>(<i>G, showLabel=False</i>)</a></article></li>
-</ul>
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="graphDensityContourPlot"></a><small>visual.</small>**[<ins>graphDensityContourPlot</ins>]({{ site.baseurl }}{{ page.url }}#graphDensityContourPlot)**(_G, layout=None, layoutScaleFactor=1, shifAxis=False, overlay=False, axisSamples=100, blurringFactor=0.1, contours=15, nodeSize=10, graphType='coloured', iters=50_):
-
-Requires numpy and matplotlib
-
-graphType is either "coloured or "solid"
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="quickVisual"></a><small>visual.</small>**[<ins>quickVisual</ins>]({{ site.baseurl }}{{ page.url }}#quickVisual)**(_G, showLabel=False_):
-
-just makes a simple matplotlib figure and displays it, with each node coloured by its type
-
-
-
----
-<a name="journalAbbreviations"></a>
-
-# [journalAbbreviations]({{ site.baseurl }}{{ page.url }}#journalAbbreviations)
-
-
-
-
-
-
-The journalAbbreviations module provides the following functions:
-
-<ul class="post-list">
-<li><article><a href="#getj9dict"><b>getj9dict</b>(<i>dbname='j9Abbreviations', manualDB='manualj9Abbreviations', returnDict='both'</i>)</a></article></li>
-<li><article><a href="#addToDB"><b>addToDB</b>(<i>abbr=None, dbname='manualj9Abbreviations'</i>)</a></article></li>
-<li><article><a href="#excludeFromDB"><b>excludeFromDB</b>(<i>abbr=None, dbname='manualj9Abbreviations'</i>)</a></article></li>
-<li><article><a href="#updatej9DB"><b>updatej9DB</b>(<i>dbname='j9Abbreviations', saveRawHTML=False</i>)</a></article></li>
-</ul>
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="getj9dict"></a><small>journalAbbreviations.</small>**[<ins>getj9dict</ins>]({{ site.baseurl }}{{ page.url }}#getj9dict)**(_dbname='j9Abbreviations', manualDB='manualj9Abbreviations', returnDict='both'_):
-
-Returns the dictionary of journal abbreviations to a list of the associated journal names. By default the local database is used. The database is in the file _dbname_ in the same directory as this source file
-
-###### Parameters
-
-_dbname_ : `optional [str]`
-
- The name of the database file
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="addToDB"></a><small>journalAbbreviations.</small>**[<ins>addToDB</ins>]({{ site.baseurl }}{{ page.url }}#addToDB)**(_abbr=None, dbname='manualj9Abbreviations'_):
-
-Adds _abbr_ to the database of journals. The database is kept separate from the one scraped from WOS, this supersedes it. The database by default is stored with the WOS one and the name is given by `metaknowledge.journalAbbreviations.manaulDBname`. To create an empty database run **addToDB** without an _abbr_ argument.
-
-###### Parameters
-
-_abbr_ : `optional [str or dict[str : str]]`
-
- The journal abbreviation to be added to the database, it can either be a single string in which case that string will be added with its self as the full name, or a dict can be given with the abbreviations as keys and their names as strings, use pipes (`'|'`) to separate multiple names. Note, if the empty string is given as a name the abbreviation will be considered manually __excluded__, i.e. having excludeFromDB() run on it.
-
-_dbname_ : `optional [str]`
-
- The name of the database file, default is `metaknowledge.journalAbbreviations.manaulDBname`.
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="excludeFromDB"></a><small>journalAbbreviations.</small>**[<ins>excludeFromDB</ins>]({{ site.baseurl }}{{ page.url }}#excludeFromDB)**(_abbr=None, dbname='manualj9Abbreviations'_):
-
-Marks _abbr_ to be excluded the database of journals. The database is kept separate from the one scraped from WOS, this supersedes it. The database by default is stored with the WOS one and the name is given by `metaknowledge.journalAbbreviations.manaulDBname`. To create an empty database run **addToDB** without an _abbr_ argument.
-
-###### Parameters
-
-_abbr_ : `optional [str or tuple[str] or list[str]`
-
- The journal abbreviation to be excluded from the database, it can either be a single string in which case that string will be exclude or a list/tuple of strings can be given with the abbreviations.
-
-_dbname_ : `optional [str]`
-
- The name of the database file, default is `metaknowledge.journalAbbreviations.manaulDBname`.
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="updatej9DB"></a><small>journalAbbreviations.</small>**[<ins>updatej9DB</ins>]({{ site.baseurl }}{{ page.url }}#updatej9DB)**(_dbname='j9Abbreviations', saveRawHTML=False_):
-
-Updates the database of Journal Title Abbreviations. Requires an internet connection. The data base is saved relative to the source file not the working directory.
-
-###### Parameters
-
-_dbname_ : `optional [str]`
-
- The name of the database file, default is "j9Abbreviations.db"
-
-_saveRawHTML_ : `optional [bool]`
-
- Determines if the original HTML of the pages is stored, default `False`. If `True` they are saved in a directory inside j9Raws begining with todays date.
 
 
 

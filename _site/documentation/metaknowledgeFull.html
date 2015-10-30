@@ -157,9 +157,132 @@
 <li><article><a href="#Citation"><b>Citation</b><span class="excerpt">Citation are special, here is how they are handled</span></a></article></li>
 <li><article><a href="#Record"><b>Record</b><span class="excerpt">What RecordCollections are made of</span></a></article></li>
 <li><article><a href="#RecordCollection"><b>RecordCollection</b><span class="excerpt">Where all the stuff happens, look here if you want to make things</span></a></article></li>
-<li><article><a href="#tagProcessing"><b>tagProcessing</b><span class="excerpt">All the tags and how they are handled</span></a></article></li>
 <li><article><a href="#visual"><b>visual</b><span class="excerpt">A nicer matplotlib graph visualizer and contour plot</span></a></article></li>
 <li><article><a href="#journalAbbreviations"><b>journalAbbreviations</b><span class="excerpt">Look here to get your J9 database</span></a></article></li>
+<li><article><a href="#tagProcessing"><b>tagProcessing</b><span class="excerpt">All the tags and how they are handled</span></a></article></li>
+</ul>
+<p>All the functions and methods of metaknowledge are as follows:</p>
+
+<ul class="post-list">
+<li><article><a href="#filterNonJournals"><b>filterNonJournals</b>(<i>citesLst, invert=False</i>)</a></article></li>
+<li><article><a href="#diffusionGraph"><b>diffusionGraph</b>(<i>source, target, sourceType='raw', targetType='raw'</i>)</a></article></li>
+<li><article><a href="#diffusionCount"><b>diffusionCount</b>(<i>source, target, sourceType='raw', pandasFriendly=False, compareCounts=False, numAuthors=True</i>)</a></article></li>
+<li><article><a href="#read_graph"><b>read_graph</b>(<i>edgeList, nodeList=None, directed=False, idKey='ID', eSource='From', eDest='To'</i>)</a></article></li>
+<li><article><a href="#write_edgeList"><b>write_edgeList</b>(<i>grph, name, extraInfo=True, allSameAttribute=False</i>)</a></article></li>
+<li><article><a href="#write_nodeAttributeFile"><b>write_nodeAttributeFile</b>(<i>grph, name, allSameAttribute=False</i>)</a></article></li>
+<li><article><a href="#drop_edges"><b>drop_edges</b>(<i>grph, minWeight=-inf, maxWeight=inf, parameterName='weight', ignoreUnweighted=False, dropSelfLoops=False</i>)</a></article></li>
+<li><article><a href="#drop_nodesByDegree"><b>drop_nodesByDegree</b>(<i>grph, minDegree=-inf, maxDegree=inf, useWeight=True, parameterName='weight', ignoreUnweighted=True</i>)</a></article></li>
+<li><article><a href="#drop_nodesByCount"><b>drop_nodesByCount</b>(<i>grph, minCount=-inf, maxCount=inf, parameterName='count', ignoreMissing=False</i>)</a></article></li>
+<li><article><a href="#graphStats"><b>graphStats</b>(<i>G, stats=('nodes', 'edges', 'isolates', 'loops', 'density', 'transitivity'), makeString=True</i>)</a></article></li>
+<li><article><a href="#write_graph"><b>write_graph</b>(<i>grph, name, edgeInfo=True, typing=False, suffix='csv', overwrite=True</i>)</a></article></li>
+<li><article><a href="#recordParser"><b>recordParser</b>(<i>paper</i>)</a></article></li>
+<li><article><a href="#isiParser"><b>isiParser</b>(<i>isifile</i>)</a></article></li>
+<li><article><a href="#tagToFull"><b>tagToFull</b>(<i>tag</i>)</a></article></li>
+<li><article><a href="#normalizeToTag"><b>normalizeToTag</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#normalizeToName"><b>normalizeToName</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#isTagOrName"><b>isTagOrName</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#isAnonymous"><small>Citation</small>.<b>isAnonymous</b>()</a></article></li>
+<li><article><a href="#getID"><small>Citation</small>.<b>getID</b>()</a></article></li>
+<li><article><a href="#getExtra"><small>Citation</small>.<b>getExtra</b>()</a></article></li>
+<li><article><a href="#isJournal"><small>Citation</small>.<b>isJournal</b>(<i>manaulDB='manualj9Abbreviations', returnDict='both', checkIfExcluded=False</i>)</a></article></li>
+<li><article><a href="#getFullJournalName"><small>Citation</small>.<b>getFullJournalName</b>()</a></article></li>
+<li><article><a href="#addToDB"><small>Citation</small>.<b>addToDB</b>(<i>manualName=None, manaulDB='manualj9Abbreviations', invert=False</i>)</a></article></li>
+<li><article><a href="#numAuthors"><small>Record</small>.<b>numAuthors</b>()</a></article></li>
+<li><article><a href="#getTag"><small>Record</small>.<b>getTag</b>(<i>tag, clean=False</i>)</a></article></li>
+<li><article><a href="#createCitation"><small>Record</small>.<b>createCitation</b>()</a></article></li>
+<li><article><a href="#getTagsList"><small>Record</small>.<b>getTagsList</b>(<i>taglst, cleaned=False</i>)</a></article></li>
+<li><article><a href="#getTagsDict"><small>Record</small>.<b>getTagsDict</b>(<i>taglst, cleaned=False</i>)</a></article></li>
+<li><article><a href="#activeTags"><small>Record</small>.<b>activeTags</b>()</a></article></li>
+<li><article><a href="#writeRecord"><small>Record</small>.<b>writeRecord</b>(<i>infile</i>)</a></article></li>
+<li><article><a href="#localCiteStats"><small>RecordCollection</small>.<b>localCiteStats</b>(<i>pandasFriendly=False, keyType='citation'</i>)</a></article></li>
+<li><article><a href="#localCitesOf"><small>RecordCollection</small>.<b>localCitesOf</b>(<i>rec</i>)</a></article></li>
+<li><article><a href="#citeFilter"><small>RecordCollection</small>.<b>citeFilter</b>(<i>keyString='', field='all', reverse=False, caseSensitive=False</i>)</a></article></li>
+<li><article><a href="#pop"><small>RecordCollection</small>.<b>pop</b>()</a></article></li>
+<li><article><a href="#peak"><small>RecordCollection</small>.<b>peak</b>()</a></article></li>
+<li><article><a href="#dropWOS"><small>RecordCollection</small>.<b>dropWOS</b>(<i>wosNum</i>)</a></article></li>
+<li><article><a href="#addRec"><small>RecordCollection</small>.<b>addRec</b>(<i>Rec</i>)</a></article></li>
+<li><article><a href="#getWOS"><small>RecordCollection</small>.<b>getWOS</b>(<i>wosNum, drop=False</i>)</a></article></li>
+<li><article><a href="#getBadRecords"><small>RecordCollection</small>.<b>getBadRecords</b>()</a></article></li>
+<li><article><a href="#dropBadRecords"><small>RecordCollection</small>.<b>dropBadRecords</b>()</a></article></li>
+<li><article><a href="#dropNonJournals"><small>RecordCollection</small>.<b>dropNonJournals</b>(<i>ptVal='J', dropBad=True, invert=False</i>)</a></article></li>
+<li><article><a href="#writeFile"><small>RecordCollection</small>.<b>writeFile</b>(<i>fname=None</i>)</a></article></li>
+<li><article><a href="#writeCSV"><small>RecordCollection</small>.<b>writeCSV</b>(<i>fname=None, onlyTheseTags=None, numAuthors=True, longNames=False, firstTags=None, csvDelimiter=',', csvQuote='"', listDelimiter='|'</i>)</a></article></li>
+<li><article><a href="#makeDict"><small>RecordCollection</small>.<b>makeDict</b>(<i>onlyTheseTags=None, longNames=False, cleanedVal=True, numAuthors=True</i>)</a></article></li>
+<li><article><a href="#coAuthNetwork"><small>RecordCollection</small>.<b>coAuthNetwork</b>()</a></article></li>
+<li><article><a href="#coCiteNetwork"><small>RecordCollection</small>.<b>coCiteNetwork</b>(<i>dropAnon=True, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, keyWords=None</i>)</a></article></li>
+<li><article><a href="#citationNetwork"><small>RecordCollection</small>.<b>citationNetwork</b>(<i>dropAnon=True, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, directed=True, keyWords=None</i>)</a></article></li>
+<li><article><a href="#yearSplit"><small>RecordCollection</small>.<b>yearSplit</b>(<i>startYear, endYear, dropMissingYears=True</i>)</a></article></li>
+<li><article><a href="#oneModeNetwork"><small>RecordCollection</small>.<b>oneModeNetwork</b>(<i>mode, nodeCount=True, edgeWeight=True</i>)</a></article></li>
+<li><article><a href="#twoModeNetwork"><small>RecordCollection</small>.<b>twoModeNetwork</b>(<i>tag1, tag2, directed=False, recordType=True, nodeCount=True, edgeWeight=True</i>)</a></article></li>
+<li><article><a href="#nModeNetwork"><small>RecordCollection</small>.<b>nModeNetwork</b>(<i>tags, recordType=True, nodeCount=True, edgeWeight=True</i>)</a></article></li>
+<li><article><a href="#graphDensityContourPlot"><small>visual</small>.<b>graphDensityContourPlot</b>(<i>G, layout=None, layoutScaleFactor=1, shifAxis=False, overlay=False, axisSamples=100, blurringFactor=0.1, contours=15, nodeSize=10, graphType='coloured', iters=50</i>)</a></article></li>
+<li><article><a href="#quickVisual"><small>visual</small>.<b>quickVisual</b>(<i>G, showLabel=False</i>)</a></article></li>
+<li><article><a href="#getj9dict"><small>journalAbbreviations</small>.<b>getj9dict</b>(<i>dbname='j9Abbreviations', manualDB='manualj9Abbreviations', returnDict='both'</i>)</a></article></li>
+<li><article><a href="#addToDB"><small>journalAbbreviations</small>.<b>addToDB</b>(<i>abbr=None, dbname='manualj9Abbreviations'</i>)</a></article></li>
+<li><article><a href="#excludeFromDB"><small>journalAbbreviations</small>.<b>excludeFromDB</b>(<i>abbr=None, dbname='manualj9Abbreviations'</i>)</a></article></li>
+<li><article><a href="#updatej9DB"><small>journalAbbreviations</small>.<b>updatej9DB</b>(<i>dbname='j9Abbreviations', saveRawHTML=False</i>)</a></article></li>
+<li><article><a href="#getMonth"><small>tagProcessing</small>.<b>getMonth</b>(<i>s</i>)</a></article></li>
+<li><article><a href="#confHost"><small>tagProcessing</small>.<b>confHost</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#publisherAddress"><small>tagProcessing</small>.<b>publisherAddress</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#endingPage"><small>tagProcessing</small>.<b>endingPage</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#year"><small>tagProcessing</small>.<b>year</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#authKeyWords"><small>tagProcessing</small>.<b>authKeyWords</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#bookAuthor"><small>tagProcessing</small>.<b>bookAuthor</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#reprintAddress"><small>tagProcessing</small>.<b>reprintAddress</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#totalTimesCited"><small>tagProcessing</small>.<b>totalTimesCited</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#partNumber"><small>tagProcessing</small>.<b>partNumber</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#specialIssue"><small>tagProcessing</small>.<b>specialIssue</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#subjects"><small>tagProcessing</small>.<b>subjects</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#keyWords"><small>tagProcessing</small>.<b>keyWords</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#pubMedID"><small>tagProcessing</small>.<b>pubMedID</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#documentDeliveryNumber"><small>tagProcessing</small>.<b>documentDeliveryNumber</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#bookAuthorFull"><small>tagProcessing</small>.<b>bookAuthorFull</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#groupName"><small>tagProcessing</small>.<b>groupName</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#title"><small>tagProcessing</small>.<b>title</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#editors"><small>tagProcessing</small>.<b>editors</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#journal"><small>tagProcessing</small>.<b>journal</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#seriesTitle"><small>tagProcessing</small>.<b>seriesTitle</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#seriesSubtitle"><small>tagProcessing</small>.<b>seriesSubtitle</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#authorsFull"><small>tagProcessing</small>.<b>authorsFull</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#language"><small>tagProcessing</small>.<b>language</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#docType"><small>tagProcessing</small>.<b>docType</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#confTitle"><small>tagProcessing</small>.<b>confTitle</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#confDate"><small>tagProcessing</small>.<b>confDate</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#confSponsors"><small>tagProcessing</small>.<b>confSponsors</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#wosTimesCited"><small>tagProcessing</small>.<b>wosTimesCited</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#authAddress"><small>tagProcessing</small>.<b>authAddress</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#pubType"><small>tagProcessing</small>.<b>pubType</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#confLocation"><small>tagProcessing</small>.<b>confLocation</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#j9"><small>tagProcessing</small>.<b>j9</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#funding"><small>tagProcessing</small>.<b>funding</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#group"><small>tagProcessing</small>.<b>group</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#subjectCategory"><small>tagProcessing</small>.<b>subjectCategory</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#citations"><small>tagProcessing</small>.<b>citations</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#publisherCity"><small>tagProcessing</small>.<b>publisherCity</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#ISSN"><small>tagProcessing</small>.<b>ISSN</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#articleNumber"><small>tagProcessing</small>.<b>articleNumber</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#issue"><small>tagProcessing</small>.<b>issue</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#email"><small>tagProcessing</small>.<b>email</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#eISSN"><small>tagProcessing</small>.<b>eISSN</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#DOI"><small>tagProcessing</small>.<b>DOI</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#wosString"><small>tagProcessing</small>.<b>wosString</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#editedBy"><small>tagProcessing</small>.<b>editedBy</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#orcID"><small>tagProcessing</small>.<b>orcID</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#meetingAbstract"><small>tagProcessing</small>.<b>meetingAbstract</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#isoAbbreviation"><small>tagProcessing</small>.<b>isoAbbreviation</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#pageCount"><small>tagProcessing</small>.<b>pageCount</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#publisher"><small>tagProcessing</small>.<b>publisher</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#ISBN"><small>tagProcessing</small>.<b>ISBN</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#month"><small>tagProcessing</small>.<b>month</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#fundingText"><small>tagProcessing</small>.<b>fundingText</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#bookDOI"><small>tagProcessing</small>.<b>bookDOI</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#volume"><small>tagProcessing</small>.<b>volume</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#authorsShort"><small>tagProcessing</small>.<b>authorsShort</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#ResearcherIDnumber"><small>tagProcessing</small>.<b>ResearcherIDnumber</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#citedRefsCount"><small>tagProcessing</small>.<b>citedRefsCount</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#beginningPage"><small>tagProcessing</small>.<b>beginningPage</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#abstract"><small>tagProcessing</small>.<b>abstract</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#supplement"><small>tagProcessing</small>.<b>supplement</b>(<i>val</i>)</a></article></li>
 </ul>
 <p>metaknowledge is a Python3 package that simplifies bibliometric and computational analysis of Web of Science data.</p>
 
@@ -1459,6 +1582,106 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 <p>A networkx Graph with the objects of the tags <em>tags</em> as nodes and their co-occurrences as edges</p>
 
 <hr />
+<p><a name="visual"></a></p>
+
+<h1 id="visualmetaknowledgedocumentationmetaknowledgefullhtmlvisual"><a href="/metaknowledge/documentation/metaknowledgeFull.html#visual">visual</a></h1>
+
+<p>visual docstring</p>
+
+<p>The visual module provides the following functions:</p>
+
+<ul class="post-list">
+<li><article><a href="#graphDensityContourPlot"><b>graphDensityContourPlot</b>(<i>G, layout=None, layoutScaleFactor=1, shifAxis=False, overlay=False, axisSamples=100, blurringFactor=0.1, contours=15, nodeSize=10, graphType='coloured', iters=50</i>)</a></article></li>
+<li><article><a href="#quickVisual"><b>quickVisual</b>(<i>G, showLabel=False</i>)</a></article></li>
+</ul>
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="graphDensityContourPlot"></a><small>visual.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#graphDensityContourPlot"><ins>graphDensityContourPlot</ins></a></strong>(<em>G, layout=None, layoutScaleFactor=1, shifAxis=False, overlay=False, axisSamples=100, blurringFactor=0.1, contours=15, nodeSize=10, graphType=’coloured’, iters=50</em>):</p>
+
+<p>Requires numpy and matplotlib</p>
+
+<p>graphType is either “coloured or “solid”</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="quickVisual"></a><small>visual.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#quickVisual"><ins>quickVisual</ins></a></strong>(<em>G, showLabel=False</em>):</p>
+
+<p>just makes a simple matplotlib figure and displays it, with each node coloured by its type</p>
+
+<hr />
+<p><a name="journalAbbreviations"></a></p>
+
+<h1 id="journalabbreviationsmetaknowledgedocumentationmetaknowledgefullhtmljournalabbreviations"><a href="/metaknowledge/documentation/metaknowledgeFull.html#journalAbbreviations">journalAbbreviations</a></h1>
+
+<p>The journalAbbreviations module provides the following functions:</p>
+
+<ul class="post-list">
+<li><article><a href="#getj9dict"><b>getj9dict</b>(<i>dbname='j9Abbreviations', manualDB='manualj9Abbreviations', returnDict='both'</i>)</a></article></li>
+<li><article><a href="#addToDB"><b>addToDB</b>(<i>abbr=None, dbname='manualj9Abbreviations'</i>)</a></article></li>
+<li><article><a href="#excludeFromDB"><b>excludeFromDB</b>(<i>abbr=None, dbname='manualj9Abbreviations'</i>)</a></article></li>
+<li><article><a href="#updatej9DB"><b>updatej9DB</b>(<i>dbname='j9Abbreviations', saveRawHTML=False</i>)</a></article></li>
+</ul>
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="getj9dict"></a><small>journalAbbreviations.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#getj9dict"><ins>getj9dict</ins></a></strong>(<em>dbname=’j9Abbreviations’, manualDB=’manualj9Abbreviations’, returnDict=’both’</em>):</p>
+
+<p>Returns the dictionary of journal abbreviations to a list of the associated journal names. By default the local database is used. The database is in the file <em>dbname</em> in the same directory as this source file</p>
+
+<h6 id="parameters-33">Parameters</h6>
+
+<p><em>dbname</em> : <code>optional [str]</code></p>
+
+<p>The name of the database file</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="addToDB"></a><small>journalAbbreviations.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#addToDB"><ins>addToDB</ins></a></strong>(<em>abbr=None, dbname=’manualj9Abbreviations’</em>):</p>
+
+<p>Adds <em>abbr</em> to the database of journals. The database is kept separate from the one scraped from WOS, this supersedes it. The database by default is stored with the WOS one and the name is given by <code>metaknowledge.journalAbbreviations.manaulDBname</code>. To create an empty database run <strong>addToDB</strong> without an <em>abbr</em> argument.</p>
+
+<h6 id="parameters-34">Parameters</h6>
+
+<p><em>abbr</em> : <code>optional [str or dict[str : str]]</code></p>
+
+<p>The journal abbreviation to be added to the database, it can either be a single string in which case that string will be added with its self as the full name, or a dict can be given with the abbreviations as keys and their names as strings, use pipes (<code>'|'</code>) to separate multiple names. Note, if the empty string is given as a name the abbreviation will be considered manually <strong>excluded</strong>, i.e. having excludeFromDB() run on it.</p>
+
+<p><em>dbname</em> : <code>optional [str]</code></p>
+
+<p>The name of the database file, default is <code>metaknowledge.journalAbbreviations.manaulDBname</code>.</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="excludeFromDB"></a><small>journalAbbreviations.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#excludeFromDB"><ins>excludeFromDB</ins></a></strong>(<em>abbr=None, dbname=’manualj9Abbreviations’</em>):</p>
+
+<p>Marks <em>abbr</em> to be excluded the database of journals. The database is kept separate from the one scraped from WOS, this supersedes it. The database by default is stored with the WOS one and the name is given by <code>metaknowledge.journalAbbreviations.manaulDBname</code>. To create an empty database run <strong>addToDB</strong> without an <em>abbr</em> argument.</p>
+
+<h6 id="parameters-35">Parameters</h6>
+
+<p><em>abbr</em> : <code>optional [str or tuple[str] or list[str]</code></p>
+
+<p>The journal abbreviation to be excluded from the database, it can either be a single string in which case that string will be exclude or a list/tuple of strings can be given with the abbreviations.</p>
+
+<p><em>dbname</em> : <code>optional [str]</code></p>
+
+<p>The name of the database file, default is <code>metaknowledge.journalAbbreviations.manaulDBname</code>.</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="updatej9DB"></a><small>journalAbbreviations.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#updatej9DB"><ins>updatej9DB</ins></a></strong>(<em>dbname=’j9Abbreviations’, saveRawHTML=False</em>):</p>
+
+<p>Updates the database of Journal Title Abbreviations. Requires an internet connection. The data base is saved relative to the source file not the working directory.</p>
+
+<h6 id="parameters-36">Parameters</h6>
+
+<p><em>dbname</em> : <code>optional [str]</code></p>
+
+<p>The name of the database file, default is “j9Abbreviations.db”</p>
+
+<p><em>saveRawHTML</em> : <code>optional [bool]</code></p>
+
+<p>Determines if the original HTML of the pages is stored, default <code>False</code>. If <code>True</code> they are saved in a directory inside j9Raws begining with todays date.</p>
+
+<hr />
 <p><a name="tagProcessing"></a></p>
 
 <h1 id="tagprocessingmetaknowledgedocumentationmetaknowledgefullhtmltagprocessing"><a href="/metaknowledge/documentation/metaknowledgeFull.html#tagProcessing">tagProcessing</a></h1>
@@ -1759,7 +1982,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the host of the conference</p>
 
-<h6 id="parameters-33">Parameters</h6>
+<h6 id="parameters-37">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -1779,7 +2002,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the publishers address</p>
 
-<h6 id="parameters-34">Parameters</h6>
+<h6 id="parameters-38">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -1799,7 +2022,7 @@ Month Year (“%b %Y”)</p>
 
 <p>return the last page the record occurs on as a string, not aall are intergers</p>
 
-<h6 id="parameters-35">Parameters</h6>
+<h6 id="parameters-39">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -1819,7 +2042,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the year the record was published in as an int</p>
 
-<h6 id="parameters-36">Parameters</h6>
+<h6 id="parameters-40">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -1839,7 +2062,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the keywords assigned by the author of the Record</p>
 
-<h6 id="parameters-37">Parameters</h6>
+<h6 id="parameters-41">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -1859,7 +2082,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts a list of the short names of the authors of a book Record</p>
 
-<h6 id="parameters-38">Parameters</h6>
+<h6 id="parameters-42">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -1879,7 +2102,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the reprint address string</p>
 
-<h6 id="parameters-39">Parameters</h6>
+<h6 id="parameters-43">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -1899,7 +2122,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the total number of citations of the record</p>
 
-<h6 id="parameters-40">Parameters</h6>
+<h6 id="parameters-44">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -1919,7 +2142,7 @@ Month Year (“%b %Y”)</p>
 
 <p>return an integer giving the part of the issue the Record is in</p>
 
-<h6 id="parameters-41">Parameters</h6>
+<h6 id="parameters-45">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -1939,7 +2162,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the special issue value</p>
 
-<h6 id="parameters-42">Parameters</h6>
+<h6 id="parameters-46">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -1959,7 +2182,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts a list of subjects as assigned by WOS</p>
 
-<h6 id="parameters-43">Parameters</h6>
+<h6 id="parameters-47">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -1979,7 +2202,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the WOS keywords of the Record</p>
 
-<h6 id="parameters-44">Parameters</h6>
+<h6 id="parameters-48">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -1999,7 +2222,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the pubmed ID of the record</p>
 
-<h6 id="parameters-45">Parameters</h6>
+<h6 id="parameters-49">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2019,7 +2242,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the document delivery number of the Record</p>
 
-<h6 id="parameters-46">Parameters</h6>
+<h6 id="parameters-50">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2039,7 +2262,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts a list of the long names of the authors of a book Record</p>
 
-<h6 id="parameters-47">Parameters</h6>
+<h6 id="parameters-51">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2059,7 +2282,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the name of the group associated with the Record</p>
 
-<h6 id="parameters-48">Parameters</h6>
+<h6 id="parameters-52">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2079,7 +2302,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the title of the record</p>
 
-<h6 id="parameters-49">Parameters</h6>
+<h6 id="parameters-53">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2107,7 +2330,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the full name of the publication</p>
 
-<h6 id="parameters-50">Parameters</h6>
+<h6 id="parameters-54">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2127,7 +2350,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the title of the series the Record is in</p>
 
-<h6 id="parameters-51">Parameters</h6>
+<h6 id="parameters-55">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2147,7 +2370,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the title of the series the Record is in</p>
 
-<h6 id="parameters-52">Parameters</h6>
+<h6 id="parameters-56">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2167,7 +2390,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts a list of authors full names</p>
 
-<h6 id="parameters-53">Parameters</h6>
+<h6 id="parameters-57">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2187,7 +2410,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the languages of the Record as a string with languages separated by ‘, ‘, usually there is only one language</p>
 
-<h6 id="parameters-54">Parameters</h6>
+<h6 id="parameters-58">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2207,7 +2430,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the type of document the Record contains</p>
 
-<h6 id="parameters-55">Parameters</h6>
+<h6 id="parameters-59">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2227,7 +2450,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the title of the conference associated with the Record</p>
 
-<h6 id="parameters-56">Parameters</h6>
+<h6 id="parameters-60">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2247,7 +2470,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the date string of the conference associated with the Record, the date is not normalized</p>
 
-<h6 id="parameters-57">Parameters</h6>
+<h6 id="parameters-61">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2267,7 +2490,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts a list of sponsors for the conference associated with the record</p>
 
-<h6 id="parameters-58">Parameters</h6>
+<h6 id="parameters-62">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2287,7 +2510,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the number of times the Record has been cited by records in WOS</p>
 
-<h6 id="parameters-59">Parameters</h6>
+<h6 id="parameters-63">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2307,7 +2530,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the address of the authors as given by WOS. <strong>Warning</strong> the mapping of author to address is not very good and is given in multiple ways.</p>
 
-<h6 id="parameters-60">Parameters</h6>
+<h6 id="parameters-64">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2327,7 +2550,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the type of publication as a character: conference, book, journal, book in series, or patent</p>
 
-<h6 id="parameters-61">Parameters</h6>
+<h6 id="parameters-65">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2347,7 +2570,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the sting giving the conference’s location</p>
 
-<h6 id="parameters-62">Parameters</h6>
+<h6 id="parameters-66">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2367,7 +2590,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the J9 (29-Character Source Abbreviation) of the publication</p>
 
-<h6 id="parameters-63">Parameters</h6>
+<h6 id="parameters-67">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2387,7 +2610,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts a list of the groups funding the Record</p>
 
-<h6 id="parameters-64">Parameters</h6>
+<h6 id="parameters-68">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2407,7 +2630,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the group associated with the Record</p>
 
-<h6 id="parameters-65">Parameters</h6>
+<h6 id="parameters-69">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2427,7 +2650,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts a list of the subjects associated with the Record</p>
 
-<h6 id="parameters-66">Parameters</h6>
+<h6 id="parameters-70">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2447,7 +2670,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts a list of all the citations in the record, the citations are the <a href="/metaknowledge/docs/Citation#Citation">metaknowledge.Citation</a> class.</p>
 
-<h6 id="parameters-67">Parameters</h6>
+<h6 id="parameters-71">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2467,7 +2690,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the city the publisher is in</p>
 
-<h6 id="parameters-68">Parameters</h6>
+<h6 id="parameters-72">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2487,7 +2710,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the ISSN of the Record</p>
 
-<h6 id="parameters-69">Parameters</h6>
+<h6 id="parameters-73">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2507,7 +2730,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts a string giving the article number, not all are integers</p>
 
-<h6 id="parameters-70">Parameters</h6>
+<h6 id="parameters-74">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2527,7 +2750,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts a string giving the issue or range of issues the Record was in, not all are integers</p>
 
-<h6 id="parameters-71">Parameters</h6>
+<h6 id="parameters-75">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2547,7 +2770,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts a list of emails given by the authors of the Record</p>
 
-<h6 id="parameters-72">Parameters</h6>
+<h6 id="parameters-76">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2567,7 +2790,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the EISSN of the Record</p>
 
-<h6 id="parameters-73">Parameters</h6>
+<h6 id="parameters-77">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2587,7 +2810,7 @@ Month Year (“%b %Y”)</p>
 
 <p>return the DOI number of the record</p>
 
-<h6 id="parameters-74">Parameters</h6>
+<h6 id="parameters-78">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2607,7 +2830,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the WOS number of the record as a string preceded by “WOS:”</p>
 
-<h6 id="parameters-75">Parameters</h6>
+<h6 id="parameters-79">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2627,7 +2850,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts a list of the editors of the Record</p>
 
-<h6 id="parameters-76">Parameters</h6>
+<h6 id="parameters-80">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2647,7 +2870,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts a list of orc IDs of the Record</p>
 
-<h6 id="parameters-77">Parameters</h6>
+<h6 id="parameters-81">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2667,7 +2890,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the ID of the meeting abstract prefixed by ‘EPA-‘</p>
 
-<h6 id="parameters-78">Parameters</h6>
+<h6 id="parameters-82">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2687,7 +2910,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the iso abbreviation of the journal</p>
 
-<h6 id="parameters-79">Parameters</h6>
+<h6 id="parameters-83">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2707,7 +2930,7 @@ Month Year (“%b %Y”)</p>
 
 <p>returns an integer giving the number of pages of the Record</p>
 
-<h6 id="parameters-80">Parameters</h6>
+<h6 id="parameters-84">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2727,7 +2950,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the publisher of the Record</p>
 
-<h6 id="parameters-81">Parameters</h6>
+<h6 id="parameters-85">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2747,7 +2970,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts a list of ISBNs associated with the Record</p>
 
-<h6 id="parameters-82">Parameters</h6>
+<h6 id="parameters-86">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2767,7 +2990,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the month the record was published in as an int with January as 1, February 2, …</p>
 
-<h6 id="parameters-83">Parameters</h6>
+<h6 id="parameters-87">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2787,7 +3010,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts a string of the funding thanks</p>
 
-<h6 id="parameters-84">Parameters</h6>
+<h6 id="parameters-88">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2807,7 +3030,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the book DOI of the Record</p>
 
-<h6 id="parameters-85">Parameters</h6>
+<h6 id="parameters-89">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2827,7 +3050,7 @@ Month Year (“%b %Y”)</p>
 
 <p>return the volume the record is in as a string, not all are integers</p>
 
-<h6 id="parameters-86">Parameters</h6>
+<h6 id="parameters-90">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2847,7 +3070,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts a list of authors shortened names</p>
 
-<h6 id="parameters-87">Parameters</h6>
+<h6 id="parameters-91">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2867,7 +3090,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts a list of the research IDs of the Record</p>
 
-<h6 id="parameters-88">Parameters</h6>
+<h6 id="parameters-92">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2887,7 +3110,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the number citations, length of CR list</p>
 
-<h6 id="parameters-89">Parameters</h6>
+<h6 id="parameters-93">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2907,7 +3130,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the first page the record occurs on, not all are integers</p>
 
-<h6 id="parameters-90">Parameters</h6>
+<h6 id="parameters-94">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2927,7 +3150,7 @@ Month Year (“%b %Y”)</p>
 
 <p>return abstract of the record, with newlines hopefully in the correct places</p>
 
-<h6 id="parameters-91">Parameters</h6>
+<h6 id="parameters-95">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2947,7 +3170,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the supplement number</p>
 
-<h6 id="parameters-92">Parameters</h6>
+<h6 id="parameters-96">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2958,106 +3181,6 @@ Month Year (“%b %Y”)</p>
 <p><code>str</code></p>
 
 <p>The supplement number</p>
-
-<hr />
-<p><a name="visual"></a></p>
-
-<h1 id="visualmetaknowledgedocumentationmetaknowledgefullhtmlvisual"><a href="/metaknowledge/documentation/metaknowledgeFull.html#visual">visual</a></h1>
-
-<p>visual docstring</p>
-
-<p>The visual module provides the following functions:</p>
-
-<ul class="post-list">
-<li><article><a href="#graphDensityContourPlot"><b>graphDensityContourPlot</b>(<i>G, layout=None, layoutScaleFactor=1, shifAxis=False, overlay=False, axisSamples=100, blurringFactor=0.1, contours=15, nodeSize=10, graphType='coloured', iters=50</i>)</a></article></li>
-<li><article><a href="#quickVisual"><b>quickVisual</b>(<i>G, showLabel=False</i>)</a></article></li>
-</ul>
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
-
-<p><a name="graphDensityContourPlot"></a><small>visual.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#graphDensityContourPlot"><ins>graphDensityContourPlot</ins></a></strong>(<em>G, layout=None, layoutScaleFactor=1, shifAxis=False, overlay=False, axisSamples=100, blurringFactor=0.1, contours=15, nodeSize=10, graphType=’coloured’, iters=50</em>):</p>
-
-<p>Requires numpy and matplotlib</p>
-
-<p>graphType is either “coloured or “solid”</p>
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
-
-<p><a name="quickVisual"></a><small>visual.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#quickVisual"><ins>quickVisual</ins></a></strong>(<em>G, showLabel=False</em>):</p>
-
-<p>just makes a simple matplotlib figure and displays it, with each node coloured by its type</p>
-
-<hr />
-<p><a name="journalAbbreviations"></a></p>
-
-<h1 id="journalabbreviationsmetaknowledgedocumentationmetaknowledgefullhtmljournalabbreviations"><a href="/metaknowledge/documentation/metaknowledgeFull.html#journalAbbreviations">journalAbbreviations</a></h1>
-
-<p>The journalAbbreviations module provides the following functions:</p>
-
-<ul class="post-list">
-<li><article><a href="#getj9dict"><b>getj9dict</b>(<i>dbname='j9Abbreviations', manualDB='manualj9Abbreviations', returnDict='both'</i>)</a></article></li>
-<li><article><a href="#addToDB"><b>addToDB</b>(<i>abbr=None, dbname='manualj9Abbreviations'</i>)</a></article></li>
-<li><article><a href="#excludeFromDB"><b>excludeFromDB</b>(<i>abbr=None, dbname='manualj9Abbreviations'</i>)</a></article></li>
-<li><article><a href="#updatej9DB"><b>updatej9DB</b>(<i>dbname='j9Abbreviations', saveRawHTML=False</i>)</a></article></li>
-</ul>
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
-
-<p><a name="getj9dict"></a><small>journalAbbreviations.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#getj9dict"><ins>getj9dict</ins></a></strong>(<em>dbname=’j9Abbreviations’, manualDB=’manualj9Abbreviations’, returnDict=’both’</em>):</p>
-
-<p>Returns the dictionary of journal abbreviations to a list of the associated journal names. By default the local database is used. The database is in the file <em>dbname</em> in the same directory as this source file</p>
-
-<h6 id="parameters-93">Parameters</h6>
-
-<p><em>dbname</em> : <code>optional [str]</code></p>
-
-<p>The name of the database file</p>
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
-
-<p><a name="addToDB"></a><small>journalAbbreviations.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#addToDB"><ins>addToDB</ins></a></strong>(<em>abbr=None, dbname=’manualj9Abbreviations’</em>):</p>
-
-<p>Adds <em>abbr</em> to the database of journals. The database is kept separate from the one scraped from WOS, this supersedes it. The database by default is stored with the WOS one and the name is given by <code>metaknowledge.journalAbbreviations.manaulDBname</code>. To create an empty database run <strong>addToDB</strong> without an <em>abbr</em> argument.</p>
-
-<h6 id="parameters-94">Parameters</h6>
-
-<p><em>abbr</em> : <code>optional [str or dict[str : str]]</code></p>
-
-<p>The journal abbreviation to be added to the database, it can either be a single string in which case that string will be added with its self as the full name, or a dict can be given with the abbreviations as keys and their names as strings, use pipes (<code>'|'</code>) to separate multiple names. Note, if the empty string is given as a name the abbreviation will be considered manually <strong>excluded</strong>, i.e. having excludeFromDB() run on it.</p>
-
-<p><em>dbname</em> : <code>optional [str]</code></p>
-
-<p>The name of the database file, default is <code>metaknowledge.journalAbbreviations.manaulDBname</code>.</p>
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
-
-<p><a name="excludeFromDB"></a><small>journalAbbreviations.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#excludeFromDB"><ins>excludeFromDB</ins></a></strong>(<em>abbr=None, dbname=’manualj9Abbreviations’</em>):</p>
-
-<p>Marks <em>abbr</em> to be excluded the database of journals. The database is kept separate from the one scraped from WOS, this supersedes it. The database by default is stored with the WOS one and the name is given by <code>metaknowledge.journalAbbreviations.manaulDBname</code>. To create an empty database run <strong>addToDB</strong> without an <em>abbr</em> argument.</p>
-
-<h6 id="parameters-95">Parameters</h6>
-
-<p><em>abbr</em> : <code>optional [str or tuple[str] or list[str]</code></p>
-
-<p>The journal abbreviation to be excluded from the database, it can either be a single string in which case that string will be exclude or a list/tuple of strings can be given with the abbreviations.</p>
-
-<p><em>dbname</em> : <code>optional [str]</code></p>
-
-<p>The name of the database file, default is <code>metaknowledge.journalAbbreviations.manaulDBname</code>.</p>
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
-
-<p><a name="updatej9DB"></a><small>journalAbbreviations.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#updatej9DB"><ins>updatej9DB</ins></a></strong>(<em>dbname=’j9Abbreviations’, saveRawHTML=False</em>):</p>
-
-<p>Updates the database of Journal Title Abbreviations. Requires an internet connection. The data base is saved relative to the source file not the working directory.</p>
-
-<h6 id="parameters-96">Parameters</h6>
-
-<p><em>dbname</em> : <code>optional [str]</code></p>
-
-<p>The name of the database file, default is “j9Abbreviations.db”</p>
-
-<p><em>saveRawHTML</em> : <code>optional [bool]</code></p>
-
-<p>Determines if the original HTML of the pages is stored, default <code>False</code>. If <code>True</code> they are saved in a directory inside j9Raws begining with todays date.</p>
 
 <hr />
 

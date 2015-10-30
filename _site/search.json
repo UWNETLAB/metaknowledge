@@ -52,7 +52,7 @@
     ,{
       "title"			: "Record",
       "link"			: "http://networkslab.org/docs/Record",
-      "excerpt"		: "The thing RecordCollections are made of"
+      "excerpt"		: "What RecordCollections are made of"
     }
   
 
@@ -78,10 +78,22 @@
 
   
     ,{
+      "title"			: "Documentation",
+      "link"			: "http://networkslab.org/documentation/",
+      "excerpt"		: "Instructions on how to install and use metaknowledge."
+    }
+  
+
+  
+    ,{
       "title"			: "About the Jekyll Theme",
       "link"			: "http://networkslab.org/about/",
       "excerpt"		: "So Simple is a responsive Jekyll theme for your words and images."
     }
+  
+
+  
+
   
 
   
@@ -94,16 +106,6 @@
     }
   
 
-  
-
-  
-
-  
-    ,{
-      "title"			: "Documentation",
-      "link"			: "http://networkslab.org/documentation/",
-      "excerpt"		: "Instructions on how to install and use metaknowledge."
-    }
   
 
   

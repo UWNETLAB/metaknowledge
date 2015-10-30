@@ -180,7 +180,7 @@ _wosNum_ : `str`
 
 _drop_ : `optional [bool]`
 
- Default `False`. If `True` the Record is dropped from the collection after being extract, i.e. if `False` [getWOS()]({{ site.baseurl }}{% post_url /docs/2015-10-30-RecordCollection %}#getWOS) acts like [peak()]({{ site.baseurl }}{% post_url /docs/2015-10-30-RecordCollection %}#peak), if `True` it acts like [pop()]({{ site.baseurl }}{% post_url /docs/2015-10-30-RecordCollection %}#pop)
+ Default `False`. If `True` the Record is dropped from the collection after being extract, i.e. if `False` [getWOS()]({{ site.baseurl }}{% post_url /docs/2015-10-31-RecordCollection %}#getWOS) acts like [peak()]({{ site.baseurl }}{% post_url /docs/2015-10-31-RecordCollection %}#peak), if `True` it acts like [pop()]({{ site.baseurl }}{% post_url /docs/2015-10-31-RecordCollection %}#pop)
 
 ###### Returns
 
@@ -294,7 +294,7 @@ Creates a co-citation network for the RecordCollection.
 
 _nodeType_ : `optional [str]`
 
- One of `"full"`, `"original"`, `"author"`, `"journal"` or `"year"`. Specifies the value of the nodes in the graph. The default `"full"` causes the citations to be compared holistically using the [`metaknowledge.Citation`]({{ site.baseurl }}{% post_url /docs/2015-10-30-Citation %}#Citation) builtin comparison operators. `"original"` uses the raw original strings of the citations. While `"author"`, `"journal"` and `"year"` each use the author, journal and year respectively.
+ One of `"full"`, `"original"`, `"author"`, `"journal"` or `"year"`. Specifies the value of the nodes in the graph. The default `"full"` causes the citations to be compared holistically using the [`metaknowledge.Citation`]({{ site.baseurl }}{% post_url /docs/2015-10-31-Citation %}#Citation) builtin comparison operators. `"original"` uses the raw original strings of the citations. While `"author"`, `"journal"` and `"year"` each use the author, journal and year respectively.
 
 _dropAnon_ : `optional [bool]`
 
@@ -341,7 +341,7 @@ Creates a citation network for the RecordCollection.
 
 _nodeType_ : `optional [str]`
 
- One of `"full"`, `"original"`, `"author"`, `"journal"` or `"year"`. Specifies the value of the nodes in the graph. The default `"full"` causes the citations to be compared holistically using the [`metaknowledge.Citation`]({{ site.baseurl }}{% post_url /docs/2015-10-30-Citation %}#Citation) builtin comparison operators. `"original"` uses the raw original strings of the citations. While `"author"`, `"journal"` and `"year"` each use the author, journal and year respectively.
+ One of `"full"`, `"original"`, `"author"`, `"journal"` or `"year"`. Specifies the value of the nodes in the graph. The default `"full"` causes the citations to be compared holistically using the [`metaknowledge.Citation`]({{ site.baseurl }}{% post_url /docs/2015-10-31-Citation %}#Citation) builtin comparison operators. `"original"` uses the raw original strings of the citations. While `"author"`, `"journal"` and `"year"` each use the author, journal and year respectively.
 
 _dropAnon_ : `optional [bool]`
 
@@ -421,7 +421,7 @@ A **oneModeNetwork()** looks are each Record in the RecordCollection and extract
 
 The number of times each object occurs is count if _nodeCount_ is `True` and the edges count the number of co-occurrences if _edgeWeight_ is `True`. Both are`True` by default.
 
-**Note** Do not use this for the construction of co-citation networks use [Recordcollection.coCiteNetwork()]({{ site.baseurl }}{% post_url /docs/2015-10-30-RecordCollection %}#coCiteNetwork) it is more accurate and has more options.
+**Note** Do not use this for the construction of co-citation networks use [Recordcollection.coCiteNetwork()]({{ site.baseurl }}{% post_url /docs/2015-10-31-RecordCollection %}#coCiteNetwork) it is more accurate and has more options.
 
 ###### Parameters
 

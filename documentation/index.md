@@ -9,6 +9,9 @@ image:
   creditlink:
 ---
 
+The documentation can be found at the locations given below if you would like it as a single html file go [here]({{ site.baseurl }}/documentation/metaknowledgeFull.html).
+
+
 {% assign sortedDocs = site.categories.docs | sort:"weight"  %}
 <ul class="post-list">
    <li><article>

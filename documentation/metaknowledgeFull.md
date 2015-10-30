@@ -1,6 +1,6 @@
 ---
 layout: page
-title: "metaknowledge"
+title: ""
 author:
 - name: Reid McIlroy-Young
   department:

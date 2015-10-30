@@ -10,7 +10,7 @@ import metaknowledge
 import importlib
 import re
 
-documentedModules = ['tagProcessing', 'visual', 'journalAbbreviations']
+documentedModules = ['visual', 'journalAbbreviations', 'tagProcessing']
 
 docsPrefix = time.strftime("%Y-%m-%d-")
 
@@ -139,13 +139,18 @@ def makeLine():
     ]
     return('<hr style="{}">'.format(''.join(style)))
 
-def makeTable(entries, header = '', prefix = '', withBlurbs = False):
+def makeTable(entries, header = '', prefix = '', withBlurbs = False, bigTable = False):
     ents = []
     if prefix:
         prefix = prefix + '.'
     for e in entries:
         if withBlurbs:
             ents.append("""<li><article><a href="#{0}"><b>{0}</b><span class="excerpt">{1}</span></a></article></li>""".format(e, blurbDict[e]))
+        elif bigTable:
+            if e[2] is None:
+                ents.append("""<li><article><a href="#{0}"><b>{0}</b>{1}</a></article></li>""".format(e[0], cleanargs(e[1], basic = True), prefix))
+            else:
+                ents.append("""<li><article><a href="#{0}"><small>{2}</small>.<b>{0}</b>{1}</a></article></li>""".format(e[0], cleanargs(e[1], basic = True), e[2]))
         else:
             ents.append("""<li><article><a href="#{0}"><b>{0}</b>{1}</a></article></li>""".format(e[0], cleanargs(e[1], basic = True), prefix))
     s = """{}\n\n<ul class="post-list">\n{}\n</ul>\n""".format(header,'\n'.join(ents))
@@ -274,6 +279,22 @@ def main(args):
         f.write(singleFileYAML)
         f.write(makeTable([c[0] for c in classes] + documentedModules, header = "The classes and modules of metaknowledge are:", withBlurbs = True))
         single = True
+        bigTableEntries = [(f[0], f[1], None) for f in funcs]
+        for cls in classes:
+            baseMems = inspect.getmembers(cls[1].__bases__[0])
+            for m in sorted(inspect.getmembers(cls[1]), key = getLineNumber):
+                if m[0][0] == '_' or m in baseMems:
+                    pass
+                elif inspect.isfunction(m[1]):
+                    bigTableEntries.append((m[0], m[1], cls[0]))
+        for mod in documentedModules:
+            module = importlib.import_module('metaknowledge.{}'.format(mod))
+            for m in sorted(inspect.getmembers(module, predicate = inspect.isfunction), key = getLineNumber):
+                if inspect.isbuiltin(m[1]) or m[0][0] == '_':
+                    pass
+                elif inspect.isfunction(m[1]):
+                    bigTableEntries.append((m[0], m[1], mod))
+        f.write(makeTable(bigTableEntries, header = "All the functions and methods of metaknowledge are as follows:", bigTable = True))
     else:
         single = False
         f = None

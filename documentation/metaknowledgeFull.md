@@ -22,7 +22,7 @@ The classes and modules of metaknowledge are:
 <li><article><a href="#journalAbbreviations"><b>journalAbbreviations</b><span class="excerpt">Look here to get your J9 database</span></a></article></li>
 <li><article><a href="#tagProcessing"><b>tagProcessing</b><span class="excerpt">All the tags and how they are handled</span></a></article></li>
 </ul>
-All the functions and methods of metaknowledge are as follows:
+<a name="fulllist"></a>All the functions and methods of metaknowledge are as follows:
 
 <ul class="post-list">
 <li><article><a href="#filterNonJournals"><b>filterNonJournals</b>(<i>citesLst, invert=False</i>)</a></article></li>
@@ -145,6 +145,9 @@ All the functions and methods of metaknowledge are as follows:
 <li><article><a href="#abstract"><small>tagProcessing</small>.<b>abstract</b>(<i>val</i>)</a></article></li>
 <li><article><a href="#supplement"><small>tagProcessing</small>.<b>supplement</b>(<i>val</i>)</a></article></li>
 </ul>
+
+---
+<a name="Overview"></a>
 metaknowledge is a Python3 package that simplifies bibliometric and computational analysis of Web of Science data.
 
 #### Example
@@ -178,7 +181,7 @@ Note for those reading the docstring metaknowledge's docs are written in markdow
 
 
 ---
-<a name="Functions"></a>
+<a name="Base Functions"></a>
 The functions provided by metaknowledge are:
 
 <ul class="post-list">

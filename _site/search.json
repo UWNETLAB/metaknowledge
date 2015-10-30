@@ -26,7 +26,7 @@
 
   
     ,{
-      "title"			: "Functions",
+      "title"			: "Base Functions",
       "link"			: "http://networkslab.org/docs/metaknowledge",
       "excerpt"		: "The metaknowledge functions, for filtering reading and writing graphs"
     }

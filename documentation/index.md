@@ -9,9 +9,6 @@ image:
   creditlink:
 ---
 
-The documentation can be found at the locations given below if you would like it as a single html file go [here]({{ site.baseurl }}/documentation/metaknowledgeFull.html).
-
-
 {% assign sortedDocs = site.categories.docs | sort:"weight"  %}
 <ul class="post-list">
    <li><article>
@@ -20,9 +17,12 @@ The documentation can be found at the locations given below if you would like it
    <li><article>
    <a href="#Students">Students Install<span class="excerpt">How to install metaknowledge for the class</span></a>
    </article></li>
+   <li><article>
+   <a href="{{ site.baseurl }}/documentation/metaknowledgeFull.html#fulllist">All Functions<span class="excerpt">The full list of functions and methods provided by metaknowledge</span></a>
+   </article></li>
 
 {% for post in sortedDocs %}
-  <li><article><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}{% if post.excerpt %} <span class="excerpt">{{ post.excerpt }}</span>{% endif %}</a></article></li>
+  <li><article><a href="{{ site.baseurl }}/documentation/metaknowledgeFull.html#{{ post.title }}">{{ post.title }}{% if post.excerpt %} <span class="excerpt">{{ post.excerpt }}</span>{% endif %}</a></article></li>
 {% endfor %}
 
 </ul>

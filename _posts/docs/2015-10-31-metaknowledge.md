@@ -1,12 +1,12 @@
 ---
 layout: doc
-title: Functions
+title: Base Functions
 categories: docs
 excerpt: The metaknowledge functions, for filtering reading and writing graphs
 tags: [functions]
 weight: 1
 ---
-<a name="Functions"></a>
+<a name="Base Functions"></a>
 The functions provided by metaknowledge are:
 
 <ul class="post-list">

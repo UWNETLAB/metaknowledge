@@ -25,7 +25,7 @@ blurbDict = {
 
 singleFileYAML = """---
 layout: page
-title: "metaknowledge: A Python3 library for bibliometrics and quantitative sociology of knowledge"
+title: ""
 author:
 - name: Reid McIlroy-Young
   department:
@@ -227,13 +227,13 @@ def writeMainBody(funcs, vrs, exceptions, targetFile = None, singleFile = False)
         f = targetFile
     else:
         f = open(docsPrefix + "overview.md", 'w')
-        f.write(makeHeader("Overview", "The metaknowledge Package, a quick tour", tags = ["main"], weight = 0, layout = "doc"))
+    f.write(makeHeader("Overview", "The metaknowledge Package, a quick tour", tags = ["main"], weight = 0, layout = "doc", singleFile = singleFile))
     f.write(cleanedDoc(metaknowledge, 3, singleFile = singleFile) + '\n\n')
     if targetFile is None:
         f.write("\n{% include docsFooter.md %}")
         f.close()
         f = open(docsPrefix + "metaknowledge.md", 'w')
-    f.write(makeHeader("Functions", "The metaknowledge functions, for filtering reading and writing graphs", tags = ["functions"], weight = 1, layout = "doc", singleFile = singleFile))
+    f.write(makeHeader("Base Functions", "The metaknowledge functions, for filtering reading and writing graphs", tags = ["functions"], weight = 1, layout = "doc", singleFile = singleFile))
     f.write(makeTable(funcs, header = "The functions provided by metaknowledge are:"))
     for fnc in funcs:
         writeFunc(fnc, f)
@@ -294,7 +294,8 @@ def main(args):
                     pass
                 elif inspect.isfunction(m[1]):
                     bigTableEntries.append((m[0], m[1], mod))
-        f.write(makeTable(bigTableEntries, header = "All the functions and methods of metaknowledge are as follows:", bigTable = True))
+        print(len(bigTableEntries))
+        f.write(makeTable(bigTableEntries, header = '<a name="fulllist"></a>All the functions and methods of metaknowledge are as follows:', bigTable = True))
     else:
         single = False
         f = None

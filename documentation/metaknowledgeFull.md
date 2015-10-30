@@ -1,6 +1,6 @@
 ---
 layout: page
-title: "metaknowledge: A Python3 library for bibliometrics and quantitative sociology of knowledge"
+title: "metaknowledge"
 author:
 - name: Reid McIlroy-Young
   department:

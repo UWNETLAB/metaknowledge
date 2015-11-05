@@ -435,7 +435,6 @@ class RecordCollection(object):
             csvWriter.writerow(recDict)
         f.close()
 
-
     def makeDict(self, onlyTheseTags = None, longNames = False, cleanedVal = True, numAuthors = True):
         """Returns a dict with each key a tag and the values being lists of the values for each of the Records in the collection, `None` is given when there is no value and they are in the same order across each tag.
 

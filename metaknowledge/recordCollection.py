@@ -2,7 +2,7 @@
 import metaknowledge
 from .record import Record, BadISIFile
 from .graphHelpers import _ProgressBar
-from .tagProcessing.funcDicts import tagsAndNameSet, tagToFullDict, fullToTagDict
+from .tagProcessing.funcDicts import tagsAndNameSet, tagToFullDict, fullToTagDict, normalizeToTag
 from .citation import Citation
 
 import itertools
@@ -736,7 +736,9 @@ class RecordCollection(object):
 
         > A networkx Graph with the objects of the tag _mode_ as nodes and their co-occurrences as edges
         """
-        if mode not in tagsAndNameSet:
+        try:
+            mode = normalizeToTag(mode)
+        except KeyError:
             raise TypeError(str(mode) + " is not a known tag, or the name of a known tag.")
         if metaknowledge.VERBOSE_MODE:
             PBar = _ProgressBar(0, "Starting to make a one mode network with " + mode)
@@ -829,7 +831,10 @@ class RecordCollection(object):
 
         > A networkx Graph with the objects of the tags _tag1_ and _tag2_ as nodes and their co-occurrences as edges.
         """
-        if (not tag1 in tagsAndNameSet) or (not tag2 in tagsAndNameSet):
+        try:
+            tag1 = normalizeToTag(tag1)
+            tag2 = normalizeToTag(tag2)
+        except KeyError:
             raise TypeError(str(tag1) + " or " + str(tag2) + " is not a known tag, or the name of a known tag.")
         if metaknowledge.VERBOSE_MODE:
             PBar = _ProgressBar(0, "Starting to make a two mode network of " + tag1 + " and " + tag2)

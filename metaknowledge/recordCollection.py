@@ -951,9 +951,13 @@ class RecordCollection(object):
 
         > A networkx Graph with the objects of the tags _tags_ as nodes and their co-occurrences as edges
         """
+        nomalizedTags = []
         for t in tags:
-            if t not in tagsAndNameSet:
+            try:
+                nomalizedTags.append(normalizeToTag(t))
+            except KeyError:
                 raise TypeError(str(t) + " is not a known tag, or the name of a known tag.")
+        tags = nomalizedTags
         if metaknowledge.VERBOSE_MODE:
             PBar = _ProgressBar(0, "Starting to make a " + str(len(tags)) + "-mode network of: " + ', '.join(tags))
             count = 0

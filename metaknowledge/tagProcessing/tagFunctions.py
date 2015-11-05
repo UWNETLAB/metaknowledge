@@ -1098,7 +1098,9 @@ def authKeyWords(val):
     """
     #The DE Tag
 
-    extracts the keywords assigned by the author of the Record
+    extracts the keywords assigned by the author of the Record. The WOS description is:
+
+        "Author keywords are included in records of articles from 1991 forward. They are also include in conference proceedings records."
 
     # Parameters
 
@@ -1224,7 +1226,9 @@ def keyWords(val):
     """
     #The ID Tag
 
-    extracts the WOS keywords of the Record
+    extracts the WOS keywords of the Record. The WOS description is:
+
+        KeyWords Plus are index terms created by Thomson Reuters from significant, frequently occurring words in the titles of an article's cited references.
 
     # Parameters
 

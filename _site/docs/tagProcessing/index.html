@@ -170,7 +170,7 @@
 
 <p>The objects <code>tagToFullDict</code>, <code>fullToTagDict</code>, <code>tagNameConverterDict</code>, <code>tagsAndNameSet</code> and <code>knownTagsList</code> are also provided. They are the objects used by metaknowledge to keep track of tag names. <code>tagToFullDict</code> and <code>fullToTagDict</code> are dictionaries that convert from tags to full names and vice versa, respectively, while <code>tagNameConverterDict</code> goes both ways. <code>tagsAndNameSet</code> is a set of all full names and tags, while <code>knownTagsList</code> contains only tags and is a list. For a less raw interface look the functions provided by the base metaknowledge module, e.g. <a href="/metaknowledge/docs/metaknowledge#tagToFull"><code>tagToFull()</code></a>.</p>
 
-<p>The full list of tags and their long names is provided below followed by the descriptions of the functions:</p>
+<p>The full list of tags and their long names is provided below followed by the descriptions of the functions, they are ordered by their occurrence in WOS records:</p>
 
 <table>
   <thead>
@@ -525,7 +525,10 @@ Month Year (“%b %Y”)</p>
 
 <h6 id="the-de-tag">The DE Tag</h6>
 
-<p>extracts the keywords assigned by the author of the Record</p>
+<p>extracts the keywords assigned by the author of the Record. The WOS description is:</p>
+
+<pre><code>Author keywords are included in records of articles from 1991 forward. They are also include in conference proceedings records.
+</code></pre>
 
 <h6 id="parameters-4">Parameters</h6>
 
@@ -665,7 +668,10 @@ Month Year (“%b %Y”)</p>
 
 <h6 id="the-id-tag">The ID Tag</h6>
 
-<p>extracts the WOS keywords of the Record</p>
+<p>extracts the WOS keywords of the Record. The WOS description is:</p>
+
+<pre><code>KeyWords Plus are index terms created by Thomson Reuters from significant, frequently occurring words in the titles of an article's cited references.
+</code></pre>
 
 <h6 id="parameters-11">Parameters</h6>
 

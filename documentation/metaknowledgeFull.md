@@ -230,7 +230,7 @@ _invert_ : `optional [bool]`
 
 <a name="diffusionGraph"></a><small></small>**[<ins>diffusionGraph</ins>]({{ site.baseurl }}{{ page.url }}#diffusionGraph)**(_source, target, sourceType='raw', targetType='raw'_):
 
-Takes in two [`RecordCollections`]({{ site.baseurl }}{% post_url /docs/2015-10-31-RecordCollection %}#RecordCollection) and produces a graph of the citations of the `Records` of _source_ by the `Records` of _target_. By default the graph is of `Record` objects but this can be changed with the _sourceType_ and _targetType_ keywords.
+Takes in two [`RecordCollections`]({{ site.baseurl }}{% post_url /docs/2015-11-05-RecordCollection %}#RecordCollection) and produces a graph of the citations of the `Records` of _source_ by the `Records` of _target_. By default the graph is of `Record` objects but this can be changed with the _sourceType_ and _targetType_ keywords.
 
 Each node on the graph has two boolean attributes, `"source"` and `"target"` indicating if they are targets or sources. Note, if the types of the sources and targets are different the attributes will not be checked for overlap of the other type. e.g. if the source type is `'TI'` (title) and the target type is `'UT'` (WOS number), and there is some overlap of the targets and sources. Then the Record corresponding to a source node will not be checked for being one of the titles of the targets, only its WOS number will be considered.
 
@@ -263,7 +263,7 @@ A directed graph of the diffusion network
 
 <a name="diffusionCount"></a><small></small>**[<ins>diffusionCount</ins>]({{ site.baseurl }}{{ page.url }}#diffusionCount)**(_source, target, sourceType='raw', pandasFriendly=False, compareCounts=False, numAuthors=True_):
 
-Takes in two [`RecordCollections`]({{ site.baseurl }}{% post_url /docs/2015-10-31-RecordCollection %}#RecordCollection) and produces a `dict` counting the citations of the `Records` of _source_ by the `Records` of _target_. By default the `dict` uses `Record` objects as keys but this can be changed with the _sourceType_ keyword to any of the WOS tags.
+Takes in two [`RecordCollections`]({{ site.baseurl }}{% post_url /docs/2015-11-05-RecordCollection %}#RecordCollection) and produces a `dict` counting the citations of the `Records` of _source_ by the `Records` of _target_. By default the `dict` uses `Record` objects as keys but this can be changed with the _sourceType_ keyword to any of the WOS tags.
 
 ###### Parameters
 
@@ -302,7 +302,7 @@ _compareCounts_ : `optional [boo]`
 
 Reads the files given by edgeList and if given nodeList. Outputs a networkx graph for the lists.
 
-This is designed only for the files produced by metaknowledge and is meant to be the reverse of [write_graph()]({{ site.baseurl }}{% post_url /docs/2015-10-31-metaknowledge %}#write_graph), if this dow not produce the desired results the networkx builtin [networkx.read_edgelist()](https://networkx.github.io/documentation/networkx-1.9.1/reference/generated/networkx.readwrite.edgelist.read_edgelist.html) could be tried.
+This is designed only for the files produced by metaknowledge and is meant to be the reverse of [write_graph()]({{ site.baseurl }}{% post_url /docs/2015-11-05-metaknowledge %}#write_graph), if this dow not produce the desired results the networkx builtin [networkx.read_edgelist()](https://networkx.github.io/documentation/networkx-1.9.1/reference/generated/networkx.readwrite.edgelist.read_edgelist.html) could be tried.
 
 The read edge list format assumes the column named _eSource_ (From) is the source node, then the next column _eDest_ (To) givens the destination and all other columns are attributes of the edge, e.g. weight.
 
@@ -491,7 +491,7 @@ The output files start with _name_, the file type (edgeList, nodeAttributes) the
 
 Both files are csv's with comma delimiters and double quote quoting characters. The edge list has two columns for the source and destination of the edge, "From" and "To" respectively, then, if _edgeInfo_ is `True`, for each attribute of the node another column is created. The node list has one column call "ID" with the node ids used by networkx and all other columns are the node attributes.
 
-To read back these files use [read_graph()]({{ site.baseurl }}{% post_url /docs/2015-10-31-metaknowledge %}#read_graph) and to write only one type of lsit use [write_edgeList()]({{ site.baseurl }}{% post_url /docs/2015-10-31-metaknowledge %}#write_edgeList) or [write_nodeAttributeFile()]({{ site.baseurl }}{% post_url /docs/2015-10-31-metaknowledge %}#write_nodeAttributeFile).
+To read back these files use [read_graph()]({{ site.baseurl }}{% post_url /docs/2015-11-05-metaknowledge %}#read_graph) and to write only one type of lsit use [write_edgeList()]({{ site.baseurl }}{% post_url /docs/2015-11-05-metaknowledge %}#write_edgeList) or [write_nodeAttributeFile()]({{ site.baseurl }}{% post_url /docs/2015-11-05-metaknowledge %}#write_nodeAttributeFile).
 
 **Warning**: this function will overwrite files, if they are in the way of the output, to prevent this set _overwrite_ to `False`
 
@@ -538,7 +538,7 @@ For each field tag it adds an entry to the returned dict with the tag as the key
 
 The entry in the returned dict would be `{'AF' : ["BREVIK, I", "ANICIN, B"]}`
 
-[Record]({{ site.baseurl }}{% post_url /docs/2015-10-31-metaknowledge %}#Record) objects can be created with these dictionaries as the initializer.
+[Record]({{ site.baseurl }}{% post_url /docs/2015-11-05-metaknowledge %}#Record) objects can be created with these dictionaries as the initializer.
 
 ###### Parameters
 
@@ -565,7 +565,7 @@ Each it finds is used to initialize a Record then all Record are returned as a l
 
 <a name="tagToFull"></a><small></small>**[<ins>tagToFull</ins>]({{ site.baseurl }}{{ page.url }}#tagToFull)**(_tag_):
 
-A wrapper for [`tagToFullDict`]({{ site.baseurl }}{% post_url /docs/2015-10-31-tagProcessing %}#tagProcessing) it maps 2 character tags to thir full names.
+A wrapper for [`tagToFullDict`]({{ site.baseurl }}{% post_url /docs/2015-11-05-tagProcessing %}#tagProcessing) it maps 2 character tags to thir full names.
 
 ###### Parameters
 
@@ -747,7 +747,7 @@ Checks if the author is given as "[ANONYMOUS]" and returns `True` if so.
 
 <a name="getID"></a><small>Citation.</small>**[<ins>getID</ins>]({{ site.baseurl }}{{ page.url }}#getID)**():
 
-Returns all of "author, year, journal" available. It is for shortening labels when creating networks as the resultant strings are often unique. [`getExtra()`]({{ site.baseurl }}{% post_url /docs/2015-10-31-Citation %}#getExtra) gets everything not returned by `getID()`.
+Returns all of "author, year, journal" available. It is for shortening labels when creating networks as the resultant strings are often unique. [`getExtra()`]({{ site.baseurl }}{% post_url /docs/2015-11-05-Citation %}#getExtra) gets everything not returned by `getID()`.
 
 This is also used for hashing and equality checking.
 
@@ -762,7 +762,7 @@ This is also used for hashing and equality checking.
 
 <a name="getExtra"></a><small>Citation.</small>**[<ins>getExtra</ins>]({{ site.baseurl }}{{ page.url }}#getExtra)**():
 
-Returns any V, P, DOI or misc values as a string. These are all the values not returned by [`getID()`]({{ site.baseurl }}{% post_url /docs/2015-10-31-Citation %}#getID).
+Returns any V, P, DOI or misc values as a string. These are all the values not returned by [`getID()`]({{ site.baseurl }}{% post_url /docs/2015-11-05-Citation %}#getID).
 
 ###### Returns
 
@@ -802,7 +802,7 @@ Returns the full name of the Citation's journal field. Requires the j9Abbreviati
 
 <a name="addToDB"></a><small>Citation.</small>**[<ins>addToDB</ins>]({{ site.baseurl }}{{ page.url }}#addToDB)**(_manualName=None, manaulDB='manualj9Abbreviations', invert=False_):
 
-Adds the journal of this Citation to the user created database of journals. This will cause [isJournal()]({{ site.baseurl }}{% post_url /docs/2015-10-31-Citation %}#isJournal) to return `True` for this Citation and all others with its `.journal`.
+Adds the journal of this Citation to the user created database of journals. This will cause [isJournal()]({{ site.baseurl }}{% post_url /docs/2015-11-05-Citation %}#isJournal) to return `True` for this Citation and all others with its `.journal`.
 
 ###### Parameters
 
@@ -812,7 +812,7 @@ _manualName_ : `optional [str]`
 
 _manaulDB_ : `optional [str]`
 
- The name of the database file, the default is [metaknowledge.journalAbbreviations.manaulDBname]({{ site.baseurl }}{% post_url /docs/2015-10-31-journalAbbreviations %}#manaulDBname)
+ The name of the database file, the default is [metaknowledge.journalAbbreviations.manaulDBname]({{ site.baseurl }}{% post_url /docs/2015-11-05-journalAbbreviations %}#manaulDBname)
 
 _invert_ : `optional [bool]`
 
@@ -910,25 +910,25 @@ _tag_ : `str`
 
 <a name="createCitation"></a><small>Record.</small>**[<ins>createCitation</ins>]({{ site.baseurl }}{{ page.url }}#createCitation)**():
 
-Creates a citation string, using the same format as other WOS citations, for the [Record]({{ site.baseurl }}{% post_url /docs/2015-10-31-Record %}#Record) by reading the relevant tags (year, J9, volume, beginningPage, DOI) and using it to start a [Citation]({{ site.baseurl }}{% post_url /docs/2015-10-31-Citation %}#Citation) object.
+Creates a citation string, using the same format as other WOS citations, for the [Record]({{ site.baseurl }}{% post_url /docs/2015-11-05-Record %}#Record) by reading the relevant tags (year, J9, volume, beginningPage, DOI) and using it to start a [Citation]({{ site.baseurl }}{% post_url /docs/2015-11-05-Citation %}#Citation) object.
 
 ###### Returns
 
 `Citation`
 
- A [Citation]({{ site.baseurl }}{% post_url /docs/2015-10-31-Citation %}#Citation) object containing a citation for the Record.
+ A [Citation]({{ site.baseurl }}{% post_url /docs/2015-11-05-Citation %}#Citation) object containing a citation for the Record.
 
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="getTagsList"></a><small>Record.</small>**[<ins>getTagsList</ins>]({{ site.baseurl }}{{ page.url }}#getTagsList)**(_taglst, cleaned=False_):
 
-Returns a list of the results of [`getTag()`]({{ site.baseurl }}{% post_url /docs/2015-10-31-Record %}#getTag) for each tag in _taglist_, the return has the same order as the original.
+Returns a list of the results of [`getTag()`]({{ site.baseurl }}{% post_url /docs/2015-11-05-Record %}#getTag) for each tag in _taglist_, the return has the same order as the original.
 
 ###### Parameters
 _taglst_ : `List[str]`
 
- Each string in _taglst_ can be a two character string corresponding to a WOS tag e.g. 'J9', the matching is case insensitive so 'j9' is the same as 'J9'. Or it can be one of the full names for a tag with the mappings in [fullToTag]({{ site.baseurl }}{% post_url /docs/2015-10-31-metaknowledge %}#metaknowledge). If the string is not found in the original record before or after being translated through [fullToTag]({{ site.baseurl }}{% post_url /docs/2015-10-31-metaknowledge %}#metaknowledge), `None` is used instead. Same as in [`getTag()`]({{ site.baseurl }}{% post_url /docs/2015-10-31-Record %}#getTag)
+ Each string in _taglst_ can be a two character string corresponding to a WOS tag e.g. 'J9', the matching is case insensitive so 'j9' is the same as 'J9'. Or it can be one of the full names for a tag with the mappings in [fullToTag]({{ site.baseurl }}{% post_url /docs/2015-11-05-metaknowledge %}#metaknowledge). If the string is not found in the original record before or after being translated through [fullToTag]({{ site.baseurl }}{% post_url /docs/2015-11-05-metaknowledge %}#metaknowledge), `None` is used instead. Same as in [`getTag()`]({{ site.baseurl }}{% post_url /docs/2015-11-05-Record %}#getTag)
 
  Then they are compiled into a list in the same order as _taglst_
 
@@ -948,7 +948,7 @@ returns a dict of the results of getTag, with the elements of _taglst_ as the ke
 ###### Parameters
 _taglst_ : `List[str]`
 
- Each string in _taglst_ can be a two character string corresponding to a WOS tag e.g. 'J9', the matching is case insensitive so 'j9' is the same as 'J9'. Or it can be one of the full names for a tag with the mappings in [fullToTag]({{ site.baseurl }}{% post_url /docs/2015-10-31-metaknowledge %}#metaknowledge). If the string is not found in the oriagnal record before or after being translated through [fullToTag](#metaknowledge), `None` is used instead. Same as in [`getTag()`]({{ site.baseurl }}{% post_url /docs/2015-10-31-Record %}#getTag)
+ Each string in _taglst_ can be a two character string corresponding to a WOS tag e.g. 'J9', the matching is case insensitive so 'j9' is the same as 'J9'. Or it can be one of the full names for a tag with the mappings in [fullToTag]({{ site.baseurl }}{% post_url /docs/2015-11-05-metaknowledge %}#metaknowledge). If the string is not found in the oriagnal record before or after being translated through [fullToTag](#metaknowledge), `None` is used instead. Same as in [`getTag()`]({{ site.baseurl }}{% post_url /docs/2015-11-05-Record %}#getTag)
 
 ###### Returns
 
@@ -961,7 +961,7 @@ _taglst_ : `List[str]`
 
 <a name="activeTags"></a><small>Record.</small>**[<ins>activeTags</ins>]({{ site.baseurl }}{{ page.url }}#activeTags)**():
 
-Returns a list of all the tags the original WOS record had. These are all the tags that ['getTag()']({{ site.baseurl }}{% post_url /docs/2015-10-31-Record %}#getTag) will not return `None` for.
+Returns a list of all the tags the original WOS record had. These are all the tags that ['getTag()']({{ site.baseurl }}{% post_url /docs/2015-11-05-Record %}#getTag) will not return `None` for.
 
 ###### Returns
 
@@ -974,7 +974,7 @@ Returns a list of all the tags the original WOS record had. These are all the ta
 
 <a name="writeRecord"></a><small>Record.</small>**[<ins>writeRecord</ins>]({{ site.baseurl }}{{ page.url }}#writeRecord)**(_infile_):
 
-Writes to _infile_ the original contents of the Record. This is intended for use by [RecordCollections]({{ site.baseurl }}{% post_url /docs/2015-10-31-RecordCollection %}#RecordCollection) to write to file. What is written to _infile_ is bit for bit identical to the original record file. No newline is inserted above the write but the last character is a newline.
+Writes to _infile_ the original contents of the Record. This is intended for use by [RecordCollections]({{ site.baseurl }}{% post_url /docs/2015-11-05-RecordCollection %}#RecordCollection) to write to file. What is written to _infile_ is bit for bit identical to the original record file. No newline is inserted above the write but the last character is a newline.
 
 ###### Parameters
 
@@ -1159,7 +1159,7 @@ _wosNum_ : `str`
 
 _drop_ : `optional [bool]`
 
- Default `False`. If `True` the Record is dropped from the collection after being extract, i.e. if `False` [getWOS()]({{ site.baseurl }}{% post_url /docs/2015-10-31-RecordCollection %}#getWOS) acts like [peak()]({{ site.baseurl }}{% post_url /docs/2015-10-31-RecordCollection %}#peak), if `True` it acts like [pop()]({{ site.baseurl }}{% post_url /docs/2015-10-31-RecordCollection %}#pop)
+ Default `False`. If `True` the Record is dropped from the collection after being extract, i.e. if `False` [getWOS()]({{ site.baseurl }}{% post_url /docs/2015-11-05-RecordCollection %}#getWOS) acts like [peak()]({{ site.baseurl }}{% post_url /docs/2015-11-05-RecordCollection %}#peak), if `True` it acts like [pop()]({{ site.baseurl }}{% post_url /docs/2015-11-05-RecordCollection %}#pop)
 
 ###### Returns
 
@@ -1273,7 +1273,7 @@ Creates a co-citation network for the RecordCollection.
 
 _nodeType_ : `optional [str]`
 
- One of `"full"`, `"original"`, `"author"`, `"journal"` or `"year"`. Specifies the value of the nodes in the graph. The default `"full"` causes the citations to be compared holistically using the [`metaknowledge.Citation`]({{ site.baseurl }}{% post_url /docs/2015-10-31-Citation %}#Citation) builtin comparison operators. `"original"` uses the raw original strings of the citations. While `"author"`, `"journal"` and `"year"` each use the author, journal and year respectively.
+ One of `"full"`, `"original"`, `"author"`, `"journal"` or `"year"`. Specifies the value of the nodes in the graph. The default `"full"` causes the citations to be compared holistically using the [`metaknowledge.Citation`]({{ site.baseurl }}{% post_url /docs/2015-11-05-Citation %}#Citation) builtin comparison operators. `"original"` uses the raw original strings of the citations. While `"author"`, `"journal"` and `"year"` each use the author, journal and year respectively.
 
 _dropAnon_ : `optional [bool]`
 
@@ -1320,7 +1320,7 @@ Creates a citation network for the RecordCollection.
 
 _nodeType_ : `optional [str]`
 
- One of `"full"`, `"original"`, `"author"`, `"journal"` or `"year"`. Specifies the value of the nodes in the graph. The default `"full"` causes the citations to be compared holistically using the [`metaknowledge.Citation`]({{ site.baseurl }}{% post_url /docs/2015-10-31-Citation %}#Citation) builtin comparison operators. `"original"` uses the raw original strings of the citations. While `"author"`, `"journal"` and `"year"` each use the author, journal and year respectively.
+ One of `"full"`, `"original"`, `"author"`, `"journal"` or `"year"`. Specifies the value of the nodes in the graph. The default `"full"` causes the citations to be compared holistically using the [`metaknowledge.Citation`]({{ site.baseurl }}{% post_url /docs/2015-11-05-Citation %}#Citation) builtin comparison operators. `"original"` uses the raw original strings of the citations. While `"author"`, `"journal"` and `"year"` each use the author, journal and year respectively.
 
 _dropAnon_ : `optional [bool]`
 
@@ -1400,7 +1400,7 @@ A **oneModeNetwork()** looks are each Record in the RecordCollection and extract
 
 The number of times each object occurs is count if _nodeCount_ is `True` and the edges count the number of co-occurrences if _edgeWeight_ is `True`. Both are`True` by default.
 
-**Note** Do not use this for the construction of co-citation networks use [Recordcollection.coCiteNetwork()]({{ site.baseurl }}{% post_url /docs/2015-10-31-RecordCollection %}#coCiteNetwork) it is more accurate and has more options.
+**Note** Do not use this for the construction of co-citation networks use [Recordcollection.coCiteNetwork()]({{ site.baseurl }}{% post_url /docs/2015-11-05-RecordCollection %}#coCiteNetwork) it is more accurate and has more options.
 
 ###### Parameters
 
@@ -1632,7 +1632,7 @@ The function to process it is called [`title()`](#title) which is determined by 
 
 The objects `tagToFullDict`, `fullToTagDict`, `tagNameConverterDict`, `tagsAndNameSet` and `knownTagsList` are also provided. They are the objects used by metaknowledge to keep track of tag names. `tagToFullDict` and `fullToTagDict` are dictionaries that convert from tags to full names and vice versa, respectively, while `tagNameConverterDict` goes both ways. `tagsAndNameSet` is a set of all full names and tags, while `knownTagsList` contains only tags and is a list. For a less raw interface look the functions provided by the base metaknowledge module, e.g. [`tagToFull()`](#tagToFull).
 
-The full list of tags and their long names is provided below followed by the descriptions of the functions:
+The full list of tags and their long names is provided below followed by the descriptions of the functions, they are ordered by their occurrence in WOS records:
 
 | tag | Name |
 |:---|:---|
@@ -1804,7 +1804,9 @@ _val_: `list[str]`
 
 ######The DE Tag
 
-extracts the keywords assigned by the author of the Record
+extracts the keywords assigned by the author of the Record. The WOS description is:
+
+    Author keywords are included in records of articles from 1991 forward. They are also include in conference proceedings records.
 
 ###### Parameters
 
@@ -1951,7 +1953,9 @@ _val_: `list[str]`
 
 ######The ID Tag
 
-extracts the WOS keywords of the Record
+extracts the WOS keywords of the Record. The WOS description is:
+
+    KeyWords Plus are index terms created by Thomson Reuters from significant, frequently occurring words in the titles of an article's cited references.
 
 ###### Parameters
 
@@ -2443,7 +2447,7 @@ _val_: `list[str]`
 
 ######The CR Tag
 
-extracts a list of all the citations in the record, the citations are the [metaknowledge.Citation]({{ site.baseurl }}{% post_url /docs/2015-10-31-Citation %}#Citation) class.
+extracts a list of all the citations in the record, the citations are the [metaknowledge.Citation]({{ site.baseurl }}{% post_url /docs/2015-11-05-Citation %}#Citation) class.
 
 ###### Parameters
 

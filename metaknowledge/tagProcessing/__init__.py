@@ -15,7 +15,7 @@ The function to process it is called [`title()`](#tagProcessing.title) which is 
 
 The objects `tagToFullDict`, `fullToTagDict`, `tagNameConverterDict`, `tagsAndNameSet` and `knownTagsList` are also provided. They are the objects used by metaknowledge to keep track of tag names. `tagToFullDict` and `fullToTagDict` are dictionaries that convert from tags to full names and vice versa, respectively, while `tagNameConverterDict` goes both ways. `tagsAndNameSet` is a set of all full names and tags, while `knownTagsList` contains only tags and is a list. For a less raw interface look the functions provided by the base metaknowledge module, e.g. [`tagToFull()`](#metaknowledge.tagToFull).
 
-The full list of tags and their long names is provided below followed by the descriptions of the functions:
+The full list of tags and their long names is provided below followed by the descriptions of the functions, they are ordered by their occurrence in WOS records:
 
 | tag | Name |
 |:---|:---|

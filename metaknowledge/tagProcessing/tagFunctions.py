@@ -1100,7 +1100,7 @@ def authKeyWords(val):
 
     extracts the keywords assigned by the author of the Record. The WOS description is:
 
-        "Author keywords are included in records of articles from 1991 forward. They are also include in conference proceedings records."
+        Author keywords are included in records of articles from 1991 forward. They are also include in conference proceedings records.
 
     # Parameters
 

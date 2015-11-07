@@ -26,12 +26,16 @@ class TestHelpers(unittest.TestCase):
     def test_progress(self):
         metaknowledge.VERBOSE_MODE = True
         tmpIO = io.StringIO()
+        P = _ProgressBar(0, "testing", output = tmpIO, dummy = True)
+        metaknowledge.write_edgeList(self.G, fileEName, _progBar = P, )
+        tmpIO.seek(0)
+        s = ''.join(tmpIO.readlines())
+        self.assertEqual(len(s), 0)
         P = _ProgressBar(0, "testing", output = tmpIO)
         metaknowledge.write_edgeList(self.G, fileEName, _progBar = P)
         tmpIO.seek(0)
         s = ''.join(tmpIO.readlines())
-        self.assertFalse(
-        "==================================================]100.0%" in s)
+        self.assertFalse("]100.0%" in s)
         self.assertTrue("Done edge list" in s)
         os.remove(fileEName)
         metaknowledge.VERBOSE_MODE = False

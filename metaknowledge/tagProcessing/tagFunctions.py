@@ -1115,7 +1115,7 @@ def authKeyWords(val):
     > The list of keywords
 
     """
-    return ' '.join(val).split('; ')
+    return ' '.join(val).lower().split('; ')
 
 def reprintAddress(val):
     """
@@ -1243,7 +1243,7 @@ def keyWords(val):
     > The keyWords list
 
     """
-    return ' '.join(val).split('; ')
+    return ' '.join(val).upper().split('; ')
 
 def pubMedID(val):
     """

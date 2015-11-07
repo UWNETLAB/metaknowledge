@@ -341,7 +341,7 @@ class _ProgressBar(object):
         if not self.dummy and not self.finished:
             self.finished = True
             self.ioThread.join()
-            self.out.write('\n\n')
+            self.out.write('\n')
             self.out.flush()
 
     def __enter__(self):

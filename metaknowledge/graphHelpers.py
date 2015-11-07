@@ -345,7 +345,7 @@ class _ProgressBar(object):
             self.out.flush()
 
     def __enter__(self):
-        pass
+        return self
 
     def __exit__(self, exc_type, exc_value, traceback):
         self.__del__()

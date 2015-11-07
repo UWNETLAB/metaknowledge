@@ -580,7 +580,7 @@ class RecordCollection(object):
             progKwargs = {'dummy' : True}
         with _ProgressBar(*progArgs, **progKwargs) as PBar:
             if coreOnly:
-                coreCites = [R.createCitation for R in self]
+                coreCites = [R.createCitation() for R in self]
             else:
                 coreCites = None
             for R in self:
@@ -665,7 +665,7 @@ class RecordCollection(object):
             progKwargs = {'dummy' : True}
         with _ProgressBar(*progArgs, **progKwargs) as PBar:
             if coreOnly:
-                coreCites = [R.createCitation for R in self]
+                coreCites = [R.createCitation() for R in self]
             else:
                 coreCites = None
             for R in self:
@@ -1430,7 +1430,7 @@ def filterCites(cites, nodeType, dropAnon, dropNonJournals, keyWords, coreCites)
             pass
         elif dropAnon and c.isAnonymous():
             pass
-        elif coreCites is not None and c not in coreCites:
+        elif coreCites and c not in coreCites:
             pass
         elif keyWords:
             found = False

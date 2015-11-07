@@ -315,29 +315,40 @@ class _ProgressBar(object):
     difTermAndBar = 8 #the number of characters difference between the bar's length and the terminal's width
     timeLength = 6 # width of elapse time display
     percLength = 6 # width of percent display
-    def __init__(self, initPer, initString = ' ', output = sys.stdout, secondRow = False):
+    def __init__(self, initPer, initString = ' ', output = sys.stdout, secondRow = False, dummy = False):
+        self.dummy = dummy
         self.finished = False
         self.big = secondRow
         self.per = initPer
         self.out = output
         self.inputString = initString
-        self.sTime = time.time()
-        try:
-            self.barMaxLength = os.get_terminal_size(self.out.fileno()).columns - self.difTermAndBar
-            if self.barMaxLength < 0:
-                self.barMaxLength = 0
-        except OSError:
-            self.barMaxLength = 80 - self.difTermAndBar
-        self.ioThread = threading.Thread(target = self.threadedUpdate, kwargs = {"self" : self})
-        self.ioThread.daemon = True
-        self.ioThread.start()
+        if not dummy:
+            self.sTime = time.time()
+            try:
+                self.barMaxLength = os.get_terminal_size(self.out.fileno()).columns - self.difTermAndBar
+                if self.barMaxLength < 0:
+                    self.barMaxLength = 0
+            except OSError:
+                self.barMaxLength = 80 - self.difTermAndBar
+            self.ioThread = threading.Thread(target = self.threadedUpdate, kwargs = {"self" : self})
+            self.ioThread.daemon = True
+            self.ioThread.start()
+
+    def __bool__(self):
+        return not self.dummy
 
     def __del__(self):
-        if not self.finished:
+        if not self.dummy and not self.finished:
             self.finished = True
             self.ioThread.join()
             self.out.write('\n\n')
             self.out.flush()
+
+    def __enter__(self):
+        pass
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        self.__del__()
 
     def updateVal(self, inputPer, inputString = None):
         self.per = inputPer
@@ -345,26 +356,27 @@ class _ProgressBar(object):
             self.inputString = inputString
 
     def finish(self, inputString):
-        self.finished = True
-        self.inputString = str(inputString)
-        self.ioThread.join()
-        try:
-            self.barMaxLength = os.get_terminal_size(self.out.fileno()).columns - self.difTermAndBar
-            if self.barMaxLength < 0:
-                self.barMaxLength = 0
-        except OSError:
-            self.barMaxLength = 80 - self.difTermAndBar
-        if self.big:
-            self.out.write('\n' + ' ' * (self.barMaxLength + self.difTermAndBar) + '\033[F')
-        else:
-            self.out.write('\r')
-        if len(self.inputString) < self.barMaxLength + self.difTermAndBar - self.timeLength:
-            tString = self.prepTime(time.time() - self.sTime, self.barMaxLength + self.difTermAndBar - len(self.inputString) - 1)
-            self.out.write(self.inputString + ' ' + tString)
-        else:
-            self.out.write(self.prepString(self.inputString, self.barMaxLength + self.difTermAndBar - self.timeLength) + self.prepTime(time.time() - self.sTime, self.timeLength))
-        self.out.write('\n')
-        self.out.flush()
+        if not self.dummy:
+            self.finished = True
+            self.inputString = str(inputString)
+            self.ioThread.join()
+            try:
+                self.barMaxLength = os.get_terminal_size(self.out.fileno()).columns - self.difTermAndBar
+                if self.barMaxLength < 0:
+                    self.barMaxLength = 0
+            except OSError:
+                self.barMaxLength = 80 - self.difTermAndBar
+            if self.big:
+                self.out.write('\n' + ' ' * (self.barMaxLength + self.difTermAndBar) + '\033[F')
+            else:
+                self.out.write('\r')
+            if len(self.inputString) < self.barMaxLength + self.difTermAndBar - self.timeLength:
+                tString = self.prepTime(time.time() - self.sTime, self.barMaxLength + self.difTermAndBar - len(self.inputString) - 1)
+                self.out.write(self.inputString + ' ' + tString)
+            else:
+                self.out.write(self.prepString(self.inputString, self.barMaxLength + self.difTermAndBar - self.timeLength) + self.prepTime(time.time() - self.sTime, self.timeLength))
+            self.out.write('\n')
+            self.out.flush()
 
     def jumpUp(self):
         self.out.write('\033[F')

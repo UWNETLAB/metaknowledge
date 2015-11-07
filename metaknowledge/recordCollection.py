@@ -516,7 +516,7 @@ class RecordCollection(object):
             PBar.finish("Done making a co-authorship network")
         return grph
 
-    def coCiteNetwork(self, dropAnon = True, nodeType = "full", nodeInfo = True, fullInfo = False, weighted = True, dropNonJournals = False, count = True, keyWords = None):
+    def coCiteNetwork(self, dropAnon = True, nodeType = "full", nodeInfo = True, fullInfo = False, weighted = True, dropNonJournals = False, count = True, keyWords = None, coreOnly = False):
         """Creates a co-citation network for the RecordCollection.
 
         # Parameters
@@ -553,6 +553,10 @@ class RecordCollection(object):
 
         > A string or list of strings that the citations are checked against, if they contain any of the strings they are removed from the network
 
+        _coreOnly_ : `optional [bool]`
+
+        > default `False`, if `True` only Citations from the RecordCollection will be included in the network
+
         # Returns
 
         `Networkx Graph`
@@ -568,20 +572,24 @@ class RecordCollection(object):
             count = 0
         else:
             PBar = None
+        if coreOnly:
+            coreCites = [R.createCitation for R in self]
+        else:
+            coreCites = None
         for R in self:
             if PBar:
                 count += 1
                 PBar.updateVal(count / len(self), "Analyzing: " + str(R))
             Cites = R.citations
             if Cites:
-                filteredCites = filterCites(Cites, nodeType, dropAnon, dropNonJournals, keyWords)
+                filteredCites = filterCites(Cites, nodeType, dropAnon, dropNonJournals, keyWords, coreCites)
                 addToNetwork(tmpgrph, filteredCites, count, weighted, nodeType, nodeInfo , fullInfo, headNd = None)
         if PBar:
             PBar.finish("Done making a co-citation network of " + repr(self))
         return tmpgrph
 
 
-    def citationNetwork(self, dropAnon = True, nodeType = "full", nodeInfo = True, fullInfo = False, weighted = True, dropNonJournals = False, count = True, directed = True, keyWords = None):
+    def citationNetwork(self, dropAnon = True, nodeType = "full", nodeInfo = True, fullInfo = False, weighted = True, dropNonJournals = False, count = True, directed = True, keyWords = None,  coreOnly = False):
 
         """Creates a citation network for the RecordCollection.
 
@@ -623,6 +631,10 @@ class RecordCollection(object):
 
         > Determines if the output graph is directed, default `True`
 
+        _coreOnly_ : `optional [bool]`
+
+        > default `False`, if `True` only Citations from the RecordCollection will be included in the network
+
         # Returns
 
         `Networkx DiGraph or Networkx Graph`
@@ -643,16 +655,20 @@ class RecordCollection(object):
             count = 0
         else:
             PBar = None
+        if coreOnly:
+            coreCites = [R.createCitation for R in self]
+        else:
+            coreCites = None
         for R in self:
             if PBar:
                 count += 1
                 PBar.updateVal(count/ len(self), "Analyzing: " + str(R))
             reRef = R.createCitation()
-            if len(filterCites([reRef], nodeType, dropAnon, dropNonJournals, keyWords)) == 0:
+            if len(filterCites([reRef], nodeType, dropAnon, dropNonJournals, keyWords, coreCites)) == 0:
                 continue
             rCites = R.citations
             if rCites:
-                filteredCites = filterCites(rCites, nodeType, dropAnon, dropNonJournals, keyWords)
+                filteredCites = filterCites(rCites, nodeType, dropAnon, dropNonJournals, keyWords, coreCites)
                 addToNetwork(tmpgrph, filteredCites, count, weighted, nodeType, nodeInfo , fullInfo, headNd = reRef)
         if PBar:
             PBar.finish("Done making a citation network of " + repr(self))
@@ -1387,7 +1403,7 @@ def makeNodeTuple(citation, idVal, nodeInfo, fullInfo, nodeType, count):
         d['count'] = 1
     return (idVal, d)
 
-def filterCites(cites, nodeType, dropAnon, dropNonJournals, keyWords):
+def filterCites(cites, nodeType, dropAnon, dropNonJournals, keyWords, coreCites):
     filteredCites = []
     for c in cites:
         if nodeType != "full" and not getattr(c, nodeType):
@@ -1395,6 +1411,8 @@ def filterCites(cites, nodeType, dropAnon, dropNonJournals, keyWords):
         elif dropNonJournals and not c.isJournal():
             pass
         elif dropAnon and c.isAnonymous():
+            pass
+        elif coreCites is not None and c not in coreCites:
             pass
         elif keyWords:
             found = False

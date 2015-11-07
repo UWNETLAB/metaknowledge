@@ -381,6 +381,7 @@ class _ProgressBar(object):
                 return sString[:int(maxLength/2 - 3)] + '...' + sString[int(-maxLength/2):] + ' '
             else:
                 return sString[:int(maxLength/2 - 2)] + '...' + sString[int(-maxLength/2):] + ' '
+
     @staticmethod
     def prepTime(t, maxLength):
         try:

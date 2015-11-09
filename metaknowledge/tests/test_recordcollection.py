@@ -204,10 +204,12 @@ class TestRecordCollection(unittest.TestCase):
         self.assertTrue(nx.is_isomorphic(Gd2em, Gemd2))
         self.assertEqual(metaknowledge.graphStats(Gstemm), 'The graph has 62 nodes, 31 edges, 0 isolates, 0 self loops, a density of 0.0163934 and a transitivity of 0')
         self.assertTrue('Optical properties of nanostructured thin filmss' in Gstemm)
+
     def test_nMode(self):
         G = self.RC.nModeNetwork(metaknowledge.tagProcessing.tagToFullDict.keys())
-        self.assertEqual(len(G.nodes()), 1186)
-        self.assertEqual(len(G.edges()), 38592)
+        Gstem = self.RC.nModeNetwork(metaknowledge.tagProcessing.tagToFullDict.keys(), stemmer = lambda x : x[0])
+        self.assertEqual(metaknowledge.graphStats(G), 'The graph has 1186 nodes, 38592 edges, 0 isolates, 56 self loops, a density of 0.0549192 and a transitivity of 0.295384')
+        self.assertEqual(metaknowledge.graphStats(Gstem), 'The graph has 50 nodes, 1015 edges, 0 isolates, 35 self loops, a density of 0.828571 and a transitivity of 0.855834')
 
     def test_localCiteStats(self):
         d = self.RC.localCiteStats()

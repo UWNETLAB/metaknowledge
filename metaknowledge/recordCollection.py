@@ -754,6 +754,12 @@ class RecordCollection(object):
 
         > Default `True`, if `True` each edge will have an attribute called "weight" that contains an int giving the number of time the two objects co-occurrenced.
 
+        _stemmer_ : `optional [func]`
+
+        > default `None`, If _stemmer_ is a callable object, basically a function or possibly a class, it will be called for the ID of every node in the graph, all IDs are strings. For example:
+
+        >The function ` f = lambda x: x[0]` if given as the stemmer will cause all IDs to be the first character of their unstemmed IDs. e.g. the title `'Goos-Hanchen and Imbert-Fedorov shifts for leaky guided modes'` will create the node `'G'`.
+
         # Returns
 
         `networkx Graph`
@@ -764,6 +770,7 @@ class RecordCollection(object):
             mode = normalizeToTag(mode)
         except KeyError:
             raise TypeError(str(mode) + " is not a known tag, or the name of a known tag.")
+        stemCheck = False
         if stemmer is not None:
             if hasattr(stemmer, '__call__'):
                 stemCheck = True
@@ -771,7 +778,6 @@ class RecordCollection(object):
                 raise TypeError("stemmer must be callable, e.g. a function or class with a __call__ method.")
         count = 0
         progArgs = (0, "Starting to make a one mode network with " + mode)
-        stemCheck = False
         if metaknowledge.VERBOSE_MODE:
             progKwargs = {'dummy' : False}
         else:
@@ -847,9 +853,13 @@ class RecordCollection(object):
 
         # Parameters
 
-        _mode_ : `str`
+        _tag1_ : `str`
 
-        > A two character WOS tag or one of the full names for a tag
+        > A two character WOS tag or one of the full names for a tag, the source of edges on the graph
+
+        _tag1_ : `str`
+
+        > A two character WOS tag or one of the full names for a tag, the target of edges on the graph
 
         _directed_ : `optional [bool]`
 
@@ -862,6 +872,16 @@ class RecordCollection(object):
         _edgeWeight_ : `optional [bool]`
 
         > Default `True`, if `True` each edge will have an attribute called "weight" that contains an int giving the number of time the two objects co-occurrenced.
+
+        _stemmerTag1_ : `optional [func]`
+
+        > default `None`, If _stemmerTag1_ is a callable object, basically a function or possibly a class, it will be called for the ID of every node given by _tag1_ in the graph, all IDs are strings. For example:
+
+        >The function ` f = lambda x: x[0]` if given as the stemmer will cause all IDs to be the first character of their unstemmed IDs. e.g. the title `'Goos-Hanchen and Imbert-Fedorov shifts for leaky guided modes'` will create the node `'G'`.
+
+        _stemmerTag2_ : `optional [func]`
+
+        > default `None`, see _stemmerTag1_ as it is the same but for _tag2_
 
         # Returns
 
@@ -976,7 +996,7 @@ class RecordCollection(object):
                 PBar.finish("Done making a two mode network of " + tag1 + " and " + tag2)
         return grph
 
-    def nModeNetwork(self, tags, recordType = True, nodeCount = True, edgeWeight = True):
+    def nModeNetwork(self, tags, recordType = True, nodeCount = True, edgeWeight = True, stemmer = None):
         """Creates a network of the objects found by all WOS tags in _tags_.
 
         A **nModeNetwork()** looks are each Record in the RecordCollection and extracts its values for the tags given by _tags_. Then for all objects returned an edge is created between them, regardless of their type. Each node will have an attribute call `"type"` that gives the tag that created it or both if both created it, e.g. if `"LA"` were in _tags_ node `"English"` would have the type attribute be `"LA"`.
@@ -999,6 +1019,12 @@ class RecordCollection(object):
 
         > Default `True`, if `True` each edge will have an attribute called "weight" that contains an int giving the number of time the two objects co-occurrenced.
 
+        _stemmer_ : `optional [func]`
+
+        > default `None`, If _stemmer_ is a callable object, basically a function or possibly a class, it will be called for the ID of every node in the graph, note that all IDs are strings. For example:
+
+        >The function ` f = lambda x: x[0]` if given as the stemmer will cause all IDs to be the first character of their unstemmed IDs. e.g. the title `'Goos-Hanchen and Imbert-Fedorov shifts for leaky guided modes'` will create the node `'G'`.
+
         # Returns
 
         `networkx Graph`
@@ -1011,6 +1037,12 @@ class RecordCollection(object):
                 nomalizedTags.append(normalizeToTag(t))
             except KeyError:
                 raise TypeError(str(t) + " is not a known tag, or the name of a known tag.")
+        stemCheck = False
+        if stemmer is not None:
+            if hasattr(stemmer, '__call__'):
+                stemCheck = True
+            else:
+                raise TypeError("stemmer must be callable, e.g. a function or class with a __call__ method.")
         tags = nomalizedTags
         count = 0
         progArgs = (0, "Starting to make a " + str(len(tags)) + "-mode network of: " + ', '.join(tags))
@@ -1027,11 +1059,18 @@ class RecordCollection(object):
                 contents = []
                 for t in tags:
                     tmpVal = getattr(R, t, None)
-                    if tmpVal:
-                        if isinstance(tmpVal, list):
-                            contents.append((t, [str(v) for v in tmpVal]))
-                        else:
-                            contents.append((t, [str(tmpVal)]))
+                    if stemCheck:
+                        if tmpVal:
+                            if isinstance(tmpVal, list):
+                                contents.append((t, [stemmer(str(v)) for v in tmpVal]))
+                            else:
+                                contents.append((t, [stemmer(str(tmpVal))]))
+                    else:
+                        if tmpVal:
+                            if isinstance(tmpVal, list):
+                                contents.append((t, [str(v) for v in tmpVal]))
+                            else:
+                                contents.append((t, [str(tmpVal)]))
                 for i, vlst1 in enumerate(contents):
                     for node1 in vlst1[1]:
                         for vlst2 in contents[i + 1:]:
@@ -1087,9 +1126,9 @@ class RecordCollection(object):
 
         # Returns
 
-        `dict[str, int or Citataion : int]`
+        `dict[str, int or Citation : int]`
 
-        > A dictioanry with keys as given by _keyType_ and integers giving their rates of occurnce in the collection
+        > A dictionary with keys as given by _keyType_ and integers giving their rates of occurrence in the collection
         """
         count = 0
         recCount = len(self)
@@ -1173,11 +1212,11 @@ class RecordCollection(object):
 
         field give the component of the citation to be looked at, it is one of a few strings. The default is 'all' which will cause the entire original citation to be searched. It can be used to search across fields, e.g. '1970, V2' is a valid keystring
         The other options are:
-        author, searches the author field
-        year, searches the year field
-        journal, searches the journal field
-        V, searches the volume field
-        P, searches the page field
+        `author`, searches the author field
+        `year`, searches the year field
+        `journal`, searches the journal field
+        `V`, searches the volume field
+        `P`, searches the page field
         misc, searches all the remaining uncategorized information
         anonymous, searches for anonymous citations, keyString is not used
         bad, searches for bad citations, keyString is not used

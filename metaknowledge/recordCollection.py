@@ -764,11 +764,14 @@ class RecordCollection(object):
             mode = normalizeToTag(mode)
         except KeyError:
             raise TypeError(str(mode) + " is not a known tag, or the name of a known tag.")
+        if stemmer is not None:
+            if hasattr(stemmer, '__call__'):
+                stemCheck = True
+            else:
+                raise TypeError("stemmer must be callable, e.g. a function or class with a __call__ method.")
         count = 0
         progArgs = (0, "Starting to make a one mode network with " + mode)
         stemCheck = False
-        if hasattr(stemmer, '__call__'):
-            stemCheck = True
         if metaknowledge.VERBOSE_MODE:
             progKwargs = {'dummy' : False}
         else:
@@ -833,7 +836,7 @@ class RecordCollection(object):
                 PBar.finish("Done making a one mode network with " + mode)
         return grph
 
-    def twoModeNetwork(self, tag1, tag2, directed = False, recordType = True, nodeCount = True, edgeWeight = True):
+    def twoModeNetwork(self, tag1, tag2, directed = False, recordType = True, nodeCount = True, edgeWeight = True, stemmerTag1 = None, stemmerTag2 = None):
         """Creates a network of the objects found by two WOS tags _tag1_ and _tag2_.
 
         A **twoModeNetwork()** looks are each Record in the RecordCollection and extracts its values for the tags given by _tag1_ and _tag2_, e.g. the `"WC"` and `"LA"` tags. Then for each object returned by each tag and edge is created between it and every other object of the other tag. So the WOS defined subject tag `"WC"` and language tag `"LA"`, will give a two-mode network showing the connections between subjects and languages. Each node will have an attribute call `"type"` that gives the tag that created it or both if both created it, e.g. the node `"English"` would have the type attribute be `"LA"`.
@@ -871,6 +874,20 @@ class RecordCollection(object):
             tag2 = normalizeToTag(tag2)
         except KeyError:
             raise TypeError(str(tag1) + " or " + str(tag2) + " is not a known tag, or the name of a known tag.")
+        if stemmerTag1 is not None:
+            if hasattr(stemmerTag1, '__call__'):
+                stemCheck = True
+            else:
+                raise TypeError("stemmerTag1 must be callable, e.g. a function or class with a __call__ method.")
+        else:
+            stemmerTag1 = lambda x: x
+        if stemmerTag2 is not None:
+            if hasattr(stemmerTag2, '__call__'):
+                stemCheck = True
+            else:
+                raise TypeError("stemmerTag2 must be callable, e.g. a function or class with a __call__ method.")
+        else:
+            stemmerTag2 = lambda x: x
         count = 0
         progArgs = (0, "Starting to make a two mode network of " + tag1 + " and " + tag2)
         if metaknowledge.VERBOSE_MODE:
@@ -889,17 +906,17 @@ class RecordCollection(object):
                 contents1 = getattr(R, tag1, None)
                 contents2 = getattr(R, tag2, None)
                 if isinstance(contents1, list):
-                    contents1 = [str(v) for v in contents1]
+                    contents1 = [stemmerTag1(str(v)) for v in contents1]
                 elif contents1 == None:
                     contents1 = []
                 else:
-                    contents1 = [str(contents1)]
+                    contents1 = [stemmerTag1(str(contents1))]
                 if isinstance(contents2, list):
-                    contents2 = [str(v) for v in contents2]
+                    contents2 = [stemmerTag2(str(v)) for v in contents2]
                 elif contents2 == None:
                     contents2 = []
                 else:
-                    contents2 = [str(contents2)]
+                    contents2 = [stemmerTag2(str(contents2))]
                 for node1 in contents1:
                     for node2 in contents2:
                         if edgeWeight:

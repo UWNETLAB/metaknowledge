@@ -193,6 +193,7 @@ class TestRecordCollection(unittest.TestCase):
         Gafwc = self.RC.twoModeNetwork('AF', 'WC', nodeCount = False, edgeWeight = False)
         Gd2em = self.RC.twoModeNetwork('D2', 'email')
         Gemd2 = self.RC.twoModeNetwork('email', 'D2')
+        Gstemm = self.RC.twoModeNetwork('title', 'title', stemmerTag1 = lambda x: x[:-1], stemmerTag2 = lambda x: x + 's')
         self.assertIsInstance(Gutti, nx.classes.digraph.DiGraph)
         self.assertIsInstance(Gafwc, nx.classes.graph.Graph)
         self.assertEqual(Gutti.edges('WOS:A1979GV55600001')[0][1][:31], "EXPERIMENTS IN PHENOMENOLOGICAL")
@@ -201,7 +202,8 @@ class TestRecordCollection(unittest.TestCase):
             G = self.RC.oneModeNetwork('Not a Tag', 'TI')
             del G
         self.assertTrue(nx.is_isomorphic(Gd2em, Gemd2))
-
+        self.assertEqual(metaknowledge.graphStats(Gstemm), 'The graph has 62 nodes, 31 edges, 0 isolates, 0 self loops, a density of 0.0163934 and a transitivity of 0')
+        self.assertTrue('Optical properties of nanostructured thin filmss' in Gstemm)
     def test_nMode(self):
         G = self.RC.nModeNetwork(metaknowledge.tagProcessing.tagToFullDict.keys())
         self.assertEqual(len(G.nodes()), 1186)

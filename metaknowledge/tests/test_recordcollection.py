@@ -171,6 +171,8 @@ class TestRecordCollection(unittest.TestCase):
         Gcite = self.RC.oneModeNetwork('citations', nodeCount = False, edgeWeight = False)
         GcoCit = self.RC.coCiteNetwork()
         Gtit = self.RC.oneModeNetwork('title')
+        stemFunc = lambda x: x[:-1]
+        Gstem = self.RC.oneModeNetwork('keywords', stemmer = stemFunc)
         self.assertEqual(len(Gcite.edges()), len(Gcr.edges()))
         self.assertEqual(len(Gcite.nodes()), len(Gcr.nodes()))
         self.assertAlmostEqual(len(Gcite.nodes()), len(GcoCit.nodes()), delta = 50)
@@ -179,6 +181,8 @@ class TestRecordCollection(unittest.TestCase):
         self.assertEqual(len(Gtit.edges()), 0)
         self.assertEqual(len(self.RC.oneModeNetwork('email').edges()), 3)
         self.assertEqual(len(self.RC.oneModeNetwork('UT').nodes()), len(self.RC) - 1)
+        self.assertEqual(metaknowledge.graphStats(Gstem), 'The graph has 41 nodes, 142 edges, 2 isolates, 0 self loops, a density of 0.173171 and a transitivity of 0.854015')
+        self.assertIsInstance(Gstem.nodes()[0], str)
         with self.assertRaises(TypeError):
             G = self.RC.oneModeNetwork('Not a Tag')
             del G

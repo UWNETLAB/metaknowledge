@@ -731,7 +731,7 @@ class RecordCollection(object):
                     raise
         return RecordCollection(recordsInRange, repr(self) + "_(" + str(startYear) + " ," + str(endYear) + ")")
 
-    def oneModeNetwork(self, mode, nodeCount = True, edgeWeight = True):
+    def oneModeNetwork(self, mode, nodeCount = True, edgeWeight = True, stemmer = None):
         """Creates a network of the objects found by one WOS tag _mode_.
 
         A **oneModeNetwork()** looks are each Record in the RecordCollection and extracts its values for the tag given by _mode_, e.g. the `"AF"` tag. Then if multiple are returned an edge is created between them. So in the case of the author tag `"AF"` a co-authorship network is created.
@@ -766,8 +766,10 @@ class RecordCollection(object):
             raise TypeError(str(mode) + " is not a known tag, or the name of a known tag.")
         count = 0
         progArgs = (0, "Starting to make a one mode network with " + mode)
+        stemCheck = False
+        if hasattr(stemmer, '__call__'):
+            stemCheck = True
         if metaknowledge.VERBOSE_MODE:
-
             progKwargs = {'dummy' : False}
         else:
             progKwargs = {'dummy' : True}
@@ -780,7 +782,10 @@ class RecordCollection(object):
                 contents = getattr(R, mode, None)
                 if contents:
                     if isinstance(contents, list):
-                        tmplst = [str(n) for n in contents]
+                        if stemCheck:
+                            tmplst = [stemmer(str(n)) for n in contents]
+                        else:
+                            tmplst = [str(n) for n in contents]
                         if len(tmplst) > 1:
                             for i, node1 in enumerate(tmplst):
                                 for node2 in tmplst[i + 1:]:
@@ -812,7 +817,10 @@ class RecordCollection(object):
                         else:
                             pass
                     else:
-                        nodeVal = str(contents)
+                        if stemCheck:
+                            nodeVal = stemmer(str(contents))
+                        else:
+                            nodeVal = str(contents)
                         if nodeCount:
                             try:
                                 grph.node[nodeVal]['count'] += 1

@@ -112,6 +112,7 @@ class TestRecordCollection(unittest.TestCase):
         Gunwei = self.RC.coCiteNetwork(nodeType = 'original', weighted = False)
         Gjour = self.RC.coCiteNetwork(nodeType = "journal", dropNonJournals = True)
         Gyear = self.RC.coCiteNetwork(nodeType = "year", fullInfo = True, count = False)
+        Gcore = self.RC.coCiteNetwork(detailedCore = ['AF','AU', 'DE', 'ID', 'PY'], coreOnly = True)
         self.assertIsInstance(Gdefault, nx.classes.graph.Graph)
         self.assertLessEqual(len(Gdefault.edges()), len(Gunwei.edges()))
         self.assertLessEqual(len(Gdefault.nodes()), len(Gunwei.nodes()))
@@ -132,6 +133,7 @@ class TestRecordCollection(unittest.TestCase):
         self.assertTrue('info' in Gjour.nodes(data=True)[0][1])
         self.assertTrue('info' in Gyear.nodes(data=True)[0][1])
         self.assertTrue('fullCite' in Gyear.nodes(data = True)[0][1])
+        self.assertEqual(Gcore.node['Costadebeauregard O, 1975, CAN J PHYS']['info'], 'COSTADEBEAUREGARD O, COSTADEBEAUREGARD O')
 
     def test_coAuth(self):
         Gdefault = self.RC.coAuthNetwork()
@@ -147,6 +149,7 @@ class TestRecordCollection(unittest.TestCase):
         Gunwei = self.RC.citationNetwork(nodeType = 'original', weighted = False)
         Gjour = self.RC.citationNetwork(nodeType = "author", dropNonJournals = True, nodeInfo = True, count = False)
         Gyear = self.RC.citationNetwork(nodeType = "year", nodeInfo = True)
+        Gcore = self.RC.coCiteNetwork(detailedCore = True, coreOnly = False)
         self.assertIsInstance(Gdefault, nx.classes.digraph.DiGraph)
         self.assertLessEqual(len(Gdefault.edges()), len(Gunwei.edges()))
         self.assertLessEqual(len(Gdefault.nodes()), len(Gunwei.nodes()))
@@ -164,6 +167,7 @@ class TestRecordCollection(unittest.TestCase):
         self.assertEqual(len(Gjour.edges()), 432)
         self.assertTrue('info' in Gjour.nodes(data=True)[0][1])
         self.assertTrue('info' in Gyear.nodes(data=True)[0][1])
+        self.assertEqual(Gcore.node['Gilles H, 2002, OPT LETT']['info'], 'Gilles H, Simple technique for measuring the Goos-Hanchen effect with polarization modulation and a position-sensitive detector, OPTICS LETTERS, 27, 1421')
 
 
     def test_oneMode(self):

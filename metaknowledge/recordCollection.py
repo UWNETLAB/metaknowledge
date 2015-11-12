@@ -521,7 +521,7 @@ class RecordCollection(object):
                 PBar.finish("Done making a co-authorship network")
         return grph
 
-    def coCiteNetwork(self, dropAnon = True, nodeType = "full", nodeInfo = True, fullInfo = False, weighted = True, dropNonJournals = False, count = True, keyWords = None, coreOnly = False):
+    def coCiteNetwork(self, dropAnon = True, nodeType = "full", nodeInfo = True, fullInfo = False, weighted = True, dropNonJournals = False, count = True, keyWords = None, detailedCore = None, coreOnly = False):
         """Creates a co-citation network for the RecordCollection.
 
         # Parameters
@@ -536,11 +536,11 @@ class RecordCollection(object):
 
         _nodeInfo_ : `optional [bool]`
 
-        > default `True`, wether an extra piece of information is stored with each node.
+        > default `True`, if `True` an extra piece of information is stored with each node. The extra inforamtion is detemined by _nodeType_.
 
         _fullInfo_ : `optional [bool]`
 
-        > default `False`, wether the original citation string is added to the node as an extra value, the attribute is labeled as fullCite
+        > default `False`, if `True` the original citation string is added to the node as an extra value, the attribute is labeled as fullCite
 
         _weighted_ : `optional [bool]`
 
@@ -558,6 +558,14 @@ class RecordCollection(object):
 
         > A string or list of strings that the citations are checked against, if they contain any of the strings they are removed from the network
 
+        _detailedCore_ : `optional [bool or iterable[WOS tag Strings]]`
+
+        > default `False`, if `True` all Citations from the core (those of records in the RecordCollection) and the _nodeType_ is `'full'` all nodes from the core will be given info strings composed of information from the Record objects themselves. This is Equivalent to passing the list: `['AF', 'PY', 'TI', 'SO', 'VL', 'BP']`.
+
+        > If _detailedCore_ is an iterable (That evaluates to `True`) of WOS Tags (or long names) The values  of those tags will be used to make the info attribute. All
+
+        > The resultant string is the values of each tag, with commas removed, seperated by `', '`, just like the info given by non-core Citations. Note that for tags like `'AF'` that return lists only the first entry in the list will be used.
+
         _coreOnly_ : `optional [bool]`
 
         > default `False`, if `True` only Citations from the RecordCollection will be included in the network
@@ -571,6 +579,13 @@ class RecordCollection(object):
         allowedTypes = ["full", "original", "author", "journal", "year"]
         if nodeType not in allowedTypes:
             raise ValueError("{} is not an allowed nodeType.".format(nodeType))
+        coreValues = []
+        if bool(detailedCore):
+            try:
+                for tag in detailedCore:
+                    coreValues.append(normalizeToTag(tag))
+            except TypeError:
+                coreValues = ['AF', 'PY', 'TI', 'SO', 'VL', 'BP']
         tmpgrph = nx.Graph()
         pcount = 0
         progArgs = (0, "Starting to make a co-citation network")
@@ -579,9 +594,11 @@ class RecordCollection(object):
         else:
             progKwargs = {'dummy' : True}
         with _ProgressBar(*progArgs, **progKwargs) as PBar:
-            if coreOnly:
-                coreCites = [R.createCitation() for R in self]
+            if coreOnly or coreValues:
+                coreCitesDict = {R.createCitation() : R for R in self}
+                coreCites = coreCitesDict.keys()
             else:
+                coreCitesDict = None
                 coreCites = None
             for R in self:
                 if PBar:
@@ -590,13 +607,13 @@ class RecordCollection(object):
                 Cites = R.citations
                 if Cites:
                     filteredCites = filterCites(Cites, nodeType, dropAnon, dropNonJournals, keyWords, coreCites)
-                    addToNetwork(tmpgrph, filteredCites, count, weighted, nodeType, nodeInfo , fullInfo, headNd = None)
+                    addToNetwork(tmpgrph, filteredCites, count, weighted, nodeType, nodeInfo , fullInfo, coreCitesDict, coreValues, headNd = None)
             if PBar:
                 PBar.finish("Done making a co-citation network of " + repr(self))
         return tmpgrph
 
 
-    def citationNetwork(self, dropAnon = True, nodeType = "full", nodeInfo = True, fullInfo = False, weighted = True, dropNonJournals = False, count = True, directed = True, keyWords = None,  coreOnly = False):
+    def citationNetwork(self, dropAnon = True, nodeType = "full", nodeInfo = True, fullInfo = False, weighted = True, dropNonJournals = False, count = True, directed = True, keyWords = None, detailedCore = None, coreOnly = False):
 
         """Creates a citation network for the RecordCollection.
 
@@ -638,6 +655,14 @@ class RecordCollection(object):
 
         > Determines if the output graph is directed, default `True`
 
+        _detailedCore_ : `optional [bool or iterable[WOS tag Strings]]`
+
+        > default `False`, if `True` all Citations from the core (those of records in the RecordCollection) and the _nodeType_ is `'full'` all nodes from the core will be given info strings composed of information from the Record objects themselves. This is Equivalent to passing the list: `['AF', 'PY', 'TI', 'SO', 'VL', 'BP']`.
+
+        > If _detailedCore_ is an iterable (That evaluates to `True`) of WOS Tags (or long names) The values  of those tags will be used to make the info attribute. All
+
+        > The resultant string is the values of each tag, with commas removed, seperated by `', '`, just like the info given by non-core Citations. Note that for tags like `'AF'` that return lists only the first entry in the list will be used.
+
         _coreOnly_ : `optional [bool]`
 
         > default `False`, if `True` only Citations from the RecordCollection will be included in the network
@@ -653,6 +678,13 @@ class RecordCollection(object):
         allowedTypes = ["full", "original", "author", "journal", "year"]
         if nodeType not in allowedTypes:
             raise ValueError("{} is not an allowed nodeType.".format(nodeType))
+        coreValues = []
+        if bool(detailedCore):
+            try:
+                for tag in detailedCore:
+                    coreValues.append(normalizeToTag(tag))
+            except TypeError:
+                coreValues = ['AF', 'PY', 'TI', 'SO', 'VL', 'BP']
         if directed:
             tmpgrph = nx.DiGraph()
         else:
@@ -664,9 +696,11 @@ class RecordCollection(object):
         else:
             progKwargs = {'dummy' : True}
         with _ProgressBar(*progArgs, **progKwargs) as PBar:
-            if coreOnly:
-                coreCites = [R.createCitation() for R in self]
+            if coreOnly or coreValues:
+                coreCitesDict = {R.createCitation() : R for R in self}
+                coreCites = coreCitesDict.keys()
             else:
+                coreCitesDict = None
                 coreCites = None
             for R in self:
                 if PBar:
@@ -678,7 +712,7 @@ class RecordCollection(object):
                 rCites = R.citations
                 if rCites:
                     filteredCites = filterCites(rCites, nodeType, dropAnon, dropNonJournals, keyWords, coreCites)
-                    addToNetwork(tmpgrph, filteredCites, count, weighted, nodeType, nodeInfo , fullInfo, headNd = reRef)
+                    addToNetwork(tmpgrph, filteredCites, count, weighted, nodeType, nodeInfo, fullInfo, coreCitesDict, coreValues, headNd = reRef)
             if PBar:
                 PBar.finish("Done making a citation network of " + repr(self))
         return tmpgrph
@@ -1416,22 +1450,22 @@ def edgeNodeReplacerGenerator(base, nodes, loc):
         yield tmpN
 
 
-def addToNetwork(grph, nds, count, weighted, nodeType, nodeInfo , fullInfo, headNd = None):
-    """Addeds the citations _nds_ to _grph_, arroring to the rules give by _nodeType_, _fullInfo_, etc.
+def addToNetwork(grph, nds, count, weighted, nodeType, nodeInfo, fullInfo, coreCitesDict, coreValues, headNd = None):
+    """Addeds the citations _nds_ to _grph_, according to the rules give by _nodeType_, _fullInfo_, etc.
 
     _headNd_ is the citation of the Record
     """
     if headNd is not None:
         hID = makeID(headNd, nodeType)
         if hID not in grph:
-            grph.add_node(*makeNodeTuple(headNd, hID, nodeInfo, fullInfo, nodeType, count))
+            grph.add_node(*makeNodeTuple(headNd, hID, nodeInfo, fullInfo, nodeType, count, coreCitesDict, coreValues))
     else:
         hID = None
     idList = []
     for n in nds:
         nID = makeID(n, nodeType)
         if nID not in grph:
-            grph.add_node(*makeNodeTuple(n, nID, nodeInfo, fullInfo, nodeType, count))
+            grph.add_node(*makeNodeTuple(n, nID, nodeInfo, fullInfo, nodeType, count, coreCitesDict, coreValues))
         elif count:
             grph.node[nID]['count'] += 1
         idList.append(nID)
@@ -1464,12 +1498,30 @@ def makeID(citation, nodeType):
     else:
         return citation.getID()
 
-def makeNodeTuple(citation, idVal, nodeInfo, fullInfo, nodeType, count):
+def makeNodeTuple(citation, idVal, nodeInfo, fullInfo, nodeType, count, coreCitesDict, coreValues):
     """Makes a tuple of idVal and a dict of the selected attributes"""
     d = {}
     if nodeInfo:
         if nodeType == 'full':
-            d['info'] = str(citation)
+            if coreValues:
+                if citation in coreCitesDict:
+                    R = coreCitesDict[citation]
+                    infoVals = []
+                    for tag in coreValues:
+                        tagVal = getattr(R, tag)
+                        if isinstance(tagVal, str):
+                            infoVals.append(tagVal.replace(',',''))
+                        elif isinstance(tagVal, list):
+                            infoVals.append(tagVal[0].replace(',',''))
+                        else:
+                            pass
+                    d['info'] = ', '.join(infoVals)
+                    d['inCore'] = True
+                else:
+                    d['info'] = citation.allButDOI()
+                    d['inCore'] = False
+            else:
+                d['info'] = citation.allButDOI()
         elif nodeType == 'journal':
             if citation.isJournal():
                 d['info'] = str(citation.getFullJournalName())

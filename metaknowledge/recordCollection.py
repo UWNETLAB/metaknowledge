@@ -602,8 +602,8 @@ class RecordCollection(object):
                 coreCites = None
             for R in self:
                 if PBar:
-                    count += 1
-                    PBar.updateVal(count / len(self), "Analyzing: " + str(R))
+                    pcount += 1
+                    PBar.updateVal(pcount / len(self), "Analyzing: " + str(R))
                 Cites = R.citations
                 if Cites:
                     filteredCites = filterCites(Cites, nodeType, dropAnon, dropNonJournals, keyWords, coreCites)
@@ -689,7 +689,7 @@ class RecordCollection(object):
             tmpgrph = nx.DiGraph()
         else:
             tmpgrph = nx.Graph()
-        count = 0
+        pcount = 0
         progArgs = (0, "Starting to make a citation network")
         if metaknowledge.VERBOSE_MODE:
             progKwargs = {'dummy' : False}
@@ -704,8 +704,8 @@ class RecordCollection(object):
                 coreCites = None
             for R in self:
                 if PBar:
-                    count += 1
-                    PBar.updateVal(count/ len(self), "Analyzing: " + str(R))
+                    pcount += 1
+                    PBar.updateVal(pcount/ len(self), "Analyzing: " + str(R))
                 reRef = R.createCitation()
                 if len(filterCites([reRef], nodeType, dropAnon, dropNonJournals, keyWords, coreCites)) == 0:
                     continue

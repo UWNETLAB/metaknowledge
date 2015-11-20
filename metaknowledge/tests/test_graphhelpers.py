@@ -54,3 +54,14 @@ class TestHelpers(unittest.TestCase):
         metaknowledge.drop_nodesByDegree(self.G, minDegree = 20, maxDegree = 100)
         self.assertEqual(metaknowledge.graphStats(self.G), "The graph has 384 nodes, 5902 edges, 0 isolates, 11 self loops, a density of 0.08026 and a transitivity of 0.954765")
         self.assertTrue(self.G.edge['Mazur P, 1953, MEM ACAD ROY BELG']['Livens Gh, 1948, P CAMB PHILOS SOC']['weight'] == 1)
+
+    def test_mergeGraphs(self):
+        RC1 = self.RC.yearSplit(0,1978)
+        RC2 = self.RC.yearSplit(1979,10000)
+        G1 = RC1.coCiteNetwork()
+        G2 = RC2.coCiteNetwork()
+        metaknowledge.mergeGraphs(G1,G2)
+        for node, attr in G1.nodes_iter(data = True):
+            self.assertEqual(self.G.node[node]['count'], attr['count'])
+        for node1, node2, attr in G1.edges(data = True):
+            self.assertEqual(self.G.edge[node1][node2]['weight'], attr['weight'])

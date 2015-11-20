@@ -330,6 +330,9 @@ class _ProgressBar(object):
                     self.barMaxLength = 0
             except OSError:
                 self.barMaxLength = 80 - self.difTermAndBar
+            except AttributeError:
+                #Pypy fallback
+                self.barMaxLength = 80 - self.difTermAndBar
             self.ioThread = threading.Thread(target = self.threadedUpdate, kwargs = {"self" : self})
             self.ioThread.daemon = True
             self.ioThread.start()
@@ -365,6 +368,9 @@ class _ProgressBar(object):
                 if self.barMaxLength < 0:
                     self.barMaxLength = 0
             except OSError:
+                self.barMaxLength = 80 - self.difTermAndBar
+            except AttributeError:
+                #Pypy fallback
                 self.barMaxLength = 80 - self.difTermAndBar
             if self.big:
                 self.out.write('\n' + ' ' * (self.barMaxLength + self.difTermAndBar) + '\033[F')
@@ -412,6 +418,9 @@ class _ProgressBar(object):
                 if self.barMaxLength < 0:
                     self.barMaxLength = 0
             except OSError:
+                self.barMaxLength = 80 - self.difTermAndBar
+            except AttributeError:
+                #Pypy fallback
                 self.barMaxLength = 80 - self.difTermAndBar
             self.out.write('\r')
             percentString = '{:.1%}'.format(self.per).rjust(self.percLength, ' ')
@@ -495,38 +504,39 @@ def drop_edges(grph, minWeight = - float('inf'), maxWeight = float('inf'), param
 
     ignoreUnweighted can be set False to suppress the KeyError and make unweighted edges be ignored
     """
+    count = 0
+    total = len(grph.edges())
     if metaknowledge.VERBOSE_MODE:
-        PBar = _ProgressBar(0, "Dropping edges")
-        count = 0
-        total = len(grph.edges())
+        progArgs = (0, "Dropping edges")
+        progKwargs = {}
     else:
-        PBar = None
-    tmpGrph = grph.copy()
-    if minWeight != - float('inf') or maxWeight != float('inf'):
-        for e in grph.edges_iter(data = True):
-            try:
-                val = e[2][parameterName]
-            except KeyError:
-                if not ignoreUnweighted:
-                    raise KeyError("One or more Edges do not have weight or " + str(parameterName), " is not the name of the weight")
+        progArgs = (0, "Dropping edges")
+        progKwargs = {'dummy' : True}
+    with _ProgressBar(*progArgs, **progKwargs) as PBar:
+        if dropSelfLoops:
+            slps = grph.selfloop_edges()
+            if PBar:
+                PBar.updateVal(0, "Dropping self {} loops".format(len(slps)))
+            for e in slps:
+                grph.remove_edge(e[0], e[1])
+        if minWeight != - float('inf') or maxWeight != float('inf'):
+            for e in grph.edges(data = True):
+                try:
+                    val = e[2][parameterName]
+                except KeyError:
+                    if not ignoreUnweighted:
+                        raise KeyError("One or more Edges do not have weight or " + str(parameterName), " is not the name of the weight")
+                    else:
+                        pass
                 else:
-                    pass
-            else:
-                if PBar:
-                    count += 1
-                    if count % 100000 == 0:
-                        PBar.updateVal(count/ total, str(count) + " edges analysed and " + str(total -len(tmpGrph.edges())) + " edges dropped")
-                if val > maxWeight or  val < minWeight:
-                    tmpGrph.remove_edge(e[0], e[1])
-    if dropSelfLoops:
-        slps = tmpGrph.selfloop_edges()
+                    if PBar:
+                        count += 1
+                        if count % 100000 == 0:
+                            PBar.updateVal(count/ total, str(count) + " edges analysed and " + str(total -len(grph.edges())) + " edges dropped")
+                    if val > maxWeight or  val < minWeight:
+                        grph.remove_edge(e[0], e[1])
         if PBar:
-            PBar.updateVal(1, "Dropping self {} loops".format(len(slps)))
-        for e in slps:
-            tmpGrph.remove_edge(e[0], e[1])
-    if PBar:
-        PBar.finish(str(total - len(tmpGrph.edges())) + " edges out of " + str(total) + " dropped, " + str(len(tmpGrph.edges())) + " returned")
-    return tmpGrph
+            PBar.finish(str(total - len(grph.edges())) + " edges out of " + str(total) + " dropped, " + str(len(grph.edges())) + " returned")
 
 def drop_nodesByDegree(grph, minDegree = -float('inf'), maxDegree = float('inf'), useWeight = True, parameterName = 'weight', ignoreUnweighted = True):
     """
@@ -540,35 +550,41 @@ def drop_nodesByDegree(grph, minDegree = -float('inf'), maxDegree = float('inf')
 
     ignoreUnweighted can be set False to suppress the KeyError and make unweighted edges be not counted, only used if useWeight is True
     """
+    count = 0
+    total = len(grph.nodes())
     if metaknowledge.VERBOSE_MODE:
-        PBar = _ProgressBar(0, "Dropping nodes by degree")
-        count = 0
-        total = len(grph.nodes())
+        progArgs = (0, "Dropping nodes by degree")
+        progKwargs = {}
     else:
-        PBar = None
-    goodNodes = []
-    for n in grph.nodes_iter():
+        progArgs = (0, "Dropping nodes by degree")
+        progKwargs = {'dummy' : True}
+    with _ProgressBar(*progArgs, **progKwargs) as PBar:
+        badNodes = []
+        for n in grph.nodes_iter():
+            if PBar:
+                count += 1
+                if count % 10000 == 0:
+                    PBar.updateVal(count/ total, str(count) + " nodes analysed and " + str(len(badNodes)) + " nodes dropped")
+            val = 0
+            if useWeight:
+                for e in grph.edges(n, data = True):
+                    try:
+                        val += e[2][parameterName]
+                    except KeyError:
+                        if not ignoreUnweighted:
+                            raise KeyError("One or more Edges do not have weight or " + str(parameterName), " is not the name of the weight")
+                        else:
+                            val += 1
+            else:
+                val = len(grph.edges(n))
+            if val < minDegree or val > maxDegree:
+                badNodes.append(n)
         if PBar:
-            count += 1
-            if count % 10000 == 0:
-                PBar.updateVal(count/ total, str(count) + " nodes analysed and " + str(total - len(goodNodes)) + " nodes dropped")
-        val = 0
-        if useWeight:
-            for e in grph.edges(n, data = True):
-                try:
-                    val += e[2][parameterName]
-                except KeyError:
-                    if not ignoreUnweighted:
-                        raise KeyError("One or more Edges do not have weight or " + str(parameterName), " is not the name of the weight")
-                    else:
-                        val += 1
-        else:
-            val = len(grph.edges(n))
-        if val <= maxDegree and val >= minDegree:
-            goodNodes.append(n)
-    if PBar:
-        PBar.finish(str(total - len(goodNodes)) + " nodes out of " + str(total) + " dropped, " + str(len(goodNodes)) + " returned")
-    return grph.subgraph(goodNodes)
+            PBar.updateVal(1, "Cleaning up graph")
+        grph.remove_nodes_from(badNodes)
+        if PBar:
+            PBar.finish("{} nodes out of {} dropped, {} returned".format(len(badNodes), total, total - len(badNodes)))
+
 
 def drop_nodesByCount(grph, minCount = -float('inf'), maxCount = float('inf'), parameterName = 'count', ignoreMissing = False):
     """
@@ -581,32 +597,36 @@ def drop_nodesByCount(grph, minCount = -float('inf'), maxCount = float('inf'), p
 
     ignoreMissing can be set False to suppress the KeyError and make nodes missing counts be dropped instead of throwing errors
     """
+    count = 0
+    total = len(grph.nodes())
     if metaknowledge.VERBOSE_MODE:
-        PBar = _ProgressBar(0, "Dropping nodes by count")
-        count = 0
-        total = len(grph.nodes())
+        progArgs = (0, "Dropping nodes by count")
+        progKwargs = {}
     else:
-        PBar = None
-    goodNodes = []
-    for n in grph.nodes_iter(data = True):
-        if PBar:
-            count += 1
-            if count % 10000 == 0:
-                PBar.updateVal(count/ total, str(count) + "nodes analysed and " + str(total - len(goodNodes)) + " nodes dropped")
-
-        try:
-            val = n[1][parameterName]
-        except KeyError:
-            if not ignoreMissing:
-                raise KeyError("One or more nodes do not have counts or " + str(parameterName), " is not the name of the count parameter")
+        progArgs = (0, "Dropping nodes by count")
+        progKwargs = {'dummy' : True}
+    with _ProgressBar(*progArgs, **progKwargs) as PBar:
+        badNodes = []
+        for n in grph.nodes_iter(data = True):
+            if PBar:
+                count += 1
+                if count % 10000 == 0:
+                    PBar.updateVal(count/ total, str(count) + "nodes analysed and {} nodes dropped".format(len(badNodes)))
+            try:
+                val = n[1][parameterName]
+            except KeyError:
+                if not ignoreMissing:
+                    raise KeyError("One or more nodes do not have counts or " + str(parameterName), " is not the name of the count parameter")
+                else:
+                    pass
             else:
-                pass
-        else:
-            if val <= maxCount and val >= minCount:
-                goodNodes.append(n[0])
-    if PBar:
-        PBar.finish(str(total - len(goodNodes)) + " nodes out of " + str(total) + " dropped, " + str(len(goodNodes)) + " returned")
-    return grph.subgraph(goodNodes)
+                if val < minCount or val > maxCount:
+                    badNodes.append(n[0])
+        if PBar:
+            PBar.updateVal(1, "Cleaning up graph")
+        grph.remove_nodes_from(badNodes)
+        if PBar:
+            PBar.finish("{} nodes out of {} dropped, {} returned".format(len(badNodes), total, total - len(badNodes)))
 
 def graphStats(G, stats = ('nodes', 'edges', 'isolates', 'loops', 'density', 'transitivity'), makeString = True):
     """Returns a string or list containing statistics about the graph _G_.

@@ -496,7 +496,7 @@ def getDegreeDistribution(grph, weightParameter = "weight", strictWeightNames = 
 
 def drop_edges(grph, minWeight = - float('inf'), maxWeight = float('inf'), parameterName = 'weight', ignoreUnweighted = False, dropSelfLoops = False):
     """
-    Returns a graph with edges whose weight is within the inclusive bounds of minWeight and maxWeight, i.e minWeight <= edges weight <= maxWeight, will throw a Keyerror if the graph is unweighted
+    Modifies a graph dropping edges whose weight is not within the inclusive bounds of minWeight and maxWeight, i.e minWeight <= edges weight <= maxWeight, will throw a Keyerror if the graph is unweighted
 
     minWeight and maxWeight default to negative and positive infinity respectively so without specifying either the output should be the input
 
@@ -540,7 +540,7 @@ def drop_edges(grph, minWeight = - float('inf'), maxWeight = float('inf'), param
 
 def drop_nodesByDegree(grph, minDegree = -float('inf'), maxDegree = float('inf'), useWeight = True, parameterName = 'weight', ignoreUnweighted = True):
     """
-    Returns a graph whose nodes have a degree that is within inclusive bounds of minDegree and maxDegree, i.e minDegree <= degree <= maxDegree. Degree can be determined in two ways by default it is the total number of edges touching a node, alternative if useWeight is True it is the sum of the weight of all the edges touching a node.
+    Modifies the graph dropping nodes that do not nodes have a degree that is within inclusive bounds of minDegree and maxDegree, i.e minDegree <= degree <= maxDegree. Degree can be determined in two ways by default it is the total number of edges touching a node, alternative if useWeight is True it is the sum of the weight of all the edges touching a node.
 
     minDegree and maxDegree default to negative and positive infinity respectively so without specifying either the output should be the input
 
@@ -588,7 +588,7 @@ def drop_nodesByDegree(grph, minDegree = -float('inf'), maxDegree = float('inf')
 
 def drop_nodesByCount(grph, minCount = -float('inf'), maxCount = float('inf'), parameterName = 'count', ignoreMissing = False):
     """
-    Returns a graph whose nodes have a occurrence count that is within inclusive bounds of minCount and maxCount, i.e minCount <= count <= maxCount. Occurrence count is determined by reading the variable associated with the node named parameterName.
+    Modifies a graph dropping nodes that have a occurrence count that is not within inclusive bounds of minCount and maxCount, i.e minCount <= count <= maxCount. Occurrence count is determined by reading the variable associated with the node named parameterName.
 
     minCount and maxCount default to negative and positive infinity respectively so without specifying either the output should be the input
 

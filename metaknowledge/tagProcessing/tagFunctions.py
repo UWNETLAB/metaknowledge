@@ -203,7 +203,7 @@ def journal(val):
     """
     #The SO Tag
 
-    extracts the full name of the publication
+    extracts the full name of the publication and normalizes it to uppercase
 
     # Parameters
 
@@ -218,7 +218,7 @@ def journal(val):
     > The name of the journal
 
     """
-    return ' '.join(val)
+    return ' '.join(val).upper()
 
 def seriesTitle(val):
     """

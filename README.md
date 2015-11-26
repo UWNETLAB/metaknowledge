@@ -4,6 +4,9 @@ metaknowledge is a Python3 library that simplifies bibliometric research using W
 
 The website can be found at [networkslab.org/metaknowledge](http://networkslab.org/metaknowledge/).
 
+## Currently in Beta
+metaknowledge is in the final stages of testing before a 1.0 release different versions may behave differently.
+
 ##Installing
 To install run `python3 setup.py install`
 

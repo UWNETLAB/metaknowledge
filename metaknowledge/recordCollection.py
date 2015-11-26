@@ -231,7 +231,6 @@ class RecordCollection(object):
         else:
             return False
 
-
     def pop(self):
         """
         Returns a random Record from the recordCollection, the Record is deleted from the collection, use peak for nondestructive access
@@ -596,7 +595,10 @@ class RecordCollection(object):
         with _ProgressBar(*progArgs, **progKwargs) as PBar:
             if coreOnly or coreValues:
                 coreCitesDict = {R.createCitation() : R for R in self}
-                coreCites = coreCitesDict.keys()
+                if coreOnly:
+                    coreCites = coreCitesDict.keys()
+                else:
+                    coreCites = None
             else:
                 coreCitesDict = None
                 coreCites = None
@@ -698,7 +700,10 @@ class RecordCollection(object):
         with _ProgressBar(*progArgs, **progKwargs) as PBar:
             if coreOnly or coreValues:
                 coreCitesDict = {R.createCitation() : R for R in self}
-                coreCites = coreCitesDict.keys()
+                if coreOnly:
+                    coreCites = coreCitesDict.keys()
+                else:
+                    coreCites = None
             else:
                 coreCitesDict = None
                 coreCites = None

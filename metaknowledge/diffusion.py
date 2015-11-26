@@ -46,50 +46,52 @@ def diffusionGraph(source, target, sourceType = "raw", targetType = "raw"):
         raise RuntimeError("{} is not a valid node type, only 'raw' or those strings in tagsAndNameSet are allowed".format(nodeType))
     if targetType != "raw" and targetType not in tagsAndNameSet:
         raise RuntimeError("{} is not a valid node type, only 'raw' or those strings in tagsAndNameSet are allowed".format(nodeType))
+    count = 0
+    maxCount = len(source)
+    progArgs = (0, "Starting to make a diffusion network")
     if metaknowledge.VERBOSE_MODE:
-        PBar = _ProgressBar(0, "Starting to make a diffusion network")
-        count = 0
-        maxCount = len(source)
+        progKwargs = {'dummy' : False}
     else:
-        PBar = None
-    sourceDict = {}
-    workingGraph = nx.DiGraph()
-    for Rs in source:
+        progKwargs = {'dummy' : True}
+    with _ProgressBar(*progArgs, **progKwargs) as PBar:
+        sourceDict = {}
+        workingGraph = nx.DiGraph()
+        for Rs in source:
+            if PBar:
+                count += 1
+                PBar.updateVal(count / maxCount * .25, "Analyzing source: " + str(Rs))
+            RsVal, RsExtras = makeNodeID(Rs, sourceType)
+            if RsVal:
+                sourceDict[Rs.createCitation()] = RsVal
+                for val in RsVal:
+                    if val not in workingGraph:
+                        workingGraph.add_node(val, source = True, target = False, **RsExtras)
         if PBar:
-            count += 1
-            PBar.updateVal(count / maxCount * .25, "Analyzing source: " + str(Rs))
-        RsVal, RsExtras = makeNodeID(Rs, sourceType)
-        if RsVal:
-            sourceDict[Rs.createCitation()] = RsVal
-            for val in RsVal:
-                if val not in workingGraph:
-                    workingGraph.add_node(val, source = True, target = False, **RsExtras)
-    if PBar:
-        count = 0
-        maxCount = len(target)
-        PBar.updateVal(.25, "Done analyzing sources, starting on targets")
-    for Rt in target:
-        RtVal, RtExtras = makeNodeID(Rt, targetType)
+            count = 0
+            maxCount = len(target)
+            PBar.updateVal(.25, "Done analyzing sources, starting on targets")
+        for Rt in target:
+            RtVal, RtExtras = makeNodeID(Rt, targetType)
+            if PBar:
+                count += 1
+                PBar.updateVal(count / maxCount * .75 + .25, "Analyzing target: " + str(Rt))
+            if RtVal:
+                for val in RtVal:
+                    if val not in workingGraph:
+                        workingGraph.add_node(val, source = False, target = True, **RtExtras)
+                    else:
+                        workingGraph.node[val]["target"] = True
+                    targetCites = Rt.CR
+                    if targetCites:
+                        for Rs in (sourceDict[c] for c in targetCites if c in sourceDict):
+                            for sVal in Rs:
+                                workingGraph.add_edge(val, sVal)
         if PBar:
-            count += 1
-            PBar.updateVal(count / maxCount * .75 + .25, "Analyzing target: " + str(Rt))
-        if RtVal:
-            for val in RtVal:
-                if val not in workingGraph:
-                    workingGraph.add_node(val, source = False, target = True, **RtExtras)
-                else:
-                    workingGraph.node[val]["target"] = True
-                targetCites = Rt.CR
-                if targetCites:
-                    for Rs in (sourceDict[c] for c in targetCites if c in sourceDict):
-                        for sVal in Rs:
-                            workingGraph.add_edge(val, sVal)
-    if PBar:
-        PBar.finish("Done making a diffusion network of {} sources and {} targets".format(len(source), len(target)))
+            PBar.finish("Done making a diffusion network of {} sources and {} targets".format(len(source), len(target)))
     return workingGraph
 
 
-def diffusionCount(source, target, sourceType = "raw", pandasFriendly = False,  compareCounts = False, numAuthors = True,_ProgBar = None):
+def diffusionCount(source, target, sourceType = "raw", pandasFriendly = False,  compareCounts = False, numAuthors = True, _ProgBar = None):
     """Takes in two [`RecordCollections`](#RecordCollection.RecordCollection) and produces a `dict` counting the citations of the `Records` of _source_ by the `Records` of _target_. By default the `dict` uses `Record` objects as keys but this can be changed with the _sourceType_ keyword to any of the WOS tags.
 
     # Parameters

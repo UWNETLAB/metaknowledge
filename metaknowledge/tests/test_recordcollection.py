@@ -107,11 +107,12 @@ class TestRecordCollection(unittest.TestCase):
 
     def test_coCite(self):
         Gdefault = self.RC.coCiteNetwork(fullInfo = True)
-        Gauths = self.RC.coCiteNetwork(nodeType = "author", dropAnon = False)
+        Gauths = self.RC.coCiteNetwork(nodeType = "author", dropAnon = False, detailedCore = True)
         GauthsNoExtra = self.RC.coCiteNetwork(nodeType = "author", nodeInfo = False)
         Gunwei = self.RC.coCiteNetwork(nodeType = 'original', weighted = False)
         Gjour = self.RC.coCiteNetwork(nodeType = "journal", dropNonJournals = True)
         Gyear = self.RC.coCiteNetwork(nodeType = "year", fullInfo = True, count = False)
+        Gcore = self.RC.coCiteNetwork(detailedCore = ['AF','AU', 'DE', 'ID', 'PY'], coreOnly = True)
         self.assertIsInstance(Gdefault, nx.classes.graph.Graph)
         self.assertLessEqual(len(Gdefault.edges()), len(Gunwei.edges()))
         self.assertLessEqual(len(Gdefault.nodes()), len(Gunwei.nodes()))
@@ -132,6 +133,7 @@ class TestRecordCollection(unittest.TestCase):
         self.assertTrue('info' in Gjour.nodes(data=True)[0][1])
         self.assertTrue('info' in Gyear.nodes(data=True)[0][1])
         self.assertTrue('fullCite' in Gyear.nodes(data = True)[0][1])
+        self.assertEqual(Gcore.node['Costadebeauregard O, 1975, CAN J PHYS']['info'], 'COSTADEBEAUREGARD O, COSTADEBEAUREGARD O')
 
     def test_coAuth(self):
         Gdefault = self.RC.coAuthNetwork()
@@ -142,11 +144,12 @@ class TestRecordCollection(unittest.TestCase):
     def test_Cite(self):
         Gdefault = self.RC.citationNetwork(fullInfo = True, count = False)
         Ganon = self.RC.citationNetwork(dropAnon = False)
-        Gauths = self.RC.citationNetwork(nodeType = "author")
+        Gauths = self.RC.citationNetwork(nodeType = "author", detailedCore = True)
         GauthsNoExtra = self.RC.citationNetwork(nodeType = "author", nodeInfo = False)
         Gunwei = self.RC.citationNetwork(nodeType = 'original', weighted = False)
         Gjour = self.RC.citationNetwork(nodeType = "author", dropNonJournals = True, nodeInfo = True, count = False)
         Gyear = self.RC.citationNetwork(nodeType = "year", nodeInfo = True)
+        Gcore = self.RC.coCiteNetwork(detailedCore = True, coreOnly = False)
         self.assertIsInstance(Gdefault, nx.classes.digraph.DiGraph)
         self.assertLessEqual(len(Gdefault.edges()), len(Gunwei.edges()))
         self.assertLessEqual(len(Gdefault.nodes()), len(Gunwei.nodes()))
@@ -164,6 +167,7 @@ class TestRecordCollection(unittest.TestCase):
         self.assertEqual(len(Gjour.edges()), 432)
         self.assertTrue('info' in Gjour.nodes(data=True)[0][1])
         self.assertTrue('info' in Gyear.nodes(data=True)[0][1])
+        self.assertEqual(Gcore.node['Gilles H, 2002, OPT LETT']['info'], 'Gilles H, Simple technique for measuring the Goos-Hanchen effect with polarization modulation and a position-sensitive detector, OPTICS LETTERS, 27, 1421')
 
 
     def test_oneMode(self):
@@ -171,6 +175,8 @@ class TestRecordCollection(unittest.TestCase):
         Gcite = self.RC.oneModeNetwork('citations', nodeCount = False, edgeWeight = False)
         GcoCit = self.RC.coCiteNetwork()
         Gtit = self.RC.oneModeNetwork('title')
+        stemFunc = lambda x: x[:-1]
+        Gstem = self.RC.oneModeNetwork('keywords', stemmer = stemFunc)
         self.assertEqual(len(Gcite.edges()), len(Gcr.edges()))
         self.assertEqual(len(Gcite.nodes()), len(Gcr.nodes()))
         self.assertAlmostEqual(len(Gcite.nodes()), len(GcoCit.nodes()), delta = 50)
@@ -179,6 +185,8 @@ class TestRecordCollection(unittest.TestCase):
         self.assertEqual(len(Gtit.edges()), 0)
         self.assertEqual(len(self.RC.oneModeNetwork('email').edges()), 3)
         self.assertEqual(len(self.RC.oneModeNetwork('UT').nodes()), len(self.RC) - 1)
+        self.assertEqual(metaknowledge.graphStats(Gstem), 'The graph has 41 nodes, 142 edges, 2 isolates, 0 self loops, a density of 0.173171 and a transitivity of 0.854015')
+        self.assertIsInstance(Gstem.nodes()[0], str)
         with self.assertRaises(TypeError):
             G = self.RC.oneModeNetwork('Not a Tag')
             del G
@@ -189,6 +197,7 @@ class TestRecordCollection(unittest.TestCase):
         Gafwc = self.RC.twoModeNetwork('AF', 'WC', nodeCount = False, edgeWeight = False)
         Gd2em = self.RC.twoModeNetwork('D2', 'email')
         Gemd2 = self.RC.twoModeNetwork('email', 'D2')
+        Gstemm = self.RC.twoModeNetwork('title', 'title', stemmerTag1 = lambda x: x[:-1], stemmerTag2 = lambda x: x + 's')
         self.assertIsInstance(Gutti, nx.classes.digraph.DiGraph)
         self.assertIsInstance(Gafwc, nx.classes.graph.Graph)
         self.assertEqual(Gutti.edges('WOS:A1979GV55600001')[0][1][:31], "EXPERIMENTS IN PHENOMENOLOGICAL")
@@ -197,11 +206,14 @@ class TestRecordCollection(unittest.TestCase):
             G = self.RC.oneModeNetwork('Not a Tag', 'TI')
             del G
         self.assertTrue(nx.is_isomorphic(Gd2em, Gemd2))
+        self.assertEqual(metaknowledge.graphStats(Gstemm), 'The graph has 62 nodes, 31 edges, 0 isolates, 0 self loops, a density of 0.0163934 and a transitivity of 0')
+        self.assertTrue('Optical properties of nanostructured thin filmss' in Gstemm)
 
     def test_nMode(self):
         G = self.RC.nModeNetwork(metaknowledge.tagProcessing.tagToFullDict.keys())
-        self.assertEqual(len(G.nodes()), 1186)
-        self.assertEqual(len(G.edges()), 38592)
+        Gstem = self.RC.nModeNetwork(metaknowledge.tagProcessing.tagToFullDict.keys(), stemmer = lambda x : x[0])
+        self.assertEqual(metaknowledge.graphStats(G), 'The graph has 1186 nodes, 38592 edges, 0 isolates, 56 self loops, a density of 0.0549192 and a transitivity of 0.295384')
+        self.assertEqual(metaknowledge.graphStats(Gstem), 'The graph has 50 nodes, 1015 edges, 0 isolates, 35 self loops, a density of 0.828571 and a transitivity of 0.855834')
 
     def test_localCiteStats(self):
         d = self.RC.localCiteStats()

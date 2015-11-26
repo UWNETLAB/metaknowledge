@@ -2,7 +2,7 @@
 import metaknowledge
 from .record import Record, BadISIFile
 from .graphHelpers import _ProgressBar
-from .tagProcessing.funcDicts import tagsAndNameSet, tagToFullDict, fullToTagDict
+from .tagProcessing.funcDicts import tagsAndNameSet, tagToFullDict, fullToTagDict, normalizeToTag
 from .citation import Citation
 
 import itertools
@@ -67,41 +67,44 @@ class RecordCollection(object):
                     self.bad = True
                     self.error = w
             elif os.path.isdir(inCollection):
+                count = 0
                 if metaknowledge.VERBOSE_MODE:
-                    PBar = _ProgressBar(0, "Reading files from " + str(inCollection))
-                    count = 0
+                    progArgs = (0, "Reading files from " + str(inCollection))
+                    progKwargs = {}
                 else:
-                    PBar = None
-                if extension and not name:
-                    if extension[0] == '.':
-                        self._repr = extension[1:] + "-files-from-" + os.path.dirname(inCollection)
-                    else:
-                        self._repr = extension + "-files-from-" + inCollection
-                elif not name:
-                    self._repr = "files-from-" + inCollection
-                self._Records = set()
-                flist = []
-                for f in os.listdir(inCollection):
-                    fullF = os.path.join(os.path.abspath(inCollection), f)
-                    if fullF.endswith(extension) and os.path.isfile(fullF):
-                        flist.append(fullF)
-                for file in flist:
-                    if PBar:
-                        count += 1
-                        PBar.updateVal(count / len(flist), "Reading records from: " + file)
-                    else:
-                        PBar = None
-                    try:
-                        self._Records |= set(isiParser(file))
-                    except BadISIFile:
-                        if extension != '':
-                            raise
+                    progArgs = (0, "Reading files from " + str(inCollection))
+                    progKwargs = {'dummy' : True}
+                with _ProgressBar(*progArgs, **progKwargs) as PBar:
+                    if extension and not name:
+                        if extension[0] == '.':
+                            self._repr = extension[1:] + "-files-from-" + os.path.dirname(inCollection)
                         else:
+                            self._repr = extension + "-files-from-" + inCollection
+                    elif not name:
+                        self._repr = "files-from-" + inCollection
+                    self._Records = set()
+                    flist = []
+                    for f in os.listdir(inCollection):
+                        fullF = os.path.join(os.path.abspath(inCollection), f)
+                        if fullF.endswith(extension) and os.path.isfile(fullF):
+                            flist.append(fullF)
+                    for file in flist:
+                        if PBar:
+                            count += 1
+                            PBar.updateVal(count / len(flist), "Reading records from: " + file)
+                        else:
+                            PBar = None
+                        try:
+                            self._Records |= set(isiParser(file))
+                        except BadISIFile:
+                            if extension != '':
+                                raise
+                            else:
+                                pass
+                        except UnicodeDecodeError:
                             pass
-                    except UnicodeDecodeError:
-                        pass
-                if PBar:
-                    PBar.finish("Done reading records from: " + str(inCollection))
+                    if PBar:
+                        PBar.finish("Done reading records from: " + str(inCollection))
             else:
                 raise TypeError("inCollection is not a directory or a file")
         elif isinstance(inCollection, list):
@@ -227,7 +230,6 @@ class RecordCollection(object):
             return item in self._Records
         else:
             return False
-
 
     def pop(self):
         """
@@ -435,7 +437,6 @@ class RecordCollection(object):
             csvWriter.writerow(recDict)
         f.close()
 
-
     def makeDict(self, onlyTheseTags = None, longNames = False, cleanedVal = True, numAuthors = True):
         """Returns a dict with each key a tag and the values being lists of the values for each of the Records in the collection, `None` is given when there is no value and they are in the same order across each tag.
 
@@ -480,44 +481,46 @@ class RecordCollection(object):
         > A networkx graph with author names as nodes and collaborations as edges.
         """
         grph = nx.Graph()
+        pcount = 0
+        progArgs = (0, "Starting to make a co-authorship network")
         if metaknowledge.VERBOSE_MODE:
-            PBar = _ProgressBar(0, "Starting to make a co-authorship network")
-            pcount = 0
+            progKwargs = {'dummy' : False}
         else:
-            PBar = None
-        for R in self:
-            if PBar:
-                pcount += 1
-                PBar.updateVal(pcount/ len(self), "Analyzing: " + str(R))
-            authsList = R.authorsFull
-            if authsList:
-                authsList = list(authsList)
-                if len(authsList) > 1:
-                    for i, auth1 in enumerate(authsList):
+            progKwargs = {'dummy' : True}
+        with _ProgressBar(*progArgs, **progKwargs) as PBar:
+            for R in self:
+                if PBar:
+                    pcount += 1
+                    PBar.updateVal(pcount/ len(self), "Analyzing: " + str(R))
+                authsList = R.authorsFull
+                if authsList:
+                    authsList = list(authsList)
+                    if len(authsList) > 1:
+                        for i, auth1 in enumerate(authsList):
+                            if auth1 not in grph:
+                                grph.add_node(auth1, count = 1)
+                            else:
+                                grph.node[auth1]['count'] += 1
+                            for auth2 in authsList[i + 1:]:
+                                if auth2 not in grph:
+                                    grph.add_node(auth2, count = 1)
+                                else:
+                                    grph.node[auth2]['count'] += 1
+                                if grph.has_edge(auth1, auth2):
+                                    grph.edge[auth1][auth2]['weight'] += 1
+                                else:
+                                    grph.add_edge(auth1, auth2, weight = 1)
+                    else:
+                        auth1 = authsList[0]
                         if auth1 not in grph:
                             grph.add_node(auth1, count = 1)
                         else:
                             grph.node[auth1]['count'] += 1
-                        for auth2 in authsList[i + 1:]:
-                            if auth2 not in grph:
-                                grph.add_node(auth2, count = 1)
-                            else:
-                                grph.node[auth2]['count'] += 1
-                            if grph.has_edge(auth1, auth2):
-                                grph.edge[auth1][auth2]['weight'] += 1
-                            else:
-                                grph.add_edge(auth1, auth2, weight = 1)
-                else:
-                    auth1 = authsList[0]
-                    if auth1 not in grph:
-                        grph.add_node(auth1, count = 1)
-                    else:
-                        grph.node[auth1]['count'] += 1
-        if PBar:
-            PBar.finish("Done making a co-authorship network")
+            if PBar:
+                PBar.finish("Done making a co-authorship network")
         return grph
 
-    def coCiteNetwork(self, dropAnon = True, nodeType = "full", nodeInfo = True, fullInfo = False, weighted = True, dropNonJournals = False, count = True, keyWords = None):
+    def coCiteNetwork(self, dropAnon = True, nodeType = "full", nodeInfo = True, fullInfo = False, weighted = True, dropNonJournals = False, count = True, keyWords = None, detailedCore = None, coreOnly = False):
         """Creates a co-citation network for the RecordCollection.
 
         # Parameters
@@ -532,11 +535,11 @@ class RecordCollection(object):
 
         _nodeInfo_ : `optional [bool]`
 
-        > default `True`, wether an extra piece of information is stored with each node.
+        > default `True`, if `True` an extra piece of information is stored with each node. The extra inforamtion is detemined by _nodeType_.
 
         _fullInfo_ : `optional [bool]`
 
-        > default `False`, wether the original citation string is added to the node as an extra value, the attribute is labeled as fullCite
+        > default `False`, if `True` the original citation string is added to the node as an extra value, the attribute is labeled as fullCite
 
         _weighted_ : `optional [bool]`
 
@@ -554,6 +557,18 @@ class RecordCollection(object):
 
         > A string or list of strings that the citations are checked against, if they contain any of the strings they are removed from the network
 
+        _detailedCore_ : `optional [bool or iterable[WOS tag Strings]]`
+
+        > default `False`, if `True` all Citations from the core (those of records in the RecordCollection) and the _nodeType_ is `'full'` all nodes from the core will be given info strings composed of information from the Record objects themselves. This is Equivalent to passing the list: `['AF', 'PY', 'TI', 'SO', 'VL', 'BP']`.
+
+        > If _detailedCore_ is an iterable (That evaluates to `True`) of WOS Tags (or long names) The values  of those tags will be used to make the info attribute. All
+
+        > The resultant string is the values of each tag, with commas removed, seperated by `', '`, just like the info given by non-core Citations. Note that for tags like `'AF'` that return lists only the first entry in the list will be used. Also a second attribute is created for all nodes called inCore wich is a boolean describing if the node is in the core or not.
+
+        _coreOnly_ : `optional [bool]`
+
+        > default `False`, if `True` only Citations from the RecordCollection will be included in the network
+
         # Returns
 
         `Networkx Graph`
@@ -563,26 +578,44 @@ class RecordCollection(object):
         allowedTypes = ["full", "original", "author", "journal", "year"]
         if nodeType not in allowedTypes:
             raise ValueError("{} is not an allowed nodeType.".format(nodeType))
+        coreValues = []
+        if bool(detailedCore):
+            try:
+                for tag in detailedCore:
+                    coreValues.append(normalizeToTag(tag))
+            except TypeError:
+                coreValues = ['AF', 'PY', 'TI', 'SO', 'VL', 'BP']
         tmpgrph = nx.Graph()
+        pcount = 0
+        progArgs = (0, "Starting to make a co-citation network")
         if metaknowledge.VERBOSE_MODE:
-            PBar = _ProgressBar(0, "Starting to make a co-citation network")
-            count = 0
+            progKwargs = {'dummy' : False}
         else:
-            PBar = None
-        for R in self:
+            progKwargs = {'dummy' : True}
+        with _ProgressBar(*progArgs, **progKwargs) as PBar:
+            if coreOnly or coreValues:
+                coreCitesDict = {R.createCitation() : R for R in self}
+                if coreOnly:
+                    coreCites = coreCitesDict.keys()
+                else:
+                    coreCites = None
+            else:
+                coreCitesDict = None
+                coreCites = None
+            for R in self:
+                if PBar:
+                    pcount += 1
+                    PBar.updateVal(pcount / len(self), "Analyzing: " + str(R))
+                Cites = R.citations
+                if Cites:
+                    filteredCites = filterCites(Cites, nodeType, dropAnon, dropNonJournals, keyWords, coreCites)
+                    addToNetwork(tmpgrph, filteredCites, count, weighted, nodeType, nodeInfo , fullInfo, coreCitesDict, coreValues, headNd = None)
             if PBar:
-                count += 1
-                PBar.updateVal(count / len(self), "Analyzing: " + str(R))
-            Cites = R.citations
-            if Cites:
-                filteredCites = filterCites(Cites, nodeType, dropAnon, dropNonJournals, keyWords)
-                addToNetwork(tmpgrph, filteredCites, count, weighted, nodeType, nodeInfo , fullInfo, headNd = None)
-        if PBar:
-            PBar.finish("Done making a co-citation network of " + repr(self))
+                PBar.finish("Done making a co-citation network of " + repr(self))
         return tmpgrph
 
 
-    def citationNetwork(self, dropAnon = True, nodeType = "full", nodeInfo = True, fullInfo = False, weighted = True, dropNonJournals = False, count = True, directed = True, keyWords = None):
+    def citationNetwork(self, dropAnon = True, nodeType = "full", nodeInfo = True, fullInfo = False, weighted = True, dropNonJournals = False, count = True, directed = True, keyWords = None, detailedCore = None, coreOnly = False):
 
         """Creates a citation network for the RecordCollection.
 
@@ -624,6 +657,18 @@ class RecordCollection(object):
 
         > Determines if the output graph is directed, default `True`
 
+        _detailedCore_ : `optional [bool or iterable[WOS tag Strings]]`
+
+        > default `False`, if `True` all Citations from the core (those of records in the RecordCollection) and the _nodeType_ is `'full'` all nodes from the core will be given info strings composed of information from the Record objects themselves. This is Equivalent to passing the list: `['AF', 'PY', 'TI', 'SO', 'VL', 'BP']`.
+
+        > If _detailedCore_ is an iterable (That evaluates to `True`) of WOS Tags (or long names) The values  of those tags will be used to make the info attribute. All
+
+        > The resultant string is the values of each tag, with commas removed, seperated by `', '`, just like the info given by non-core Citations. Note that for tags like `'AF'` that return lists only the first entry in the list will be used. Also a second attribute is created for all nodes called inCore wich is a boolean describing if the node is in the core or not.
+
+        _coreOnly_ : `optional [bool]`
+
+        > default `False`, if `True` only Citations from the RecordCollection will be included in the network
+
         # Returns
 
         `Networkx DiGraph or Networkx Graph`
@@ -635,28 +680,46 @@ class RecordCollection(object):
         allowedTypes = ["full", "original", "author", "journal", "year"]
         if nodeType not in allowedTypes:
             raise ValueError("{} is not an allowed nodeType.".format(nodeType))
+        coreValues = []
+        if bool(detailedCore):
+            try:
+                for tag in detailedCore:
+                    coreValues.append(normalizeToTag(tag))
+            except TypeError:
+                coreValues = ['AF', 'PY', 'TI', 'SO', 'VL', 'BP']
         if directed:
             tmpgrph = nx.DiGraph()
         else:
             tmpgrph = nx.Graph()
+        pcount = 0
+        progArgs = (0, "Starting to make a citation network")
         if metaknowledge.VERBOSE_MODE:
-            PBar = _ProgressBar(0, "Starting to make a citation network")
-            count = 0
+            progKwargs = {'dummy' : False}
         else:
-            PBar = None
-        for R in self:
+            progKwargs = {'dummy' : True}
+        with _ProgressBar(*progArgs, **progKwargs) as PBar:
+            if coreOnly or coreValues:
+                coreCitesDict = {R.createCitation() : R for R in self}
+                if coreOnly:
+                    coreCites = coreCitesDict.keys()
+                else:
+                    coreCites = None
+            else:
+                coreCitesDict = None
+                coreCites = None
+            for R in self:
+                if PBar:
+                    pcount += 1
+                    PBar.updateVal(pcount/ len(self), "Analyzing: " + str(R))
+                reRef = R.createCitation()
+                if len(filterCites([reRef], nodeType, dropAnon, dropNonJournals, keyWords, coreCites)) == 0:
+                    continue
+                rCites = R.citations
+                if rCites:
+                    filteredCites = filterCites(rCites, nodeType, dropAnon, dropNonJournals, keyWords, coreCites)
+                    addToNetwork(tmpgrph, filteredCites, count, weighted, nodeType, nodeInfo, fullInfo, coreCitesDict, coreValues, headNd = reRef)
             if PBar:
-                count += 1
-                PBar.updateVal(count/ len(self), "Analyzing: " + str(R))
-            reRef = R.createCitation()
-            if len(filterCites([reRef], nodeType, dropAnon, dropNonJournals, keyWords)) == 0:
-                continue
-            rCites = R.citations
-            if rCites:
-                filteredCites = filterCites(rCites, nodeType, dropAnon, dropNonJournals, keyWords)
-                addToNetwork(tmpgrph, filteredCites, count, weighted, nodeType, nodeInfo , fullInfo, headNd = reRef)
-        if PBar:
-            PBar.finish("Done making a citation network of " + repr(self))
+                PBar.finish("Done making a citation network of " + repr(self))
         return tmpgrph
 
     def _extractTagged(self, taglist):
@@ -707,7 +770,7 @@ class RecordCollection(object):
                     raise
         return RecordCollection(recordsInRange, repr(self) + "_(" + str(startYear) + " ," + str(endYear) + ")")
 
-    def oneModeNetwork(self, mode, nodeCount = True, edgeWeight = True):
+    def oneModeNetwork(self, mode, nodeCount = True, edgeWeight = True, stemmer = None):
         """Creates a network of the objects found by one WOS tag _mode_.
 
         A **oneModeNetwork()** looks are each Record in the RecordCollection and extracts its values for the tag given by _mode_, e.g. the `"AF"` tag. Then if multiple are returned an edge is created between them. So in the case of the author tag `"AF"` a co-authorship network is created.
@@ -730,73 +793,95 @@ class RecordCollection(object):
 
         > Default `True`, if `True` each edge will have an attribute called "weight" that contains an int giving the number of time the two objects co-occurrenced.
 
+        _stemmer_ : `optional [func]`
+
+        > default `None`, If _stemmer_ is a callable object, basically a function or possibly a class, it will be called for the ID of every node in the graph, all IDs are strings. For example:
+
+        >The function ` f = lambda x: x[0]` if given as the stemmer will cause all IDs to be the first character of their unstemmed IDs. e.g. the title `'Goos-Hanchen and Imbert-Fedorov shifts for leaky guided modes'` will create the node `'G'`.
+
         # Returns
 
         `networkx Graph`
 
         > A networkx Graph with the objects of the tag _mode_ as nodes and their co-occurrences as edges
         """
-        if mode not in tagsAndNameSet:
+        try:
+            mode = normalizeToTag(mode)
+        except KeyError:
             raise TypeError(str(mode) + " is not a known tag, or the name of a known tag.")
+        stemCheck = False
+        if stemmer is not None:
+            if hasattr(stemmer, '__call__'):
+                stemCheck = True
+            else:
+                raise TypeError("stemmer must be callable, e.g. a function or class with a __call__ method.")
+        count = 0
+        progArgs = (0, "Starting to make a one mode network with " + mode)
         if metaknowledge.VERBOSE_MODE:
-            PBar = _ProgressBar(0, "Starting to make a one mode network with " + mode)
-            count = 0
+            progKwargs = {'dummy' : False}
         else:
-            PBar = None
-        grph = nx.Graph()
-        for R in self:
-            if PBar:
-                count += 1
-                PBar.updateVal(count / len(self), "Analyzing: " + str(R))
-            contents = getattr(R, mode, None)
-            if contents:
-                if isinstance(contents, list):
-                    tmplst = [str(n) for n in contents]
-                    if len(tmplst) > 1:
-                        for i, node1 in enumerate(tmplst):
-                            for node2 in tmplst[i + 1:]:
-                                if edgeWeight:
+            progKwargs = {'dummy' : True}
+        with _ProgressBar(*progArgs, **progKwargs) as PBar:
+            grph = nx.Graph()
+            for R in self:
+                if PBar:
+                    count += 1
+                    PBar.updateVal(count / len(self), "Analyzing: " + str(R))
+                contents = getattr(R, mode, None)
+                if contents:
+                    if isinstance(contents, list):
+                        if stemCheck:
+                            tmplst = [stemmer(str(n)) for n in contents]
+                        else:
+                            tmplst = [str(n) for n in contents]
+                        if len(tmplst) > 1:
+                            for i, node1 in enumerate(tmplst):
+                                for node2 in tmplst[i + 1:]:
+                                    if edgeWeight:
+                                        try:
+                                            grph.edge[node1][node2]['weight'] += 1
+                                        except KeyError:
+                                            grph.add_edge(node1, node2, weight = 1)
+                                    else:
+                                        if not grph.has_edge(node1, node2):
+                                            grph.add_edge(node1, node2)
+                                if nodeCount:
                                     try:
-                                        grph.edge[node1][node2]['weight'] += 1
+                                        grph.node[node1]['count'] += 1
                                     except KeyError:
-                                        grph.add_edge(node1, node2, weight = 1)
+                                        grph.node[node1]['count'] = 1
                                 else:
-                                    if not grph.has_edge(node1, node2):
-                                        grph.add_edge(node1, node2)
+                                    if not grph.has_node(node1):
+                                        grph.add_node(node1)
+                        elif len(tmplst) == 1:
                             if nodeCount:
                                 try:
-                                    grph.node[node1]['count'] += 1
+                                    grph.node[tmplst[0]]['count'] += 1
                                 except KeyError:
-                                    grph.node[node1]['count'] = 1
+                                    grph.add_node(tmplst[0], count = 1)
                             else:
-                                if not grph.has_node(node1):
-                                    grph.add_node(node1)
-                    elif len(tmplst) == 1:
+                                if not grph.has_node(tmplst[0]):
+                                    grph.add_node(tmplst[0])
+                        else:
+                            pass
+                    else:
+                        if stemCheck:
+                            nodeVal = stemmer(str(contents))
+                        else:
+                            nodeVal = str(contents)
                         if nodeCount:
                             try:
-                                grph.node[tmplst[0]]['count'] += 1
+                                grph.node[nodeVal]['count'] += 1
                             except KeyError:
-                                grph.add_node(tmplst[0], count = 1)
+                                grph.add_node(nodeVal, count = 1)
                         else:
-                            if not grph.has_node(tmplst[0]):
-                                grph.add_node(tmplst[0])
-                    else:
-                        pass
-                else:
-                    nodeVal = str(contents)
-                    if nodeCount:
-                        try:
-                            grph.node[nodeVal]['count'] += 1
-                        except KeyError:
-                            grph.add_node(nodeVal, count = 1)
-                    else:
-                        if not grph.has_node(nodeVal):
-                            grph.add_node(nodeVal)
-        if PBar:
-            PBar.finish("Done making a one mode network with " + mode)
+                            if not grph.has_node(nodeVal):
+                                grph.add_node(nodeVal)
+            if PBar:
+                PBar.finish("Done making a one mode network with " + mode)
         return grph
 
-    def twoModeNetwork(self, tag1, tag2, directed = False, recordType = True, nodeCount = True, edgeWeight = True):
+    def twoModeNetwork(self, tag1, tag2, directed = False, recordType = True, nodeCount = True, edgeWeight = True, stemmerTag1 = None, stemmerTag2 = None):
         """Creates a network of the objects found by two WOS tags _tag1_ and _tag2_.
 
         A **twoModeNetwork()** looks are each Record in the RecordCollection and extracts its values for the tags given by _tag1_ and _tag2_, e.g. the `"WC"` and `"LA"` tags. Then for each object returned by each tag and edge is created between it and every other object of the other tag. So the WOS defined subject tag `"WC"` and language tag `"LA"`, will give a two-mode network showing the connections between subjects and languages. Each node will have an attribute call `"type"` that gives the tag that created it or both if both created it, e.g. the node `"English"` would have the type attribute be `"LA"`.
@@ -807,9 +892,13 @@ class RecordCollection(object):
 
         # Parameters
 
-        _mode_ : `str`
+        _tag1_ : `str`
 
-        > A two character WOS tag or one of the full names for a tag
+        > A two character WOS tag or one of the full names for a tag, the source of edges on the graph
+
+        _tag1_ : `str`
+
+        > A two character WOS tag or one of the full names for a tag, the target of edges on the graph
 
         _directed_ : `optional [bool]`
 
@@ -823,101 +912,130 @@ class RecordCollection(object):
 
         > Default `True`, if `True` each edge will have an attribute called "weight" that contains an int giving the number of time the two objects co-occurrenced.
 
+        _stemmerTag1_ : `optional [func]`
+
+        > default `None`, If _stemmerTag1_ is a callable object, basically a function or possibly a class, it will be called for the ID of every node given by _tag1_ in the graph, all IDs are strings. For example:
+
+        >The function ` f = lambda x: x[0]` if given as the stemmer will cause all IDs to be the first character of their unstemmed IDs. e.g. the title `'Goos-Hanchen and Imbert-Fedorov shifts for leaky guided modes'` will create the node `'G'`.
+
+        _stemmerTag2_ : `optional [func]`
+
+        > default `None`, see _stemmerTag1_ as it is the same but for _tag2_
+
         # Returns
 
         `networkx Graph or networkx DiGraph`
 
         > A networkx Graph with the objects of the tags _tag1_ and _tag2_ as nodes and their co-occurrences as edges.
         """
-        if (not tag1 in tagsAndNameSet) or (not tag2 in tagsAndNameSet):
+        try:
+            tag1 = normalizeToTag(tag1)
+            tag2 = normalizeToTag(tag2)
+        except KeyError:
             raise TypeError(str(tag1) + " or " + str(tag2) + " is not a known tag, or the name of a known tag.")
+        if stemmerTag1 is not None:
+            if hasattr(stemmerTag1, '__call__'):
+                stemCheck = True
+            else:
+                raise TypeError("stemmerTag1 must be callable, e.g. a function or class with a __call__ method.")
+        else:
+            stemmerTag1 = lambda x: x
+        if stemmerTag2 is not None:
+            if hasattr(stemmerTag2, '__call__'):
+                stemCheck = True
+            else:
+                raise TypeError("stemmerTag2 must be callable, e.g. a function or class with a __call__ method.")
+        else:
+            stemmerTag2 = lambda x: x
+        count = 0
+        progArgs = (0, "Starting to make a two mode network of " + tag1 + " and " + tag2)
         if metaknowledge.VERBOSE_MODE:
-            PBar = _ProgressBar(0, "Starting to make a two mode network of " + tag1 + " and " + tag2)
-            count = 0
+            progKwargs = {'dummy' : False}
         else:
-            PBar = None
-        if directed:
-            grph = nx.DiGraph()
-        else:
-            grph = nx.Graph()
-        for R in self:
-            if PBar:
-                count += 1
-                PBar.updateVal(count / len(self), "Analyzing: " + str(R))
-            contents1 = getattr(R, tag1, None)
-            contents2 = getattr(R, tag2, None)
-            if isinstance(contents1, list):
-                contents1 = [str(v) for v in contents1]
-            elif contents1 == None:
-                contents1 = []
+            progKwargs = {'dummy' : True}
+        with _ProgressBar(*progArgs, **progKwargs) as PBar:
+            if directed:
+                grph = nx.DiGraph()
             else:
-                contents1 = [str(contents1)]
-            if isinstance(contents2, list):
-                contents2 = [str(v) for v in contents2]
-            elif contents2 == None:
-                contents2 = []
-            else:
-                contents2 = [str(contents2)]
-            for node1 in contents1:
-                for node2 in contents2:
-                    if edgeWeight:
+                grph = nx.Graph()
+            for R in self:
+                if PBar:
+                    count += 1
+                    PBar.updateVal(count / len(self), "Analyzing: " + str(R))
+                contents1 = getattr(R, tag1, None)
+                contents2 = getattr(R, tag2, None)
+                if isinstance(contents1, list):
+                    contents1 = [stemmerTag1(str(v)) for v in contents1]
+                elif contents1 == None:
+                    contents1 = []
+                else:
+                    contents1 = [stemmerTag1(str(contents1))]
+                if isinstance(contents2, list):
+                    contents2 = [stemmerTag2(str(v)) for v in contents2]
+                elif contents2 == None:
+                    contents2 = []
+                else:
+                    contents2 = [stemmerTag2(str(contents2))]
+                for node1 in contents1:
+                    for node2 in contents2:
+                        if edgeWeight:
+                            try:
+                                grph.edge[node1][node2]['weight'] += 1
+                            except KeyError:
+                                grph.add_edge(node1, node2, weight = 1)
+                        else:
+                            if not grph.has_edge(node1, node2):
+                                grph.add_edge(node1, node2)
+                    if nodeCount:
                         try:
-                            grph.edge[node1][node2]['weight'] += 1
+                            grph.node[node1]['count'] += 1
                         except KeyError:
-                            grph.add_edge(node1, node2, weight = 1)
+                            try:
+                                grph.node[node1]['count'] = 1
+                                if recordType:
+                                    grph.node[node1]['type'] = tag1
+                            except KeyError:
+                                if recordType:
+                                    grph.add_node(node1, type = tag1)
+                                else:
+                                    grph.add_node(node1)
                     else:
-                        if not grph.has_edge(node1, node2):
-                            grph.add_edge(node1, node2)
-                if nodeCount:
-                    try:
-                        grph.node[node1]['count'] += 1
-                    except KeyError:
-                        try:
-                            grph.node[node1]['count'] = 1
-                            if recordType:
-                                grph.node[node1]['type'] = tag1
-                        except KeyError:
+                        if not grph.has_node(node1):
                             if recordType:
                                 grph.add_node(node1, type = tag1)
                             else:
                                 grph.add_node(node1)
-                else:
-                    if not grph.has_node(node1):
-                        if recordType:
-                            grph.add_node(node1, type = tag1)
-                        else:
-                            grph.add_node(node1)
-                    elif recordType:
-                        if 'type' not in grph.node[node1]:
-                            grph.node[node1]['type'] = tag1
+                        elif recordType:
+                            if 'type' not in grph.node[node1]:
+                                grph.node[node1]['type'] = tag1
 
-            for node2 in contents2:
-                if nodeCount:
-                    try:
-                        grph.node[node2]['count'] += 1
-                    except KeyError:
+                for node2 in contents2:
+                    if nodeCount:
                         try:
-                            grph.node[node2]['count'] = 1
-                            if recordType:
-                                grph.node[node2]['type'] = tag2
+                            grph.node[node2]['count'] += 1
                         except KeyError:
-                            grph.add_node(node2, count = 1)
+                            try:
+                                grph.node[node2]['count'] = 1
+                                if recordType:
+                                    grph.node[node2]['type'] = tag2
+                            except KeyError:
+                                grph.add_node(node2, count = 1)
+                                if recordType:
+                                    grph.node[node2]['type'] = tag2
+                    else:
+                        if not grph.has_node(node2):
                             if recordType:
+                                grph.add_node(node2, type = tag2)
+                            else:
+                                grph.add_node(node2)
+                        elif recordType:
+                            if 'type' not in grph.node[node2]:
                                 grph.node[node2]['type'] = tag2
-                else:
-                    if not grph.has_node(node2):
-                        if recordType:
-                            grph.add_node(node2, type = tag2)
-                        else:
-                            grph.add_node(node2)
-                    elif recordType:
-                        if 'type' not in grph.node[node2]:
-                            grph.node[node2]['type'] = tag2
-        if PBar:
-            PBar.finish("Done making a two mode network of " + tag1 + " and " + tag2)
+            if PBar:
+                PBar.finish("Done making a two mode network of " + tag1 + " and " + tag2)
         return grph
 
-    def nModeNetwork(self, tags, recordType = True, nodeCount = True, edgeWeight = True):
+    def nModeNetwork(self, tags, recordType = True, nodeCount = True, edgeWeight = True, stemmer = None):
         """Creates a network of the objects found by all WOS tags in _tags_.
 
         A **nModeNetwork()** looks are each Record in the RecordCollection and extracts its values for the tags given by _tags_. Then for all objects returned an edge is created between them, regardless of their type. Each node will have an attribute call `"type"` that gives the tag that created it or both if both created it, e.g. if `"LA"` were in _tags_ node `"English"` would have the type attribute be `"LA"`.
@@ -940,71 +1058,96 @@ class RecordCollection(object):
 
         > Default `True`, if `True` each edge will have an attribute called "weight" that contains an int giving the number of time the two objects co-occurrenced.
 
+        _stemmer_ : `optional [func]`
+
+        > default `None`, If _stemmer_ is a callable object, basically a function or possibly a class, it will be called for the ID of every node in the graph, note that all IDs are strings. For example:
+
+        >The function ` f = lambda x: x[0]` if given as the stemmer will cause all IDs to be the first character of their unstemmed IDs. e.g. the title `'Goos-Hanchen and Imbert-Fedorov shifts for leaky guided modes'` will create the node `'G'`.
+
         # Returns
 
         `networkx Graph`
 
         > A networkx Graph with the objects of the tags _tags_ as nodes and their co-occurrences as edges
         """
+        nomalizedTags = []
         for t in tags:
-            if t not in tagsAndNameSet:
+            try:
+                nomalizedTags.append(normalizeToTag(t))
+            except KeyError:
                 raise TypeError(str(t) + " is not a known tag, or the name of a known tag.")
+        stemCheck = False
+        if stemmer is not None:
+            if hasattr(stemmer, '__call__'):
+                stemCheck = True
+            else:
+                raise TypeError("stemmer must be callable, e.g. a function or class with a __call__ method.")
+        tags = nomalizedTags
+        count = 0
+        progArgs = (0, "Starting to make a " + str(len(tags)) + "-mode network of: " + ', '.join(tags))
         if metaknowledge.VERBOSE_MODE:
-            PBar = _ProgressBar(0, "Starting to make a " + str(len(tags)) + "-mode network of: " + ', '.join(tags))
-            count = 0
+            progKwargs = {'dummy' : False}
         else:
-            PBar = None
-        grph = nx.Graph()
-        for R in self:
-            if PBar:
-                count += 1
-                PBar.updateVal(count / len(self), "Analyzing: " + str(R))
-            contents = []
-            for t in tags:
-                tmpVal = getattr(R, t, None)
-                if tmpVal:
-                    if isinstance(tmpVal, list):
-                        contents.append((t, [str(v) for v in tmpVal]))
-                    else:
-                        contents.append((t, [str(tmpVal)]))
-            for i, vlst1 in enumerate(contents):
-                for node1 in vlst1[1]:
-                    for vlst2 in contents[i + 1:]:
-                        for node2 in vlst2[1]:
-                            if edgeWeight:
-                                try:
-                                    grph.edge[node1][node2]['weight'] += 1
-                                except KeyError:
-                                    grph.add_edge(node1, node2, weight = 1)
+            progKwargs = {'dummy' : True}
+        with _ProgressBar(*progArgs, **progKwargs) as PBar:
+            grph = nx.Graph()
+            for R in self:
+                if PBar:
+                    count += 1
+                    PBar.updateVal(count / len(self), "Analyzing: " + str(R))
+                contents = []
+                for t in tags:
+                    tmpVal = getattr(R, t, None)
+                    if stemCheck:
+                        if tmpVal:
+                            if isinstance(tmpVal, list):
+                                contents.append((t, [stemmer(str(v)) for v in tmpVal]))
                             else:
-                                if not grph.has_edge(node1, node2):
-                                    grph.add_edge(node1, node2)
-                    if nodeCount:
-                        try:
-                            grph.node[node1]['count'] += 1
-                        except KeyError:
+                                contents.append((t, [stemmer(str(tmpVal))]))
+                    else:
+                        if tmpVal:
+                            if isinstance(tmpVal, list):
+                                contents.append((t, [str(v) for v in tmpVal]))
+                            else:
+                                contents.append((t, [str(tmpVal)]))
+                for i, vlst1 in enumerate(contents):
+                    for node1 in vlst1[1]:
+                        for vlst2 in contents[i + 1:]:
+                            for node2 in vlst2[1]:
+                                if edgeWeight:
+                                    try:
+                                        grph.edge[node1][node2]['weight'] += 1
+                                    except KeyError:
+                                        grph.add_edge(node1, node2, weight = 1)
+                                else:
+                                    if not grph.has_edge(node1, node2):
+                                        grph.add_edge(node1, node2)
+                        if nodeCount:
                             try:
-                                grph.node[node1]['count'] = 1
-                                if recordType:
-                                    grph.node[node1]['type'] = vlst1[0]
+                                grph.node[node1]['count'] += 1
                             except KeyError:
+                                try:
+                                    grph.node[node1]['count'] = 1
+                                    if recordType:
+                                        grph.node[node1]['type'] = vlst1[0]
+                                except KeyError:
+                                    if recordType:
+                                        grph.add_node(node1, type = vlst1[0])
+                                    else:
+                                        grph.add_node(node1)
+                        else:
+                            if not grph.has_node(node1):
                                 if recordType:
                                     grph.add_node(node1, type = vlst1[0])
                                 else:
                                     grph.add_node(node1)
-                    else:
-                        if not grph.has_node(node1):
-                            if recordType:
-                                grph.add_node(node1, type = vlst1[0])
-                            else:
-                                grph.add_node(node1)
-                        elif recordType:
-                            try:
-                                grph.node[node1]['type'] += vlst1[0]
-                            except KeyError:
-                                grph.node[node1]['type'] = vlst1[0]
-        if PBar:
-            PBar.finish("Done making a " + str(len(tags)) + "-mode network of: " +  ', '.join(tags))
+                            elif recordType:
+                                try:
+                                    grph.node[node1]['type'] += vlst1[0]
+                                except KeyError:
+                                    grph.node[node1]['type'] = vlst1[0]
+            if PBar:
+                PBar.finish("Done making a " + str(len(tags)) + "-mode network of: " +  ', '.join(tags))
         return grph
 
     def localCiteStats(self, pandasFriendly = False, keyType = "citation"):
@@ -1022,39 +1165,41 @@ class RecordCollection(object):
 
         # Returns
 
-        `dict[str, int or Citataion : int]`
+        `dict[str, int or Citation : int]`
 
-        > A dictioanry with keys as given by _keyType_ and integers giving their rates of occurnce in the collection
+        > A dictionary with keys as given by _keyType_ and integers giving their rates of occurrence in the collection
         """
+        count = 0
+        recCount = len(self)
+        progArgs = (0, "Starting to get the local stats on {}s.".format(keyType))
         if metaknowledge.VERBOSE_MODE:
-            PBar = _ProgressBar(0, "Starting to get the local stats on {}s.".format(keyType))
-            count = 0
-            recCount = len(self)
+            progKwargs = {'dummy' : False}
         else:
-            PBar = None
-        keyTypesLst = ["citation", "journal", "year", "author"]
-        citesDict = {}
-        if keyType not in keyTypesLst:
-            raise TypeError("{} is not a valid key type, only '{}' or '{}' are.".format(keyType, "', '".join(keyTypesLst[:-1], keyTypesLst[-1]) ))
-        for R in self:
-            rCites = R.CR
+            progKwargs = {'dummy' : True}
+        with _ProgressBar(*progArgs, **progKwargs) as PBar:
+            keyTypesLst = ["citation", "journal", "year", "author"]
+            citesDict = {}
+            if keyType not in keyTypesLst:
+                raise TypeError("{} is not a valid key type, only '{}' or '{}' are.".format(keyType, "', '".join(keyTypesLst[:-1], keyTypesLst[-1]) ))
+            for R in self:
+                rCites = R.CR
+                if PBar:
+                    count += 1
+                    PBar.updateVal(count / recCount, "Analysing: {}".format(R.UT))
+                if rCites:
+                    for c in rCites:
+                        if keyType == keyTypesLst[0]:
+                            cVal = c
+                        else:
+                            cVal = getattr(c, keyType)
+                            if cVal is None:
+                                continue
+                        if cVal in citesDict:
+                            citesDict[cVal] += 1
+                        else:
+                            citesDict[cVal] = 1
             if PBar:
-                count += 1
-                PBar.updateVal(count / recCount, "Analysing: {}".format(R.UT))
-            if rCites:
-                for c in rCites:
-                    if keyType == keyTypesLst[0]:
-                        cVal = c
-                    else:
-                        cVal = getattr(c, keyType)
-                        if cVal is None:
-                            continue
-                    if cVal in citesDict:
-                        citesDict[cVal] += 1
-                    else:
-                        citesDict[cVal] = 1
-        if PBar:
-            PBar.finish("Done, {} {} fields analysed".format(len(citesDict), keyType))
+                PBar.finish("Done, {} {} fields analysed".format(len(citesDict), keyType))
         if pandasFriendly:
             citeLst = []
             countLst = []
@@ -1106,11 +1251,11 @@ class RecordCollection(object):
 
         field give the component of the citation to be looked at, it is one of a few strings. The default is 'all' which will cause the entire original citation to be searched. It can be used to search across fields, e.g. '1970, V2' is a valid keystring
         The other options are:
-        author, searches the author field
-        year, searches the year field
-        journal, searches the journal field
-        V, searches the volume field
-        P, searches the page field
+        `author`, searches the author field
+        `year`, searches the year field
+        `journal`, searches the journal field
+        `V`, searches the volume field
+        `P`, searches the page field
         misc, searches all the remaining uncategorized information
         anonymous, searches for anonymous citations, keyString is not used
         bad, searches for bad citations, keyString is not used
@@ -1310,22 +1455,22 @@ def edgeNodeReplacerGenerator(base, nodes, loc):
         yield tmpN
 
 
-def addToNetwork(grph, nds, count, weighted, nodeType, nodeInfo , fullInfo, headNd = None):
-    """Addeds the citations _nds_ to _grph_, arroring to the rules give by _nodeType_, _fullInfo_, etc.
+def addToNetwork(grph, nds, count, weighted, nodeType, nodeInfo, fullInfo, coreCitesDict, coreValues, headNd = None):
+    """Addeds the citations _nds_ to _grph_, according to the rules give by _nodeType_, _fullInfo_, etc.
 
     _headNd_ is the citation of the Record
     """
     if headNd is not None:
         hID = makeID(headNd, nodeType)
         if hID not in grph:
-            grph.add_node(*makeNodeTuple(headNd, hID, nodeInfo, fullInfo, nodeType, count))
+            grph.add_node(*makeNodeTuple(headNd, hID, nodeInfo, fullInfo, nodeType, count, coreCitesDict, coreValues))
     else:
         hID = None
     idList = []
     for n in nds:
         nID = makeID(n, nodeType)
         if nID not in grph:
-            grph.add_node(*makeNodeTuple(n, nID, nodeInfo, fullInfo, nodeType, count))
+            grph.add_node(*makeNodeTuple(n, nID, nodeInfo, fullInfo, nodeType, count, coreCitesDict, coreValues))
         elif count:
             grph.node[nID]['count'] += 1
         idList.append(nID)
@@ -1358,12 +1503,30 @@ def makeID(citation, nodeType):
     else:
         return citation.getID()
 
-def makeNodeTuple(citation, idVal, nodeInfo, fullInfo, nodeType, count):
+def makeNodeTuple(citation, idVal, nodeInfo, fullInfo, nodeType, count, coreCitesDict, coreValues):
     """Makes a tuple of idVal and a dict of the selected attributes"""
     d = {}
     if nodeInfo:
         if nodeType == 'full':
-            d['info'] = str(citation)
+            if coreValues:
+                if citation in coreCitesDict:
+                    R = coreCitesDict[citation]
+                    infoVals = []
+                    for tag in coreValues:
+                        tagVal = getattr(R, tag)
+                        if isinstance(tagVal, str):
+                            infoVals.append(tagVal.replace(',',''))
+                        elif isinstance(tagVal, list):
+                            infoVals.append(tagVal[0].replace(',',''))
+                        else:
+                            pass
+                    d['info'] = ', '.join(infoVals)
+                    d['inCore'] = True
+                else:
+                    d['info'] = citation.allButDOI()
+                    d['inCore'] = False
+            else:
+                d['info'] = citation.allButDOI()
         elif nodeType == 'journal':
             if citation.isJournal():
                 d['info'] = str(citation.getFullJournalName())
@@ -1379,7 +1542,7 @@ def makeNodeTuple(citation, idVal, nodeInfo, fullInfo, nodeType, count):
         d['count'] = 1
     return (idVal, d)
 
-def filterCites(cites, nodeType, dropAnon, dropNonJournals, keyWords):
+def filterCites(cites, nodeType, dropAnon, dropNonJournals, keyWords, coreCites):
     filteredCites = []
     for c in cites:
         if nodeType != "full" and not getattr(c, nodeType):
@@ -1387,6 +1550,8 @@ def filterCites(cites, nodeType, dropAnon, dropNonJournals, keyWords):
         elif dropNonJournals and not c.isJournal():
             pass
         elif dropAnon and c.isAnonymous():
+            pass
+        elif coreCites and c not in coreCites:
             pass
         elif keyWords:
             found = False

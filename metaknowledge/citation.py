@@ -167,6 +167,27 @@ class Citation(object):
         else:
             return "{0}, {1}, {2}".format(self.author, self.year, self.journal)
 
+    def allButDOI(self):
+        """
+        Returns a string of the normalized values from the Citation excluding the DOI number. Equivalent to getting the ID with [`getID()`](#Citation.getID) then appending the extra values from [`getExtra()`](#Citation.getExtra) and then removing the substring containing the DOI number.
+
+        # Returns
+
+        `str`
+
+        > A string containing the data of the Citation.
+        """
+        extraTags = ['V', 'P', 'misc']
+        s = self.getID()
+        extras = []
+        for tag in extraTags:
+            if getattr(self, tag):
+                extras.append(str(getattr(self, tag)))
+        if len(extras) > 0:
+            return "{0}, {1}".format(s, ', '.join(extras))
+        else:
+            return s
+
     def getExtra(self):
         """
         Returns any V, P, DOI or misc values as a string. These are all the values not returned by [`getID()`](#Citation.getID).
@@ -176,7 +197,7 @@ class Citation(object):
         `str`
 
         > A string containing the data not in the ID of the Citation.
-         """
+        """
         extraTags = ['V', 'P', 'DOI', 'misc']
         retVal = ""
         for tag in extraTags:

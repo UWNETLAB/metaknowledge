@@ -199,6 +199,7 @@ Combined they look like:</p>
 <ul class="post-list">
 <li><article><a href="#isAnonymous"><b>isAnonymous</b>()</a></article></li>
 <li><article><a href="#getID"><b>getID</b>()</a></article></li>
+<li><article><a href="#allButDOI"><b>allButDOI</b>()</a></article></li>
 <li><article><a href="#getExtra"><b>getExtra</b>()</a></article></li>
 <li><article><a href="#isJournal"><b>isJournal</b>(<i>manaulDB='manualj9Abbreviations', returnDict='both', checkIfExcluded=False</i>)</a></article></li>
 <li><article><a href="#getFullJournalName"><b>getFullJournalName</b>()</a></article></li>
@@ -232,11 +233,23 @@ Combined they look like:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
+<p><a name="allButDOI"></a><small>Citation.</small><strong><a href="/metaknowledge/docs/Citation#allButDOI"><ins>allButDOI</ins></a></strong>():</p>
+
+<p>Returns a string of the normalized values from the Citation excluding the DOI number. Equivalent to getting the ID with <a href="/metaknowledge/docs/Citation#getID"><code>getID()</code></a> then appending the extra values from <a href="/metaknowledge/docs/Citation#getExtra"><code>getExtra()</code></a> and then removing the substring containing the DOI number.</p>
+
+<h6 id="returns-2">Returns</h6>
+
+<p><code>str</code></p>
+
+<p>A string containing the data of the Citation.</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
 <p><a name="getExtra"></a><small>Citation.</small><strong><a href="/metaknowledge/docs/Citation#getExtra"><ins>getExtra</ins></a></strong>():</p>
 
 <p>Returns any V, P, DOI or misc values as a string. These are all the values not returned by <a href="/metaknowledge/docs/Citation#getID"><code>getID()</code></a>.</p>
 
-<h6 id="returns-2">Returns</h6>
+<h6 id="returns-3">Returns</h6>
 
 <p><code>str</code></p>
 
@@ -248,7 +261,7 @@ Combined they look like:</p>
 
 <p>Returns <code>True</code> if the Citation’s journal field is a journal abbreviation given by WOS, i.e. checks if the citation is citing a journal. Requires the j9Abbreviations database file.</p>
 
-<h6 id="returns-3">Returns</h6>
+<h6 id="returns-4">Returns</h6>
 
 <p><code>bool</code></p>
 
@@ -260,7 +273,7 @@ Combined they look like:</p>
 
 <p>Returns the full name of the Citation’s journal field. Requires the j9Abbreviations database file.</p>
 
-<h6 id="returns-4">Returns</h6>
+<h6 id="returns-5">Returns</h6>
 
 <p><code>str</code></p>
 

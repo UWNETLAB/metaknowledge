@@ -23,9 +23,9 @@ would be the list:
     "Conceptualization of Limits and Continuity in Expert Mathematics"
     ]
 
-The function to process it is called [`title()`]({{ site.baseurl }}{% post_url /docs/2015-11-05-tagProcessing %}#title) which is determined by looking up the tag in the `tagProcessing.tagToFunc` dictionary. Which is a dictionary mapping WOS tag strings to their functions. For a simple mapping of tags to their long strings use [`metaknowledge.tagToFull`]({{ site.baseurl }}{% post_url /docs/2015-11-05-metaknowledge %}#metaknowledge).
+The function to process it is called [`title()`]({{ site.baseurl }}{% post_url /docs/2015-11-26-tagProcessing %}#title) which is determined by looking up the tag in the `tagProcessing.tagToFunc` dictionary. Which is a dictionary mapping WOS tag strings to their functions. For a simple mapping of tags to their long strings use [`metaknowledge.tagToFull`]({{ site.baseurl }}{% post_url /docs/2015-11-26-metaknowledge %}#metaknowledge).
 
-The objects `tagToFullDict`, `fullToTagDict`, `tagNameConverterDict`, `tagsAndNameSet` and `knownTagsList` are also provided. They are the objects used by metaknowledge to keep track of tag names. `tagToFullDict` and `fullToTagDict` are dictionaries that convert from tags to full names and vice versa, respectively, while `tagNameConverterDict` goes both ways. `tagsAndNameSet` is a set of all full names and tags, while `knownTagsList` contains only tags and is a list. For a less raw interface look the functions provided by the base metaknowledge module, e.g. [`tagToFull()`]({{ site.baseurl }}{% post_url /docs/2015-11-05-metaknowledge %}#tagToFull).
+The objects `tagToFullDict`, `fullToTagDict`, `tagNameConverterDict`, `tagsAndNameSet` and `knownTagsList` are also provided. They are the objects used by metaknowledge to keep track of tag names. `tagToFullDict` and `fullToTagDict` are dictionaries that convert from tags to full names and vice versa, respectively, while `tagNameConverterDict` goes both ways. `tagsAndNameSet` is a set of all full names and tags, while `knownTagsList` contains only tags and is a list. For a less raw interface look the functions provided by the base metaknowledge module, e.g. [`tagToFull()`]({{ site.baseurl }}{% post_url /docs/2015-11-26-metaknowledge %}#tagToFull).
 
 The full list of tags and their long names is provided below followed by the descriptions of the functions, they are ordered by their occurrence in WOS records:
 
@@ -485,7 +485,7 @@ currently not well understood, returns _val_
 
 ######The SO Tag
 
-extracts the full name of the publication
+extracts the full name of the publication and normalizes it to uppercase
 
 ###### Parameters
 
@@ -842,7 +842,7 @@ _val_: `list[str]`
 
 ######The CR Tag
 
-extracts a list of all the citations in the record, the citations are the [metaknowledge.Citation]({{ site.baseurl }}{% post_url /docs/2015-11-05-Citation %}#Citation) class.
+extracts a list of all the citations in the record, the citations are the [metaknowledge.Citation]({{ site.baseurl }}{% post_url /docs/2015-11-26-Citation %}#Citation) class.
 
 ###### Parameters
 

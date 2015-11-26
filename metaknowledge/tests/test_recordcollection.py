@@ -107,7 +107,7 @@ class TestRecordCollection(unittest.TestCase):
 
     def test_coCite(self):
         Gdefault = self.RC.coCiteNetwork(fullInfo = True)
-        Gauths = self.RC.coCiteNetwork(nodeType = "author", dropAnon = False)
+        Gauths = self.RC.coCiteNetwork(nodeType = "author", dropAnon = False, detailedCore = True)
         GauthsNoExtra = self.RC.coCiteNetwork(nodeType = "author", nodeInfo = False)
         Gunwei = self.RC.coCiteNetwork(nodeType = 'original', weighted = False)
         Gjour = self.RC.coCiteNetwork(nodeType = "journal", dropNonJournals = True)
@@ -144,7 +144,7 @@ class TestRecordCollection(unittest.TestCase):
     def test_Cite(self):
         Gdefault = self.RC.citationNetwork(fullInfo = True, count = False)
         Ganon = self.RC.citationNetwork(dropAnon = False)
-        Gauths = self.RC.citationNetwork(nodeType = "author")
+        Gauths = self.RC.citationNetwork(nodeType = "author", detailedCore = True)
         GauthsNoExtra = self.RC.citationNetwork(nodeType = "author", nodeInfo = False)
         Gunwei = self.RC.citationNetwork(nodeType = 'original', weighted = False)
         Gjour = self.RC.citationNetwork(nodeType = "author", dropNonJournals = True, nodeInfo = True, count = False)

@@ -137,9 +137,11 @@ class TestRecordCollection(unittest.TestCase):
 
     def test_coAuth(self):
         Gdefault = self.RC.coAuthNetwork()
+        Gdetailed = self.RC.coAuthNetwork(count = False, weighted = False, detailedInfo = True, dropNonJournals = True)
         self.assertIsInstance(Gdefault, nx.classes.graph.Graph)
         self.assertEqual(len(Gdefault.nodes()), 45)
         self.assertEqual(len(Gdefault.edges()), 46)
+        self.assertEqual(metaknowledge.graphStats(Gdetailed), 'The graph has 45 nodes, 46 edges, 9 isolates, 0 self loops, a density of 0.0464646 and a transitivity of 0.822581')
 
     def test_Cite(self):
         Gdefault = self.RC.citationNetwork(fullInfo = True, count = False)

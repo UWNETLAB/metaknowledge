@@ -471,7 +471,7 @@ class RecordCollection(object):
                 retDict[k].append(v)
         return retDict
 
-    def coAuthNetwork(self):
+    def coAuthNetwork(self, detailedInfo = False, weighted = True, dropNonJournals = False, count = True):
         """Creates a coauthorship network for the RecordCollection.
 
         # Returns
@@ -487,34 +487,58 @@ class RecordCollection(object):
             progKwargs = {'dummy' : False}
         else:
             progKwargs = {'dummy' : True}
+        if bool(detailedInfo):
+            try:
+                infoVals = []
+                for tag in detailedInfo:
+                    infoVals.append(normalizeToTag(tag))
+            except TypeError:
+                infoVals = ['PY', 'TI', 'SO', 'VL', 'BP']
+            def attributeMaker(Rec):
+                attribsDict = {}
+                for val in infoVals:
+                    attribsDict[val] = str(getattr(Rec, val))
+                if count:
+                    attribsDict['count'] = 1
+                return attribsDict
+        else:
+            if count:
+                attributeMaker = lambda x: {'count' : 1}
+            else:
+                attributeMaker = lambda x: {}
         with _ProgressBar(*progArgs, **progKwargs) as PBar:
             for R in self:
                 if PBar:
                     pcount += 1
                     PBar.updateVal(pcount/ len(self), "Analyzing: " + str(R))
+                if dropNonJournals and not R.createCitation().isJournal():
+                    continue
                 authsList = R.authorsFull
                 if authsList:
                     authsList = list(authsList)
+                    detailedInfo = attributeMaker(R)
                     if len(authsList) > 1:
                         for i, auth1 in enumerate(authsList):
                             if auth1 not in grph:
-                                grph.add_node(auth1, count = 1)
-                            else:
+                                grph.add_node(auth1, attr_dict = detailedInfo)
+                            elif count:
                                 grph.node[auth1]['count'] += 1
                             for auth2 in authsList[i + 1:]:
                                 if auth2 not in grph:
-                                    grph.add_node(auth2, count = 1)
-                                else:
+                                    grph.add_node(auth2, attr_dict = detailedInfo)
+                                elif count:
                                     grph.node[auth2]['count'] += 1
-                                if grph.has_edge(auth1, auth2):
+                                if grph.has_edge(auth1, auth2) and weighted:
                                     grph.edge[auth1][auth2]['weight'] += 1
-                                else:
+                                elif weighted:
                                     grph.add_edge(auth1, auth2, weight = 1)
+                                else:
+                                    grph.add_edge(auth1, auth2)
                     else:
                         auth1 = authsList[0]
                         if auth1 not in grph:
-                            grph.add_node(auth1, count = 1)
-                        else:
+                            grph.add_node(auth1, attr_dict = detailedInfo)
+                        elif count:
                             grph.node[auth1]['count'] += 1
             if PBar:
                 PBar.finish("Done making a co-authorship network")

@@ -277,7 +277,7 @@ def main(args):
     if args.single:
         f = open("metaknowledgeFull.md",'w')
         f.write(singleFileYAML)
-        f.write(makeTable([c[0] for c in classes] + documentedModules, header = "The classes and modules of metaknowledge are:", withBlurbs = True))
+        f.write(makeTable([c[0] for c in classes] + documentedModules, header = '<a name="objlist"></a>The classes and modules of metaknowledge are:', withBlurbs = True))
         single = True
         bigTableEntries = [(f[0], f[1], None) for f in funcs]
         for cls in classes:

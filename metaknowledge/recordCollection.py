@@ -471,8 +471,32 @@ class RecordCollection(object):
                 retDict[k].append(v)
         return retDict
 
-    def coAuthNetwork(self):
+    def coAuthNetwork(self, detailedInfo = False, weighted = True, dropNonJournals = False, count = True):
         """Creates a coauthorship network for the RecordCollection.
+
+        # Parameters
+
+        _detailedInfo_ : `optional [bool or iterable[WOS tag Strings]]`
+
+        > default `False`, if `True` all nodes will be given info strings composed of information from the Record objects themselves. This is Equivalent to passing the list: `['PY', 'TI', 'SO', 'VL', 'BP']`.
+
+        > If _detailedCore_ is an iterable (That evaluates to `True`) of WOS Tags (or long names) The values  of those tags will be used to make the info attributes. All
+
+        > For each of the selected tags an attribute will be added to the node using the values of those tags on the first `Record` encountered. **Warning** iterating over `RecordCollection` objects is not deterministic the first `Record` will not always be same between runs. The node will be given attributes with the names of the WOS tags for each of the selected tags. The attributes will contain strings of containing the values (with commas removed), if multiple values are encountered they will be comma separated.
+
+        > Note: _detailedInfo_ is not identical to the _detailedCore_ argument of [`Recordcollection.coCiteNetwork()`](#RecordCollection.coCiteNetwork) or [`Recordcollection.citationNetwork()'](#RecordCollection.citationNetwork)
+
+        _weighted_ : `optional [bool]`
+
+        > default `True`, wether the edges are weighted. If `True` the edges are weighted by the number of co-authorships.
+
+        _dropNonJournals_ : `optional [bool]`
+
+        > default `False`, wether to drop authors from non-journals
+
+        _count_ : `optional [bool]`
+
+        > default `True`, causes the number of occurrences of a node to be counted
 
         # Returns
 
@@ -487,34 +511,62 @@ class RecordCollection(object):
             progKwargs = {'dummy' : False}
         else:
             progKwargs = {'dummy' : True}
+        if bool(detailedInfo):
+            try:
+                infoVals = []
+                for tag in detailedInfo:
+                    infoVals.append(normalizeToTag(tag))
+            except TypeError:
+                infoVals = ['PY', 'TI', 'SO', 'VL', 'BP']
+            def attributeMaker(Rec):
+                attribsDict = {}
+                for val in infoVals:
+                    recVal = getattr(Rec, val)
+                    if isinstance(recVal, list):
+                        attribsDict[val] = ', '.join((str(v).replace(',', '') , recVal))
+                    else:
+                        attribsDict[val] = str(recVal).replace(',', '')
+                if count:
+                    attribsDict['count'] = 1
+                return attribsDict
+        else:
+            if count:
+                attributeMaker = lambda x: {'count' : 1}
+            else:
+                attributeMaker = lambda x: {}
         with _ProgressBar(*progArgs, **progKwargs) as PBar:
             for R in self:
                 if PBar:
                     pcount += 1
                     PBar.updateVal(pcount/ len(self), "Analyzing: " + str(R))
+                if dropNonJournals and not R.createCitation().isJournal():
+                    continue
                 authsList = R.authorsFull
                 if authsList:
                     authsList = list(authsList)
+                    detailedInfo = attributeMaker(R)
                     if len(authsList) > 1:
                         for i, auth1 in enumerate(authsList):
                             if auth1 not in grph:
-                                grph.add_node(auth1, count = 1)
-                            else:
+                                grph.add_node(auth1, attr_dict = detailedInfo)
+                            elif count:
                                 grph.node[auth1]['count'] += 1
                             for auth2 in authsList[i + 1:]:
                                 if auth2 not in grph:
-                                    grph.add_node(auth2, count = 1)
-                                else:
+                                    grph.add_node(auth2, attr_dict = detailedInfo)
+                                elif count:
                                     grph.node[auth2]['count'] += 1
-                                if grph.has_edge(auth1, auth2):
+                                if grph.has_edge(auth1, auth2) and weighted:
                                     grph.edge[auth1][auth2]['weight'] += 1
-                                else:
+                                elif weighted:
                                     grph.add_edge(auth1, auth2, weight = 1)
+                                else:
+                                    grph.add_edge(auth1, auth2)
                     else:
                         auth1 = authsList[0]
                         if auth1 not in grph:
-                            grph.add_node(auth1, count = 1)
-                        else:
+                            grph.add_node(auth1, attr_dict = detailedInfo)
+                        elif count:
                             grph.node[auth1]['count'] += 1
             if PBar:
                 PBar.finish("Done making a co-authorship network")
@@ -564,6 +616,8 @@ class RecordCollection(object):
         > If _detailedCore_ is an iterable (That evaluates to `True`) of WOS Tags (or long names) The values  of those tags will be used to make the info attribute. All
 
         > The resultant string is the values of each tag, with commas removed, seperated by `', '`, just like the info given by non-core Citations. Note that for tags like `'AF'` that return lists only the first entry in the list will be used. Also a second attribute is created for all nodes called inCore wich is a boolean describing if the node is in the core or not.
+
+        > Note: _detailedCore_  is not identical to the _detailedInfo_ argument of [`Recordcollection.coAuthNetwork()`](#RecordCollection.coAuthNetwork)
 
         _coreOnly_ : `optional [bool]`
 
@@ -664,6 +718,8 @@ class RecordCollection(object):
         > If _detailedCore_ is an iterable (That evaluates to `True`) of WOS Tags (or long names) The values  of those tags will be used to make the info attribute. All
 
         > The resultant string is the values of each tag, with commas removed, seperated by `', '`, just like the info given by non-core Citations. Note that for tags like `'AF'` that return lists only the first entry in the list will be used. Also a second attribute is created for all nodes called inCore wich is a boolean describing if the node is in the core or not.
+
+        > Note: _detailedCore_  is not identical to the _detailedInfo_ argument of [`Recordcollection.coAuthNetwork()`](#RecordCollection.coAuthNetwork)
 
         _coreOnly_ : `optional [bool]`
 

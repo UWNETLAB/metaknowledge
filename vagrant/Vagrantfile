@@ -1,5 +1,6 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
+#Written by Reid McIlroy-Young for Dr. John McLevey, University of Waterloo 2015
 
 Vagrant.configure(2) do |config|
    config.vm.provider "virtualbox" do |vb, override|

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+#Written by Reid McIlroy-Young for Dr. John McLevey, University of Waterloo 2015
 apt-get update
 apt-get install -y git python3 libfreetype6-dev libpng12-dev python3-setuptools python3-dev pkg-config python3-numpy python3-scipy r-base libzmq3-dev
 sudo easy_install3 pip

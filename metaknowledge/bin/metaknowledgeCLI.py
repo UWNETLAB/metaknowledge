@@ -1,3 +1,4 @@
+#Written by Reid McIlroy-Young for Dr. John McLevey, University of Waterloo 2015
 import metaknowledge
 import metaknowledge.journalAbbreviations
 import networkx as nx
@@ -21,7 +22,7 @@ def argumentParser():
     parser.add_argument("--name", "-n",  default = False, help = "The name used for the recordCollection and resulting files.")
     parser.add_argument("--debug", "-d", action = 'store_true', default = False, help = "Enables debug messages.")
     parser.add_argument("--progress", "-p", action = 'store_true' ,default = False, help = "Progress bar mode, shows progress bars where appropriate")
-    parser.add_argument("--suffix", "-s", default = '', help = "Progress bar mode, shows progress bars where appropriate")
+    parser.add_argument("--suffix", "-s", default = '', help = "The suffix of the WOS files you wish to extract Records from, by default all files are used and those that do not have Records are skipped")
     return parser.parse_args()
 
 def yesorNo(prompt):
@@ -260,18 +261,23 @@ def getThresholds(clargs, grph):
     if thresID == 0:
         return grph
     elif thresID == 1:
-        return getThresholds(clargs, metaknowledge.drop_nodesByDegree(grph, minDegree = 1))
+        metaknowledge.drop_nodesByDegree(grph, minDegree = 1)
+        return getThresholds(clargs, grph)
     elif thresID == 2:
-        return getThresholds(clargs, metaknowledge.drop_edges(grph, dropSelfLoops = True))
+        metaknowledge.drop_edges(grph, dropSelfLoops = True)
+        return getThresholds(clargs, grph)
     elif thresID == 3:
-        return getThresholds(clargs, metaknowledge.drop_edges(grph, minWeight = getNum("What is the minumum weight for an edge to be included? ")))
+        metaknowledge.drop_edges(grph, minWeight = getNum("What is the minumum weight for an edge to be included? "))
+        return getThresholds(clargs, grph)
     elif thresID == 4:
-        return getThresholds(clargs, metaknowledge.drop_edges(grph, minWeight = getNum("What is the maximum weight for an edge to be included? ")))
+        metaknowledge.drop_edges(grph, minWeight = getNum("What is the maximum weight for an edge to be included? "))
+        return getThresholds(clargs, grph)
     elif thresID == 5:
-        return getThresholds(clargs, metaknowledge.drop_nodesByDegree(grph, minDegree = getNum("What is the minumum degree for an edge to be included? ")))
+        metaknowledge.drop_nodesByDegree(grph, minDegree = getNum("What is the minumum degree for an edge to be included? "))
+        return getThresholds(clargs, grph)
     else:
-        return getThresholds(clargs, metaknowledge.drop_nodesByDegree(grph, minDegree = getNum("What is the maximum degree for an edge to be included? ")))
-
+        metaknowledge.drop_nodesByDegree(grph, minDegree = getNum("What is the maximum degree for an edge to be included? "))
+        return getThresholds(clargs, grph)
 
 def  outputNetwork(clargs, grph):
     outDict = collections.OrderedDict([

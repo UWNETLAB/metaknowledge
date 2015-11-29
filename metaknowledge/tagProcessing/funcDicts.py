@@ -1,3 +1,4 @@
+#Written by Reid McIlroy-Young for Dr. John McLevey, University of Waterloo 2015
 from .tagFunctions import tagToFunc
 from .helpFuncs import reverseDict, makeBiDirectional
 

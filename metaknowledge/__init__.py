@@ -1,3 +1,4 @@
+#Written by Reid McIlroy-Young for Dr. John McLevey, University of Waterloo 2015
 """metaknowledge is a Python3 package that simplifies bibliometric and computational analysis of Web of Science data.
 
 # Example
@@ -14,6 +15,8 @@ To load the data from files and make a network:
     223
     >>> mk.write_graph(G, "Cocitation-Network-of-Journals")
 
+There is also a simple command line program called `metaknowledge` that comes with the package. It allows for creating networks without any need to know Python. More information about it can be found at [networkslab.org/metaknowledge/cli]({{ site.baseurl }}/cli)
+
 # Overview
 
 This package can read the files downloaded from the [Thomson Reuters Web of Science](https://webofknowledge.com) (WOS) as plain text. These files contain metadata about scientific records, such as the authors, language, and citations. The records are saved in groups of up-to 500 individual records in a file.
@@ -24,7 +27,7 @@ The files given by WOS are a flat database containing a series of 2 character ta
 
 As citations are of great importance to sociology their handling is done with the [Citation](#Citation.Citation) class. This class can parse the citations given by WOS as well as extra details about the full name of their journal and allow simple comparisons.
 
-Note for those reading the docstring metaknowledge's docs are written in markdown and are processed to produce the documentation found at [networkslab.org/metaknowledge/documentation](http://networkslab.org/metaknowledge/documentation/).
+Note for those reading the docstring metaknowledge's docs are written in markdown and are processed to produce the documentation found at [networkslab.org/metaknowledge/documentation]({{ site.baseurl }}/documentation/).
 """
 from .record import Record, recordParser, BadISIRecord
 from .citation import Citation, BadCitation, filterNonJournals

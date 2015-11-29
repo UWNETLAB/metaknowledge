@@ -480,11 +480,11 @@ class RecordCollection(object):
 
         > default `False`, if `True` all nodes will be given info strings composed of information from the Record objects themselves. This is Equivalent to passing the list: `['PY', 'TI', 'SO', 'VL', 'BP']`.
 
-        > If _detailedCore_ is an iterable (That evaluates to `True`) of WOS Tags (or long names) The values  of those tags will be used to make the info attributes. All
+        > If _detailedInfo_ is an iterable (that evaluates to `True`) of WOS Tags (or long names) The values  of those tags will be used to make the info attributes.
 
         > For each of the selected tags an attribute will be added to the node using the values of those tags on the first `Record` encountered. **Warning** iterating over `RecordCollection` objects is not deterministic the first `Record` will not always be same between runs. The node will be given attributes with the names of the WOS tags for each of the selected tags. The attributes will contain strings of containing the values (with commas removed), if multiple values are encountered they will be comma separated.
 
-        > Note: _detailedInfo_ is not identical to the _detailedCore_ argument of [`Recordcollection.coCiteNetwork()`](#RecordCollection.coCiteNetwork) or [`Recordcollection.citationNetwork()'](#RecordCollection.citationNetwork)
+        > Note: _detailedInfo_ is not identical to the _detailedCore_ argument of [`Recordcollection.coCiteNetwork()`](#RecordCollection.coCiteNetwork) or [`Recordcollection.citationNetwork()`](#RecordCollection.citationNetwork)
 
         _weighted_ : `optional [bool]`
 

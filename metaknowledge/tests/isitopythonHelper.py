@@ -1,3 +1,4 @@
+#Written by Reid McIlroy-Young for Dr. John McLevey, University of Waterloo 2015
 import metaknowledge
 
 if __name__ == "__main__":

@@ -1,3 +1,4 @@
+#Written by Reid McIlroy-Young for Dr. John McLevey, University of Waterloo 2015
 """The functions used by metaknowledge to handle WOS tags
 
 Each of the functions in tagProcessing is named after the long name of its tag and is responsible for taking the raw data from a WOS file and returning usable information. The raw data is a list containing each line associated with the tag as a string. So the section of a record:

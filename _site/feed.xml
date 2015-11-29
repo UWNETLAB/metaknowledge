@@ -4,7 +4,7 @@
 <generator uri="https://github.com/jekyll/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="http://networkslab.org/feed.xml" />
 <link rel="alternate" type="text/html" href="http://networkslab.org" />
-<updated>2015-11-26T23:26:34+05:30</updated>
+<updated>2015-11-29T14:44:54+05:30</updated>
 <id>http://networkslab.org/</id>
 <author>
   <name>John McLevey and Reid McIlroy-Young</name>
@@ -19,8 +19,8 @@
   <title type="html"><![CDATA[visual]]></title>
   <link rel="alternate" type="text/html" href="http://networkslab.org/docs/visual" />
   <id>http://networkslab.org/docs/visual</id>
-  <published>2015-11-26T00:00:00+05:30</published>
-  <updated>2015-11-26T00:00:00+05:30</updated>
+  <published>2015-11-29T00:00:00+05:30</published>
+  <updated>2015-11-29T00:00:00+05:30</updated>
   <author>
     <name>John McLevey and Reid McIlroy-Young</name>
     <uri>http://networkslab.org</uri>
@@ -69,7 +69,7 @@
 
 &lt;p&gt;&lt;em&gt;metaknowledge&lt;/em&gt; is free and open source software, distributed under the GPL License.&lt;/p&gt;
 
-    &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/visual&quot;&gt;visual&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on November 26, 2015.&lt;/p&gt;
+    &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/visual&quot;&gt;visual&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on November 29, 2015.&lt;/p&gt;
   </content>
 </entry>
 
@@ -80,8 +80,8 @@
   <title type="html"><![CDATA[tagProcessing]]></title>
   <link rel="alternate" type="text/html" href="http://networkslab.org/docs/tagProcessing" />
   <id>http://networkslab.org/docs/tagProcessing</id>
-  <published>2015-11-26T00:00:00+05:30</published>
-  <updated>2015-11-26T00:00:00+05:30</updated>
+  <published>2015-11-29T00:00:00+05:30</published>
+  <updated>2015-11-29T00:00:00+05:30</updated>
   <author>
     <name>John McLevey and Reid McIlroy-Young</name>
     <uri>http://networkslab.org</uri>
@@ -1610,7 +1610,7 @@ Month Year (“%b %Y”)&lt;/p&gt;
 
 &lt;p&gt;&lt;em&gt;metaknowledge&lt;/em&gt; is free and open source software, distributed under the GPL License.&lt;/p&gt;
 
-    &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/tagProcessing&quot;&gt;tagProcessing&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on November 26, 2015.&lt;/p&gt;
+    &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/tagProcessing&quot;&gt;tagProcessing&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on November 29, 2015.&lt;/p&gt;
   </content>
 </entry>
 
@@ -1621,8 +1621,8 @@ Month Year (“%b %Y”)&lt;/p&gt;
   <title type="html"><![CDATA[Overview]]></title>
   <link rel="alternate" type="text/html" href="http://networkslab.org/docs/overview" />
   <id>http://networkslab.org/docs/overview</id>
-  <published>2015-11-26T00:00:00+05:30</published>
-  <updated>2015-11-26T00:00:00+05:30</updated>
+  <published>2015-11-29T00:00:00+05:30</published>
+  <updated>2015-11-29T00:00:00+05:30</updated>
   <author>
     <name>John McLevey and Reid McIlroy-Young</name>
     <uri>http://networkslab.org</uri>
@@ -1675,7 +1675,7 @@ Done making a co-citation network of files-from-records                 1.1s
 
 &lt;p&gt;&lt;em&gt;metaknowledge&lt;/em&gt; is free and open source software, distributed under the GPL License.&lt;/p&gt;
 
-    &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/overview&quot;&gt;Overview&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on November 26, 2015.&lt;/p&gt;
+    &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/overview&quot;&gt;Overview&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on November 29, 2015.&lt;/p&gt;
   </content>
 </entry>
 
@@ -1686,8 +1686,8 @@ Done making a co-citation network of files-from-records                 1.1s
   <title type="html"><![CDATA[Base Functions]]></title>
   <link rel="alternate" type="text/html" href="http://networkslab.org/docs/metaknowledge" />
   <id>http://networkslab.org/docs/metaknowledge</id>
-  <published>2015-11-26T00:00:00+05:30</published>
-  <updated>2015-11-26T00:00:00+05:30</updated>
+  <published>2015-11-29T00:00:00+05:30</published>
+  <updated>2015-11-29T00:00:00+05:30</updated>
   <author>
     <name>John McLevey and Reid McIlroy-Young</name>
     <uri>http://networkslab.org</uri>
@@ -2189,7 +2189,7 @@ Each it finds is used to initialize a Record then all Record are returned as a l
 
 &lt;p&gt;&lt;em&gt;metaknowledge&lt;/em&gt; is free and open source software, distributed under the GPL License.&lt;/p&gt;
 
-    &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/metaknowledge&quot;&gt;Base Functions&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on November 26, 2015.&lt;/p&gt;
+    &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/metaknowledge&quot;&gt;Base Functions&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on November 29, 2015.&lt;/p&gt;
   </content>
 </entry>
 
@@ -2200,8 +2200,8 @@ Each it finds is used to initialize a Record then all Record are returned as a l
   <title type="html"><![CDATA[journalAbbreviations]]></title>
   <link rel="alternate" type="text/html" href="http://networkslab.org/docs/journalAbbreviations" />
   <id>http://networkslab.org/docs/journalAbbreviations</id>
-  <published>2015-11-26T00:00:00+05:30</published>
-  <updated>2015-11-26T00:00:00+05:30</updated>
+  <published>2015-11-29T00:00:00+05:30</published>
+  <updated>2015-11-29T00:00:00+05:30</updated>
   <author>
     <name>John McLevey and Reid McIlroy-Young</name>
     <uri>http://networkslab.org</uri>
@@ -2296,7 +2296,7 @@ Each it finds is used to initialize a Record then all Record are returned as a l
 
 &lt;p&gt;&lt;em&gt;metaknowledge&lt;/em&gt; is free and open source software, distributed under the GPL License.&lt;/p&gt;
 
-    &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/journalAbbreviations&quot;&gt;journalAbbreviations&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on November 26, 2015.&lt;/p&gt;
+    &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/journalAbbreviations&quot;&gt;journalAbbreviations&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on November 29, 2015.&lt;/p&gt;
   </content>
 </entry>
 
@@ -2307,8 +2307,8 @@ Each it finds is used to initialize a Record then all Record are returned as a l
   <title type="html"><![CDATA[RecordCollection]]></title>
   <link rel="alternate" type="text/html" href="http://networkslab.org/docs/RecordCollection" />
   <id>http://networkslab.org/docs/RecordCollection</id>
-  <published>2015-11-26T00:00:00+05:30</published>
-  <updated>2015-11-26T00:00:00+05:30</updated>
+  <published>2015-11-29T00:00:00+05:30</published>
+  <updated>2015-11-29T00:00:00+05:30</updated>
   <author>
     <name>John McLevey and Reid McIlroy-Young</name>
     <uri>http://networkslab.org</uri>
@@ -2371,7 +2371,7 @@ The comparison operators &amp;lt;, &amp;lt;=, &amp;gt;, &amp;gt;= are based stri
 &lt;li&gt;&lt;article&gt;&lt;a href=&quot;#writeFile&quot;&gt;&lt;b&gt;writeFile&lt;/b&gt;(&lt;i&gt;fname=None&lt;/i&gt;)&lt;/a&gt;&lt;/article&gt;&lt;/li&gt;
 &lt;li&gt;&lt;article&gt;&lt;a href=&quot;#writeCSV&quot;&gt;&lt;b&gt;writeCSV&lt;/b&gt;(&lt;i&gt;fname=None, onlyTheseTags=None, numAuthors=True, longNames=False, firstTags=None, csvDelimiter=&#39;,&#39;, csvQuote=&#39;&quot;&#39;, listDelimiter=&#39;|&#39;&lt;/i&gt;)&lt;/a&gt;&lt;/article&gt;&lt;/li&gt;
 &lt;li&gt;&lt;article&gt;&lt;a href=&quot;#makeDict&quot;&gt;&lt;b&gt;makeDict&lt;/b&gt;(&lt;i&gt;onlyTheseTags=None, longNames=False, cleanedVal=True, numAuthors=True&lt;/i&gt;)&lt;/a&gt;&lt;/article&gt;&lt;/li&gt;
-&lt;li&gt;&lt;article&gt;&lt;a href=&quot;#coAuthNetwork&quot;&gt;&lt;b&gt;coAuthNetwork&lt;/b&gt;()&lt;/a&gt;&lt;/article&gt;&lt;/li&gt;
+&lt;li&gt;&lt;article&gt;&lt;a href=&quot;#coAuthNetwork&quot;&gt;&lt;b&gt;coAuthNetwork&lt;/b&gt;(&lt;i&gt;detailedInfo=False, weighted=True, dropNonJournals=False, count=True&lt;/i&gt;)&lt;/a&gt;&lt;/article&gt;&lt;/li&gt;
 &lt;li&gt;&lt;article&gt;&lt;a href=&quot;#coCiteNetwork&quot;&gt;&lt;b&gt;coCiteNetwork&lt;/b&gt;(&lt;i&gt;dropAnon=True, nodeType=&#39;full&#39;, nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, keyWords=None, detailedCore=None, coreOnly=False&lt;/i&gt;)&lt;/a&gt;&lt;/article&gt;&lt;/li&gt;
 &lt;li&gt;&lt;article&gt;&lt;a href=&quot;#citationNetwork&quot;&gt;&lt;b&gt;citationNetwork&lt;/b&gt;(&lt;i&gt;dropAnon=True, nodeType=&#39;full&#39;, nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, directed=True, keyWords=None, detailedCore=None, coreOnly=False&lt;/i&gt;)&lt;/a&gt;&lt;/article&gt;&lt;/li&gt;
 &lt;li&gt;&lt;article&gt;&lt;a href=&quot;#yearSplit&quot;&gt;&lt;b&gt;yearSplit&lt;/b&gt;(&lt;i&gt;startYear, endYear, dropMissingYears=True&lt;/i&gt;)&lt;/a&gt;&lt;/article&gt;&lt;/li&gt;
@@ -2618,9 +2618,33 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 &lt;hr style=&quot;padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;&quot; /&gt;
 
-&lt;p&gt;&lt;a name=&quot;coAuthNetwork&quot;&gt;&lt;/a&gt;&lt;small&gt;RecordCollection.&lt;/small&gt;&lt;strong&gt;&lt;a href=&quot;/metaknowledge/docs/RecordCollection#coAuthNetwork&quot;&gt;&lt;ins&gt;coAuthNetwork&lt;/ins&gt;&lt;/a&gt;&lt;/strong&gt;():&lt;/p&gt;
+&lt;p&gt;&lt;a name=&quot;coAuthNetwork&quot;&gt;&lt;/a&gt;&lt;small&gt;RecordCollection.&lt;/small&gt;&lt;strong&gt;&lt;a href=&quot;/metaknowledge/docs/RecordCollection#coAuthNetwork&quot;&gt;&lt;ins&gt;coAuthNetwork&lt;/ins&gt;&lt;/a&gt;&lt;/strong&gt;(&lt;em&gt;detailedInfo=False, weighted=True, dropNonJournals=False, count=True&lt;/em&gt;):&lt;/p&gt;
 
 &lt;p&gt;Creates a coauthorship network for the RecordCollection.&lt;/p&gt;
+
+&lt;h6 id=&quot;parameters-8&quot;&gt;Parameters&lt;/h6&gt;
+
+&lt;p&gt;&lt;em&gt;detailedInfo&lt;/em&gt; : &lt;code&gt;optional [bool or iterable[WOS tag Strings]]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;default &lt;code&gt;False&lt;/code&gt;, if &lt;code&gt;True&lt;/code&gt; all nodes will be given info strings composed of information from the Record objects themselves. This is Equivalent to passing the list: &lt;code&gt;[&#39;PY&#39;, &#39;TI&#39;, &#39;SO&#39;, &#39;VL&#39;, &#39;BP&#39;]&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;If &lt;em&gt;detailedInfo&lt;/em&gt; is an iterable (that evaluates to &lt;code&gt;True&lt;/code&gt;) of WOS Tags (or long names) The values  of those tags will be used to make the info attributes.&lt;/p&gt;
+
+&lt;p&gt;For each of the selected tags an attribute will be added to the node using the values of those tags on the first &lt;code&gt;Record&lt;/code&gt; encountered. &lt;strong&gt;Warning&lt;/strong&gt; iterating over &lt;code&gt;RecordCollection&lt;/code&gt; objects is not deterministic the first &lt;code&gt;Record&lt;/code&gt; will not always be same between runs. The node will be given attributes with the names of the WOS tags for each of the selected tags. The attributes will contain strings of containing the values (with commas removed), if multiple values are encountered they will be comma separated.&lt;/p&gt;
+
+&lt;p&gt;Note: &lt;em&gt;detailedInfo&lt;/em&gt; is not identical to the &lt;em&gt;detailedCore&lt;/em&gt; argument of &lt;a href=&quot;/metaknowledge/docs/RecordCollection#coCiteNetwork&quot;&gt;&lt;code&gt;Recordcollection.coCiteNetwork()&lt;/code&gt;&lt;/a&gt; or &lt;a href=&quot;/metaknowledge/docs/RecordCollection#citationNetwork&quot;&gt;&lt;code&gt;Recordcollection.citationNetwork()&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;weighted&lt;/em&gt; : &lt;code&gt;optional [bool]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;default &lt;code&gt;True&lt;/code&gt;, wether the edges are weighted. If &lt;code&gt;True&lt;/code&gt; the edges are weighted by the number of co-authorships.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;dropNonJournals&lt;/em&gt; : &lt;code&gt;optional [bool]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;default &lt;code&gt;False&lt;/code&gt;, wether to drop authors from non-journals&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;count&lt;/em&gt; : &lt;code&gt;optional [bool]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;default &lt;code&gt;True&lt;/code&gt;, causes the number of occurrences of a node to be counted&lt;/p&gt;
 
 &lt;h6 id=&quot;returns-3&quot;&gt;Returns&lt;/h6&gt;
 
@@ -2634,7 +2658,7 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 &lt;p&gt;Creates a co-citation network for the RecordCollection.&lt;/p&gt;
 
-&lt;h6 id=&quot;parameters-8&quot;&gt;Parameters&lt;/h6&gt;
+&lt;h6 id=&quot;parameters-9&quot;&gt;Parameters&lt;/h6&gt;
 
 &lt;p&gt;&lt;em&gt;nodeType&lt;/em&gt; : &lt;code&gt;optional [str]&lt;/code&gt;&lt;/p&gt;
 
@@ -2676,6 +2700,8 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 &lt;p&gt;The resultant string is the values of each tag, with commas removed, seperated by &lt;code&gt;&#39;, &#39;&lt;/code&gt;, just like the info given by non-core Citations. Note that for tags like &lt;code&gt;&#39;AF&#39;&lt;/code&gt; that return lists only the first entry in the list will be used. Also a second attribute is created for all nodes called inCore wich is a boolean describing if the node is in the core or not.&lt;/p&gt;
 
+&lt;p&gt;Note: &lt;em&gt;detailedCore&lt;/em&gt;  is not identical to the &lt;em&gt;detailedInfo&lt;/em&gt; argument of &lt;a href=&quot;/metaknowledge/docs/RecordCollection#coAuthNetwork&quot;&gt;&lt;code&gt;Recordcollection.coAuthNetwork()&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
+
 &lt;p&gt;&lt;em&gt;coreOnly&lt;/em&gt; : &lt;code&gt;optional [bool]&lt;/code&gt;&lt;/p&gt;
 
 &lt;p&gt;default &lt;code&gt;False&lt;/code&gt;, if &lt;code&gt;True&lt;/code&gt; only Citations from the RecordCollection will be included in the network&lt;/p&gt;
@@ -2692,7 +2718,7 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 &lt;p&gt;Creates a citation network for the RecordCollection.&lt;/p&gt;
 
-&lt;h6 id=&quot;parameters-9&quot;&gt;Parameters&lt;/h6&gt;
+&lt;h6 id=&quot;parameters-10&quot;&gt;Parameters&lt;/h6&gt;
 
 &lt;p&gt;&lt;em&gt;nodeType&lt;/em&gt; : &lt;code&gt;optional [str]&lt;/code&gt;&lt;/p&gt;
 
@@ -2738,6 +2764,8 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 &lt;p&gt;The resultant string is the values of each tag, with commas removed, seperated by &lt;code&gt;&#39;, &#39;&lt;/code&gt;, just like the info given by non-core Citations. Note that for tags like &lt;code&gt;&#39;AF&#39;&lt;/code&gt; that return lists only the first entry in the list will be used. Also a second attribute is created for all nodes called inCore wich is a boolean describing if the node is in the core or not.&lt;/p&gt;
 
+&lt;p&gt;Note: &lt;em&gt;detailedCore&lt;/em&gt;  is not identical to the &lt;em&gt;detailedInfo&lt;/em&gt; argument of &lt;a href=&quot;/metaknowledge/docs/RecordCollection#coAuthNetwork&quot;&gt;&lt;code&gt;Recordcollection.coAuthNetwork()&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
+
 &lt;p&gt;&lt;em&gt;coreOnly&lt;/em&gt; : &lt;code&gt;optional [bool]&lt;/code&gt;&lt;/p&gt;
 
 &lt;p&gt;default &lt;code&gt;False&lt;/code&gt;, if &lt;code&gt;True&lt;/code&gt; only Citations from the RecordCollection will be included in the network&lt;/p&gt;
@@ -2756,7 +2784,7 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 &lt;p&gt;Creates a RecordCollection of Records from the years between &lt;em&gt;startYear&lt;/em&gt; and &lt;em&gt;endYear&lt;/em&gt; inclusive.&lt;/p&gt;
 
-&lt;h6 id=&quot;parameters-10&quot;&gt;Parameters&lt;/h6&gt;
+&lt;h6 id=&quot;parameters-11&quot;&gt;Parameters&lt;/h6&gt;
 
 &lt;p&gt;&lt;em&gt;startYear&lt;/em&gt; : &lt;code&gt;int&lt;/code&gt;&lt;/p&gt;
 
@@ -2788,7 +2816,7 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 &lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt; Do not use this for the construction of co-citation networks use &lt;a href=&quot;/metaknowledge/docs/RecordCollection#coCiteNetwork&quot;&gt;Recordcollection.coCiteNetwork()&lt;/a&gt; it is more accurate and has more options.&lt;/p&gt;
 
-&lt;h6 id=&quot;parameters-11&quot;&gt;Parameters&lt;/h6&gt;
+&lt;h6 id=&quot;parameters-12&quot;&gt;Parameters&lt;/h6&gt;
 
 &lt;p&gt;&lt;em&gt;mode&lt;/em&gt; : &lt;code&gt;str&lt;/code&gt;&lt;/p&gt;
 
@@ -2826,7 +2854,7 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 &lt;p&gt;The &lt;em&gt;directed&lt;/em&gt; parameter if &lt;code&gt;True&lt;/code&gt; will cause the network to be directed with the first tag as the source and the second as the destination.&lt;/p&gt;
 
-&lt;h6 id=&quot;parameters-12&quot;&gt;Parameters&lt;/h6&gt;
+&lt;h6 id=&quot;parameters-13&quot;&gt;Parameters&lt;/h6&gt;
 
 &lt;p&gt;&lt;em&gt;tag1&lt;/em&gt; : &lt;code&gt;str&lt;/code&gt;&lt;/p&gt;
 
@@ -2880,7 +2908,7 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 &lt;p&gt;&lt;em&gt;metaknowledge&lt;/em&gt; is free and open source software, distributed under the GPL License.&lt;/p&gt;
 
-    &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/RecordCollection&quot;&gt;RecordCollection&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on November 26, 2015.&lt;/p&gt;
+    &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/RecordCollection&quot;&gt;RecordCollection&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on November 29, 2015.&lt;/p&gt;
   </content>
 </entry>
 
@@ -2891,8 +2919,8 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
   <title type="html"><![CDATA[Record]]></title>
   <link rel="alternate" type="text/html" href="http://networkslab.org/docs/Record" />
   <id>http://networkslab.org/docs/Record</id>
-  <published>2015-11-26T00:00:00+05:30</published>
-  <updated>2015-11-26T00:00:00+05:30</updated>
+  <published>2015-11-29T00:00:00+05:30</published>
+  <updated>2015-11-29T00:00:00+05:30</updated>
   <author>
     <name>John McLevey and Reid McIlroy-Young</name>
     <uri>http://networkslab.org</uri>
@@ -3069,7 +3097,7 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 &lt;p&gt;&lt;em&gt;metaknowledge&lt;/em&gt; is free and open source software, distributed under the GPL License.&lt;/p&gt;
 
-    &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/Record&quot;&gt;Record&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on November 26, 2015.&lt;/p&gt;
+    &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/Record&quot;&gt;Record&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on November 29, 2015.&lt;/p&gt;
   </content>
 </entry>
 
@@ -3080,8 +3108,8 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
   <title type="html"><![CDATA[Citation]]></title>
   <link rel="alternate" type="text/html" href="http://networkslab.org/docs/Citation" />
   <id>http://networkslab.org/docs/Citation</id>
-  <published>2015-11-26T00:00:00+05:30</published>
-  <updated>2015-11-26T00:00:00+05:30</updated>
+  <published>2015-11-29T00:00:00+05:30</published>
+  <updated>2015-11-29T00:00:00+05:30</updated>
   <author>
     <name>John McLevey and Reid McIlroy-Young</name>
     <uri>http://networkslab.org</uri>
@@ -3256,7 +3284,7 @@ Combined they look like:&lt;/p&gt;
 
 &lt;p&gt;&lt;em&gt;metaknowledge&lt;/em&gt; is free and open source software, distributed under the GPL License.&lt;/p&gt;
 
-    &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/Citation&quot;&gt;Citation&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on November 26, 2015.&lt;/p&gt;
+    &lt;p&gt;&lt;a href=&quot;http://networkslab.org/docs/Citation&quot;&gt;Citation&lt;/a&gt; was originally published by John McLevey and Reid McIlroy-Young at &lt;a href=&quot;http://networkslab.org&quot;&gt;metaknowledge&lt;/a&gt; on November 29, 2015.&lt;/p&gt;
   </content>
 </entry>
 

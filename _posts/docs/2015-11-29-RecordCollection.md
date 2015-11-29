@@ -63,7 +63,7 @@ The RecordCollection class has the following methods:
 <li><article><a href="#writeFile"><b>writeFile</b>(<i>fname=None</i>)</a></article></li>
 <li><article><a href="#writeCSV"><b>writeCSV</b>(<i>fname=None, onlyTheseTags=None, numAuthors=True, longNames=False, firstTags=None, csvDelimiter=',', csvQuote='"', listDelimiter='|'</i>)</a></article></li>
 <li><article><a href="#makeDict"><b>makeDict</b>(<i>onlyTheseTags=None, longNames=False, cleanedVal=True, numAuthors=True</i>)</a></article></li>
-<li><article><a href="#coAuthNetwork"><b>coAuthNetwork</b>()</a></article></li>
+<li><article><a href="#coAuthNetwork"><b>coAuthNetwork</b>(<i>detailedInfo=False, weighted=True, dropNonJournals=False, count=True</i>)</a></article></li>
 <li><article><a href="#coCiteNetwork"><b>coCiteNetwork</b>(<i>dropAnon=True, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, keyWords=None, detailedCore=None, coreOnly=False</i>)</a></article></li>
 <li><article><a href="#citationNetwork"><b>citationNetwork</b>(<i>dropAnon=True, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, directed=True, keyWords=None, detailedCore=None, coreOnly=False</i>)</a></article></li>
 <li><article><a href="#yearSplit"><b>yearSplit</b>(<i>startYear, endYear, dropMissingYears=True</i>)</a></article></li>
@@ -219,7 +219,7 @@ _wosNum_ : `str`
 
 _drop_ : `optional [bool]`
 
- Default `False`. If `True` the Record is dropped from the collection after being extract, i.e. if `False` [getWOS()]({{ site.baseurl }}{% post_url /docs/2015-11-26-RecordCollection %}#getWOS) acts like [peak()]({{ site.baseurl }}{% post_url /docs/2015-11-26-RecordCollection %}#peak), if `True` it acts like [pop()]({{ site.baseurl }}{% post_url /docs/2015-11-26-RecordCollection %}#pop)
+ Default `False`. If `True` the Record is dropped from the collection after being extract, i.e. if `False` [getWOS()]({{ site.baseurl }}{% post_url /docs/2015-11-29-RecordCollection %}#getWOS) acts like [peak()]({{ site.baseurl }}{% post_url /docs/2015-11-29-RecordCollection %}#peak), if `True` it acts like [pop()]({{ site.baseurl }}{% post_url /docs/2015-11-29-RecordCollection %}#pop)
 
 ###### Returns
 
@@ -312,9 +312,33 @@ See writeCSV()
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="coAuthNetwork"></a><small>RecordCollection.</small>**[<ins>coAuthNetwork</ins>]({{ site.baseurl }}{{ page.url }}#coAuthNetwork)**():
+<a name="coAuthNetwork"></a><small>RecordCollection.</small>**[<ins>coAuthNetwork</ins>]({{ site.baseurl }}{{ page.url }}#coAuthNetwork)**(_detailedInfo=False, weighted=True, dropNonJournals=False, count=True_):
 
 Creates a coauthorship network for the RecordCollection.
+
+###### Parameters
+
+_detailedInfo_ : `optional [bool or iterable[WOS tag Strings]]`
+
+ default `False`, if `True` all nodes will be given info strings composed of information from the Record objects themselves. This is Equivalent to passing the list: `['PY', 'TI', 'SO', 'VL', 'BP']`.
+
+ If _detailedInfo_ is an iterable (that evaluates to `True`) of WOS Tags (or long names) The values  of those tags will be used to make the info attributes.
+
+ For each of the selected tags an attribute will be added to the node using the values of those tags on the first `Record` encountered. **Warning** iterating over `RecordCollection` objects is not deterministic the first `Record` will not always be same between runs. The node will be given attributes with the names of the WOS tags for each of the selected tags. The attributes will contain strings of containing the values (with commas removed), if multiple values are encountered they will be comma separated.
+
+ Note: _detailedInfo_ is not identical to the _detailedCore_ argument of [`Recordcollection.coCiteNetwork()`]({{ site.baseurl }}{% post_url /docs/2015-11-29-RecordCollection %}#coCiteNetwork) or [`Recordcollection.citationNetwork()`]({{ site.baseurl }}{% post_url /docs/2015-11-29-RecordCollection %}#citationNetwork)
+
+_weighted_ : `optional [bool]`
+
+ default `True`, wether the edges are weighted. If `True` the edges are weighted by the number of co-authorships.
+
+_dropNonJournals_ : `optional [bool]`
+
+ default `False`, wether to drop authors from non-journals
+
+_count_ : `optional [bool]`
+
+ default `True`, causes the number of occurrences of a node to be counted
 
 ###### Returns
 
@@ -333,7 +357,7 @@ Creates a co-citation network for the RecordCollection.
 
 _nodeType_ : `optional [str]`
 
- One of `"full"`, `"original"`, `"author"`, `"journal"` or `"year"`. Specifies the value of the nodes in the graph. The default `"full"` causes the citations to be compared holistically using the [`metaknowledge.Citation`]({{ site.baseurl }}{% post_url /docs/2015-11-26-Citation %}#Citation) builtin comparison operators. `"original"` uses the raw original strings of the citations. While `"author"`, `"journal"` and `"year"` each use the author, journal and year respectively.
+ One of `"full"`, `"original"`, `"author"`, `"journal"` or `"year"`. Specifies the value of the nodes in the graph. The default `"full"` causes the citations to be compared holistically using the [`metaknowledge.Citation`]({{ site.baseurl }}{% post_url /docs/2015-11-29-Citation %}#Citation) builtin comparison operators. `"original"` uses the raw original strings of the citations. While `"author"`, `"journal"` and `"year"` each use the author, journal and year respectively.
 
 _dropAnon_ : `optional [bool]`
 
@@ -371,6 +395,8 @@ _detailedCore_ : `optional [bool or iterable[WOS tag Strings]]`
 
  The resultant string is the values of each tag, with commas removed, seperated by `', '`, just like the info given by non-core Citations. Note that for tags like `'AF'` that return lists only the first entry in the list will be used. Also a second attribute is created for all nodes called inCore wich is a boolean describing if the node is in the core or not.
 
+ Note: _detailedCore_  is not identical to the _detailedInfo_ argument of [`Recordcollection.coAuthNetwork()`]({{ site.baseurl }}{% post_url /docs/2015-11-29-RecordCollection %}#coAuthNetwork)
+
 _coreOnly_ : `optional [bool]`
 
  default `False`, if `True` only Citations from the RecordCollection will be included in the network
@@ -392,7 +418,7 @@ Creates a citation network for the RecordCollection.
 
 _nodeType_ : `optional [str]`
 
- One of `"full"`, `"original"`, `"author"`, `"journal"` or `"year"`. Specifies the value of the nodes in the graph. The default `"full"` causes the citations to be compared holistically using the [`metaknowledge.Citation`]({{ site.baseurl }}{% post_url /docs/2015-11-26-Citation %}#Citation) builtin comparison operators. `"original"` uses the raw original strings of the citations. While `"author"`, `"journal"` and `"year"` each use the author, journal and year respectively.
+ One of `"full"`, `"original"`, `"author"`, `"journal"` or `"year"`. Specifies the value of the nodes in the graph. The default `"full"` causes the citations to be compared holistically using the [`metaknowledge.Citation`]({{ site.baseurl }}{% post_url /docs/2015-11-29-Citation %}#Citation) builtin comparison operators. `"original"` uses the raw original strings of the citations. While `"author"`, `"journal"` and `"year"` each use the author, journal and year respectively.
 
 _dropAnon_ : `optional [bool]`
 
@@ -433,6 +459,8 @@ _detailedCore_ : `optional [bool or iterable[WOS tag Strings]]`
  If _detailedCore_ is an iterable (That evaluates to `True`) of WOS Tags (or long names) The values  of those tags will be used to make the info attribute. All
 
  The resultant string is the values of each tag, with commas removed, seperated by `', '`, just like the info given by non-core Citations. Note that for tags like `'AF'` that return lists only the first entry in the list will be used. Also a second attribute is created for all nodes called inCore wich is a boolean describing if the node is in the core or not.
+
+ Note: _detailedCore_  is not identical to the _detailedInfo_ argument of [`Recordcollection.coAuthNetwork()`]({{ site.baseurl }}{% post_url /docs/2015-11-29-RecordCollection %}#coAuthNetwork)
 
 _coreOnly_ : `optional [bool]`
 
@@ -484,7 +512,7 @@ A **oneModeNetwork()** looks are each Record in the RecordCollection and extract
 
 The number of times each object occurs is count if _nodeCount_ is `True` and the edges count the number of co-occurrences if _edgeWeight_ is `True`. Both are`True` by default.
 
-**Note** Do not use this for the construction of co-citation networks use [Recordcollection.coCiteNetwork()]({{ site.baseurl }}{% post_url /docs/2015-11-26-RecordCollection %}#coCiteNetwork) it is more accurate and has more options.
+**Note** Do not use this for the construction of co-citation networks use [Recordcollection.coCiteNetwork()]({{ site.baseurl }}{% post_url /docs/2015-11-29-RecordCollection %}#coCiteNetwork) it is more accurate and has more options.
 
 ###### Parameters
 

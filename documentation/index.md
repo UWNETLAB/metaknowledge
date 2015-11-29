@@ -18,7 +18,10 @@ image:
    <a href="#Students">Students Install<span class="excerpt">How to install metaknowledge for the class</span></a>
    </article></li>
    <li><article>
-   <a href="{{ site.baseurl }}/documentation/metaknowledgeFull.html#fulllist">All Functions<span class="excerpt">The full list of functions and methods provided by metaknowledge</span></a>
+   <a href="{{ site.baseurl }}/documentation/metaknowledgeFull.html#objlist">Classes and Modules<span class="excerpt">The list of major classes and modules provided by metaknowledge</span></a>
+   </article></li>
+   <li><article>
+   <a href="{{ site.baseurl }}/documentation/metaknowledgeFull.html#fulllist">Functions and Methods<span class="excerpt">The full list of functions and methods provided by metaknowledge</span></a>
    </article></li>
 
 {% for post in sortedDocs %}

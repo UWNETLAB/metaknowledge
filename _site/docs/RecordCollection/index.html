@@ -203,7 +203,7 @@ The comparison operators &lt;, &lt;=, &gt;, &gt;= are based strictly on the numb
 <li><article><a href="#writeFile"><b>writeFile</b>(<i>fname=None</i>)</a></article></li>
 <li><article><a href="#writeCSV"><b>writeCSV</b>(<i>fname=None, onlyTheseTags=None, numAuthors=True, longNames=False, firstTags=None, csvDelimiter=',', csvQuote='"', listDelimiter='|'</i>)</a></article></li>
 <li><article><a href="#makeDict"><b>makeDict</b>(<i>onlyTheseTags=None, longNames=False, cleanedVal=True, numAuthors=True</i>)</a></article></li>
-<li><article><a href="#coAuthNetwork"><b>coAuthNetwork</b>()</a></article></li>
+<li><article><a href="#coAuthNetwork"><b>coAuthNetwork</b>(<i>detailedInfo=False, weighted=True, dropNonJournals=False, count=True</i>)</a></article></li>
 <li><article><a href="#coCiteNetwork"><b>coCiteNetwork</b>(<i>dropAnon=True, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, keyWords=None, detailedCore=None, coreOnly=False</i>)</a></article></li>
 <li><article><a href="#citationNetwork"><b>citationNetwork</b>(<i>dropAnon=True, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, directed=True, keyWords=None, detailedCore=None, coreOnly=False</i>)</a></article></li>
 <li><article><a href="#yearSplit"><b>yearSplit</b>(<i>startYear, endYear, dropMissingYears=True</i>)</a></article></li>
@@ -450,9 +450,33 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="coAuthNetwork"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/docs/RecordCollection#coAuthNetwork"><ins>coAuthNetwork</ins></a></strong>():</p>
+<p><a name="coAuthNetwork"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/docs/RecordCollection#coAuthNetwork"><ins>coAuthNetwork</ins></a></strong>(<em>detailedInfo=False, weighted=True, dropNonJournals=False, count=True</em>):</p>
 
 <p>Creates a coauthorship network for the RecordCollection.</p>
+
+<h6 id="parameters-8">Parameters</h6>
+
+<p><em>detailedInfo</em> : <code>optional [bool or iterable[WOS tag Strings]]</code></p>
+
+<p>default <code>False</code>, if <code>True</code> all nodes will be given info strings composed of information from the Record objects themselves. This is Equivalent to passing the list: <code>['PY', 'TI', 'SO', 'VL', 'BP']</code>.</p>
+
+<p>If <em>detailedInfo</em> is an iterable (that evaluates to <code>True</code>) of WOS Tags (or long names) The values  of those tags will be used to make the info attributes.</p>
+
+<p>For each of the selected tags an attribute will be added to the node using the values of those tags on the first <code>Record</code> encountered. <strong>Warning</strong> iterating over <code>RecordCollection</code> objects is not deterministic the first <code>Record</code> will not always be same between runs. The node will be given attributes with the names of the WOS tags for each of the selected tags. The attributes will contain strings of containing the values (with commas removed), if multiple values are encountered they will be comma separated.</p>
+
+<p>Note: <em>detailedInfo</em> is not identical to the <em>detailedCore</em> argument of <a href="/metaknowledge/docs/RecordCollection#coCiteNetwork"><code>Recordcollection.coCiteNetwork()</code></a> or <a href="/metaknowledge/docs/RecordCollection#citationNetwork"><code>Recordcollection.citationNetwork()</code></a></p>
+
+<p><em>weighted</em> : <code>optional [bool]</code></p>
+
+<p>default <code>True</code>, wether the edges are weighted. If <code>True</code> the edges are weighted by the number of co-authorships.</p>
+
+<p><em>dropNonJournals</em> : <code>optional [bool]</code></p>
+
+<p>default <code>False</code>, wether to drop authors from non-journals</p>
+
+<p><em>count</em> : <code>optional [bool]</code></p>
+
+<p>default <code>True</code>, causes the number of occurrences of a node to be counted</p>
 
 <h6 id="returns-3">Returns</h6>
 
@@ -466,7 +490,7 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>Creates a co-citation network for the RecordCollection.</p>
 
-<h6 id="parameters-8">Parameters</h6>
+<h6 id="parameters-9">Parameters</h6>
 
 <p><em>nodeType</em> : <code>optional [str]</code></p>
 
@@ -508,6 +532,8 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>The resultant string is the values of each tag, with commas removed, seperated by <code>', '</code>, just like the info given by non-core Citations. Note that for tags like <code>'AF'</code> that return lists only the first entry in the list will be used. Also a second attribute is created for all nodes called inCore wich is a boolean describing if the node is in the core or not.</p>
 
+<p>Note: <em>detailedCore</em>  is not identical to the <em>detailedInfo</em> argument of <a href="/metaknowledge/docs/RecordCollection#coAuthNetwork"><code>Recordcollection.coAuthNetwork()</code></a></p>
+
 <p><em>coreOnly</em> : <code>optional [bool]</code></p>
 
 <p>default <code>False</code>, if <code>True</code> only Citations from the RecordCollection will be included in the network</p>
@@ -524,7 +550,7 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>Creates a citation network for the RecordCollection.</p>
 
-<h6 id="parameters-9">Parameters</h6>
+<h6 id="parameters-10">Parameters</h6>
 
 <p><em>nodeType</em> : <code>optional [str]</code></p>
 
@@ -570,6 +596,8 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>The resultant string is the values of each tag, with commas removed, seperated by <code>', '</code>, just like the info given by non-core Citations. Note that for tags like <code>'AF'</code> that return lists only the first entry in the list will be used. Also a second attribute is created for all nodes called inCore wich is a boolean describing if the node is in the core or not.</p>
 
+<p>Note: <em>detailedCore</em>  is not identical to the <em>detailedInfo</em> argument of <a href="/metaknowledge/docs/RecordCollection#coAuthNetwork"><code>Recordcollection.coAuthNetwork()</code></a></p>
+
 <p><em>coreOnly</em> : <code>optional [bool]</code></p>
 
 <p>default <code>False</code>, if <code>True</code> only Citations from the RecordCollection will be included in the network</p>
@@ -588,7 +616,7 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>Creates a RecordCollection of Records from the years between <em>startYear</em> and <em>endYear</em> inclusive.</p>
 
-<h6 id="parameters-10">Parameters</h6>
+<h6 id="parameters-11">Parameters</h6>
 
 <p><em>startYear</em> : <code>int</code></p>
 
@@ -620,7 +648,7 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p><strong>Note</strong> Do not use this for the construction of co-citation networks use <a href="/metaknowledge/docs/RecordCollection#coCiteNetwork">Recordcollection.coCiteNetwork()</a> it is more accurate and has more options.</p>
 
-<h6 id="parameters-11">Parameters</h6>
+<h6 id="parameters-12">Parameters</h6>
 
 <p><em>mode</em> : <code>str</code></p>
 
@@ -658,7 +686,7 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>The <em>directed</em> parameter if <code>True</code> will cause the network to be directed with the first tag as the source and the second as the destination.</p>
 
-<h6 id="parameters-12">Parameters</h6>
+<h6 id="parameters-13">Parameters</h6>
 
 <p><em>tag1</em> : <code>str</code></p>
 

@@ -151,7 +151,7 @@
         <h1 class="entry-title"></h1>
       </header>
       <div class="entry-content">
-        <p>The classes and modules of metaknowledge are:</p>
+        <p><a name="objlist"></a>The classes and modules of metaknowledge are:</p>
 
 <ul class="post-list">
 <li><article><a href="#Citation"><b>Citation</b><span class="excerpt">Citation are special, here is how they are handled</span></a></article></li>
@@ -211,7 +211,7 @@
 <li><article><a href="#writeFile"><small>RecordCollection</small>.<b>writeFile</b>(<i>fname=None</i>)</a></article></li>
 <li><article><a href="#writeCSV"><small>RecordCollection</small>.<b>writeCSV</b>(<i>fname=None, onlyTheseTags=None, numAuthors=True, longNames=False, firstTags=None, csvDelimiter=',', csvQuote='"', listDelimiter='|'</i>)</a></article></li>
 <li><article><a href="#makeDict"><small>RecordCollection</small>.<b>makeDict</b>(<i>onlyTheseTags=None, longNames=False, cleanedVal=True, numAuthors=True</i>)</a></article></li>
-<li><article><a href="#coAuthNetwork"><small>RecordCollection</small>.<b>coAuthNetwork</b>()</a></article></li>
+<li><article><a href="#coAuthNetwork"><small>RecordCollection</small>.<b>coAuthNetwork</b>(<i>detailedInfo=False, weighted=True, dropNonJournals=False, count=True</i>)</a></article></li>
 <li><article><a href="#coCiteNetwork"><small>RecordCollection</small>.<b>coCiteNetwork</b>(<i>dropAnon=True, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, keyWords=None, detailedCore=None, coreOnly=False</i>)</a></article></li>
 <li><article><a href="#citationNetwork"><small>RecordCollection</small>.<b>citationNetwork</b>(<i>dropAnon=True, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, directed=True, keyWords=None, detailedCore=None, coreOnly=False</i>)</a></article></li>
 <li><article><a href="#yearSplit"><small>RecordCollection</small>.<b>yearSplit</b>(<i>startYear, endYear, dropMissingYears=True</i>)</a></article></li>
@@ -1163,7 +1163,7 @@ The comparison operators &lt;, &lt;=, &gt;, &gt;= are based strictly on the numb
 <li><article><a href="#writeFile"><b>writeFile</b>(<i>fname=None</i>)</a></article></li>
 <li><article><a href="#writeCSV"><b>writeCSV</b>(<i>fname=None, onlyTheseTags=None, numAuthors=True, longNames=False, firstTags=None, csvDelimiter=',', csvQuote='"', listDelimiter='|'</i>)</a></article></li>
 <li><article><a href="#makeDict"><b>makeDict</b>(<i>onlyTheseTags=None, longNames=False, cleanedVal=True, numAuthors=True</i>)</a></article></li>
-<li><article><a href="#coAuthNetwork"><b>coAuthNetwork</b>()</a></article></li>
+<li><article><a href="#coAuthNetwork"><b>coAuthNetwork</b>(<i>detailedInfo=False, weighted=True, dropNonJournals=False, count=True</i>)</a></article></li>
 <li><article><a href="#coCiteNetwork"><b>coCiteNetwork</b>(<i>dropAnon=True, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, keyWords=None, detailedCore=None, coreOnly=False</i>)</a></article></li>
 <li><article><a href="#citationNetwork"><b>citationNetwork</b>(<i>dropAnon=True, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, directed=True, keyWords=None, detailedCore=None, coreOnly=False</i>)</a></article></li>
 <li><article><a href="#yearSplit"><b>yearSplit</b>(<i>startYear, endYear, dropMissingYears=True</i>)</a></article></li>
@@ -1410,9 +1410,33 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="coAuthNetwork"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#coAuthNetwork"><ins>coAuthNetwork</ins></a></strong>():</p>
+<p><a name="coAuthNetwork"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#coAuthNetwork"><ins>coAuthNetwork</ins></a></strong>(<em>detailedInfo=False, weighted=True, dropNonJournals=False, count=True</em>):</p>
 
 <p>Creates a coauthorship network for the RecordCollection.</p>
+
+<h6 id="parameters-28">Parameters</h6>
+
+<p><em>detailedInfo</em> : <code>optional [bool or iterable[WOS tag Strings]]</code></p>
+
+<p>default <code>False</code>, if <code>True</code> all nodes will be given info strings composed of information from the Record objects themselves. This is Equivalent to passing the list: <code>['PY', 'TI', 'SO', 'VL', 'BP']</code>.</p>
+
+<p>If <em>detailedInfo</em> is an iterable (that evaluates to <code>True</code>) of WOS Tags (or long names) The values  of those tags will be used to make the info attributes.</p>
+
+<p>For each of the selected tags an attribute will be added to the node using the values of those tags on the first <code>Record</code> encountered. <strong>Warning</strong> iterating over <code>RecordCollection</code> objects is not deterministic the first <code>Record</code> will not always be same between runs. The node will be given attributes with the names of the WOS tags for each of the selected tags. The attributes will contain strings of containing the values (with commas removed), if multiple values are encountered they will be comma separated.</p>
+
+<p>Note: <em>detailedInfo</em> is not identical to the <em>detailedCore</em> argument of <a href="/metaknowledge/docs/RecordCollection#coCiteNetwork"><code>Recordcollection.coCiteNetwork()</code></a> or <a href="/metaknowledge/docs/RecordCollection#citationNetwork"><code>Recordcollection.citationNetwork()</code></a></p>
+
+<p><em>weighted</em> : <code>optional [bool]</code></p>
+
+<p>default <code>True</code>, wether the edges are weighted. If <code>True</code> the edges are weighted by the number of co-authorships.</p>
+
+<p><em>dropNonJournals</em> : <code>optional [bool]</code></p>
+
+<p>default <code>False</code>, wether to drop authors from non-journals</p>
+
+<p><em>count</em> : <code>optional [bool]</code></p>
+
+<p>default <code>True</code>, causes the number of occurrences of a node to be counted</p>
 
 <h6 id="returns-24">Returns</h6>
 
@@ -1426,7 +1450,7 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>Creates a co-citation network for the RecordCollection.</p>
 
-<h6 id="parameters-28">Parameters</h6>
+<h6 id="parameters-29">Parameters</h6>
 
 <p><em>nodeType</em> : <code>optional [str]</code></p>
 
@@ -1468,6 +1492,8 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>The resultant string is the values of each tag, with commas removed, seperated by <code>', '</code>, just like the info given by non-core Citations. Note that for tags like <code>'AF'</code> that return lists only the first entry in the list will be used. Also a second attribute is created for all nodes called inCore wich is a boolean describing if the node is in the core or not.</p>
 
+<p>Note: <em>detailedCore</em>  is not identical to the <em>detailedInfo</em> argument of <a href="/metaknowledge/docs/RecordCollection#coAuthNetwork"><code>Recordcollection.coAuthNetwork()</code></a></p>
+
 <p><em>coreOnly</em> : <code>optional [bool]</code></p>
 
 <p>default <code>False</code>, if <code>True</code> only Citations from the RecordCollection will be included in the network</p>
@@ -1484,7 +1510,7 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>Creates a citation network for the RecordCollection.</p>
 
-<h6 id="parameters-29">Parameters</h6>
+<h6 id="parameters-30">Parameters</h6>
 
 <p><em>nodeType</em> : <code>optional [str]</code></p>
 
@@ -1530,6 +1556,8 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>The resultant string is the values of each tag, with commas removed, seperated by <code>', '</code>, just like the info given by non-core Citations. Note that for tags like <code>'AF'</code> that return lists only the first entry in the list will be used. Also a second attribute is created for all nodes called inCore wich is a boolean describing if the node is in the core or not.</p>
 
+<p>Note: <em>detailedCore</em>  is not identical to the <em>detailedInfo</em> argument of <a href="/metaknowledge/docs/RecordCollection#coAuthNetwork"><code>Recordcollection.coAuthNetwork()</code></a></p>
+
 <p><em>coreOnly</em> : <code>optional [bool]</code></p>
 
 <p>default <code>False</code>, if <code>True</code> only Citations from the RecordCollection will be included in the network</p>
@@ -1548,7 +1576,7 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>Creates a RecordCollection of Records from the years between <em>startYear</em> and <em>endYear</em> inclusive.</p>
 
-<h6 id="parameters-30">Parameters</h6>
+<h6 id="parameters-31">Parameters</h6>
 
 <p><em>startYear</em> : <code>int</code></p>
 
@@ -1580,7 +1608,7 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p><strong>Note</strong> Do not use this for the construction of co-citation networks use <a href="/metaknowledge/docs/RecordCollection#coCiteNetwork">Recordcollection.coCiteNetwork()</a> it is more accurate and has more options.</p>
 
-<h6 id="parameters-31">Parameters</h6>
+<h6 id="parameters-32">Parameters</h6>
 
 <p><em>mode</em> : <code>str</code></p>
 
@@ -1618,7 +1646,7 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>The <em>directed</em> parameter if <code>True</code> will cause the network to be directed with the first tag as the source and the second as the destination.</p>
 
-<h6 id="parameters-32">Parameters</h6>
+<h6 id="parameters-33">Parameters</h6>
 
 <p><em>tag1</em> : <code>str</code></p>
 
@@ -1702,7 +1730,7 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>Returns the dictionary of journal abbreviations to a list of the associated journal names. By default the local database is used. The database is in the file <em>dbname</em> in the same directory as this source file</p>
 
-<h6 id="parameters-33">Parameters</h6>
+<h6 id="parameters-34">Parameters</h6>
 
 <p><em>dbname</em> : <code>optional [str]</code></p>
 
@@ -1714,7 +1742,7 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>Adds <em>abbr</em> to the database of journals. The database is kept separate from the one scraped from WOS, this supersedes it. The database by default is stored with the WOS one and the name is given by <code>metaknowledge.journalAbbreviations.manaulDBname</code>. To create an empty database run <strong>addToDB</strong> without an <em>abbr</em> argument.</p>
 
-<h6 id="parameters-34">Parameters</h6>
+<h6 id="parameters-35">Parameters</h6>
 
 <p><em>abbr</em> : <code>optional [str or dict[str : str]]</code></p>
 
@@ -1730,7 +1758,7 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>Marks <em>abbr</em> to be excluded the database of journals. The database is kept separate from the one scraped from WOS, this supersedes it. The database by default is stored with the WOS one and the name is given by <code>metaknowledge.journalAbbreviations.manaulDBname</code>. To create an empty database run <strong>addToDB</strong> without an <em>abbr</em> argument.</p>
 
-<h6 id="parameters-35">Parameters</h6>
+<h6 id="parameters-36">Parameters</h6>
 
 <p><em>abbr</em> : <code>optional [str or tuple[str] or list[str]</code></p>
 
@@ -1746,7 +1774,7 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>Updates the database of Journal Title Abbreviations. Requires an internet connection. The data base is saved relative to the source file not the working directory.</p>
 
-<h6 id="parameters-36">Parameters</h6>
+<h6 id="parameters-37">Parameters</h6>
 
 <p><em>dbname</em> : <code>optional [str]</code></p>
 
@@ -2057,7 +2085,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the host of the conference</p>
 
-<h6 id="parameters-37">Parameters</h6>
+<h6 id="parameters-38">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2077,7 +2105,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the publishers address</p>
 
-<h6 id="parameters-38">Parameters</h6>
+<h6 id="parameters-39">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2097,7 +2125,7 @@ Month Year (“%b %Y”)</p>
 
 <p>return the last page the record occurs on as a string, not aall are intergers</p>
 
-<h6 id="parameters-39">Parameters</h6>
+<h6 id="parameters-40">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2117,7 +2145,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the year the record was published in as an int</p>
 
-<h6 id="parameters-40">Parameters</h6>
+<h6 id="parameters-41">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2140,7 +2168,7 @@ Month Year (“%b %Y”)</p>
 <pre><code>Author keywords are included in records of articles from 1991 forward. They are also include in conference proceedings records.
 </code></pre>
 
-<h6 id="parameters-41">Parameters</h6>
+<h6 id="parameters-42">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2160,7 +2188,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts a list of the short names of the authors of a book Record</p>
 
-<h6 id="parameters-42">Parameters</h6>
+<h6 id="parameters-43">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2180,7 +2208,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the reprint address string</p>
 
-<h6 id="parameters-43">Parameters</h6>
+<h6 id="parameters-44">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2200,7 +2228,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the total number of citations of the record</p>
 
-<h6 id="parameters-44">Parameters</h6>
+<h6 id="parameters-45">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2220,7 +2248,7 @@ Month Year (“%b %Y”)</p>
 
 <p>return an integer giving the part of the issue the Record is in</p>
 
-<h6 id="parameters-45">Parameters</h6>
+<h6 id="parameters-46">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2240,7 +2268,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the special issue value</p>
 
-<h6 id="parameters-46">Parameters</h6>
+<h6 id="parameters-47">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2260,7 +2288,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts a list of subjects as assigned by WOS</p>
 
-<h6 id="parameters-47">Parameters</h6>
+<h6 id="parameters-48">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2283,7 +2311,7 @@ Month Year (“%b %Y”)</p>
 <pre><code>KeyWords Plus are index terms created by Thomson Reuters from significant, frequently occurring words in the titles of an article's cited references.
 </code></pre>
 
-<h6 id="parameters-48">Parameters</h6>
+<h6 id="parameters-49">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2303,7 +2331,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the pubmed ID of the record</p>
 
-<h6 id="parameters-49">Parameters</h6>
+<h6 id="parameters-50">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2323,7 +2351,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the document delivery number of the Record</p>
 
-<h6 id="parameters-50">Parameters</h6>
+<h6 id="parameters-51">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2343,7 +2371,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts a list of the long names of the authors of a book Record</p>
 
-<h6 id="parameters-51">Parameters</h6>
+<h6 id="parameters-52">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2363,7 +2391,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the name of the group associated with the Record</p>
 
-<h6 id="parameters-52">Parameters</h6>
+<h6 id="parameters-53">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2383,7 +2411,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the title of the record</p>
 
-<h6 id="parameters-53">Parameters</h6>
+<h6 id="parameters-54">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2411,7 +2439,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the full name of the publication and normalizes it to uppercase</p>
 
-<h6 id="parameters-54">Parameters</h6>
+<h6 id="parameters-55">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2431,7 +2459,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the title of the series the Record is in</p>
 
-<h6 id="parameters-55">Parameters</h6>
+<h6 id="parameters-56">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2451,7 +2479,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the title of the series the Record is in</p>
 
-<h6 id="parameters-56">Parameters</h6>
+<h6 id="parameters-57">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2471,7 +2499,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts a list of authors full names</p>
 
-<h6 id="parameters-57">Parameters</h6>
+<h6 id="parameters-58">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2491,7 +2519,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the languages of the Record as a string with languages separated by ‘, ‘, usually there is only one language</p>
 
-<h6 id="parameters-58">Parameters</h6>
+<h6 id="parameters-59">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2511,7 +2539,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the type of document the Record contains</p>
 
-<h6 id="parameters-59">Parameters</h6>
+<h6 id="parameters-60">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2531,7 +2559,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the title of the conference associated with the Record</p>
 
-<h6 id="parameters-60">Parameters</h6>
+<h6 id="parameters-61">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2551,7 +2579,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the date string of the conference associated with the Record, the date is not normalized</p>
 
-<h6 id="parameters-61">Parameters</h6>
+<h6 id="parameters-62">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2571,7 +2599,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts a list of sponsors for the conference associated with the record</p>
 
-<h6 id="parameters-62">Parameters</h6>
+<h6 id="parameters-63">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2591,7 +2619,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the number of times the Record has been cited by records in WOS</p>
 
-<h6 id="parameters-63">Parameters</h6>
+<h6 id="parameters-64">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2611,7 +2639,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the address of the authors as given by WOS. <strong>Warning</strong> the mapping of author to address is not very good and is given in multiple ways.</p>
 
-<h6 id="parameters-64">Parameters</h6>
+<h6 id="parameters-65">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2631,7 +2659,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the type of publication as a character: conference, book, journal, book in series, or patent</p>
 
-<h6 id="parameters-65">Parameters</h6>
+<h6 id="parameters-66">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2651,7 +2679,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the sting giving the conference’s location</p>
 
-<h6 id="parameters-66">Parameters</h6>
+<h6 id="parameters-67">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2671,7 +2699,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the J9 (29-Character Source Abbreviation) of the publication</p>
 
-<h6 id="parameters-67">Parameters</h6>
+<h6 id="parameters-68">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2691,7 +2719,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts a list of the groups funding the Record</p>
 
-<h6 id="parameters-68">Parameters</h6>
+<h6 id="parameters-69">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2711,7 +2739,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the group associated with the Record</p>
 
-<h6 id="parameters-69">Parameters</h6>
+<h6 id="parameters-70">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2731,7 +2759,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts a list of the subjects associated with the Record</p>
 
-<h6 id="parameters-70">Parameters</h6>
+<h6 id="parameters-71">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2751,7 +2779,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts a list of all the citations in the record, the citations are the <a href="/metaknowledge/docs/Citation#Citation">metaknowledge.Citation</a> class.</p>
 
-<h6 id="parameters-71">Parameters</h6>
+<h6 id="parameters-72">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2771,7 +2799,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the city the publisher is in</p>
 
-<h6 id="parameters-72">Parameters</h6>
+<h6 id="parameters-73">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2791,7 +2819,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the ISSN of the Record</p>
 
-<h6 id="parameters-73">Parameters</h6>
+<h6 id="parameters-74">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2811,7 +2839,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts a string giving the article number, not all are integers</p>
 
-<h6 id="parameters-74">Parameters</h6>
+<h6 id="parameters-75">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2831,7 +2859,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts a string giving the issue or range of issues the Record was in, not all are integers</p>
 
-<h6 id="parameters-75">Parameters</h6>
+<h6 id="parameters-76">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2851,7 +2879,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts a list of emails given by the authors of the Record</p>
 
-<h6 id="parameters-76">Parameters</h6>
+<h6 id="parameters-77">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2871,7 +2899,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the EISSN of the Record</p>
 
-<h6 id="parameters-77">Parameters</h6>
+<h6 id="parameters-78">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2891,7 +2919,7 @@ Month Year (“%b %Y”)</p>
 
 <p>return the DOI number of the record</p>
 
-<h6 id="parameters-78">Parameters</h6>
+<h6 id="parameters-79">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2911,7 +2939,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the WOS number of the record as a string preceded by “WOS:”</p>
 
-<h6 id="parameters-79">Parameters</h6>
+<h6 id="parameters-80">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2931,7 +2959,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts a list of the editors of the Record</p>
 
-<h6 id="parameters-80">Parameters</h6>
+<h6 id="parameters-81">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2951,7 +2979,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts a list of orc IDs of the Record</p>
 
-<h6 id="parameters-81">Parameters</h6>
+<h6 id="parameters-82">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2971,7 +2999,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the ID of the meeting abstract prefixed by ‘EPA-‘</p>
 
-<h6 id="parameters-82">Parameters</h6>
+<h6 id="parameters-83">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -2991,7 +3019,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the iso abbreviation of the journal</p>
 
-<h6 id="parameters-83">Parameters</h6>
+<h6 id="parameters-84">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -3011,7 +3039,7 @@ Month Year (“%b %Y”)</p>
 
 <p>returns an integer giving the number of pages of the Record</p>
 
-<h6 id="parameters-84">Parameters</h6>
+<h6 id="parameters-85">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -3031,7 +3059,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the publisher of the Record</p>
 
-<h6 id="parameters-85">Parameters</h6>
+<h6 id="parameters-86">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -3051,7 +3079,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts a list of ISBNs associated with the Record</p>
 
-<h6 id="parameters-86">Parameters</h6>
+<h6 id="parameters-87">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -3071,7 +3099,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the month the record was published in as an int with January as 1, February 2, …</p>
 
-<h6 id="parameters-87">Parameters</h6>
+<h6 id="parameters-88">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -3091,7 +3119,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts a string of the funding thanks</p>
 
-<h6 id="parameters-88">Parameters</h6>
+<h6 id="parameters-89">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -3111,7 +3139,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the book DOI of the Record</p>
 
-<h6 id="parameters-89">Parameters</h6>
+<h6 id="parameters-90">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -3131,7 +3159,7 @@ Month Year (“%b %Y”)</p>
 
 <p>return the volume the record is in as a string, not all are integers</p>
 
-<h6 id="parameters-90">Parameters</h6>
+<h6 id="parameters-91">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -3151,7 +3179,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts a list of authors shortened names</p>
 
-<h6 id="parameters-91">Parameters</h6>
+<h6 id="parameters-92">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -3171,7 +3199,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts a list of the research IDs of the Record</p>
 
-<h6 id="parameters-92">Parameters</h6>
+<h6 id="parameters-93">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -3191,7 +3219,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the number citations, length of CR list</p>
 
-<h6 id="parameters-93">Parameters</h6>
+<h6 id="parameters-94">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -3211,7 +3239,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the first page the record occurs on, not all are integers</p>
 
-<h6 id="parameters-94">Parameters</h6>
+<h6 id="parameters-95">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -3231,7 +3259,7 @@ Month Year (“%b %Y”)</p>
 
 <p>return abstract of the record, with newlines hopefully in the correct places</p>
 
-<h6 id="parameters-95">Parameters</h6>
+<h6 id="parameters-96">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
@@ -3251,7 +3279,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the supplement number</p>
 
-<h6 id="parameters-96">Parameters</h6>
+<h6 id="parameters-97">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 

@@ -15,33 +15,33 @@ def diffusion(source, target):
 """
 
 def diffusionGraph(source, target, sourceType = "raw", targetType = "raw"):
-    """Takes in two [`RecordCollections`](#RecordCollection.RecordCollection) and produces a graph of the citations of the `Records` of _source_ by the `Records` of _target_. By default the graph is of `Record` objects but this can be changed with the _sourceType_ and _targetType_ keywords.
+    """Takes in two [`RecordCollections`](#RecordCollection.RecordCollection) and produces a graph of the citations of _source_ by the [`Records`](#Record.Record) in _target_. By default the nodes in the are `Record` objects but this can be changed with the _sourceType_ and _targetType_ keywords.
 
-    Each node on the graph has two boolean attributes, `"source"` and `"target"` indicating if they are targets or sources. Note, if the types of the sources and targets are different the attributes will not be checked for overlap of the other type. e.g. if the source type is `'TI'` (title) and the target type is `'UT'` (WOS number), and there is some overlap of the targets and sources. Then the Record corresponding to a source node will not be checked for being one of the titles of the targets, only its WOS number will be considered.
+    Each node on the output graph has two boolean attributes, `"source"` and `"target"` indicating if they are targets or sources. Note, if the types of the sources and targets are different the attributes will not be checked for overlap of the other type. e.g. if the source type is `'TI'` (title) and the target type is `'UT'` (WOS number), and there is some overlap of the targets and sources. Then the Record corresponding to a source node will not be checked for being one of the titles of the targets, only its WOS number will be considered.
 
     # Parameters
 
     _source_ : `RecordCollection`
 
-    >A metaknowledge `RecordCollection` containing the `Records` being cited
+    > A metaknowledge `RecordCollection` containing the `Records` being cited
 
     _target_ : `RecordCollection`
 
-    >A metaknowledge `RecordCollection` containing the `Records` citing those in _source_
+    > A metaknowledge `RecordCollection` containing the `Records` citing those in _source_
 
     _sourceType_ : `str`
 
-    >default `'raw'`, if `'raw'` the returned graph will contain `Records` as source nodes. If it is a WOS tag of the long name of one then the nodes will be of that type.
+    > default `'raw'`, if `'raw'` the returned graph will contain `Records` as source nodes. If it is a WOS tag then the nodes will be of that type.
 
     _targetType_ : `str`
 
-    >default `'raw'`, if `'raw'` the returned graph will contain `Records` as target nodes. If it is a WOS tag of the long name of one then the nodes will be of that type.
+    > default `'raw'`, if `'raw'` the returned graph will contain `Records` as target nodes. If it is a WOS tag of the long name of one then the nodes will be of that type.
 
     # Returns
 
     `networkx Directed Graph`
 
-    >A directed graph of the diffusion network
+    > A directed graph of the diffusion network
     """
     if sourceType != "raw" and sourceType not in tagsAndNameSet:
         raise RuntimeError("{} is not a valid node type, only 'raw' or those strings in tagsAndNameSet are allowed".format(nodeType))
@@ -93,25 +93,25 @@ def diffusionGraph(source, target, sourceType = "raw", targetType = "raw"):
 
 
 def diffusionCount(source, target, sourceType = "raw", pandasFriendly = False,  compareCounts = False, numAuthors = True, _ProgBar = None):
-    """Takes in two [`RecordCollections`](#RecordCollection.RecordCollection) and produces a `dict` counting the citations of the `Records` of _source_ by the `Records` of _target_. By default the `dict` uses `Record` objects as keys but this can be changed with the _sourceType_ keyword to any of the WOS tags.
+    """Takes in two [`RecordCollections`](#RecordCollection.RecordCollection) and produces a `dict` counting the citations of _source_ by the [`Records`](#Record.Record) of _target_. By default the `dict` uses `Record` objects as keys but this can be changed with the _sourceType_ keyword to any of the WOS tags.
 
     # Parameters
 
     _source_ : `RecordCollection`
 
-    >A metaknowledge `RecordCollection` containing the `Records` being cited
+    > A metaknowledge `RecordCollection` containing the `Records` being cited
 
     _target_ : `RecordCollection`
 
-    >A metaknowledge `RecordCollection` containing the `Records` citing those in _source_
+    > A metaknowledge `RecordCollection` containing the `Records` citing those in _source_
 
     _sourceType_ : `optional [str]`
 
-    >default `'raw'`, if `'raw'` the returned `dict` will contain `Records` as keys. If it is a WOS tag of the long name of one then the keys will be of that type.
+    > default `'raw'`, if `'raw'` the returned `dict` will contain `Records` as keys. If it is a WOS tag the keys will be of that type.
 
     _pandasFriendly_ : `optional [bool]`
 
-    > default `False`, makes the output be a dict with two keys one `"Record"` is the list of Records ( or data type requested by _sourceType_) the other is their occurence counts as `"Counts"`.
+    > default `False`, makes the output be a dict with two keys one `"Record"` is the list of Records ( or data type requested by _sourceType_) the other is their occurrence counts as `"Counts"`. The lists are the same length.
 
     _compareCounts_ : `optional [boo]`
 
@@ -121,9 +121,11 @@ def diffusionCount(source, target, sourceType = "raw", pandasFriendly = False,  
 
     `dict[:int]`
 
-    > A dictionary with the type given by _sourceType_ as keys and integers as values, by default. If _compareCounts_ is `True` the values are tuples with the first integer being the diffusion in the target and the second the diffusion in the source.
+    > A dictionary with the type given by _sourceType_ as keys and integers as values.
 
-    > If _pandasFriendly_ is `True` the returned dict has keys with the names of the WOS tags and lists with their values, i.e. a table with labled columns. The counts are in the column named `"TargetCount"` and if _compareCounts_ the local count is in a column called `"SourceCount"`.
+    > If _compareCounts_ is `True` the values are tuples with the first integer being the diffusion in the target and the second the diffusion in the source.
+
+    > If _pandasFriendly_ is `True` the returned dict has keys with the names of the WOS tags and lists with their values, i.e. a table with labeled columns. The counts are in the column named `"TargetCount"` and if _compareCounts_ the local count is in a column called `"SourceCount"`.
     """
     sourceCountString = "SourceCount"
     targetCountString = "TargetCount"

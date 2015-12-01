@@ -289,7 +289,7 @@ class Citation(object):
             abbrevDict.update(d)
 
 def filterNonJournals(citesLst, invert = False):
-    """Removes the Citations from _citesLst_ that are not journals.
+    """Removes the Citations from _citesLst_ that are not journals
 
     # Parameters
 

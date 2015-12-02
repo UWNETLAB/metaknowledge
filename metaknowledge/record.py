@@ -378,7 +378,7 @@ class Record(object):
         > An open utf-8 encoded file
         """
         if self.bad:
-            raise Exception
+            raise BadISIRecord("This record cannot be converted to a file as the input was malformed. The original line number (if any) is: {} and the original file is: '{}'".format(self._sourceLine, self._sourceFile))
         else:
             for tag in self._fieldDict.keys():
                 for i, value in enumerate(self._fieldDict[tag]):

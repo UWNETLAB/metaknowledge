@@ -292,8 +292,14 @@ class Record(object):
         else:
             return None
 
-    def createCitation(self):
+    def createCitation(self, multiCite = False):
         """Creates a citation string, using the same format as other WOS citations, for the [Record](#Record.Record) by reading the relevant tags (year, J9, volume, beginningPage, DOI) and using it to start a [Citation](#Citation.Citation) object.
+
+        # Parameters
+
+        _multiCite_ : `optional [bool]`
+
+        > default `False`, if `True` a tuple of Citations is retuned with each having a different one of the records authors as the author
 
         # Returns
 
@@ -302,8 +308,13 @@ class Record(object):
         > A [Citation](#Citation.Citation) object containing a citation for the Record.
         """
         valsLst = []
-        if self.authorsShort:
-            valsLst.append(self.authorsShort[0].replace(',', ''))
+        if multiCite:
+            auths = []
+            for auth in self.authorsShort:
+                auths.append(auth.replace(',', ''))
+        else:
+            if self.authorsShort:
+                valsLst.append(self.authorsShort[0].replace(',', ''))
         if getattr(self, "year", False):
             valsLst.append(str(self.year))
         if getattr(self, "j9", False):
@@ -316,7 +327,12 @@ class Record(object):
             valsLst.append('P' + str(self.beginningPage))
         if getattr(self, "DOI", False):
             valsLst.append('DOI ' + self.DOI)
-        return Citation(', '.join(valsLst))
+        if multiCite and len(auths) > 0:
+            return(tuple((Citation(', '.join([a] + valsLst)) for a in auths)))
+        elif multiCite:
+            return tuple(Citation(', '.join(valsLst)))
+        else:
+            return Citation(', '.join(valsLst))
 
     def getTagsList(self, taglst, cleaned = False):
         """Returns a list of the results of [`getTag()`](#Record.getTag) for each tag in _taglist_, the return has the same order as the original.

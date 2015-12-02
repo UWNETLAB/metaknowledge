@@ -617,7 +617,7 @@ class RecordCollection(object):
                 PBar.finish("Done making a co-authorship network")
         return grph
 
-    def coCiteNetwork(self, dropAnon = True, nodeType = "full", nodeInfo = True, fullInfo = False, weighted = True, dropNonJournals = False, count = True, keyWords = None, detailedCore = None, coreOnly = False):
+    def coCiteNetwork(self, dropAnon = True, nodeType = "full", nodeInfo = True, fullInfo = False, weighted = True, dropNonJournals = False, count = True, keyWords = None, detailedCore = None, coreOnly = False, expandedCore = False):
         """Creates a co-citation network for the RecordCollection.
 
         # Parameters
@@ -668,6 +668,10 @@ class RecordCollection(object):
 
         > default `False`, if `True` only Citations from the RecordCollection will be included in the network
 
+        _expandedCore_ : `optional [bool]`
+
+        > default `False`, if `True` all citations in the ouput graph that are records in the collection will be duplicated for each author. If the nodes are `"full"`, `"original"` or `"author"` this will result in new noded being created for the other options the results are **not** defined or tested. Edges will be created between each of the nodes for each record expanded, attributes will be copied from exiting nodes.
+
         # Returns
 
         `Networkx Graph`
@@ -692,7 +696,7 @@ class RecordCollection(object):
         else:
             progKwargs = {'dummy' : True}
         with _ProgressBar(*progArgs, **progKwargs) as PBar:
-            if coreOnly or coreValues:
+            if coreOnly or coreValues or expandedCore:
                 coreCitesDict = {R.createCitation() : R for R in self}
                 if coreOnly:
                     coreCites = coreCitesDict.keys()
@@ -709,12 +713,16 @@ class RecordCollection(object):
                 if Cites:
                     filteredCites = filterCites(Cites, nodeType, dropAnon, dropNonJournals, keyWords, coreCites)
                     addToNetwork(tmpgrph, filteredCites, count, weighted, nodeType, nodeInfo , fullInfo, coreCitesDict, coreValues, headNd = None)
+            if expandedCore:
+                if PBar:
+                    PBar.updateVal(.98, "Expanding core Records")
+                expandRecs(tmpgrph, self, nodeType, weighted)
             if PBar:
                 PBar.finish("Done making a co-citation network of " + repr(self))
         return tmpgrph
 
 
-    def citationNetwork(self, dropAnon = True, nodeType = "full", nodeInfo = True, fullInfo = False, weighted = True, dropNonJournals = False, count = True, directed = True, keyWords = None, detailedCore = None, coreOnly = False):
+    def citationNetwork(self, dropAnon = True, nodeType = "full", nodeInfo = True, fullInfo = False, weighted = True, dropNonJournals = False, count = True, directed = True, keyWords = None, detailedCore = None, coreOnly = False, expandedCore = False):
 
         """Creates a citation network for the RecordCollection.
 
@@ -770,6 +778,10 @@ class RecordCollection(object):
 
         > default `False`, if `True` only Citations from the RecordCollection will be included in the network
 
+        _expandedCore_ : `optional [bool]`
+
+        > default `False`, if `True` all citations in the ouput graph that are records in the collection will be duplicated for each author. If the nodes are `"full"`, `"original"` or `"author"` this will result in new noded being created for the other options the results are **not** defined or tested. Edges will be created between each of the nodes for each record expanded, attributes will be copied from exiting nodes.
+
         # Returns
 
         `Networkx DiGraph or Networkx Graph`
@@ -819,6 +831,10 @@ class RecordCollection(object):
                 if rCites:
                     filteredCites = filterCites(rCites, nodeType, dropAnon, dropNonJournals, keyWords, coreCites)
                     addToNetwork(tmpgrph, filteredCites, count, weighted, nodeType, nodeInfo, fullInfo, coreCitesDict, coreValues, headNd = reRef)
+            if expandedCore:
+                if PBar:
+                    PBar.updateVal(.98, "Expanding core Records")
+                expandRecs(tmpgrph, self, nodeType, weighted)
             if PBar:
                 PBar.finish("Done making a citation network of " + repr(self))
         return tmpgrph
@@ -1670,3 +1686,25 @@ def filterCites(cites, nodeType, dropAnon, dropNonJournals, keyWords, coreCites)
         else:
             filteredCites.append(c)
     return filteredCites
+
+def expandRecs(G, RecCollect, nodeType, weighted):
+    """Expand all the citations from _RecCollect_"""
+    for Rec in RecCollect:
+        fullCiteList = [makeID(c, nodeType) for c in Rec.createCitation(multiCite = True)]
+        if len(fullCiteList) > 1:
+            for i, citeID1 in enumerate(fullCiteList):
+                if citeID1 in G:
+                    for citeID2 in fullCiteList[i + 1:]:
+                        if citeID2 not in G:
+                            G.add_node(citeID2, attr_dict = G.node[citeID1])
+                            if weighted:
+                                G.add_edge(citeID1, citeID2, weight = 1)
+                            else:
+                                G.add_edge(citeID1, citeID2)
+                        elif weighted:
+                            try:
+                                G.edge[citeID1][citeID2]['weight'] += 1
+                            except KeyError:
+                                G.add_edge(citeID1, citeID2, weight = 1)
+                        for e1, e2, data in G.edges_iter(citeID1, data = True):
+                            G.add_edge(citeID2, e2, attr_dict = data)

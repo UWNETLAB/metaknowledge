@@ -125,6 +125,7 @@ class TestRecordCollection(unittest.TestCase):
         Gjour = self.RC.coCiteNetwork(nodeType = "journal", dropNonJournals = True)
         Gyear = self.RC.coCiteNetwork(nodeType = "year", fullInfo = True, count = False)
         Gcore = self.RC.coCiteNetwork(detailedCore = ['AF','AU', 'DE', 'ID', 'PY'], coreOnly = True)
+        Gexplode = self.RC.coCiteNetwork(expandedCore = True, keyWords = 'a')
         self.assertIsInstance(Gdefault, nx.classes.graph.Graph)
         self.assertLessEqual(len(Gdefault.edges()), len(Gunwei.edges()))
         self.assertLessEqual(len(Gdefault.nodes()), len(Gunwei.nodes()))
@@ -146,6 +147,7 @@ class TestRecordCollection(unittest.TestCase):
         self.assertTrue('info' in Gyear.nodes(data=True)[0][1])
         self.assertTrue('fullCite' in Gyear.nodes(data = True)[0][1])
         self.assertEqual(Gcore.node['Costadebeauregard O, 1975, CAN J PHYS']['info'], 'COSTADEBEAUREGARD O, COSTADEBEAUREGARD O')
+        self.assertEqual(metaknowledge.graphStats(Gexplode), "The graph has 72 nodes, 365 edges, 0 isolates, 6 self loops, a density of 0.142801 and a transitivity of 0.528532")
 
     def test_coAuth(self):
         Gdefault = self.RC.coAuthNetwork()
@@ -163,7 +165,8 @@ class TestRecordCollection(unittest.TestCase):
         Gunwei = self.RC.citationNetwork(nodeType = 'original', weighted = False)
         Gjour = self.RC.citationNetwork(nodeType = "author", dropNonJournals = True, nodeInfo = True, count = False)
         Gyear = self.RC.citationNetwork(nodeType = "year", nodeInfo = True)
-        Gcore = self.RC.coCiteNetwork(detailedCore = True, coreOnly = False)
+        Gcore = self.RC.citationNetwork(detailedCore = True, coreOnly = False)
+        Gexplode = self.RC.citationNetwork(expandedCore = True, keyWords = ['b', 'c'])
         self.assertIsInstance(Gdefault, nx.classes.digraph.DiGraph)
         self.assertLessEqual(len(Gdefault.edges()), len(Gunwei.edges()))
         self.assertLessEqual(len(Gdefault.nodes()), len(Gunwei.nodes()))
@@ -182,7 +185,7 @@ class TestRecordCollection(unittest.TestCase):
         self.assertTrue('info' in Gjour.nodes(data=True)[0][1])
         self.assertTrue('info' in Gyear.nodes(data=True)[0][1])
         self.assertEqual(Gcore.node['Gilles H, 2002, OPT LETT']['info'], 'Gilles H, Simple technique for measuring the Goos-Hanchen effect with polarization modulation and a position-sensitive detector, OPTICS LETTERS, 27, 1421')
-
+        self.assertEqual(metaknowledge.graphStats(Gexplode), "The graph has 19 nodes, 29 edges, 0 isolates, 3 self loops, a density of 0.0847953 and a transitivity of 0.132075")
 
     def test_oneMode(self):
         Gcr  = self.RC.oneModeNetwork('CR')

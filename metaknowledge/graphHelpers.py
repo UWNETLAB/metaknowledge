@@ -10,17 +10,17 @@ import math
 import threading
 
 def read_graph(edgeList, nodeList = None, directed = False, idKey = 'ID', eSource = 'From', eDest = 'To'):
-    """Reads the files given by edgeList and if given nodeList. Outputs a networkx graph for the lists.
+    """Reads the files given by _edgeList_ and _nodeList_. Creates a networkx graph for the files.
 
-    This is designed only for the files produced by metaknowledge and is meant to be the reverse of [write_graph()](#metaknowledge.write_graph), if this dow not produce the desired results the networkx builtin [networkx.read_edgelist()](https://networkx.github.io/documentation/networkx-1.9.1/reference/generated/networkx.readwrite.edgelist.read_edgelist.html) could be tried.
+    This is designed only for the files produced by metaknowledge and is meant to be the reverse of [write_graph()](#metaknowledge.write_graph), if this does not produce the desired results the networkx builtin [networkx.read_edgelist()](https://networkx.github.io/documentation/networkx-1.10/reference/generated/networkx.readwrite.edgelist.read_edgelist.html) could be tried as it is aimed targeted more generally.
 
-    The read edge list format assumes the column named _eSource_ (From) is the source node, then the next column _eDest_ (To) givens the destination and all other columns are attributes of the edge, e.g. weight.
+    The read edge list format assumes the column named _eSource_ (default '`From`') is the source node, then the column _eDest_ (default '`To`') givens the destination and all other columns are attributes of the edges, e.g. weight.
 
-    The read nodeList format assumes the column called _idKey_ is the ID of the node as used by the edge list and the resulting network. All other columns are considered attributes of the node, e.g. count.
+    The read node list format assumes the column _idKey_ (default `'ID'`) is the ID of the node for the edge list and the resulting network. All other columns are considered attributes of the node, e.g. count.
 
-    If the names of the columns do not match those given to **read_graph()** a KeyError exception will be raised.
+    **Note**: If the names of the columns do not match those given to **read_graph()** a `KeyError` exception will be raised.
 
-    **Note**: if nodes appear in the edgelist but not the nodeList they will be created with no attributes.
+    **Note**: If nodes appear in the edgelist but not the nodeList they will be created with no attributes.
 
     # Parameters
 
@@ -30,29 +30,29 @@ def read_graph(edgeList, nodeList = None, directed = False, idKey = 'ID', eSourc
 
     _nodeList_ : `optional [str]`
 
-    > a string giving the path to the node list file
+    > default `None`, a string giving the path to the node list file
 
     _directed_ : `optional [bool]`
 
-    > default `False`, if `True` the produced network is directed instead of undirected
+    > default `False`, if `True` the produced network is directed from _eSource_ to _eDest_
 
     _idKey_ : `optional [str]`
 
-    > default `"ID"`, the name of the ID column in the node list
+    > default `'ID'`, the name of the ID column in the node list
 
     _eSource_ : `optional [str]`
 
-    > default `"From"`, the name of the source column in the edge list
+    > default `'From'`, the name of the source column in the edge list
 
     _eDest_ : `optional [str]`
 
-    > default `"To"`, the name of the destination column in the edge list
+    > default `'To'`, the name of the destination column in the edge list
 
     # Returns
 
     `networkx Graph`
 
-    > the Graph described by the files
+    > the graph described by the input files
     """
     if metaknowledge.VERBOSE_MODE:
         PBar = _ProgressBar(0, "Starting to reading graphs")
@@ -102,7 +102,7 @@ def write_graph(grph, name, edgeInfo = True, typing = False, suffix = 'csv', ove
 
     >> name_fileType.suffix
 
-    Both files are csv's with comma delimiters and double quote quoting characters. The edge list has two columns for the source and destination of the edge, "From" and "To" respectively, then, if _edgeInfo_ is `True`, for each attribute of the node another column is created. The node list has one column call "ID" with the node ids used by networkx and all other columns are the node attributes.
+    Both files are csv's with comma delimiters and double quote quoting characters. The edge list has two columns for the source and destination of the edge, `'From'` and `'To'` respectively, then, if _edgeInfo_ is `True`, for each attribute of the node another column is created. The node list has one column call "ID" with the node ids used by networkx and all other columns are the node attributes.
 
     To read back these files use [read_graph()](#metaknowledge.read_graph) and to write only one type of lsit use [write_edgeList()](#metaknowledge.write_edgeList) or [write_nodeAttributeFile()](#metaknowledge.write_nodeAttributeFile).
 

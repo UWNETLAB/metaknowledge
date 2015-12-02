@@ -25,7 +25,7 @@ The [metaknowledge.RecordCollection](#RecordCollection.RecordCollection) class c
 
 The files given by WOS are a flat database containing a series of 2 character tags, e.g. 'TI' is the title. Each WOS tag has one or more values and metaknowledge can read them to extract useful information. The approximate meanings of the tags are listed in the [tagProcessing](#tagProcessing.tagProcessing) package, along with the parsing functions for each tag. If you simply want the mapping [`tagToFull()`](#metaknowledge.tagToFull) is a function that maps tags to their full names it, as well as a few other similar functions are provided by the base metaknowledge import. Note, the long names can be used in place of the short 2 character codes within metaknowledge. There are no full official public listings of tag the meanings available. metaknowledge is not attempting to provide the definitive or authoritative meanings.
 
-As citations are of great importance to sociology their handling is done with the [Citation](#Citation.Citation) class. This class can parse the citations given by WOS as well as extra details about the full name of their journal and allow simple comparisons.
+Citations are handled by a special [Citation](#Citation.Citation) class. This class can parse the citations given by WOS as well as extra details about the full name of their journal and allow simple comparisons.
 
 Note for those reading the docstrings metaknowledge's docs are written in markdown and are processed to produce the documentation found at [networkslab.org/metaknowledge/documentation]({{ site.baseurl }}/documentation/), but you should have no problem reading them from the help function.
 """

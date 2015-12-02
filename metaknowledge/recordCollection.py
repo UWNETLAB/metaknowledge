@@ -1446,7 +1446,7 @@ def isiParser(isifile):
             continue
         else:
             try:
-                plst.append(Record(itertools.chain([line], f), isifile, line[0]))
+                plst.append(Record(itertools.chain([line], f), sFile = isifile, sLine = line[0]))
             except BadISIFile as w:
                 try:
                     s = f.__next__()[1]

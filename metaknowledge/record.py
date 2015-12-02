@@ -8,6 +8,7 @@ import collections
 from .citation import Citation
 from .tagProcessing.funcDicts import tagNameConverterDict, tagsAndNameSet, fullToTagDict
 from .tagProcessing.tagFunctions import tagToFunc
+from .tagProcessing.funcDicts import tagToFull
 import importlib
 
 
@@ -378,7 +379,7 @@ class Record(object):
         > An open utf-8 encoded file
         """
         if self.bad:
-            raise BadISIRecord("This record cannot be converted to a file as the input was malformed. The original line number (if any) is: {} and the original file is: '{}'".format(self._sourceLine, self._sourceFile))
+            raise BadISIRecord("This record cannot be converted to a file as the input was malformed.\nThe original line number (if any) is: {} and the original file is: '{}'".format(self._sourceLine, self._sourceFile))
         else:
             for tag in self._fieldDict.keys():
                 for i, value in enumerate(self._fieldDict[tag]):
@@ -388,6 +389,59 @@ class Record(object):
                         infile.write('   ')
                     infile.write(value + '\n')
             infile.write("ER\n")
+
+    def bibString(self):
+        if self.bad:
+            raise BadISIRecord("This record cannot be converted to a bibtext entry as the input was malformed.\nThe original line number (if any) is: {} and the original file is: '{}'".format(self._sourceLine, self._sourceFile))
+        tagsList = []
+        keyEntries = []
+        for tag in self.activeTags():
+            try:
+                tagsList.append(tagToFull(tag))
+            except KeyError:
+                tagsList.append(tag)
+        if self.pubType == 'J':
+            articleTags = ['authorsFull', 'journal', 'year', 'volume']
+            try:
+                for tagName in articleTags:
+                    if tagName not in tagsList:
+                        raise KeyError
+            except KeyError:
+                texType = 'misc'
+            else:
+                texType = 'article'
+                keyEntries.append("author = {},".format(self.authorsFull))
+        else:
+            texType = 'misc'
+        for tagName in tagsList:
+            keyEntries.append("{} = {},".format(tagName, _bibFormatter(getattr(self, tagName))))
+        s = """@{0}{{{1},
+    {2}
+}}""".format(texType, self.UT, '\n    '.join(keyEntries))
+        return s
+
+def _bibFormatter(s, maxLength = 1000):
+    """Formats a string, list or number to make it good for a bib file by:
+        * if too long splits up the string correctly
+        * tries to use the best quoting characters
+        * expands lists into ' and ' seperated values, as per spec for authors field
+    Note, this does not escape characters. LaTeX may have issues with the output
+    Max length splitting derived from https://www.cs.arizona.edu/~collberg/Teaching/07.231/BibTeX/bibtex.html
+    """
+    if isinstance(s, list):
+        s = ' and '.join((str(v) for v in s))
+    elif not isinstance(s, str):
+        s = str(s)
+    if len(s) > maxLength:
+        s = s.replace('"', '')
+        s = [s[i * maxLength: (i + 1) * maxLength] for i in range(len(s) // maxLength )]
+        s = '"{}"'.format('" # "'.join(s))
+    elif '"' not in s:
+        s = '"{}"'.format(s)
+    else:
+        s = s.replace('{', '').replace('}', '')
+        s = '{{{}}}'.format(s)
+    return s
 
 def recordParser(paper):
     """Reads the file _paper_ until it reaches 'ER'.

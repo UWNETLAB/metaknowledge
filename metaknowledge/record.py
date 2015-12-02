@@ -390,9 +390,27 @@ class Record(object):
                     infile.write(value + '\n')
             infile.write("ER\n")
 
-    def bibString(self):
+    def bibString(self, maxLength = 1000):
+        """Makes a string giving the Record as a bibTex entry. If the Record is of a journal article (PT J) the bibtext type is set to `'article'`, otherwise it is set to `'misc'`. The ID of the entry is the WOS number and all the Record's fields are given as entries with their long names.
+
+        **Note** This is not meant to be used directly with LaTeX none of the special characters have been escaped and there are a large number of unnecessary fields provided.
+
+        **Note** Record entries that are lists have their values seperated with the string `' and '`
+
+        # Parameters
+
+        _maxLength_ : `optional [int]`
+
+        > default 1000, The max length for a continuous string. Most bibTex implementation only allow string to be up to 1000 characters ([source](https://www.cs.arizona.edu/~collberg/Teaching/07.231/BibTeX/bibtex.html)), this splits them up into substrings then uses the native string concatenation (the `'#'` character) to allow for longer strings
+
+        # Returns
+
+        `str`
+
+        > The bibTex string of the Record
+        """
         if self.bad:
-            raise BadISIRecord("This record cannot be converted to a bibtext entry as the input was malformed.\nThe original line number (if any) is: {} and the original file is: '{}'".format(self._sourceLine, self._sourceFile))
+            raise BadISIRecord("This record cannot be converted to a bibtex entry as the input was malformed.\nThe original line number (if any) is: {} and the original file is: '{}'".format(self._sourceLine, self._sourceFile))
         tagsList = []
         keyEntries = []
         for tag in self.activeTags():
@@ -410,17 +428,17 @@ class Record(object):
                 texType = 'misc'
             else:
                 texType = 'article'
-                keyEntries.append("author = {},".format(self.authorsFull))
+                keyEntries.append("author = {},".format(_bibFormatter(self.authorsFull, maxLength)))
         else:
             texType = 'misc'
         for tagName in tagsList:
-            keyEntries.append("{} = {},".format(tagName, _bibFormatter(getattr(self, tagName))))
+            keyEntries.append("{} = {},".format(tagName, _bibFormatter(getattr(self, tagName), maxLength)))
         s = """@{0}{{{1},
     {2}
 }}""".format(texType, self.UT, '\n    '.join(keyEntries))
         return s
 
-def _bibFormatter(s, maxLength = 1000):
+def _bibFormatter(s, maxLength):
     """Formats a string, list or number to make it good for a bib file by:
         * if too long splits up the string correctly
         * tries to use the best quoting characters

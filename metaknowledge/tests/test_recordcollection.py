@@ -99,9 +99,13 @@ class TestRecordCollection(unittest.TestCase):
         filename = 'testFile.bib'
         if os.path.isfile(filename):
             os.remove(filename)
-        self.RC.writeBib()
-        self.assertEqual(os.path.getsize(filename), 96396)
+        self.RC.writeBib(maxStringLength = 100)
+        self.assertEqual(os.path.getsize(filename), 106458)
         os.remove(filename)
+        self.RC.writeBib(fname = filename, wosMode = True, reducedOutput = True, niceIDs = False)
+        self.assertEqual(os.path.getsize(filename), 17150)
+        os.remove(filename)
+
     def test_makeDict(self):
         d = self.RC.makeDict(onlyTheseTags = list(metaknowledge.tagProcessing.tagsAndNameSet), longNames = True)
         self.assertEqual(len(d), 62)

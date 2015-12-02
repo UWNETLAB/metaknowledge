@@ -390,7 +390,7 @@ class Record(object):
                     infile.write(value + '\n')
             infile.write("ER\n")
 
-    def bibString(self, maxLength = 1000):
+    def bibString(self, maxLength = 1000, WOSMode = False, restrictedOutput = False, niceID = True):
         """Makes a string giving the Record as a bibTex entry. If the Record is of a journal article (PT J) the bibtext type is set to `'article'`, otherwise it is set to `'misc'`. The ID of the entry is the WOS number and all the Record's fields are given as entries with their long names.
 
         **Note** This is not meant to be used directly with LaTeX none of the special characters have been escaped and there are a large number of unnecessary fields provided.
@@ -403,40 +403,94 @@ class Record(object):
 
         > default 1000, The max length for a continuous string. Most bibTex implementation only allow string to be up to 1000 characters ([source](https://www.cs.arizona.edu/~collberg/Teaching/07.231/BibTeX/bibtex.html)), this splits them up into substrings then uses the native string concatenation (the `'#'` character) to allow for longer strings
 
+        _WOSMode_ : `optional [bool]`
+
+        > default `False`, if `True` the data produced will be unprocessed and use double curly braces. This is the style WOS produces bib files in and mostly macthes that.
+
+        _restrictedOutput_ : `optional [bool]`
+
+        > default `False`, if `True` the tags output will be limited to: `'AF'`, `'BF'`, `'ED'`, `'TI'`, `'SO'`, `'LA'`, `'NR'`, `'TC'`, `'Z9'`, `'PU'`, `'J9'`, `'PY'`, `'PD'`, `'VL'`, `'IS'`, `'SU'`, `'PG'`, `'DI'`, `'D2'`, and `'UT'`
+
+        _niceID_ : `optional [bool]`
+
+        > default `True`, if `True` the ID used will be derived from the authors, publishing date and title, if `False` it will be the UT tag
+
         # Returns
 
         `str`
 
         > The bibTex string of the Record
         """
+        restrictedTags = ['AF', 'BF', 'ED', 'TI', 'SO', 'LA', 'NR', 'TC','Z9','PU','J9','PY','PD','VL','IS','SU','PG', 'DI','D2','UT']
+        keyEntries = []
         if self.bad:
             raise BadISIRecord("This record cannot be converted to a bibtex entry as the input was malformed.\nThe original line number (if any) is: {} and the original file is: '{}'".format(self._sourceLine, self._sourceFile))
-        tagsList = []
-        keyEntries = []
-        for tag in self.activeTags():
-            try:
-                tagsList.append(tagToFull(tag))
-            except KeyError:
-                tagsList.append(tag)
-        if self.pubType == 'J':
-            articleTags = ['authorsFull', 'journal', 'year', 'volume']
-            try:
-                for tagName in articleTags:
-                    if tagName not in tagsList:
-                        raise KeyError
-            except KeyError:
-                texType = 'misc'
+        texType = self.bibTexType()
+        if niceID:
+            if self.authors:
+                bibID = self.authors[0].title().replace(' ', '').replace(',', '').replace('.','')
             else:
-                texType = 'article'
-                keyEntries.append("author = {},".format(_bibFormatter(self.authorsFull, maxLength)))
+                bibID = ''
+            if self.year:
+                bibID += '-' + str(self.year)
+            if self.month:
+                bibID += '-' + str(self.month)
+            if self.title:
+                tiSorted = sorted(self.title.split(' '), key = len)
+                bibID += '-' + tiSorted.pop().title()
+                while len(bibID) < 35 and len(tiSorted) > 0:
+                    bibID += '-' + tiSorted.pop().title()
+            if len(bibID) < 30:
+                bibID += str(self.UT)
+        elif WOSMode:
+            bibID = 'ISI:{}'.format(self.wosString[4:])
         else:
-            texType = 'misc'
-        for tagName in tagsList:
-            keyEntries.append("{} = {},".format(tagName, _bibFormatter(getattr(self, tagName), maxLength)))
-        s = """@{0}{{{1},
-    {2}
-}}""".format(texType, self.UT, '\n    '.join(keyEntries))
+            bibID = str(self.wosString)
+        if WOSMode:
+            for tag, value in self._fieldDict.items():
+                if restrictedOutput and tag not in restrictedTags:
+                    pass
+                elif tag == 'AF':
+                    keyEntries.append("{} = {{{{{}}}}},".format('author',' and '.join(self.AF)))
+                elif isinstance(value, list):
+                    keyEntries.append("{} = {{{{{}}}}},".format(tagToFull(tag),'\n   '.join(value)))
+                else:
+                    keyEntries.append("{} = {{{{{}}}}},".format(tagToFull(tag), value))
+            s = """@{0}{{ {1},\n{2}\n}}""".format(texType, bibID, '\n'.join(keyEntries))
+        else:
+            tagsList = []
+            for tag in self.activeTags():
+                try:
+                    if restrictedOutput and tag not in restrictedTags:
+                        pass
+                    else:
+                        tagsList.append(tagToFull(tag))
+                except KeyError:
+                    tagsList.append(tag)
+            for tagName in tagsList:
+                keyEntries.append("{} = {},".format(tagName, _bibFormatter(getattr(self, tagName), maxLength)))
+            s = """@{0}{{ {1},\n    {2}\n}}""".format(texType, bibID, '\n    '.join(keyEntries))
         return s
+
+    def bibTexType(self):
+        """Returns the bibTex type corresonding to the record
+
+        # Returns
+
+        `str`
+
+        > The bibTex type string
+        """
+        mappingDict = {
+            'Article' : 'article',
+            'Proceedings Paper' : 'proceedings',
+            'Meeting Abstract' : 'inproceedings',
+            'Book' : 'book',
+        }
+        if self.DT in mappingDict:
+            return mappingDict[self.DT]
+        else:
+            return 'misc'
 
 def _bibFormatter(s, maxLength):
     """Formats a string, list or number to make it good for a bib file by:
@@ -457,7 +511,7 @@ def _bibFormatter(s, maxLength):
     elif '"' not in s:
         s = '"{}"'.format(s)
     else:
-        s = s.replace('{', '').replace('}', '')
+        s = s.replace('{', '\\{').replace('}', '\\}')
         s = '{{{}}}'.format(s)
     return s
 

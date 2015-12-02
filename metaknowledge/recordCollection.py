@@ -437,7 +437,7 @@ class RecordCollection(object):
             csvWriter.writerow(recDict)
         f.close()
 
-    def writeBib(self, fname = None, maxStringLength = 1000):
+    def writeBib(self, fname = None, maxStringLength = 1000, wosMode = False, reducedOutput = False, niceIDs = True):
         """Writes a bibTex entry to _fname_ for each Record in the collection.
 
         If the Record is of a journal article (PT J) the bibtext type is set to `'article'`, otherwise it is set to `'misc'`. The ID of the entry is the WOS number and all the Record's fields are given as entries with their long names.
@@ -455,6 +455,18 @@ class RecordCollection(object):
         _maxStringLength_ : `optional [int]`
 
         > default 1000, The max length for a continuous string. Most bibTex implementation only allow string to be up to 1000 characters ([source](https://www.cs.arizona.edu/~collberg/Teaching/07.231/BibTeX/bibtex.html)), this splits them up into substrings then uses the native string concatenation (the `'#'` character) to allow for longer strings
+
+        _WOSMode_ : `optional [bool]`
+
+        > default `False`, if `True` the data produced will be unprocessed and use double curly braces. This is the style WOS produces bib files in and mostly macthes that.
+
+        _restrictedOutput_ : `optional [bool]`
+
+        > default `False`, if `True` the tags output will be limited to: `'AF'`, `'BF'`, `'ED'`, `'TI'`, `'SO'`, `'LA'`, `'NR'`, `'TC'`, `'Z9'`, `'PU'`, `'J9'`, `'PY'`, `'PD'`, `'VL'`, `'IS'`, `'SU'`, `'PG'`, `'DI'`, `'D2'`, and `'UT'`
+
+        _niceID_ : `optional [bool]`
+
+        > default `True`, if `True` the IDs used will be derived from the authors, publishing date and title, if `False` it will be the UT tag
         """
         if fname:
             f = open(fname, mode = 'w', encoding = 'utf-8')
@@ -465,7 +477,7 @@ class RecordCollection(object):
         for R in self:
             try:
                 f.write('\n\n')
-                f.write(R.bibString(maxLength =  maxStringLength))
+                f.write(R.bibString(maxLength =  maxStringLength, WOSMode = wosMode, restrictedOutput = reducedOutput, niceID = niceIDs))
             except BadISIRecord:
                 pass
         f.close()

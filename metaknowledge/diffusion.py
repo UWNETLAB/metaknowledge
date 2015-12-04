@@ -115,9 +115,13 @@ def diffusionCount(source, target, sourceType = "raw", pandasFriendly = False,  
 
     > default `False`, makes the output be a dict with two keys one `"Record"` is the list of Records ( or data type requested by _sourceType_) the other is their occurrence counts as `"Counts"`. The lists are the same length.
 
-    _compareCounts_ : `optional [boo]`
+    _compareCounts_ : `optional [bool]`
 
     > default `False`, if `True` the diffusion analysis will be run twice, first with source and target setup like the default (global scope) then using only the source `RecordCollection` (local scope).
+
+    _byYear_ : `optional [bool]`
+
+    default `False`, if `True` the returned dictionary will have Records mapped to maps, these maps will map years ('ints') to counts. If _pandasFriendly_ is also `True` the resultant dictionary will have an additional column called `'year'`. This column will contain the year the citations occurred, in addition the Records entries will be duplicated for each year they occur in.
 
     # Returns
 

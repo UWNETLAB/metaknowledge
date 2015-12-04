@@ -1,6 +1,8 @@
 #Written by Reid McIlroy-Young for Dr. John McLevey, University of Waterloo 2015
 """
 """
+import itertools
+
 from .tagProcessing.funcDicts import tagsAndNameSet
 from .graphHelpers import _ProgressBar
 from .recordCollection import RecordCollection
@@ -92,7 +94,7 @@ def diffusionGraph(source, target, sourceType = "raw", targetType = "raw"):
     return workingGraph
 
 
-def diffusionCount(source, target, sourceType = "raw", pandasFriendly = False,  compareCounts = False, numAuthors = True, _ProgBar = None):
+def diffusionCount(source, target, sourceType = "raw", pandasFriendly = False,  compareCounts = False, numAuthors = True, byYear = False, _ProgBar = None):
     """Takes in two [`RecordCollections`](#RecordCollection.RecordCollection) and produces a `dict` counting the citations of _source_ by the [`Records`](#Record.Record) of _target_. By default the `dict` uses `Record` objects as keys but this can be changed with the _sourceType_ keyword to any of the WOS tags.
 
     # Parameters
@@ -157,7 +159,10 @@ def diffusionCount(source, target, sourceType = "raw", pandasFriendly = False,  
         if RsVal:
             sourceDict[Rs.createCitation()] = RsVal
             sourceSet.update(RsVal)
-    sourceCounts = {s : 0 for s in sourceSet}
+    if byYear:
+        sourceCounts = {s : {} for s in sourceSet}
+    else:
+        sourceCounts = {s : 0 for s in sourceSet}
     if PBar:
         count = 0
         maxCount = len(target)
@@ -170,9 +175,15 @@ def diffusionCount(source, target, sourceType = "raw", pandasFriendly = False,  
         if targetCites:
             for Rs in (sourceDict[c] for c in targetCites if c in sourceDict):
                 for sVal in Rs:
-                    sourceCounts[sVal] += 1
+                    if byYear:
+                        try:
+                            sourceCounts[sVal][Rt.year] += 1
+                        except KeyError:
+                            sourceCounts[sVal][Rt.year] = 1
+                    else:
+                        sourceCounts[sVal] += 1
     if compareCounts:
-        localCounts = diffusionCount(source, source, sourceType = sourceType, pandasFriendly = False,  compareCounts = False, _ProgBar = PBar)
+        localCounts = diffusionCount(source, source, sourceType = sourceType, pandasFriendly = False,  compareCounts = False, byYear = byYear, _ProgBar = PBar)
     if PBar and not _ProgBar:
         PBar.finish("Done counting the diffusion of {} sources into {} targets".format(len(source), len(target)))
     if pandasFriendly:
@@ -181,6 +192,8 @@ def diffusionCount(source, target, sourceType = "raw", pandasFriendly = False,  
             retDict["numAuthors"] = []
         if compareCounts:
             retDict[sourceCountString] = []
+        if byYear:
+            retDict["year"] = []
         if sourceType == 'raw':
             retrievedFields = []
             for R in sourceCounts.keys():
@@ -189,27 +202,57 @@ def diffusionCount(source, target, sourceType = "raw", pandasFriendly = False,  
             for tag in retrievedFields:
                 retDict[tag] = []
             for R, occ in sourceCounts.items():
-                Rvals = R.getTagsDict(retrievedFields, cleaned = True)
-                if numAuthors:
-                    retDict["numAuthors"].append(R.numAuthors())
-                for tag in retrievedFields:
-                    retDict[tag].append(Rvals[tag])
-                retDict[targetCountString].append(sourceCounts[R])
-                if compareCounts:
-                    retDict[sourceCountString].append(localCounts[R])
+                if byYear:
+                    Rvals = R.getTagsDict(retrievedFields, cleaned = True)
+                    for year, occCount in occ.items():
+                        retDict["year"].append(year)
+                        if numAuthors:
+                            retDict["numAuthors"].append(R.numAuthors())
+                        for tag in retrievedFields:
+                            retDict[tag].append(Rvals[tag])
+                        retDict[targetCountString].append(occCount)
+                        if compareCounts:
+                            try:
+                                retDict[sourceCountString].append(localCounts[R][year])
+                            except KeyError:
+                                retDict[sourceCountString].append(0)
+                else:
+                    Rvals = R.getTagsDict(retrievedFields, cleaned = True)
+                    if numAuthors:
+                        retDict["numAuthors"].append(R.numAuthors())
+                    for tag in retrievedFields:
+                        retDict[tag].append(Rvals[tag])
+                    retDict[targetCountString].append(occ)
+                    if compareCounts:
+                        retDict[sourceCountString].append(localCounts[R])
         else:
             countLst = []
             recLst = []
             locLst = []
+            if byYear:
+                yearLst = []
             for R, occ in sourceCounts.items():
-                countLst.append(occ)
-                recLst.append(R)
-                if compareCounts:
-                    locLst.append(localCounts[R])
+                if byYear:
+                    for year, occCount in occ.items():
+                        countLst.append(occCount)
+                        recLst.append(R)
+                        yearLst.append(year)
+                        if compareCounts:
+                            try:
+                                locLst.append(localCounts[R]['year'])
+                            except KeyError:
+                                locLst.append(0)
+                else:
+                    countLst.append(occ)
+                    recLst.append(R)
+                    if compareCounts:
+                        locLst.append(localCounts[R])
             if compareCounts:
                 retDict = {sourceType : recLst, targetCountString : countLst, sourceCountString : locLst}
             else:
                 retDict = {sourceType : recLst, targetCountString : countLst}
+            if byYear:
+                retDict['year'] = yearLst
         return retDict
     else:
         if compareCounts:

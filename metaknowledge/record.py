@@ -90,6 +90,12 @@ class Record(object):
         self._sourceLine = sLine
         if isinstance(inRecord, dict):
             self._fieldDict = inRecord
+            if 'UT' in self._fieldDict:
+                self._wosNum = self._fieldDict['UT'][0]
+            else:
+                self._wosNum = None
+                self.bad = True
+                self.error = BadISIRecord("Missing WOS number")
         elif isinstance(inRecord, itertools.chain):
             try:
                 self._fieldDict = recordParser(inRecord)
@@ -201,6 +207,12 @@ class Record(object):
             return self.title
         else:
             return "Untitled record"
+
+    def __repr__(self):
+        if self.bad:
+            return "<metaknowledge.record.Record object bad >"
+        else:
+            return "<metaknowledge.record.Record object {} >".format(self.UT)
 
     def __eq__(self, other):
         """

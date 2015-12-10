@@ -5,6 +5,8 @@ from .graphHelpers import _ProgressBar
 from .tagProcessing.funcDicts import tagsAndNameSet, tagToFullDict, fullToTagDict, normalizeToTag
 from .citation import Citation
 
+from .proQuest.proQuest import proParser
+
 import itertools
 import os
 import csv
@@ -49,7 +51,7 @@ class RecordCollection(object):
     > The extension to search for when reading a directoy for files. _extension_ is the suffix searched for when a direcorty is read for files, by default it is empty so all files are read.
     """
 
-    def __init__(self, inCollection = None, name = '', extension = ''):
+    def __init__(self, inCollection = None, name = '', extension = '', proQuestMode = False):
         self.bad = False
         self._repr = name
         if not inCollection:
@@ -62,7 +64,10 @@ class RecordCollection(object):
                     if not inCollection.endswith(extension):
                         raise TypeError("extension of input file does not match requested extension")
                     self._repr = os.path.splitext(os.path.split(inCollection)[1])[0]
-                    self._Records = set(isiParser(inCollection))
+                    if proQuestMode:
+                        self._Records = set(proParser(inCollection))
+                    else:
+                        self._Records = set(isiParser(inCollection))
                 except BadISIFile as w:
                     self.bad = True
                     self.error = w
@@ -95,7 +100,10 @@ class RecordCollection(object):
                         else:
                             PBar = None
                         try:
-                            self._Records |= set(isiParser(file))
+                            if proQuestMode:
+                                self._Records |= set(proParser(file))
+                            else:
+                                self._Records |= set(isiParser(file))
                         except BadISIFile:
                             if extension != '':
                                 raise

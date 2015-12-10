@@ -4,6 +4,43 @@ import collections
 import csv
 import os
 
+proTagTable = {
+    "Name" : 'TI',
+    "Author" : 'AF',
+    "url" : '',
+    "Abstract" : 'AB',
+    "Links" : '',
+    "Advisor" : '',
+    "Classification" : 'ID',
+    "Committee member" : '',
+    "Copyright" : '',
+    "Country of publication" : '',
+    "Database" : '',
+    "Degree" : '',
+    "Degree date" : '',
+    "Department" : '',
+    "Dissertation/thesis number" : '',
+    "Document type" : 'DC',
+    "ISBN" : 'BN',
+    "Identifier / keyword" : 'DE',
+    "Language" : 'LA',
+    "Number of pages" : 'PG',
+    "Place of publication" : 'PA',
+    "ProQuest document ID" : '',#'UT',
+    "Publication year" : 'PY',
+    "School code" : '',
+    "Source" : '',
+    "Source type" : '',
+    "Subject" : '',
+    "Title" : 'TI',
+    "University location" : 'PI',
+    "University/institution" : '',
+    "Pages" : '',
+    "Publication subject" : '',
+    "People" : ''
+}
+
+
 def proParser(targetFileName):
     entries = set()
     with open(targetFileName, mode = 'r', encoding = 'utf-8') as f:
@@ -17,11 +54,8 @@ def proParser(targetFileName):
                 raise BadISIFile("{} does not have a correctly formatted Bibliography".format(targetFileName))
         while True:
             try:
-                print(entries)
                 entries.add(dictTranslator(entryReader(f)))
             except RuntimeError:
-                for i in range(10):
-                    print(f.readline(), end = '')
                 break
     return entries
 
@@ -49,43 +83,11 @@ def entryReader(f):
     raise BadISIFile("File ran out before the entry was over")
 
 def dictTranslator(entryDict):
-    entryDict['UT'] = ['PRO:{}'.format(entryDict['ProQuest document ID'][0])]
-    del entryDict['ProQuest document ID']
-    print(entryDict['UT'])
-    return Record(entryDict)
-
-def csver(entriesLst, fName):
-    headers = []
-    for entry in entriesLst:
-        fieldsLst = [f for f in entry.keys() if f not in headers]
-        headers += fieldsLst
-    with open(fName, 'w', encoding = 'utf-8') as f:
-        csvFile = csv.DictWriter(f, headers, restval='', extrasaction='raise', dialect=csv.unix_dialect)
-        csvFile.writeheader()
-        for entry in entriesLst:
-            csvFile.writerow(entry)
-
-def getFiles(target):
-    retList = []
-    if os.path.isdir(target):
-        for fileName in os.listdir(target):
-            if os.path.isfile(os.path.join(target, fileName)):
-                retList.append(os.path.join(target, fileName))
-    elif os.path.isfile(target):
-        retList = [target]
-    else:
-        raise RuntimeError("{} is not a file or directory".format(target))
-    return retList
-
-def main():
-    entries = []
-    filesLst = getFiles(targetFileOrDir)
-    print("Found {} files".format(len(filesLst)))
-    for i, fileName in enumerate(filesLst):
-        print("{} of {} files analyzed".format(i, len(filesLst)), end = '\r')
-        entries += proQuestReader(fileName)
-    print("{0} of {0} files analyzed, writing to file '{1}'".format(len(filesLst), outputFileName))
-    csver(entries, outputFileName)
-
-if __name__ == '__main__':
-    main()
+    translatedDict = collections.OrderedDict()
+    translatedDict['UT'] = ['PRO:{}'.format(entryDict['ProQuest document ID'][0])]
+    for k, v in entryDict.items():
+        if k in proTagTable and proTagTable[k] != '':
+            translatedDict[proTagTable[k]] = v
+        else:
+            translatedDict[k.upper()] = v
+    return Record(translatedDict)

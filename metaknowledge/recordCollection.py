@@ -895,7 +895,7 @@ class RecordCollection(object):
                     raise
         return RecordCollection(recordsInRange, repr(self) + "_(" + str(startYear) + " ," + str(endYear) + ")")
 
-    def oneModeNetwork(self, mode, nodeCount = True, edgeWeight = True, stemmer = None):
+    def oneModeNetwork(self, mode, nodeCount = True, edgeWeight = True, stemmer = None, relaxTagChecks = True):
         """Creates a network of the objects found by one WOS tag _mode_.
 
         A **oneModeNetwork()** looks are each Record in the RecordCollection and extracts its values for the tag given by _mode_, e.g. the `"AF"` tag. Then if multiple are returned an edge is created between them. So in the case of the author tag `"AF"` a co-authorship network is created.
@@ -933,7 +933,10 @@ class RecordCollection(object):
         try:
             mode = normalizeToTag(mode)
         except KeyError:
-            raise TypeError(str(mode) + " is not a known tag, or the name of a known tag.")
+            if relaxTagChecks:
+                pass
+            else:
+                raise TypeError(str(mode) + " is not a known tag, or the name of a known tag.")
         stemCheck = False
         if stemmer is not None:
             if hasattr(stemmer, '__call__'):
@@ -1006,7 +1009,7 @@ class RecordCollection(object):
                 PBar.finish("Done making a one mode network with " + mode)
         return grph
 
-    def twoModeNetwork(self, tag1, tag2, directed = False, recordType = True, nodeCount = True, edgeWeight = True, stemmerTag1 = None, stemmerTag2 = None):
+    def twoModeNetwork(self, tag1, tag2, directed = False, recordType = True, nodeCount = True, edgeWeight = True, stemmerTag1 = None, stemmerTag2 = None, relaxTagChecks = True):
         """Creates a network of the objects found by two WOS tags _tag1_ and _tag2_.
 
         A **twoModeNetwork()** looks are each Record in the RecordCollection and extracts its values for the tags given by _tag1_ and _tag2_, e.g. the `"WC"` and `"LA"` tags. Then for each object returned by each tag and edge is created between it and every other object of the other tag. So the WOS defined subject tag `"WC"` and language tag `"LA"`, will give a two-mode network showing the connections between subjects and languages. Each node will have an attribute call `"type"` that gives the tag that created it or both if both created it, e.g. the node `"English"` would have the type attribute be `"LA"`.
@@ -1057,7 +1060,10 @@ class RecordCollection(object):
             tag1 = normalizeToTag(tag1)
             tag2 = normalizeToTag(tag2)
         except KeyError:
-            raise TypeError(str(tag1) + " or " + str(tag2) + " is not a known tag, or the name of a known tag.")
+            if relaxTagChecks:
+                pass
+            else:
+                raise TypeError(str(tag1) + " or " + str(tag2) + " is not a known tag, or the name of a known tag.")
         if stemmerTag1 is not None:
             if hasattr(stemmerTag1, '__call__'):
                 stemCheck = True
@@ -1160,7 +1166,7 @@ class RecordCollection(object):
                 PBar.finish("Done making a two mode network of " + tag1 + " and " + tag2)
         return grph
 
-    def nModeNetwork(self, tags, recordType = True, nodeCount = True, edgeWeight = True, stemmer = None):
+    def nModeNetwork(self, tags, recordType = True, nodeCount = True, edgeWeight = True, stemmer = None, relaxTagChecks = True):
         """Creates a network of the objects found by all WOS tags in _tags_.
 
         A **nModeNetwork()** looks are each Record in the RecordCollection and extracts its values for the tags given by _tags_. Then for all objects returned an edge is created between them, regardless of their type. Each node will have an attribute call `"type"` that gives the tag that created it or both if both created it, e.g. if `"LA"` were in _tags_ node `"English"` would have the type attribute be `"LA"`.
@@ -1200,7 +1206,10 @@ class RecordCollection(object):
             try:
                 nomalizedTags.append(normalizeToTag(t))
             except KeyError:
-                raise TypeError(str(t) + " is not a known tag, or the name of a known tag.")
+                if relaxTagChecks:
+                    pass
+                else:
+                    raise TypeError(str(t) + " is not a known tag, or the name of a known tag.")
         stemCheck = False
         if stemmer is not None:
             if hasattr(stemmer, '__call__'):

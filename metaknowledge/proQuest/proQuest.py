@@ -40,6 +40,20 @@ proTagTable = {
     "People" : ''
 }
 
+def doubleComma(targetString):
+    """Splits at every second comma"""
+    retLst = []
+    currentString = ''
+    for s in targetString.split(', '):
+        if currentString == '':
+            currentString = s
+        else:
+            currentString += ', {}'.format(s)
+            retLst.append(currentString)
+            currentString = ''
+    if currentString:
+        retLst.append(currentString)
+    return retLst
 
 def proParser(targetFileName):
     entries = set()
@@ -85,6 +99,14 @@ def entryReader(f):
 def dictTranslator(entryDict):
     translatedDict = collections.OrderedDict()
     translatedDict['UT'] = ['PRO:{}'.format(entryDict['ProQuest document ID'][0])]
+    try:
+        translatedDict["Committee member"] = doubleComma(entryDict["Committee member"][0])
+    except KeyError:
+        pass
+    try:
+        translatedDict["Advisor"] = doubleComma(entryDict["Advisor"][0])
+    except KeyError:
+        pass
     for k, v in entryDict.items():
         if k in proTagTable and proTagTable[k] != '':
             translatedDict[proTagTable[k]] = v

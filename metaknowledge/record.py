@@ -552,7 +552,7 @@ def recordParser(paper):
 
     # Returns
 
-    `dict[str : List[str]]`
+    `OrderedDict[str : List[str]]`
 
     > A dictionary mapping WOS tags to lists, the lists are of strings, each string is a line of the record associated with the tag.
     """

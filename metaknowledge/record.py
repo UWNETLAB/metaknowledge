@@ -213,7 +213,6 @@ class Record(object):
         else:
             return "< metaknowledge.record.Record object {} >".format(self.UT)
 
-
     def __eq__(self, other):
         """
         returns true if the WOS numbers of both Records are identical.

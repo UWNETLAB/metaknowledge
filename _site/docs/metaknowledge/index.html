@@ -153,7 +153,7 @@ The functions provided by metaknowledge are:</p>
 <ul class="post-list">
 <li><article><a href="#filterNonJournals"><b>filterNonJournals</b>(<i>citesLst, invert=False</i>)</a></article></li>
 <li><article><a href="#diffusionGraph"><b>diffusionGraph</b>(<i>source, target, sourceType='raw', targetType='raw'</i>)</a></article></li>
-<li><article><a href="#diffusionCount"><b>diffusionCount</b>(<i>source, target, sourceType='raw', pandasFriendly=False, compareCounts=False, numAuthors=True</i>)</a></article></li>
+<li><article><a href="#diffusionCount"><b>diffusionCount</b>(<i>source, target, sourceType='raw', pandasFriendly=False, compareCounts=False, numAuthors=True, byYear=False</i>)</a></article></li>
 <li><article><a href="#read_graph"><b>read_graph</b>(<i>edgeList, nodeList=None, directed=False, idKey='ID', eSource='From', eDest='To'</i>)</a></article></li>
 <li><article><a href="#write_edgeList"><b>write_edgeList</b>(<i>grph, name, extraInfo=True, allSameAttribute=False</i>)</a></article></li>
 <li><article><a href="#write_nodeAttributeFile"><b>write_nodeAttributeFile</b>(<i>grph, name, allSameAttribute=False</i>)</a></article></li>
@@ -174,7 +174,7 @@ The functions provided by metaknowledge are:</p>
 
 <p><a name="filterNonJournals"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#filterNonJournals"><ins>filterNonJournals</ins></a></strong>(<em>citesLst, invert=False</em>):</p>
 
-<p>Removes the Citations from <em>citesLst</em> that are not journals.</p>
+<p>Removes the Citations from <em>citesLst</em> that are not journals</p>
 
 <h6 id="parameters">Parameters</h6>
 
@@ -196,9 +196,9 @@ The functions provided by metaknowledge are:</p>
 
 <p><a name="diffusionGraph"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#diffusionGraph"><ins>diffusionGraph</ins></a></strong>(<em>source, target, sourceType=’raw’, targetType=’raw’</em>):</p>
 
-<p>Takes in two <a href="/metaknowledge/docs/RecordCollection#RecordCollection"><code>RecordCollections</code></a> and produces a graph of the citations of the <code>Records</code> of <em>source</em> by the <code>Records</code> of <em>target</em>. By default the graph is of <code>Record</code> objects but this can be changed with the <em>sourceType</em> and <em>targetType</em> keywords.</p>
+<p>Takes in two <a href="/metaknowledge/docs/RecordCollection#RecordCollection"><code>RecordCollections</code></a> and produces a graph of the citations of <em>source</em> by the <a href="/metaknowledge/docs/Record#Record"><code>Records</code></a> in <em>target</em>. By default the nodes in the are <code>Record</code> objects but this can be changed with the <em>sourceType</em> and <em>targetType</em> keywords.</p>
 
-<p>Each node on the graph has two boolean attributes, <code>"source"</code> and <code>"target"</code> indicating if they are targets or sources. Note, if the types of the sources and targets are different the attributes will not be checked for overlap of the other type. e.g. if the source type is <code>'TI'</code> (title) and the target type is <code>'UT'</code> (WOS number), and there is some overlap of the targets and sources. Then the Record corresponding to a source node will not be checked for being one of the titles of the targets, only its WOS number will be considered.</p>
+<p>Each node on the output graph has two boolean attributes, <code>"source"</code> and <code>"target"</code> indicating if they are targets or sources. Note, if the types of the sources and targets are different the attributes will not be checked for overlap of the other type. e.g. if the source type is <code>'TI'</code> (title) and the target type is <code>'UT'</code> (WOS number), and there is some overlap of the targets and sources. Then the Record corresponding to a source node will not be checked for being one of the titles of the targets, only its WOS number will be considered.</p>
 
 <h6 id="parameters-1">Parameters</h6>
 
@@ -212,7 +212,7 @@ The functions provided by metaknowledge are:</p>
 
 <p><em>sourceType</em> : <code>str</code></p>
 
-<p>default <code>'raw'</code>, if <code>'raw'</code> the returned graph will contain <code>Records</code> as source nodes. If it is a WOS tag of the long name of one then the nodes will be of that type.</p>
+<p>default <code>'raw'</code>, if <code>'raw'</code> the returned graph will contain <code>Records</code> as source nodes. If it is a WOS tag then the nodes will be of that type.</p>
 
 <p><em>targetType</em> : <code>str</code></p>
 
@@ -226,9 +226,9 @@ The functions provided by metaknowledge are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="diffusionCount"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#diffusionCount"><ins>diffusionCount</ins></a></strong>(<em>source, target, sourceType=’raw’, pandasFriendly=False, compareCounts=False, numAuthors=True</em>):</p>
+<p><a name="diffusionCount"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#diffusionCount"><ins>diffusionCount</ins></a></strong>(<em>source, target, sourceType=’raw’, pandasFriendly=False, compareCounts=False, numAuthors=True, byYear=False</em>):</p>
 
-<p>Takes in two <a href="/metaknowledge/docs/RecordCollection#RecordCollection"><code>RecordCollections</code></a> and produces a <code>dict</code> counting the citations of the <code>Records</code> of <em>source</em> by the <code>Records</code> of <em>target</em>. By default the <code>dict</code> uses <code>Record</code> objects as keys but this can be changed with the <em>sourceType</em> keyword to any of the WOS tags.</p>
+<p>Takes in two <a href="/metaknowledge/docs/RecordCollection#RecordCollection"><code>RecordCollections</code></a> and produces a <code>dict</code> counting the citations of <em>source</em> by the <a href="/metaknowledge/docs/Record#Record"><code>Records</code></a> of <em>target</em>. By default the <code>dict</code> uses <code>Record</code> objects as keys but this can be changed with the <em>sourceType</em> keyword to any of the WOS tags.</p>
 
 <h6 id="parameters-2">Parameters</h6>
 
@@ -242,39 +242,45 @@ The functions provided by metaknowledge are:</p>
 
 <p><em>sourceType</em> : <code>optional [str]</code></p>
 
-<p>default <code>'raw'</code>, if <code>'raw'</code> the returned <code>dict</code> will contain <code>Records</code> as keys. If it is a WOS tag of the long name of one then the keys will be of that type.</p>
+<p>default <code>'raw'</code>, if <code>'raw'</code> the returned <code>dict</code> will contain <code>Records</code> as keys. If it is a WOS tag the keys will be of that type.</p>
 
 <p><em>pandasFriendly</em> : <code>optional [bool]</code></p>
 
-<p>default <code>False</code>, makes the output be a dict with two keys one <code>"Record"</code> is the list of Records ( or data type requested by <em>sourceType</em>) the other is their occurence counts as <code>"Counts"</code>.</p>
+<p>default <code>False</code>, makes the output be a dict with two keys one <code>"Record"</code> is the list of Records ( or data type requested by <em>sourceType</em>) the other is their occurrence counts as <code>"Counts"</code>. The lists are the same length.</p>
 
-<p><em>compareCounts</em> : <code>optional [boo]</code></p>
+<p><em>compareCounts</em> : <code>optional [bool]</code></p>
 
 <p>default <code>False</code>, if <code>True</code> the diffusion analysis will be run twice, first with source and target setup like the default (global scope) then using only the source <code>RecordCollection</code> (local scope).</p>
+
+<p><em>byYear</em> : <code>optional [bool]</code></p>
+
+<p>default <code>False</code>, if <code>True</code> the returned dictionary will have Records mapped to maps, these maps will map years (‘ints’) to counts. If <em>pandasFriendly</em> is also <code>True</code> the resultant dictionary will have an additional column called <code>'year'</code>. This column will contain the year the citations occurred, in addition the Records entries will be duplicated for each year they occur in.</p>
 
 <h6 id="returns-2">Returns</h6>
 
 <p><code>dict[:int]</code></p>
 
-<p>A dictionary with the type given by <em>sourceType</em> as keys and integers as values, by default. If <em>compareCounts</em> is <code>True</code> the values are tuples with the first integer being the diffusion in the target and the second the diffusion in the source.</p>
+<p>A dictionary with the type given by <em>sourceType</em> as keys and integers as values.</p>
 
-<p>If <em>pandasFriendly</em> is <code>True</code> the returned dict has keys with the names of the WOS tags and lists with their values, i.e. a table with labled columns. The counts are in the column named <code>"TargetCount"</code> and if <em>compareCounts</em> the local count is in a column called <code>"SourceCount"</code>.</p>
+<p>If <em>compareCounts</em> is <code>True</code> the values are tuples with the first integer being the diffusion in the target and the second the diffusion in the source.</p>
+
+<p>If <em>pandasFriendly</em> is <code>True</code> the returned dict has keys with the names of the WOS tags and lists with their values, i.e. a table with labeled columns. The counts are in the column named <code>"TargetCount"</code> and if <em>compareCounts</em> the local count is in a column called <code>"SourceCount"</code>.</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="read_graph"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#read_graph"><ins>read_graph</ins></a></strong>(<em>edgeList, nodeList=None, directed=False, idKey=’ID’, eSource=’From’, eDest=’To’</em>):</p>
 
-<p>Reads the files given by edgeList and if given nodeList. Outputs a networkx graph for the lists.</p>
+<p>Reads the files given by <em>edgeList</em> and <em>nodeList</em>. Creates a networkx graph for the files.</p>
 
-<p>This is designed only for the files produced by metaknowledge and is meant to be the reverse of <a href="/metaknowledge/docs/metaknowledge#write_graph">write_graph()</a>, if this dow not produce the desired results the networkx builtin <a href="https://networkx.github.io/documentation/networkx-1.9.1/reference/generated/networkx.readwrite.edgelist.read_edgelist.html">networkx.read_edgelist()</a> could be tried.</p>
+<p>This is designed only for the files produced by metaknowledge and is meant to be the reverse of <a href="/metaknowledge/docs/metaknowledge#write_graph">write_graph()</a>, if this does not produce the desired results the networkx builtin <a href="https://networkx.github.io/documentation/networkx-1.10/reference/generated/networkx.readwrite.edgelist.read_edgelist.html">networkx.read_edgelist()</a> could be tried as it is aimed targeted more generally.</p>
 
-<p>The read edge list format assumes the column named <em>eSource</em> (From) is the source node, then the next column <em>eDest</em> (To) givens the destination and all other columns are attributes of the edge, e.g. weight.</p>
+<p>The read edge list format assumes the column named <em>eSource</em> (default ‘<code>From</code>’) is the source node, then the column <em>eDest</em> (default ‘<code>To</code>’) givens the destination and all other columns are attributes of the edges, e.g. weight.</p>
 
-<p>The read nodeList format assumes the column called <em>idKey</em> is the ID of the node as used by the edge list and the resulting network. All other columns are considered attributes of the node, e.g. count.</p>
+<p>The read node list format assumes the column <em>idKey</em> (default <code>'ID'</code>) is the ID of the node for the edge list and the resulting network. All other columns are considered attributes of the node, e.g. count.</p>
 
-<p>If the names of the columns do not match those given to <strong>read_graph()</strong> a KeyError exception will be raised.</p>
+<p><strong>Note</strong>: If the names of the columns do not match those given to <strong>read_graph()</strong> a <code>KeyError</code> exception will be raised.</p>
 
-<p><strong>Note</strong>: if nodes appear in the edgelist but not the nodeList they will be created with no attributes.</p>
+<p><strong>Note</strong>: If nodes appear in the edgelist but not the nodeList they will be created with no attributes.</p>
 
 <h6 id="parameters-3">Parameters</h6>
 
@@ -284,29 +290,29 @@ The functions provided by metaknowledge are:</p>
 
 <p><em>nodeList</em> : <code>optional [str]</code></p>
 
-<p>a string giving the path to the node list file</p>
+<p>default <code>None</code>, a string giving the path to the node list file</p>
 
 <p><em>directed</em> : <code>optional [bool]</code></p>
 
-<p>default <code>False</code>, if <code>True</code> the produced network is directed instead of undirected</p>
+<p>default <code>False</code>, if <code>True</code> the produced network is directed from <em>eSource</em> to <em>eDest</em></p>
 
 <p><em>idKey</em> : <code>optional [str]</code></p>
 
-<p>default <code>"ID"</code>, the name of the ID column in the node list</p>
+<p>default <code>'ID'</code>, the name of the ID column in the node list</p>
 
 <p><em>eSource</em> : <code>optional [str]</code></p>
 
-<p>default <code>"From"</code>, the name of the source column in the edge list</p>
+<p>default <code>'From'</code>, the name of the source column in the edge list</p>
 
 <p><em>eDest</em> : <code>optional [str]</code></p>
 
-<p>default <code>"To"</code>, the name of the destination column in the edge list</p>
+<p>default <code>'To'</code>, the name of the destination column in the edge list</p>
 
 <h6 id="returns-3">Returns</h6>
 
 <p><code>networkx Graph</code></p>
 
-<p>the Graph described by the files</p>
+<p>the graph described by the input files</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
@@ -452,7 +458,7 @@ The functions provided by metaknowledge are:</p>
   <p>name_fileType.suffix</p>
 </blockquote>
 
-<p>Both files are csv’s with comma delimiters and double quote quoting characters. The edge list has two columns for the source and destination of the edge, “From” and “To” respectively, then, if <em>edgeInfo</em> is <code>True</code>, for each attribute of the node another column is created. The node list has one column call “ID” with the node ids used by networkx and all other columns are the node attributes.</p>
+<p>Both files are csv’s with comma delimiters and double quote quoting characters. The edge list has two columns for the source and destination of the edge, <code>'From'</code> and <code>'To'</code> respectively, then, if <em>edgeInfo</em> is <code>True</code>, for each attribute of the node another column is created. The node list has one column call “ID” with the node ids used by networkx and all other columns are the node attributes.</p>
 
 <p>To read back these files use <a href="/metaknowledge/docs/metaknowledge#read_graph">read_graph()</a> and to write only one type of lsit use <a href="/metaknowledge/docs/metaknowledge#write_edgeList">write_edgeList()</a> or <a href="/metaknowledge/docs/metaknowledge#write_nodeAttributeFile">write_nodeAttributeFile()</a>.</p>
 
@@ -511,7 +517,7 @@ The functions provided by metaknowledge are:</p>
 
 <h6 id="returns-5">Returns</h6>
 
-<p><code>dict[str : List[str]]</code></p>
+<p><code>OrderedDict[str : List[str]]</code></p>
 
 <p>A dictionary mapping WOS tags to lists, the lists are of strings, each string is a line of the record associated with the tag.</p>
 

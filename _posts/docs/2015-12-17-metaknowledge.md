@@ -12,7 +12,7 @@ The functions provided by metaknowledge are:
 <ul class="post-list">
 <li><article><a href="#filterNonJournals"><b>filterNonJournals</b>(<i>citesLst, invert=False</i>)</a></article></li>
 <li><article><a href="#diffusionGraph"><b>diffusionGraph</b>(<i>source, target, sourceType='raw', targetType='raw'</i>)</a></article></li>
-<li><article><a href="#diffusionCount"><b>diffusionCount</b>(<i>source, target, sourceType='raw', pandasFriendly=False, compareCounts=False, numAuthors=True</i>)</a></article></li>
+<li><article><a href="#diffusionCount"><b>diffusionCount</b>(<i>source, target, sourceType='raw', pandasFriendly=False, compareCounts=False, numAuthors=True, byYear=False</i>)</a></article></li>
 <li><article><a href="#read_graph"><b>read_graph</b>(<i>edgeList, nodeList=None, directed=False, idKey='ID', eSource='From', eDest='To'</i>)</a></article></li>
 <li><article><a href="#write_edgeList"><b>write_edgeList</b>(<i>grph, name, extraInfo=True, allSameAttribute=False</i>)</a></article></li>
 <li><article><a href="#write_nodeAttributeFile"><b>write_nodeAttributeFile</b>(<i>grph, name, allSameAttribute=False</i>)</a></article></li>
@@ -33,7 +33,7 @@ The functions provided by metaknowledge are:
 
 <a name="filterNonJournals"></a><small></small>**[<ins>filterNonJournals</ins>]({{ site.baseurl }}{{ page.url }}#filterNonJournals)**(_citesLst, invert=False_):
 
-Removes the Citations from _citesLst_ that are not journals.
+Removes the Citations from _citesLst_ that are not journals
 
 ###### Parameters
 
@@ -56,87 +56,93 @@ _invert_ : `optional [bool]`
 
 <a name="diffusionGraph"></a><small></small>**[<ins>diffusionGraph</ins>]({{ site.baseurl }}{{ page.url }}#diffusionGraph)**(_source, target, sourceType='raw', targetType='raw'_):
 
-Takes in two [`RecordCollections`]({{ site.baseurl }}{% post_url /docs/2015-11-29-RecordCollection %}#RecordCollection) and produces a graph of the citations of the `Records` of _source_ by the `Records` of _target_. By default the graph is of `Record` objects but this can be changed with the _sourceType_ and _targetType_ keywords.
+Takes in two [`RecordCollections`]({{ site.baseurl }}{% post_url /docs/2015-12-17-RecordCollection %}#RecordCollection) and produces a graph of the citations of _source_ by the [`Records`]({{ site.baseurl }}{% post_url /docs/2015-12-17-Record %}#Record) in _target_. By default the nodes in the are `Record` objects but this can be changed with the _sourceType_ and _targetType_ keywords.
 
-Each node on the graph has two boolean attributes, `"source"` and `"target"` indicating if they are targets or sources. Note, if the types of the sources and targets are different the attributes will not be checked for overlap of the other type. e.g. if the source type is `'TI'` (title) and the target type is `'UT'` (WOS number), and there is some overlap of the targets and sources. Then the Record corresponding to a source node will not be checked for being one of the titles of the targets, only its WOS number will be considered.
+Each node on the output graph has two boolean attributes, `"source"` and `"target"` indicating if they are targets or sources. Note, if the types of the sources and targets are different the attributes will not be checked for overlap of the other type. e.g. if the source type is `'TI'` (title) and the target type is `'UT'` (WOS number), and there is some overlap of the targets and sources. Then the Record corresponding to a source node will not be checked for being one of the titles of the targets, only its WOS number will be considered.
 
 ###### Parameters
 
 _source_ : `RecordCollection`
 
-A metaknowledge `RecordCollection` containing the `Records` being cited
+ A metaknowledge `RecordCollection` containing the `Records` being cited
 
 _target_ : `RecordCollection`
 
-A metaknowledge `RecordCollection` containing the `Records` citing those in _source_
+ A metaknowledge `RecordCollection` containing the `Records` citing those in _source_
 
 _sourceType_ : `str`
 
-default `'raw'`, if `'raw'` the returned graph will contain `Records` as source nodes. If it is a WOS tag of the long name of one then the nodes will be of that type.
+ default `'raw'`, if `'raw'` the returned graph will contain `Records` as source nodes. If it is a WOS tag then the nodes will be of that type.
 
 _targetType_ : `str`
 
-default `'raw'`, if `'raw'` the returned graph will contain `Records` as target nodes. If it is a WOS tag of the long name of one then the nodes will be of that type.
+ default `'raw'`, if `'raw'` the returned graph will contain `Records` as target nodes. If it is a WOS tag of the long name of one then the nodes will be of that type.
 
 ###### Returns
 
 `networkx Directed Graph`
 
-A directed graph of the diffusion network
+ A directed graph of the diffusion network
 
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="diffusionCount"></a><small></small>**[<ins>diffusionCount</ins>]({{ site.baseurl }}{{ page.url }}#diffusionCount)**(_source, target, sourceType='raw', pandasFriendly=False, compareCounts=False, numAuthors=True_):
+<a name="diffusionCount"></a><small></small>**[<ins>diffusionCount</ins>]({{ site.baseurl }}{{ page.url }}#diffusionCount)**(_source, target, sourceType='raw', pandasFriendly=False, compareCounts=False, numAuthors=True, byYear=False_):
 
-Takes in two [`RecordCollections`]({{ site.baseurl }}{% post_url /docs/2015-11-29-RecordCollection %}#RecordCollection) and produces a `dict` counting the citations of the `Records` of _source_ by the `Records` of _target_. By default the `dict` uses `Record` objects as keys but this can be changed with the _sourceType_ keyword to any of the WOS tags.
+Takes in two [`RecordCollections`]({{ site.baseurl }}{% post_url /docs/2015-12-17-RecordCollection %}#RecordCollection) and produces a `dict` counting the citations of _source_ by the [`Records`]({{ site.baseurl }}{% post_url /docs/2015-12-17-Record %}#Record) of _target_. By default the `dict` uses `Record` objects as keys but this can be changed with the _sourceType_ keyword to any of the WOS tags.
 
 ###### Parameters
 
 _source_ : `RecordCollection`
 
-A metaknowledge `RecordCollection` containing the `Records` being cited
+ A metaknowledge `RecordCollection` containing the `Records` being cited
 
 _target_ : `RecordCollection`
 
-A metaknowledge `RecordCollection` containing the `Records` citing those in _source_
+ A metaknowledge `RecordCollection` containing the `Records` citing those in _source_
 
 _sourceType_ : `optional [str]`
 
-default `'raw'`, if `'raw'` the returned `dict` will contain `Records` as keys. If it is a WOS tag of the long name of one then the keys will be of that type.
+ default `'raw'`, if `'raw'` the returned `dict` will contain `Records` as keys. If it is a WOS tag the keys will be of that type.
 
 _pandasFriendly_ : `optional [bool]`
 
- default `False`, makes the output be a dict with two keys one `"Record"` is the list of Records ( or data type requested by _sourceType_) the other is their occurence counts as `"Counts"`.
+ default `False`, makes the output be a dict with two keys one `"Record"` is the list of Records ( or data type requested by _sourceType_) the other is their occurrence counts as `"Counts"`. The lists are the same length.
 
-_compareCounts_ : `optional [boo]`
+_compareCounts_ : `optional [bool]`
 
  default `False`, if `True` the diffusion analysis will be run twice, first with source and target setup like the default (global scope) then using only the source `RecordCollection` (local scope).
+
+_byYear_ : `optional [bool]`
+
+default `False`, if `True` the returned dictionary will have Records mapped to maps, these maps will map years ('ints') to counts. If _pandasFriendly_ is also `True` the resultant dictionary will have an additional column called `'year'`. This column will contain the year the citations occurred, in addition the Records entries will be duplicated for each year they occur in.
 
 ###### Returns
 
 `dict[:int]`
 
- A dictionary with the type given by _sourceType_ as keys and integers as values, by default. If _compareCounts_ is `True` the values are tuples with the first integer being the diffusion in the target and the second the diffusion in the source.
+ A dictionary with the type given by _sourceType_ as keys and integers as values.
 
- If _pandasFriendly_ is `True` the returned dict has keys with the names of the WOS tags and lists with their values, i.e. a table with labled columns. The counts are in the column named `"TargetCount"` and if _compareCounts_ the local count is in a column called `"SourceCount"`.
+ If _compareCounts_ is `True` the values are tuples with the first integer being the diffusion in the target and the second the diffusion in the source.
+
+ If _pandasFriendly_ is `True` the returned dict has keys with the names of the WOS tags and lists with their values, i.e. a table with labeled columns. The counts are in the column named `"TargetCount"` and if _compareCounts_ the local count is in a column called `"SourceCount"`.
 
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="read_graph"></a><small></small>**[<ins>read_graph</ins>]({{ site.baseurl }}{{ page.url }}#read_graph)**(_edgeList, nodeList=None, directed=False, idKey='ID', eSource='From', eDest='To'_):
 
-Reads the files given by edgeList and if given nodeList. Outputs a networkx graph for the lists.
+Reads the files given by _edgeList_ and _nodeList_. Creates a networkx graph for the files.
 
-This is designed only for the files produced by metaknowledge and is meant to be the reverse of [write_graph()]({{ site.baseurl }}{% post_url /docs/2015-11-29-metaknowledge %}#write_graph), if this dow not produce the desired results the networkx builtin [networkx.read_edgelist()](https://networkx.github.io/documentation/networkx-1.9.1/reference/generated/networkx.readwrite.edgelist.read_edgelist.html) could be tried.
+This is designed only for the files produced by metaknowledge and is meant to be the reverse of [write_graph()]({{ site.baseurl }}{% post_url /docs/2015-12-17-metaknowledge %}#write_graph), if this does not produce the desired results the networkx builtin [networkx.read_edgelist()](https://networkx.github.io/documentation/networkx-1.10/reference/generated/networkx.readwrite.edgelist.read_edgelist.html) could be tried as it is aimed targeted more generally.
 
-The read edge list format assumes the column named _eSource_ (From) is the source node, then the next column _eDest_ (To) givens the destination and all other columns are attributes of the edge, e.g. weight.
+The read edge list format assumes the column named _eSource_ (default '`From`') is the source node, then the column _eDest_ (default '`To`') givens the destination and all other columns are attributes of the edges, e.g. weight.
 
-The read nodeList format assumes the column called _idKey_ is the ID of the node as used by the edge list and the resulting network. All other columns are considered attributes of the node, e.g. count.
+The read node list format assumes the column _idKey_ (default `'ID'`) is the ID of the node for the edge list and the resulting network. All other columns are considered attributes of the node, e.g. count.
 
-If the names of the columns do not match those given to **read_graph()** a KeyError exception will be raised.
+**Note**: If the names of the columns do not match those given to **read_graph()** a `KeyError` exception will be raised.
 
-**Note**: if nodes appear in the edgelist but not the nodeList they will be created with no attributes.
+**Note**: If nodes appear in the edgelist but not the nodeList they will be created with no attributes.
 
 ###### Parameters
 
@@ -146,29 +152,29 @@ _edgeList_ : `str`
 
 _nodeList_ : `optional [str]`
 
- a string giving the path to the node list file
+ default `None`, a string giving the path to the node list file
 
 _directed_ : `optional [bool]`
 
- default `False`, if `True` the produced network is directed instead of undirected
+ default `False`, if `True` the produced network is directed from _eSource_ to _eDest_
 
 _idKey_ : `optional [str]`
 
- default `"ID"`, the name of the ID column in the node list
+ default `'ID'`, the name of the ID column in the node list
 
 _eSource_ : `optional [str]`
 
- default `"From"`, the name of the source column in the edge list
+ default `'From'`, the name of the source column in the edge list
 
 _eDest_ : `optional [str]`
 
- default `"To"`, the name of the destination column in the edge list
+ default `'To'`, the name of the destination column in the edge list
 
 ###### Returns
 
 `networkx Graph`
 
- the Graph described by the files
+ the graph described by the input files
 
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
@@ -322,9 +328,9 @@ The output files start with _name_, the file type (edgeList, nodeAttributes) the
 
 >  name_fileType.suffix
 
-Both files are csv's with comma delimiters and double quote quoting characters. The edge list has two columns for the source and destination of the edge, "From" and "To" respectively, then, if _edgeInfo_ is `True`, for each attribute of the node another column is created. The node list has one column call "ID" with the node ids used by networkx and all other columns are the node attributes.
+Both files are csv's with comma delimiters and double quote quoting characters. The edge list has two columns for the source and destination of the edge, `'From'` and `'To'` respectively, then, if _edgeInfo_ is `True`, for each attribute of the node another column is created. The node list has one column call "ID" with the node ids used by networkx and all other columns are the node attributes.
 
-To read back these files use [read_graph()]({{ site.baseurl }}{% post_url /docs/2015-11-29-metaknowledge %}#read_graph) and to write only one type of lsit use [write_edgeList()]({{ site.baseurl }}{% post_url /docs/2015-11-29-metaknowledge %}#write_edgeList) or [write_nodeAttributeFile()]({{ site.baseurl }}{% post_url /docs/2015-11-29-metaknowledge %}#write_nodeAttributeFile).
+To read back these files use [read_graph()]({{ site.baseurl }}{% post_url /docs/2015-12-17-metaknowledge %}#read_graph) and to write only one type of lsit use [write_edgeList()]({{ site.baseurl }}{% post_url /docs/2015-12-17-metaknowledge %}#write_edgeList) or [write_nodeAttributeFile()]({{ site.baseurl }}{% post_url /docs/2015-12-17-metaknowledge %}#write_nodeAttributeFile).
 
 **Warning**: this function will overwrite files, if they are in the way of the output, to prevent this set _overwrite_ to `False`
 
@@ -371,7 +377,7 @@ For each field tag it adds an entry to the returned dict with the tag as the key
 
 The entry in the returned dict would be `{'AF' : ["BREVIK, I", "ANICIN, B"]}`
 
-[Record]({{ site.baseurl }}{% post_url /docs/2015-11-29-metaknowledge %}#Record) objects can be created with these dictionaries as the initializer.
+[Record]({{ site.baseurl }}{% post_url /docs/2015-12-17-metaknowledge %}#Record) objects can be created with these dictionaries as the initializer.
 
 ###### Parameters
 
@@ -381,7 +387,7 @@ _paper_ : `file stream`
 
 ###### Returns
 
-`dict[str : List[str]]`
+`OrderedDict[str : List[str]]`
 
  A dictionary mapping WOS tags to lists, the lists are of strings, each string is a line of the record associated with the tag.
 
@@ -398,7 +404,7 @@ Each it finds is used to initialize a Record then all Record are returned as a l
 
 <a name="tagToFull"></a><small></small>**[<ins>tagToFull</ins>]({{ site.baseurl }}{{ page.url }}#tagToFull)**(_tag_):
 
-A wrapper for [`tagToFullDict`]({{ site.baseurl }}{% post_url /docs/2015-11-29-tagProcessing %}#tagProcessing) it maps 2 character tags to thir full names.
+A wrapper for [`tagToFullDict`]({{ site.baseurl }}{% post_url /docs/2015-12-17-tagProcessing %}#tagProcessing) it maps 2 character tags to thir full names.
 
 ###### Parameters
 

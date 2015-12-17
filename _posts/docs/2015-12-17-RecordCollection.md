@@ -48,6 +48,7 @@ _extension_ : `optional [str]`
 The RecordCollection class has the following methods:
 
 <ul class="post-list">
+<li><article><a href="#twoModeNetwork"><b>twoModeNetwork</b>(<i>tag1, tag2, directed=False, recordType=True, nodeCount=True, edgeWeight=True, stemmerTag1=None, stemmerTag2=None</i>)</a></article></li>
 <li><article><a href="#nModeNetwork"><b>nModeNetwork</b>(<i>tags, recordType=True, nodeCount=True, edgeWeight=True, stemmer=None</i>)</a></article></li>
 <li><article><a href="#localCiteStats"><b>localCiteStats</b>(<i>pandasFriendly=False, keyType='citation'</i>)</a></article></li>
 <li><article><a href="#localCitesOf"><b>localCitesOf</b>(<i>rec</i>)</a></article></li>
@@ -62,14 +63,65 @@ The RecordCollection class has the following methods:
 <li><article><a href="#dropNonJournals"><b>dropNonJournals</b>(<i>ptVal='J', dropBad=True, invert=False</i>)</a></article></li>
 <li><article><a href="#writeFile"><b>writeFile</b>(<i>fname=None</i>)</a></article></li>
 <li><article><a href="#writeCSV"><b>writeCSV</b>(<i>fname=None, onlyTheseTags=None, numAuthors=True, longNames=False, firstTags=None, csvDelimiter=',', csvQuote='"', listDelimiter='|'</i>)</a></article></li>
+<li><article><a href="#writeBib"><b>writeBib</b>(<i>fname=None, maxStringLength=1000, wosMode=False, reducedOutput=False, niceIDs=True</i>)</a></article></li>
 <li><article><a href="#makeDict"><b>makeDict</b>(<i>onlyTheseTags=None, longNames=False, cleanedVal=True, numAuthors=True</i>)</a></article></li>
 <li><article><a href="#coAuthNetwork"><b>coAuthNetwork</b>(<i>detailedInfo=False, weighted=True, dropNonJournals=False, count=True</i>)</a></article></li>
-<li><article><a href="#coCiteNetwork"><b>coCiteNetwork</b>(<i>dropAnon=True, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, keyWords=None, detailedCore=None, coreOnly=False</i>)</a></article></li>
-<li><article><a href="#citationNetwork"><b>citationNetwork</b>(<i>dropAnon=True, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, directed=True, keyWords=None, detailedCore=None, coreOnly=False</i>)</a></article></li>
+<li><article><a href="#coCiteNetwork"><b>coCiteNetwork</b>(<i>dropAnon=True, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, keyWords=None, detailedCore=None, coreOnly=False, expandedCore=False</i>)</a></article></li>
+<li><article><a href="#citationNetwork"><b>citationNetwork</b>(<i>dropAnon=True, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, directed=True, keyWords=None, detailedCore=None, coreOnly=False, expandedCore=False</i>)</a></article></li>
 <li><article><a href="#yearSplit"><b>yearSplit</b>(<i>startYear, endYear, dropMissingYears=True</i>)</a></article></li>
 <li><article><a href="#oneModeNetwork"><b>oneModeNetwork</b>(<i>mode, nodeCount=True, edgeWeight=True, stemmer=None</i>)</a></article></li>
-<li><article><a href="#twoModeNetwork"><b>twoModeNetwork</b>(<i>tag1, tag2, directed=False, recordType=True, nodeCount=True, edgeWeight=True, stemmerTag1=None, stemmerTag2=None</i>)</a></article></li>
 </ul>
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="twoModeNetwork"></a><small>RecordCollection.</small>**[<ins>twoModeNetwork</ins>]({{ site.baseurl }}{{ page.url }}#twoModeNetwork)**(_tag1, tag2, directed=False, recordType=True, nodeCount=True, edgeWeight=True, stemmerTag1=None, stemmerTag2=None_):
+
+Creates a network of the objects found by two WOS tags _tag1_ and _tag2_.
+
+A **twoModeNetwork()** looks are each Record in the RecordCollection and extracts its values for the tags given by _tag1_ and _tag2_, e.g. the `"WC"` and `"LA"` tags. Then for each object returned by each tag and edge is created between it and every other object of the other tag. So the WOS defined subject tag `"WC"` and language tag `"LA"`, will give a two-mode network showing the connections between subjects and languages. Each node will have an attribute call `"type"` that gives the tag that created it or both if both created it, e.g. the node `"English"` would have the type attribute be `"LA"`.
+
+The number of times each object occurs is count if _nodeCount_ is `True` and the edges count the number of co-occurrences if _edgeWeight_ is `True`. Both are`True` by default.
+
+The _directed_ parameter if `True` will cause the network to be directed with the first tag as the source and the second as the destination.
+
+###### Parameters
+
+_tag1_ : `str`
+
+ A two character WOS tag or one of the full names for a tag, the source of edges on the graph
+
+_tag1_ : `str`
+
+ A two character WOS tag or one of the full names for a tag, the target of edges on the graph
+
+_directed_ : `optional [bool]`
+
+ Default `False`, if `True` the returned network is directed
+
+_nodeCount_ : `optional [bool]`
+
+ Default `True`, if `True` each node will have an attribute called "count" that contains an int giving the number of time the object occurred.
+
+_edgeWeight_ : `optional [bool]`
+
+ Default `True`, if `True` each edge will have an attribute called "weight" that contains an int giving the number of time the two objects co-occurrenced.
+
+_stemmerTag1_ : `optional [func]`
+
+ default `None`, If _stemmerTag1_ is a callable object, basically a function or possibly a class, it will be called for the ID of every node given by _tag1_ in the graph, all IDs are strings. For example:
+
+The function ` f = lambda x: x[0]` if given as the stemmer will cause all IDs to be the first character of their unstemmed IDs. e.g. the title `'Goos-Hanchen and Imbert-Fedorov shifts for leaky guided modes'` will create the node `'G'`.
+
+_stemmerTag2_ : `optional [func]`
+
+ default `None`, see _stemmerTag1_ as it is the same but for _tag2_
+
+###### Returns
+
+`networkx Graph or networkx DiGraph`
+
+ A networkx Graph with the objects of the tags _tag1_ and _tag2_ as nodes and their co-occurrences as edges.
+
+
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="nModeNetwork"></a><small>RecordCollection.</small>**[<ins>nModeNetwork</ins>]({{ site.baseurl }}{{ page.url }}#nModeNetwork)**(_tags, recordType=True, nodeCount=True, edgeWeight=True, stemmer=None_):
@@ -219,7 +271,7 @@ _wosNum_ : `str`
 
 _drop_ : `optional [bool]`
 
- Default `False`. If `True` the Record is dropped from the collection after being extract, i.e. if `False` [getWOS()]({{ site.baseurl }}{% post_url /docs/2015-11-29-RecordCollection %}#getWOS) acts like [peak()]({{ site.baseurl }}{% post_url /docs/2015-11-29-RecordCollection %}#peak), if `True` it acts like [pop()]({{ site.baseurl }}{% post_url /docs/2015-11-29-RecordCollection %}#pop)
+ Default `False`. If `True` the Record is dropped from the collection after being extract, i.e. if `False` [getWOS()]({{ site.baseurl }}{% post_url /docs/2015-12-17-RecordCollection %}#getWOS) acts like [peak()]({{ site.baseurl }}{% post_url /docs/2015-12-17-RecordCollection %}#peak), if `True` it acts like [pop()]({{ site.baseurl }}{% post_url /docs/2015-12-17-RecordCollection %}#pop)
 
 ###### Returns
 
@@ -299,6 +351,41 @@ listDelimiter is the delimiter used between values of the same cell if the tag f
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
+<a name="writeBib"></a><small>RecordCollection.</small>**[<ins>writeBib</ins>]({{ site.baseurl }}{{ page.url }}#writeBib)**(_fname=None, maxStringLength=1000, wosMode=False, reducedOutput=False, niceIDs=True_):
+
+Writes a bibTex entry to _fname_ for each Record in the collection.
+
+If the Record is of a journal article (PT J) the bibtext type is set to `'article'`, otherwise it is set to `'misc'`. The ID of the entry is the WOS number and all the Record's fields are given as entries with their long names.
+
+**Note** This is not meant to be used directly with LaTeX none of the special characters have been escaped and there are a large number of unnecessary fields provided.
+
+**Note** Record entries that are lists have their values seperated with the string `' and '`, as this is the way bibTex understands
+
+###### Parameters
+
+_fname_ : `optional [str]`
+
+ default `None`, The name of the file to be written. If not given one will be derived from the collection and the file will be written to .
+
+_maxStringLength_ : `optional [int]`
+
+ default 1000, The max length for a continuous string. Most bibTex implementation only allow string to be up to 1000 characters ([source](https://www.cs.arizona.edu/~collberg/Teaching/07.231/BibTeX/bibtex.html)), this splits them up into substrings then uses the native string concatenation (the `'#'` character) to allow for longer strings
+
+_WOSMode_ : `optional [bool]`
+
+ default `False`, if `True` the data produced will be unprocessed and use double curly braces. This is the style WOS produces bib files in and mostly macthes that.
+
+_restrictedOutput_ : `optional [bool]`
+
+ default `False`, if `True` the tags output will be limited to: `'AF'`, `'BF'`, `'ED'`, `'TI'`, `'SO'`, `'LA'`, `'NR'`, `'TC'`, `'Z9'`, `'PU'`, `'J9'`, `'PY'`, `'PD'`, `'VL'`, `'IS'`, `'SU'`, `'PG'`, `'DI'`, `'D2'`, and `'UT'`
+
+_niceID_ : `optional [bool]`
+
+ default `True`, if `True` the IDs used will be derived from the authors, publishing date and title, if `False` it will be the UT tag
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
 <a name="makeDict"></a><small>RecordCollection.</small>**[<ins>makeDict</ins>]({{ site.baseurl }}{{ page.url }}#makeDict)**(_onlyTheseTags=None, longNames=False, cleanedVal=True, numAuthors=True_):
 
 Returns a dict with each key a tag and the values being lists of the values for each of the Records in the collection, `None` is given when there is no value and they are in the same order across each tag.
@@ -326,7 +413,7 @@ _detailedInfo_ : `optional [bool or iterable[WOS tag Strings]]`
 
  For each of the selected tags an attribute will be added to the node using the values of those tags on the first `Record` encountered. **Warning** iterating over `RecordCollection` objects is not deterministic the first `Record` will not always be same between runs. The node will be given attributes with the names of the WOS tags for each of the selected tags. The attributes will contain strings of containing the values (with commas removed), if multiple values are encountered they will be comma separated.
 
- Note: _detailedInfo_ is not identical to the _detailedCore_ argument of [`Recordcollection.coCiteNetwork()`]({{ site.baseurl }}{% post_url /docs/2015-11-29-RecordCollection %}#coCiteNetwork) or [`Recordcollection.citationNetwork()`]({{ site.baseurl }}{% post_url /docs/2015-11-29-RecordCollection %}#citationNetwork)
+ Note: _detailedInfo_ is not identical to the _detailedCore_ argument of [`Recordcollection.coCiteNetwork()`]({{ site.baseurl }}{% post_url /docs/2015-12-17-RecordCollection %}#coCiteNetwork) or [`Recordcollection.citationNetwork()`]({{ site.baseurl }}{% post_url /docs/2015-12-17-RecordCollection %}#citationNetwork)
 
 _weighted_ : `optional [bool]`
 
@@ -349,7 +436,7 @@ _count_ : `optional [bool]`
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="coCiteNetwork"></a><small>RecordCollection.</small>**[<ins>coCiteNetwork</ins>]({{ site.baseurl }}{{ page.url }}#coCiteNetwork)**(_dropAnon=True, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, keyWords=None, detailedCore=None, coreOnly=False_):
+<a name="coCiteNetwork"></a><small>RecordCollection.</small>**[<ins>coCiteNetwork</ins>]({{ site.baseurl }}{{ page.url }}#coCiteNetwork)**(_dropAnon=True, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, keyWords=None, detailedCore=None, coreOnly=False, expandedCore=False_):
 
 Creates a co-citation network for the RecordCollection.
 
@@ -357,7 +444,7 @@ Creates a co-citation network for the RecordCollection.
 
 _nodeType_ : `optional [str]`
 
- One of `"full"`, `"original"`, `"author"`, `"journal"` or `"year"`. Specifies the value of the nodes in the graph. The default `"full"` causes the citations to be compared holistically using the [`metaknowledge.Citation`]({{ site.baseurl }}{% post_url /docs/2015-11-29-Citation %}#Citation) builtin comparison operators. `"original"` uses the raw original strings of the citations. While `"author"`, `"journal"` and `"year"` each use the author, journal and year respectively.
+ One of `"full"`, `"original"`, `"author"`, `"journal"` or `"year"`. Specifies the value of the nodes in the graph. The default `"full"` causes the citations to be compared holistically using the [`metaknowledge.Citation`]({{ site.baseurl }}{% post_url /docs/2015-12-17-Citation %}#Citation) builtin comparison operators. `"original"` uses the raw original strings of the citations. While `"author"`, `"journal"` and `"year"` each use the author, journal and year respectively.
 
 _dropAnon_ : `optional [bool]`
 
@@ -395,11 +482,15 @@ _detailedCore_ : `optional [bool or iterable[WOS tag Strings]]`
 
  The resultant string is the values of each tag, with commas removed, seperated by `', '`, just like the info given by non-core Citations. Note that for tags like `'AF'` that return lists only the first entry in the list will be used. Also a second attribute is created for all nodes called inCore wich is a boolean describing if the node is in the core or not.
 
- Note: _detailedCore_  is not identical to the _detailedInfo_ argument of [`Recordcollection.coAuthNetwork()`]({{ site.baseurl }}{% post_url /docs/2015-11-29-RecordCollection %}#coAuthNetwork)
+ Note: _detailedCore_  is not identical to the _detailedInfo_ argument of [`Recordcollection.coAuthNetwork()`]({{ site.baseurl }}{% post_url /docs/2015-12-17-RecordCollection %}#coAuthNetwork)
 
 _coreOnly_ : `optional [bool]`
 
  default `False`, if `True` only Citations from the RecordCollection will be included in the network
+
+_expandedCore_ : `optional [bool]`
+
+ default `False`, if `True` all citations in the ouput graph that are records in the collection will be duplicated for each author. If the nodes are `"full"`, `"original"` or `"author"` this will result in new noded being created for the other options the results are **not** defined or tested. Edges will be created between each of the nodes for each record expanded, attributes will be copied from exiting nodes.
 
 ###### Returns
 
@@ -410,7 +501,7 @@ _coreOnly_ : `optional [bool]`
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="citationNetwork"></a><small>RecordCollection.</small>**[<ins>citationNetwork</ins>]({{ site.baseurl }}{{ page.url }}#citationNetwork)**(_dropAnon=True, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, directed=True, keyWords=None, detailedCore=None, coreOnly=False_):
+<a name="citationNetwork"></a><small>RecordCollection.</small>**[<ins>citationNetwork</ins>]({{ site.baseurl }}{{ page.url }}#citationNetwork)**(_dropAnon=True, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, directed=True, keyWords=None, detailedCore=None, coreOnly=False, expandedCore=False_):
 
 Creates a citation network for the RecordCollection.
 
@@ -418,7 +509,7 @@ Creates a citation network for the RecordCollection.
 
 _nodeType_ : `optional [str]`
 
- One of `"full"`, `"original"`, `"author"`, `"journal"` or `"year"`. Specifies the value of the nodes in the graph. The default `"full"` causes the citations to be compared holistically using the [`metaknowledge.Citation`]({{ site.baseurl }}{% post_url /docs/2015-11-29-Citation %}#Citation) builtin comparison operators. `"original"` uses the raw original strings of the citations. While `"author"`, `"journal"` and `"year"` each use the author, journal and year respectively.
+ One of `"full"`, `"original"`, `"author"`, `"journal"` or `"year"`. Specifies the value of the nodes in the graph. The default `"full"` causes the citations to be compared holistically using the [`metaknowledge.Citation`]({{ site.baseurl }}{% post_url /docs/2015-12-17-Citation %}#Citation) builtin comparison operators. `"original"` uses the raw original strings of the citations. While `"author"`, `"journal"` and `"year"` each use the author, journal and year respectively.
 
 _dropAnon_ : `optional [bool]`
 
@@ -460,11 +551,15 @@ _detailedCore_ : `optional [bool or iterable[WOS tag Strings]]`
 
  The resultant string is the values of each tag, with commas removed, seperated by `', '`, just like the info given by non-core Citations. Note that for tags like `'AF'` that return lists only the first entry in the list will be used. Also a second attribute is created for all nodes called inCore wich is a boolean describing if the node is in the core or not.
 
- Note: _detailedCore_  is not identical to the _detailedInfo_ argument of [`Recordcollection.coAuthNetwork()`]({{ site.baseurl }}{% post_url /docs/2015-11-29-RecordCollection %}#coAuthNetwork)
+ Note: _detailedCore_  is not identical to the _detailedInfo_ argument of [`Recordcollection.coAuthNetwork()`]({{ site.baseurl }}{% post_url /docs/2015-12-17-RecordCollection %}#coAuthNetwork)
 
 _coreOnly_ : `optional [bool]`
 
  default `False`, if `True` only Citations from the RecordCollection will be included in the network
+
+_expandedCore_ : `optional [bool]`
+
+ default `False`, if `True` all citations in the ouput graph that are records in the collection will be duplicated for each author. If the nodes are `"full"`, `"original"` or `"author"` this will result in new noded being created for the other options the results are **not** defined or tested. Edges will be created between each of the nodes for each record expanded, attributes will be copied from exiting nodes.
 
 ###### Returns
 
@@ -512,7 +607,7 @@ A **oneModeNetwork()** looks are each Record in the RecordCollection and extract
 
 The number of times each object occurs is count if _nodeCount_ is `True` and the edges count the number of co-occurrences if _edgeWeight_ is `True`. Both are`True` by default.
 
-**Note** Do not use this for the construction of co-citation networks use [Recordcollection.coCiteNetwork()]({{ site.baseurl }}{% post_url /docs/2015-11-29-RecordCollection %}#coCiteNetwork) it is more accurate and has more options.
+**Note** Do not use this for the construction of co-citation networks use [Recordcollection.coCiteNetwork()]({{ site.baseurl }}{% post_url /docs/2015-12-17-RecordCollection %}#coCiteNetwork) it is more accurate and has more options.
 
 ###### Parameters
 
@@ -539,57 +634,6 @@ The function ` f = lambda x: x[0]` if given as the stemmer will cause all IDs to
 `networkx Graph`
 
  A networkx Graph with the objects of the tag _mode_ as nodes and their co-occurrences as edges
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="twoModeNetwork"></a><small>RecordCollection.</small>**[<ins>twoModeNetwork</ins>]({{ site.baseurl }}{{ page.url }}#twoModeNetwork)**(_tag1, tag2, directed=False, recordType=True, nodeCount=True, edgeWeight=True, stemmerTag1=None, stemmerTag2=None_):
-
-Creates a network of the objects found by two WOS tags _tag1_ and _tag2_.
-
-A **twoModeNetwork()** looks are each Record in the RecordCollection and extracts its values for the tags given by _tag1_ and _tag2_, e.g. the `"WC"` and `"LA"` tags. Then for each object returned by each tag and edge is created between it and every other object of the other tag. So the WOS defined subject tag `"WC"` and language tag `"LA"`, will give a two-mode network showing the connections between subjects and languages. Each node will have an attribute call `"type"` that gives the tag that created it or both if both created it, e.g. the node `"English"` would have the type attribute be `"LA"`.
-
-The number of times each object occurs is count if _nodeCount_ is `True` and the edges count the number of co-occurrences if _edgeWeight_ is `True`. Both are`True` by default.
-
-The _directed_ parameter if `True` will cause the network to be directed with the first tag as the source and the second as the destination.
-
-###### Parameters
-
-_tag1_ : `str`
-
- A two character WOS tag or one of the full names for a tag, the source of edges on the graph
-
-_tag1_ : `str`
-
- A two character WOS tag or one of the full names for a tag, the target of edges on the graph
-
-_directed_ : `optional [bool]`
-
- Default `False`, if `True` the returned network is directed
-
-_nodeCount_ : `optional [bool]`
-
- Default `True`, if `True` each node will have an attribute called "count" that contains an int giving the number of time the object occurred.
-
-_edgeWeight_ : `optional [bool]`
-
- Default `True`, if `True` each edge will have an attribute called "weight" that contains an int giving the number of time the two objects co-occurrenced.
-
-_stemmerTag1_ : `optional [func]`
-
- default `None`, If _stemmerTag1_ is a callable object, basically a function or possibly a class, it will be called for the ID of every node given by _tag1_ in the graph, all IDs are strings. For example:
-
-The function ` f = lambda x: x[0]` if given as the stemmer will cause all IDs to be the first character of their unstemmed IDs. e.g. the title `'Goos-Hanchen and Imbert-Fedorov shifts for leaky guided modes'` will create the node `'G'`.
-
-_stemmerTag2_ : `optional [func]`
-
- default `None`, see _stemmerTag1_ as it is the same but for _tag2_
-
-###### Returns
-
-`networkx Graph or networkx DiGraph`
-
- A networkx Graph with the objects of the tags _tag1_ and _tag2_ as nodes and their co-occurrences as edges.
 
 
 

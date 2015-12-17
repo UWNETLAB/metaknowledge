@@ -27,7 +27,7 @@ search_omit: true
 <ul class="post-list">
 <li><article><a href="#filterNonJournals"><b>filterNonJournals</b>(<i>citesLst, invert=False</i>)</a></article></li>
 <li><article><a href="#diffusionGraph"><b>diffusionGraph</b>(<i>source, target, sourceType='raw', targetType='raw'</i>)</a></article></li>
-<li><article><a href="#diffusionCount"><b>diffusionCount</b>(<i>source, target, sourceType='raw', pandasFriendly=False, compareCounts=False, numAuthors=True</i>)</a></article></li>
+<li><article><a href="#diffusionCount"><b>diffusionCount</b>(<i>source, target, sourceType='raw', pandasFriendly=False, compareCounts=False, numAuthors=True, byYear=False</i>)</a></article></li>
 <li><article><a href="#read_graph"><b>read_graph</b>(<i>edgeList, nodeList=None, directed=False, idKey='ID', eSource='From', eDest='To'</i>)</a></article></li>
 <li><article><a href="#write_edgeList"><b>write_edgeList</b>(<i>grph, name, extraInfo=True, allSameAttribute=False</i>)</a></article></li>
 <li><article><a href="#write_nodeAttributeFile"><b>write_nodeAttributeFile</b>(<i>grph, name, allSameAttribute=False</i>)</a></article></li>
@@ -52,11 +52,14 @@ search_omit: true
 <li><article><a href="#addToDB"><small>Citation</small>.<b>addToDB</b>(<i>manualName=None, manaulDB='manualj9Abbreviations', invert=False</i>)</a></article></li>
 <li><article><a href="#numAuthors"><small>Record</small>.<b>numAuthors</b>()</a></article></li>
 <li><article><a href="#getTag"><small>Record</small>.<b>getTag</b>(<i>tag, clean=False</i>)</a></article></li>
-<li><article><a href="#createCitation"><small>Record</small>.<b>createCitation</b>()</a></article></li>
+<li><article><a href="#createCitation"><small>Record</small>.<b>createCitation</b>(<i>multiCite=False</i>)</a></article></li>
 <li><article><a href="#getTagsList"><small>Record</small>.<b>getTagsList</b>(<i>taglst, cleaned=False</i>)</a></article></li>
 <li><article><a href="#getTagsDict"><small>Record</small>.<b>getTagsDict</b>(<i>taglst, cleaned=False</i>)</a></article></li>
 <li><article><a href="#activeTags"><small>Record</small>.<b>activeTags</b>()</a></article></li>
 <li><article><a href="#writeRecord"><small>Record</small>.<b>writeRecord</b>(<i>infile</i>)</a></article></li>
+<li><article><a href="#bibString"><small>Record</small>.<b>bibString</b>(<i>maxLength=1000, WOSMode=False, restrictedOutput=False, niceID=True</i>)</a></article></li>
+<li><article><a href="#bibTexType"><small>Record</small>.<b>bibTexType</b>()</a></article></li>
+<li><article><a href="#twoModeNetwork"><small>RecordCollection</small>.<b>twoModeNetwork</b>(<i>tag1, tag2, directed=False, recordType=True, nodeCount=True, edgeWeight=True, stemmerTag1=None, stemmerTag2=None</i>)</a></article></li>
 <li><article><a href="#nModeNetwork"><small>RecordCollection</small>.<b>nModeNetwork</b>(<i>tags, recordType=True, nodeCount=True, edgeWeight=True, stemmer=None</i>)</a></article></li>
 <li><article><a href="#localCiteStats"><small>RecordCollection</small>.<b>localCiteStats</b>(<i>pandasFriendly=False, keyType='citation'</i>)</a></article></li>
 <li><article><a href="#localCitesOf"><small>RecordCollection</small>.<b>localCitesOf</b>(<i>rec</i>)</a></article></li>
@@ -71,13 +74,13 @@ search_omit: true
 <li><article><a href="#dropNonJournals"><small>RecordCollection</small>.<b>dropNonJournals</b>(<i>ptVal='J', dropBad=True, invert=False</i>)</a></article></li>
 <li><article><a href="#writeFile"><small>RecordCollection</small>.<b>writeFile</b>(<i>fname=None</i>)</a></article></li>
 <li><article><a href="#writeCSV"><small>RecordCollection</small>.<b>writeCSV</b>(<i>fname=None, onlyTheseTags=None, numAuthors=True, longNames=False, firstTags=None, csvDelimiter=',', csvQuote='"', listDelimiter='|'</i>)</a></article></li>
+<li><article><a href="#writeBib"><small>RecordCollection</small>.<b>writeBib</b>(<i>fname=None, maxStringLength=1000, wosMode=False, reducedOutput=False, niceIDs=True</i>)</a></article></li>
 <li><article><a href="#makeDict"><small>RecordCollection</small>.<b>makeDict</b>(<i>onlyTheseTags=None, longNames=False, cleanedVal=True, numAuthors=True</i>)</a></article></li>
 <li><article><a href="#coAuthNetwork"><small>RecordCollection</small>.<b>coAuthNetwork</b>(<i>detailedInfo=False, weighted=True, dropNonJournals=False, count=True</i>)</a></article></li>
-<li><article><a href="#coCiteNetwork"><small>RecordCollection</small>.<b>coCiteNetwork</b>(<i>dropAnon=True, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, keyWords=None, detailedCore=None, coreOnly=False</i>)</a></article></li>
-<li><article><a href="#citationNetwork"><small>RecordCollection</small>.<b>citationNetwork</b>(<i>dropAnon=True, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, directed=True, keyWords=None, detailedCore=None, coreOnly=False</i>)</a></article></li>
+<li><article><a href="#coCiteNetwork"><small>RecordCollection</small>.<b>coCiteNetwork</b>(<i>dropAnon=True, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, keyWords=None, detailedCore=None, coreOnly=False, expandedCore=False</i>)</a></article></li>
+<li><article><a href="#citationNetwork"><small>RecordCollection</small>.<b>citationNetwork</b>(<i>dropAnon=True, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, directed=True, keyWords=None, detailedCore=None, coreOnly=False, expandedCore=False</i>)</a></article></li>
 <li><article><a href="#yearSplit"><small>RecordCollection</small>.<b>yearSplit</b>(<i>startYear, endYear, dropMissingYears=True</i>)</a></article></li>
 <li><article><a href="#oneModeNetwork"><small>RecordCollection</small>.<b>oneModeNetwork</b>(<i>mode, nodeCount=True, edgeWeight=True, stemmer=None</i>)</a></article></li>
-<li><article><a href="#twoModeNetwork"><small>RecordCollection</small>.<b>twoModeNetwork</b>(<i>tag1, tag2, directed=False, recordType=True, nodeCount=True, edgeWeight=True, stemmerTag1=None, stemmerTag2=None</i>)</a></article></li>
 <li><article><a href="#graphDensityContourPlot"><small>visual</small>.<b>graphDensityContourPlot</b>(<i>G, layout=None, layoutScaleFactor=1, shifAxis=False, overlay=False, axisSamples=100, blurringFactor=0.1, contours=15, nodeSize=10, graphType='coloured', iters=50</i>)</a></article></li>
 <li><article><a href="#quickVisual"><small>visual</small>.<b>quickVisual</b>(<i>G, showLabel=False</i>)</a></article></li>
 <li><article><a href="#getj9dict"><small>journalAbbreviations</small>.<b>getj9dict</b>(<i>dbname='j9Abbreviations', manualDB='manualj9Abbreviations', returnDict='both'</i>)</a></article></li>
@@ -90,8 +93,8 @@ search_omit: true
 <li><article><a href="#endingPage"><small>tagProcessing</small>.<b>endingPage</b>(<i>val</i>)</a></article></li>
 <li><article><a href="#year"><small>tagProcessing</small>.<b>year</b>(<i>val</i>)</a></article></li>
 <li><article><a href="#authKeyWords"><small>tagProcessing</small>.<b>authKeyWords</b>(<i>val</i>)</a></article></li>
-<li><article><a href="#bookAuthor"><small>tagProcessing</small>.<b>bookAuthor</b>(<i>val</i>)</a></article></li>
 <li><article><a href="#reprintAddress"><small>tagProcessing</small>.<b>reprintAddress</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#bookAuthor"><small>tagProcessing</small>.<b>bookAuthor</b>(<i>val</i>)</a></article></li>
 <li><article><a href="#totalTimesCited"><small>tagProcessing</small>.<b>totalTimesCited</b>(<i>val</i>)</a></article></li>
 <li><article><a href="#partNumber"><small>tagProcessing</small>.<b>partNumber</b>(<i>val</i>)</a></article></li>
 <li><article><a href="#specialIssue"><small>tagProcessing</small>.<b>specialIssue</b>(<i>val</i>)</a></article></li>
@@ -106,20 +109,19 @@ search_omit: true
 <li><article><a href="#journal"><small>tagProcessing</small>.<b>journal</b>(<i>val</i>)</a></article></li>
 <li><article><a href="#seriesTitle"><small>tagProcessing</small>.<b>seriesTitle</b>(<i>val</i>)</a></article></li>
 <li><article><a href="#seriesSubtitle"><small>tagProcessing</small>.<b>seriesSubtitle</b>(<i>val</i>)</a></article></li>
-<li><article><a href="#authorsFull"><small>tagProcessing</small>.<b>authorsFull</b>(<i>val</i>)</a></article></li>
 <li><article><a href="#language"><small>tagProcessing</small>.<b>language</b>(<i>val</i>)</a></article></li>
 <li><article><a href="#docType"><small>tagProcessing</small>.<b>docType</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#authorsFull"><small>tagProcessing</small>.<b>authorsFull</b>(<i>val</i>)</a></article></li>
 <li><article><a href="#confTitle"><small>tagProcessing</small>.<b>confTitle</b>(<i>val</i>)</a></article></li>
 <li><article><a href="#confDate"><small>tagProcessing</small>.<b>confDate</b>(<i>val</i>)</a></article></li>
 <li><article><a href="#confSponsors"><small>tagProcessing</small>.<b>confSponsors</b>(<i>val</i>)</a></article></li>
 <li><article><a href="#wosTimesCited"><small>tagProcessing</small>.<b>wosTimesCited</b>(<i>val</i>)</a></article></li>
 <li><article><a href="#authAddress"><small>tagProcessing</small>.<b>authAddress</b>(<i>val</i>)</a></article></li>
-<li><article><a href="#pubType"><small>tagProcessing</small>.<b>pubType</b>(<i>val</i>)</a></article></li>
 <li><article><a href="#confLocation"><small>tagProcessing</small>.<b>confLocation</b>(<i>val</i>)</a></article></li>
 <li><article><a href="#j9"><small>tagProcessing</small>.<b>j9</b>(<i>val</i>)</a></article></li>
 <li><article><a href="#funding"><small>tagProcessing</small>.<b>funding</b>(<i>val</i>)</a></article></li>
-<li><article><a href="#group"><small>tagProcessing</small>.<b>group</b>(<i>val</i>)</a></article></li>
 <li><article><a href="#subjectCategory"><small>tagProcessing</small>.<b>subjectCategory</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#group"><small>tagProcessing</small>.<b>group</b>(<i>val</i>)</a></article></li>
 <li><article><a href="#citations"><small>tagProcessing</small>.<b>citations</b>(<i>val</i>)</a></article></li>
 <li><article><a href="#publisherCity"><small>tagProcessing</small>.<b>publisherCity</b>(<i>val</i>)</a></article></li>
 <li><article><a href="#ISSN"><small>tagProcessing</small>.<b>ISSN</b>(<i>val</i>)</a></article></li>
@@ -129,8 +131,9 @@ search_omit: true
 <li><article><a href="#eISSN"><small>tagProcessing</small>.<b>eISSN</b>(<i>val</i>)</a></article></li>
 <li><article><a href="#DOI"><small>tagProcessing</small>.<b>DOI</b>(<i>val</i>)</a></article></li>
 <li><article><a href="#wosString"><small>tagProcessing</small>.<b>wosString</b>(<i>val</i>)</a></article></li>
-<li><article><a href="#editedBy"><small>tagProcessing</small>.<b>editedBy</b>(<i>val</i>)</a></article></li>
 <li><article><a href="#orcID"><small>tagProcessing</small>.<b>orcID</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#pubType"><small>tagProcessing</small>.<b>pubType</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#editedBy"><small>tagProcessing</small>.<b>editedBy</b>(<i>val</i>)</a></article></li>
 <li><article><a href="#meetingAbstract"><small>tagProcessing</small>.<b>meetingAbstract</b>(<i>val</i>)</a></article></li>
 <li><article><a href="#isoAbbreviation"><small>tagProcessing</small>.<b>isoAbbreviation</b>(<i>val</i>)</a></article></li>
 <li><article><a href="#pageCount"><small>tagProcessing</small>.<b>pageCount</b>(<i>val</i>)</a></article></li>
@@ -140,8 +143,8 @@ search_omit: true
 <li><article><a href="#fundingText"><small>tagProcessing</small>.<b>fundingText</b>(<i>val</i>)</a></article></li>
 <li><article><a href="#bookDOI"><small>tagProcessing</small>.<b>bookDOI</b>(<i>val</i>)</a></article></li>
 <li><article><a href="#volume"><small>tagProcessing</small>.<b>volume</b>(<i>val</i>)</a></article></li>
-<li><article><a href="#authorsShort"><small>tagProcessing</small>.<b>authorsShort</b>(<i>val</i>)</a></article></li>
 <li><article><a href="#ResearcherIDnumber"><small>tagProcessing</small>.<b>ResearcherIDnumber</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#authorsShort"><small>tagProcessing</small>.<b>authorsShort</b>(<i>val</i>)</a></article></li>
 <li><article><a href="#citedRefsCount"><small>tagProcessing</small>.<b>citedRefsCount</b>(<i>val</i>)</a></article></li>
 <li><article><a href="#beginningPage"><small>tagProcessing</small>.<b>beginningPage</b>(<i>val</i>)</a></article></li>
 <li><article><a href="#abstract"><small>tagProcessing</small>.<b>abstract</b>(<i>val</i>)</a></article></li>
@@ -166,17 +169,19 @@ To load the data from files and make a network:
     223
     >>> mk.write_graph(G, "Cocitation-Network-of-Journals")
 
+There is also a simple command line program called `metaknowledge` that comes with the package. It allows for creating networks without any need to know Python. More information about it can be found at [networkslab.org/metaknowledge/cli]({{ site.baseurl }}/cli)
+
 #### Overview
 
-This package can read the files downloaded from the [Thomson Reuters Web of Science](https://webofknowledge.com) (WOS) as plain text. These files contain metadata about scientific records, such as the authors, language, and citations. The records are saved in groups of up-to 500 individual records in a file.
+This package can read the files downloaded from the [Thomson Reuters Web of Science](https://webofknowledge.com) (WOS) as plain text. These files contain metadata about scientific records, such as the authors, title, and citations. The records are exported in groups of up-to 500 individual records to a file.
 
 The [metaknowledge.RecordCollection](#RecordCollection) class can take a path to one or more of these files load and parse them. The object is the main way for work to be done on multiple records. For each individual record it creates an instance of the [metaknowledge.Record](#Record) class that contains the results of the parsing of the record.
 
-The files given by WOS are a flat database containing a series of 2 character tags, e.g. 'TI' is the title. Each WOS tag has one or more values and metaknowledge makes use of them to extract useful information. The approximate meanings of the tags are listed in the [tagProcessing](#tagProcessing) package, if you simply want the mapping [`tagToFull()`](#tagToFull) is a function that maps tags to their full names it as well as a few other similar functions are provided by metaknowledge. There are no full official public listings of tag the meanings available. metaknowledge is not attempting to provide the definitive or authoritative meanings. Some
+The files given by WOS are a flat database containing a series of 2 character tags, e.g. 'TI' is the title. Each WOS tag has one or more values and metaknowledge can read them to extract useful information. The approximate meanings of the tags are listed in the [tagProcessing](#tagProcessing) package, along with the parsing functions for each tag. If you simply want the mapping [`tagToFull()`](#tagToFull) is a function that maps tags to their full names it, as well as a few other similar functions are provided by the base metaknowledge import. Note, the long names can be used in place of the short 2 character codes within metaknowledge. There are no full official public listings of tag the meanings available. metaknowledge is not attempting to provide the definitive or authoritative meanings.
 
-As citations are of great importance to sociology their handling is done with the [Citation](#Citation) class. This class can parse the citations given by WOS as well as extra details about the full name of their journal and allow simple comparisons.
+Citations are handled by a special [Citation](#Citation) class. This class can parse the citations given by WOS as well as extra details about the full name of their journal and allow simple comparisons.
 
-Note for those reading the docstring metaknowledge's docs are written in markdown and are processed to produce the documentation found at [networkslab.org/metaknowledge/documentation](http://networkslab.org/metaknowledge/documentation/).
+Note for those reading the docstrings metaknowledge's docs are written in markdown and are processed to produce the documentation found at [networkslab.org/metaknowledge/documentation]({{ site.baseurl }}/documentation/), but you should have no problem reading them from the help function.
 
 
 
@@ -189,7 +194,7 @@ The functions provided by metaknowledge are:
 <ul class="post-list">
 <li><article><a href="#filterNonJournals"><b>filterNonJournals</b>(<i>citesLst, invert=False</i>)</a></article></li>
 <li><article><a href="#diffusionGraph"><b>diffusionGraph</b>(<i>source, target, sourceType='raw', targetType='raw'</i>)</a></article></li>
-<li><article><a href="#diffusionCount"><b>diffusionCount</b>(<i>source, target, sourceType='raw', pandasFriendly=False, compareCounts=False, numAuthors=True</i>)</a></article></li>
+<li><article><a href="#diffusionCount"><b>diffusionCount</b>(<i>source, target, sourceType='raw', pandasFriendly=False, compareCounts=False, numAuthors=True, byYear=False</i>)</a></article></li>
 <li><article><a href="#read_graph"><b>read_graph</b>(<i>edgeList, nodeList=None, directed=False, idKey='ID', eSource='From', eDest='To'</i>)</a></article></li>
 <li><article><a href="#write_edgeList"><b>write_edgeList</b>(<i>grph, name, extraInfo=True, allSameAttribute=False</i>)</a></article></li>
 <li><article><a href="#write_nodeAttributeFile"><b>write_nodeAttributeFile</b>(<i>grph, name, allSameAttribute=False</i>)</a></article></li>
@@ -210,7 +215,7 @@ The functions provided by metaknowledge are:
 
 <a name="filterNonJournals"></a><small></small>**[<ins>filterNonJournals</ins>]({{ site.baseurl }}{{ page.url }}#filterNonJournals)**(_citesLst, invert=False_):
 
-Removes the Citations from _citesLst_ that are not journals.
+Removes the Citations from _citesLst_ that are not journals
 
 ###### Parameters
 
@@ -233,87 +238,93 @@ _invert_ : `optional [bool]`
 
 <a name="diffusionGraph"></a><small></small>**[<ins>diffusionGraph</ins>]({{ site.baseurl }}{{ page.url }}#diffusionGraph)**(_source, target, sourceType='raw', targetType='raw'_):
 
-Takes in two [`RecordCollections`]({{ site.baseurl }}{% post_url /docs/2015-11-29-RecordCollection %}#RecordCollection) and produces a graph of the citations of the `Records` of _source_ by the `Records` of _target_. By default the graph is of `Record` objects but this can be changed with the _sourceType_ and _targetType_ keywords.
+Takes in two [`RecordCollections`]({{ site.baseurl }}{% post_url /docs/2015-12-17-RecordCollection %}#RecordCollection) and produces a graph of the citations of _source_ by the [`Records`]({{ site.baseurl }}{% post_url /docs/2015-12-17-Record %}#Record) in _target_. By default the nodes in the are `Record` objects but this can be changed with the _sourceType_ and _targetType_ keywords.
 
-Each node on the graph has two boolean attributes, `"source"` and `"target"` indicating if they are targets or sources. Note, if the types of the sources and targets are different the attributes will not be checked for overlap of the other type. e.g. if the source type is `'TI'` (title) and the target type is `'UT'` (WOS number), and there is some overlap of the targets and sources. Then the Record corresponding to a source node will not be checked for being one of the titles of the targets, only its WOS number will be considered.
+Each node on the output graph has two boolean attributes, `"source"` and `"target"` indicating if they are targets or sources. Note, if the types of the sources and targets are different the attributes will not be checked for overlap of the other type. e.g. if the source type is `'TI'` (title) and the target type is `'UT'` (WOS number), and there is some overlap of the targets and sources. Then the Record corresponding to a source node will not be checked for being one of the titles of the targets, only its WOS number will be considered.
 
 ###### Parameters
 
 _source_ : `RecordCollection`
 
-A metaknowledge `RecordCollection` containing the `Records` being cited
+ A metaknowledge `RecordCollection` containing the `Records` being cited
 
 _target_ : `RecordCollection`
 
-A metaknowledge `RecordCollection` containing the `Records` citing those in _source_
+ A metaknowledge `RecordCollection` containing the `Records` citing those in _source_
 
 _sourceType_ : `str`
 
-default `'raw'`, if `'raw'` the returned graph will contain `Records` as source nodes. If it is a WOS tag of the long name of one then the nodes will be of that type.
+ default `'raw'`, if `'raw'` the returned graph will contain `Records` as source nodes. If it is a WOS tag then the nodes will be of that type.
 
 _targetType_ : `str`
 
-default `'raw'`, if `'raw'` the returned graph will contain `Records` as target nodes. If it is a WOS tag of the long name of one then the nodes will be of that type.
+ default `'raw'`, if `'raw'` the returned graph will contain `Records` as target nodes. If it is a WOS tag of the long name of one then the nodes will be of that type.
 
 ###### Returns
 
 `networkx Directed Graph`
 
-A directed graph of the diffusion network
+ A directed graph of the diffusion network
 
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="diffusionCount"></a><small></small>**[<ins>diffusionCount</ins>]({{ site.baseurl }}{{ page.url }}#diffusionCount)**(_source, target, sourceType='raw', pandasFriendly=False, compareCounts=False, numAuthors=True_):
+<a name="diffusionCount"></a><small></small>**[<ins>diffusionCount</ins>]({{ site.baseurl }}{{ page.url }}#diffusionCount)**(_source, target, sourceType='raw', pandasFriendly=False, compareCounts=False, numAuthors=True, byYear=False_):
 
-Takes in two [`RecordCollections`]({{ site.baseurl }}{% post_url /docs/2015-11-29-RecordCollection %}#RecordCollection) and produces a `dict` counting the citations of the `Records` of _source_ by the `Records` of _target_. By default the `dict` uses `Record` objects as keys but this can be changed with the _sourceType_ keyword to any of the WOS tags.
+Takes in two [`RecordCollections`]({{ site.baseurl }}{% post_url /docs/2015-12-17-RecordCollection %}#RecordCollection) and produces a `dict` counting the citations of _source_ by the [`Records`]({{ site.baseurl }}{% post_url /docs/2015-12-17-Record %}#Record) of _target_. By default the `dict` uses `Record` objects as keys but this can be changed with the _sourceType_ keyword to any of the WOS tags.
 
 ###### Parameters
 
 _source_ : `RecordCollection`
 
-A metaknowledge `RecordCollection` containing the `Records` being cited
+ A metaknowledge `RecordCollection` containing the `Records` being cited
 
 _target_ : `RecordCollection`
 
-A metaknowledge `RecordCollection` containing the `Records` citing those in _source_
+ A metaknowledge `RecordCollection` containing the `Records` citing those in _source_
 
 _sourceType_ : `optional [str]`
 
-default `'raw'`, if `'raw'` the returned `dict` will contain `Records` as keys. If it is a WOS tag of the long name of one then the keys will be of that type.
+ default `'raw'`, if `'raw'` the returned `dict` will contain `Records` as keys. If it is a WOS tag the keys will be of that type.
 
 _pandasFriendly_ : `optional [bool]`
 
- default `False`, makes the output be a dict with two keys one `"Record"` is the list of Records ( or data type requested by _sourceType_) the other is their occurence counts as `"Counts"`.
+ default `False`, makes the output be a dict with two keys one `"Record"` is the list of Records ( or data type requested by _sourceType_) the other is their occurrence counts as `"Counts"`. The lists are the same length.
 
-_compareCounts_ : `optional [boo]`
+_compareCounts_ : `optional [bool]`
 
  default `False`, if `True` the diffusion analysis will be run twice, first with source and target setup like the default (global scope) then using only the source `RecordCollection` (local scope).
+
+_byYear_ : `optional [bool]`
+
+default `False`, if `True` the returned dictionary will have Records mapped to maps, these maps will map years ('ints') to counts. If _pandasFriendly_ is also `True` the resultant dictionary will have an additional column called `'year'`. This column will contain the year the citations occurred, in addition the Records entries will be duplicated for each year they occur in.
 
 ###### Returns
 
 `dict[:int]`
 
- A dictionary with the type given by _sourceType_ as keys and integers as values, by default. If _compareCounts_ is `True` the values are tuples with the first integer being the diffusion in the target and the second the diffusion in the source.
+ A dictionary with the type given by _sourceType_ as keys and integers as values.
 
- If _pandasFriendly_ is `True` the returned dict has keys with the names of the WOS tags and lists with their values, i.e. a table with labled columns. The counts are in the column named `"TargetCount"` and if _compareCounts_ the local count is in a column called `"SourceCount"`.
+ If _compareCounts_ is `True` the values are tuples with the first integer being the diffusion in the target and the second the diffusion in the source.
+
+ If _pandasFriendly_ is `True` the returned dict has keys with the names of the WOS tags and lists with their values, i.e. a table with labeled columns. The counts are in the column named `"TargetCount"` and if _compareCounts_ the local count is in a column called `"SourceCount"`.
 
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="read_graph"></a><small></small>**[<ins>read_graph</ins>]({{ site.baseurl }}{{ page.url }}#read_graph)**(_edgeList, nodeList=None, directed=False, idKey='ID', eSource='From', eDest='To'_):
 
-Reads the files given by edgeList and if given nodeList. Outputs a networkx graph for the lists.
+Reads the files given by _edgeList_ and _nodeList_. Creates a networkx graph for the files.
 
-This is designed only for the files produced by metaknowledge and is meant to be the reverse of [write_graph()]({{ site.baseurl }}{% post_url /docs/2015-11-29-metaknowledge %}#write_graph), if this dow not produce the desired results the networkx builtin [networkx.read_edgelist()](https://networkx.github.io/documentation/networkx-1.9.1/reference/generated/networkx.readwrite.edgelist.read_edgelist.html) could be tried.
+This is designed only for the files produced by metaknowledge and is meant to be the reverse of [write_graph()]({{ site.baseurl }}{% post_url /docs/2015-12-17-metaknowledge %}#write_graph), if this does not produce the desired results the networkx builtin [networkx.read_edgelist()](https://networkx.github.io/documentation/networkx-1.10/reference/generated/networkx.readwrite.edgelist.read_edgelist.html) could be tried as it is aimed targeted more generally.
 
-The read edge list format assumes the column named _eSource_ (From) is the source node, then the next column _eDest_ (To) givens the destination and all other columns are attributes of the edge, e.g. weight.
+The read edge list format assumes the column named _eSource_ (default '`From`') is the source node, then the column _eDest_ (default '`To`') givens the destination and all other columns are attributes of the edges, e.g. weight.
 
-The read nodeList format assumes the column called _idKey_ is the ID of the node as used by the edge list and the resulting network. All other columns are considered attributes of the node, e.g. count.
+The read node list format assumes the column _idKey_ (default `'ID'`) is the ID of the node for the edge list and the resulting network. All other columns are considered attributes of the node, e.g. count.
 
-If the names of the columns do not match those given to **read_graph()** a KeyError exception will be raised.
+**Note**: If the names of the columns do not match those given to **read_graph()** a `KeyError` exception will be raised.
 
-**Note**: if nodes appear in the edgelist but not the nodeList they will be created with no attributes.
+**Note**: If nodes appear in the edgelist but not the nodeList they will be created with no attributes.
 
 ###### Parameters
 
@@ -323,29 +334,29 @@ _edgeList_ : `str`
 
 _nodeList_ : `optional [str]`
 
- a string giving the path to the node list file
+ default `None`, a string giving the path to the node list file
 
 _directed_ : `optional [bool]`
 
- default `False`, if `True` the produced network is directed instead of undirected
+ default `False`, if `True` the produced network is directed from _eSource_ to _eDest_
 
 _idKey_ : `optional [str]`
 
- default `"ID"`, the name of the ID column in the node list
+ default `'ID'`, the name of the ID column in the node list
 
 _eSource_ : `optional [str]`
 
- default `"From"`, the name of the source column in the edge list
+ default `'From'`, the name of the source column in the edge list
 
 _eDest_ : `optional [str]`
 
- default `"To"`, the name of the destination column in the edge list
+ default `'To'`, the name of the destination column in the edge list
 
 ###### Returns
 
 `networkx Graph`
 
- the Graph described by the files
+ the graph described by the input files
 
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
@@ -499,9 +510,9 @@ The output files start with _name_, the file type (edgeList, nodeAttributes) the
 
 >  name_fileType.suffix
 
-Both files are csv's with comma delimiters and double quote quoting characters. The edge list has two columns for the source and destination of the edge, "From" and "To" respectively, then, if _edgeInfo_ is `True`, for each attribute of the node another column is created. The node list has one column call "ID" with the node ids used by networkx and all other columns are the node attributes.
+Both files are csv's with comma delimiters and double quote quoting characters. The edge list has two columns for the source and destination of the edge, `'From'` and `'To'` respectively, then, if _edgeInfo_ is `True`, for each attribute of the node another column is created. The node list has one column call "ID" with the node ids used by networkx and all other columns are the node attributes.
 
-To read back these files use [read_graph()]({{ site.baseurl }}{% post_url /docs/2015-11-29-metaknowledge %}#read_graph) and to write only one type of lsit use [write_edgeList()]({{ site.baseurl }}{% post_url /docs/2015-11-29-metaknowledge %}#write_edgeList) or [write_nodeAttributeFile()]({{ site.baseurl }}{% post_url /docs/2015-11-29-metaknowledge %}#write_nodeAttributeFile).
+To read back these files use [read_graph()]({{ site.baseurl }}{% post_url /docs/2015-12-17-metaknowledge %}#read_graph) and to write only one type of lsit use [write_edgeList()]({{ site.baseurl }}{% post_url /docs/2015-12-17-metaknowledge %}#write_edgeList) or [write_nodeAttributeFile()]({{ site.baseurl }}{% post_url /docs/2015-12-17-metaknowledge %}#write_nodeAttributeFile).
 
 **Warning**: this function will overwrite files, if they are in the way of the output, to prevent this set _overwrite_ to `False`
 
@@ -548,7 +559,7 @@ For each field tag it adds an entry to the returned dict with the tag as the key
 
 The entry in the returned dict would be `{'AF' : ["BREVIK, I", "ANICIN, B"]}`
 
-[Record]({{ site.baseurl }}{% post_url /docs/2015-11-29-metaknowledge %}#Record) objects can be created with these dictionaries as the initializer.
+[Record]({{ site.baseurl }}{% post_url /docs/2015-12-17-metaknowledge %}#Record) objects can be created with these dictionaries as the initializer.
 
 ###### Parameters
 
@@ -558,7 +569,7 @@ _paper_ : `file stream`
 
 ###### Returns
 
-`dict[str : List[str]]`
+`OrderedDict[str : List[str]]`
 
  A dictionary mapping WOS tags to lists, the lists are of strings, each string is a line of the record associated with the tag.
 
@@ -575,7 +586,7 @@ Each it finds is used to initialize a Record then all Record are returned as a l
 
 <a name="tagToFull"></a><small></small>**[<ins>tagToFull</ins>]({{ site.baseurl }}{{ page.url }}#tagToFull)**(_tag_):
 
-A wrapper for [`tagToFullDict`]({{ site.baseurl }}{% post_url /docs/2015-11-29-tagProcessing %}#tagProcessing) it maps 2 character tags to thir full names.
+A wrapper for [`tagToFullDict`]({{ site.baseurl }}{% post_url /docs/2015-12-17-tagProcessing %}#tagProcessing) it maps 2 character tags to thir full names.
 
 ###### Parameters
 
@@ -758,7 +769,7 @@ Checks if the author is given as "[ANONYMOUS]" and returns `True` if so.
 
 <a name="getID"></a><small>Citation.</small>**[<ins>getID</ins>]({{ site.baseurl }}{{ page.url }}#getID)**():
 
-Returns all of "author, year, journal" available. It is for shortening labels when creating networks as the resultant strings are often unique. [`getExtra()`]({{ site.baseurl }}{% post_url /docs/2015-11-29-Citation %}#getExtra) gets everything not returned by `getID()`.
+Returns all of "author, year, journal" available. It is for shortening labels when creating networks as the resultant strings are often unique. [`getExtra()`]({{ site.baseurl }}{% post_url /docs/2015-12-17-Citation %}#getExtra) gets everything not returned by `getID()`.
 
 This is also used for hashing and equality checking.
 
@@ -773,7 +784,7 @@ This is also used for hashing and equality checking.
 
 <a name="allButDOI"></a><small>Citation.</small>**[<ins>allButDOI</ins>]({{ site.baseurl }}{{ page.url }}#allButDOI)**():
 
-Returns a string of the normalized values from the Citation excluding the DOI number. Equivalent to getting the ID with [`getID()`]({{ site.baseurl }}{% post_url /docs/2015-11-29-Citation %}#getID) then appending the extra values from [`getExtra()`]({{ site.baseurl }}{% post_url /docs/2015-11-29-Citation %}#getExtra) and then removing the substring containing the DOI number.
+Returns a string of the normalized values from the Citation excluding the DOI number. Equivalent to getting the ID with [`getID()`]({{ site.baseurl }}{% post_url /docs/2015-12-17-Citation %}#getID) then appending the extra values from [`getExtra()`]({{ site.baseurl }}{% post_url /docs/2015-12-17-Citation %}#getExtra) and then removing the substring containing the DOI number.
 
 ###### Returns
 
@@ -786,7 +797,7 @@ Returns a string of the normalized values from the Citation excluding the DOI nu
 
 <a name="getExtra"></a><small>Citation.</small>**[<ins>getExtra</ins>]({{ site.baseurl }}{{ page.url }}#getExtra)**():
 
-Returns any V, P, DOI or misc values as a string. These are all the values not returned by [`getID()`]({{ site.baseurl }}{% post_url /docs/2015-11-29-Citation %}#getID).
+Returns any V, P, DOI or misc values as a string. These are all the values not returned by [`getID()`]({{ site.baseurl }}{% post_url /docs/2015-12-17-Citation %}#getID).
 
 ###### Returns
 
@@ -825,7 +836,7 @@ Returns the full name of the Citation's journal field. Requires the j9Abbreviati
 
 <a name="addToDB"></a><small>Citation.</small>**[<ins>addToDB</ins>]({{ site.baseurl }}{{ page.url }}#addToDB)**(_manualName=None, manaulDB='manualj9Abbreviations', invert=False_):
 
-Adds the journal of this Citation to the user created database of journals. This will cause [isJournal()]({{ site.baseurl }}{% post_url /docs/2015-11-29-Citation %}#isJournal) to return `True` for this Citation and all others with its `.journal`.
+Adds the journal of this Citation to the user created database of journals. This will cause [isJournal()]({{ site.baseurl }}{% post_url /docs/2015-12-17-Citation %}#isJournal) to return `True` for this Citation and all others with its `.journal`.
 
 ###### Parameters
 
@@ -835,7 +846,7 @@ _manualName_ : `optional [str]`
 
 _manaulDB_ : `optional [str]`
 
- The name of the database file, the default is [metaknowledge.journalAbbreviations.manaulDBname]({{ site.baseurl }}{% post_url /docs/2015-11-29-journalAbbreviations %}#manaulDBname)
+ The name of the database file, the default is [metaknowledge.journalAbbreviations.manaulDBname]({{ site.baseurl }}{% post_url /docs/2015-12-17-journalAbbreviations %}#manaulDBname)
 
 _invert_ : `optional [bool]`
 
@@ -897,11 +908,13 @@ The Record class has the following methods:
 <ul class="post-list">
 <li><article><a href="#numAuthors"><b>numAuthors</b>()</a></article></li>
 <li><article><a href="#getTag"><b>getTag</b>(<i>tag, clean=False</i>)</a></article></li>
-<li><article><a href="#createCitation"><b>createCitation</b>()</a></article></li>
+<li><article><a href="#createCitation"><b>createCitation</b>(<i>multiCite=False</i>)</a></article></li>
 <li><article><a href="#getTagsList"><b>getTagsList</b>(<i>taglst, cleaned=False</i>)</a></article></li>
 <li><article><a href="#getTagsDict"><b>getTagsDict</b>(<i>taglst, cleaned=False</i>)</a></article></li>
 <li><article><a href="#activeTags"><b>activeTags</b>()</a></article></li>
 <li><article><a href="#writeRecord"><b>writeRecord</b>(<i>infile</i>)</a></article></li>
+<li><article><a href="#bibString"><b>bibString</b>(<i>maxLength=1000, WOSMode=False, restrictedOutput=False, niceID=True</i>)</a></article></li>
+<li><article><a href="#bibTexType"><b>bibTexType</b>()</a></article></li>
 </ul>
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
@@ -931,27 +944,33 @@ _tag_ : `str`
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="createCitation"></a><small>Record.</small>**[<ins>createCitation</ins>]({{ site.baseurl }}{{ page.url }}#createCitation)**():
+<a name="createCitation"></a><small>Record.</small>**[<ins>createCitation</ins>]({{ site.baseurl }}{{ page.url }}#createCitation)**(_multiCite=False_):
 
-Creates a citation string, using the same format as other WOS citations, for the [Record]({{ site.baseurl }}{% post_url /docs/2015-11-29-Record %}#Record) by reading the relevant tags (year, J9, volume, beginningPage, DOI) and using it to start a [Citation]({{ site.baseurl }}{% post_url /docs/2015-11-29-Citation %}#Citation) object.
+Creates a citation string, using the same format as other WOS citations, for the [Record]({{ site.baseurl }}{% post_url /docs/2015-12-17-Record %}#Record) by reading the relevant tags (year, J9, volume, beginningPage, DOI) and using it to start a [Citation]({{ site.baseurl }}{% post_url /docs/2015-12-17-Citation %}#Citation) object.
+
+###### Parameters
+
+_multiCite_ : `optional [bool]`
+
+ default `False`, if `True` a tuple of Citations is retuned with each having a different one of the records authors as the author
 
 ###### Returns
 
 `Citation`
 
- A [Citation]({{ site.baseurl }}{% post_url /docs/2015-11-29-Citation %}#Citation) object containing a citation for the Record.
+ A [Citation]({{ site.baseurl }}{% post_url /docs/2015-12-17-Citation %}#Citation) object containing a citation for the Record.
 
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="getTagsList"></a><small>Record.</small>**[<ins>getTagsList</ins>]({{ site.baseurl }}{{ page.url }}#getTagsList)**(_taglst, cleaned=False_):
 
-Returns a list of the results of [`getTag()`]({{ site.baseurl }}{% post_url /docs/2015-11-29-Record %}#getTag) for each tag in _taglist_, the return has the same order as the original.
+Returns a list of the results of [`getTag()`]({{ site.baseurl }}{% post_url /docs/2015-12-17-Record %}#getTag) for each tag in _taglist_, the return has the same order as the original.
 
 ###### Parameters
 _taglst_ : `List[str]`
 
- Each string in _taglst_ can be a two character string corresponding to a WOS tag e.g. 'J9', the matching is case insensitive so 'j9' is the same as 'J9'. Or it can be one of the full names for a tag with the mappings in [fullToTag]({{ site.baseurl }}{% post_url /docs/2015-11-29-metaknowledge %}#metaknowledge). If the string is not found in the original record before or after being translated through [fullToTag]({{ site.baseurl }}{% post_url /docs/2015-11-29-metaknowledge %}#metaknowledge), `None` is used instead. Same as in [`getTag()`]({{ site.baseurl }}{% post_url /docs/2015-11-29-Record %}#getTag)
+ Each string in _taglst_ can be a two character string corresponding to a WOS tag e.g. 'J9', the matching is case insensitive so 'j9' is the same as 'J9'. Or it can be one of the full names for a tag with the mappings in [fullToTag]({{ site.baseurl }}{% post_url /docs/2015-12-17-metaknowledge %}#metaknowledge). If the string is not found in the original record before or after being translated through [fullToTag]({{ site.baseurl }}{% post_url /docs/2015-12-17-metaknowledge %}#metaknowledge), `None` is used instead. Same as in [`getTag()`]({{ site.baseurl }}{% post_url /docs/2015-12-17-Record %}#getTag)
 
  Then they are compiled into a list in the same order as _taglst_
 
@@ -971,7 +990,7 @@ returns a dict of the results of getTag, with the elements of _taglst_ as the ke
 ###### Parameters
 _taglst_ : `List[str]`
 
- Each string in _taglst_ can be a two character string corresponding to a WOS tag e.g. 'J9', the matching is case insensitive so 'j9' is the same as 'J9'. Or it can be one of the full names for a tag with the mappings in [fullToTag]({{ site.baseurl }}{% post_url /docs/2015-11-29-metaknowledge %}#metaknowledge). If the string is not found in the oriagnal record before or after being translated through [fullToTag](#metaknowledge), `None` is used instead. Same as in [`getTag()`]({{ site.baseurl }}{% post_url /docs/2015-11-29-Record %}#getTag)
+ Each string in _taglst_ can be a two character string corresponding to a WOS tag e.g. 'J9', the matching is case insensitive so 'j9' is the same as 'J9'. Or it can be one of the full names for a tag with the mappings in [fullToTag]({{ site.baseurl }}{% post_url /docs/2015-12-17-metaknowledge %}#metaknowledge). If the string is not found in the oriagnal record before or after being translated through [fullToTag](#metaknowledge), `None` is used instead. Same as in [`getTag()`]({{ site.baseurl }}{% post_url /docs/2015-12-17-Record %}#getTag)
 
 ###### Returns
 
@@ -984,7 +1003,7 @@ _taglst_ : `List[str]`
 
 <a name="activeTags"></a><small>Record.</small>**[<ins>activeTags</ins>]({{ site.baseurl }}{{ page.url }}#activeTags)**():
 
-Returns a list of all the tags the original WOS record had. These are all the tags that ['getTag()']({{ site.baseurl }}{% post_url /docs/2015-11-29-Record %}#getTag) will not return `None` for.
+Returns a list of all the tags the original WOS record had. These are all the tags that ['getTag()']({{ site.baseurl }}{% post_url /docs/2015-12-17-Record %}#getTag) will not return `None` for.
 
 ###### Returns
 
@@ -997,13 +1016,61 @@ Returns a list of all the tags the original WOS record had. These are all the ta
 
 <a name="writeRecord"></a><small>Record.</small>**[<ins>writeRecord</ins>]({{ site.baseurl }}{{ page.url }}#writeRecord)**(_infile_):
 
-Writes to _infile_ the original contents of the Record. This is intended for use by [RecordCollections]({{ site.baseurl }}{% post_url /docs/2015-11-29-RecordCollection %}#RecordCollection) to write to file. What is written to _infile_ is bit for bit identical to the original record file. No newline is inserted above the write but the last character is a newline.
+Writes to _infile_ the original contents of the Record. This is intended for use by [RecordCollections]({{ site.baseurl }}{% post_url /docs/2015-12-17-RecordCollection %}#RecordCollection) to write to file. What is written to _infile_ is bit for bit identical to the original record file. No newline is inserted above the write but the last character is a newline.
 
 ###### Parameters
 
 _infile_ : `file stream`
 
  An open utf-8 encoded file
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="bibString"></a><small>Record.</small>**[<ins>bibString</ins>]({{ site.baseurl }}{{ page.url }}#bibString)**(_maxLength=1000, WOSMode=False, restrictedOutput=False, niceID=True_):
+
+Makes a string giving the Record as a bibTex entry. If the Record is of a journal article (PT J) the bibtext type is set to `'article'`, otherwise it is set to `'misc'`. The ID of the entry is the WOS number and all the Record's fields are given as entries with their long names.
+
+**Note** This is not meant to be used directly with LaTeX none of the special characters have been escaped and there are a large number of unnecessary fields provided.
+
+**Note** Record entries that are lists have their values seperated with the string `' and '`
+
+###### Parameters
+
+_maxLength_ : `optional [int]`
+
+ default 1000, The max length for a continuous string. Most bibTex implementation only allow string to be up to 1000 characters ([source](https://www.cs.arizona.edu/~collberg/Teaching/07.231/BibTeX/bibtex.html)), this splits them up into substrings then uses the native string concatenation (the `'#'` character) to allow for longer strings
+
+_WOSMode_ : `optional [bool]`
+
+ default `False`, if `True` the data produced will be unprocessed and use double curly braces. This is the style WOS produces bib files in and mostly macthes that.
+
+_restrictedOutput_ : `optional [bool]`
+
+ default `False`, if `True` the tags output will be limited to: `'AF'`, `'BF'`, `'ED'`, `'TI'`, `'SO'`, `'LA'`, `'NR'`, `'TC'`, `'Z9'`, `'PU'`, `'J9'`, `'PY'`, `'PD'`, `'VL'`, `'IS'`, `'SU'`, `'PG'`, `'DI'`, `'D2'`, and `'UT'`
+
+_niceID_ : `optional [bool]`
+
+ default `True`, if `True` the ID used will be derived from the authors, publishing date and title, if `False` it will be the UT tag
+
+###### Returns
+
+`str`
+
+ The bibTex string of the Record
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="bibTexType"></a><small>Record.</small>**[<ins>bibTexType</ins>]({{ site.baseurl }}{{ page.url }}#bibTexType)**():
+
+Returns the bibTex type corresonding to the record
+
+###### Returns
+
+`str`
+
+ The bibTex type string
 
 
 
@@ -1050,6 +1117,7 @@ _extension_ : `optional [str]`
 The RecordCollection class has the following methods:
 
 <ul class="post-list">
+<li><article><a href="#twoModeNetwork"><b>twoModeNetwork</b>(<i>tag1, tag2, directed=False, recordType=True, nodeCount=True, edgeWeight=True, stemmerTag1=None, stemmerTag2=None</i>)</a></article></li>
 <li><article><a href="#nModeNetwork"><b>nModeNetwork</b>(<i>tags, recordType=True, nodeCount=True, edgeWeight=True, stemmer=None</i>)</a></article></li>
 <li><article><a href="#localCiteStats"><b>localCiteStats</b>(<i>pandasFriendly=False, keyType='citation'</i>)</a></article></li>
 <li><article><a href="#localCitesOf"><b>localCitesOf</b>(<i>rec</i>)</a></article></li>
@@ -1064,14 +1132,65 @@ The RecordCollection class has the following methods:
 <li><article><a href="#dropNonJournals"><b>dropNonJournals</b>(<i>ptVal='J', dropBad=True, invert=False</i>)</a></article></li>
 <li><article><a href="#writeFile"><b>writeFile</b>(<i>fname=None</i>)</a></article></li>
 <li><article><a href="#writeCSV"><b>writeCSV</b>(<i>fname=None, onlyTheseTags=None, numAuthors=True, longNames=False, firstTags=None, csvDelimiter=',', csvQuote='"', listDelimiter='|'</i>)</a></article></li>
+<li><article><a href="#writeBib"><b>writeBib</b>(<i>fname=None, maxStringLength=1000, wosMode=False, reducedOutput=False, niceIDs=True</i>)</a></article></li>
 <li><article><a href="#makeDict"><b>makeDict</b>(<i>onlyTheseTags=None, longNames=False, cleanedVal=True, numAuthors=True</i>)</a></article></li>
 <li><article><a href="#coAuthNetwork"><b>coAuthNetwork</b>(<i>detailedInfo=False, weighted=True, dropNonJournals=False, count=True</i>)</a></article></li>
-<li><article><a href="#coCiteNetwork"><b>coCiteNetwork</b>(<i>dropAnon=True, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, keyWords=None, detailedCore=None, coreOnly=False</i>)</a></article></li>
-<li><article><a href="#citationNetwork"><b>citationNetwork</b>(<i>dropAnon=True, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, directed=True, keyWords=None, detailedCore=None, coreOnly=False</i>)</a></article></li>
+<li><article><a href="#coCiteNetwork"><b>coCiteNetwork</b>(<i>dropAnon=True, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, keyWords=None, detailedCore=None, coreOnly=False, expandedCore=False</i>)</a></article></li>
+<li><article><a href="#citationNetwork"><b>citationNetwork</b>(<i>dropAnon=True, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, directed=True, keyWords=None, detailedCore=None, coreOnly=False, expandedCore=False</i>)</a></article></li>
 <li><article><a href="#yearSplit"><b>yearSplit</b>(<i>startYear, endYear, dropMissingYears=True</i>)</a></article></li>
 <li><article><a href="#oneModeNetwork"><b>oneModeNetwork</b>(<i>mode, nodeCount=True, edgeWeight=True, stemmer=None</i>)</a></article></li>
-<li><article><a href="#twoModeNetwork"><b>twoModeNetwork</b>(<i>tag1, tag2, directed=False, recordType=True, nodeCount=True, edgeWeight=True, stemmerTag1=None, stemmerTag2=None</i>)</a></article></li>
 </ul>
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="twoModeNetwork"></a><small>RecordCollection.</small>**[<ins>twoModeNetwork</ins>]({{ site.baseurl }}{{ page.url }}#twoModeNetwork)**(_tag1, tag2, directed=False, recordType=True, nodeCount=True, edgeWeight=True, stemmerTag1=None, stemmerTag2=None_):
+
+Creates a network of the objects found by two WOS tags _tag1_ and _tag2_.
+
+A **twoModeNetwork()** looks are each Record in the RecordCollection and extracts its values for the tags given by _tag1_ and _tag2_, e.g. the `"WC"` and `"LA"` tags. Then for each object returned by each tag and edge is created between it and every other object of the other tag. So the WOS defined subject tag `"WC"` and language tag `"LA"`, will give a two-mode network showing the connections between subjects and languages. Each node will have an attribute call `"type"` that gives the tag that created it or both if both created it, e.g. the node `"English"` would have the type attribute be `"LA"`.
+
+The number of times each object occurs is count if _nodeCount_ is `True` and the edges count the number of co-occurrences if _edgeWeight_ is `True`. Both are`True` by default.
+
+The _directed_ parameter if `True` will cause the network to be directed with the first tag as the source and the second as the destination.
+
+###### Parameters
+
+_tag1_ : `str`
+
+ A two character WOS tag or one of the full names for a tag, the source of edges on the graph
+
+_tag1_ : `str`
+
+ A two character WOS tag or one of the full names for a tag, the target of edges on the graph
+
+_directed_ : `optional [bool]`
+
+ Default `False`, if `True` the returned network is directed
+
+_nodeCount_ : `optional [bool]`
+
+ Default `True`, if `True` each node will have an attribute called "count" that contains an int giving the number of time the object occurred.
+
+_edgeWeight_ : `optional [bool]`
+
+ Default `True`, if `True` each edge will have an attribute called "weight" that contains an int giving the number of time the two objects co-occurrenced.
+
+_stemmerTag1_ : `optional [func]`
+
+ default `None`, If _stemmerTag1_ is a callable object, basically a function or possibly a class, it will be called for the ID of every node given by _tag1_ in the graph, all IDs are strings. For example:
+
+The function ` f = lambda x: x[0]` if given as the stemmer will cause all IDs to be the first character of their unstemmed IDs. e.g. the title `'Goos-Hanchen and Imbert-Fedorov shifts for leaky guided modes'` will create the node `'G'`.
+
+_stemmerTag2_ : `optional [func]`
+
+ default `None`, see _stemmerTag1_ as it is the same but for _tag2_
+
+###### Returns
+
+`networkx Graph or networkx DiGraph`
+
+ A networkx Graph with the objects of the tags _tag1_ and _tag2_ as nodes and their co-occurrences as edges.
+
+
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="nModeNetwork"></a><small>RecordCollection.</small>**[<ins>nModeNetwork</ins>]({{ site.baseurl }}{{ page.url }}#nModeNetwork)**(_tags, recordType=True, nodeCount=True, edgeWeight=True, stemmer=None_):
@@ -1221,7 +1340,7 @@ _wosNum_ : `str`
 
 _drop_ : `optional [bool]`
 
- Default `False`. If `True` the Record is dropped from the collection after being extract, i.e. if `False` [getWOS()]({{ site.baseurl }}{% post_url /docs/2015-11-29-RecordCollection %}#getWOS) acts like [peak()]({{ site.baseurl }}{% post_url /docs/2015-11-29-RecordCollection %}#peak), if `True` it acts like [pop()]({{ site.baseurl }}{% post_url /docs/2015-11-29-RecordCollection %}#pop)
+ Default `False`. If `True` the Record is dropped from the collection after being extract, i.e. if `False` [getWOS()]({{ site.baseurl }}{% post_url /docs/2015-12-17-RecordCollection %}#getWOS) acts like [peak()]({{ site.baseurl }}{% post_url /docs/2015-12-17-RecordCollection %}#peak), if `True` it acts like [pop()]({{ site.baseurl }}{% post_url /docs/2015-12-17-RecordCollection %}#pop)
 
 ###### Returns
 
@@ -1301,6 +1420,41 @@ listDelimiter is the delimiter used between values of the same cell if the tag f
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
+<a name="writeBib"></a><small>RecordCollection.</small>**[<ins>writeBib</ins>]({{ site.baseurl }}{{ page.url }}#writeBib)**(_fname=None, maxStringLength=1000, wosMode=False, reducedOutput=False, niceIDs=True_):
+
+Writes a bibTex entry to _fname_ for each Record in the collection.
+
+If the Record is of a journal article (PT J) the bibtext type is set to `'article'`, otherwise it is set to `'misc'`. The ID of the entry is the WOS number and all the Record's fields are given as entries with their long names.
+
+**Note** This is not meant to be used directly with LaTeX none of the special characters have been escaped and there are a large number of unnecessary fields provided.
+
+**Note** Record entries that are lists have their values seperated with the string `' and '`, as this is the way bibTex understands
+
+###### Parameters
+
+_fname_ : `optional [str]`
+
+ default `None`, The name of the file to be written. If not given one will be derived from the collection and the file will be written to .
+
+_maxStringLength_ : `optional [int]`
+
+ default 1000, The max length for a continuous string. Most bibTex implementation only allow string to be up to 1000 characters ([source](https://www.cs.arizona.edu/~collberg/Teaching/07.231/BibTeX/bibtex.html)), this splits them up into substrings then uses the native string concatenation (the `'#'` character) to allow for longer strings
+
+_WOSMode_ : `optional [bool]`
+
+ default `False`, if `True` the data produced will be unprocessed and use double curly braces. This is the style WOS produces bib files in and mostly macthes that.
+
+_restrictedOutput_ : `optional [bool]`
+
+ default `False`, if `True` the tags output will be limited to: `'AF'`, `'BF'`, `'ED'`, `'TI'`, `'SO'`, `'LA'`, `'NR'`, `'TC'`, `'Z9'`, `'PU'`, `'J9'`, `'PY'`, `'PD'`, `'VL'`, `'IS'`, `'SU'`, `'PG'`, `'DI'`, `'D2'`, and `'UT'`
+
+_niceID_ : `optional [bool]`
+
+ default `True`, if `True` the IDs used will be derived from the authors, publishing date and title, if `False` it will be the UT tag
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
 <a name="makeDict"></a><small>RecordCollection.</small>**[<ins>makeDict</ins>]({{ site.baseurl }}{{ page.url }}#makeDict)**(_onlyTheseTags=None, longNames=False, cleanedVal=True, numAuthors=True_):
 
 Returns a dict with each key a tag and the values being lists of the values for each of the Records in the collection, `None` is given when there is no value and they are in the same order across each tag.
@@ -1328,7 +1482,7 @@ _detailedInfo_ : `optional [bool or iterable[WOS tag Strings]]`
 
  For each of the selected tags an attribute will be added to the node using the values of those tags on the first `Record` encountered. **Warning** iterating over `RecordCollection` objects is not deterministic the first `Record` will not always be same between runs. The node will be given attributes with the names of the WOS tags for each of the selected tags. The attributes will contain strings of containing the values (with commas removed), if multiple values are encountered they will be comma separated.
 
- Note: _detailedInfo_ is not identical to the _detailedCore_ argument of [`Recordcollection.coCiteNetwork()`]({{ site.baseurl }}{% post_url /docs/2015-11-29-RecordCollection %}#coCiteNetwork) or [`Recordcollection.citationNetwork()`]({{ site.baseurl }}{% post_url /docs/2015-11-29-RecordCollection %}#citationNetwork)
+ Note: _detailedInfo_ is not identical to the _detailedCore_ argument of [`Recordcollection.coCiteNetwork()`]({{ site.baseurl }}{% post_url /docs/2015-12-17-RecordCollection %}#coCiteNetwork) or [`Recordcollection.citationNetwork()`]({{ site.baseurl }}{% post_url /docs/2015-12-17-RecordCollection %}#citationNetwork)
 
 _weighted_ : `optional [bool]`
 
@@ -1351,7 +1505,7 @@ _count_ : `optional [bool]`
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="coCiteNetwork"></a><small>RecordCollection.</small>**[<ins>coCiteNetwork</ins>]({{ site.baseurl }}{{ page.url }}#coCiteNetwork)**(_dropAnon=True, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, keyWords=None, detailedCore=None, coreOnly=False_):
+<a name="coCiteNetwork"></a><small>RecordCollection.</small>**[<ins>coCiteNetwork</ins>]({{ site.baseurl }}{{ page.url }}#coCiteNetwork)**(_dropAnon=True, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, keyWords=None, detailedCore=None, coreOnly=False, expandedCore=False_):
 
 Creates a co-citation network for the RecordCollection.
 
@@ -1359,7 +1513,7 @@ Creates a co-citation network for the RecordCollection.
 
 _nodeType_ : `optional [str]`
 
- One of `"full"`, `"original"`, `"author"`, `"journal"` or `"year"`. Specifies the value of the nodes in the graph. The default `"full"` causes the citations to be compared holistically using the [`metaknowledge.Citation`]({{ site.baseurl }}{% post_url /docs/2015-11-29-Citation %}#Citation) builtin comparison operators. `"original"` uses the raw original strings of the citations. While `"author"`, `"journal"` and `"year"` each use the author, journal and year respectively.
+ One of `"full"`, `"original"`, `"author"`, `"journal"` or `"year"`. Specifies the value of the nodes in the graph. The default `"full"` causes the citations to be compared holistically using the [`metaknowledge.Citation`]({{ site.baseurl }}{% post_url /docs/2015-12-17-Citation %}#Citation) builtin comparison operators. `"original"` uses the raw original strings of the citations. While `"author"`, `"journal"` and `"year"` each use the author, journal and year respectively.
 
 _dropAnon_ : `optional [bool]`
 
@@ -1397,11 +1551,15 @@ _detailedCore_ : `optional [bool or iterable[WOS tag Strings]]`
 
  The resultant string is the values of each tag, with commas removed, seperated by `', '`, just like the info given by non-core Citations. Note that for tags like `'AF'` that return lists only the first entry in the list will be used. Also a second attribute is created for all nodes called inCore wich is a boolean describing if the node is in the core or not.
 
- Note: _detailedCore_  is not identical to the _detailedInfo_ argument of [`Recordcollection.coAuthNetwork()`]({{ site.baseurl }}{% post_url /docs/2015-11-29-RecordCollection %}#coAuthNetwork)
+ Note: _detailedCore_  is not identical to the _detailedInfo_ argument of [`Recordcollection.coAuthNetwork()`]({{ site.baseurl }}{% post_url /docs/2015-12-17-RecordCollection %}#coAuthNetwork)
 
 _coreOnly_ : `optional [bool]`
 
  default `False`, if `True` only Citations from the RecordCollection will be included in the network
+
+_expandedCore_ : `optional [bool]`
+
+ default `False`, if `True` all citations in the ouput graph that are records in the collection will be duplicated for each author. If the nodes are `"full"`, `"original"` or `"author"` this will result in new noded being created for the other options the results are **not** defined or tested. Edges will be created between each of the nodes for each record expanded, attributes will be copied from exiting nodes.
 
 ###### Returns
 
@@ -1412,7 +1570,7 @@ _coreOnly_ : `optional [bool]`
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="citationNetwork"></a><small>RecordCollection.</small>**[<ins>citationNetwork</ins>]({{ site.baseurl }}{{ page.url }}#citationNetwork)**(_dropAnon=True, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, directed=True, keyWords=None, detailedCore=None, coreOnly=False_):
+<a name="citationNetwork"></a><small>RecordCollection.</small>**[<ins>citationNetwork</ins>]({{ site.baseurl }}{{ page.url }}#citationNetwork)**(_dropAnon=True, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, directed=True, keyWords=None, detailedCore=None, coreOnly=False, expandedCore=False_):
 
 Creates a citation network for the RecordCollection.
 
@@ -1420,7 +1578,7 @@ Creates a citation network for the RecordCollection.
 
 _nodeType_ : `optional [str]`
 
- One of `"full"`, `"original"`, `"author"`, `"journal"` or `"year"`. Specifies the value of the nodes in the graph. The default `"full"` causes the citations to be compared holistically using the [`metaknowledge.Citation`]({{ site.baseurl }}{% post_url /docs/2015-11-29-Citation %}#Citation) builtin comparison operators. `"original"` uses the raw original strings of the citations. While `"author"`, `"journal"` and `"year"` each use the author, journal and year respectively.
+ One of `"full"`, `"original"`, `"author"`, `"journal"` or `"year"`. Specifies the value of the nodes in the graph. The default `"full"` causes the citations to be compared holistically using the [`metaknowledge.Citation`]({{ site.baseurl }}{% post_url /docs/2015-12-17-Citation %}#Citation) builtin comparison operators. `"original"` uses the raw original strings of the citations. While `"author"`, `"journal"` and `"year"` each use the author, journal and year respectively.
 
 _dropAnon_ : `optional [bool]`
 
@@ -1462,11 +1620,15 @@ _detailedCore_ : `optional [bool or iterable[WOS tag Strings]]`
 
  The resultant string is the values of each tag, with commas removed, seperated by `', '`, just like the info given by non-core Citations. Note that for tags like `'AF'` that return lists only the first entry in the list will be used. Also a second attribute is created for all nodes called inCore wich is a boolean describing if the node is in the core or not.
 
- Note: _detailedCore_  is not identical to the _detailedInfo_ argument of [`Recordcollection.coAuthNetwork()`]({{ site.baseurl }}{% post_url /docs/2015-11-29-RecordCollection %}#coAuthNetwork)
+ Note: _detailedCore_  is not identical to the _detailedInfo_ argument of [`Recordcollection.coAuthNetwork()`]({{ site.baseurl }}{% post_url /docs/2015-12-17-RecordCollection %}#coAuthNetwork)
 
 _coreOnly_ : `optional [bool]`
 
  default `False`, if `True` only Citations from the RecordCollection will be included in the network
+
+_expandedCore_ : `optional [bool]`
+
+ default `False`, if `True` all citations in the ouput graph that are records in the collection will be duplicated for each author. If the nodes are `"full"`, `"original"` or `"author"` this will result in new noded being created for the other options the results are **not** defined or tested. Edges will be created between each of the nodes for each record expanded, attributes will be copied from exiting nodes.
 
 ###### Returns
 
@@ -1514,7 +1676,7 @@ A **oneModeNetwork()** looks are each Record in the RecordCollection and extract
 
 The number of times each object occurs is count if _nodeCount_ is `True` and the edges count the number of co-occurrences if _edgeWeight_ is `True`. Both are`True` by default.
 
-**Note** Do not use this for the construction of co-citation networks use [Recordcollection.coCiteNetwork()]({{ site.baseurl }}{% post_url /docs/2015-11-29-RecordCollection %}#coCiteNetwork) it is more accurate and has more options.
+**Note** Do not use this for the construction of co-citation networks use [Recordcollection.coCiteNetwork()]({{ site.baseurl }}{% post_url /docs/2015-12-17-RecordCollection %}#coCiteNetwork) it is more accurate and has more options.
 
 ###### Parameters
 
@@ -1541,57 +1703,6 @@ The function ` f = lambda x: x[0]` if given as the stemmer will cause all IDs to
 `networkx Graph`
 
  A networkx Graph with the objects of the tag _mode_ as nodes and their co-occurrences as edges
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="twoModeNetwork"></a><small>RecordCollection.</small>**[<ins>twoModeNetwork</ins>]({{ site.baseurl }}{{ page.url }}#twoModeNetwork)**(_tag1, tag2, directed=False, recordType=True, nodeCount=True, edgeWeight=True, stemmerTag1=None, stemmerTag2=None_):
-
-Creates a network of the objects found by two WOS tags _tag1_ and _tag2_.
-
-A **twoModeNetwork()** looks are each Record in the RecordCollection and extracts its values for the tags given by _tag1_ and _tag2_, e.g. the `"WC"` and `"LA"` tags. Then for each object returned by each tag and edge is created between it and every other object of the other tag. So the WOS defined subject tag `"WC"` and language tag `"LA"`, will give a two-mode network showing the connections between subjects and languages. Each node will have an attribute call `"type"` that gives the tag that created it or both if both created it, e.g. the node `"English"` would have the type attribute be `"LA"`.
-
-The number of times each object occurs is count if _nodeCount_ is `True` and the edges count the number of co-occurrences if _edgeWeight_ is `True`. Both are`True` by default.
-
-The _directed_ parameter if `True` will cause the network to be directed with the first tag as the source and the second as the destination.
-
-###### Parameters
-
-_tag1_ : `str`
-
- A two character WOS tag or one of the full names for a tag, the source of edges on the graph
-
-_tag1_ : `str`
-
- A two character WOS tag or one of the full names for a tag, the target of edges on the graph
-
-_directed_ : `optional [bool]`
-
- Default `False`, if `True` the returned network is directed
-
-_nodeCount_ : `optional [bool]`
-
- Default `True`, if `True` each node will have an attribute called "count" that contains an int giving the number of time the object occurred.
-
-_edgeWeight_ : `optional [bool]`
-
- Default `True`, if `True` each edge will have an attribute called "weight" that contains an int giving the number of time the two objects co-occurrenced.
-
-_stemmerTag1_ : `optional [func]`
-
- default `None`, If _stemmerTag1_ is a callable object, basically a function or possibly a class, it will be called for the ID of every node given by _tag1_ in the graph, all IDs are strings. For example:
-
-The function ` f = lambda x: x[0]` if given as the stemmer will cause all IDs to be the first character of their unstemmed IDs. e.g. the title `'Goos-Hanchen and Imbert-Fedorov shifts for leaky guided modes'` will create the node `'G'`.
-
-_stemmerTag2_ : `optional [func]`
-
- default `None`, see _stemmerTag1_ as it is the same but for _tag2_
-
-###### Returns
-
-`networkx Graph or networkx DiGraph`
-
- A networkx Graph with the objects of the tags _tag1_ and _tag2_ as nodes and their co-occurrences as edges.
 
 
 
@@ -1737,91 +1848,78 @@ The full list of tags and their long names is provided below followed by the des
 
 | tag | Name |
 |:---|:---|
-| `'EM'` |[email]({{ site.baseurl }}{{ page.url }}#tagProcessing.email)
-| `'BS'` |[seriesSubtitle]({{ site.baseurl }}{{ page.url }}#tagProcessing.seriesSubtitle)
-| `'VL'` |[volume]({{ site.baseurl }}{{ page.url }}#tagProcessing.volume)
-| `'SO'` |[journal]({{ site.baseurl }}{{ page.url }}#tagProcessing.journal)
-| `'PM'` |[pubMedID]({{ site.baseurl }}{{ page.url }}#tagProcessing.pubMedID)
-| `'RP'` |[reprintAddress]({{ site.baseurl }}{{ page.url }}#tagProcessing.reprintAddress)
-| `'PU'` |[publisher]({{ site.baseurl }}{{ page.url }}#tagProcessing.publisher)
-| `'GP'` |[group]({{ site.baseurl }}{{ page.url }}#tagProcessing.group)
-| `'J9'` |[j9]({{ site.baseurl }}{{ page.url }}#tagProcessing.j9)
-| `'CR'` |[citations]({{ site.baseurl }}{{ page.url }}#tagProcessing.citations)
-| `'EP'` |[endingPage]({{ site.baseurl }}{{ page.url }}#tagProcessing.endingPage)
-| `'C1'` |[authAddress]({{ site.baseurl }}{{ page.url }}#tagProcessing.authAddress)
-| `'UT'` |[wosString]({{ site.baseurl }}{{ page.url }}#tagProcessing.wosString)
-| `'Z9'` |[totalTimesCited]({{ site.baseurl }}{{ page.url }}#tagProcessing.totalTimesCited)
-| `'ID'` |[keyWords]({{ site.baseurl }}{{ page.url }}#tagProcessing.keyWords)
-| `'PY'` |[year]({{ site.baseurl }}{{ page.url }}#tagProcessing.year)
-| `'RI'` |[ResearcherIDnumber]({{ site.baseurl }}{{ page.url }}#tagProcessing.ResearcherIDnumber)
-| `'EI'` |[eISSN]({{ site.baseurl }}{{ page.url }}#tagProcessing.eISSN)
-| `'BF'` |[bookAuthorFull]({{ site.baseurl }}{{ page.url }}#tagProcessing.bookAuthorFull)
-| `'BN'` |[ISBN]({{ site.baseurl }}{{ page.url }}#tagProcessing.ISBN)
-| `'BP'` |[beginningPage]({{ site.baseurl }}{{ page.url }}#tagProcessing.beginningPage)
-| `'AR'` |[articleNumber]({{ site.baseurl }}{{ page.url }}#tagProcessing.articleNumber)
-| `'SU'` |[supplement]({{ site.baseurl }}{{ page.url }}#tagProcessing.supplement)
-| `'NR'` |[citedRefsCount]({{ site.baseurl }}{{ page.url }}#tagProcessing.citedRefsCount)
-| `'LA'` |[language]({{ site.baseurl }}{{ page.url }}#tagProcessing.language)
-| `'BA'` |[bookAuthor]({{ site.baseurl }}{{ page.url }}#tagProcessing.bookAuthor)
-| `'SN'` |[ISSN]({{ site.baseurl }}{{ page.url }}#tagProcessing.ISSN)
-| `'CA'` |[groupName]({{ site.baseurl }}{{ page.url }}#tagProcessing.groupName)
-| `'D2'` |[bookDOI]({{ site.baseurl }}{{ page.url }}#tagProcessing.bookDOI)
-| `'PA'` |[publisherAddress]({{ site.baseurl }}{{ page.url }}#tagProcessing.publisherAddress)
-| `'TC'` |[wosTimesCited]({{ site.baseurl }}{{ page.url }}#tagProcessing.wosTimesCited)
-| `'OI'` |[orcID]({{ site.baseurl }}{{ page.url }}#tagProcessing.orcID)
-| `'GA'` |[documentDeliveryNumber]({{ site.baseurl }}{{ page.url }}#tagProcessing.documentDeliveryNumber)
-| `'AU'` |[authorsShort]({{ site.baseurl }}{{ page.url }}#tagProcessing.authorsShort)
-| `'PG'` |[pageCount]({{ site.baseurl }}{{ page.url }}#tagProcessing.pageCount)
-| `'SI'` |[specialIssue]({{ site.baseurl }}{{ page.url }}#tagProcessing.specialIssue)
-| `'WC'` |[subjects]({{ site.baseurl }}{{ page.url }}#tagProcessing.subjects)
-| `'CL'` |[confLocation]({{ site.baseurl }}{{ page.url }}#tagProcessing.confLocation)
-| `'SP'` |[confSponsors]({{ site.baseurl }}{{ page.url }}#tagProcessing.confSponsors)
-| `'PT'` |[pubType]({{ site.baseurl }}{{ page.url }}#tagProcessing.pubType)
-| `'AB'` |[abstract]({{ site.baseurl }}{{ page.url }}#tagProcessing.abstract)
-| `'BE'` |[editedBy]({{ site.baseurl }}{{ page.url }}#tagProcessing.editedBy)
-| `'PI'` |[publisherCity]({{ site.baseurl }}{{ page.url }}#tagProcessing.publisherCity)
-| `'HO'` |[confHost]({{ site.baseurl }}{{ page.url }}#tagProcessing.confHost)
-| `'DI'` |[DOI]({{ site.baseurl }}{{ page.url }}#tagProcessing.DOI)
-| `'AF'` |[authorsFull]({{ site.baseurl }}{{ page.url }}#tagProcessing.authorsFull)
-| `'TI'` |[title]({{ site.baseurl }}{{ page.url }}#tagProcessing.title)
-| `'SC'` |[subjectCategory]({{ site.baseurl }}{{ page.url }}#tagProcessing.subjectCategory)
-| `'FX'` |[fundingText]({{ site.baseurl }}{{ page.url }}#tagProcessing.fundingText)
-| `'DT'` |[docType]({{ site.baseurl }}{{ page.url }}#tagProcessing.docType)
-| `'CT'` |[confTitle]({{ site.baseurl }}{{ page.url }}#tagProcessing.confTitle)
-| `'IS'` |[issue]({{ site.baseurl }}{{ page.url }}#tagProcessing.issue)
-| `'PD'` |[month]({{ site.baseurl }}{{ page.url }}#tagProcessing.month)
-| `'JI'` |[isoAbbreviation]({{ site.baseurl }}{{ page.url }}#tagProcessing.isoAbbreviation)
-| `'CY'` |[confDate]({{ site.baseurl }}{{ page.url }}#tagProcessing.confDate)
-| `'DE'` |[authKeyWords]({{ site.baseurl }}{{ page.url }}#tagProcessing.authKeyWords)
-| `'FU'` |[funding]({{ site.baseurl }}{{ page.url }}#tagProcessing.funding)
-| `'PN'` |[partNumber]({{ site.baseurl }}{{ page.url }}#tagProcessing.partNumber)
-| `'ED'` |[editors]({{ site.baseurl }}{{ page.url }}#tagProcessing.editors)
-| `'SE'` |[seriesTitle]({{ site.baseurl }}{{ page.url }}#tagProcessing.seriesTitle)
-| `'MA'` |[meetingAbstract]({{ site.baseurl }}{{ page.url }}#tagProcessing.meetingAbstract)
+| [`'PT'`]({{ site.baseurl }}{{ page.url }}#pubType) | [pubType]({{ site.baseurl }}{{ page.url }}#pubType) |
+| [`'AF'`]({{ site.baseurl }}{{ page.url }}#authorsFull) | [authorsFull]({{ site.baseurl }}{{ page.url }}#authorsFull) |
+| [`'GP'`]({{ site.baseurl }}{{ page.url }}#group) | [group]({{ site.baseurl }}{{ page.url }}#group) |
+| [`'BE'`]({{ site.baseurl }}{{ page.url }}#editedBy) | [editedBy]({{ site.baseurl }}{{ page.url }}#editedBy) |
+| [`'AU'`]({{ site.baseurl }}{{ page.url }}#authorsShort) | [authorsShort]({{ site.baseurl }}{{ page.url }}#authorsShort) |
+| [`'BA'`]({{ site.baseurl }}{{ page.url }}#bookAuthor) | [bookAuthor]({{ site.baseurl }}{{ page.url }}#bookAuthor) |
+| [`'BF'`]({{ site.baseurl }}{{ page.url }}#bookAuthorFull) | [bookAuthorFull]({{ site.baseurl }}{{ page.url }}#bookAuthorFull) |
+| [`'CA'`]({{ site.baseurl }}{{ page.url }}#groupName) | [groupName]({{ site.baseurl }}{{ page.url }}#groupName) |
+| [`'ED'`]({{ site.baseurl }}{{ page.url }}#editors) | [editors]({{ site.baseurl }}{{ page.url }}#editors) |
+| [`'TI'`]({{ site.baseurl }}{{ page.url }}#title) | [title]({{ site.baseurl }}{{ page.url }}#title) |
+| [`'SO'`]({{ site.baseurl }}{{ page.url }}#journal) | [journal]({{ site.baseurl }}{{ page.url }}#journal) |
+| [`'SE'`]({{ site.baseurl }}{{ page.url }}#seriesTitle) | [seriesTitle]({{ site.baseurl }}{{ page.url }}#seriesTitle) |
+| [`'BS'`]({{ site.baseurl }}{{ page.url }}#seriesSubtitle) | [seriesSubtitle]({{ site.baseurl }}{{ page.url }}#seriesSubtitle) |
+| [`'LA'`]({{ site.baseurl }}{{ page.url }}#language) | [language]({{ site.baseurl }}{{ page.url }}#language) |
+| [`'DT'`]({{ site.baseurl }}{{ page.url }}#docType) | [docType]({{ site.baseurl }}{{ page.url }}#docType) |
+| [`'CT'`]({{ site.baseurl }}{{ page.url }}#confTitle) | [confTitle]({{ site.baseurl }}{{ page.url }}#confTitle) |
+| [`'CY'`]({{ site.baseurl }}{{ page.url }}#confDate) | [confDate]({{ site.baseurl }}{{ page.url }}#confDate) |
+| [`'HO'`]({{ site.baseurl }}{{ page.url }}#confHost) | [confHost]({{ site.baseurl }}{{ page.url }}#confHost) |
+| [`'CL'`]({{ site.baseurl }}{{ page.url }}#confLocation) | [confLocation]({{ site.baseurl }}{{ page.url }}#confLocation) |
+| [`'SP'`]({{ site.baseurl }}{{ page.url }}#confSponsors) | [confSponsors]({{ site.baseurl }}{{ page.url }}#confSponsors) |
+| [`'DE'`]({{ site.baseurl }}{{ page.url }}#authKeyWords) | [authKeyWords]({{ site.baseurl }}{{ page.url }}#authKeyWords) |
+| [`'ID'`]({{ site.baseurl }}{{ page.url }}#keyWords) | [keyWords]({{ site.baseurl }}{{ page.url }}#keyWords) |
+| [`'AB'`]({{ site.baseurl }}{{ page.url }}#abstract) | [abstract]({{ site.baseurl }}{{ page.url }}#abstract) |
+| [`'C1'`]({{ site.baseurl }}{{ page.url }}#authAddress) | [authAddress]({{ site.baseurl }}{{ page.url }}#authAddress) |
+| [`'RP'`]({{ site.baseurl }}{{ page.url }}#reprintAddress) | [reprintAddress]({{ site.baseurl }}{{ page.url }}#reprintAddress) |
+| [`'EM'`]({{ site.baseurl }}{{ page.url }}#email) | [email]({{ site.baseurl }}{{ page.url }}#email) |
+| [`'RI'`]({{ site.baseurl }}{{ page.url }}#ResearcherIDnumber) | [ResearcherIDnumber]({{ site.baseurl }}{{ page.url }}#ResearcherIDnumber) |
+| [`'OI'`]({{ site.baseurl }}{{ page.url }}#orcID) | [orcID]({{ site.baseurl }}{{ page.url }}#orcID) |
+| [`'FU'`]({{ site.baseurl }}{{ page.url }}#funding) | [funding]({{ site.baseurl }}{{ page.url }}#funding) |
+| [`'FX'`]({{ site.baseurl }}{{ page.url }}#fundingText) | [fundingText]({{ site.baseurl }}{{ page.url }}#fundingText) |
+| [`'CR'`]({{ site.baseurl }}{{ page.url }}#citations) | [citations]({{ site.baseurl }}{{ page.url }}#citations) |
+| [`'NR'`]({{ site.baseurl }}{{ page.url }}#citedRefsCount) | [citedRefsCount]({{ site.baseurl }}{{ page.url }}#citedRefsCount) |
+| [`'TC'`]({{ site.baseurl }}{{ page.url }}#wosTimesCited) | [wosTimesCited]({{ site.baseurl }}{{ page.url }}#wosTimesCited) |
+| [`'Z9'`]({{ site.baseurl }}{{ page.url }}#totalTimesCited) | [totalTimesCited]({{ site.baseurl }}{{ page.url }}#totalTimesCited) |
+| [`'PU'`]({{ site.baseurl }}{{ page.url }}#publisher) | [publisher]({{ site.baseurl }}{{ page.url }}#publisher) |
+| [`'PI'`]({{ site.baseurl }}{{ page.url }}#publisherCity) | [publisherCity]({{ site.baseurl }}{{ page.url }}#publisherCity) |
+| [`'PA'`]({{ site.baseurl }}{{ page.url }}#publisherAddress) | [publisherAddress]({{ site.baseurl }}{{ page.url }}#publisherAddress) |
+| [`'SC'`]({{ site.baseurl }}{{ page.url }}#subjectCategory) | [subjectCategory]({{ site.baseurl }}{{ page.url }}#subjectCategory) |
+| [`'SN'`]({{ site.baseurl }}{{ page.url }}#ISSN) | [ISSN]({{ site.baseurl }}{{ page.url }}#ISSN) |
+| [`'EI'`]({{ site.baseurl }}{{ page.url }}#eISSN) | [eISSN]({{ site.baseurl }}{{ page.url }}#eISSN) |
+| [`'BN'`]({{ site.baseurl }}{{ page.url }}#ISBN) | [ISBN]({{ site.baseurl }}{{ page.url }}#ISBN) |
+| [`'J9'`]({{ site.baseurl }}{{ page.url }}#j9) | [j9]({{ site.baseurl }}{{ page.url }}#j9) |
+| [`'JI'`]({{ site.baseurl }}{{ page.url }}#isoAbbreviation) | [isoAbbreviation]({{ site.baseurl }}{{ page.url }}#isoAbbreviation) |
+| [`'PD'`]({{ site.baseurl }}{{ page.url }}#month) | [month]({{ site.baseurl }}{{ page.url }}#month) |
+| [`'PY'`]({{ site.baseurl }}{{ page.url }}#year) | [year]({{ site.baseurl }}{{ page.url }}#year) |
+| [`'VL'`]({{ site.baseurl }}{{ page.url }}#volume) | [volume]({{ site.baseurl }}{{ page.url }}#volume) |
+| [`'IS'`]({{ site.baseurl }}{{ page.url }}#issue) | [issue]({{ site.baseurl }}{{ page.url }}#issue) |
+| [`'PN'`]({{ site.baseurl }}{{ page.url }}#partNumber) | [partNumber]({{ site.baseurl }}{{ page.url }}#partNumber) |
+| [`'SU'`]({{ site.baseurl }}{{ page.url }}#supplement) | [supplement]({{ site.baseurl }}{{ page.url }}#supplement) |
+| [`'SI'`]({{ site.baseurl }}{{ page.url }}#specialIssue) | [specialIssue]({{ site.baseurl }}{{ page.url }}#specialIssue) |
+| [`'MA'`]({{ site.baseurl }}{{ page.url }}#meetingAbstract) | [meetingAbstract]({{ site.baseurl }}{{ page.url }}#meetingAbstract) |
+| [`'BP'`]({{ site.baseurl }}{{ page.url }}#beginningPage) | [beginningPage]({{ site.baseurl }}{{ page.url }}#beginningPage) |
+| [`'EP'`]({{ site.baseurl }}{{ page.url }}#endingPage) | [endingPage]({{ site.baseurl }}{{ page.url }}#endingPage) |
+| [`'AR'`]({{ site.baseurl }}{{ page.url }}#articleNumber) | [articleNumber]({{ site.baseurl }}{{ page.url }}#articleNumber) |
+| [`'PG'`]({{ site.baseurl }}{{ page.url }}#pageCount) | [pageCount]({{ site.baseurl }}{{ page.url }}#pageCount) |
+| [`'WC'`]({{ site.baseurl }}{{ page.url }}#subjects) | [subjects]({{ site.baseurl }}{{ page.url }}#subjects) |
+| [`'DI'`]({{ site.baseurl }}{{ page.url }}#DOI) | [DOI]({{ site.baseurl }}{{ page.url }}#DOI) |
+| [`'D2'`]({{ site.baseurl }}{{ page.url }}#bookDOI) | [bookDOI]({{ site.baseurl }}{{ page.url }}#bookDOI) |
+| [`'GA'`]({{ site.baseurl }}{{ page.url }}#documentDeliveryNumber) | [documentDeliveryNumber]({{ site.baseurl }}{{ page.url }}#documentDeliveryNumber) |
+| [`'UT'`]({{ site.baseurl }}{{ page.url }}#wosString) | [wosString]({{ site.baseurl }}{{ page.url }}#wosString) |
+| [`'PM'`]({{ site.baseurl }}{{ page.url }}#pubMedID) | [pubMedID]({{ site.baseurl }}{{ page.url }}#pubMedID) |
 
 
 
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="getMonth"></a><small>tagProcessing.</small>**[<ins>getMonth</ins>]({{ site.baseurl }}{{ page.url }}#getMonth)**(_s_):
+<a name="pubType"></a><small>tagProcessing.</small>**[<ins>pubType</ins>]({{ site.baseurl }}{{ page.url }}#pubType)**(_val_):
 
-Known formats:
-Month ("%b")
-Month Day ("%b %d")
-Month-Month ("%b-%b") --- this gets coerced to the first %b, dropping the month range
-Season ("%s") --- this gets coerced to use the first month of the given season
-Month Day Year ("%b %d %Y")
-Month Year ("%b %Y")
+######The PT Tag
 
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="confHost"></a><small>tagProcessing.</small>**[<ins>confHost</ins>]({{ site.baseurl }}{{ page.url }}#confHost)**(_val_):
-
-######The HO Tag
-
-extracts the host of the conference
+extracts the type of publication as a character: conference, book, journal, book in series, or patent
 
 ###### Parameters
 
@@ -1833,81 +1931,16 @@ _val_: `list[str]`
 
 `str`
 
- The host
+ A string
 
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="publisherAddress"></a><small>tagProcessing.</small>**[<ins>publisherAddress</ins>]({{ site.baseurl }}{{ page.url }}#publisherAddress)**(_val_):
+<a name="authorsFull"></a><small>tagProcessing.</small>**[<ins>authorsFull</ins>]({{ site.baseurl }}{{ page.url }}#authorsFull)**(_val_):
 
-######The PA Tag
+######The AF Tag
 
-extracts the publishers address
-
-###### Parameters
-
-_val_: `list[str]`
-
- The raw data from a WOS file
-
-###### Returns
-
-`str`
-
- The publisher address
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="endingPage"></a><small>tagProcessing.</small>**[<ins>endingPage</ins>]({{ site.baseurl }}{{ page.url }}#endingPage)**(_val_):
-
-######The EP Tag
-
-return the last page the record occurs on as a string, not aall are intergers
-
-###### Parameters
-
-_val_: `list[str]`
-
- The raw data from a WOS file
-
-###### Returns
-
-`str`
-
- The final page number
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="year"></a><small>tagProcessing.</small>**[<ins>year</ins>]({{ site.baseurl }}{{ page.url }}#year)**(_val_):
-
-######The PY Tag
-
-extracts the year the record was published in as an int
-
-###### Parameters
-
-_val_: `list[str]`
-
- The raw data from a WOS file
-
-###### Returns
-
-`int`
-
- The year
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="authKeyWords"></a><small>tagProcessing.</small>**[<ins>authKeyWords</ins>]({{ site.baseurl }}{{ page.url }}#authKeyWords)**(_val_):
-
-######The DE Tag
-
-extracts the keywords assigned by the author of the Record. The WOS description is:
-
-    Author keywords are included in records of articles from 1991 forward. They are also include in conference proceedings records.
+extracts a list of authors full names
 
 ###### Parameters
 
@@ -1919,7 +1952,70 @@ _val_: `list[str]`
 
 `list[str]`
 
- The list of keywords
+ A list of author's names
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="group"></a><small>tagProcessing.</small>**[<ins>group</ins>]({{ site.baseurl }}{{ page.url }}#group)**(_val_):
+
+######The GP Tag
+
+extracts the group associated with the Record
+
+###### Parameters
+
+_val_: `list[str]`
+
+ The raw data from a WOS file
+
+###### Returns
+
+`str`
+
+ A the name of the group
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="editedBy"></a><small>tagProcessing.</small>**[<ins>editedBy</ins>]({{ site.baseurl }}{{ page.url }}#editedBy)**(_val_):
+
+######The BE Tag
+
+extracts a list of the editors of the Record
+
+###### Parameters
+
+_val_: `list[str]`
+
+ The raw data from a WOS file
+
+###### Returns
+
+`list[str]`
+
+ A list of editors
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="authorsShort"></a><small>tagProcessing.</small>**[<ins>authorsShort</ins>]({{ site.baseurl }}{{ page.url }}#authorsShort)**(_val_):
+
+######The AU Tag
+
+extracts a list of authors shortened names
+
+###### Parameters
+
+_val_: `list[str]`
+
+ The raw data from a WOS file
+
+###### Returns
+
+`list[str]`
+
+ A list of shortened author's names
 
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
@@ -1941,176 +2037,6 @@ _val_: `list[str]`
 `list[str]`
 
  A list of shortened author's names
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="reprintAddress"></a><small>tagProcessing.</small>**[<ins>reprintAddress</ins>]({{ site.baseurl }}{{ page.url }}#reprintAddress)**(_val_):
-
-######The RP Tag
-
-extracts the reprint address string
-
-###### Parameters
-
-_val_: `list[str]`
-
- The raw data from a WOS file
-
-###### Returns
-
-`str`
-
- The reprint address
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="totalTimesCited"></a><small>tagProcessing.</small>**[<ins>totalTimesCited</ins>]({{ site.baseurl }}{{ page.url }}#totalTimesCited)**(_val_):
-
-######The Z9 Tag
-
-extracts the total number of citations of the record
-
-###### Parameters
-
-_val_: `list[str]`
-
- The raw data from a WOS file
-
-###### Returns
-
-`int`
-
- The total number of citations
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="partNumber"></a><small>tagProcessing.</small>**[<ins>partNumber</ins>]({{ site.baseurl }}{{ page.url }}#partNumber)**(_val_):
-
-######The PN Tag
-
-return an integer giving the part of the issue the Record is in
-
-###### Parameters
-
-_val_: `list[str]`
-
- The raw data from a WOS file
-
-###### Returns
-
-`int`
-
- The part of the issue of the Record
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="specialIssue"></a><small>tagProcessing.</small>**[<ins>specialIssue</ins>]({{ site.baseurl }}{{ page.url }}#specialIssue)**(_val_):
-
-######The SI Tag
-
-extracts the special issue value
-
-###### Parameters
-
-_val_: `list[str]`
-
- The raw data from a WOS file
-
-###### Returns
-
-`str`
-
- The special issue value
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="subjects"></a><small>tagProcessing.</small>**[<ins>subjects</ins>]({{ site.baseurl }}{{ page.url }}#subjects)**(_val_):
-
-######The WC Tag
-
-extracts a list of subjects as assigned by WOS
-
-###### Parameters
-
-_val_: `list[str]`
-
- The raw data from a WOS file
-
-###### Returns
-
-`list[str]`
-
- The subjects list
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="keyWords"></a><small>tagProcessing.</small>**[<ins>keyWords</ins>]({{ site.baseurl }}{{ page.url }}#keyWords)**(_val_):
-
-######The ID Tag
-
-extracts the WOS keywords of the Record. The WOS description is:
-
-    KeyWords Plus are index terms created by Thomson Reuters from significant, frequently occurring words in the titles of an article's cited references.
-
-###### Parameters
-
-_val_: `list[str]`
-
- The raw data from a WOS file
-
-###### Returns
-
-`list[str]`
-
- The keyWords list
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="pubMedID"></a><small>tagProcessing.</small>**[<ins>pubMedID</ins>]({{ site.baseurl }}{{ page.url }}#pubMedID)**(_val_):
-
-######The PM Tag
-
-extracts the pubmed ID of the record
-
-###### Parameters
-
-_val_: `list[str]`
-
- The raw data from a WOS file
-
-###### Returns
-
-`str`
-
- The pubmed ID
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="documentDeliveryNumber"></a><small>tagProcessing.</small>**[<ins>documentDeliveryNumber</ins>]({{ site.baseurl }}{{ page.url }}#documentDeliveryNumber)**(_val_):
-
-######The GA Tag
-
-extracts the document delivery number of the Record
-
-###### Parameters
-
-_val_: `list[str]`
-
- The raw data from a WOS file
-
-###### Returns
-
-`str`
-
- The document delivery number
 
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
@@ -2157,6 +2083,15 @@ _val_: `list[str]`
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
+<a name="editors"></a><small>tagProcessing.</small>**[<ins>editors</ins>]({{ site.baseurl }}{{ page.url }}#editors)**(_val_):
+
+###### Needs Work
+
+currently not well understood, returns _val_
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
 <a name="title"></a><small>tagProcessing.</small>**[<ins>title</ins>]({{ site.baseurl }}{{ page.url }}#title)**(_val_):
 
 ######The TI Tag
@@ -2174,15 +2109,6 @@ _val_: `list[str]`
 `str`
 
  The title of the record
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="editors"></a><small>tagProcessing.</small>**[<ins>editors</ins>]({{ site.baseurl }}{{ page.url }}#editors)**(_val_):
-
-###### Needs Work
-
-currently not well understood, returns _val_
 
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
@@ -2246,27 +2172,6 @@ _val_: `list[str]`
 `str`
 
  The subtitle of the series
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="authorsFull"></a><small>tagProcessing.</small>**[<ins>authorsFull</ins>]({{ site.baseurl }}{{ page.url }}#authorsFull)**(_val_):
-
-######The AF Tag
-
-extracts a list of authors full names
-
-###### Parameters
-
-_val_: `list[str]`
-
- The raw data from a WOS file
-
-###### Returns
-
-`list[str]`
-
- A list of author's names
 
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
@@ -2355,74 +2260,11 @@ _val_: `list[str]`
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="confSponsors"></a><small>tagProcessing.</small>**[<ins>confSponsors</ins>]({{ site.baseurl }}{{ page.url }}#confSponsors)**(_val_):
+<a name="confHost"></a><small>tagProcessing.</small>**[<ins>confHost</ins>]({{ site.baseurl }}{{ page.url }}#confHost)**(_val_):
 
-######The SP Tag
+######The HO Tag
 
-extracts a list of sponsors for the conference associated with the record
-
-###### Parameters
-
-_val_: `list[str]`
-
- The raw data from a WOS file
-
-###### Returns
-
-`str`
-
- A the list of of sponsors
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="wosTimesCited"></a><small>tagProcessing.</small>**[<ins>wosTimesCited</ins>]({{ site.baseurl }}{{ page.url }}#wosTimesCited)**(_val_):
-
-######The TC Tag
-
-extracts the number of times the Record has been cited by records in WOS
-
-###### Parameters
-
-_val_: `list[str]`
-
- The raw data from a WOS file
-
-###### Returns
-
-`int`
-
- The number of time the Record has been cited
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="authAddress"></a><small>tagProcessing.</small>**[<ins>authAddress</ins>]({{ site.baseurl }}{{ page.url }}#authAddress)**(_val_):
-
-###### The C1 Tag
-
-extracts the address of the authors as given by WOS. **Warning** the mapping of author to address is not very good and is given in multiple ways.
-
-###### Parameters
-
-_val_: `list[str]`
-
- The raw data from a WOS file
-
-###### Returns
-
-`list[str]`
-
- A list of addresses
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="pubType"></a><small>tagProcessing.</small>**[<ins>pubType</ins>]({{ site.baseurl }}{{ page.url }}#pubType)**(_val_):
-
-######The PT Tag
-
-extracts the type of publication as a character: conference, book, journal, book in series, or patent
+extracts the host of the conference
 
 ###### Parameters
 
@@ -2434,7 +2276,7 @@ _val_: `list[str]`
 
 `str`
 
- A string
+ The host
 
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
@@ -2460,11 +2302,11 @@ _val_: `list[str]`
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="j9"></a><small>tagProcessing.</small>**[<ins>j9</ins>]({{ site.baseurl }}{{ page.url }}#j9)**(_val_):
+<a name="confSponsors"></a><small>tagProcessing.</small>**[<ins>confSponsors</ins>]({{ site.baseurl }}{{ page.url }}#confSponsors)**(_val_):
 
-######The J9 Tag
+######The SP Tag
 
-extracts the J9 (29-Character Source Abbreviation) of the publication
+extracts a list of sponsors for the conference associated with the record
 
 ###### Parameters
 
@@ -2476,16 +2318,18 @@ _val_: `list[str]`
 
 `str`
 
- The 29-Character Source Abbreviation
+ A the list of of sponsors
 
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="funding"></a><small>tagProcessing.</small>**[<ins>funding</ins>]({{ site.baseurl }}{{ page.url }}#funding)**(_val_):
+<a name="authKeyWords"></a><small>tagProcessing.</small>**[<ins>authKeyWords</ins>]({{ site.baseurl }}{{ page.url }}#authKeyWords)**(_val_):
 
-######The FU Tag
+######The DE Tag
 
-extracts a list of the groups funding the Record
+extracts the keywords assigned by the author of the Record. The WOS description is:
+
+    Author keywords are included in records of articles from 1991 forward. They are also include in conference proceedings records.
 
 ###### Parameters
 
@@ -2497,37 +2341,18 @@ _val_: `list[str]`
 
 `list[str]`
 
- A list of funding groups
+ The list of keywords
 
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="group"></a><small>tagProcessing.</small>**[<ins>group</ins>]({{ site.baseurl }}{{ page.url }}#group)**(_val_):
+<a name="keyWords"></a><small>tagProcessing.</small>**[<ins>keyWords</ins>]({{ site.baseurl }}{{ page.url }}#keyWords)**(_val_):
 
-######The GP Tag
+######The ID Tag
 
-extracts the group associated with the Record
+extracts the WOS keywords of the Record. The WOS description is:
 
-###### Parameters
-
-_val_: `list[str]`
-
- The raw data from a WOS file
-
-###### Returns
-
-`str`
-
- A the name of the group
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="subjectCategory"></a><small>tagProcessing.</small>**[<ins>subjectCategory</ins>]({{ site.baseurl }}{{ page.url }}#subjectCategory)**(_val_):
-
-######The SC Tag
-
-extracts a list of the subjects associated with the Record
+    KeyWords Plus are index terms created by Thomson Reuters from significant, frequently occurring words in the titles of an article's cited references.
 
 ###### Parameters
 
@@ -2539,511 +2364,7 @@ _val_: `list[str]`
 
 `list[str]`
 
- A list of the subjects associated with the Record
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="citations"></a><small>tagProcessing.</small>**[<ins>citations</ins>]({{ site.baseurl }}{{ page.url }}#citations)**(_val_):
-
-######The CR Tag
-
-extracts a list of all the citations in the record, the citations are the [metaknowledge.Citation]({{ site.baseurl }}{% post_url /docs/2015-11-29-Citation %}#Citation) class.
-
-###### Parameters
-
-_val_: `list[str]`
-
- The raw data from a WOS file
-
-###### Returns
-
-` list[metaknowledge.Citation]`
-
- A list of Citations
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="publisherCity"></a><small>tagProcessing.</small>**[<ins>publisherCity</ins>]({{ site.baseurl }}{{ page.url }}#publisherCity)**(_val_):
-
-######The PI Tag
-
-extracts the city the publisher is in
-
-###### Parameters
-
-_val_: `list[str]`
-
- The raw data from a WOS file
-
-###### Returns
-
-`str`
-
- The city of the publisher
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="ISSN"></a><small>tagProcessing.</small>**[<ins>ISSN</ins>]({{ site.baseurl }}{{ page.url }}#ISSN)**(_val_):
-
-######The SN Tag
-
-extracts the ISSN of the Record
-
-###### Parameters
-
-_val_: `list[str]`
-
- The raw data from a WOS file
-
-###### Returns
-
-`str`
-
- The ISSN string
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="articleNumber"></a><small>tagProcessing.</small>**[<ins>articleNumber</ins>]({{ site.baseurl }}{{ page.url }}#articleNumber)**(_val_):
-
-######The AR Tag
-
-extracts a string giving the article number, not all are integers
-
-###### Parameters
-
-_val_: `list[str]`
-
- The raw data from a WOS file
-
-###### Returns
-
-`str`
-
- The article number
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="issue"></a><small>tagProcessing.</small>**[<ins>issue</ins>]({{ site.baseurl }}{{ page.url }}#issue)**(_val_):
-
-######The IS Tag
-
-extracts a string giving the issue or range of issues the Record was in, not all are integers
-
-###### Parameters
-
-_val_: `list[str]`
-
- The raw data from a WOS file
-
-###### Returns
-
-`str`
-
- The issue number/range
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="email"></a><small>tagProcessing.</small>**[<ins>email</ins>]({{ site.baseurl }}{{ page.url }}#email)**(_val_):
-
-######The EM Tag
-
-extracts a list of emails given by the authors of the Record
-
-###### Parameters
-
-_val_: `list[str]`
-
- The raw data from a WOS file
-
-###### Returns
-
-`list[str]`
-
- A list of emails
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="eISSN"></a><small>tagProcessing.</small>**[<ins>eISSN</ins>]({{ site.baseurl }}{{ page.url }}#eISSN)**(_val_):
-
-######The EI Tag
-
-extracts the EISSN of the Record
-
-###### Parameters
-
-_val_: `list[str]`
-
- The raw data from a WOS file
-
-###### Returns
-
-`str`
-
- The EISSN string
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="DOI"></a><small>tagProcessing.</small>**[<ins>DOI</ins>]({{ site.baseurl }}{{ page.url }}#DOI)**(_val_):
-
-######The DI Tag
-
-return the DOI number of the record
-
-###### Parameters
-
-_val_: `list[str]`
-
- The raw data from a WOS file
-
-###### Returns
-
-`str`
-
- The DOI number string
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="wosString"></a><small>tagProcessing.</small>**[<ins>wosString</ins>]({{ site.baseurl }}{{ page.url }}#wosString)**(_val_):
-
-######The UT Tag
-
-extracts the WOS number of the record as a string preceded by "WOS:"
-
-###### Parameters
-
-_val_: `list[str]`
-
- The raw data from a WOS file
-
-###### Returns
-
-`str`
-
- The WOS number
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="editedBy"></a><small>tagProcessing.</small>**[<ins>editedBy</ins>]({{ site.baseurl }}{{ page.url }}#editedBy)**(_val_):
-
-######The BE Tag
-
-extracts a list of the editors of the Record
-
-###### Parameters
-
-_val_: `list[str]`
-
- The raw data from a WOS file
-
-###### Returns
-
-`list[str]`
-
- A list of editors
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="orcID"></a><small>tagProcessing.</small>**[<ins>orcID</ins>]({{ site.baseurl }}{{ page.url }}#orcID)**(_val_):
-
-######The OI Tag
-
-extracts a list of orc IDs of the Record
-
-###### Parameters
-
-_val_: `list[str]`
-
- The raw data from a WOS file
-
-###### Returns
-
-`str`
-
- The orc ID
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="meetingAbstract"></a><small>tagProcessing.</small>**[<ins>meetingAbstract</ins>]({{ site.baseurl }}{{ page.url }}#meetingAbstract)**(_val_):
-
-######The MA Tag
-
-extracts the ID of the meeting abstract prefixed by 'EPA-'
-
-###### Parameters
-
-_val_: `list[str]`
-
- The raw data from a WOS file
-
-###### Returns
-
-`str`
-
- The meeting abstract prefixed
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="isoAbbreviation"></a><small>tagProcessing.</small>**[<ins>isoAbbreviation</ins>]({{ site.baseurl }}{{ page.url }}#isoAbbreviation)**(_val_):
-
-######The JI Tag
-
-extracts the iso abbreviation of the journal
-
-###### Parameters
-
-_val_: `list[str]`
-
- The raw data from a WOS file
-
-###### Returns
-
-`str`
-
- The iso abbreviation of the journal
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="pageCount"></a><small>tagProcessing.</small>**[<ins>pageCount</ins>]({{ site.baseurl }}{{ page.url }}#pageCount)**(_val_):
-
-######The PG Tag
-
-returns an integer giving the number of pages of the Record
-
-###### Parameters
-
-_val_: `list[str]`
-
- The raw data from a WOS file
-
-###### Returns
-
-`int`
-
- The page count
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="publisher"></a><small>tagProcessing.</small>**[<ins>publisher</ins>]({{ site.baseurl }}{{ page.url }}#publisher)**(_val_):
-
-######The PU Tag
-
-extracts the publisher of the Record
-
-###### Parameters
-
-_val_: `list[str]`
-
- The raw data from a WOS file
-
-###### Returns
-
-`str`
-
- The publisher
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="ISBN"></a><small>tagProcessing.</small>**[<ins>ISBN</ins>]({{ site.baseurl }}{{ page.url }}#ISBN)**(_val_):
-
-######The BN Tag
-
-extracts a list of ISBNs associated with the Record
-
-###### Parameters
-
-_val_: `list[str]`
-
- The raw data from a WOS file
-
-###### Returns
-
-`list`
-
- The ISBNs
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="month"></a><small>tagProcessing.</small>**[<ins>month</ins>]({{ site.baseurl }}{{ page.url }}#month)**(_val_):
-
-######The PD Tag
-
-extracts the month the record was published in as an int with January as 1, February 2, ...
-
-###### Parameters
-
-_val_: `list[str]`
-
- The raw data from a WOS file
-
-###### Returns
-
-`int`
-
- A integer giving the month
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="fundingText"></a><small>tagProcessing.</small>**[<ins>fundingText</ins>]({{ site.baseurl }}{{ page.url }}#fundingText)**(_val_):
-
-######The FX Tag
-
-extracts a string of the funding thanks
-
-###### Parameters
-
-_val_: `list[str]`
-
- The raw data from a WOS file
-
-###### Returns
-
-`str`
-
- The funding thank-you
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="bookDOI"></a><small>tagProcessing.</small>**[<ins>bookDOI</ins>]({{ site.baseurl }}{{ page.url }}#bookDOI)**(_val_):
-
-######The D2 Tag
-
-extracts the book DOI of the Record
-
-###### Parameters
-
-_val_: `list[str]`
-
- The raw data from a WOS file
-
-###### Returns
-
-`str`
-
- The DOI number
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="volume"></a><small>tagProcessing.</small>**[<ins>volume</ins>]({{ site.baseurl }}{{ page.url }}#volume)**(_val_):
-
-######The VL Tag
-
-return the volume the record is in as a string, not all are integers
-
-###### Parameters
-
-_val_: `list[str]`
-
- The raw data from a WOS file
-
-###### Returns
-
-`str`
-
- The volume number
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="authorsShort"></a><small>tagProcessing.</small>**[<ins>authorsShort</ins>]({{ site.baseurl }}{{ page.url }}#authorsShort)**(_val_):
-
-######The AU Tag
-
-extracts a list of authors shortened names
-
-###### Parameters
-
-_val_: `list[str]`
-
- The raw data from a WOS file
-
-###### Returns
-
-`list[str]`
-
- A list of shortened author's names
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="ResearcherIDnumber"></a><small>tagProcessing.</small>**[<ins>ResearcherIDnumber</ins>]({{ site.baseurl }}{{ page.url }}#ResearcherIDnumber)**(_val_):
-
-######The RI Tag
-
-extracts a list of the research IDs of the Record
-
-###### Parameters
-
-_val_: `list[str]`
-
- The raw data from a WOS file
-
-###### Returns
-
-`list[str]`
-
- The list of the research IDs
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="citedRefsCount"></a><small>tagProcessing.</small>**[<ins>citedRefsCount</ins>]({{ site.baseurl }}{{ page.url }}#citedRefsCount)**(_val_):
-
-######The NR Tag
-
-extracts the number citations, length of CR list
-
-###### Parameters
-
-_val_: `list[str]`
-
- The raw data from a WOS file
-
-###### Returns
-
-`int`
-
- The number of CRs
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="beginningPage"></a><small>tagProcessing.</small>**[<ins>beginningPage</ins>]({{ site.baseurl }}{{ page.url }}#beginningPage)**(_val_):
-
-######The BP Tag
-
-extracts the first page the record occurs on, not all are integers
-
-###### Parameters
-
-_val_: `list[str]`
-
- The raw data from a WOS file
-
-###### Returns
-
-`str`
-
- The first page number
+ The keyWords list
 
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
@@ -3069,6 +2390,531 @@ _val_: `list[str]`
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
+<a name="authAddress"></a><small>tagProcessing.</small>**[<ins>authAddress</ins>]({{ site.baseurl }}{{ page.url }}#authAddress)**(_val_):
+
+###### The C1 Tag
+
+extracts the address of the authors as given by WOS. **Warning** the mapping of author to address is not very good and is given in multiple ways.
+
+###### Parameters
+
+_val_: `list[str]`
+
+ The raw data from a WOS file
+
+###### Returns
+
+`list[str]`
+
+ A list of addresses
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="reprintAddress"></a><small>tagProcessing.</small>**[<ins>reprintAddress</ins>]({{ site.baseurl }}{{ page.url }}#reprintAddress)**(_val_):
+
+######The RP Tag
+
+extracts the reprint address string
+
+###### Parameters
+
+_val_: `list[str]`
+
+ The raw data from a WOS file
+
+###### Returns
+
+`str`
+
+ The reprint address
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="email"></a><small>tagProcessing.</small>**[<ins>email</ins>]({{ site.baseurl }}{{ page.url }}#email)**(_val_):
+
+######The EM Tag
+
+extracts a list of emails given by the authors of the Record
+
+###### Parameters
+
+_val_: `list[str]`
+
+ The raw data from a WOS file
+
+###### Returns
+
+`list[str]`
+
+ A list of emails
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="ResearcherIDnumber"></a><small>tagProcessing.</small>**[<ins>ResearcherIDnumber</ins>]({{ site.baseurl }}{{ page.url }}#ResearcherIDnumber)**(_val_):
+
+######The RI Tag
+
+extracts a list of the research IDs of the Record
+
+###### Parameters
+
+_val_: `list[str]`
+
+ The raw data from a WOS file
+
+###### Returns
+
+`list[str]`
+
+ The list of the research IDs
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="orcID"></a><small>tagProcessing.</small>**[<ins>orcID</ins>]({{ site.baseurl }}{{ page.url }}#orcID)**(_val_):
+
+######The OI Tag
+
+extracts a list of orc IDs of the Record
+
+###### Parameters
+
+_val_: `list[str]`
+
+ The raw data from a WOS file
+
+###### Returns
+
+`str`
+
+ The orc ID
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="funding"></a><small>tagProcessing.</small>**[<ins>funding</ins>]({{ site.baseurl }}{{ page.url }}#funding)**(_val_):
+
+######The FU Tag
+
+extracts a list of the groups funding the Record
+
+###### Parameters
+
+_val_: `list[str]`
+
+ The raw data from a WOS file
+
+###### Returns
+
+`list[str]`
+
+ A list of funding groups
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="fundingText"></a><small>tagProcessing.</small>**[<ins>fundingText</ins>]({{ site.baseurl }}{{ page.url }}#fundingText)**(_val_):
+
+######The FX Tag
+
+extracts a string of the funding thanks
+
+###### Parameters
+
+_val_: `list[str]`
+
+ The raw data from a WOS file
+
+###### Returns
+
+`str`
+
+ The funding thank-you
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="citations"></a><small>tagProcessing.</small>**[<ins>citations</ins>]({{ site.baseurl }}{{ page.url }}#citations)**(_val_):
+
+######The CR Tag
+
+extracts a list of all the citations in the record, the citations are the [metaknowledge.Citation]({{ site.baseurl }}{% post_url /docs/2015-12-17-Citation %}#Citation) class.
+
+###### Parameters
+
+_val_: `list[str]`
+
+ The raw data from a WOS file
+
+###### Returns
+
+` list[metaknowledge.Citation]`
+
+ A list of Citations
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="citedRefsCount"></a><small>tagProcessing.</small>**[<ins>citedRefsCount</ins>]({{ site.baseurl }}{{ page.url }}#citedRefsCount)**(_val_):
+
+######The NR Tag
+
+extracts the number citations, length of CR list
+
+###### Parameters
+
+_val_: `list[str]`
+
+ The raw data from a WOS file
+
+###### Returns
+
+`int`
+
+ The number of CRs
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="wosTimesCited"></a><small>tagProcessing.</small>**[<ins>wosTimesCited</ins>]({{ site.baseurl }}{{ page.url }}#wosTimesCited)**(_val_):
+
+######The TC Tag
+
+extracts the number of times the Record has been cited by records in WOS
+
+###### Parameters
+
+_val_: `list[str]`
+
+ The raw data from a WOS file
+
+###### Returns
+
+`int`
+
+ The number of time the Record has been cited
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="totalTimesCited"></a><small>tagProcessing.</small>**[<ins>totalTimesCited</ins>]({{ site.baseurl }}{{ page.url }}#totalTimesCited)**(_val_):
+
+######The Z9 Tag
+
+extracts the total number of citations of the record
+
+###### Parameters
+
+_val_: `list[str]`
+
+ The raw data from a WOS file
+
+###### Returns
+
+`int`
+
+ The total number of citations
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="publisher"></a><small>tagProcessing.</small>**[<ins>publisher</ins>]({{ site.baseurl }}{{ page.url }}#publisher)**(_val_):
+
+######The PU Tag
+
+extracts the publisher of the Record
+
+###### Parameters
+
+_val_: `list[str]`
+
+ The raw data from a WOS file
+
+###### Returns
+
+`str`
+
+ The publisher
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="publisherCity"></a><small>tagProcessing.</small>**[<ins>publisherCity</ins>]({{ site.baseurl }}{{ page.url }}#publisherCity)**(_val_):
+
+######The PI Tag
+
+extracts the city the publisher is in
+
+###### Parameters
+
+_val_: `list[str]`
+
+ The raw data from a WOS file
+
+###### Returns
+
+`str`
+
+ The city of the publisher
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="publisherAddress"></a><small>tagProcessing.</small>**[<ins>publisherAddress</ins>]({{ site.baseurl }}{{ page.url }}#publisherAddress)**(_val_):
+
+######The PA Tag
+
+extracts the publishers address
+
+###### Parameters
+
+_val_: `list[str]`
+
+ The raw data from a WOS file
+
+###### Returns
+
+`str`
+
+ The publisher address
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="subjectCategory"></a><small>tagProcessing.</small>**[<ins>subjectCategory</ins>]({{ site.baseurl }}{{ page.url }}#subjectCategory)**(_val_):
+
+######The SC Tag
+
+extracts a list of the subjects associated with the Record
+
+###### Parameters
+
+_val_: `list[str]`
+
+ The raw data from a WOS file
+
+###### Returns
+
+`list[str]`
+
+ A list of the subjects associated with the Record
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="ISSN"></a><small>tagProcessing.</small>**[<ins>ISSN</ins>]({{ site.baseurl }}{{ page.url }}#ISSN)**(_val_):
+
+######The SN Tag
+
+extracts the ISSN of the Record
+
+###### Parameters
+
+_val_: `list[str]`
+
+ The raw data from a WOS file
+
+###### Returns
+
+`str`
+
+ The ISSN string
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="eISSN"></a><small>tagProcessing.</small>**[<ins>eISSN</ins>]({{ site.baseurl }}{{ page.url }}#eISSN)**(_val_):
+
+######The EI Tag
+
+extracts the EISSN of the Record
+
+###### Parameters
+
+_val_: `list[str]`
+
+ The raw data from a WOS file
+
+###### Returns
+
+`str`
+
+ The EISSN string
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="ISBN"></a><small>tagProcessing.</small>**[<ins>ISBN</ins>]({{ site.baseurl }}{{ page.url }}#ISBN)**(_val_):
+
+######The BN Tag
+
+extracts a list of ISBNs associated with the Record
+
+###### Parameters
+
+_val_: `list[str]`
+
+ The raw data from a WOS file
+
+###### Returns
+
+`list`
+
+ The ISBNs
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="j9"></a><small>tagProcessing.</small>**[<ins>j9</ins>]({{ site.baseurl }}{{ page.url }}#j9)**(_val_):
+
+######The J9 Tag
+
+extracts the J9 (29-Character Source Abbreviation) of the publication
+
+###### Parameters
+
+_val_: `list[str]`
+
+ The raw data from a WOS file
+
+###### Returns
+
+`str`
+
+ The 29-Character Source Abbreviation
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="isoAbbreviation"></a><small>tagProcessing.</small>**[<ins>isoAbbreviation</ins>]({{ site.baseurl }}{{ page.url }}#isoAbbreviation)**(_val_):
+
+######The JI Tag
+
+extracts the iso abbreviation of the journal
+
+###### Parameters
+
+_val_: `list[str]`
+
+ The raw data from a WOS file
+
+###### Returns
+
+`str`
+
+ The iso abbreviation of the journal
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="month"></a><small>tagProcessing.</small>**[<ins>month</ins>]({{ site.baseurl }}{{ page.url }}#month)**(_val_):
+
+######The PD Tag
+
+extracts the month the record was published in as an int with January as 1, February 2, ...
+
+###### Parameters
+
+_val_: `list[str]`
+
+ The raw data from a WOS file
+
+###### Returns
+
+`int`
+
+ A integer giving the month
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="year"></a><small>tagProcessing.</small>**[<ins>year</ins>]({{ site.baseurl }}{{ page.url }}#year)**(_val_):
+
+######The PY Tag
+
+extracts the year the record was published in as an int
+
+###### Parameters
+
+_val_: `list[str]`
+
+ The raw data from a WOS file
+
+###### Returns
+
+`int`
+
+ The year
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="volume"></a><small>tagProcessing.</small>**[<ins>volume</ins>]({{ site.baseurl }}{{ page.url }}#volume)**(_val_):
+
+######The VL Tag
+
+return the volume the record is in as a string, not all are integers
+
+###### Parameters
+
+_val_: `list[str]`
+
+ The raw data from a WOS file
+
+###### Returns
+
+`str`
+
+ The volume number
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="issue"></a><small>tagProcessing.</small>**[<ins>issue</ins>]({{ site.baseurl }}{{ page.url }}#issue)**(_val_):
+
+######The IS Tag
+
+extracts a string giving the issue or range of issues the Record was in, not all are integers
+
+###### Parameters
+
+_val_: `list[str]`
+
+ The raw data from a WOS file
+
+###### Returns
+
+`str`
+
+ The issue number/range
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="partNumber"></a><small>tagProcessing.</small>**[<ins>partNumber</ins>]({{ site.baseurl }}{{ page.url }}#partNumber)**(_val_):
+
+######The PN Tag
+
+return an integer giving the part of the issue the Record is in
+
+###### Parameters
+
+_val_: `list[str]`
+
+ The raw data from a WOS file
+
+###### Returns
+
+`int`
+
+ The part of the issue of the Record
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
 <a name="supplement"></a><small>tagProcessing.</small>**[<ins>supplement</ins>]({{ site.baseurl }}{{ page.url }}#supplement)**(_val_):
 
 ######The SU Tag
@@ -3086,6 +2932,258 @@ _val_: `list[str]`
 `str`
 
  The supplement number
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="specialIssue"></a><small>tagProcessing.</small>**[<ins>specialIssue</ins>]({{ site.baseurl }}{{ page.url }}#specialIssue)**(_val_):
+
+######The SI Tag
+
+extracts the special issue value
+
+###### Parameters
+
+_val_: `list[str]`
+
+ The raw data from a WOS file
+
+###### Returns
+
+`str`
+
+ The special issue value
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="meetingAbstract"></a><small>tagProcessing.</small>**[<ins>meetingAbstract</ins>]({{ site.baseurl }}{{ page.url }}#meetingAbstract)**(_val_):
+
+######The MA Tag
+
+extracts the ID of the meeting abstract prefixed by 'EPA-'
+
+###### Parameters
+
+_val_: `list[str]`
+
+ The raw data from a WOS file
+
+###### Returns
+
+`str`
+
+ The meeting abstract prefixed
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="beginningPage"></a><small>tagProcessing.</small>**[<ins>beginningPage</ins>]({{ site.baseurl }}{{ page.url }}#beginningPage)**(_val_):
+
+######The BP Tag
+
+extracts the first page the record occurs on, not all are integers
+
+###### Parameters
+
+_val_: `list[str]`
+
+ The raw data from a WOS file
+
+###### Returns
+
+`str`
+
+ The first page number
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="endingPage"></a><small>tagProcessing.</small>**[<ins>endingPage</ins>]({{ site.baseurl }}{{ page.url }}#endingPage)**(_val_):
+
+######The EP Tag
+
+return the last page the record occurs on as a string, not aall are intergers
+
+###### Parameters
+
+_val_: `list[str]`
+
+ The raw data from a WOS file
+
+###### Returns
+
+`str`
+
+ The final page number
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="articleNumber"></a><small>tagProcessing.</small>**[<ins>articleNumber</ins>]({{ site.baseurl }}{{ page.url }}#articleNumber)**(_val_):
+
+######The AR Tag
+
+extracts a string giving the article number, not all are integers
+
+###### Parameters
+
+_val_: `list[str]`
+
+ The raw data from a WOS file
+
+###### Returns
+
+`str`
+
+ The article number
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="pageCount"></a><small>tagProcessing.</small>**[<ins>pageCount</ins>]({{ site.baseurl }}{{ page.url }}#pageCount)**(_val_):
+
+######The PG Tag
+
+returns an integer giving the number of pages of the Record
+
+###### Parameters
+
+_val_: `list[str]`
+
+ The raw data from a WOS file
+
+###### Returns
+
+`int`
+
+ The page count
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="subjects"></a><small>tagProcessing.</small>**[<ins>subjects</ins>]({{ site.baseurl }}{{ page.url }}#subjects)**(_val_):
+
+######The WC Tag
+
+extracts a list of subjects as assigned by WOS
+
+###### Parameters
+
+_val_: `list[str]`
+
+ The raw data from a WOS file
+
+###### Returns
+
+`list[str]`
+
+ The subjects list
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="DOI"></a><small>tagProcessing.</small>**[<ins>DOI</ins>]({{ site.baseurl }}{{ page.url }}#DOI)**(_val_):
+
+######The DI Tag
+
+return the DOI number of the record
+
+###### Parameters
+
+_val_: `list[str]`
+
+ The raw data from a WOS file
+
+###### Returns
+
+`str`
+
+ The DOI number string
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="bookDOI"></a><small>tagProcessing.</small>**[<ins>bookDOI</ins>]({{ site.baseurl }}{{ page.url }}#bookDOI)**(_val_):
+
+######The D2 Tag
+
+extracts the book DOI of the Record
+
+###### Parameters
+
+_val_: `list[str]`
+
+ The raw data from a WOS file
+
+###### Returns
+
+`str`
+
+ The DOI number
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="documentDeliveryNumber"></a><small>tagProcessing.</small>**[<ins>documentDeliveryNumber</ins>]({{ site.baseurl }}{{ page.url }}#documentDeliveryNumber)**(_val_):
+
+######The GA Tag
+
+extracts the document delivery number of the Record
+
+###### Parameters
+
+_val_: `list[str]`
+
+ The raw data from a WOS file
+
+###### Returns
+
+`str`
+
+ The document delivery number
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="wosString"></a><small>tagProcessing.</small>**[<ins>wosString</ins>]({{ site.baseurl }}{{ page.url }}#wosString)**(_val_):
+
+######The UT Tag
+
+extracts the WOS number of the record as a string preceded by "WOS:"
+
+###### Parameters
+
+_val_: `list[str]`
+
+ The raw data from a WOS file
+
+###### Returns
+
+`str`
+
+ The WOS number
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="pubMedID"></a><small>tagProcessing.</small>**[<ins>pubMedID</ins>]({{ site.baseurl }}{{ page.url }}#pubMedID)**(_val_):
+
+######The PM Tag
+
+extracts the pubmed ID of the record
+
+###### Parameters
+
+_val_: `list[str]`
+
+ The raw data from a WOS file
+
+###### Returns
+
+`str`
+
+ The pubmed ID
 
 
 

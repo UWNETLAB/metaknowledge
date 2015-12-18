@@ -25,7 +25,7 @@ blurbDict = {
 
 singleFileYAML = """---
 layout: page
-title: ""
+title: Full Documentation
 author:
 - name: Reid McIlroy-Young
   department:

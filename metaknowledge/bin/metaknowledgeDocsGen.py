@@ -90,7 +90,7 @@ def cleanargs(obj, basic = False):
         return '()'
 
 def makeUrls(s):
-    return "[{0}]({{{{ site.baseurl }}}}{{% post_url /docs/{1}{2} %}}#{3})".format(s.group(1), docsPrefix, s.group(2), s.group(3))
+    return "[{0}]({{{{ site.baseurl }}}}{{{{ page.url }}}}#{3})".format(s.group(1), docsPrefix, s.group(2), s.group(3))
 
 def makeSingleFileUrls(s):
     return "[{0}](#{1})".format(s.group(1), s.group(3))

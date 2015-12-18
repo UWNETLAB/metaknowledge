@@ -18,7 +18,7 @@ tagsAndNameSetUpper = set(([c.upper() for c in tagsAndNameSet]))
 knownTagsList = list(tagToFullDict.keys()) #list of all the known tags
 
 def tagToFull(tag):
-    """A wrapper for [`tagToFullDict`](#tagProcessing.tagProcessing) it maps 2 character tags to thir full names.
+    """A wrapper for [`tagToFullDict`](#tagProcessing.tagProcessing) it maps 2 character tags to their full names.
 
     # Parameters
 
@@ -39,7 +39,7 @@ def tagToFull(tag):
 
 
 def normalizeToTag(val):
-    """Converts tags or full names to tags, case insensitive
+    """Converts tags or full names to 2 character tags, case insensitive
 
     # Parameters
 
@@ -66,7 +66,7 @@ def normalizeToTag(val):
             return val
 
 def normalizeToName(val):
-    """Converts tags or full names to full names
+    """Converts tags or full names to full names, case sensitive
 
     # Parameters
 
@@ -90,7 +90,6 @@ def normalizeToName(val):
 
 def isTagOrName(val):
     """Checks if _val_ is a tag or full name of tag if so returns `True`
-
 
     # Parameters
 

@@ -1467,9 +1467,23 @@ class RecordCollection(object):
 
 
 def isiParser(isifile):
-    """
-    isiParser() reads the file given by the path isifile, checks that the header is correct then reads until it reaches EF.
-    Each it finds is used to initialize a Record then all Record are returned as a list.
+    """This is function that is used to create [`RecordCollections`](#metaknowledge.RecordCollection) from files.
+
+    **isiParser**() reads the file given by the path isifile, checks that the header is correct then reads until it reaches EF. All WOS records it encounters are parsed with [**recordParser**()](#metaknowledge.recordParser) and converted into [`Records`](#metaknowledge.Record). A list of these `Records` is returned.
+
+    `BadISIFile` is raised if an issue is found with the file.
+
+    # Parameters
+
+    _isifile_ : `str`
+
+    > The path to the target file
+
+    # Returns
+
+    `List[Record]`
+
+    > All the `Records` found in _isifile_
     """
     try:
         openfile = open(isifile, 'r', encoding='utf-8-sig')

@@ -543,23 +543,22 @@ def _bibFormatter(s, maxLength):
     return s
 
 def recordParser(paper):
-    """Reads the file _paper_ until it reaches 'ER'.
+    """This is function that is used to create [`Records`](#metaknowledge.Record) from files.
 
-    For each field tag it adds an entry to the returned dict with the tag as the key and a list of the entries as the value, the list has each line separately, so for the following string in a record:
+    **recordParser**() reads the file _paper_ until it reaches 'ER'. For each field tag it adds an entry to the returned dict with the tag as the key and a list of the entries as the value, the list has each line separately, so for the following two lines in a record:
 
-    "AF BREVIK, I
-
-        ANICIN, B"
+        AF BREVIK, I
+           ANICIN, B
 
     The entry in the returned dict would be `{'AF' : ["BREVIK, I", "ANICIN, B"]}`
 
-    [Record](#metaknowledge.Record) objects can be created with these dictionaries as the initializer.
+    `Record` objects can be created with these dictionaries as the initializer.
 
     # Parameters
 
     _paper_ : `file stream`
 
-    > An open file, with the current line at the beginning of the record.
+    > An open file, with the current line at the beginning of the WOS record.
 
     # Returns
 

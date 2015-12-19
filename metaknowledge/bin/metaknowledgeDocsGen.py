@@ -168,7 +168,7 @@ def writeFunc(fn, f, prefix = '', level = 5, singleFile = False):
 def writeClass(cl, f, prefix = '', level = 4, singleFile = False, exceptMode = False):
     f.write(makeTitle(prefix, cl[0], "(_{}_)".format(cl[1].__bases__[0].__name__), singleFile = singleFile))
     if not exceptMode:
-        f.write(makeTitle(prefix, "__init__", cleanargs(cl[1].__init__), singleFile = singleFile))
+        f.write(makeTitle(prefix, "{}.__init__".format(cl[0]), cleanargs(cl[1].__init__), singleFile = singleFile))
     try:
         f.write(cleanedDoc(cl[1], lvl = level, singleFile = singleFile))
     except AttributeError:
@@ -187,8 +187,6 @@ def proccessClass(cl, f, singleFile = False, exceptMode = False):
         elif inspect.isfunction(m[1]):
             funcs.append(m)
     if len(m) > 0 and not exceptMode:
-        f.write(str(m[0]))
-        f.write(str(cl[1].__bases__[0].__name__))
         f.write(makeTable(funcs, prefix = cl[0], header = "\nThe {} class has the following methods:".format(cl[0])))
         for m in funcs:
             writeFunc(m, f, prefix = '{}.'.format(cl[0], singleFile = singleFile))

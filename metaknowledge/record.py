@@ -37,23 +37,23 @@ class Record(object):
     """
     Class for full WOS records
 
-    It is meant to be immutable; many of the methods and attributes are evaluated when first called, not when the object is created, and the results are stored in a private dictionary.
+    It is meant to be immutable; many of the methods and attributes are evaluated when first called, not when the object is created, and the results are stored privately.
 
-    The record's meta-data is stored in an ordered dictionary labeled by WOS tags. To access the raw data stored in the original record the [getTag()](#Record.getTag) method can be used. To access data that has been processed and cleaned the attributes named after the tags are used.
+    The record's meta-data is stored in an ordered dictionary labeled by WOS tags. To access the raw data stored in the original record the [**getTag**()](#Record.getTag) method can be used. To access data that has been processed and cleaned the attributes named after the tags are used.
 
     # Customizations
 
-    The Record's hashing and equality testing are based on the WOS number (the tag is 'UT', and also called the accession number). They are strings starting with "WOS:" and followed by 15 or so numbers and letters, although both the length and character set are known to vary. The numbers are unique to each record so are used for comparisons. If a record is `bad`  all equality checks return `False`.
+    The `Record`'s hashing and equality testing are based on the WOS number (the tag is 'UT', and also called the accession number). They are strings starting with `'WOS:'` and followed by 15 or so numbers and letters, although both the length and character set are known to vary. The numbers are unique to each record so are used for comparisons. If a record is `bad`  all equality checks return `False`.
 
-    When converted to a string the records title is used so for a record `R`, R.TI == R.title == str(R).
+    When converted to a string the records title is used so for a record `R`, `R.TI == R.title == str(R)` and its representation uses the WOS number instead of memory location.
 
     # Attributes
 
     When a record is created if the parsing of the WOS file failed it is marked as `bad`. The `bad` attribute is set to True and the `error` attribute is created to contain the exception object.
 
-    Generally, to get the information from a Record its attributes should be used. For a Record `R`, calling `R.CR` causes [citations()](#tagProcessing.citations) from the the [tagProcessing](#tagProcessing.tagProcessing) module to be called on the contents of the raw 'CR' field. Then the result is saved and returned. In this case, a list of Citation objects is returned. You can also call `R.citations` to get the same effect, as each known field tag has a longer name (currently there are 61 field tags). These names are meant to make accessing tags more readable and mapping from tag to name can be found in the tagToFull dict. If a tag is known (in [tagToFull](#metaknowledge.metaknowledge)) but not in the raw data `None` is returned instead. Most tags when cleaned return a string or list of strings, the exact results can be found in the help for the particular function.
+    Generally, to get the information from a Record its attributes should be used. For a Record `R`, calling `R.CR` causes [**citations**()](#tagProcessing.citations) from the the [tagProcessing](#tagProcessing.tagProcessing) module to be called on the contents of the raw 'CR' field. Then the result is saved and returned. In this case, a list of Citation objects is returned. You can also call `R.citations` to get the same effect, as each known field tag has a longer name (currently there are 61 field tags). These names are meant to make accessing tags more readable and mapping from tag to name can be found in the tagToFull dict. If a tag is known (in [tagToFull](#metaknowledge.metaknowledge)) but not in the raw data `None` is returned instead. Most tags when cleaned return a string or list of strings, the exact results can be found in the help for the particular function.
 
-    The attribute `authors` is also defined as a convience and returns the same as 'AF' or if that is not found 'AU'.
+    The attribute `authors` is also defined as a connivence and returns the same as 'AF' or if that is not found 'AU'.
 
     # \_\_Init\_\_
 
@@ -67,7 +67,7 @@ class Record(object):
 
     > If a dict is passed the dictionary is used as the database of fields and tags, so each key is considered a WOS tag and each value a list of the lines of the original associated with the tag. This is the same form of dict that [recordParser](#metaknowledge.recordParser) returns.
 
-    > For a str the input is the raw textual data of a single record in the WOS style, like the file stream it must start at the first tag and end in 'ER'.
+    > For a string the input must be the raw textual data of a single record in the WOS style, like the file stream it must start at the first tag and end in `'ER'`.
 
     > itertools.chain is treated identically to a file stream and is used by [RecordCollections](#RecordCollection.RecordCollection).
 
@@ -270,7 +270,14 @@ class Record(object):
             return auth
 
     def numAuthors(self):
-        """Returns the number of authors"""
+        """Returns the number of authors of the records, i.e. `len(self.authors)`
+
+        # Returns
+
+        `int`
+
+        > The number of authors
+        """
         if self.authors:
             return len(self.authors)
         else:
@@ -283,13 +290,17 @@ class Record(object):
 
         _tag_ : `str`
 
-        > _tag_ can be a two character string corresponding to a WOS tag e.g. 'J9', the matching is case insensitive so 'j9' is the same as 'J9'. Or it can be one of the full names for a tag with the mappings in [fullToTag](#metaknowledge). If the string is not found in the original record or after being translated through [fullToTag](#metaknowledge), `None` is returned.
+        > _tag_ can be a two character string corresponding to a WOS tag e.g. 'J9', the matching is case insensitive so 'j9' is the same as 'J9'. Or it can be one of the full names for a tag with the mappings in [fullToTag](#metaknowledge.tagProcessing). If the string is not found in the original record or after being translated through [fullToTag](#metaknowledge.tagProcessing), `None` is returned.
+
+        _clean_ : `optional [bool]`
+
+        > Default `False`, if `True` the processed data will be returned instead of the raw data.
 
         # Returns
 
         `List [str]`
 
-        > Each string in the list is a line from the record associated with _tag_ or None if not found.
+        > Each string in the list is a line from the record associated with _tag_ or `None` if not found.
         """
 
         #tag = tag.upper()
@@ -304,19 +315,19 @@ class Record(object):
             return None
 
     def createCitation(self, multiCite = False):
-        """Creates a citation string, using the same format as other WOS citations, for the [Record](#Record.Record) by reading the relevant tags (year, J9, volume, beginningPage, DOI) and using it to start a [Citation](#Citation.Citation) object.
+        """Creates a citation string, using the same format as other WOS citations, for the [Record](#Record.Record) by reading the relevant tags (`year`, `J9`, `volume`, `beginningPage`, `DOI`) and using it to create a [`Citation`](#Citation.Citation) object.
 
         # Parameters
 
         _multiCite_ : `optional [bool]`
 
-        > default `False`, if `True` a tuple of Citations is retuned with each having a different one of the records authors as the author
+        > Default `False`, if `True` a tuple of Citations is returned with each having a different one of the records authors as the author
 
         # Returns
 
         `Citation`
 
-        > A [Citation](#Citation.Citation) object containing a citation for the Record.
+        > A [`Citation`](#Citation.Citation) object containing a citation for the Record.
         """
         valsLst = []
         if multiCite:
@@ -346,12 +357,12 @@ class Record(object):
             return Citation(', '.join(valsLst))
 
     def getTagsList(self, taglst, cleaned = False):
-        """Returns a list of the results of [`getTag()`](#Record.getTag) for each tag in _taglist_, the return has the same order as the original.
+        """Returns a list of the results of [**getTag**()](#Record.getTag) for each tag in _taglist_, the return has the same order as the original.
 
         # Parameters
         _taglst_ : `List[str]`
 
-        > Each string in _taglst_ can be a two character string corresponding to a WOS tag e.g. 'J9', the matching is case insensitive so 'j9' is the same as 'J9'. Or it can be one of the full names for a tag with the mappings in [fullToTag](#metaknowledge.metaknowledge). If the string is not found in the original record before or after being translated through [fullToTag](#metaknowledge.metaknowledge), `None` is used instead. Same as in [`getTag()`](#Record.getTag)
+        > Each string in _taglst_ can be a two character string corresponding to a WOS tag e.g. 'J9', the matching is case insensitive so 'j9' is the same as 'J9',  or it can be one of the full names for a tag with the mappings in [fullToTag](#metaknowledge.tagProcessing). If the string is not found in the original record before or after being translated through [fullToTag](#metaknowledge.tagProcessing), `None` is used instead. Same as in [**getTag()**](#Record.getTag)
 
         > Then they are compiled into a list in the same order as _taglst_
 
@@ -372,7 +383,7 @@ class Record(object):
         # Parameters
         _taglst_ : `List[str]`
 
-        > Each string in _taglst_ can be a two character string corresponding to a WOS tag e.g. 'J9', the matching is case insensitive so 'j9' is the same as 'J9'. Or it can be one of the full names for a tag with the mappings in [fullToTag](#metaknowledge.metaknowledge). If the string is not found in the oriagnal record before or after being translated through [fullToTag](#metaknowledge), `None` is used instead. Same as in [`getTag()`](#Record.getTag)
+        > Each string in _taglst_ can be a two character string corresponding to a WOS tag e.g. 'J9', the matching is case insensitive so 'j9' is the same as 'J9'. Or it can be one of the full names for a tag with the mappings in [fullToTag](#metaknowledge.tagProcessing). If the string is not found in the oriagnal record before or after being translated through [fullToTag](#metaknowledge.tagProcessing), `None` is used instead. Same as in [**getTag**()](#Record.getTag)
 
         # Returns
 
@@ -386,7 +397,7 @@ class Record(object):
         return retDict
 
     def activeTags(self):
-        """Returns a list of all the tags the original WOS record had. These are all the tags that ['getTag()'](#Record.getTag) will not return `None` for.
+        """Returns a list of all the tags the original WOS record had. These are all the tags that [**getTag**()](#Record.getTag) will not return `None` for.
 
         # Returns
 
@@ -397,7 +408,7 @@ class Record(object):
         return list(self._fieldDict.keys())
 
     def writeRecord(self, infile):
-        """Writes to _infile_ the original contents of the Record. This is intended for use by [RecordCollections](#RecordCollection.RecordCollection) to write to file. What is written to _infile_ is bit for bit identical to the original record file. No newline is inserted above the write but the last character is a newline.
+        """Writes to _infile_ the original contents of the Record. This is intended for use by [RecordCollections](#RecordCollection.RecordCollection) to write to file. What is written to _infile_ is bit for bit identical to the original record file (if utf-8 is used). No newline is inserted above the write but the last character is a newline.
 
         # Parameters
 
@@ -418,9 +429,9 @@ class Record(object):
             infile.write("ER\n")
 
     def bibString(self, maxLength = 1000, WOSMode = False, restrictedOutput = False, niceID = True):
-        """Makes a string giving the Record as a bibTex entry. If the Record is of a journal article (PT J) the bibtext type is set to `'article'`, otherwise it is set to `'misc'`. The ID of the entry is the WOS number and all the Record's fields are given as entries with their long names.
+        """Makes a string giving the Record as a bibTex entry. If the Record is of a journal article (`PT J`) the bibtext type is set to `'article'`, otherwise it is set to `'misc'`. The ID of the entry is the WOS number and all the Record's fields are given as entries with their long names.
 
-        **Note** This is not meant to be used directly with LaTeX none of the special characters have been escaped and there are a large number of unnecessary fields provided.
+        **Note** This is not meant to be used directly with LaTeX none of the special characters have been escaped and there are a large number of unnecessary fields provided. _niceID_ and _maxLength_ have been provided to make conversions easier.
 
         **Note** Record entries that are lists have their values seperated with the string `' and '`
 

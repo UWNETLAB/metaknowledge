@@ -129,7 +129,15 @@ def getj9dict(dbname = abrevDBname, manualDB = manaulDBname, returnDict = 'both'
 
     _dbname_ : `optional [str]`
 
-    > The name of the database file
+    > The name of the downloaded database file, the default is determined at run time. It is recommended that this remain untouched.
+
+    _manaulDB_ : `optional [str]`
+
+    > The name of the manually created database file, the default is determined at run time. It is recommended that this remain untouched.
+
+    _returnDict_ : `optional [str]`
+
+    > default `'both'`, can be used to get both databases or only one  with `'WOS'` or `'manual'`.
     """
     dbLoc = os.path.normpath(os.path.dirname(__file__))
 

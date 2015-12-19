@@ -137,7 +137,7 @@ def makeLine():
     "border-top-style: solid;",
     "border-bottom-style: solid;",
     ]
-    return('<hr style="{}">'.format(''.join(style)))
+    return '<hr style="{}">'.format(''.join(style))
 
 def makeTable(entries, header = '', prefix = '', withBlurbs = False, bigTable = False):
     ents = []
@@ -165,26 +165,33 @@ def writeFunc(fn, f, prefix = '', level = 5, singleFile = False):
         f.write("# Needs to be written\n\n")
         print("\033[93m{0}{1} had no docs\033[0m".format(prefix, fn[0]))
 
-def writeClass(cl, f, prefix = '', level = 4, singleFile = False):
-    f.write(makeTitle(prefix, cl[0], cleanargs(cl[1].__init__), singleFile = singleFile))
+def writeClass(cl, f, prefix = '', level = 4, singleFile = False, exceptMode = False):
+    f.write(makeTitle(prefix, cl[0], "(_{}_)".format(cl[1].__bases__[0].__name__), singleFile = singleFile))
+    if not exceptMode:
+        f.write(makeTitle(prefix, "__init__", cleanargs(cl[1].__init__), singleFile = singleFile))
     try:
         f.write(cleanedDoc(cl[1], lvl = level, singleFile = singleFile))
     except AttributeError:
         f.write("# Needs to be written\n\n")
         print("\033[93m{0}{1} had no docs\033[0m".format(prefix, cl[0]))
 
-def proccessClass(cl, f, singleFile = False):
-    writeClass(cl, f, singleFile = singleFile)
+def proccessClass(cl, f, singleFile = False, exceptMode = False):
+    writeClass(cl, f, singleFile = singleFile, exceptMode = exceptMode)
     baseMems = inspect.getmembers(cl[1].__bases__[0])
     funcs = []
+    if singleFile:
+        f.write(makeLine())
     for m in sorted(inspect.getmembers(cl[1]), key = getLineNumber):
-        if m[0][0] == '_' or m in baseMems:
+        if m[0][0] == '_' or m in baseMems or m[0] == 'with_traceback':
             pass
         elif inspect.isfunction(m[1]):
             funcs.append(m)
-    f.write(makeTable(funcs, prefix = cl[0], header = "The {} class has the following methods:".format(cl[0])))
-    for m in funcs:
-        writeFunc(m, f, prefix = '{}.'.format(cl[0], singleFile = singleFile))
+    if len(m) > 0 and not exceptMode:
+        f.write(str(m[0]))
+        f.write(str(cl[1].__bases__[0].__name__))
+        f.write(makeTable(funcs, prefix = cl[0], header = "\nThe {} class has the following methods:".format(cl[0])))
+        for m in funcs:
+            writeFunc(m, f, prefix = '{}.'.format(cl[0], singleFile = singleFile))
 
 def writeClassFile(name, typ, targetFile = None, singleFile = False):
     fname = docsPrefix + "{}.md".format(name)
@@ -242,11 +249,8 @@ def writeMainBody(funcs, vrs, exceptions, targetFile = None, singleFile = False)
         writeFunc(fnc, f)
     first = True
     for excpt in exceptions:
-        if first:
-            first = False
-        else:
-            f.write(makeLine() + "\n\n")
-        proccessClass(excpt, f)
+        f.write(makeLine() + "\n\n")
+        proccessClass(excpt, f, exceptMode = True)
     if targetFile is None:
         f.write("\n{% include docsFooter.md %}")
         f.close()

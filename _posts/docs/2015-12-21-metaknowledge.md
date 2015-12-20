@@ -17,7 +17,7 @@ The functions provided by metaknowledge are:
 <li><article><a href="#write_edgeList"><b>write_edgeList</b>(<i>grph, name, extraInfo=True, allSameAttribute=False</i>)</a></article></li>
 <li><article><a href="#write_nodeAttributeFile"><b>write_nodeAttributeFile</b>(<i>grph, name, allSameAttribute=False</i>)</a></article></li>
 <li><article><a href="#drop_edges"><b>drop_edges</b>(<i>grph, minWeight=-inf, maxWeight=inf, parameterName='weight', ignoreUnweighted=False, dropSelfLoops=False</i>)</a></article></li>
-<li><article><a href="#drop_nodesByDegree"><b>drop_nodesByDegree</b>(<i>grph, minDegree=-inf, maxDegree=inf, useWeight=True, parameterName='weight', ignoreUnweighted=True</i>)</a></article></li>
+<li><article><a href="#drop_nodesByDegree"><b>drop_nodesByDegree</b>(<i>grph, minDegree=-inf, maxDegree=inf, useWeight=True, parameterName='weight', includeUnweighted=True</i>)</a></article></li>
 <li><article><a href="#drop_nodesByCount"><b>drop_nodesByCount</b>(<i>grph, minCount=-inf, maxCount=inf, parameterName='count', ignoreMissing=False</i>)</a></article></li>
 <li><article><a href="#mergeGraphs"><b>mergeGraphs</b>(<i>targetGraph, addedGraph, incrementedNodeVal='count', incrementedEdgeVal='weight'</i>)</a></article></li>
 <li><article><a href="#graphStats"><b>graphStats</b>(<i>G, stats=('nodes', 'edges', 'isolates', 'loops', 'density', 'transitivity'), makeString=True</i>)</a></article></li>
@@ -33,7 +33,7 @@ The functions provided by metaknowledge are:
 
 <a name="filterNonJournals"></a><small></small>**[<ins>filterNonJournals</ins>]({{ site.baseurl }}{{ page.url }}#filterNonJournals)**(_citesLst, invert=False_):
 
-Removes the Citations from _citesLst_ that are not journals
+Removes the `Citations` from _citesLst_ that are not journals
 
 ###### Parameters
 
@@ -43,7 +43,7 @@ _citesLst_ : `list [Citation]`
 
 _invert_ : `optional [bool]`
 
- Default `False`, if `True` non-journals will be kept istead of journals
+ Default `False`, if `True` non-journals will be kept instead of journals
 
 ###### Returns
 
@@ -56,7 +56,7 @@ _invert_ : `optional [bool]`
 
 <a name="diffusionGraph"></a><small></small>**[<ins>diffusionGraph</ins>]({{ site.baseurl }}{{ page.url }}#diffusionGraph)**(_source, target, sourceType='raw', targetType='raw'_):
 
-Takes in two [`RecordCollections`]({{ site.baseurl }}{% post_url /docs/2015-12-17-RecordCollection %}#RecordCollection) and produces a graph of the citations of _source_ by the [`Records`]({{ site.baseurl }}{% post_url /docs/2015-12-17-Record %}#Record) in _target_. By default the nodes in the are `Record` objects but this can be changed with the _sourceType_ and _targetType_ keywords.
+Takes in two [`RecordCollections`]({{ site.baseurl }}{{ page.url }}#RecordCollection) and produces a graph of the citations of _source_ by the [`Records`]({{ site.baseurl }}{{ page.url }}#Record) in _target_. By default the nodes in the are `Record` objects but this can be changed with the _sourceType_ and _targetType_ keywords.
 
 Each node on the output graph has two boolean attributes, `"source"` and `"target"` indicating if they are targets or sources. Note, if the types of the sources and targets are different the attributes will not be checked for overlap of the other type. e.g. if the source type is `'TI'` (title) and the target type is `'UT'` (WOS number), and there is some overlap of the targets and sources. Then the Record corresponding to a source node will not be checked for being one of the titles of the targets, only its WOS number will be considered.
 
@@ -89,7 +89,7 @@ _targetType_ : `str`
 
 <a name="diffusionCount"></a><small></small>**[<ins>diffusionCount</ins>]({{ site.baseurl }}{{ page.url }}#diffusionCount)**(_source, target, sourceType='raw', pandasFriendly=False, compareCounts=False, numAuthors=True, byYear=False_):
 
-Takes in two [`RecordCollections`]({{ site.baseurl }}{% post_url /docs/2015-12-17-RecordCollection %}#RecordCollection) and produces a `dict` counting the citations of _source_ by the [`Records`]({{ site.baseurl }}{% post_url /docs/2015-12-17-Record %}#Record) of _target_. By default the `dict` uses `Record` objects as keys but this can be changed with the _sourceType_ keyword to any of the WOS tags.
+Takes in two [`RecordCollections`]({{ site.baseurl }}{{ page.url }}#RecordCollection) and produces a `dict` counting the citations of _source_ by the [`Records`]({{ site.baseurl }}{{ page.url }}#Record) of _target_. By default the `dict` uses `Record` objects as keys but this can be changed with the _sourceType_ keyword to any of the WOS tags.
 
 ###### Parameters
 
@@ -132,17 +132,17 @@ default `False`, if `True` the returned dictionary will have Records mapped to m
 
 <a name="read_graph"></a><small></small>**[<ins>read_graph</ins>]({{ site.baseurl }}{{ page.url }}#read_graph)**(_edgeList, nodeList=None, directed=False, idKey='ID', eSource='From', eDest='To'_):
 
-Reads the files given by _edgeList_ and _nodeList_. Creates a networkx graph for the files.
+Reads the files given by _edgeList_ and _nodeList_ and creates a networkx graph for the files.
 
-This is designed only for the files produced by metaknowledge and is meant to be the reverse of [write_graph()]({{ site.baseurl }}{% post_url /docs/2015-12-17-metaknowledge %}#write_graph), if this does not produce the desired results the networkx builtin [networkx.read_edgelist()](https://networkx.github.io/documentation/networkx-1.10/reference/generated/networkx.readwrite.edgelist.read_edgelist.html) could be tried as it is aimed targeted more generally.
+This is designed only for the files produced by metaknowledge and is meant to be the reverse of [write_graph()]({{ site.baseurl }}{{ page.url }}#write_graph), if this does not produce the desired results the networkx builtin [networkx.read_edgelist()](https://networkx.github.io/documentation/networkx-1.10/reference/generated/networkx.readwrite.edgelist.read_edgelist.html) could be tried as it is aimed at a more general usage.
 
-The read edge list format assumes the column named _eSource_ (default '`From`') is the source node, then the column _eDest_ (default '`To`') givens the destination and all other columns are attributes of the edges, e.g. weight.
+The read edge list format assumes the column named _eSource_ (default `'From'`) is the source node, then the column _eDest_ (default `'To'`) givens the destination and all other columns are attributes of the edges, e.g. weight.
 
 The read node list format assumes the column _idKey_ (default `'ID'`) is the ID of the node for the edge list and the resulting network. All other columns are considered attributes of the node, e.g. count.
 
 **Note**: If the names of the columns do not match those given to **read_graph()** a `KeyError` exception will be raised.
 
-**Note**: If nodes appear in the edgelist but not the nodeList they will be created with no attributes.
+**Note**: If nodes appear in the edgelist but not the nodeList they will be created silently with no attributes.
 
 ###### Parameters
 
@@ -183,9 +183,9 @@ _eDest_ : `optional [str]`
 
 Writes an edge list of _grph_ at the destination _name_.
 
-The edge list has two columns for the source and destination of the edge, "From" and "To" respectively, then, if _edgeInfo_ is `True`, for each attribute of the node another column is created.
+The edge list has two columns for the source and destination of the edge, `'From'` and `'To'` respectively, then, if _edgeInfo_ is `True`, for each attribute of the node another column is created.
 
-**Note**: If any edges are missing an attribute `KeyError` will be raised.
+**Note**: If any edges are missing an attribute it will be left blank by default, enable _allSameAttribute_ to cause a `KeyError` to be raised.
 
 ###### Parameters
 
@@ -210,11 +210,11 @@ _allSameAttribute_ : `optional [bool]`
 
 <a name="write_nodeAttributeFile"></a><small></small>**[<ins>write_nodeAttributeFile</ins>]({{ site.baseurl }}{{ page.url }}#write_nodeAttributeFile)**(_grph, name, allSameAttribute=False_):
 
-Writes a node attribute list of _grph_ with filename _name_
+Writes a node attribute list of _grph_ to the file given by the path _name_.
 
-The node list has one column call "ID" with the node ids used by networkx and all other columns are the node attributes.
+The node list has one column call `'ID'` with the node ids used by networkx and all other columns are the node attributes.
 
-**Note**: If any edges are missing an attribute `KeyError` will be raised.
+**Note**: If any nodes are missing an attribute it will be left blank by default, enable _allSameAttribute_ to cause a `KeyError` to be raised.
 
 ###### Parameters
 
@@ -235,49 +235,131 @@ _allSameAttribute_ : `optional [bool]`
 
 <a name="drop_edges"></a><small></small>**[<ins>drop_edges</ins>]({{ site.baseurl }}{{ page.url }}#drop_edges)**(_grph, minWeight=-inf, maxWeight=inf, parameterName='weight', ignoreUnweighted=False, dropSelfLoops=False_):
 
-Modifies a graph dropping edges whose weight is not within the inclusive bounds of minWeight and maxWeight, i.e minWeight <= edges weight <= maxWeight, will throw a Keyerror if the graph is unweighted
+Modifies _grph_ by dropping edges whose weight is not within the inclusive bounds of _minWeight_ and _maxWeight_, i.e after running _grph_ will only have edges whose weights meet the following inequality: _minWeight_ <= edge's weight <= _maxWeight_. A `Keyerror` will be raised if the graph is unweighted unless _ignoreUnweighted_ is `True`, the weight is determined by examining the attribute _parameterName_.
 
-minWeight and maxWeight default to negative and positive infinity respectively so without specifying either the output should be the input
+**Note**: none of the default options will result in _grph_ being modified so only specify the relevant ones, e.g. `drop_edges(G, dropSelfLoops = True)` will remove only the self loops from `G`.
 
-parameterName is key to weight field in the edge's dictionary, default is weight as that is almost always correct
+###### Parameters
 
-ignoreUnweighted can be set False to suppress the KeyError and make unweighted edges be ignored
+_grph_ : `networkx Graph`
+
+ The graph to be modified.
+
+_minWeight_ : `optional [int or double]`
+
+ default `-inf`, the minimum weight for an edge to be kept in the graph.
+
+_maxWeight_ : `optional [int or double]`
+
+ default `inf`, the maximum weight for an edge to be kept in the graph.
+
+_parameterName_ : `optional [str]`
+
+ default `'weight'`, key to weight field in the edge's attribute dictionary, the default is the same as networkx and metaknowledge so is likely to be correct
+
+_ignoreUnweighted_ : `optional [bool]`
+
+ default `False`, if `True` unweighted edges will kept
+
+_dropSelfLoops_ : `optional [bool]`
+
+ default `False`, if `True` self loops will be removed regardless of their weight
 
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="drop_nodesByDegree"></a><small></small>**[<ins>drop_nodesByDegree</ins>]({{ site.baseurl }}{{ page.url }}#drop_nodesByDegree)**(_grph, minDegree=-inf, maxDegree=inf, useWeight=True, parameterName='weight', ignoreUnweighted=True_):
+<a name="drop_nodesByDegree"></a><small></small>**[<ins>drop_nodesByDegree</ins>]({{ site.baseurl }}{{ page.url }}#drop_nodesByDegree)**(_grph, minDegree=-inf, maxDegree=inf, useWeight=True, parameterName='weight', includeUnweighted=True_):
 
-Modifies the graph dropping nodes that do not nodes have a degree that is within inclusive bounds of minDegree and maxDegree, i.e minDegree <= degree <= maxDegree. Degree can be determined in two ways by default it is the total number of edges touching a node, alternative if useWeight is True it is the sum of the weight of all the edges touching a node.
+Modifies _grph_ by dropping nodes that do not have a degree that is within inclusive bounds of _minDegree_ and _maxDegree_, i.e after running _grph_ will only have nodes whose degrees meet the following inequality: _minDegree_ <= node's degree <= _maxDegree_.
 
-minDegree and maxDegree default to negative and positive infinity respectively so without specifying either the output should be the input
+Degree is determined in two ways, the default _useWeight_ is the weight attribute of the edges to a node will be summed, the attribute's name is _parameterName_ otherwise the number of edges touching the node is used. If _includeUnweighted_ is `True` then _useWeight_ will assign a degree of 1 to unweighted edges.
 
-useWeight can be set True to use an alternative method for calculating degree, the total weight of all edges
 
-parameterName is key to weight field in the edge's dictionary, default is weight as that is almost always correct, only used if useWeight is True
+###### Parameters
 
-ignoreUnweighted can be set False to suppress the KeyError and make unweighted edges be not counted, only used if useWeight is True
+_grph_ : `networkx Graph`
+
+ The graph to be modified.
+
+_minDegree_ : `optional [int or double]`
+
+ default `-inf`, the minimum degree for an node to be kept in the graph.
+
+_maxDegree_ : `optional [int or double]`
+
+ default `inf`, the maximum degree for an node to be kept in the graph.
+
+_useWeight_ : `optional [bool]`
+
+ default `True`, if `True` the the edge weights will be summed to get the degree, if `False` the number of edges will be used to determine the degree.
+
+_parameterName_ : `optional [str]`
+
+ default `'weight'`, key to weight field in the edge's attribute dictionary, the default is the same as networkx and metaknowledge so is likely to be correct.
+
+_includeUnweighted_ : `optional [bool]`
+
+ default `True`, if `True` edges with no weight will be considered to have a weight of 1, if `False` they will cause a `KeyError` to be raised.
 
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="drop_nodesByCount"></a><small></small>**[<ins>drop_nodesByCount</ins>]({{ site.baseurl }}{{ page.url }}#drop_nodesByCount)**(_grph, minCount=-inf, maxCount=inf, parameterName='count', ignoreMissing=False_):
 
-Modifies a graph dropping nodes that have a occurrence count that is not within inclusive bounds of minCount and maxCount, i.e minCount <= count <= maxCount. Occurrence count is determined by reading the variable associated with the node named parameterName.
+Modifies _grph_ by dropping nodes that do not have a count that is within inclusive bounds of _minCount_ and _maxCount_, i.e after running _grph_ will only have nodes whose degrees meet the following inequality: _minCount_ <= node's degree <= _maxCount_.
+
+Count is determined by the count attribute, _parameterName_, and if missing will result in a `KeyError` being raised. _ignoreMissing_ can be set to `True` to suppress the error.
 
 minCount and maxCount default to negative and positive infinity respectively so without specifying either the output should be the input
 
+###### Parameters
 
-parameterName is key to count field in the node's dictionary, default is count as that is often correct
+_grph_ : `networkx Graph`
 
-ignoreMissing can be set False to suppress the KeyError and make nodes missing counts be dropped instead of throwing errors
+ The graph to be modified.
+
+_minCount_ : `optional [int or double]`
+
+ default `-inf`, the minimum Count for an node to be kept in the graph.
+
+_maxCount_ : `optional [int or double]`
+
+ default `inf`, the maximum Count for an node to be kept in the graph.
+
+_parameterName_ : `optional [str]`
+
+ default `'count'`, key to count field in the nodes's attribute dictionary, the default is the same thoughout metaknowledge so is likely to be correct.
+
+_ignoreMissing_ : `optional [bool]`
+
+ default `False`, if `True` nodes missing a count will be kept in the graph instead of raising an exception
 
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="mergeGraphs"></a><small></small>**[<ins>mergeGraphs</ins>]({{ site.baseurl }}{{ page.url }}#mergeGraphs)**(_targetGraph, addedGraph, incrementedNodeVal='count', incrementedEdgeVal='weight'_):
 
-A quick way of merging graphs, this is meant to be quick and is only intended for graphs generated by metaknowledge. This does not check anything and as such may cause unexpected results if the source and target were not generated by the same method. **mergeGraphs**() will modify the first graph, _targetGraph_ by adding the nodes and edges found in the second, _addedGraph_. If a node or edge exists _targetGraph_ is given precedence, but the edge and node attributes given by _incrementedNodeVal_ and incrementedEdgeVal are added instead of being overwritten.
+A quick way of merging graphs, this is meant to be quick and is only intended for graphs generated by metaknowledge. This does not check anything and as such may cause unexpected results if the source and target were not generated by the same method.
+
+**mergeGraphs**() will **modify** _targetGraph_ in place by adding the nodes and edges found in the second, _addedGraph_. If a node or edge exists _targetGraph_ is given precedence, but the edge and node attributes given by _incrementedNodeVal_ and incrementedEdgeVal are added instead of being overwritten.
+
+###### Parameters
+
+_targetGraph_ : `networkx Graph`
+
+ the graph to be modified, it has precedence.
+
+_addedGraph_ : `networkx Graph`
+
+ the graph that is unmodified, it is added and does **not** have precedence.
+
+_incrementedNodeVal_ : `optional [str]`
+
+ default `'count'`, the name of the count attribute for the graph's nodes. When merging this attribute will be the sum of the values in the input graphs, instead of _targetGraph_'s value.
+
+_incrementedEdgeVal_ : `optional [str]`
+
+ default `'weight'`, the name of the weight attribute for the graph's edges. When merging this attribute will be the sum of the values in the input graphs, instead of _targetGraph_'s value.
 
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
@@ -296,7 +378,7 @@ _G_ : `networkx Graph`
 
 _stats_ : `optional [list or tuple [str]]`
 
- Default 'nodes', 'edges', 'isolates', 'loops', 'density', 'transitivity'), a list or tuple containing any number or combination of the strings:
+ Default `('nodes', 'edges', 'isolates', 'loops', 'density', 'transitivity')`, a list or tuple containing any number or combination of the strings:
 
  `"nodes"`, `"edges"`, `"isolates"`, `"loops"`, `"density"` and `"transitivity"``
 
@@ -330,7 +412,7 @@ The output files start with _name_, the file type (edgeList, nodeAttributes) the
 
 Both files are csv's with comma delimiters and double quote quoting characters. The edge list has two columns for the source and destination of the edge, `'From'` and `'To'` respectively, then, if _edgeInfo_ is `True`, for each attribute of the node another column is created. The node list has one column call "ID" with the node ids used by networkx and all other columns are the node attributes.
 
-To read back these files use [read_graph()]({{ site.baseurl }}{% post_url /docs/2015-12-17-metaknowledge %}#read_graph) and to write only one type of lsit use [write_edgeList()]({{ site.baseurl }}{% post_url /docs/2015-12-17-metaknowledge %}#write_edgeList) or [write_nodeAttributeFile()]({{ site.baseurl }}{% post_url /docs/2015-12-17-metaknowledge %}#write_nodeAttributeFile).
+To read back these files use [read_graph()]({{ site.baseurl }}{{ page.url }}#read_graph) and to write only one type of lsit use [write_edgeList()]({{ site.baseurl }}{{ page.url }}#write_edgeList) or [write_nodeAttributeFile()]({{ site.baseurl }}{{ page.url }}#write_nodeAttributeFile).
 
 **Warning**: this function will overwrite files, if they are in the way of the output, to prevent this set _overwrite_ to `False`
 
@@ -367,23 +449,22 @@ _overwrite_ : `optional [bool]`
 
 <a name="recordParser"></a><small></small>**[<ins>recordParser</ins>]({{ site.baseurl }}{{ page.url }}#recordParser)**(_paper_):
 
-Reads the file _paper_ until it reaches 'ER'.
+This is function that is used to create [`Records`]({{ site.baseurl }}{{ page.url }}#Record) from files.
 
-For each field tag it adds an entry to the returned dict with the tag as the key and a list of the entries as the value, the list has each line separately, so for the following string in a record:
+**recordParser**() reads the file _paper_ until it reaches 'ER'. For each field tag it adds an entry to the returned dict with the tag as the key and a list of the entries as the value, the list has each line separately, so for the following two lines in a record:
 
-"AF BREVIK, I
-
-    ANICIN, B"
+    AF BREVIK, I
+       ANICIN, B
 
 The entry in the returned dict would be `{'AF' : ["BREVIK, I", "ANICIN, B"]}`
 
-[Record]({{ site.baseurl }}{% post_url /docs/2015-12-17-metaknowledge %}#Record) objects can be created with these dictionaries as the initializer.
+`Record` objects can be created with these dictionaries as the initializer.
 
 ###### Parameters
 
 _paper_ : `file stream`
 
- An open file, with the current line at the beginning of the record.
+ An open file, with the current line at the beginning of the WOS record.
 
 ###### Returns
 
@@ -396,15 +477,30 @@ _paper_ : `file stream`
 
 <a name="isiParser"></a><small></small>**[<ins>isiParser</ins>]({{ site.baseurl }}{{ page.url }}#isiParser)**(_isifile_):
 
-isiParser() reads the file given by the path isifile, checks that the header is correct then reads until it reaches EF.
-Each it finds is used to initialize a Record then all Record are returned as a list.
+This is function that is used to create [`RecordCollections`]({{ site.baseurl }}{{ page.url }}#RecordCollection) from files.
+
+**isiParser**() reads the file given by the path isifile, checks that the header is correct then reads until it reaches EF. All WOS records it encounters are parsed with [**recordParser**()]({{ site.baseurl }}{{ page.url }}#recordParser) and converted into [`Records`]({{ site.baseurl }}{{ page.url }}#Record). A list of these `Records` is returned.
+
+`BadISIFile` is raised if an issue is found with the file.
+
+###### Parameters
+
+_isifile_ : `str`
+
+ The path to the target file
+
+###### Returns
+
+`List[Record]`
+
+ All the `Records` found in _isifile_
 
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="tagToFull"></a><small></small>**[<ins>tagToFull</ins>]({{ site.baseurl }}{{ page.url }}#tagToFull)**(_tag_):
 
-A wrapper for [`tagToFullDict`]({{ site.baseurl }}{% post_url /docs/2015-12-17-tagProcessing %}#tagProcessing) it maps 2 character tags to thir full names.
+A wrapper for [`tagToFullDict`]({{ site.baseurl }}{{ page.url }}#tagProcessing) it maps 2 character tags to their full names.
 
 ###### Parameters
 
@@ -423,7 +519,7 @@ _tag_: `str`
 
 <a name="normalizeToTag"></a><small></small>**[<ins>normalizeToTag</ins>]({{ site.baseurl }}{{ page.url }}#normalizeToTag)**(_val_):
 
-Converts tags or full names to tags, case insensitive
+Converts tags or full names to 2 character tags, case insensitive
 
 ###### Parameters
 
@@ -442,7 +538,7 @@ _val_: `str`
 
 <a name="normalizeToName"></a><small></small>**[<ins>normalizeToName</ins>]({{ site.baseurl }}{{ page.url }}#normalizeToName)**(_val_):
 
-Converts tags or full names to full names
+Converts tags or full names to full names, case sensitive
 
 ###### Parameters
 
@@ -463,7 +559,6 @@ _val_: `str`
 
 Checks if _val_ is a tag or full name of tag if so returns `True`
 
-
 ###### Parameters
 
 _val_: `str`
@@ -477,19 +572,16 @@ _val_: `str`
  `True` if _val_ is a tag or name, otherwise `False`
 
 
-<a name="BadCitation"></a><small></small>**[<ins>BadCitation</ins>]({{ site.baseurl }}{{ page.url }}#BadCitation)**():
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="BadCitation"></a><small></small>**[<ins>BadCitation</ins>]({{ site.baseurl }}{{ page.url }}#BadCitation)**(_Warning_):
 
 Exception thrown by Citation
 
 
-The BadCitation class has the following methods:
-
-<ul class="post-list">
-
-</ul>
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="BadISIRecord"></a><small></small>**[<ins>BadISIRecord</ins>]({{ site.baseurl }}{{ page.url }}#BadISIRecord)**():
+<a name="BadISIRecord"></a><small></small>**[<ins>BadISIRecord</ins>]({{ site.baseurl }}{{ page.url }}#BadISIRecord)**(_Warning_):
 
 Exception thrown by the [record parser](#metaknowledge.recordParser) to indicate a mis-formated record. This occurs when some component of the record does not parse. The messages will be any of:
 
@@ -504,10 +596,5 @@ Exception thrown by the [record parser](#metaknowledge.recordParser) to indicate
 Records with a BadISIRecord error are likely incomplete or the combination of two or more single records.
 
 
-The BadISIRecord class has the following methods:
-
-<ul class="post-list">
-
-</ul>
 
 {% include docsFooter.md %}

@@ -7,24 +7,25 @@ tags: [class]
 weight: 2
 ---
 <a name="RecordCollection"></a>
-<a name="RecordCollection"></a><small></small>**[<ins>RecordCollection</ins>]({{ site.baseurl }}{{ page.url }}#RecordCollection)**(_inCollection=None, name='', extension=''_):
+<a name="RecordCollection"></a><small></small>**[<ins>RecordCollection</ins>]({{ site.baseurl }}{{ page.url }}#RecordCollection)**(_object_):
 
-A way of containing a large number of Record objects, it provides ways of creating them from an isi file, string, list of records or directory containing isi files. The Records are containing within a set and as such many of the set operations are defined, pop, union, in ... also records are hashed with their WOS string so no duplication can occur.
-The comparison operators <, <=, >, >= are based strictly on the number of Records within the collection, while equality looks for an exact match on the Records
+<a name="RecordCollection.__init__"></a><small></small>**[<ins>RecordCollection.__init__</ins>]({{ site.baseurl }}{{ page.url }}#RecordCollection.__init__)**(_inCollection=None, name='', extension=''_):
 
-When being created if there are issues the Record collection will be declared bad (self.bad = True) it will then mostly return nothing or False. The error attribute contains the exception that occurred.
+A container for a large number of indivual WOS records.
 
-They also possess a name accessed with repr(), this is used to auto generate the names of files and can be set at creation, note though that any operations that modify the RecordCollection's contents will update the name to include what occurred, read __repr__'s doc string for more information
+`RecordCollection` provides ways of creating `[Records`]({{ site.baseurl }}{{ page.url }}#Record) from an isi file, string, list of records or directory containing isi files.
 
-inCollection is the object containing the information about the Records to be constructed it can be an isi file, string, list of records or directory containing isi files
+When being created if there are issues the Record collection will be declared bad, `bad` wil be set to `False`, it will then mostly return `None` or False. The attribute `error` contains the exception that occurred.
 
-name sets the name of the of the record if left blank name will be generated based on the object that created the Recordcollection
+They also possess an attribute `name` also accessed accessed with **__repr__**(), this is used to auto generate the names of files and can be set at creation, note though that any operations that modify the RecordCollection's contents will update the name to include what occurred.
 
-extension controls the extension that __init__ looks for when reading a directory, set it to the extension on the isi files you wish to load, if left blank all files will be tried and any that are not isi files will be silently skipped
+##### Customizations
+
+The Records are containing within a set and as such many of the set operations are defined, pop, union, in ... also records are hashed with their WOS string so no duplication can occur. The comparison operators `<`, `<=`, `>`, `>=` are based strictly on the number of Records within the collection, while equality looks for an exact match on the Records
 
 ##### \_\_Init\_\_
 
-RecordCollections are made from either a single file or directory supplied as _inCollection_.
+_inCollection_ is the object containing the information about the Records to be constructed it can be an isi file, string, list of records or directory containing isi files
 
 ##### Parameters
 
@@ -42,7 +43,8 @@ _name_ : `optional [str]`
 
 _extension_ : `optional [str]`
 
- The extension to search for when reading a directoy for files. _extension_ is the suffix searched for when a direcorty is read for files, by default it is empty so all files are read.
+ The extension to search for when reading a directory for files. _extension_ is the suffix searched for when a directory is read for files, by default it is empty so all files are read.
+
 
 
 The RecordCollection class has the following methods:
@@ -75,9 +77,9 @@ The RecordCollection class has the following methods:
 
 <a name="twoModeNetwork"></a><small>RecordCollection.</small>**[<ins>twoModeNetwork</ins>]({{ site.baseurl }}{{ page.url }}#twoModeNetwork)**(_tag1, tag2, directed=False, recordType=True, nodeCount=True, edgeWeight=True, stemmerTag1=None, stemmerTag2=None_):
 
-Creates a network of the objects found by two WOS tags _tag1_ and _tag2_.
+Creates a network of the objects found by two WOS tags _tag1_ and _tag2_, each node marked by which tag spawned it making the resultant graph bipartite.
 
-A **twoModeNetwork()** looks are each Record in the RecordCollection and extracts its values for the tags given by _tag1_ and _tag2_, e.g. the `"WC"` and `"LA"` tags. Then for each object returned by each tag and edge is created between it and every other object of the other tag. So the WOS defined subject tag `"WC"` and language tag `"LA"`, will give a two-mode network showing the connections between subjects and languages. Each node will have an attribute call `"type"` that gives the tag that created it or both if both created it, e.g. the node `"English"` would have the type attribute be `"LA"`.
+A **twoModeNetwork()** looks at each Record in the `RecordCollection` and extracts its values for the tags given by _tag1_ and _tag2_, e.g. the `'WC'` and `'LA'` tags. Then for each object returned by each tag and edge is created between it and every other object of the other tag. So the WOS defined subject tag `'WC'` and language tag `'LA'`, will give a two-mode network showing the connections between subjects and languages. Each node will have an attribute call `'type'` that gives the tag that created it or both if both created it, e.g. the node `'English'` would have the type attribute be `'LA'`.
 
 The number of times each object occurs is count if _nodeCount_ is `True` and the edges count the number of co-occurrences if _edgeWeight_ is `True`. Both are`True` by default.
 
@@ -107,13 +109,13 @@ _edgeWeight_ : `optional [bool]`
 
 _stemmerTag1_ : `optional [func]`
 
- default `None`, If _stemmerTag1_ is a callable object, basically a function or possibly a class, it will be called for the ID of every node given by _tag1_ in the graph, all IDs are strings. For example:
+ Default `None`, If _stemmerTag1_ is a callable object, basically a function or possibly a class, it will be called for the ID of every node given by _tag1_ in the graph, all IDs are strings.
 
-The function ` f = lambda x: x[0]` if given as the stemmer will cause all IDs to be the first character of their unstemmed IDs. e.g. the title `'Goos-Hanchen and Imbert-Fedorov shifts for leaky guided modes'` will create the node `'G'`.
+ For example: the function `f = lambda x: x[0]` if given as the stemmer will cause all IDs to be the first character of their unstemmed IDs. e.g. the title `'Goos-Hanchen and Imbert-Fedorov shifts for leaky guided modes'` will create the node `'G'`.
 
 _stemmerTag2_ : `optional [func]`
 
- default `None`, see _stemmerTag1_ as it is the same but for _tag2_
+ Default `None`, see _stemmerTag1_ as it is the same but for _tag2_
 
 ###### Returns
 
@@ -126,11 +128,11 @@ _stemmerTag2_ : `optional [func]`
 
 <a name="nModeNetwork"></a><small>RecordCollection.</small>**[<ins>nModeNetwork</ins>]({{ site.baseurl }}{{ page.url }}#nModeNetwork)**(_tags, recordType=True, nodeCount=True, edgeWeight=True, stemmer=None_):
 
-Creates a network of the objects found by all WOS tags in _tags_.
+Creates a network of the objects found by all WOS tags in _tags_, each node is marked by which tag spawned it making the resultant graph n-partite.
 
-A **nModeNetwork()** looks are each Record in the RecordCollection and extracts its values for the tags given by _tags_. Then for all objects returned an edge is created between them, regardless of their type. Each node will have an attribute call `"type"` that gives the tag that created it or both if both created it, e.g. if `"LA"` were in _tags_ node `"English"` would have the type attribute be `"LA"`.
+A **nModeNetwork()** looks are each Record in the RecordCollection and extracts its values for the tags given by _tags_. Then for all objects returned an edge is created between them, regardless of their type. Each node will have an attribute call `'type'` that gives the tag that created it or both if both created it, e.g. if `'LA'` were in _tags_ node `'English'` would have the type attribute be `'LA'`.
 
-For example if _tags_ was set to `['CR', 'UT', 'LA']`, a three mode network would be created, composed of a co-citation network from the `"CR"` tag. Then each citation would also have edges to all the languages of Records that cited it and to the WOS number of the those Records.
+For example if _tags_ was set to `['CR', 'UT', 'LA']`, a three mode network would be created, composed of a co-citation network from the `'CR'` tag. Then each citation would also have edges to all the languages of Records that cited it and to the WOS number of the those Records.
 
 The number of times each object occurs is count if _nodeCount_ is `True` and the edges count the number of co-occurrences if _edgeWeight_ is `True`. Both are`True` by default.
 
@@ -142,17 +144,17 @@ _mode_ : `str`
 
 _nodeCount_ : `optional [bool]`
 
- Default `True`, if `True` each node will have an attribute called "count" that contains an int giving the number of time the object occurred.
+ Default `True`, if `True` each node will have an attribute called `'count'` that contains an int giving the number of time the object occurred.
 
 _edgeWeight_ : `optional [bool]`
 
- Default `True`, if `True` each edge will have an attribute called "weight" that contains an int giving the number of time the two objects co-occurrenced.
+ Default `True`, if `True` each edge will have an attribute called `'weight'` that contains an int giving the number of time the two objects co-occurrenced.
 
 _stemmer_ : `optional [func]`
 
- default `None`, If _stemmer_ is a callable object, basically a function or possibly a class, it will be called for the ID of every node in the graph, note that all IDs are strings. For example:
+ Default `None`, If _stemmer_ is a callable object, basically a function or possibly a class, it will be called for the ID of every node in the graph, note that all IDs are strings.
 
-The function ` f = lambda x: x[0]` if given as the stemmer will cause all IDs to be the first character of their unstemmed IDs. e.g. the title `'Goos-Hanchen and Imbert-Fedorov shifts for leaky guided modes'` will create the node `'G'`.
+ For example: the function `f = lambda x: x[0]` if given as the stemmer will cause all IDs to be the first character of their unstemmed IDs. e.g. the title `'Goos-Hanchen and Imbert-Fedorov shifts for leaky guided modes'` will create the node `'G'`.
 
 ###### Returns
 
@@ -171,11 +173,11 @@ Returns a dict with all the citations in the CR field as keys and the number of 
 
 _pandasFriendly_ : `optional [bool]`
 
- default `False`, makes the output be a dict with two keys one "Citations" is the citations the other is their occurence counts as "Counts".
+ default `False`, makes the output be a dict with two keys one `'Citations'` is the citations the other is their occurrence counts as `'Counts'`.
 
 _keyType_ : `optional [str]`
 
- default `'citation'`, the type of key to use for the dictionary, the valid strings are `"citation"`, `"journal"`, `"year"` or `"author"`
+ default `'citation'`, the type of key to use for the dictionary, the valid strings are `'citation'`, `'journal'`, `'year'` or `'author'`. IF changed from `'citation'` all citations matching the requested option will be contracted and their counts added together.
 
 ###### Returns
 
@@ -189,199 +191,263 @@ _keyType_ : `optional [str]`
 <a name="localCitesOf"></a><small>RecordCollection.</small>**[<ins>localCitesOf</ins>]({{ site.baseurl }}{{ page.url }}#localCitesOf)**(_rec_):
 
 Takes in a Record, WOS string, citation string or Citation and returns a RecordCollection of all records that cite it.
-        
+
+###### Parameters
+
+_rec_ : `Record, str or Citation`
+
+ The object that is being cited
+
+###### Returns
+
+`RecordCollection`
+
+ A `RecordCollection` containing only those `Records` that cite _rec_
 
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="citeFilter"></a><small>RecordCollection.</small>**[<ins>citeFilter</ins>]({{ site.baseurl }}{{ page.url }}#citeFilter)**(_keyString='', field='all', reverse=False, caseSensitive=False_):
 
-Filters Records by some string, keyString, in all of their citations.
-Returns all Records with at least one citation possessing keyString in the field given by field.
+Filters `Records` by some string, _keyString_, in their citations and returns all `Records` with at least one citation possessing _keyString_ in the field given by _field_.
 
-keyString give the string to be searched for if it is is blank then all citations with the specified field will be matched
+###### Parameters
 
-field give the component of the citation to be looked at, it is one of a few strings. The default is 'all' which will cause the entire original citation to be searched. It can be used to search across fields, e.g. '1970, V2' is a valid keystring
+_keyString_ : `optional [str]`
+
+ Default `''`, gives the string to be searched for, if it is is blank then all citations with the specified field will be matched
+
+_field_ : `optional [str]`
+
+ Default `'all'`, gives the component of the citation to be looked at, it can be one of a few strings. The default is `'all'` which will cause the entire original `Citation` to be searched. It can be used to search across fields, e.g. `'1970, V2'` is a valid keystring
 The other options are:
-`author`, searches the author field
-`year`, searches the year field
-`journal`, searches the journal field
-`V`, searches the volume field
-`P`, searches the page field
-misc, searches all the remaining uncategorized information
-anonymous, searches for anonymous citations, keyString is not used
-bad, searches for bad citations, keyString is not used
 
-reverse being True causes all Records not matching the query to be returned, default is False
++ `'author'`, searches the author field
++ `'year'`, searches the year field
++ `'journal'`, searches the journal field
++ `'V'`, searches the volume field
++ `'P'`, searches the page field
++ `'misc'`, searches all the remaining uncategorized information
++ `'anonymous'`, searches for anonymous `Citations`, _keyString_ is not ignored
++ `'bad'`, searches for bad citations, keyString is not used
 
-caseSensitive if True causes the search across the original to be case sensitive, only the 'all' option can be case sensitive
+_reverse_ : `optional [bool]`
+
+ Default `False`, being set to `True` causes all `Records` not matching the query to be returned
+
+_caseSensitive_ : `optional [bool]`
+
+ Default `False`, if `True` causes the search across the original to be case sensitive, **only** the `'all'` option can be case sensitive
 
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="pop"></a><small>RecordCollection.</small>**[<ins>pop</ins>]({{ site.baseurl }}{{ page.url }}#pop)**():
 
-Returns a random Record from the recordCollection, the Record is deleted from the collection, use peak for nondestructive access
+Returns a random `Record` from the `RecordCollection`, the `Record` is deleted from the collection, use [**peak**()]({{ site.baseurl }}{{ page.url }}#peak) for nondestructive, but slower, access
+
+###### Returns
+
+`Record`
+
+ A random `Record` that has been removed from the collection
 
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="peak"></a><small>RecordCollection.</small>**[<ins>peak</ins>]({{ site.baseurl }}{{ page.url }}#peak)**():
 
-Returns a random Record from the recordCollection, the Record is kept in the collection, use pop for faster destructive access
+Returns a random `Record` from the `RecordCollection`, the `Record` is kept in the collection, use [**pop**()]({{ site.baseurl }}{{ page.url }}#pop) for faster destructive access.
+
+###### Returns
+
+`Record`
+
+ A random `Record` in the collection
 
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="dropWOS"></a><small>RecordCollection.</small>**[<ins>dropWOS</ins>]({{ site.baseurl }}{{ page.url }}#dropWOS)**(_wosNum_):
 
-Removes the Record with WOS number (ID number) _wosNum_
+Removes the `Record` with WOS number (ID number) _wosNum_ from the collection. If it cannot be found nothing happens.
 
 ###### Parameters
 
 _wosNum_ : `str`
 
- _wosNum_ is the WOS number of the Record to be dropped. _wosNum_ must begin with 'WOS:' or a valueError is raise.
+ _wosNum_ is the WOS number of the Record to be dropped. _wosNum_ must begin with `'WOS:'` or a valueError is raise.
 
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="addRec"></a><small>RecordCollection.</small>**[<ins>addRec</ins>]({{ site.baseurl }}{{ page.url }}#addRec)**(_Rec_):
 
-Adds a Record or Records to the RecordCollection.
+Adds a `Record` or `Records` to the collection.
 
 ###### Parameters
 
 _Rec_ : `Record or iterable[Record]`
 
- A Record or some iterable containg records to add
+ A Record or some iterable containing `Records` to add
 
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="getWOS"></a><small>RecordCollection.</small>**[<ins>getWOS</ins>]({{ site.baseurl }}{{ page.url }}#getWOS)**(_wosNum, drop=False_):
 
-Gets the Record from the collection by its WOS number.
+Gets the `Record` from the collection by its WOS number (ID number) _wosNum_.
 
 ###### Parameters
 
 _wosNum_ : `str`
 
- _wosNum_ is the WOS number of the Record to be extracted. _wosNum_ must begin with 'WOS:' or a valueError is raise.
+ _wosNum_ is the WOS number of the `Record` to be extracted. _wosNum_ must begin with `'WOS:'` or a valueError is raise.
 
 _drop_ : `optional [bool]`
 
- Default `False`. If `True` the Record is dropped from the collection after being extract, i.e. if `False` [getWOS()]({{ site.baseurl }}{% post_url /docs/2015-12-17-RecordCollection %}#getWOS) acts like [peak()]({{ site.baseurl }}{% post_url /docs/2015-12-17-RecordCollection %}#peak), if `True` it acts like [pop()]({{ site.baseurl }}{% post_url /docs/2015-12-17-RecordCollection %}#pop)
+ Default `False`. If `True` the Record is dropped from the collection after being extract, i.e. if `False` [**getWOS**()]({{ site.baseurl }}{{ page.url }}#getWOS) acts like [**peak**()]({{ site.baseurl }}{{ page.url }}#peak), if `True` it acts like [**pop**()]({{ site.baseurl }}{{ page.url }}#pop)
 
 ###### Returns
 
 `metaknowledge.Record`
 
- The Record whose WOS number is _wosNum_
+ The `Record` whose WOS number is _wosNum_
 
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="getBadRecords"></a><small>RecordCollection.</small>**[<ins>getBadRecords</ins>]({{ site.baseurl }}{{ page.url }}#getBadRecords)**():
 
-returns RecordCollection containing all the Record which have their bad flag set to True, i.e. all those removed by dropBadRecords()
+creates a `RecordCollection` containing all the `Record` which have their `bad` attribute set to `True`, i.e. all those removed by [**dropBadRecords**()]({{ site.baseurl }}{{ page.url }}#dropBadRecords).
+
+###### Returns
+
+`RecordCollection`
+
+ All the bad `Records` in one collection
 
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="dropBadRecords"></a><small>RecordCollection.</small>**[<ins>dropBadRecords</ins>]({{ site.baseurl }}{{ page.url }}#dropBadRecords)**():
 
-Removes all Records with bad attributes == True from the collection
+Removes all `Records` with `bad` attribute `True` from the collection, i.e. drop all those returned by [**getBadRecords**()]({{ site.baseurl }}{{ page.url }}#getBadRecords).
+        
 
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="dropNonJournals"></a><small>RecordCollection.</small>**[<ins>dropNonJournals</ins>]({{ site.baseurl }}{{ page.url }}#dropNonJournals)**(_ptVal='J', dropBad=True, invert=False_):
 
-Drops the non journal type Records from the collection
+Drops the non journal type `Records` from the collection, this is done by checking _ptVal_ against the PT tag
 
 ###### Parameters
 
 _ptVal_ : `optional [str]`
 
- The value of the PT tag to be kept, default is 'J' the journal tag
+ Default `'J'`, The value of the PT tag to be kept, default is `'J'` the journal tag, other tags can be substituted.
 
 _dropBad_ : `optional [bool]`
 
- Determines if bad Records will be dropped as well, default `True`
+ Default `True`, if `True` bad `Records` will be dropped as well those that are not journal entries
 
 _invert_ : `optional [bool]`
 
- Set `True` to drop journals (or the PT tag given by _ptVal) instead of keeping them. Note, it still drops bad Records if _dropBad_ is `True`, default `False`
+ Default `False`, Set `True` to drop journals (or the PT tag given by _ptVal_) instead of keeping them. **Note**, it still drops bad Records if _dropBad_ is `True`
 
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="writeFile"></a><small>RecordCollection.</small>**[<ins>writeFile</ins>]({{ site.baseurl }}{{ page.url }}#writeFile)**(_fname=None_):
 
-Writes the RecordCollection to a file, the written file is identical to those download from WOS. The order of Records written is random.
+Writes the `RecordCollection` to a file, the written file's format is identical to those download from WOS. The order of `Records` written is random.
 
-fname set the name of the file, if blank the RecordCollection's name's first 200 characters are use with the suffix .isi
+###### Parameters
+
+_fname_ : `optional [str]`
+
+ Default `None`, if given the output file will written to _fanme_, if `None` the `RecordCollection`'s name's first 200 characters are used with the suffix .isi
 
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="writeCSV"></a><small>RecordCollection.</small>**[<ins>writeCSV</ins>]({{ site.baseurl }}{{ page.url }}#writeCSV)**(_fname=None, onlyTheseTags=None, numAuthors=True, longNames=False, firstTags=None, csvDelimiter=',', csvQuote='"', listDelimiter='|'_):
 
-Writes all the Records from the collection into a csv file with each row a record and each column a tag
+Writes all the `Records` from the collection into a csv file with each row a record and each column a tag.
 
-fname is the name of the file to write to, if none is given it uses the Collections name suffixed by .csv
+###### Parameters
 
-onlyTheseTags lets you specify which tags to use, if not given then all tags in the records are given.
-If you want to use all known tags the use onlyTheseTags = metaknowledge.knownTagsList
+_fname_ : `optional [str]`
 
-numAuthors adds the number of auhtors as the column numAuthors
+ Default `None`, the name of the file to write to, if `None` it uses the collections name suffixed by .csv.
 
-longNames if set to True will convert the tags to their longer names, otherwise the short 2 character ones will be used
+_onlyTheseTags_ : `optional [iterable]`
 
-firstTags is the column's tags, it is set by default to ['UT', 'PT', 'TI', 'AF', 'CR'] so those will be written first if given by onlyTheseTags.
-Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will override onlyTheseTags
+ Default `None`, if an iterable (list, tuple, etc) only the tags in _onlyTheseTags_ will be used, if not given then all tags in the records are given.
 
-csvDelimiter is the delimiter used for the cells of the csv file, default is the comma (,)
+ If you want to use all known tags pass [`metaknowledge.knownTagsList`]({{ site.baseurl }}{{ page.url }}#tagProcessing).
 
-csvQuote is  the quote character used for the csv, default is the double quote (")
+_numAuthors_ : `optional [bool]`
 
-listDelimiter is the delimiter used between values of the same cell if the tag for that record has multiple outputs, default is the pipe (|)
+ Default `True`, if `True` adds the number of authors as the column `'numAuthors'`.
+
+_longNames_ : `optional [bool]`
+
+ Default `False`, if `True` will convert the tags to their longer names, otherwise the short 2 character ones will be used.
+
+_firstTags_ : `optional [iterable]`
+
+ Default `None`, if `None` the iterable `['UT', 'PT', 'TI', 'AF', 'CR']` is used. The tags given by the iterable are the first ones in the csv in the order given.
+
+ **Note** if tags are in _firstTags_ but not in _onlyTheseTags_, _onlyTheseTags_ will override _firstTags_
+
+_csvDelimiter_ : `optional [str]`
+
+ Default `','`, the delimiter used for the cells of the csv file.
+
+_csvQuote_ : `optional [str]`
+
+ Default `'"'`, the quote character used for the csv.
+
+_listDelimiter_ : `optional [str]`
+
+ Default `'|'`, the delimiter used between values of the same cell if the tag for that record has multiple outputs.
 
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="writeBib"></a><small>RecordCollection.</small>**[<ins>writeBib</ins>]({{ site.baseurl }}{{ page.url }}#writeBib)**(_fname=None, maxStringLength=1000, wosMode=False, reducedOutput=False, niceIDs=True_):
 
-Writes a bibTex entry to _fname_ for each Record in the collection.
+Writes a bibTex entry to _fname_ for each `Record` in the collection.
 
 If the Record is of a journal article (PT J) the bibtext type is set to `'article'`, otherwise it is set to `'misc'`. The ID of the entry is the WOS number and all the Record's fields are given as entries with their long names.
 
-**Note** This is not meant to be used directly with LaTeX none of the special characters have been escaped and there are a large number of unnecessary fields provided.
+**Note** This is not meant to be used directly with LaTeX none of the special characters have been escaped and there are a large number of unnecessary fields provided. _niceID_ and _maxLength_ have been provided to make conversions easier only.
 
-**Note** Record entries that are lists have their values seperated with the string `' and '`, as this is the way bibTex understands
+**Note** Record entries that are lists have their values separated with the string `' and '`, as this is the way bibTex understands
 
 ###### Parameters
 
 _fname_ : `optional [str]`
 
- default `None`, The name of the file to be written. If not given one will be derived from the collection and the file will be written to .
+ Default `None`, The name of the file to be written. If not given one will be derived from the collection and the file will be written to .
 
 _maxStringLength_ : `optional [int]`
 
- default 1000, The max length for a continuous string. Most bibTex implementation only allow string to be up to 1000 characters ([source](https://www.cs.arizona.edu/~collberg/Teaching/07.231/BibTeX/bibtex.html)), this splits them up into substrings then uses the native string concatenation (the `'#'` character) to allow for longer strings
+ Default 1000, The max length for a continuous string. Most bibTex implementation only allow string to be up to 1000 characters ([source](https://www.cs.arizona.edu/~collberg/Teaching/07.231/BibTeX/bibtex.html)), this splits them up into substrings then uses the native string concatenation (the `'#'` character) to allow for longer strings
 
 _WOSMode_ : `optional [bool]`
 
- default `False`, if `True` the data produced will be unprocessed and use double curly braces. This is the style WOS produces bib files in and mostly macthes that.
+ Default `False`, if `True` the data produced will be unprocessed and use double curly braces. This is the style WOS produces bib files in and mostly macthes that.
 
 _restrictedOutput_ : `optional [bool]`
 
- default `False`, if `True` the tags output will be limited to: `'AF'`, `'BF'`, `'ED'`, `'TI'`, `'SO'`, `'LA'`, `'NR'`, `'TC'`, `'Z9'`, `'PU'`, `'J9'`, `'PY'`, `'PD'`, `'VL'`, `'IS'`, `'SU'`, `'PG'`, `'DI'`, `'D2'`, and `'UT'`
+ Default `False`, if `True` the tags output will be limited to: `'AF'`, `'BF'`, `'ED'`, `'TI'`, `'SO'`, `'LA'`, `'NR'`, `'TC'`, `'Z9'`, `'PU'`, `'J9'`, `'PY'`, `'PD'`, `'VL'`, `'IS'`, `'SU'`, `'PG'`, `'DI'`, `'D2'`, and `'UT'`
 
 _niceID_ : `optional [bool]`
 
- default `True`, if `True` the IDs used will be derived from the authors, publishing date and title, if `False` it will be the UT tag
+ Default `True`, if `True` the IDs used will be derived from the authors, publishing date and title, if `False` it will be the UT tag
 
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
@@ -390,11 +456,27 @@ _niceID_ : `optional [bool]`
 
 Returns a dict with each key a tag and the values being lists of the values for each of the Records in the collection, `None` is given when there is no value and they are in the same order across each tag.
 
-When used in pandas: `pandas.DataFrame(RC.makeDict())` returns a data frame with each column a tag and each row a Record.
+When used with pandas: `pandas.DataFrame(RC.makeDict())` returns a data frame with each column a tag and each row a Record.
 
 ###### Parameters
 
-See writeCSV()
+_onlyTheseTags_ : `optional [iterable]`
+
+ Default `None`, if an iterable (list, tuple, etc) only the tags in _onlyTheseTags_ will be used, if not given then all tags in the records are given.
+
+ If you want to use all known tags pass [`metaknowledge.knownTagsList`]({{ site.baseurl }}{{ page.url }}#tagProcessing).
+
+_longNames_ : `optional [bool]`
+
+ Default `False`, if `True` will convert the tags to their longer names, otherwise the short 2 character ones will be used.
+
+_cleanedVal_ : `optional [bool]`
+
+ Default `True`, if `True` the processed values for each `Record`'s field will be provided, otherwise the raw values are given.
+
+_numAuthors_ : `optional [bool]`
+
+ Default `True`, if `True` adds the number of authors as the column `'numAuthors'`.
 
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
@@ -407,25 +489,25 @@ Creates a coauthorship network for the RecordCollection.
 
 _detailedInfo_ : `optional [bool or iterable[WOS tag Strings]]`
 
- default `False`, if `True` all nodes will be given info strings composed of information from the Record objects themselves. This is Equivalent to passing the list: `['PY', 'TI', 'SO', 'VL', 'BP']`.
+ Default `False`, if `True` all nodes will be given info strings composed of information from the Record objects themselves. This is Equivalent to passing the list: `['PY', 'TI', 'SO', 'VL', 'BP']`.
 
  If _detailedInfo_ is an iterable (that evaluates to `True`) of WOS Tags (or long names) The values  of those tags will be used to make the info attributes.
 
  For each of the selected tags an attribute will be added to the node using the values of those tags on the first `Record` encountered. **Warning** iterating over `RecordCollection` objects is not deterministic the first `Record` will not always be same between runs. The node will be given attributes with the names of the WOS tags for each of the selected tags. The attributes will contain strings of containing the values (with commas removed), if multiple values are encountered they will be comma separated.
 
- Note: _detailedInfo_ is not identical to the _detailedCore_ argument of [`Recordcollection.coCiteNetwork()`]({{ site.baseurl }}{% post_url /docs/2015-12-17-RecordCollection %}#coCiteNetwork) or [`Recordcollection.citationNetwork()`]({{ site.baseurl }}{% post_url /docs/2015-12-17-RecordCollection %}#citationNetwork)
+ Note: _detailedInfo_ is not identical to the _detailedCore_ argument of [`Recordcollection.coCiteNetwork()`]({{ site.baseurl }}{{ page.url }}#coCiteNetwork) or [`Recordcollection.citationNetwork()`]({{ site.baseurl }}{{ page.url }}#citationNetwork)
 
 _weighted_ : `optional [bool]`
 
- default `True`, wether the edges are weighted. If `True` the edges are weighted by the number of co-authorships.
+ Default `True`, wether the edges are weighted. If `True` the edges are weighted by the number of co-authorships.
 
 _dropNonJournals_ : `optional [bool]`
 
- default `False`, wether to drop authors from non-journals
+ Default `False`, wether to drop authors from non-journals
 
 _count_ : `optional [bool]`
 
- default `True`, causes the number of occurrences of a node to be counted
+ Default `True`, causes the number of occurrences of a node to be counted
 
 ###### Returns
 
@@ -444,7 +526,7 @@ Creates a co-citation network for the RecordCollection.
 
 _nodeType_ : `optional [str]`
 
- One of `"full"`, `"original"`, `"author"`, `"journal"` or `"year"`. Specifies the value of the nodes in the graph. The default `"full"` causes the citations to be compared holistically using the [`metaknowledge.Citation`]({{ site.baseurl }}{% post_url /docs/2015-12-17-Citation %}#Citation) builtin comparison operators. `"original"` uses the raw original strings of the citations. While `"author"`, `"journal"` and `"year"` each use the author, journal and year respectively.
+ One of `"full"`, `"original"`, `"author"`, `"journal"` or `"year"`. Specifies the value of the nodes in the graph. The default `"full"` causes the citations to be compared holistically using the [`metaknowledge.Citation`]({{ site.baseurl }}{{ page.url }}#Citation) builtin comparison operators. `"original"` uses the raw original strings of the citations. While `"author"`, `"journal"` and `"year"` each use the author, journal and year respectively.
 
 _dropAnon_ : `optional [bool]`
 
@@ -482,7 +564,7 @@ _detailedCore_ : `optional [bool or iterable[WOS tag Strings]]`
 
  The resultant string is the values of each tag, with commas removed, seperated by `', '`, just like the info given by non-core Citations. Note that for tags like `'AF'` that return lists only the first entry in the list will be used. Also a second attribute is created for all nodes called inCore wich is a boolean describing if the node is in the core or not.
 
- Note: _detailedCore_  is not identical to the _detailedInfo_ argument of [`Recordcollection.coAuthNetwork()`]({{ site.baseurl }}{% post_url /docs/2015-12-17-RecordCollection %}#coAuthNetwork)
+ Note: _detailedCore_  is not identical to the _detailedInfo_ argument of [`Recordcollection.coAuthNetwork()`]({{ site.baseurl }}{{ page.url }}#coAuthNetwork)
 
 _coreOnly_ : `optional [bool]`
 
@@ -509,7 +591,7 @@ Creates a citation network for the RecordCollection.
 
 _nodeType_ : `optional [str]`
 
- One of `"full"`, `"original"`, `"author"`, `"journal"` or `"year"`. Specifies the value of the nodes in the graph. The default `"full"` causes the citations to be compared holistically using the [`metaknowledge.Citation`]({{ site.baseurl }}{% post_url /docs/2015-12-17-Citation %}#Citation) builtin comparison operators. `"original"` uses the raw original strings of the citations. While `"author"`, `"journal"` and `"year"` each use the author, journal and year respectively.
+ One of `"full"`, `"original"`, `"author"`, `"journal"` or `"year"`. Specifies the value of the nodes in the graph. The default `"full"` causes the citations to be compared holistically using the [`metaknowledge.Citation`]({{ site.baseurl }}{{ page.url }}#Citation) builtin comparison operators. `"original"` uses the raw original strings of the citations. While `"author"`, `"journal"` and `"year"` each use the author, journal and year respectively.
 
 _dropAnon_ : `optional [bool]`
 
@@ -551,7 +633,7 @@ _detailedCore_ : `optional [bool or iterable[WOS tag Strings]]`
 
  The resultant string is the values of each tag, with commas removed, seperated by `', '`, just like the info given by non-core Citations. Note that for tags like `'AF'` that return lists only the first entry in the list will be used. Also a second attribute is created for all nodes called inCore wich is a boolean describing if the node is in the core or not.
 
- Note: _detailedCore_  is not identical to the _detailedInfo_ argument of [`Recordcollection.coAuthNetwork()`]({{ site.baseurl }}{% post_url /docs/2015-12-17-RecordCollection %}#coAuthNetwork)
+ Note: _detailedCore_  is not identical to the _detailedInfo_ argument of [`Recordcollection.coAuthNetwork()`]({{ site.baseurl }}{{ page.url }}#coAuthNetwork)
 
 _coreOnly_ : `optional [bool]`
 
@@ -580,11 +662,11 @@ Creates a RecordCollection of Records from the years between _startYear_ and _en
 
 _startYear_ : `int`
 
- The smallest year to be included in the retuned RecordCollection
+ The smallest year to be included in the returned RecordCollection
 
 _endYear_ : `int`
 
- The largest year to be included in the retuned RecordCollection
+ The largest year to be included in the returned RecordCollection
 
 _dropMissingYears_ : `optional [bool]`
 
@@ -603,11 +685,11 @@ _dropMissingYears_ : `optional [bool]`
 
 Creates a network of the objects found by one WOS tag _mode_.
 
-A **oneModeNetwork()** looks are each Record in the RecordCollection and extracts its values for the tag given by _mode_, e.g. the `"AF"` tag. Then if multiple are returned an edge is created between them. So in the case of the author tag `"AF"` a co-authorship network is created.
+A **oneModeNetwork**() looks are each Record in the RecordCollection and extracts its values for the tag given by _mode_, e.g. the `'AF'` tag. Then if multiple are returned an edge is created between them. So in the case of the author tag `'AF'` a co-authorship network is created.
 
 The number of times each object occurs is count if _nodeCount_ is `True` and the edges count the number of co-occurrences if _edgeWeight_ is `True`. Both are`True` by default.
 
-**Note** Do not use this for the construction of co-citation networks use [Recordcollection.coCiteNetwork()]({{ site.baseurl }}{% post_url /docs/2015-12-17-RecordCollection %}#coCiteNetwork) it is more accurate and has more options.
+**Note** Do not use this for the construction of co-citation networks use [Recordcollection.coCiteNetwork()]({{ site.baseurl }}{{ page.url }}#coCiteNetwork) it is more accurate and has more options.
 
 ###### Parameters
 
@@ -625,9 +707,9 @@ _edgeWeight_ : `optional [bool]`
 
 _stemmer_ : `optional [func]`
 
- default `None`, If _stemmer_ is a callable object, basically a function or possibly a class, it will be called for the ID of every node in the graph, all IDs are strings. For example:
+ Default `None`, If _stemmer_ is a callable object, basically a function or possibly a class, it will be called for the ID of every node in the graph, all IDs are strings. For example:
 
-The function ` f = lambda x: x[0]` if given as the stemmer will cause all IDs to be the first character of their unstemmed IDs. e.g. the title `'Goos-Hanchen and Imbert-Fedorov shifts for leaky guided modes'` will create the node `'G'`.
+ The function ` f = lambda x: x[0]` if given as the stemmer will cause all IDs to be the first character of their unstemmed IDs. e.g. the title `'Goos-Hanchen and Imbert-Fedorov shifts for leaky guided modes'` will create the node `'G'`.
 
 ###### Returns
 

@@ -151,27 +151,77 @@
 
 <h1 id="visualmetaknowledgedocsvisualvisual"><a href="/metaknowledge/docs/visual#visual">visual</a></h1>
 
-<p>visual docstring</p>
+<p>Two functions based on <em>matplotlib</em> for generating nicer looking graphs</p>
+
+<p>This is the only module that depends on anything besides <em>networkx</em>, as it depends on <em>numpy</em>, <em>scipy</em> and <em>matplotlib</em> in addition to <em>networkx</em>.</p>
 
 <p>The visual module provides the following functions:</p>
 
 <ul class="post-list">
-<li><article><a href="#graphDensityContourPlot"><b>graphDensityContourPlot</b>(<i>G, layout=None, layoutScaleFactor=1, shifAxis=False, overlay=False, axisSamples=100, blurringFactor=0.1, contours=15, nodeSize=10, graphType='coloured', iters=50</i>)</a></article></li>
+<li><article><a href="#graphDensityContourPlot"><b>graphDensityContourPlot</b>(<i>G, iters=50, layout=None, layoutScaleFactor=1, overlay=False, nodeSize=10, axisSamples=100, blurringFactor=0.1, contours=15, graphType='coloured'</i>)</a></article></li>
 <li><article><a href="#quickVisual"><b>quickVisual</b>(<i>G, showLabel=False</i>)</a></article></li>
 </ul>
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="graphDensityContourPlot"></a><small>visual.</small><strong><a href="/metaknowledge/docs/visual#graphDensityContourPlot"><ins>graphDensityContourPlot</ins></a></strong>(<em>G, layout=None, layoutScaleFactor=1, shifAxis=False, overlay=False, axisSamples=100, blurringFactor=0.1, contours=15, nodeSize=10, graphType=’coloured’, iters=50</em>):</p>
+<p><a name="graphDensityContourPlot"></a><small>visual.</small><strong><a href="/metaknowledge/docs/visual#graphDensityContourPlot"><ins>graphDensityContourPlot</ins></a></strong>(<em>G, iters=50, layout=None, layoutScaleFactor=1, overlay=False, nodeSize=10, axisSamples=100, blurringFactor=0.1, contours=15, graphType=’coloured’</em>):</p>
 
-<p>Requires numpy and matplotlib</p>
+<p>Creates a 3D plot giving the density of nodes on a 2D layout as a surface in 3 dimensions.</p>
 
-<p>graphType is either “coloured or “solid”</p>
+<p>Most of the options are for tweaking the final appearance. <em>layout</em> and <em>layoutScaleFactor</em> allow a pre-layout graph to be provided. If a layout is not provided the <a href="https://networkx.github.io/documentation/latest/reference/generated/networkx.drawing.layout.spring_layout.html">networkx.<strong>spring_layout</strong>()</a> is used after <em>iters</em> iterations. Then, once the graph has been laid out a grid of <em>axisSamples</em> cells by <em>axisSamples</em> cells is overlaid and the number of nodes in each cell is determined. This then forms a surface in 3-space, gaussian blur is applied with a sigma of <em>blurringFactor</em>. The surface is then be plotted.</p>
+
+<h6 id="parameters">Parameters</h6>
+
+<p><em>G</em> : <code>networkx Graph</code></p>
+
+<p>The graph to be plotted</p>
+
+<p><em>iters</em> : <code>optional [int]</code></p>
+
+<p>Default <code>50</code>, the number of iterations for the spring layout if <em>layout</em> is not provided.</p>
+
+<p><em>layout</em> : <code>optional [networkx layout dictionary]</code></p>
+
+<p>Default <code>None</code>, if provided will be used as a layout of the graph, the maximum distance from the origin along any axis must also given as <em>layoutScaleFactor</em>, which is by default <code>1</code>.</p>
+
+<p><em>layoutScaleFactor</em> : <code>optional [double]</code></p>
+
+<p>Default <code>1</code>, The maximum distance from the origin allowed along any axis given by <em>layout</em>, i.e. the layout must fit in a square centered at the origin with side lengths 2 * <em>layoutScaleFactor</em></p>
+
+<p><em>overlay</em> : <code>optional [bool]</code></p>
+
+<p>Default <code>False</code>, if <code>True</code> the graph will be plotted on the X-Y plane at Z = 0.</p>
+
+<p><em>nodeSize</em> : <code>optional [double]</code></p>
+
+<p>Default <code>10</code>, the size of the nodes dawn in the overlay</p>
+
+<p><em>axisSamples</em> : <code>optional [int]</code></p>
+
+<p>Default 100, the number of cells used along each axis for sampling. A larger number will mean a lower average density.</p>
+
+<p><em>blurringFactor</em> : <code>optional [double]</code></p>
+
+<p>Default <code>0.1</code>, the sigma value used for smoothing the surface density. The higher this number the smoother the surface.</p>
+
+<p><em>contours</em> : <code>optional [int]</code></p>
+
+<p>Default 15, the number of different heights drawn. If this number is low the resultant image will look very banded. It is recommended this be raised above <code>50</code> if you want your images to look good, <strong>Warning</strong> this will make them much slower to generate and interact with.</p>
+
+<p><em>graphType</em> : <code>optional [str]</code></p>
+
+<p>Default <code>'coloured'</code>, if <code>'coloured'</code> the image will have a destiny based colourization applied, the only other option is <code>'solid'</code> which removes the colourization.</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="quickVisual"></a><small>visual.</small><strong><a href="/metaknowledge/docs/visual#quickVisual"><ins>quickVisual</ins></a></strong>(<em>G, showLabel=False</em>):</p>
 
-<p>just makes a simple matplotlib figure and displays it, with each node coloured by its type</p>
+<p>just makes a simple matplotlib figure and displays it, with each node coloured by its type. You can add labels with <em>showLabel</em>.</p>
+
+<h6 id="parameters-1">Parameters</h6>
+
+<p><em>showLabel</em> : <code>optional [bool]</code></p>
+
+<p>Default <code>False</code>, if <code>True</code> labels will be added to the nodes giving their IDs.</p>
 
 <hr />
 

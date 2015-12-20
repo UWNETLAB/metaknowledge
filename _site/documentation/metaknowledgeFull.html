@@ -5,14 +5,14 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
 <head>
 <meta charset="utf-8">
-<title> &#8211; metaknowledge</title>
+<title>Full Documentation &#8211; metaknowledge</title>
 
 
 
   
 
 <!-- Twitter Cards -->
-<meta name="twitter:title" content="">
+<meta name="twitter:title" content="Full Documentation">
 
 
 
@@ -23,7 +23,7 @@
 <!-- Open Graph -->
 <meta property="og:locale" content="en_US">
 <meta property="og:type" content="article">
-<meta property="og:title" content="">
+<meta property="og:title" content="Full Documentation">
 
 <meta property="og:url" content="/metaknowledge/documentation/metaknowledgeFull.html">
 <meta property="og:site_name" content="metaknowledge">
@@ -148,7 +148,7 @@
     
     <div class="entry-wrapper">
       <header class="entry-header">
-        <h1 class="entry-title"></h1>
+        <h1 class="entry-title">Full Documentation</h1>
       </header>
       <div class="entry-content">
         <p><a name="objlist"></a>The classes and modules of metaknowledge are:</p>
@@ -171,7 +171,7 @@
 <li><article><a href="#write_edgeList"><b>write_edgeList</b>(<i>grph, name, extraInfo=True, allSameAttribute=False</i>)</a></article></li>
 <li><article><a href="#write_nodeAttributeFile"><b>write_nodeAttributeFile</b>(<i>grph, name, allSameAttribute=False</i>)</a></article></li>
 <li><article><a href="#drop_edges"><b>drop_edges</b>(<i>grph, minWeight=-inf, maxWeight=inf, parameterName='weight', ignoreUnweighted=False, dropSelfLoops=False</i>)</a></article></li>
-<li><article><a href="#drop_nodesByDegree"><b>drop_nodesByDegree</b>(<i>grph, minDegree=-inf, maxDegree=inf, useWeight=True, parameterName='weight', ignoreUnweighted=True</i>)</a></article></li>
+<li><article><a href="#drop_nodesByDegree"><b>drop_nodesByDegree</b>(<i>grph, minDegree=-inf, maxDegree=inf, useWeight=True, parameterName='weight', includeUnweighted=True</i>)</a></article></li>
 <li><article><a href="#drop_nodesByCount"><b>drop_nodesByCount</b>(<i>grph, minCount=-inf, maxCount=inf, parameterName='count', ignoreMissing=False</i>)</a></article></li>
 <li><article><a href="#mergeGraphs"><b>mergeGraphs</b>(<i>targetGraph, addedGraph, incrementedNodeVal='count', incrementedEdgeVal='weight'</i>)</a></article></li>
 <li><article><a href="#graphStats"><b>graphStats</b>(<i>G, stats=('nodes', 'edges', 'isolates', 'loops', 'density', 'transitivity'), makeString=True</i>)</a></article></li>
@@ -186,7 +186,7 @@
 <li><article><a href="#getID"><small>Citation</small>.<b>getID</b>()</a></article></li>
 <li><article><a href="#allButDOI"><small>Citation</small>.<b>allButDOI</b>()</a></article></li>
 <li><article><a href="#getExtra"><small>Citation</small>.<b>getExtra</b>()</a></article></li>
-<li><article><a href="#isJournal"><small>Citation</small>.<b>isJournal</b>(<i>manaulDB='manualj9Abbreviations', returnDict='both', checkIfExcluded=False</i>)</a></article></li>
+<li><article><a href="#isJournal"><small>Citation</small>.<b>isJournal</b>(<i>dbname='j9Abbreviations', manaulDB='manualj9Abbreviations', returnDict='both', checkIfExcluded=False</i>)</a></article></li>
 <li><article><a href="#getFullJournalName"><small>Citation</small>.<b>getFullJournalName</b>()</a></article></li>
 <li><article><a href="#addToDB"><small>Citation</small>.<b>addToDB</b>(<i>manualName=None, manaulDB='manualj9Abbreviations', invert=False</i>)</a></article></li>
 <li><article><a href="#numAuthors"><small>Record</small>.<b>numAuthors</b>()</a></article></li>
@@ -220,7 +220,7 @@
 <li><article><a href="#citationNetwork"><small>RecordCollection</small>.<b>citationNetwork</b>(<i>dropAnon=True, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, directed=True, keyWords=None, detailedCore=None, coreOnly=False, expandedCore=False</i>)</a></article></li>
 <li><article><a href="#yearSplit"><small>RecordCollection</small>.<b>yearSplit</b>(<i>startYear, endYear, dropMissingYears=True</i>)</a></article></li>
 <li><article><a href="#oneModeNetwork"><small>RecordCollection</small>.<b>oneModeNetwork</b>(<i>mode, nodeCount=True, edgeWeight=True, stemmer=None</i>)</a></article></li>
-<li><article><a href="#graphDensityContourPlot"><small>visual</small>.<b>graphDensityContourPlot</b>(<i>G, layout=None, layoutScaleFactor=1, shifAxis=False, overlay=False, axisSamples=100, blurringFactor=0.1, contours=15, nodeSize=10, graphType='coloured', iters=50</i>)</a></article></li>
+<li><article><a href="#graphDensityContourPlot"><small>visual</small>.<b>graphDensityContourPlot</b>(<i>G, iters=50, layout=None, layoutScaleFactor=1, overlay=False, nodeSize=10, axisSamples=100, blurringFactor=0.1, contours=15, graphType='coloured'</i>)</a></article></li>
 <li><article><a href="#quickVisual"><small>visual</small>.<b>quickVisual</b>(<i>G, showLabel=False</i>)</a></article></li>
 <li><article><a href="#getj9dict"><small>journalAbbreviations</small>.<b>getj9dict</b>(<i>dbname='j9Abbreviations', manualDB='manualj9Abbreviations', returnDict='both'</i>)</a></article></li>
 <li><article><a href="#addToDB"><small>journalAbbreviations</small>.<b>addToDB</b>(<i>abbr=None, dbname='manualj9Abbreviations'</i>)</a></article></li>
@@ -335,7 +335,7 @@ The functions provided by metaknowledge are:</p>
 <li><article><a href="#write_edgeList"><b>write_edgeList</b>(<i>grph, name, extraInfo=True, allSameAttribute=False</i>)</a></article></li>
 <li><article><a href="#write_nodeAttributeFile"><b>write_nodeAttributeFile</b>(<i>grph, name, allSameAttribute=False</i>)</a></article></li>
 <li><article><a href="#drop_edges"><b>drop_edges</b>(<i>grph, minWeight=-inf, maxWeight=inf, parameterName='weight', ignoreUnweighted=False, dropSelfLoops=False</i>)</a></article></li>
-<li><article><a href="#drop_nodesByDegree"><b>drop_nodesByDegree</b>(<i>grph, minDegree=-inf, maxDegree=inf, useWeight=True, parameterName='weight', ignoreUnweighted=True</i>)</a></article></li>
+<li><article><a href="#drop_nodesByDegree"><b>drop_nodesByDegree</b>(<i>grph, minDegree=-inf, maxDegree=inf, useWeight=True, parameterName='weight', includeUnweighted=True</i>)</a></article></li>
 <li><article><a href="#drop_nodesByCount"><b>drop_nodesByCount</b>(<i>grph, minCount=-inf, maxCount=inf, parameterName='count', ignoreMissing=False</i>)</a></article></li>
 <li><article><a href="#mergeGraphs"><b>mergeGraphs</b>(<i>targetGraph, addedGraph, incrementedNodeVal='count', incrementedEdgeVal='weight'</i>)</a></article></li>
 <li><article><a href="#graphStats"><b>graphStats</b>(<i>G, stats=('nodes', 'edges', 'isolates', 'loops', 'density', 'transitivity'), makeString=True</i>)</a></article></li>
@@ -351,7 +351,7 @@ The functions provided by metaknowledge are:</p>
 
 <p><a name="filterNonJournals"></a><small></small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#filterNonJournals"><ins>filterNonJournals</ins></a></strong>(<em>citesLst, invert=False</em>):</p>
 
-<p>Removes the Citations from <em>citesLst</em> that are not journals</p>
+<p>Removes the <code>Citations</code> from <em>citesLst</em> that are not journals</p>
 
 <h6 id="parameters">Parameters</h6>
 
@@ -361,7 +361,7 @@ The functions provided by metaknowledge are:</p>
 
 <p><em>invert</em> : <code>optional [bool]</code></p>
 
-<p>Default <code>False</code>, if <code>True</code> non-journals will be kept istead of journals</p>
+<p>Default <code>False</code>, if <code>True</code> non-journals will be kept instead of journals</p>
 
 <h6 id="returns">Returns</h6>
 
@@ -373,7 +373,7 @@ The functions provided by metaknowledge are:</p>
 
 <p><a name="diffusionGraph"></a><small></small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#diffusionGraph"><ins>diffusionGraph</ins></a></strong>(<em>source, target, sourceType=’raw’, targetType=’raw’</em>):</p>
 
-<p>Takes in two <a href="/metaknowledge/docs/RecordCollection#RecordCollection"><code>RecordCollections</code></a> and produces a graph of the citations of <em>source</em> by the <a href="/metaknowledge/docs/Record#Record"><code>Records</code></a> in <em>target</em>. By default the nodes in the are <code>Record</code> objects but this can be changed with the <em>sourceType</em> and <em>targetType</em> keywords.</p>
+<p>Takes in two <a href="/metaknowledge/documentation/metaknowledgeFull.html#RecordCollection"><code>RecordCollections</code></a> and produces a graph of the citations of <em>source</em> by the <a href="/metaknowledge/documentation/metaknowledgeFull.html#Record"><code>Records</code></a> in <em>target</em>. By default the nodes in the are <code>Record</code> objects but this can be changed with the <em>sourceType</em> and <em>targetType</em> keywords.</p>
 
 <p>Each node on the output graph has two boolean attributes, <code>"source"</code> and <code>"target"</code> indicating if they are targets or sources. Note, if the types of the sources and targets are different the attributes will not be checked for overlap of the other type. e.g. if the source type is <code>'TI'</code> (title) and the target type is <code>'UT'</code> (WOS number), and there is some overlap of the targets and sources. Then the Record corresponding to a source node will not be checked for being one of the titles of the targets, only its WOS number will be considered.</p>
 
@@ -405,7 +405,7 @@ The functions provided by metaknowledge are:</p>
 
 <p><a name="diffusionCount"></a><small></small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#diffusionCount"><ins>diffusionCount</ins></a></strong>(<em>source, target, sourceType=’raw’, pandasFriendly=False, compareCounts=False, numAuthors=True, byYear=False</em>):</p>
 
-<p>Takes in two <a href="/metaknowledge/docs/RecordCollection#RecordCollection"><code>RecordCollections</code></a> and produces a <code>dict</code> counting the citations of <em>source</em> by the <a href="/metaknowledge/docs/Record#Record"><code>Records</code></a> of <em>target</em>. By default the <code>dict</code> uses <code>Record</code> objects as keys but this can be changed with the <em>sourceType</em> keyword to any of the WOS tags.</p>
+<p>Takes in two <a href="/metaknowledge/documentation/metaknowledgeFull.html#RecordCollection"><code>RecordCollections</code></a> and produces a <code>dict</code> counting the citations of <em>source</em> by the <a href="/metaknowledge/documentation/metaknowledgeFull.html#Record"><code>Records</code></a> of <em>target</em>. By default the <code>dict</code> uses <code>Record</code> objects as keys but this can be changed with the <em>sourceType</em> keyword to any of the WOS tags.</p>
 
 <h6 id="parameters-2">Parameters</h6>
 
@@ -447,17 +447,17 @@ The functions provided by metaknowledge are:</p>
 
 <p><a name="read_graph"></a><small></small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#read_graph"><ins>read_graph</ins></a></strong>(<em>edgeList, nodeList=None, directed=False, idKey=’ID’, eSource=’From’, eDest=’To’</em>):</p>
 
-<p>Reads the files given by <em>edgeList</em> and <em>nodeList</em>. Creates a networkx graph for the files.</p>
+<p>Reads the files given by <em>edgeList</em> and <em>nodeList</em> and creates a networkx graph for the files.</p>
 
-<p>This is designed only for the files produced by metaknowledge and is meant to be the reverse of <a href="/metaknowledge/docs/metaknowledge#write_graph">write_graph()</a>, if this does not produce the desired results the networkx builtin <a href="https://networkx.github.io/documentation/networkx-1.10/reference/generated/networkx.readwrite.edgelist.read_edgelist.html">networkx.read_edgelist()</a> could be tried as it is aimed targeted more generally.</p>
+<p>This is designed only for the files produced by metaknowledge and is meant to be the reverse of <a href="/metaknowledge/documentation/metaknowledgeFull.html#write_graph">write_graph()</a>, if this does not produce the desired results the networkx builtin <a href="https://networkx.github.io/documentation/networkx-1.10/reference/generated/networkx.readwrite.edgelist.read_edgelist.html">networkx.read_edgelist()</a> could be tried as it is aimed at a more general usage.</p>
 
-<p>The read edge list format assumes the column named <em>eSource</em> (default ‘<code>From</code>’) is the source node, then the column <em>eDest</em> (default ‘<code>To</code>’) givens the destination and all other columns are attributes of the edges, e.g. weight.</p>
+<p>The read edge list format assumes the column named <em>eSource</em> (default <code>'From'</code>) is the source node, then the column <em>eDest</em> (default <code>'To'</code>) givens the destination and all other columns are attributes of the edges, e.g. weight.</p>
 
 <p>The read node list format assumes the column <em>idKey</em> (default <code>'ID'</code>) is the ID of the node for the edge list and the resulting network. All other columns are considered attributes of the node, e.g. count.</p>
 
 <p><strong>Note</strong>: If the names of the columns do not match those given to <strong>read_graph()</strong> a <code>KeyError</code> exception will be raised.</p>
 
-<p><strong>Note</strong>: If nodes appear in the edgelist but not the nodeList they will be created with no attributes.</p>
+<p><strong>Note</strong>: If nodes appear in the edgelist but not the nodeList they will be created silently with no attributes.</p>
 
 <h6 id="parameters-3">Parameters</h6>
 
@@ -497,9 +497,9 @@ The functions provided by metaknowledge are:</p>
 
 <p>Writes an edge list of <em>grph</em> at the destination <em>name</em>.</p>
 
-<p>The edge list has two columns for the source and destination of the edge, “From” and “To” respectively, then, if <em>edgeInfo</em> is <code>True</code>, for each attribute of the node another column is created.</p>
+<p>The edge list has two columns for the source and destination of the edge, <code>'From'</code> and <code>'To'</code> respectively, then, if <em>edgeInfo</em> is <code>True</code>, for each attribute of the node another column is created.</p>
 
-<p><strong>Note</strong>: If any edges are missing an attribute <code>KeyError</code> will be raised.</p>
+<p><strong>Note</strong>: If any edges are missing an attribute it will be left blank by default, enable <em>allSameAttribute</em> to cause a <code>KeyError</code> to be raised.</p>
 
 <h6 id="parameters-4">Parameters</h6>
 
@@ -523,11 +523,11 @@ The functions provided by metaknowledge are:</p>
 
 <p><a name="write_nodeAttributeFile"></a><small></small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#write_nodeAttributeFile"><ins>write_nodeAttributeFile</ins></a></strong>(<em>grph, name, allSameAttribute=False</em>):</p>
 
-<p>Writes a node attribute list of <em>grph</em> with filename <em>name</em></p>
+<p>Writes a node attribute list of <em>grph</em> to the file given by the path <em>name</em>.</p>
 
-<p>The node list has one column call “ID” with the node ids used by networkx and all other columns are the node attributes.</p>
+<p>The node list has one column call <code>'ID'</code> with the node ids used by networkx and all other columns are the node attributes.</p>
 
-<p><strong>Note</strong>: If any edges are missing an attribute <code>KeyError</code> will be raised.</p>
+<p><strong>Note</strong>: If any nodes are missing an attribute it will be left blank by default, enable <em>allSameAttribute</em> to cause a <code>KeyError</code> to be raised.</p>
 
 <h6 id="parameters-5">Parameters</h6>
 
@@ -547,45 +547,127 @@ The functions provided by metaknowledge are:</p>
 
 <p><a name="drop_edges"></a><small></small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#drop_edges"><ins>drop_edges</ins></a></strong>(<em>grph, minWeight=-inf, maxWeight=inf, parameterName=’weight’, ignoreUnweighted=False, dropSelfLoops=False</em>):</p>
 
-<p>Modifies a graph dropping edges whose weight is not within the inclusive bounds of minWeight and maxWeight, i.e minWeight &lt;= edges weight &lt;= maxWeight, will throw a Keyerror if the graph is unweighted</p>
+<p>Modifies <em>grph</em> by dropping edges whose weight is not within the inclusive bounds of <em>minWeight</em> and <em>maxWeight</em>, i.e after running <em>grph</em> will only have edges whose weights meet the following inequality: <em>minWeight</em> &lt;= edge’s weight &lt;= <em>maxWeight</em>. A <code>Keyerror</code> will be raised if the graph is unweighted unless <em>ignoreUnweighted</em> is <code>True</code>, the weight is determined by examining the attribute <em>parameterName</em>.</p>
 
-<p>minWeight and maxWeight default to negative and positive infinity respectively so without specifying either the output should be the input</p>
+<p><strong>Note</strong>: none of the default options will result in <em>grph</em> being modified so only specify the relevant ones, e.g. <code>drop_edges(G, dropSelfLoops = True)</code> will remove only the self loops from <code>G</code>.</p>
 
-<p>parameterName is key to weight field in the edge’s dictionary, default is weight as that is almost always correct</p>
+<h6 id="parameters-6">Parameters</h6>
 
-<p>ignoreUnweighted can be set False to suppress the KeyError and make unweighted edges be ignored</p>
+<p><em>grph</em> : <code>networkx Graph</code></p>
+
+<p>The graph to be modified.</p>
+
+<p><em>minWeight</em> : <code>optional [int or double]</code></p>
+
+<p>default <code>-inf</code>, the minimum weight for an edge to be kept in the graph.</p>
+
+<p><em>maxWeight</em> : <code>optional [int or double]</code></p>
+
+<p>default <code>inf</code>, the maximum weight for an edge to be kept in the graph.</p>
+
+<p><em>parameterName</em> : <code>optional [str]</code></p>
+
+<p>default <code>'weight'</code>, key to weight field in the edge’s attribute dictionary, the default is the same as networkx and metaknowledge so is likely to be correct</p>
+
+<p><em>ignoreUnweighted</em> : <code>optional [bool]</code></p>
+
+<p>default <code>False</code>, if <code>True</code> unweighted edges will kept</p>
+
+<p><em>dropSelfLoops</em> : <code>optional [bool]</code></p>
+
+<p>default <code>False</code>, if <code>True</code> self loops will be removed regardless of their weight</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="drop_nodesByDegree"></a><small></small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#drop_nodesByDegree"><ins>drop_nodesByDegree</ins></a></strong>(<em>grph, minDegree=-inf, maxDegree=inf, useWeight=True, parameterName=’weight’, ignoreUnweighted=True</em>):</p>
+<p><a name="drop_nodesByDegree"></a><small></small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#drop_nodesByDegree"><ins>drop_nodesByDegree</ins></a></strong>(<em>grph, minDegree=-inf, maxDegree=inf, useWeight=True, parameterName=’weight’, includeUnweighted=True</em>):</p>
 
-<p>Modifies the graph dropping nodes that do not nodes have a degree that is within inclusive bounds of minDegree and maxDegree, i.e minDegree &lt;= degree &lt;= maxDegree. Degree can be determined in two ways by default it is the total number of edges touching a node, alternative if useWeight is True it is the sum of the weight of all the edges touching a node.</p>
+<p>Modifies <em>grph</em> by dropping nodes that do not have a degree that is within inclusive bounds of <em>minDegree</em> and <em>maxDegree</em>, i.e after running <em>grph</em> will only have nodes whose degrees meet the following inequality: <em>minDegree</em> &lt;= node’s degree &lt;= <em>maxDegree</em>.</p>
 
-<p>minDegree and maxDegree default to negative and positive infinity respectively so without specifying either the output should be the input</p>
+<p>Degree is determined in two ways, the default <em>useWeight</em> is the weight attribute of the edges to a node will be summed, the attribute’s name is <em>parameterName</em> otherwise the number of edges touching the node is used. If <em>includeUnweighted</em> is <code>True</code> then <em>useWeight</em> will assign a degree of 1 to unweighted edges.</p>
 
-<p>useWeight can be set True to use an alternative method for calculating degree, the total weight of all edges</p>
+<h6 id="parameters-7">Parameters</h6>
 
-<p>parameterName is key to weight field in the edge’s dictionary, default is weight as that is almost always correct, only used if useWeight is True</p>
+<p><em>grph</em> : <code>networkx Graph</code></p>
 
-<p>ignoreUnweighted can be set False to suppress the KeyError and make unweighted edges be not counted, only used if useWeight is True</p>
+<p>The graph to be modified.</p>
+
+<p><em>minDegree</em> : <code>optional [int or double]</code></p>
+
+<p>default <code>-inf</code>, the minimum degree for an node to be kept in the graph.</p>
+
+<p><em>maxDegree</em> : <code>optional [int or double]</code></p>
+
+<p>default <code>inf</code>, the maximum degree for an node to be kept in the graph.</p>
+
+<p><em>useWeight</em> : <code>optional [bool]</code></p>
+
+<p>default <code>True</code>, if <code>True</code> the the edge weights will be summed to get the degree, if <code>False</code> the number of edges will be used to determine the degree.</p>
+
+<p><em>parameterName</em> : <code>optional [str]</code></p>
+
+<p>default <code>'weight'</code>, key to weight field in the edge’s attribute dictionary, the default is the same as networkx and metaknowledge so is likely to be correct.</p>
+
+<p><em>includeUnweighted</em> : <code>optional [bool]</code></p>
+
+<p>default <code>True</code>, if <code>True</code> edges with no weight will be considered to have a weight of 1, if <code>False</code> they will cause a <code>KeyError</code> to be raised.</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="drop_nodesByCount"></a><small></small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#drop_nodesByCount"><ins>drop_nodesByCount</ins></a></strong>(<em>grph, minCount=-inf, maxCount=inf, parameterName=’count’, ignoreMissing=False</em>):</p>
 
-<p>Modifies a graph dropping nodes that have a occurrence count that is not within inclusive bounds of minCount and maxCount, i.e minCount &lt;= count &lt;= maxCount. Occurrence count is determined by reading the variable associated with the node named parameterName.</p>
+<p>Modifies <em>grph</em> by dropping nodes that do not have a count that is within inclusive bounds of <em>minCount</em> and <em>maxCount</em>, i.e after running <em>grph</em> will only have nodes whose degrees meet the following inequality: <em>minCount</em> &lt;= node’s degree &lt;= <em>maxCount</em>.</p>
+
+<p>Count is determined by the count attribute, <em>parameterName</em>, and if missing will result in a <code>KeyError</code> being raised. <em>ignoreMissing</em> can be set to <code>True</code> to suppress the error.</p>
 
 <p>minCount and maxCount default to negative and positive infinity respectively so without specifying either the output should be the input</p>
 
-<p>parameterName is key to count field in the node’s dictionary, default is count as that is often correct</p>
+<h6 id="parameters-8">Parameters</h6>
 
-<p>ignoreMissing can be set False to suppress the KeyError and make nodes missing counts be dropped instead of throwing errors</p>
+<p><em>grph</em> : <code>networkx Graph</code></p>
+
+<p>The graph to be modified.</p>
+
+<p><em>minCount</em> : <code>optional [int or double]</code></p>
+
+<p>default <code>-inf</code>, the minimum Count for an node to be kept in the graph.</p>
+
+<p><em>maxCount</em> : <code>optional [int or double]</code></p>
+
+<p>default <code>inf</code>, the maximum Count for an node to be kept in the graph.</p>
+
+<p><em>parameterName</em> : <code>optional [str]</code></p>
+
+<p>default <code>'count'</code>, key to count field in the nodes’s attribute dictionary, the default is the same thoughout metaknowledge so is likely to be correct.</p>
+
+<p><em>ignoreMissing</em> : <code>optional [bool]</code></p>
+
+<p>default <code>False</code>, if <code>True</code> nodes missing a count will be kept in the graph instead of raising an exception</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="mergeGraphs"></a><small></small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#mergeGraphs"><ins>mergeGraphs</ins></a></strong>(<em>targetGraph, addedGraph, incrementedNodeVal=’count’, incrementedEdgeVal=’weight’</em>):</p>
 
-<p>A quick way of merging graphs, this is meant to be quick and is only intended for graphs generated by metaknowledge. This does not check anything and as such may cause unexpected results if the source and target were not generated by the same method. <strong>mergeGraphs</strong>() will modify the first graph, <em>targetGraph</em> by adding the nodes and edges found in the second, <em>addedGraph</em>. If a node or edge exists <em>targetGraph</em> is given precedence, but the edge and node attributes given by <em>incrementedNodeVal</em> and incrementedEdgeVal are added instead of being overwritten.</p>
+<p>A quick way of merging graphs, this is meant to be quick and is only intended for graphs generated by metaknowledge. This does not check anything and as such may cause unexpected results if the source and target were not generated by the same method.</p>
+
+<p><strong>mergeGraphs</strong>() will <strong>modify</strong> <em>targetGraph</em> in place by adding the nodes and edges found in the second, <em>addedGraph</em>. If a node or edge exists <em>targetGraph</em> is given precedence, but the edge and node attributes given by <em>incrementedNodeVal</em> and incrementedEdgeVal are added instead of being overwritten.</p>
+
+<h6 id="parameters-9">Parameters</h6>
+
+<p><em>targetGraph</em> : <code>networkx Graph</code></p>
+
+<p>the graph to be modified, it has precedence.</p>
+
+<p><em>addedGraph</em> : <code>networkx Graph</code></p>
+
+<p>the graph that is unmodified, it is added and does <strong>not</strong> have precedence.</p>
+
+<p><em>incrementedNodeVal</em> : <code>optional [str]</code></p>
+
+<p>default <code>'count'</code>, the name of the count attribute for the graph’s nodes. When merging this attribute will be the sum of the values in the input graphs, instead of <em>targetGraph</em>’s value.</p>
+
+<p><em>incrementedEdgeVal</em> : <code>optional [str]</code></p>
+
+<p>default <code>'weight'</code>, the name of the weight attribute for the graph’s edges. When merging this attribute will be the sum of the values in the input graphs, instead of <em>targetGraph</em>’s value.</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
@@ -595,7 +677,7 @@ The functions provided by metaknowledge are:</p>
 
 <p><strong>graphStats()</strong> gives 6 different statistics: number of nodes, number of edges, number of isolates, number of loops, density and transitivity. The ones wanted can be given to <em>stats</em>. By default a string giving a sentence containing all the requested statistics is returned but the raw values can be accessed instead by setting <em>makeString</em> to <code>False</code>.</p>
 
-<h6 id="parameters-6">Parameters</h6>
+<h6 id="parameters-10">Parameters</h6>
 
 <p><em>G</em> : <code>networkx Graph</code></p>
 
@@ -603,7 +685,7 @@ The functions provided by metaknowledge are:</p>
 
 <p><em>stats</em> : <code>optional [list or tuple [str]]</code></p>
 
-<p>Default ‘nodes’, ‘edges’, ‘isolates’, ‘loops’, ‘density’, ‘transitivity’), a list or tuple containing any number or combination of the strings:</p>
+<p>Default <code>('nodes', 'edges', 'isolates', 'loops', 'density', 'transitivity')</code>, a list or tuple containing any number or combination of the strings:</p>
 
 <p><code>"nodes"</code>, <code>"edges"</code>, <code>"isolates"</code>, <code>"loops"</code>, <code>"density"</code> and <code>"transitivity"</code>`</p>
 
@@ -637,13 +719,13 @@ The functions provided by metaknowledge are:</p>
 
 <p>Both files are csv’s with comma delimiters and double quote quoting characters. The edge list has two columns for the source and destination of the edge, <code>'From'</code> and <code>'To'</code> respectively, then, if <em>edgeInfo</em> is <code>True</code>, for each attribute of the node another column is created. The node list has one column call “ID” with the node ids used by networkx and all other columns are the node attributes.</p>
 
-<p>To read back these files use <a href="/metaknowledge/docs/metaknowledge#read_graph">read_graph()</a> and to write only one type of lsit use <a href="/metaknowledge/docs/metaknowledge#write_edgeList">write_edgeList()</a> or <a href="/metaknowledge/docs/metaknowledge#write_nodeAttributeFile">write_nodeAttributeFile()</a>.</p>
+<p>To read back these files use <a href="/metaknowledge/documentation/metaknowledgeFull.html#read_graph">read_graph()</a> and to write only one type of lsit use <a href="/metaknowledge/documentation/metaknowledgeFull.html#write_edgeList">write_edgeList()</a> or <a href="/metaknowledge/documentation/metaknowledgeFull.html#write_nodeAttributeFile">write_nodeAttributeFile()</a>.</p>
 
 <p><strong>Warning</strong>: this function will overwrite files, if they are in the way of the output, to prevent this set <em>overwrite</em> to <code>False</code></p>
 
 <p><strong>Note</strong>: If any nodes or edges are missing an attribute a <code>KeyError</code> will be raised.</p>
 
-<h6 id="parameters-7">Parameters</h6>
+<h6 id="parameters-11">Parameters</h6>
 
 <p><em>grph</em> : <code>networkx Graph</code></p>
 
@@ -673,24 +755,23 @@ The functions provided by metaknowledge are:</p>
 
 <p><a name="recordParser"></a><small></small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#recordParser"><ins>recordParser</ins></a></strong>(<em>paper</em>):</p>
 
-<p>Reads the file <em>paper</em> until it reaches ‘ER’.</p>
+<p>This is function that is used to create <a href="/metaknowledge/documentation/metaknowledgeFull.html#Record"><code>Records</code></a> from files.</p>
 
-<p>For each field tag it adds an entry to the returned dict with the tag as the key and a list of the entries as the value, the list has each line separately, so for the following string in a record:</p>
+<p><strong>recordParser</strong>() reads the file <em>paper</em> until it reaches ‘ER’. For each field tag it adds an entry to the returned dict with the tag as the key and a list of the entries as the value, the list has each line separately, so for the following two lines in a record:</p>
 
-<p>“AF BREVIK, I</p>
-
-<pre><code>ANICIN, B"
+<pre><code>AF BREVIK, I
+   ANICIN, B
 </code></pre>
 
 <p>The entry in the returned dict would be <code>{'AF' : ["BREVIK, I", "ANICIN, B"]}</code></p>
 
-<p><a href="/metaknowledge/docs/metaknowledge#Record">Record</a> objects can be created with these dictionaries as the initializer.</p>
+<p><code>Record</code> objects can be created with these dictionaries as the initializer.</p>
 
-<h6 id="parameters-8">Parameters</h6>
+<h6 id="parameters-12">Parameters</h6>
 
 <p><em>paper</em> : <code>file stream</code></p>
 
-<p>An open file, with the current line at the beginning of the record.</p>
+<p>An open file, with the current line at the beginning of the WOS record.</p>
 
 <h6 id="returns-5">Returns</h6>
 
@@ -702,22 +783,37 @@ The functions provided by metaknowledge are:</p>
 
 <p><a name="isiParser"></a><small></small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#isiParser"><ins>isiParser</ins></a></strong>(<em>isifile</em>):</p>
 
-<p>isiParser() reads the file given by the path isifile, checks that the header is correct then reads until it reaches EF.
-Each it finds is used to initialize a Record then all Record are returned as a list.</p>
+<p>This is function that is used to create <a href="/metaknowledge/documentation/metaknowledgeFull.html#RecordCollection"><code>RecordCollections</code></a> from files.</p>
+
+<p><strong>isiParser</strong>() reads the file given by the path isifile, checks that the header is correct then reads until it reaches EF. All WOS records it encounters are parsed with <a href="/metaknowledge/documentation/metaknowledgeFull.html#recordParser"><strong>recordParser</strong>()</a> and converted into <a href="/metaknowledge/documentation/metaknowledgeFull.html#Record"><code>Records</code></a>. A list of these <code>Records</code> is returned.</p>
+
+<p><code>BadISIFile</code> is raised if an issue is found with the file.</p>
+
+<h6 id="parameters-13">Parameters</h6>
+
+<p><em>isifile</em> : <code>str</code></p>
+
+<p>The path to the target file</p>
+
+<h6 id="returns-6">Returns</h6>
+
+<p><code>List[Record]</code></p>
+
+<p>All the <code>Records</code> found in <em>isifile</em></p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="tagToFull"></a><small></small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#tagToFull"><ins>tagToFull</ins></a></strong>(<em>tag</em>):</p>
 
-<p>A wrapper for <a href="/metaknowledge/docs/tagProcessing#tagProcessing"><code>tagToFullDict</code></a> it maps 2 character tags to thir full names.</p>
+<p>A wrapper for <a href="/metaknowledge/documentation/metaknowledgeFull.html#tagProcessing"><code>tagToFullDict</code></a> it maps 2 character tags to their full names.</p>
 
-<h6 id="parameters-9">Parameters</h6>
+<h6 id="parameters-14">Parameters</h6>
 
 <p><em>tag</em>: <code>str</code></p>
 
 <p>A two character string giving the tag</p>
 
-<h6 id="returns-6">Returns</h6>
+<h6 id="returns-7">Returns</h6>
 
 <p><code>str</code></p>
 
@@ -727,15 +823,15 @@ Each it finds is used to initialize a Record then all Record are returned as a l
 
 <p><a name="normalizeToTag"></a><small></small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#normalizeToTag"><ins>normalizeToTag</ins></a></strong>(<em>val</em>):</p>
 
-<p>Converts tags or full names to tags, case insensitive</p>
+<p>Converts tags or full names to 2 character tags, case insensitive</p>
 
-<h6 id="parameters-10">Parameters</h6>
+<h6 id="parameters-15">Parameters</h6>
 
 <p><em>val</em>: <code>str</code></p>
 
 <p>A two character string giving the tag or its full name</p>
 
-<h6 id="returns-7">Returns</h6>
+<h6 id="returns-8">Returns</h6>
 
 <p><code>str</code></p>
 
@@ -745,15 +841,15 @@ Each it finds is used to initialize a Record then all Record are returned as a l
 
 <p><a name="normalizeToName"></a><small></small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#normalizeToName"><ins>normalizeToName</ins></a></strong>(<em>val</em>):</p>
 
-<p>Converts tags or full names to full names</p>
+<p>Converts tags or full names to full names, case sensitive</p>
 
-<h6 id="parameters-11">Parameters</h6>
+<h6 id="parameters-16">Parameters</h6>
 
 <p><em>val</em>: <code>str</code></p>
 
 <p>A two character string giving the tag or its full name</p>
 
-<h6 id="returns-8">Returns</h6>
+<h6 id="returns-9">Returns</h6>
 
 <p><code>str</code></p>
 
@@ -765,30 +861,27 @@ Each it finds is used to initialize a Record then all Record are returned as a l
 
 <p>Checks if <em>val</em> is a tag or full name of tag if so returns <code>True</code></p>
 
-<h6 id="parameters-12">Parameters</h6>
+<h6 id="parameters-17">Parameters</h6>
 
 <p><em>val</em>: <code>str</code></p>
 
 <p>A string possible forming a tag or name</p>
 
-<h6 id="returns-9">Returns</h6>
+<h6 id="returns-10">Returns</h6>
 
 <p><code>bool</code></p>
 
 <p><code>True</code> if <em>val</em> is a tag or name, otherwise <code>False</code></p>
 
-<p><a name="BadCitation"></a><small></small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#BadCitation"><ins>BadCitation</ins></a></strong>():</p>
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="BadCitation"></a><small></small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#BadCitation"><ins>BadCitation</ins></a></strong>(<em>Warning</em>):</p>
 
 <p>Exception thrown by Citation</p>
 
-<p>The BadCitation class has the following methods:</p>
-
-<ul class="post-list">
-
-</ul>
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="BadISIRecord"></a><small></small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#BadISIRecord"><ins>BadISIRecord</ins></a></strong>():</p>
+<p><a name="BadISIRecord"></a><small></small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#BadISIRecord"><ins>BadISIRecord</ins></a></strong>(<em>Warning</em>):</p>
 
 <p>Exception thrown by the <a href="#metaknowledge.recordParser">record parser</a> to indicate a mis-formated record. This occurs when some component of the record does not parse. The messages will be any of:</p>
 
@@ -803,35 +896,31 @@ Each it finds is used to initialize a Record then all Record are returned as a l
 
 <p>Records with a BadISIRecord error are likely incomplete or the combination of two or more single records.</p>
 
-<p>The BadISIRecord class has the following methods:</p>
-
-<ul class="post-list">
-
-</ul>
-
 <hr />
 <p><a name="Citation"></a>
-<a name="Citation"></a><small></small><strong><a href="#Citation"><ins>Citation</ins></a></strong>(<em>cite</em>):</p>
+<a name="Citation"></a><small></small><strong><a href="#Citation"><ins>Citation</ins></a></strong>(<em>object</em>):</p>
+
+<p><a name="Citation.__init__"></a><small></small><strong><a href="#Citation.__init__"><ins>Citation.__init__</ins></a></strong>(<em>cite</em>):</p>
 
 <p>A class to hold citation strings and allow for comparison between them.</p>
 
-<p>The initializer takes in a string representing a WOS citation they are in the form:</p>
+<p>The initializer takes in a string representing a WOS citation in the form:</p>
 
-<p>Author, Year, Journal, Volume, Page, DOI</p>
+<pre><code>Author, Year, Journal, Volume, Page, DOI
+</code></pre>
 
-<p>Author is the author’s name in the form of first last name first initial sometimes followed by a period.
-Year is the year of publication.
-Journal being the 29-Character Source Abbreviation of the journal.
-Volume is the volume number(s) of the publication preceded by a V
-Page is the page number the record starts on
-DOI is the DOI number of the cited record preceeded by the letters “DOI”
+<p><code>Author</code> is the author’s name in the form of first last name first initial sometimes followed by a period.
+<code>Year</code> is the year of publication.
+<code>Journal</code> being the 29-Character Source Abbreviation of the journal.
+<code>Volume</code> is the volume number(s) of the publication preceded by a V
+<code>Page</code> is the page number the record starts on
+<code>DOI</code> is the DOI number of the cited record preceeded by the letters <code>'DOI'</code>
 Combined they look like:</p>
 
-<p>Nunez R., 1998, MATH COGNITION, V4, P85, DOI 10.1080/135467998387343</p>
+<pre><code>Nunez R., 1998, MATH COGNITION, V4, P85, DOI 10.1080/135467998387343
+</code></pre>
 
-<p>Note that any of the fields have been known to be missing and the requirements for the fields are not always met. If something is in the source string that cannot be interpeted as any of these it is put in the <code>misc</code> attribute.</p>
-
-<p>The reason for this class is that the WOS data are often irregular. It is designed to allow comparison between WOS citation strings, even when they are missing pieces.</p>
+<p><strong>Note</strong>: any of the fields have been known to be missing and the requirements for the fields are not always met. If something is in the source string that cannot be interpreted as any of these it is put in the <code>misc</code> attribute. That is the reason to use this class, it gracefully handles missing information while still allowing for  comparison between WOS citation strings.</p>
 
 <h5 id="customizations">Customizations</h5>
 
@@ -841,9 +930,9 @@ Combined they look like:</p>
 
 <h5 id="attributes">Attributes</h5>
 
-<p>As noted above, citations are considered to be divided into six distinct fields (Author, Year, Journal, Volume, Page and DOI) with a seventh misc for anything not in those. Records thus have an attribute with a name corresponding to each <code>author</code>, <code>year</code>, <code>journal</code>, <code>V</code>, <code>P</code>, <code>DOI</code> and <code>misc</code> respectively. These are created if there is anything in the field. So a Citation created from the string: “Nunez R., 1998, MATH COGNITION” would have <code>author</code>, <code>year</code> and <code>journal</code> defined. While one from “Nunez R.” would have only the attribute <code>misc</code>.</p>
+<p>As noted above, citations are considered to be divided into six distinct fields (<code>Author</code>, <code>Year</code>, <code>Journal</code>, <code>Volume</code>, <code>Page</code> and <code>DOI</code>) with a seventh <code>misc</code> for anything not in those. Records thus have an attribute with a name corresponding to each <code>author</code>, <code>year</code>, <code>journal</code>, <code>V</code>, <code>P</code>, <code>DOI</code> and <code>misc</code> respectively. These are created if there is anything in the field. So a <code>Citation</code> created from the string: <code>'Nunez R., 1998, MATH COGNITION'</code> would have <code>author</code>, <code>year</code> and <code>journal</code> defined. While one from <code>'Nunez R.'</code> would have only the attribute <code>misc</code>.</p>
 
-<p>If the parsing of a citation string fails the attribute <code>bad</code> is set to True and the attribute <code>error</code> is created to contain the error, which is a <a href="#BadCitation">BadCitation</a> object. If no errors occur <code>bad</code> is <code>False</code>.</p>
+<p>If the parsing of a citation string fails the attribute <code>bad</code> is set to <code>True</code> and the attribute <code>error</code> is created to contain said error, which is a <a href="#BadCitation">BadCitation</a> object. If no errors occur <code>bad</code> is <code>False</code>.</p>
 
 <p>The attribute <code>original</code> is the unmodified string (<em>cite</em>) given to create the Citation, it can also be accessed by converting to a string, e.g. with <code>str()</code>.</p>
 
@@ -851,11 +940,13 @@ Combined they look like:</p>
 
 <p>Citations can be created by <a href="#Record">Records</a> or by giving the initializer a string containing a WOS style citation.</p>
 
-<h5 id="parameters-13">Parameters</h5>
+<h5 id="parameters-18">Parameters</h5>
 
 <p><em>cite</em> : <code>str</code></p>
 
 <p>A str containing a WOS style citation.</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p>The Citation class has the following methods:</p>
 
@@ -864,7 +955,7 @@ Combined they look like:</p>
 <li><article><a href="#getID"><b>getID</b>()</a></article></li>
 <li><article><a href="#allButDOI"><b>allButDOI</b>()</a></article></li>
 <li><article><a href="#getExtra"><b>getExtra</b>()</a></article></li>
-<li><article><a href="#isJournal"><b>isJournal</b>(<i>manaulDB='manualj9Abbreviations', returnDict='both', checkIfExcluded=False</i>)</a></article></li>
+<li><article><a href="#isJournal"><b>isJournal</b>(<i>dbname='j9Abbreviations', manaulDB='manualj9Abbreviations', returnDict='both', checkIfExcluded=False</i>)</a></article></li>
 <li><article><a href="#getFullJournalName"><b>getFullJournalName</b>()</a></article></li>
 <li><article><a href="#addToDB"><b>addToDB</b>(<i>manualName=None, manaulDB='manualj9Abbreviations', invert=False</i>)</a></article></li>
 </ul>
@@ -872,35 +963,35 @@ Combined they look like:</p>
 
 <p><a name="isAnonymous"></a><small>Citation.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#isAnonymous"><ins>isAnonymous</ins></a></strong>():</p>
 
-<p>Checks if the author is given as “[ANONYMOUS]” and returns <code>True</code> if so.</p>
+<p>Checks if the author is given as <code>'[ANONYMOUS]'</code> and returns <code>True</code> if so.</p>
 
-<h6 id="returns-10">Returns</h6>
+<h6 id="returns-11">Returns</h6>
 
 <p><code>bool</code></p>
 
-<p>True if the author is ANONYMOUS otherwise <code>False</code>.</p>
+<p><code>True</code> if the author is <code>'[ANONYMOUS]'</code> otherwise <code>False</code>.</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="getID"></a><small>Citation.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#getID"><ins>getID</ins></a></strong>():</p>
 
-<p>Returns all of “author, year, journal” available. It is for shortening labels when creating networks as the resultant strings are often unique. <a href="/metaknowledge/docs/Citation#getExtra"><code>getExtra()</code></a> gets everything not returned by <code>getID()</code>.</p>
+<p>Returns all of <code>author</code>, <code>year</code> and <code>journal</code> available separated by <code>' ,'</code>. It is for shortening labels when creating networks as the resultant strings are often unique. <a href="/metaknowledge/documentation/metaknowledgeFull.html#getExtra"><strong>getExtra</strong>()</a> gets everything not returned by <strong>getID</strong>().</p>
 
 <p>This is also used for hashing and equality checking.</p>
 
-<h6 id="returns-11">Returns</h6>
+<h6 id="returns-12">Returns</h6>
 
 <p><code>str</code></p>
 
-<p>A string to use as the shortened ID of a node.</p>
+<p>A string to use as the ID of a node.</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="allButDOI"></a><small>Citation.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#allButDOI"><ins>allButDOI</ins></a></strong>():</p>
 
-<p>Returns a string of the normalized values from the Citation excluding the DOI number. Equivalent to getting the ID with <a href="/metaknowledge/docs/Citation#getID"><code>getID()</code></a> then appending the extra values from <a href="/metaknowledge/docs/Citation#getExtra"><code>getExtra()</code></a> and then removing the substring containing the DOI number.</p>
+<p>Returns a string of the normalized values from the Citation excluding the DOI number. Equivalent to getting the ID with <a href="/metaknowledge/documentation/metaknowledgeFull.html#getID"><strong>getID</strong>()</a> then appending the extra values from <a href="/metaknowledge/documentation/metaknowledgeFull.html#getExtra"><strong>getExtra</strong>()</a> and then removing the substring containing the DOI number.</p>
 
-<h6 id="returns-12">Returns</h6>
+<h6 id="returns-13">Returns</h6>
 
 <p><code>str</code></p>
 
@@ -910,33 +1001,53 @@ Combined they look like:</p>
 
 <p><a name="getExtra"></a><small>Citation.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#getExtra"><ins>getExtra</ins></a></strong>():</p>
 
-<p>Returns any V, P, DOI or misc values as a string. These are all the values not returned by <a href="/metaknowledge/docs/Citation#getID"><code>getID()</code></a>.</p>
-
-<h6 id="returns-13">Returns</h6>
-
-<p><code>str</code></p>
-
-<p>A string containing the data not in the ID of the Citation.</p>
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
-
-<p><a name="isJournal"></a><small>Citation.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#isJournal"><ins>isJournal</ins></a></strong>(<em>manaulDB=’manualj9Abbreviations’, returnDict=’both’, checkIfExcluded=False</em>):</p>
-
-<p>Returns <code>True</code> if the Citation’s journal field is a journal abbreviation given by WOS, i.e. checks if the citation is citing a journal. Requires the j9Abbreviations database file.</p>
+<p>Returns any <code>V</code>, <code>P</code>, <code>DOI</code> or <code>misc</code> values as a string. These are all the values not returned by <a href="/metaknowledge/documentation/metaknowledgeFull.html#getID"><strong>getID</strong>()</a>, they are separated by <code>' ,'</code>.</p>
 
 <h6 id="returns-14">Returns</h6>
 
+<p><code>str</code></p>
+
+<p>A string containing the data not in the ID of the <code>Citation</code>.</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="isJournal"></a><small>Citation.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#isJournal"><ins>isJournal</ins></a></strong>(<em>dbname=’j9Abbreviations’, manaulDB=’manualj9Abbreviations’, returnDict=’both’, checkIfExcluded=False</em>):</p>
+
+<p>Returns <code>True</code> if the <code>Citation</code>’s <code>journal</code> field is a journal abbreviation from the WOS listing found at <a href="http://images.webofknowledge.com/WOK46/help/WOS/A_abrvjt.html">http://images.webofknowledge.com/WOK46/help/WOS/A_abrvjt.html</a>, i.e. checks if the citation is citing a journal.</p>
+
+<p><strong>Note</strong>: Requires the <a href="/metaknowledge/documentation/metaknowledgeFull.html#getj9dict">j9Abbreviations</a> database file and will raise an error if it cannot be found.</p>
+
+<p><strong>Note</strong>: All parameters are used for getting the data base with  <a href="/metaknowledge/documentation/metaknowledgeFull.html#getj9dict"><strong>getj9dict</strong>()</a>.</p>
+
+<h6 id="parameters-19">Parameters</h6>
+
+<p><em>dbname</em> : <code>optional [str]</code></p>
+
+<p>The name of the downloaded database file, the default is determined at run time. It is recommended that this remain untouched.</p>
+
+<p><em>manaulDB</em> : <code>optional [str]</code></p>
+
+<p>The name of the manually created database file, the default is determined at run time. It is recommended that this remain untouched.</p>
+
+<p><em>returnDict</em> : <code>optional [str]</code></p>
+
+<p>default <code>'both'</code>, can be used to get both databases or only one  with <code>'WOS'</code> or <code>'manual'</code>.</p>
+
+<h6 id="returns-15">Returns</h6>
+
 <p><code>bool</code></p>
 
-<p><code>True</code> if the Citation is for a journal</p>
+<p><code>True</code> if the <code>Citation</code> is for a journal</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="getFullJournalName"></a><small>Citation.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#getFullJournalName"><ins>getFullJournalName</ins></a></strong>():</p>
 
-<p>Returns the full name of the Citation’s journal field. Requires the j9Abbreviations database file.</p>
+<p>Returns the full name of the Citation’s journal field. Requires the <a href="/metaknowledge/documentation/metaknowledgeFull.html#getj9dict">j9Abbreviations</a> database file.</p>
 
-<h6 id="returns-15">Returns</h6>
+<p><strong>Note</strong>: Requires the <a href="/metaknowledge/documentation/metaknowledgeFull.html#getj9dict">j9Abbreviations</a> database file and will raise an error if it cannot be found.</p>
+
+<h6 id="returns-16">Returns</h6>
 
 <p><code>str</code></p>
 
@@ -946,9 +1057,11 @@ Combined they look like:</p>
 
 <p><a name="addToDB"></a><small>Citation.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#addToDB"><ins>addToDB</ins></a></strong>(<em>manualName=None, manaulDB=’manualj9Abbreviations’, invert=False</em>):</p>
 
-<p>Adds the journal of this Citation to the user created database of journals. This will cause <a href="/metaknowledge/docs/Citation#isJournal">isJournal()</a> to return <code>True</code> for this Citation and all others with its <code>.journal</code>.</p>
+<p>Adds the journal of this Citation to the user created database of journals. This will cause <a href="/metaknowledge/documentation/metaknowledgeFull.html#isJournal">isJournal()</a> to return <code>True</code> for this Citation and all others with its <code>journal</code>.</p>
 
-<h6 id="parameters-14">Parameters</h6>
+<p><strong>Note</strong>: Requires the <a href="/metaknowledge/documentation/metaknowledgeFull.html#getj9dict">j9Abbreviations</a> database file and will raise an error if it cannot be found.</p>
+
+<h6 id="parameters-20">Parameters</h6>
 
 <p><em>manualName</em> : <code>optional [str]</code></p>
 
@@ -956,7 +1069,7 @@ Combined they look like:</p>
 
 <p><em>manaulDB</em> : <code>optional [str]</code></p>
 
-<p>The name of the database file, the default is <a href="/metaknowledge/docs/journalAbbreviations#manaulDBname">metaknowledge.journalAbbreviations.manaulDBname</a></p>
+<p>The name of the manually created database file, the default is determined at run time. It is recommended that this remain untouched.</p>
 
 <p><em>invert</em> : <code>optional [bool]</code></p>
 
@@ -964,33 +1077,35 @@ Combined they look like:</p>
 
 <hr />
 <p><a name="Record"></a>
-<a name="Record"></a><small></small><strong><a href="#Record"><ins>Record</ins></a></strong>(<em>inRecord, taglist=(), sFile=’’, sLine=0</em>):</p>
+<a name="Record"></a><small></small><strong><a href="#Record"><ins>Record</ins></a></strong>(<em>object</em>):</p>
+
+<p><a name="Record.__init__"></a><small></small><strong><a href="#Record.__init__"><ins>Record.__init__</ins></a></strong>(<em>inRecord, taglist=(), sFile=’’, sLine=0</em>):</p>
 
 <p>Class for full WOS records</p>
 
-<p>It is meant to be immutable; many of the methods and attributes are evaluated when first called, not when the object is created, and the results are stored in a private dictionary.</p>
+<p>It is meant to be immutable; many of the methods and attributes are evaluated when first called, not when the object is created, and the results are stored privately.</p>
 
-<p>The record’s meta-data is stored in an ordered dictionary labeled by WOS tags. To access the raw data stored in the original record the <a href="#getTag">getTag()</a> method can be used. To access data that has been processed and cleaned the attributes named after the tags are used.</p>
+<p>The record’s meta-data is stored in an ordered dictionary labeled by WOS tags. To access the raw data stored in the original record the <a href="#getTag"><strong>getTag</strong>()</a> method can be used. To access data that has been processed and cleaned the attributes named after the tags are used.</p>
 
 <h5 id="customizations-1">Customizations</h5>
 
-<p>The Record’s hashing and equality testing are based on the WOS number (the tag is ‘UT’, and also called the accession number). They are strings starting with “WOS:” and followed by 15 or so numbers and letters, although both the length and character set are known to vary. The numbers are unique to each record so are used for comparisons. If a record is <code>bad</code>  all equality checks return <code>False</code>.</p>
+<p>The <code>Record</code>’s hashing and equality testing are based on the WOS number (the tag is ‘UT’, and also called the accession number). They are strings starting with <code>'WOS:'</code> and followed by 15 or so numbers and letters, although both the length and character set are known to vary. The numbers are unique to each record so are used for comparisons. If a record is <code>bad</code>  all equality checks return <code>False</code>.</p>
 
-<p>When converted to a string the records title is used so for a record <code>R</code>, R.TI == R.title == str(R).</p>
+<p>When converted to a string the records title is used so for a record <code>R</code>, <code>R.TI == R.title == str(R)</code> and its representation uses the WOS number instead of memory location.</p>
 
 <h5 id="attributes-1">Attributes</h5>
 
 <p>When a record is created if the parsing of the WOS file failed it is marked as <code>bad</code>. The <code>bad</code> attribute is set to True and the <code>error</code> attribute is created to contain the exception object.</p>
 
-<p>Generally, to get the information from a Record its attributes should be used. For a Record <code>R</code>, calling <code>R.CR</code> causes <a href="#citations">citations()</a> from the the <a href="#tagProcessing">tagProcessing</a> module to be called on the contents of the raw ‘CR’ field. Then the result is saved and returned. In this case, a list of Citation objects is returned. You can also call <code>R.citations</code> to get the same effect, as each known field tag has a longer name (currently there are 61 field tags). These names are meant to make accessing tags more readable and mapping from tag to name can be found in the tagToFull dict. If a tag is known (in <a href="#metaknowledge">tagToFull</a>) but not in the raw data <code>None</code> is returned instead. Most tags when cleaned return a string or list of strings, the exact results can be found in the help for the particular function.</p>
+<p>Generally, to get the information from a Record its attributes should be used. For a Record <code>R</code>, calling <code>R.CR</code> causes <a href="#citations"><strong>citations</strong>()</a> from the the <a href="#tagProcessing">tagProcessing</a> module to be called on the contents of the raw ‘CR’ field. Then the result is saved and returned. In this case, a list of Citation objects is returned. You can also call <code>R.citations</code> to get the same effect, as each known field tag has a longer name (currently there are 61 field tags). These names are meant to make accessing tags more readable and mapping from tag to name can be found in the tagToFull dict. If a tag is known (in <a href="#metaknowledge">tagToFull</a>) but not in the raw data <code>None</code> is returned instead. Most tags when cleaned return a string or list of strings, the exact results can be found in the help for the particular function.</p>
 
-<p>The attribute <code>authors</code> is also defined as a convience and returns the same as ‘AF’ or if that is not found ‘AU’.</p>
+<p>The attribute <code>authors</code> is also defined as a connivence and returns the same as ‘AF’ or if that is not found ‘AU’.</p>
 
 <h5 id="init-1">__Init__</h5>
 
 <p>Records are generally create as collections in  <a href="#RecordCollection">Recordcollections</a>, and not as individual objects. If you wish to create one on its own it is possible, the arguments are as follows.</p>
 
-<h5 id="parameters-15">Parameters</h5>
+<h5 id="parameters-21">Parameters</h5>
 
 <p><em>inRecord</em>: <code>files stream, dict, str or itertools.chain</code></p>
 
@@ -998,7 +1113,7 @@ Combined they look like:</p>
 
 <p>If a dict is passed the dictionary is used as the database of fields and tags, so each key is considered a WOS tag and each value a list of the lines of the original associated with the tag. This is the same form of dict that <a href="#recordParser">recordParser</a> returns.</p>
 
-<p>For a str the input is the raw textual data of a single record in the WOS style, like the file stream it must start at the first tag and end in ‘ER’.</p>
+<p>For a string the input must be the raw textual data of a single record in the WOS style, like the file stream it must start at the first tag and end in <code>'ER'</code>.</p>
 
 <p>itertools.chain is treated identically to a file stream and is used by <a href="#RecordCollection">RecordCollections</a>.</p>
 
@@ -1009,6 +1124,8 @@ Combined they look like:</p>
 <p><em>sLine</em> : <code>optional [int]</code></p>
 
 <p>Is the line the record starts on in the raw data file. It is mostly used to make error messages more informative.</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p>The Record class has the following methods:</p>
 
@@ -1027,7 +1144,13 @@ Combined they look like:</p>
 
 <p><a name="numAuthors"></a><small>Record.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#numAuthors"><ins>numAuthors</ins></a></strong>():</p>
 
-<p>Returns the number of authors</p>
+<p>Returns the number of authors of the records, i.e. <code>len(self.authors)</code></p>
+
+<h6 id="returns-17">Returns</h6>
+
+<p><code>int</code></p>
+
+<p>The number of authors</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
@@ -1035,50 +1158,54 @@ Combined they look like:</p>
 
 <p>Returns a list containing the raw data of the record associated with <em>tag</em>. Each line of the record is one string in the list.</p>
 
-<h6 id="parameters-16">Parameters</h6>
+<h6 id="parameters-22">Parameters</h6>
 
 <p><em>tag</em> : <code>str</code></p>
 
-<p><em>tag</em> can be a two character string corresponding to a WOS tag e.g. ‘J9’, the matching is case insensitive so ‘j9’ is the same as ‘J9’. Or it can be one of the full names for a tag with the mappings in <a href="#metaknowledge">fullToTag</a>. If the string is not found in the original record or after being translated through <a href="#metaknowledge">fullToTag</a>, <code>None</code> is returned.</p>
+<p><em>tag</em> can be a two character string corresponding to a WOS tag e.g. ‘J9’, the matching is case insensitive so ‘j9’ is the same as ‘J9’. Or it can be one of the full names for a tag with the mappings in <a href="/metaknowledge/documentation/metaknowledgeFull.html#tagProcessing">fullToTag</a>. If the string is not found in the original record or after being translated through <a href="/metaknowledge/documentation/metaknowledgeFull.html#tagProcessing">fullToTag</a>, <code>None</code> is returned.</p>
 
-<h6 id="returns-16">Returns</h6>
+<p><em>clean</em> : <code>optional [bool]</code></p>
+
+<p>Default <code>False</code>, if <code>True</code> the processed data will be returned instead of the raw data.</p>
+
+<h6 id="returns-18">Returns</h6>
 
 <p><code>List [str]</code></p>
 
-<p>Each string in the list is a line from the record associated with <em>tag</em> or None if not found.</p>
+<p>Each string in the list is a line from the record associated with <em>tag</em> or <code>None</code> if not found.</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="createCitation"></a><small>Record.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#createCitation"><ins>createCitation</ins></a></strong>(<em>multiCite=False</em>):</p>
 
-<p>Creates a citation string, using the same format as other WOS citations, for the <a href="/metaknowledge/docs/Record#Record">Record</a> by reading the relevant tags (year, J9, volume, beginningPage, DOI) and using it to start a <a href="/metaknowledge/docs/Citation#Citation">Citation</a> object.</p>
+<p>Creates a citation string, using the same format as other WOS citations, for the <a href="/metaknowledge/documentation/metaknowledgeFull.html#Record">Record</a> by reading the relevant tags (<code>year</code>, <code>J9</code>, <code>volume</code>, <code>beginningPage</code>, <code>DOI</code>) and using it to create a <a href="/metaknowledge/documentation/metaknowledgeFull.html#Citation"><code>Citation</code></a> object.</p>
 
-<h6 id="parameters-17">Parameters</h6>
+<h6 id="parameters-23">Parameters</h6>
 
 <p><em>multiCite</em> : <code>optional [bool]</code></p>
 
-<p>default <code>False</code>, if <code>True</code> a tuple of Citations is retuned with each having a different one of the records authors as the author</p>
+<p>Default <code>False</code>, if <code>True</code> a tuple of Citations is returned with each having a different one of the records authors as the author</p>
 
-<h6 id="returns-17">Returns</h6>
+<h6 id="returns-19">Returns</h6>
 
 <p><code>Citation</code></p>
 
-<p>A <a href="/metaknowledge/docs/Citation#Citation">Citation</a> object containing a citation for the Record.</p>
+<p>A <a href="/metaknowledge/documentation/metaknowledgeFull.html#Citation"><code>Citation</code></a> object containing a citation for the Record.</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="getTagsList"></a><small>Record.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#getTagsList"><ins>getTagsList</ins></a></strong>(<em>taglst, cleaned=False</em>):</p>
 
-<p>Returns a list of the results of <a href="/metaknowledge/docs/Record#getTag"><code>getTag()</code></a> for each tag in <em>taglist</em>, the return has the same order as the original.</p>
+<p>Returns a list of the results of <a href="/metaknowledge/documentation/metaknowledgeFull.html#getTag"><strong>getTag</strong>()</a> for each tag in <em>taglist</em>, the return has the same order as the original.</p>
 
-<h6 id="parameters-18">Parameters</h6>
+<h6 id="parameters-24">Parameters</h6>
 <p><em>taglst</em> : <code>List[str]</code></p>
 
-<p>Each string in <em>taglst</em> can be a two character string corresponding to a WOS tag e.g. ‘J9’, the matching is case insensitive so ‘j9’ is the same as ‘J9’. Or it can be one of the full names for a tag with the mappings in <a href="/metaknowledge/docs/metaknowledge#metaknowledge">fullToTag</a>. If the string is not found in the original record before or after being translated through <a href="/metaknowledge/docs/metaknowledge#metaknowledge">fullToTag</a>, <code>None</code> is used instead. Same as in <a href="/metaknowledge/docs/Record#getTag"><code>getTag()</code></a></p>
+<p>Each string in <em>taglst</em> can be a two character string corresponding to a WOS tag e.g. ‘J9’, the matching is case insensitive so ‘j9’ is the same as ‘J9’,  or it can be one of the full names for a tag with the mappings in <a href="/metaknowledge/documentation/metaknowledgeFull.html#tagProcessing">fullToTag</a>. If the string is not found in the original record before or after being translated through <a href="/metaknowledge/documentation/metaknowledgeFull.html#tagProcessing">fullToTag</a>, <code>None</code> is used instead. Same as in <a href="/metaknowledge/documentation/metaknowledgeFull.html#getTag"><strong>getTag()</strong></a></p>
 
 <p>Then they are compiled into a list in the same order as <em>taglst</em></p>
 
-<h6 id="returns-18">Returns</h6>
+<h6 id="returns-20">Returns</h6>
 
 <p><code>List[str]</code></p>
 
@@ -1090,12 +1217,12 @@ Combined they look like:</p>
 
 <p>returns a dict of the results of getTag, with the elements of <em>taglst</em> as the keys and the results as the values.</p>
 
-<h6 id="parameters-19">Parameters</h6>
+<h6 id="parameters-25">Parameters</h6>
 <p><em>taglst</em> : <code>List[str]</code></p>
 
-<p>Each string in <em>taglst</em> can be a two character string corresponding to a WOS tag e.g. ‘J9’, the matching is case insensitive so ‘j9’ is the same as ‘J9’. Or it can be one of the full names for a tag with the mappings in <a href="/metaknowledge/docs/metaknowledge#metaknowledge">fullToTag</a>. If the string is not found in the oriagnal record before or after being translated through <a href="#metaknowledge">fullToTag</a>, <code>None</code> is used instead. Same as in <a href="/metaknowledge/docs/Record#getTag"><code>getTag()</code></a></p>
+<p>Each string in <em>taglst</em> can be a two character string corresponding to a WOS tag e.g. ‘J9’, the matching is case insensitive so ‘j9’ is the same as ‘J9’. Or it can be one of the full names for a tag with the mappings in <a href="/metaknowledge/documentation/metaknowledgeFull.html#tagProcessing">fullToTag</a>. If the string is not found in the oriagnal record before or after being translated through <a href="/metaknowledge/documentation/metaknowledgeFull.html#tagProcessing">fullToTag</a>, <code>None</code> is used instead. Same as in <a href="/metaknowledge/documentation/metaknowledgeFull.html#getTag"><strong>getTag</strong>()</a></p>
 
-<h6 id="returns-19">Returns</h6>
+<h6 id="returns-21">Returns</h6>
 
 <p><code>dict[str : List [str]]</code></p>
 
@@ -1105,9 +1232,9 @@ Combined they look like:</p>
 
 <p><a name="activeTags"></a><small>Record.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#activeTags"><ins>activeTags</ins></a></strong>():</p>
 
-<p>Returns a list of all the tags the original WOS record had. These are all the tags that <a href="/metaknowledge/docs/Record#getTag">‘getTag()’</a> will not return <code>None</code> for.</p>
+<p>Returns a list of all the tags the original WOS record had. These are all the tags that <a href="/metaknowledge/documentation/metaknowledgeFull.html#getTag"><strong>getTag</strong>()</a> will not return <code>None</code> for.</p>
 
-<h6 id="returns-20">Returns</h6>
+<h6 id="returns-22">Returns</h6>
 
 <p><code>List[str]</code></p>
 
@@ -1117,9 +1244,9 @@ Combined they look like:</p>
 
 <p><a name="writeRecord"></a><small>Record.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#writeRecord"><ins>writeRecord</ins></a></strong>(<em>infile</em>):</p>
 
-<p>Writes to <em>infile</em> the original contents of the Record. This is intended for use by <a href="/metaknowledge/docs/RecordCollection#RecordCollection">RecordCollections</a> to write to file. What is written to <em>infile</em> is bit for bit identical to the original record file. No newline is inserted above the write but the last character is a newline.</p>
+<p>Writes to <em>infile</em> the original contents of the Record. This is intended for use by <a href="/metaknowledge/documentation/metaknowledgeFull.html#RecordCollection">RecordCollections</a> to write to file. What is written to <em>infile</em> is bit for bit identical to the original record file (if utf-8 is used). No newline is inserted above the write but the last character is a newline.</p>
 
-<h6 id="parameters-20">Parameters</h6>
+<h6 id="parameters-26">Parameters</h6>
 
 <p><em>infile</em> : <code>file stream</code></p>
 
@@ -1129,13 +1256,13 @@ Combined they look like:</p>
 
 <p><a name="bibString"></a><small>Record.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#bibString"><ins>bibString</ins></a></strong>(<em>maxLength=1000, WOSMode=False, restrictedOutput=False, niceID=True</em>):</p>
 
-<p>Makes a string giving the Record as a bibTex entry. If the Record is of a journal article (PT J) the bibtext type is set to <code>'article'</code>, otherwise it is set to <code>'misc'</code>. The ID of the entry is the WOS number and all the Record’s fields are given as entries with their long names.</p>
+<p>Makes a string giving the Record as a bibTex entry. If the Record is of a journal article (<code>PT J</code>) the bibtext type is set to <code>'article'</code>, otherwise it is set to <code>'misc'</code>. The ID of the entry is the WOS number and all the Record’s fields are given as entries with their long names.</p>
 
-<p><strong>Note</strong> This is not meant to be used directly with LaTeX none of the special characters have been escaped and there are a large number of unnecessary fields provided.</p>
+<p><strong>Note</strong> This is not meant to be used directly with LaTeX none of the special characters have been escaped and there are a large number of unnecessary fields provided. <em>niceID</em> and <em>maxLength</em> have been provided to make conversions easier.</p>
 
 <p><strong>Note</strong> Record entries that are lists have their values seperated with the string <code>' and '</code></p>
 
-<h6 id="parameters-21">Parameters</h6>
+<h6 id="parameters-27">Parameters</h6>
 
 <p><em>maxLength</em> : <code>optional [int]</code></p>
 
@@ -1153,7 +1280,7 @@ Combined they look like:</p>
 
 <p>default <code>True</code>, if <code>True</code> the ID used will be derived from the authors, publishing date and title, if <code>False</code> it will be the UT tag</p>
 
-<h6 id="returns-21">Returns</h6>
+<h6 id="returns-23">Returns</h6>
 
 <p><code>str</code></p>
 
@@ -1165,7 +1292,7 @@ Combined they look like:</p>
 
 <p>Returns the bibTex type corresonding to the record</p>
 
-<h6 id="returns-22">Returns</h6>
+<h6 id="returns-24">Returns</h6>
 
 <p><code>str</code></p>
 
@@ -1173,26 +1300,27 @@ Combined they look like:</p>
 
 <hr />
 <p><a name="RecordCollection"></a>
-<a name="RecordCollection"></a><small></small><strong><a href="#RecordCollection"><ins>RecordCollection</ins></a></strong>(<em>inCollection=None, name=’’, extension=’‘</em>):</p>
+<a name="RecordCollection"></a><small></small><strong><a href="#RecordCollection"><ins>RecordCollection</ins></a></strong>(<em>object</em>):</p>
 
-<p>A way of containing a large number of Record objects, it provides ways of creating them from an isi file, string, list of records or directory containing isi files. The Records are containing within a set and as such many of the set operations are defined, pop, union, in … also records are hashed with their WOS string so no duplication can occur.
-The comparison operators &lt;, &lt;=, &gt;, &gt;= are based strictly on the number of Records within the collection, while equality looks for an exact match on the Records</p>
+<p><a name="RecordCollection.__init__"></a><small></small><strong><a href="#RecordCollection.__init__"><ins>RecordCollection.__init__</ins></a></strong>(<em>inCollection=None, name=’’, extension=’‘</em>):</p>
 
-<p>When being created if there are issues the Record collection will be declared bad (self.bad = True) it will then mostly return nothing or False. The error attribute contains the exception that occurred.</p>
+<p>A container for a large number of indivual WOS records.</p>
 
-<p>They also possess a name accessed with repr(), this is used to auto generate the names of files and can be set at creation, note though that any operations that modify the RecordCollection’s contents will update the name to include what occurred, read <strong>repr</strong>’s doc string for more information</p>
+<p><code>RecordCollection</code> provides ways of creating <code>[Records</code>](#Record) from an isi file, string, list of records or directory containing isi files.</p>
 
-<p>inCollection is the object containing the information about the Records to be constructed it can be an isi file, string, list of records or directory containing isi files</p>
+<p>When being created if there are issues the Record collection will be declared bad, <code>bad</code> wil be set to <code>False</code>, it will then mostly return <code>None</code> or False. The attribute <code>error</code> contains the exception that occurred.</p>
 
-<p>name sets the name of the of the record if left blank name will be generated based on the object that created the Recordcollection</p>
+<p>They also possess an attribute <code>name</code> also accessed accessed with <strong>__repr__</strong>(), this is used to auto generate the names of files and can be set at creation, note though that any operations that modify the RecordCollection’s contents will update the name to include what occurred.</p>
 
-<p>extension controls the extension that <strong>init</strong> looks for when reading a directory, set it to the extension on the isi files you wish to load, if left blank all files will be tried and any that are not isi files will be silently skipped</p>
+<h5 id="customizations-2">Customizations</h5>
+
+<p>The Records are containing within a set and as such many of the set operations are defined, pop, union, in … also records are hashed with their WOS string so no duplication can occur. The comparison operators <code>&lt;</code>, <code>&lt;=</code>, <code>&gt;</code>, <code>&gt;=</code> are based strictly on the number of Records within the collection, while equality looks for an exact match on the Records</p>
 
 <h5 id="init-2">__Init__</h5>
 
-<p>RecordCollections are made from either a single file or directory supplied as <em>inCollection</em>.</p>
+<p><em>inCollection</em> is the object containing the information about the Records to be constructed it can be an isi file, string, list of records or directory containing isi files</p>
 
-<h5 id="parameters-22">Parameters</h5>
+<h5 id="parameters-28">Parameters</h5>
 
 <p><em>inCollection</em> : <code>optional [str] or None</code></p>
 
@@ -1208,7 +1336,9 @@ The comparison operators &lt;, &lt;=, &gt;, &gt;= are based strictly on the numb
 
 <p><em>extension</em> : <code>optional [str]</code></p>
 
-<p>The extension to search for when reading a directoy for files. <em>extension</em> is the suffix searched for when a direcorty is read for files, by default it is empty so all files are read.</p>
+<p>The extension to search for when reading a directory for files. <em>extension</em> is the suffix searched for when a directory is read for files, by default it is empty so all files are read.</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p>The RecordCollection class has the following methods:</p>
 
@@ -1240,15 +1370,15 @@ The comparison operators &lt;, &lt;=, &gt;, &gt;= are based strictly on the numb
 
 <p><a name="twoModeNetwork"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#twoModeNetwork"><ins>twoModeNetwork</ins></a></strong>(<em>tag1, tag2, directed=False, recordType=True, nodeCount=True, edgeWeight=True, stemmerTag1=None, stemmerTag2=None</em>):</p>
 
-<p>Creates a network of the objects found by two WOS tags <em>tag1</em> and <em>tag2</em>.</p>
+<p>Creates a network of the objects found by two WOS tags <em>tag1</em> and <em>tag2</em>, each node marked by which tag spawned it making the resultant graph bipartite.</p>
 
-<p>A <strong>twoModeNetwork()</strong> looks are each Record in the RecordCollection and extracts its values for the tags given by <em>tag1</em> and <em>tag2</em>, e.g. the <code>"WC"</code> and <code>"LA"</code> tags. Then for each object returned by each tag and edge is created between it and every other object of the other tag. So the WOS defined subject tag <code>"WC"</code> and language tag <code>"LA"</code>, will give a two-mode network showing the connections between subjects and languages. Each node will have an attribute call <code>"type"</code> that gives the tag that created it or both if both created it, e.g. the node <code>"English"</code> would have the type attribute be <code>"LA"</code>.</p>
+<p>A <strong>twoModeNetwork()</strong> looks at each Record in the <code>RecordCollection</code> and extracts its values for the tags given by <em>tag1</em> and <em>tag2</em>, e.g. the <code>'WC'</code> and <code>'LA'</code> tags. Then for each object returned by each tag and edge is created between it and every other object of the other tag. So the WOS defined subject tag <code>'WC'</code> and language tag <code>'LA'</code>, will give a two-mode network showing the connections between subjects and languages. Each node will have an attribute call <code>'type'</code> that gives the tag that created it or both if both created it, e.g. the node <code>'English'</code> would have the type attribute be <code>'LA'</code>.</p>
 
 <p>The number of times each object occurs is count if <em>nodeCount</em> is <code>True</code> and the edges count the number of co-occurrences if <em>edgeWeight</em> is <code>True</code>. Both are<code>True</code> by default.</p>
 
 <p>The <em>directed</em> parameter if <code>True</code> will cause the network to be directed with the first tag as the source and the second as the destination.</p>
 
-<h6 id="parameters-23">Parameters</h6>
+<h6 id="parameters-29">Parameters</h6>
 
 <p><em>tag1</em> : <code>str</code></p>
 
@@ -1272,15 +1402,15 @@ The comparison operators &lt;, &lt;=, &gt;, &gt;= are based strictly on the numb
 
 <p><em>stemmerTag1</em> : <code>optional [func]</code></p>
 
-<p>default <code>None</code>, If <em>stemmerTag1</em> is a callable object, basically a function or possibly a class, it will be called for the ID of every node given by <em>tag1</em> in the graph, all IDs are strings. For example:</p>
+<p>Default <code>None</code>, If <em>stemmerTag1</em> is a callable object, basically a function or possibly a class, it will be called for the ID of every node given by <em>tag1</em> in the graph, all IDs are strings.</p>
 
-<p>The function ` f = lambda x: x[0]<code> if given as the stemmer will cause all IDs to be the first character of their unstemmed IDs. e.g. the title </code>‘Goos-Hanchen and Imbert-Fedorov shifts for leaky guided modes’<code> will create the node </code>‘G’`.</p>
+<p>For example: the function <code>f = lambda x: x[0]</code> if given as the stemmer will cause all IDs to be the first character of their unstemmed IDs. e.g. the title <code>'Goos-Hanchen and Imbert-Fedorov shifts for leaky guided modes'</code> will create the node <code>'G'</code>.</p>
 
 <p><em>stemmerTag2</em> : <code>optional [func]</code></p>
 
-<p>default <code>None</code>, see <em>stemmerTag1</em> as it is the same but for <em>tag2</em></p>
+<p>Default <code>None</code>, see <em>stemmerTag1</em> as it is the same but for <em>tag2</em></p>
 
-<h6 id="returns-23">Returns</h6>
+<h6 id="returns-25">Returns</h6>
 
 <p><code>networkx Graph or networkx DiGraph</code></p>
 
@@ -1290,15 +1420,15 @@ The comparison operators &lt;, &lt;=, &gt;, &gt;= are based strictly on the numb
 
 <p><a name="nModeNetwork"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#nModeNetwork"><ins>nModeNetwork</ins></a></strong>(<em>tags, recordType=True, nodeCount=True, edgeWeight=True, stemmer=None</em>):</p>
 
-<p>Creates a network of the objects found by all WOS tags in <em>tags</em>.</p>
+<p>Creates a network of the objects found by all WOS tags in <em>tags</em>, each node is marked by which tag spawned it making the resultant graph n-partite.</p>
 
-<p>A <strong>nModeNetwork()</strong> looks are each Record in the RecordCollection and extracts its values for the tags given by <em>tags</em>. Then for all objects returned an edge is created between them, regardless of their type. Each node will have an attribute call <code>"type"</code> that gives the tag that created it or both if both created it, e.g. if <code>"LA"</code> were in <em>tags</em> node <code>"English"</code> would have the type attribute be <code>"LA"</code>.</p>
+<p>A <strong>nModeNetwork()</strong> looks are each Record in the RecordCollection and extracts its values for the tags given by <em>tags</em>. Then for all objects returned an edge is created between them, regardless of their type. Each node will have an attribute call <code>'type'</code> that gives the tag that created it or both if both created it, e.g. if <code>'LA'</code> were in <em>tags</em> node <code>'English'</code> would have the type attribute be <code>'LA'</code>.</p>
 
-<p>For example if <em>tags</em> was set to <code>['CR', 'UT', 'LA']</code>, a three mode network would be created, composed of a co-citation network from the <code>"CR"</code> tag. Then each citation would also have edges to all the languages of Records that cited it and to the WOS number of the those Records.</p>
+<p>For example if <em>tags</em> was set to <code>['CR', 'UT', 'LA']</code>, a three mode network would be created, composed of a co-citation network from the <code>'CR'</code> tag. Then each citation would also have edges to all the languages of Records that cited it and to the WOS number of the those Records.</p>
 
 <p>The number of times each object occurs is count if <em>nodeCount</em> is <code>True</code> and the edges count the number of co-occurrences if <em>edgeWeight</em> is <code>True</code>. Both are<code>True</code> by default.</p>
 
-<h6 id="parameters-24">Parameters</h6>
+<h6 id="parameters-30">Parameters</h6>
 
 <p><em>mode</em> : <code>str</code></p>
 
@@ -1306,19 +1436,19 @@ The comparison operators &lt;, &lt;=, &gt;, &gt;= are based strictly on the numb
 
 <p><em>nodeCount</em> : <code>optional [bool]</code></p>
 
-<p>Default <code>True</code>, if <code>True</code> each node will have an attribute called “count” that contains an int giving the number of time the object occurred.</p>
+<p>Default <code>True</code>, if <code>True</code> each node will have an attribute called <code>'count'</code> that contains an int giving the number of time the object occurred.</p>
 
 <p><em>edgeWeight</em> : <code>optional [bool]</code></p>
 
-<p>Default <code>True</code>, if <code>True</code> each edge will have an attribute called “weight” that contains an int giving the number of time the two objects co-occurrenced.</p>
+<p>Default <code>True</code>, if <code>True</code> each edge will have an attribute called <code>'weight'</code> that contains an int giving the number of time the two objects co-occurrenced.</p>
 
 <p><em>stemmer</em> : <code>optional [func]</code></p>
 
-<p>default <code>None</code>, If <em>stemmer</em> is a callable object, basically a function or possibly a class, it will be called for the ID of every node in the graph, note that all IDs are strings. For example:</p>
+<p>Default <code>None</code>, If <em>stemmer</em> is a callable object, basically a function or possibly a class, it will be called for the ID of every node in the graph, note that all IDs are strings.</p>
 
-<p>The function ` f = lambda x: x[0]<code> if given as the stemmer will cause all IDs to be the first character of their unstemmed IDs. e.g. the title </code>‘Goos-Hanchen and Imbert-Fedorov shifts for leaky guided modes’<code> will create the node </code>‘G’`.</p>
+<p>For example: the function <code>f = lambda x: x[0]</code> if given as the stemmer will cause all IDs to be the first character of their unstemmed IDs. e.g. the title <code>'Goos-Hanchen and Imbert-Fedorov shifts for leaky guided modes'</code> will create the node <code>'G'</code>.</p>
 
-<h6 id="returns-24">Returns</h6>
+<h6 id="returns-26">Returns</h6>
 
 <p><code>networkx Graph</code></p>
 
@@ -1330,17 +1460,17 @@ The comparison operators &lt;, &lt;=, &gt;, &gt;= are based strictly on the numb
 
 <p>Returns a dict with all the citations in the CR field as keys and the number of times they occur as the values</p>
 
-<h6 id="parameters-25">Parameters</h6>
+<h6 id="parameters-31">Parameters</h6>
 
 <p><em>pandasFriendly</em> : <code>optional [bool]</code></p>
 
-<p>default <code>False</code>, makes the output be a dict with two keys one “Citations” is the citations the other is their occurence counts as “Counts”.</p>
+<p>default <code>False</code>, makes the output be a dict with two keys one <code>'Citations'</code> is the citations the other is their occurrence counts as <code>'Counts'</code>.</p>
 
 <p><em>keyType</em> : <code>optional [str]</code></p>
 
-<p>default <code>'citation'</code>, the type of key to use for the dictionary, the valid strings are <code>"citation"</code>, <code>"journal"</code>, <code>"year"</code> or <code>"author"</code></p>
+<p>default <code>'citation'</code>, the type of key to use for the dictionary, the valid strings are <code>'citation'</code>, <code>'journal'</code>, <code>'year'</code> or <code>'author'</code>. IF changed from <code>'citation'</code> all citations matching the requested option will be contracted and their counts added together.</p>
 
-<h6 id="returns-25">Returns</h6>
+<h6 id="returns-27">Returns</h6>
 
 <p><code>dict[str, int or Citation : int]</code></p>
 
@@ -1352,127 +1482,173 @@ The comparison operators &lt;, &lt;=, &gt;, &gt;= are based strictly on the numb
 
 <p>Takes in a Record, WOS string, citation string or Citation and returns a RecordCollection of all records that cite it.</p>
 
+<h6 id="parameters-32">Parameters</h6>
+
+<p><em>rec</em> : <code>Record, str or Citation</code></p>
+
+<p>The object that is being cited</p>
+
+<h6 id="returns-28">Returns</h6>
+
+<p><code>RecordCollection</code></p>
+
+<p>A <code>RecordCollection</code> containing only those <code>Records</code> that cite <em>rec</em></p>
+
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="citeFilter"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#citeFilter"><ins>citeFilter</ins></a></strong>(<em>keyString=’’, field=’all’, reverse=False, caseSensitive=False</em>):</p>
 
-<p>Filters Records by some string, keyString, in all of their citations.
-Returns all Records with at least one citation possessing keyString in the field given by field.</p>
+<p>Filters <code>Records</code> by some string, <em>keyString</em>, in their citations and returns all <code>Records</code> with at least one citation possessing <em>keyString</em> in the field given by <em>field</em>.</p>
 
-<p>keyString give the string to be searched for if it is is blank then all citations with the specified field will be matched</p>
+<h6 id="parameters-33">Parameters</h6>
 
-<p>field give the component of the citation to be looked at, it is one of a few strings. The default is ‘all’ which will cause the entire original citation to be searched. It can be used to search across fields, e.g. ‘1970, V2’ is a valid keystring
-The other options are:
-<code>author</code>, searches the author field
-<code>year</code>, searches the year field
-<code>journal</code>, searches the journal field
-<code>V</code>, searches the volume field
-<code>P</code>, searches the page field
-misc, searches all the remaining uncategorized information
-anonymous, searches for anonymous citations, keyString is not used
-bad, searches for bad citations, keyString is not used</p>
+<p><em>keyString</em> : <code>optional [str]</code></p>
 
-<p>reverse being True causes all Records not matching the query to be returned, default is False</p>
+<p>Default <code>''</code>, gives the string to be searched for, if it is is blank then all citations with the specified field will be matched</p>
 
-<p>caseSensitive if True causes the search across the original to be case sensitive, only the ‘all’ option can be case sensitive</p>
+<p><em>field</em> : <code>optional [str]</code></p>
+
+<p>Default <code>'all'</code>, gives the component of the citation to be looked at, it can be one of a few strings. The default is <code>'all'</code> which will cause the entire original <code>Citation</code> to be searched. It can be used to search across fields, e.g. <code>'1970, V2'</code> is a valid keystring
+The other options are:</p>
+
+<ul>
+  <li><code>'author'</code>, searches the author field</li>
+  <li><code>'year'</code>, searches the year field</li>
+  <li><code>'journal'</code>, searches the journal field</li>
+  <li><code>'V'</code>, searches the volume field</li>
+  <li><code>'P'</code>, searches the page field</li>
+  <li><code>'misc'</code>, searches all the remaining uncategorized information</li>
+  <li><code>'anonymous'</code>, searches for anonymous <code>Citations</code>, <em>keyString</em> is not ignored</li>
+  <li><code>'bad'</code>, searches for bad citations, keyString is not used</li>
+</ul>
+
+<p><em>reverse</em> : <code>optional [bool]</code></p>
+
+<p>Default <code>False</code>, being set to <code>True</code> causes all <code>Records</code> not matching the query to be returned</p>
+
+<p><em>caseSensitive</em> : <code>optional [bool]</code></p>
+
+<p>Default <code>False</code>, if <code>True</code> causes the search across the original to be case sensitive, <strong>only</strong> the <code>'all'</code> option can be case sensitive</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="pop"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#pop"><ins>pop</ins></a></strong>():</p>
 
-<p>Returns a random Record from the recordCollection, the Record is deleted from the collection, use peak for nondestructive access</p>
+<p>Returns a random <code>Record</code> from the <code>RecordCollection</code>, the <code>Record</code> is deleted from the collection, use <a href="/metaknowledge/documentation/metaknowledgeFull.html#peak"><strong>peak</strong>()</a> for nondestructive, but slower, access</p>
+
+<h6 id="returns-29">Returns</h6>
+
+<p><code>Record</code></p>
+
+<p>A random <code>Record</code> that has been removed from the collection</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="peak"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#peak"><ins>peak</ins></a></strong>():</p>
 
-<p>Returns a random Record from the recordCollection, the Record is kept in the collection, use pop for faster destructive access</p>
+<p>Returns a random <code>Record</code> from the <code>RecordCollection</code>, the <code>Record</code> is kept in the collection, use <a href="/metaknowledge/documentation/metaknowledgeFull.html#pop"><strong>pop</strong>()</a> for faster destructive access.</p>
+
+<h6 id="returns-30">Returns</h6>
+
+<p><code>Record</code></p>
+
+<p>A random <code>Record</code> in the collection</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="dropWOS"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#dropWOS"><ins>dropWOS</ins></a></strong>(<em>wosNum</em>):</p>
 
-<p>Removes the Record with WOS number (ID number) <em>wosNum</em></p>
+<p>Removes the <code>Record</code> with WOS number (ID number) <em>wosNum</em> from the collection. If it cannot be found nothing happens.</p>
 
-<h6 id="parameters-26">Parameters</h6>
+<h6 id="parameters-34">Parameters</h6>
 
 <p><em>wosNum</em> : <code>str</code></p>
 
-<p><em>wosNum</em> is the WOS number of the Record to be dropped. <em>wosNum</em> must begin with ‘WOS:’ or a valueError is raise.</p>
+<p><em>wosNum</em> is the WOS number of the Record to be dropped. <em>wosNum</em> must begin with <code>'WOS:'</code> or a valueError is raise.</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="addRec"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#addRec"><ins>addRec</ins></a></strong>(<em>Rec</em>):</p>
 
-<p>Adds a Record or Records to the RecordCollection.</p>
+<p>Adds a <code>Record</code> or <code>Records</code> to the collection.</p>
 
-<h6 id="parameters-27">Parameters</h6>
+<h6 id="parameters-35">Parameters</h6>
 
 <p><em>Rec</em> : <code>Record or iterable[Record]</code></p>
 
-<p>A Record or some iterable containg records to add</p>
+<p>A Record or some iterable containing <code>Records</code> to add</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="getWOS"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#getWOS"><ins>getWOS</ins></a></strong>(<em>wosNum, drop=False</em>):</p>
 
-<p>Gets the Record from the collection by its WOS number.</p>
+<p>Gets the <code>Record</code> from the collection by its WOS number (ID number) <em>wosNum</em>.</p>
 
-<h6 id="parameters-28">Parameters</h6>
+<h6 id="parameters-36">Parameters</h6>
 
 <p><em>wosNum</em> : <code>str</code></p>
 
-<p><em>wosNum</em> is the WOS number of the Record to be extracted. <em>wosNum</em> must begin with ‘WOS:’ or a valueError is raise.</p>
+<p><em>wosNum</em> is the WOS number of the <code>Record</code> to be extracted. <em>wosNum</em> must begin with <code>'WOS:'</code> or a valueError is raise.</p>
 
 <p><em>drop</em> : <code>optional [bool]</code></p>
 
-<p>Default <code>False</code>. If <code>True</code> the Record is dropped from the collection after being extract, i.e. if <code>False</code> <a href="/metaknowledge/docs/RecordCollection#getWOS">getWOS()</a> acts like <a href="/metaknowledge/docs/RecordCollection#peak">peak()</a>, if <code>True</code> it acts like <a href="/metaknowledge/docs/RecordCollection#pop">pop()</a></p>
+<p>Default <code>False</code>. If <code>True</code> the Record is dropped from the collection after being extract, i.e. if <code>False</code> <a href="/metaknowledge/documentation/metaknowledgeFull.html#getWOS"><strong>getWOS</strong>()</a> acts like <a href="/metaknowledge/documentation/metaknowledgeFull.html#peak"><strong>peak</strong>()</a>, if <code>True</code> it acts like <a href="/metaknowledge/documentation/metaknowledgeFull.html#pop"><strong>pop</strong>()</a></p>
 
-<h6 id="returns-26">Returns</h6>
+<h6 id="returns-31">Returns</h6>
 
 <p><code>metaknowledge.Record</code></p>
 
-<p>The Record whose WOS number is <em>wosNum</em></p>
+<p>The <code>Record</code> whose WOS number is <em>wosNum</em></p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="getBadRecords"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#getBadRecords"><ins>getBadRecords</ins></a></strong>():</p>
 
-<p>returns RecordCollection containing all the Record which have their bad flag set to True, i.e. all those removed by dropBadRecords()</p>
+<p>creates a <code>RecordCollection</code> containing all the <code>Record</code> which have their <code>bad</code> attribute set to <code>True</code>, i.e. all those removed by <a href="/metaknowledge/documentation/metaknowledgeFull.html#dropBadRecords"><strong>dropBadRecords</strong>()</a>.</p>
+
+<h6 id="returns-32">Returns</h6>
+
+<p><code>RecordCollection</code></p>
+
+<p>All the bad <code>Records</code> in one collection</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="dropBadRecords"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#dropBadRecords"><ins>dropBadRecords</ins></a></strong>():</p>
 
-<p>Removes all Records with bad attributes == True from the collection</p>
+<p>Removes all <code>Records</code> with <code>bad</code> attribute <code>True</code> from the collection, i.e. drop all those returned by <a href="/metaknowledge/documentation/metaknowledgeFull.html#getBadRecords"><strong>getBadRecords</strong>()</a>.</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="dropNonJournals"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#dropNonJournals"><ins>dropNonJournals</ins></a></strong>(<em>ptVal=’J’, dropBad=True, invert=False</em>):</p>
 
-<p>Drops the non journal type Records from the collection</p>
+<p>Drops the non journal type <code>Records</code> from the collection, this is done by checking <em>ptVal</em> against the PT tag</p>
 
-<h6 id="parameters-29">Parameters</h6>
+<h6 id="parameters-37">Parameters</h6>
 
 <p><em>ptVal</em> : <code>optional [str]</code></p>
 
-<p>The value of the PT tag to be kept, default is ‘J’ the journal tag</p>
+<p>Default <code>'J'</code>, The value of the PT tag to be kept, default is <code>'J'</code> the journal tag, other tags can be substituted.</p>
 
 <p><em>dropBad</em> : <code>optional [bool]</code></p>
 
-<p>Determines if bad Records will be dropped as well, default <code>True</code></p>
+<p>Default <code>True</code>, if <code>True</code> bad <code>Records</code> will be dropped as well those that are not journal entries</p>
 
 <p><em>invert</em> : <code>optional [bool]</code></p>
 
-<p>Set <code>True</code> to drop journals (or the PT tag given by <em>ptVal) instead of keeping them. Note, it still drops bad Records if _dropBad</em> is <code>True</code>, default <code>False</code></p>
+<p>Default <code>False</code>, Set <code>True</code> to drop journals (or the PT tag given by <em>ptVal</em>) instead of keeping them. <strong>Note</strong>, it still drops bad Records if <em>dropBad</em> is <code>True</code></p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="writeFile"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#writeFile"><ins>writeFile</ins></a></strong>(<em>fname=None</em>):</p>
 
-<p>Writes the RecordCollection to a file, the written file is identical to those download from WOS. The order of Records written is random.</p>
+<p>Writes the <code>RecordCollection</code> to a file, the written file’s format is identical to those download from WOS. The order of <code>Records</code> written is random.</p>
 
-<p>fname set the name of the file, if blank the RecordCollection’s name’s first 200 characters are use with the suffix .isi</p>
+<h6 id="parameters-38">Parameters</h6>
+
+<p><em>fname</em> : <code>optional [str]</code></p>
+
+<p>Default <code>None</code>, if given the output file will written to <em>fanme</em>, if <code>None</code> the <code>RecordCollection</code>’s name’s first 200 characters are used with the suffix .isi</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
@@ -1485,66 +1661,79 @@ bad, searches for bad citations, keyString is not used</p>
   </tbody>
 </table>
 
-<p>Writes all the Records from the collection into a csv file with each row a record and each column a tag</p>
+<p>Writes all the <code>Records</code> from the collection into a csv file with each row a record and each column a tag.</p>
 
-<p>fname is the name of the file to write to, if none is given it uses the Collections name suffixed by .csv</p>
+<h6 id="parameters-39">Parameters</h6>
 
-<p>onlyTheseTags lets you specify which tags to use, if not given then all tags in the records are given.
-If you want to use all known tags the use onlyTheseTags = metaknowledge.knownTagsList</p>
+<p><em>fname</em> : <code>optional [str]</code></p>
 
-<p>numAuthors adds the number of auhtors as the column numAuthors</p>
+<p>Default <code>None</code>, the name of the file to write to, if <code>None</code> it uses the collections name suffixed by .csv.</p>
 
-<p>longNames if set to True will convert the tags to their longer names, otherwise the short 2 character ones will be used</p>
+<p><em>onlyTheseTags</em> : <code>optional [iterable]</code></p>
 
-<p>firstTags is the column’s tags, it is set by default to [‘UT’, ‘PT’, ‘TI’, ‘AF’, ‘CR’] so those will be written first if given by onlyTheseTags.
-Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will override onlyTheseTags</p>
+<p>Default <code>None</code>, if an iterable (list, tuple, etc) only the tags in <em>onlyTheseTags</em> will be used, if not given then all tags in the records are given.</p>
 
-<p>csvDelimiter is the delimiter used for the cells of the csv file, default is the comma (,)</p>
+<p>If you want to use all known tags pass <a href="/metaknowledge/documentation/metaknowledgeFull.html#tagProcessing"><code>metaknowledge.knownTagsList</code></a>.</p>
 
-<p>csvQuote is  the quote character used for the csv, default is the double quote (“)</p>
+<p><em>numAuthors</em> : <code>optional [bool]</code></p>
 
-<table>
-  <tbody>
-    <tr>
-      <td>listDelimiter is the delimiter used between values of the same cell if the tag for that record has multiple outputs, default is the pipe (</td>
-      <td>)</td>
-    </tr>
-  </tbody>
-</table>
+<p>Default <code>True</code>, if <code>True</code> adds the number of authors as the column <code>'numAuthors'</code>.</p>
+
+<p><em>longNames</em> : <code>optional [bool]</code></p>
+
+<p>Default <code>False</code>, if <code>True</code> will convert the tags to their longer names, otherwise the short 2 character ones will be used.</p>
+
+<p><em>firstTags</em> : <code>optional [iterable]</code></p>
+
+<p>Default <code>None</code>, if <code>None</code> the iterable <code>['UT', 'PT', 'TI', 'AF', 'CR']</code> is used. The tags given by the iterable are the first ones in the csv in the order given.</p>
+
+<p><strong>Note</strong> if tags are in <em>firstTags</em> but not in <em>onlyTheseTags</em>, <em>onlyTheseTags</em> will override <em>firstTags</em></p>
+
+<p><em>csvDelimiter</em> : <code>optional [str]</code></p>
+
+<p>Default <code>','</code>, the delimiter used for the cells of the csv file.</p>
+
+<p><em>csvQuote</em> : <code>optional [str]</code></p>
+
+<p>Default <code>'"'</code>, the quote character used for the csv.</p>
+
+<p><em>listDelimiter</em> : <code>optional [str]</code></p>
+
+<p>Default <code>'|'</code>, the delimiter used between values of the same cell if the tag for that record has multiple outputs.</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="writeBib"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#writeBib"><ins>writeBib</ins></a></strong>(<em>fname=None, maxStringLength=1000, wosMode=False, reducedOutput=False, niceIDs=True</em>):</p>
 
-<p>Writes a bibTex entry to <em>fname</em> for each Record in the collection.</p>
+<p>Writes a bibTex entry to <em>fname</em> for each <code>Record</code> in the collection.</p>
 
 <p>If the Record is of a journal article (PT J) the bibtext type is set to <code>'article'</code>, otherwise it is set to <code>'misc'</code>. The ID of the entry is the WOS number and all the Record’s fields are given as entries with their long names.</p>
 
-<p><strong>Note</strong> This is not meant to be used directly with LaTeX none of the special characters have been escaped and there are a large number of unnecessary fields provided.</p>
+<p><strong>Note</strong> This is not meant to be used directly with LaTeX none of the special characters have been escaped and there are a large number of unnecessary fields provided. <em>niceID</em> and <em>maxLength</em> have been provided to make conversions easier only.</p>
 
-<p><strong>Note</strong> Record entries that are lists have their values seperated with the string <code>' and '</code>, as this is the way bibTex understands</p>
+<p><strong>Note</strong> Record entries that are lists have their values separated with the string <code>' and '</code>, as this is the way bibTex understands</p>
 
-<h6 id="parameters-30">Parameters</h6>
+<h6 id="parameters-40">Parameters</h6>
 
 <p><em>fname</em> : <code>optional [str]</code></p>
 
-<p>default <code>None</code>, The name of the file to be written. If not given one will be derived from the collection and the file will be written to .</p>
+<p>Default <code>None</code>, The name of the file to be written. If not given one will be derived from the collection and the file will be written to .</p>
 
 <p><em>maxStringLength</em> : <code>optional [int]</code></p>
 
-<p>default 1000, The max length for a continuous string. Most bibTex implementation only allow string to be up to 1000 characters (<a href="https://www.cs.arizona.edu/~collberg/Teaching/07.231/BibTeX/bibtex.html">source</a>), this splits them up into substrings then uses the native string concatenation (the <code>'#'</code> character) to allow for longer strings</p>
+<p>Default 1000, The max length for a continuous string. Most bibTex implementation only allow string to be up to 1000 characters (<a href="https://www.cs.arizona.edu/~collberg/Teaching/07.231/BibTeX/bibtex.html">source</a>), this splits them up into substrings then uses the native string concatenation (the <code>'#'</code> character) to allow for longer strings</p>
 
 <p><em>WOSMode</em> : <code>optional [bool]</code></p>
 
-<p>default <code>False</code>, if <code>True</code> the data produced will be unprocessed and use double curly braces. This is the style WOS produces bib files in and mostly macthes that.</p>
+<p>Default <code>False</code>, if <code>True</code> the data produced will be unprocessed and use double curly braces. This is the style WOS produces bib files in and mostly macthes that.</p>
 
 <p><em>restrictedOutput</em> : <code>optional [bool]</code></p>
 
-<p>default <code>False</code>, if <code>True</code> the tags output will be limited to: <code>'AF'</code>, <code>'BF'</code>, <code>'ED'</code>, <code>'TI'</code>, <code>'SO'</code>, <code>'LA'</code>, <code>'NR'</code>, <code>'TC'</code>, <code>'Z9'</code>, <code>'PU'</code>, <code>'J9'</code>, <code>'PY'</code>, <code>'PD'</code>, <code>'VL'</code>, <code>'IS'</code>, <code>'SU'</code>, <code>'PG'</code>, <code>'DI'</code>, <code>'D2'</code>, and <code>'UT'</code></p>
+<p>Default <code>False</code>, if <code>True</code> the tags output will be limited to: <code>'AF'</code>, <code>'BF'</code>, <code>'ED'</code>, <code>'TI'</code>, <code>'SO'</code>, <code>'LA'</code>, <code>'NR'</code>, <code>'TC'</code>, <code>'Z9'</code>, <code>'PU'</code>, <code>'J9'</code>, <code>'PY'</code>, <code>'PD'</code>, <code>'VL'</code>, <code>'IS'</code>, <code>'SU'</code>, <code>'PG'</code>, <code>'DI'</code>, <code>'D2'</code>, and <code>'UT'</code></p>
 
 <p><em>niceID</em> : <code>optional [bool]</code></p>
 
-<p>default <code>True</code>, if <code>True</code> the IDs used will be derived from the authors, publishing date and title, if <code>False</code> it will be the UT tag</p>
+<p>Default <code>True</code>, if <code>True</code> the IDs used will be derived from the authors, publishing date and title, if <code>False</code> it will be the UT tag</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
@@ -1552,11 +1741,27 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>Returns a dict with each key a tag and the values being lists of the values for each of the Records in the collection, <code>None</code> is given when there is no value and they are in the same order across each tag.</p>
 
-<p>When used in pandas: <code>pandas.DataFrame(RC.makeDict())</code> returns a data frame with each column a tag and each row a Record.</p>
+<p>When used with pandas: <code>pandas.DataFrame(RC.makeDict())</code> returns a data frame with each column a tag and each row a Record.</p>
 
-<h6 id="parameters-31">Parameters</h6>
+<h6 id="parameters-41">Parameters</h6>
 
-<p>See writeCSV()</p>
+<p><em>onlyTheseTags</em> : <code>optional [iterable]</code></p>
+
+<p>Default <code>None</code>, if an iterable (list, tuple, etc) only the tags in <em>onlyTheseTags</em> will be used, if not given then all tags in the records are given.</p>
+
+<p>If you want to use all known tags pass <a href="/metaknowledge/documentation/metaknowledgeFull.html#tagProcessing"><code>metaknowledge.knownTagsList</code></a>.</p>
+
+<p><em>longNames</em> : <code>optional [bool]</code></p>
+
+<p>Default <code>False</code>, if <code>True</code> will convert the tags to their longer names, otherwise the short 2 character ones will be used.</p>
+
+<p><em>cleanedVal</em> : <code>optional [bool]</code></p>
+
+<p>Default <code>True</code>, if <code>True</code> the processed values for each <code>Record</code>’s field will be provided, otherwise the raw values are given.</p>
+
+<p><em>numAuthors</em> : <code>optional [bool]</code></p>
+
+<p>Default <code>True</code>, if <code>True</code> adds the number of authors as the column <code>'numAuthors'</code>.</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
@@ -1564,31 +1769,31 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>Creates a coauthorship network for the RecordCollection.</p>
 
-<h6 id="parameters-32">Parameters</h6>
+<h6 id="parameters-42">Parameters</h6>
 
 <p><em>detailedInfo</em> : <code>optional [bool or iterable[WOS tag Strings]]</code></p>
 
-<p>default <code>False</code>, if <code>True</code> all nodes will be given info strings composed of information from the Record objects themselves. This is Equivalent to passing the list: <code>['PY', 'TI', 'SO', 'VL', 'BP']</code>.</p>
+<p>Default <code>False</code>, if <code>True</code> all nodes will be given info strings composed of information from the Record objects themselves. This is Equivalent to passing the list: <code>['PY', 'TI', 'SO', 'VL', 'BP']</code>.</p>
 
 <p>If <em>detailedInfo</em> is an iterable (that evaluates to <code>True</code>) of WOS Tags (or long names) The values  of those tags will be used to make the info attributes.</p>
 
 <p>For each of the selected tags an attribute will be added to the node using the values of those tags on the first <code>Record</code> encountered. <strong>Warning</strong> iterating over <code>RecordCollection</code> objects is not deterministic the first <code>Record</code> will not always be same between runs. The node will be given attributes with the names of the WOS tags for each of the selected tags. The attributes will contain strings of containing the values (with commas removed), if multiple values are encountered they will be comma separated.</p>
 
-<p>Note: <em>detailedInfo</em> is not identical to the <em>detailedCore</em> argument of <a href="/metaknowledge/docs/RecordCollection#coCiteNetwork"><code>Recordcollection.coCiteNetwork()</code></a> or <a href="/metaknowledge/docs/RecordCollection#citationNetwork"><code>Recordcollection.citationNetwork()</code></a></p>
+<p>Note: <em>detailedInfo</em> is not identical to the <em>detailedCore</em> argument of <a href="/metaknowledge/documentation/metaknowledgeFull.html#coCiteNetwork"><code>Recordcollection.coCiteNetwork()</code></a> or <a href="/metaknowledge/documentation/metaknowledgeFull.html#citationNetwork"><code>Recordcollection.citationNetwork()</code></a></p>
 
 <p><em>weighted</em> : <code>optional [bool]</code></p>
 
-<p>default <code>True</code>, wether the edges are weighted. If <code>True</code> the edges are weighted by the number of co-authorships.</p>
+<p>Default <code>True</code>, wether the edges are weighted. If <code>True</code> the edges are weighted by the number of co-authorships.</p>
 
 <p><em>dropNonJournals</em> : <code>optional [bool]</code></p>
 
-<p>default <code>False</code>, wether to drop authors from non-journals</p>
+<p>Default <code>False</code>, wether to drop authors from non-journals</p>
 
 <p><em>count</em> : <code>optional [bool]</code></p>
 
-<p>default <code>True</code>, causes the number of occurrences of a node to be counted</p>
+<p>Default <code>True</code>, causes the number of occurrences of a node to be counted</p>
 
-<h6 id="returns-27">Returns</h6>
+<h6 id="returns-33">Returns</h6>
 
 <p><code>Networkx Graph</code></p>
 
@@ -1600,11 +1805,11 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>Creates a co-citation network for the RecordCollection.</p>
 
-<h6 id="parameters-33">Parameters</h6>
+<h6 id="parameters-43">Parameters</h6>
 
 <p><em>nodeType</em> : <code>optional [str]</code></p>
 
-<p>One of <code>"full"</code>, <code>"original"</code>, <code>"author"</code>, <code>"journal"</code> or <code>"year"</code>. Specifies the value of the nodes in the graph. The default <code>"full"</code> causes the citations to be compared holistically using the <a href="/metaknowledge/docs/Citation#Citation"><code>metaknowledge.Citation</code></a> builtin comparison operators. <code>"original"</code> uses the raw original strings of the citations. While <code>"author"</code>, <code>"journal"</code> and <code>"year"</code> each use the author, journal and year respectively.</p>
+<p>One of <code>"full"</code>, <code>"original"</code>, <code>"author"</code>, <code>"journal"</code> or <code>"year"</code>. Specifies the value of the nodes in the graph. The default <code>"full"</code> causes the citations to be compared holistically using the <a href="/metaknowledge/documentation/metaknowledgeFull.html#Citation"><code>metaknowledge.Citation</code></a> builtin comparison operators. <code>"original"</code> uses the raw original strings of the citations. While <code>"author"</code>, <code>"journal"</code> and <code>"year"</code> each use the author, journal and year respectively.</p>
 
 <p><em>dropAnon</em> : <code>optional [bool]</code></p>
 
@@ -1642,7 +1847,7 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>The resultant string is the values of each tag, with commas removed, seperated by <code>', '</code>, just like the info given by non-core Citations. Note that for tags like <code>'AF'</code> that return lists only the first entry in the list will be used. Also a second attribute is created for all nodes called inCore wich is a boolean describing if the node is in the core or not.</p>
 
-<p>Note: <em>detailedCore</em>  is not identical to the <em>detailedInfo</em> argument of <a href="/metaknowledge/docs/RecordCollection#coAuthNetwork"><code>Recordcollection.coAuthNetwork()</code></a></p>
+<p>Note: <em>detailedCore</em>  is not identical to the <em>detailedInfo</em> argument of <a href="/metaknowledge/documentation/metaknowledgeFull.html#coAuthNetwork"><code>Recordcollection.coAuthNetwork()</code></a></p>
 
 <p><em>coreOnly</em> : <code>optional [bool]</code></p>
 
@@ -1652,7 +1857,7 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>default <code>False</code>, if <code>True</code> all citations in the ouput graph that are records in the collection will be duplicated for each author. If the nodes are <code>"full"</code>, <code>"original"</code> or <code>"author"</code> this will result in new noded being created for the other options the results are <strong>not</strong> defined or tested. Edges will be created between each of the nodes for each record expanded, attributes will be copied from exiting nodes.</p>
 
-<h6 id="returns-28">Returns</h6>
+<h6 id="returns-34">Returns</h6>
 
 <p><code>Networkx Graph</code></p>
 
@@ -1664,11 +1869,11 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>Creates a citation network for the RecordCollection.</p>
 
-<h6 id="parameters-34">Parameters</h6>
+<h6 id="parameters-44">Parameters</h6>
 
 <p><em>nodeType</em> : <code>optional [str]</code></p>
 
-<p>One of <code>"full"</code>, <code>"original"</code>, <code>"author"</code>, <code>"journal"</code> or <code>"year"</code>. Specifies the value of the nodes in the graph. The default <code>"full"</code> causes the citations to be compared holistically using the <a href="/metaknowledge/docs/Citation#Citation"><code>metaknowledge.Citation</code></a> builtin comparison operators. <code>"original"</code> uses the raw original strings of the citations. While <code>"author"</code>, <code>"journal"</code> and <code>"year"</code> each use the author, journal and year respectively.</p>
+<p>One of <code>"full"</code>, <code>"original"</code>, <code>"author"</code>, <code>"journal"</code> or <code>"year"</code>. Specifies the value of the nodes in the graph. The default <code>"full"</code> causes the citations to be compared holistically using the <a href="/metaknowledge/documentation/metaknowledgeFull.html#Citation"><code>metaknowledge.Citation</code></a> builtin comparison operators. <code>"original"</code> uses the raw original strings of the citations. While <code>"author"</code>, <code>"journal"</code> and <code>"year"</code> each use the author, journal and year respectively.</p>
 
 <p><em>dropAnon</em> : <code>optional [bool]</code></p>
 
@@ -1710,7 +1915,7 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>The resultant string is the values of each tag, with commas removed, seperated by <code>', '</code>, just like the info given by non-core Citations. Note that for tags like <code>'AF'</code> that return lists only the first entry in the list will be used. Also a second attribute is created for all nodes called inCore wich is a boolean describing if the node is in the core or not.</p>
 
-<p>Note: <em>detailedCore</em>  is not identical to the <em>detailedInfo</em> argument of <a href="/metaknowledge/docs/RecordCollection#coAuthNetwork"><code>Recordcollection.coAuthNetwork()</code></a></p>
+<p>Note: <em>detailedCore</em>  is not identical to the <em>detailedInfo</em> argument of <a href="/metaknowledge/documentation/metaknowledgeFull.html#coAuthNetwork"><code>Recordcollection.coAuthNetwork()</code></a></p>
 
 <p><em>coreOnly</em> : <code>optional [bool]</code></p>
 
@@ -1720,7 +1925,7 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>default <code>False</code>, if <code>True</code> all citations in the ouput graph that are records in the collection will be duplicated for each author. If the nodes are <code>"full"</code>, <code>"original"</code> or <code>"author"</code> this will result in new noded being created for the other options the results are <strong>not</strong> defined or tested. Edges will be created between each of the nodes for each record expanded, attributes will be copied from exiting nodes.</p>
 
-<h6 id="returns-29">Returns</h6>
+<h6 id="returns-35">Returns</h6>
 
 <p><code>Networkx DiGraph or Networkx Graph</code></p>
 
@@ -1734,21 +1939,21 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>Creates a RecordCollection of Records from the years between <em>startYear</em> and <em>endYear</em> inclusive.</p>
 
-<h6 id="parameters-35">Parameters</h6>
+<h6 id="parameters-45">Parameters</h6>
 
 <p><em>startYear</em> : <code>int</code></p>
 
-<p>The smallest year to be included in the retuned RecordCollection</p>
+<p>The smallest year to be included in the returned RecordCollection</p>
 
 <p><em>endYear</em> : <code>int</code></p>
 
-<p>The largest year to be included in the retuned RecordCollection</p>
+<p>The largest year to be included in the returned RecordCollection</p>
 
 <p><em>dropMissingYears</em> : <code>optional [bool]</code></p>
 
 <p>Default <code>True</code>, if <code>True</code> Records with missing years will be dropped. If <code>False</code> a <code>TypeError</code> exception will be raised</p>
 
-<h6 id="returns-30">Returns</h6>
+<h6 id="returns-36">Returns</h6>
 
 <p><code>RecordCollection</code></p>
 
@@ -1760,13 +1965,13 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>Creates a network of the objects found by one WOS tag <em>mode</em>.</p>
 
-<p>A <strong>oneModeNetwork()</strong> looks are each Record in the RecordCollection and extracts its values for the tag given by <em>mode</em>, e.g. the <code>"AF"</code> tag. Then if multiple are returned an edge is created between them. So in the case of the author tag <code>"AF"</code> a co-authorship network is created.</p>
+<p>A <strong>oneModeNetwork</strong>() looks are each Record in the RecordCollection and extracts its values for the tag given by <em>mode</em>, e.g. the <code>'AF'</code> tag. Then if multiple are returned an edge is created between them. So in the case of the author tag <code>'AF'</code> a co-authorship network is created.</p>
 
 <p>The number of times each object occurs is count if <em>nodeCount</em> is <code>True</code> and the edges count the number of co-occurrences if <em>edgeWeight</em> is <code>True</code>. Both are<code>True</code> by default.</p>
 
-<p><strong>Note</strong> Do not use this for the construction of co-citation networks use <a href="/metaknowledge/docs/RecordCollection#coCiteNetwork">Recordcollection.coCiteNetwork()</a> it is more accurate and has more options.</p>
+<p><strong>Note</strong> Do not use this for the construction of co-citation networks use <a href="/metaknowledge/documentation/metaknowledgeFull.html#coCiteNetwork">Recordcollection.coCiteNetwork()</a> it is more accurate and has more options.</p>
 
-<h6 id="parameters-36">Parameters</h6>
+<h6 id="parameters-46">Parameters</h6>
 
 <p><em>mode</em> : <code>str</code></p>
 
@@ -1782,11 +1987,11 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p><em>stemmer</em> : <code>optional [func]</code></p>
 
-<p>default <code>None</code>, If <em>stemmer</em> is a callable object, basically a function or possibly a class, it will be called for the ID of every node in the graph, all IDs are strings. For example:</p>
+<p>Default <code>None</code>, If <em>stemmer</em> is a callable object, basically a function or possibly a class, it will be called for the ID of every node in the graph, all IDs are strings. For example:</p>
 
 <p>The function ` f = lambda x: x[0]<code> if given as the stemmer will cause all IDs to be the first character of their unstemmed IDs. e.g. the title </code>‘Goos-Hanchen and Imbert-Fedorov shifts for leaky guided modes’<code> will create the node </code>‘G’`.</p>
 
-<h6 id="returns-31">Returns</h6>
+<h6 id="returns-37">Returns</h6>
 
 <p><code>networkx Graph</code></p>
 
@@ -1797,32 +2002,88 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <h1 id="visualmetaknowledgedocumentationmetaknowledgefullhtmlvisual"><a href="/metaknowledge/documentation/metaknowledgeFull.html#visual">visual</a></h1>
 
-<p>visual docstring</p>
+<p>Two functions based on <em>matplotlib</em> for generating nicer looking graphs</p>
+
+<p>This is the only module that depends on anything besides <em>networkx</em>, as it depends on <em>numpy</em>, <em>scipy</em> and <em>matplotlib</em> in addition to <em>networkx</em>.</p>
 
 <p>The visual module provides the following functions:</p>
 
 <ul class="post-list">
-<li><article><a href="#graphDensityContourPlot"><b>graphDensityContourPlot</b>(<i>G, layout=None, layoutScaleFactor=1, shifAxis=False, overlay=False, axisSamples=100, blurringFactor=0.1, contours=15, nodeSize=10, graphType='coloured', iters=50</i>)</a></article></li>
+<li><article><a href="#graphDensityContourPlot"><b>graphDensityContourPlot</b>(<i>G, iters=50, layout=None, layoutScaleFactor=1, overlay=False, nodeSize=10, axisSamples=100, blurringFactor=0.1, contours=15, graphType='coloured'</i>)</a></article></li>
 <li><article><a href="#quickVisual"><b>quickVisual</b>(<i>G, showLabel=False</i>)</a></article></li>
 </ul>
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="graphDensityContourPlot"></a><small>visual.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#graphDensityContourPlot"><ins>graphDensityContourPlot</ins></a></strong>(<em>G, layout=None, layoutScaleFactor=1, shifAxis=False, overlay=False, axisSamples=100, blurringFactor=0.1, contours=15, nodeSize=10, graphType=’coloured’, iters=50</em>):</p>
+<p><a name="graphDensityContourPlot"></a><small>visual.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#graphDensityContourPlot"><ins>graphDensityContourPlot</ins></a></strong>(<em>G, iters=50, layout=None, layoutScaleFactor=1, overlay=False, nodeSize=10, axisSamples=100, blurringFactor=0.1, contours=15, graphType=’coloured’</em>):</p>
 
-<p>Requires numpy and matplotlib</p>
+<p>Creates a 3D plot giving the density of nodes on a 2D layout as a surface in 3 dimensions.</p>
 
-<p>graphType is either “coloured or “solid”</p>
+<p>Most of the options are for tweaking the final appearance. <em>layout</em> and <em>layoutScaleFactor</em> allow a pre-layout graph to be provided. If a layout is not provided the <a href="https://networkx.github.io/documentation/latest/reference/generated/networkx.drawing.layout.spring_layout.html">networkx.<strong>spring_layout</strong>()</a> is used after <em>iters</em> iterations. Then, once the graph has been laid out a grid of <em>axisSamples</em> cells by <em>axisSamples</em> cells is overlaid and the number of nodes in each cell is determined. This then forms a surface in 3-space, gaussian blur is applied with a sigma of <em>blurringFactor</em>. The surface is then be plotted.</p>
+
+<h6 id="parameters-47">Parameters</h6>
+
+<p><em>G</em> : <code>networkx Graph</code></p>
+
+<p>The graph to be plotted</p>
+
+<p><em>iters</em> : <code>optional [int]</code></p>
+
+<p>Default <code>50</code>, the number of iterations for the spring layout if <em>layout</em> is not provided.</p>
+
+<p><em>layout</em> : <code>optional [networkx layout dictionary]</code></p>
+
+<p>Default <code>None</code>, if provided will be used as a layout of the graph, the maximum distance from the origin along any axis must also given as <em>layoutScaleFactor</em>, which is by default <code>1</code>.</p>
+
+<p><em>layoutScaleFactor</em> : <code>optional [double]</code></p>
+
+<p>Default <code>1</code>, The maximum distance from the origin allowed along any axis given by <em>layout</em>, i.e. the layout must fit in a square centered at the origin with side lengths 2 * <em>layoutScaleFactor</em></p>
+
+<p><em>overlay</em> : <code>optional [bool]</code></p>
+
+<p>Default <code>False</code>, if <code>True</code> the graph will be plotted on the X-Y plane at Z = 0.</p>
+
+<p><em>nodeSize</em> : <code>optional [double]</code></p>
+
+<p>Default <code>10</code>, the size of the nodes dawn in the overlay</p>
+
+<p><em>axisSamples</em> : <code>optional [int]</code></p>
+
+<p>Default 100, the number of cells used along each axis for sampling. A larger number will mean a lower average density.</p>
+
+<p><em>blurringFactor</em> : <code>optional [double]</code></p>
+
+<p>Default <code>0.1</code>, the sigma value used for smoothing the surface density. The higher this number the smoother the surface.</p>
+
+<p><em>contours</em> : <code>optional [int]</code></p>
+
+<p>Default 15, the number of different heights drawn. If this number is low the resultant image will look very banded. It is recommended this be raised above <code>50</code> if you want your images to look good, <strong>Warning</strong> this will make them much slower to generate and interact with.</p>
+
+<p><em>graphType</em> : <code>optional [str]</code></p>
+
+<p>Default <code>'coloured'</code>, if <code>'coloured'</code> the image will have a destiny based colourization applied, the only other option is <code>'solid'</code> which removes the colourization.</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="quickVisual"></a><small>visual.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#quickVisual"><ins>quickVisual</ins></a></strong>(<em>G, showLabel=False</em>):</p>
 
-<p>just makes a simple matplotlib figure and displays it, with each node coloured by its type</p>
+<p>just makes a simple matplotlib figure and displays it, with each node coloured by its type. You can add labels with <em>showLabel</em>.</p>
+
+<h6 id="parameters-48">Parameters</h6>
+
+<p><em>showLabel</em> : <code>optional [bool]</code></p>
+
+<p>Default <code>False</code>, if <code>True</code> labels will be added to the nodes giving their IDs.</p>
 
 <hr />
 <p><a name="journalAbbreviations"></a></p>
 
 <h1 id="journalabbreviationsmetaknowledgedocumentationmetaknowledgefullhtmljournalabbreviations"><a href="/metaknowledge/documentation/metaknowledgeFull.html#journalAbbreviations">journalAbbreviations</a></h1>
+
+<p>This module handles the abbreviations, known as J29 abbreviations and given by the J9 tag in records, for journal titles that WOS employs in citations.</p>
+
+<p>The citations provided by WOS used abbreviated journal titles instead of the full names. The full list of abbreviations can be found at a series pages divided by letter starting at <a href="http://images.webofknowledge.com/WOK46/help/WOS/A_abrvjt.html">images.webofknowledge.com/WOK46/help/WOS/A_abrvjt.html</a>. The function <a href="#getj9dict"><strong>updatej9DB</strong>()</a> is used to scape and parse the pages, it must be run without error before the other features can be used. <em>metaknowledge</em> will try running it once during the installation but it could easily have been canceled or failed so it is best to it manually. <strong>updatej9DB</strong>() creates a database in the <em>metaknowledge</em> install directory that gives each abbreviation and the titles it corresponds to, note there can be many titles for one abbreviation. The database can be accessed as a dictionary with <a href="#getj9dict"><strong>getj9dict</strong>()</a>.</p>
+
+<p>The other functions of the module are for manually adding and removing abbreviations from the database. It is recommended that this be done with the command-line tool <code>metaknowledge</code>, unless you know what you are doing.</p>
 
 <p>The journalAbbreviations module provides the following functions:</p>
 
@@ -1836,13 +2097,21 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p><a name="getj9dict"></a><small>journalAbbreviations.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#getj9dict"><ins>getj9dict</ins></a></strong>(<em>dbname=’j9Abbreviations’, manualDB=’manualj9Abbreviations’, returnDict=’both’</em>):</p>
 
-<p>Returns the dictionary of journal abbreviations to a list of the associated journal names. By default the local database is used. The database is in the file <em>dbname</em> in the same directory as this source file</p>
+<p>Returns the dictionary of journal abbreviations mapping to a list of the associated journal names. By default the local database is used. The database is in the file <em>dbname</em> in the same directory as this source file</p>
 
-<h6 id="parameters-37">Parameters</h6>
+<h6 id="parameters-49">Parameters</h6>
 
 <p><em>dbname</em> : <code>optional [str]</code></p>
 
-<p>The name of the database file</p>
+<p>The name of the downloaded database file, the default is determined at run time. It is recommended that this remain untouched.</p>
+
+<p><em>manaulDB</em> : <code>optional [str]</code></p>
+
+<p>The name of the manually created database file, the default is determined at run time. It is recommended that this remain untouched.</p>
+
+<p><em>returnDict</em> : <code>optional [str]</code></p>
+
+<p>default <code>'both'</code>, can be used to get both databases or only one  with <code>'WOS'</code> or <code>'manual'</code>.</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
@@ -1850,7 +2119,7 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>Adds <em>abbr</em> to the database of journals. The database is kept separate from the one scraped from WOS, this supersedes it. The database by default is stored with the WOS one and the name is given by <code>metaknowledge.journalAbbreviations.manaulDBname</code>. To create an empty database run <strong>addToDB</strong> without an <em>abbr</em> argument.</p>
 
-<h6 id="parameters-38">Parameters</h6>
+<h6 id="parameters-50">Parameters</h6>
 
 <p><em>abbr</em> : <code>optional [str or dict[str : str]]</code></p>
 
@@ -1864,9 +2133,9 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p><a name="excludeFromDB"></a><small>journalAbbreviations.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#excludeFromDB"><ins>excludeFromDB</ins></a></strong>(<em>abbr=None, dbname=’manualj9Abbreviations’</em>):</p>
 
-<p>Marks <em>abbr</em> to be excluded the database of journals. The database is kept separate from the one scraped from WOS, this supersedes it. The database by default is stored with the WOS one and the name is given by <code>metaknowledge.journalAbbreviations.manaulDBname</code>. To create an empty database run <strong>addToDB</strong> without an <em>abbr</em> argument.</p>
+<p>Marks <em>abbr</em> to be excluded the database of journals. The database is kept separate from the one scraped from WOS, this supersedes it. The database by default is stored with the WOS one and the name is given by <code>metaknowledge.journalAbbreviations.manaulDBname</code>. To create an empty database run <a href="/metaknowledge/documentation/metaknowledgeFull.html#addToDB"><strong>addToDB</strong>()</a> without an <em>abbr</em> argument.</p>
 
-<h6 id="parameters-39">Parameters</h6>
+<h6 id="parameters-51">Parameters</h6>
 
 <p><em>abbr</em> : <code>optional [str or tuple[str] or list[str]</code></p>
 
@@ -1882,7 +2151,7 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>Updates the database of Journal Title Abbreviations. Requires an internet connection. The data base is saved relative to the source file not the working directory.</p>
 
-<h6 id="parameters-40">Parameters</h6>
+<h6 id="parameters-52">Parameters</h6>
 
 <p><em>dbname</em> : <code>optional [str]</code></p>
 
@@ -1912,9 +2181,9 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 ]
 </code></pre>
 
-<p>The function to process it is called <a href="#title"><code>title()</code></a> which is determined by looking up the tag in the <code>tagProcessing.tagToFunc</code> dictionary. Which is a dictionary mapping WOS tag strings to their functions. For a simple mapping of tags to their long strings use <a href="#metaknowledge"><code>metaknowledge.tagToFull</code></a>.</p>
+<p>The function to process it is called <a href="#title"><strong>title</strong>()</a> which is determined by looking up the tag in the <code>tagProcessing.tagToFunc</code> dictionary. Which is a dictionary mapping WOS tag strings to their functions. For a simple mapping of tags to their long strings use <a href="#metaknowledge"><code>metaknowledge.tagToFull</code></a>.</p>
 
-<p>The objects <code>tagToFullDict</code>, <code>fullToTagDict</code>, <code>tagNameConverterDict</code>, <code>tagsAndNameSet</code> and <code>knownTagsList</code> are also provided. They are the objects used by metaknowledge to keep track of tag names. <code>tagToFullDict</code> and <code>fullToTagDict</code> are dictionaries that convert from tags to full names and vice versa, respectively, while <code>tagNameConverterDict</code> goes both ways. <code>tagsAndNameSet</code> is a set of all full names and tags, while <code>knownTagsList</code> contains only tags and is a list. For a less raw interface look the functions provided by the base metaknowledge module, e.g. <a href="#tagToFull"><code>tagToFull()</code></a>.</p>
+<p>The objects <code>tagToFullDict</code>, <code>fullToTagDict</code>, <code>tagNameConverterDict</code>, <code>tagsAndNameSet</code> and <code>knownTagsList</code> are also provided. They are the objects used by <em>metaknowledge</em> to keep track of tag names. <code>tagToFullDict</code> and <code>fullToTagDict</code> are dictionaries that convert from tags to full names and vice versa, respectively, while <code>tagNameConverterDict</code> goes both ways. <code>tagsAndNameSet</code> is a set of all full names and tags, while <code>knownTagsList</code> contains only tags and is a list. For a less raw interface look the functions provided by the base <em>metaknowledge</em> module, e.g. <a href="#tagToFull"><strong>tagToFull</strong>()</a>.</p>
 
 <p>The full list of tags and their long names is provided below followed by the descriptions of the functions, they are ordered by their occurrence in WOS records:</p>
 
@@ -2181,13 +2450,13 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>extracts the type of publication as a character: conference, book, journal, book in series, or patent</p>
 
-<h6 id="parameters-41">Parameters</h6>
+<h6 id="parameters-53">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-32">Returns</h6>
+<h6 id="returns-38">Returns</h6>
 
 <p><code>str</code></p>
 
@@ -2201,13 +2470,13 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>extracts a list of authors full names</p>
 
-<h6 id="parameters-42">Parameters</h6>
+<h6 id="parameters-54">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-33">Returns</h6>
+<h6 id="returns-39">Returns</h6>
 
 <p><code>list[str]</code></p>
 
@@ -2221,13 +2490,13 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>extracts the group associated with the Record</p>
 
-<h6 id="parameters-43">Parameters</h6>
+<h6 id="parameters-55">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-34">Returns</h6>
+<h6 id="returns-40">Returns</h6>
 
 <p><code>str</code></p>
 
@@ -2241,13 +2510,13 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>extracts a list of the editors of the Record</p>
 
-<h6 id="parameters-44">Parameters</h6>
+<h6 id="parameters-56">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-35">Returns</h6>
+<h6 id="returns-41">Returns</h6>
 
 <p><code>list[str]</code></p>
 
@@ -2261,13 +2530,13 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>extracts a list of authors shortened names</p>
 
-<h6 id="parameters-45">Parameters</h6>
+<h6 id="parameters-57">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-36">Returns</h6>
+<h6 id="returns-42">Returns</h6>
 
 <p><code>list[str]</code></p>
 
@@ -2281,13 +2550,13 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>extracts a list of the short names of the authors of a book Record</p>
 
-<h6 id="parameters-46">Parameters</h6>
+<h6 id="parameters-58">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-37">Returns</h6>
+<h6 id="returns-43">Returns</h6>
 
 <p><code>list[str]</code></p>
 
@@ -2301,13 +2570,13 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>extracts a list of the long names of the authors of a book Record</p>
 
-<h6 id="parameters-47">Parameters</h6>
+<h6 id="parameters-59">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-38">Returns</h6>
+<h6 id="returns-44">Returns</h6>
 
 <p><code>list[str]</code></p>
 
@@ -2321,13 +2590,13 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>extracts the name of the group associated with the Record</p>
 
-<h6 id="parameters-48">Parameters</h6>
+<h6 id="parameters-60">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-39">Returns</h6>
+<h6 id="returns-45">Returns</h6>
 
 <p><code>str</code></p>
 
@@ -2349,13 +2618,13 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>extracts the title of the record</p>
 
-<h6 id="parameters-49">Parameters</h6>
+<h6 id="parameters-61">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-40">Returns</h6>
+<h6 id="returns-46">Returns</h6>
 
 <p><code>str</code></p>
 
@@ -2369,13 +2638,13 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>extracts the full name of the publication and normalizes it to uppercase</p>
 
-<h6 id="parameters-50">Parameters</h6>
+<h6 id="parameters-62">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-41">Returns</h6>
+<h6 id="returns-47">Returns</h6>
 
 <p><code>str</code></p>
 
@@ -2389,13 +2658,13 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>extracts the title of the series the Record is in</p>
 
-<h6 id="parameters-51">Parameters</h6>
+<h6 id="parameters-63">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-42">Returns</h6>
+<h6 id="returns-48">Returns</h6>
 
 <p><code>str</code></p>
 
@@ -2409,13 +2678,13 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>extracts the title of the series the Record is in</p>
 
-<h6 id="parameters-52">Parameters</h6>
+<h6 id="parameters-64">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-43">Returns</h6>
+<h6 id="returns-49">Returns</h6>
 
 <p><code>str</code></p>
 
@@ -2429,13 +2698,13 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>extracts the languages of the Record as a string with languages separated by ‘, ‘, usually there is only one language</p>
 
-<h6 id="parameters-53">Parameters</h6>
+<h6 id="parameters-65">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-44">Returns</h6>
+<h6 id="returns-50">Returns</h6>
 
 <p><code>str</code></p>
 
@@ -2449,13 +2718,13 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>extracts the type of document the Record contains</p>
 
-<h6 id="parameters-54">Parameters</h6>
+<h6 id="parameters-66">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-45">Returns</h6>
+<h6 id="returns-51">Returns</h6>
 
 <p><code>str</code></p>
 
@@ -2469,13 +2738,13 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>extracts the title of the conference associated with the Record</p>
 
-<h6 id="parameters-55">Parameters</h6>
+<h6 id="parameters-67">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-46">Returns</h6>
+<h6 id="returns-52">Returns</h6>
 
 <p><code>str</code></p>
 
@@ -2489,13 +2758,13 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>extracts the date string of the conference associated with the Record, the date is not normalized</p>
 
-<h6 id="parameters-56">Parameters</h6>
+<h6 id="parameters-68">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-47">Returns</h6>
+<h6 id="returns-53">Returns</h6>
 
 <p><code>str</code></p>
 
@@ -2509,13 +2778,13 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>extracts the host of the conference</p>
 
-<h6 id="parameters-57">Parameters</h6>
+<h6 id="parameters-69">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-48">Returns</h6>
+<h6 id="returns-54">Returns</h6>
 
 <p><code>str</code></p>
 
@@ -2529,13 +2798,13 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>extracts the sting giving the conference’s location</p>
 
-<h6 id="parameters-58">Parameters</h6>
+<h6 id="parameters-70">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-49">Returns</h6>
+<h6 id="returns-55">Returns</h6>
 
 <p><code>str</code></p>
 
@@ -2549,13 +2818,13 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>extracts a list of sponsors for the conference associated with the record</p>
 
-<h6 id="parameters-59">Parameters</h6>
+<h6 id="parameters-71">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-50">Returns</h6>
+<h6 id="returns-56">Returns</h6>
 
 <p><code>str</code></p>
 
@@ -2572,13 +2841,13 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 <pre><code>Author keywords are included in records of articles from 1991 forward. They are also include in conference proceedings records.
 </code></pre>
 
-<h6 id="parameters-60">Parameters</h6>
+<h6 id="parameters-72">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-51">Returns</h6>
+<h6 id="returns-57">Returns</h6>
 
 <p><code>list[str]</code></p>
 
@@ -2595,13 +2864,13 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 <pre><code>KeyWords Plus are index terms created by Thomson Reuters from significant, frequently occurring words in the titles of an article's cited references.
 </code></pre>
 
-<h6 id="parameters-61">Parameters</h6>
+<h6 id="parameters-73">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-52">Returns</h6>
+<h6 id="returns-58">Returns</h6>
 
 <p><code>list[str]</code></p>
 
@@ -2615,13 +2884,13 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>return abstract of the record, with newlines hopefully in the correct places</p>
 
-<h6 id="parameters-62">Parameters</h6>
+<h6 id="parameters-74">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-53">Returns</h6>
+<h6 id="returns-59">Returns</h6>
 
 <p><code>str</code></p>
 
@@ -2635,13 +2904,13 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>extracts the address of the authors as given by WOS. <strong>Warning</strong> the mapping of author to address is not very good and is given in multiple ways.</p>
 
-<h6 id="parameters-63">Parameters</h6>
+<h6 id="parameters-75">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-54">Returns</h6>
+<h6 id="returns-60">Returns</h6>
 
 <p><code>list[str]</code></p>
 
@@ -2655,13 +2924,13 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>extracts the reprint address string</p>
 
-<h6 id="parameters-64">Parameters</h6>
+<h6 id="parameters-76">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-55">Returns</h6>
+<h6 id="returns-61">Returns</h6>
 
 <p><code>str</code></p>
 
@@ -2675,13 +2944,13 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>extracts a list of emails given by the authors of the Record</p>
 
-<h6 id="parameters-65">Parameters</h6>
+<h6 id="parameters-77">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-56">Returns</h6>
+<h6 id="returns-62">Returns</h6>
 
 <p><code>list[str]</code></p>
 
@@ -2695,13 +2964,13 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>extracts a list of the research IDs of the Record</p>
 
-<h6 id="parameters-66">Parameters</h6>
+<h6 id="parameters-78">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-57">Returns</h6>
+<h6 id="returns-63">Returns</h6>
 
 <p><code>list[str]</code></p>
 
@@ -2715,13 +2984,13 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>extracts a list of orc IDs of the Record</p>
 
-<h6 id="parameters-67">Parameters</h6>
+<h6 id="parameters-79">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-58">Returns</h6>
+<h6 id="returns-64">Returns</h6>
 
 <p><code>str</code></p>
 
@@ -2735,13 +3004,13 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>extracts a list of the groups funding the Record</p>
 
-<h6 id="parameters-68">Parameters</h6>
+<h6 id="parameters-80">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-59">Returns</h6>
+<h6 id="returns-65">Returns</h6>
 
 <p><code>list[str]</code></p>
 
@@ -2755,13 +3024,13 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>extracts a string of the funding thanks</p>
 
-<h6 id="parameters-69">Parameters</h6>
+<h6 id="parameters-81">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-60">Returns</h6>
+<h6 id="returns-66">Returns</h6>
 
 <p><code>str</code></p>
 
@@ -2773,15 +3042,15 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <h6 id="the-cr-tag">The CR Tag</h6>
 
-<p>extracts a list of all the citations in the record, the citations are the <a href="/metaknowledge/docs/Citation#Citation">metaknowledge.Citation</a> class.</p>
+<p>extracts a list of all the citations in the record, the citations are the <a href="/metaknowledge/documentation/metaknowledgeFull.html#Citation">metaknowledge.Citation</a> class.</p>
 
-<h6 id="parameters-70">Parameters</h6>
+<h6 id="parameters-82">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-61">Returns</h6>
+<h6 id="returns-67">Returns</h6>
 
 <p><code> list[metaknowledge.Citation]</code></p>
 
@@ -2795,13 +3064,13 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>extracts the number citations, length of CR list</p>
 
-<h6 id="parameters-71">Parameters</h6>
+<h6 id="parameters-83">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-62">Returns</h6>
+<h6 id="returns-68">Returns</h6>
 
 <p><code>int</code></p>
 
@@ -2815,13 +3084,13 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>extracts the number of times the Record has been cited by records in WOS</p>
 
-<h6 id="parameters-72">Parameters</h6>
+<h6 id="parameters-84">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-63">Returns</h6>
+<h6 id="returns-69">Returns</h6>
 
 <p><code>int</code></p>
 
@@ -2835,13 +3104,13 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>extracts the total number of citations of the record</p>
 
-<h6 id="parameters-73">Parameters</h6>
+<h6 id="parameters-85">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-64">Returns</h6>
+<h6 id="returns-70">Returns</h6>
 
 <p><code>int</code></p>
 
@@ -2855,13 +3124,13 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>extracts the publisher of the Record</p>
 
-<h6 id="parameters-74">Parameters</h6>
+<h6 id="parameters-86">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-65">Returns</h6>
+<h6 id="returns-71">Returns</h6>
 
 <p><code>str</code></p>
 
@@ -2875,13 +3144,13 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>extracts the city the publisher is in</p>
 
-<h6 id="parameters-75">Parameters</h6>
+<h6 id="parameters-87">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-66">Returns</h6>
+<h6 id="returns-72">Returns</h6>
 
 <p><code>str</code></p>
 
@@ -2895,13 +3164,13 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>extracts the publishers address</p>
 
-<h6 id="parameters-76">Parameters</h6>
+<h6 id="parameters-88">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-67">Returns</h6>
+<h6 id="returns-73">Returns</h6>
 
 <p><code>str</code></p>
 
@@ -2915,13 +3184,13 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>extracts a list of the subjects associated with the Record</p>
 
-<h6 id="parameters-77">Parameters</h6>
+<h6 id="parameters-89">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-68">Returns</h6>
+<h6 id="returns-74">Returns</h6>
 
 <p><code>list[str]</code></p>
 
@@ -2935,13 +3204,13 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>extracts the ISSN of the Record</p>
 
-<h6 id="parameters-78">Parameters</h6>
+<h6 id="parameters-90">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-69">Returns</h6>
+<h6 id="returns-75">Returns</h6>
 
 <p><code>str</code></p>
 
@@ -2955,13 +3224,13 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>extracts the EISSN of the Record</p>
 
-<h6 id="parameters-79">Parameters</h6>
+<h6 id="parameters-91">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-70">Returns</h6>
+<h6 id="returns-76">Returns</h6>
 
 <p><code>str</code></p>
 
@@ -2975,13 +3244,13 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>extracts a list of ISBNs associated with the Record</p>
 
-<h6 id="parameters-80">Parameters</h6>
+<h6 id="parameters-92">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-71">Returns</h6>
+<h6 id="returns-77">Returns</h6>
 
 <p><code>list</code></p>
 
@@ -2995,13 +3264,13 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>extracts the J9 (29-Character Source Abbreviation) of the publication</p>
 
-<h6 id="parameters-81">Parameters</h6>
+<h6 id="parameters-93">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-72">Returns</h6>
+<h6 id="returns-78">Returns</h6>
 
 <p><code>str</code></p>
 
@@ -3015,13 +3284,13 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>extracts the iso abbreviation of the journal</p>
 
-<h6 id="parameters-82">Parameters</h6>
+<h6 id="parameters-94">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-73">Returns</h6>
+<h6 id="returns-79">Returns</h6>
 
 <p><code>str</code></p>
 
@@ -3035,13 +3304,13 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>extracts the month the record was published in as an int with January as 1, February 2, …</p>
 
-<h6 id="parameters-83">Parameters</h6>
+<h6 id="parameters-95">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-74">Returns</h6>
+<h6 id="returns-80">Returns</h6>
 
 <p><code>int</code></p>
 
@@ -3055,13 +3324,13 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>extracts the year the record was published in as an int</p>
 
-<h6 id="parameters-84">Parameters</h6>
+<h6 id="parameters-96">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-75">Returns</h6>
+<h6 id="returns-81">Returns</h6>
 
 <p><code>int</code></p>
 
@@ -3075,13 +3344,13 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>return the volume the record is in as a string, not all are integers</p>
 
-<h6 id="parameters-85">Parameters</h6>
+<h6 id="parameters-97">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-76">Returns</h6>
+<h6 id="returns-82">Returns</h6>
 
 <p><code>str</code></p>
 
@@ -3095,13 +3364,13 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>extracts a string giving the issue or range of issues the Record was in, not all are integers</p>
 
-<h6 id="parameters-86">Parameters</h6>
+<h6 id="parameters-98">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-77">Returns</h6>
+<h6 id="returns-83">Returns</h6>
 
 <p><code>str</code></p>
 
@@ -3115,13 +3384,13 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>return an integer giving the part of the issue the Record is in</p>
 
-<h6 id="parameters-87">Parameters</h6>
+<h6 id="parameters-99">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-78">Returns</h6>
+<h6 id="returns-84">Returns</h6>
 
 <p><code>int</code></p>
 
@@ -3135,13 +3404,13 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>extracts the supplement number</p>
 
-<h6 id="parameters-88">Parameters</h6>
+<h6 id="parameters-100">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-79">Returns</h6>
+<h6 id="returns-85">Returns</h6>
 
 <p><code>str</code></p>
 
@@ -3155,13 +3424,13 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>extracts the special issue value</p>
 
-<h6 id="parameters-89">Parameters</h6>
+<h6 id="parameters-101">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-80">Returns</h6>
+<h6 id="returns-86">Returns</h6>
 
 <p><code>str</code></p>
 
@@ -3175,13 +3444,13 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>extracts the ID of the meeting abstract prefixed by ‘EPA-‘</p>
 
-<h6 id="parameters-90">Parameters</h6>
+<h6 id="parameters-102">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-81">Returns</h6>
+<h6 id="returns-87">Returns</h6>
 
 <p><code>str</code></p>
 
@@ -3195,13 +3464,13 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>extracts the first page the record occurs on, not all are integers</p>
 
-<h6 id="parameters-91">Parameters</h6>
+<h6 id="parameters-103">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-82">Returns</h6>
+<h6 id="returns-88">Returns</h6>
 
 <p><code>str</code></p>
 
@@ -3215,13 +3484,13 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>return the last page the record occurs on as a string, not aall are intergers</p>
 
-<h6 id="parameters-92">Parameters</h6>
+<h6 id="parameters-104">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-83">Returns</h6>
+<h6 id="returns-89">Returns</h6>
 
 <p><code>str</code></p>
 
@@ -3235,13 +3504,13 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>extracts a string giving the article number, not all are integers</p>
 
-<h6 id="parameters-93">Parameters</h6>
+<h6 id="parameters-105">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-84">Returns</h6>
+<h6 id="returns-90">Returns</h6>
 
 <p><code>str</code></p>
 
@@ -3255,13 +3524,13 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>returns an integer giving the number of pages of the Record</p>
 
-<h6 id="parameters-94">Parameters</h6>
+<h6 id="parameters-106">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-85">Returns</h6>
+<h6 id="returns-91">Returns</h6>
 
 <p><code>int</code></p>
 
@@ -3275,13 +3544,13 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>extracts a list of subjects as assigned by WOS</p>
 
-<h6 id="parameters-95">Parameters</h6>
+<h6 id="parameters-107">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-86">Returns</h6>
+<h6 id="returns-92">Returns</h6>
 
 <p><code>list[str]</code></p>
 
@@ -3295,13 +3564,13 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>return the DOI number of the record</p>
 
-<h6 id="parameters-96">Parameters</h6>
+<h6 id="parameters-108">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-87">Returns</h6>
+<h6 id="returns-93">Returns</h6>
 
 <p><code>str</code></p>
 
@@ -3315,13 +3584,13 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>extracts the book DOI of the Record</p>
 
-<h6 id="parameters-97">Parameters</h6>
+<h6 id="parameters-109">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-88">Returns</h6>
+<h6 id="returns-94">Returns</h6>
 
 <p><code>str</code></p>
 
@@ -3335,13 +3604,13 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>extracts the document delivery number of the Record</p>
 
-<h6 id="parameters-98">Parameters</h6>
+<h6 id="parameters-110">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-89">Returns</h6>
+<h6 id="returns-95">Returns</h6>
 
 <p><code>str</code></p>
 
@@ -3355,13 +3624,13 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>extracts the WOS number of the record as a string preceded by “WOS:”</p>
 
-<h6 id="parameters-99">Parameters</h6>
+<h6 id="parameters-111">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-90">Returns</h6>
+<h6 id="returns-96">Returns</h6>
 
 <p><code>str</code></p>
 
@@ -3375,13 +3644,13 @@ Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will overr
 
 <p>extracts the pubmed ID of the record</p>
 
-<h6 id="parameters-100">Parameters</h6>
+<h6 id="parameters-112">Parameters</h6>
 
 <p><em>val</em>: <code>list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-91">Returns</h6>
+<h6 id="returns-97">Returns</h6>
 
 <p><code>str</code></p>
 

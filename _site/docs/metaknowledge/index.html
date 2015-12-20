@@ -158,7 +158,7 @@ The functions provided by metaknowledge are:</p>
 <li><article><a href="#write_edgeList"><b>write_edgeList</b>(<i>grph, name, extraInfo=True, allSameAttribute=False</i>)</a></article></li>
 <li><article><a href="#write_nodeAttributeFile"><b>write_nodeAttributeFile</b>(<i>grph, name, allSameAttribute=False</i>)</a></article></li>
 <li><article><a href="#drop_edges"><b>drop_edges</b>(<i>grph, minWeight=-inf, maxWeight=inf, parameterName='weight', ignoreUnweighted=False, dropSelfLoops=False</i>)</a></article></li>
-<li><article><a href="#drop_nodesByDegree"><b>drop_nodesByDegree</b>(<i>grph, minDegree=-inf, maxDegree=inf, useWeight=True, parameterName='weight', ignoreUnweighted=True</i>)</a></article></li>
+<li><article><a href="#drop_nodesByDegree"><b>drop_nodesByDegree</b>(<i>grph, minDegree=-inf, maxDegree=inf, useWeight=True, parameterName='weight', includeUnweighted=True</i>)</a></article></li>
 <li><article><a href="#drop_nodesByCount"><b>drop_nodesByCount</b>(<i>grph, minCount=-inf, maxCount=inf, parameterName='count', ignoreMissing=False</i>)</a></article></li>
 <li><article><a href="#mergeGraphs"><b>mergeGraphs</b>(<i>targetGraph, addedGraph, incrementedNodeVal='count', incrementedEdgeVal='weight'</i>)</a></article></li>
 <li><article><a href="#graphStats"><b>graphStats</b>(<i>G, stats=('nodes', 'edges', 'isolates', 'loops', 'density', 'transitivity'), makeString=True</i>)</a></article></li>
@@ -174,7 +174,7 @@ The functions provided by metaknowledge are:</p>
 
 <p><a name="filterNonJournals"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#filterNonJournals"><ins>filterNonJournals</ins></a></strong>(<em>citesLst, invert=False</em>):</p>
 
-<p>Removes the Citations from <em>citesLst</em> that are not journals</p>
+<p>Removes the <code>Citations</code> from <em>citesLst</em> that are not journals</p>
 
 <h6 id="parameters">Parameters</h6>
 
@@ -184,7 +184,7 @@ The functions provided by metaknowledge are:</p>
 
 <p><em>invert</em> : <code>optional [bool]</code></p>
 
-<p>Default <code>False</code>, if <code>True</code> non-journals will be kept istead of journals</p>
+<p>Default <code>False</code>, if <code>True</code> non-journals will be kept instead of journals</p>
 
 <h6 id="returns">Returns</h6>
 
@@ -196,7 +196,7 @@ The functions provided by metaknowledge are:</p>
 
 <p><a name="diffusionGraph"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#diffusionGraph"><ins>diffusionGraph</ins></a></strong>(<em>source, target, sourceType=’raw’, targetType=’raw’</em>):</p>
 
-<p>Takes in two <a href="/metaknowledge/docs/RecordCollection#RecordCollection"><code>RecordCollections</code></a> and produces a graph of the citations of <em>source</em> by the <a href="/metaknowledge/docs/Record#Record"><code>Records</code></a> in <em>target</em>. By default the nodes in the are <code>Record</code> objects but this can be changed with the <em>sourceType</em> and <em>targetType</em> keywords.</p>
+<p>Takes in two <a href="/metaknowledge/docs/metaknowledge#RecordCollection"><code>RecordCollections</code></a> and produces a graph of the citations of <em>source</em> by the <a href="/metaknowledge/docs/metaknowledge#Record"><code>Records</code></a> in <em>target</em>. By default the nodes in the are <code>Record</code> objects but this can be changed with the <em>sourceType</em> and <em>targetType</em> keywords.</p>
 
 <p>Each node on the output graph has two boolean attributes, <code>"source"</code> and <code>"target"</code> indicating if they are targets or sources. Note, if the types of the sources and targets are different the attributes will not be checked for overlap of the other type. e.g. if the source type is <code>'TI'</code> (title) and the target type is <code>'UT'</code> (WOS number), and there is some overlap of the targets and sources. Then the Record corresponding to a source node will not be checked for being one of the titles of the targets, only its WOS number will be considered.</p>
 
@@ -228,7 +228,7 @@ The functions provided by metaknowledge are:</p>
 
 <p><a name="diffusionCount"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#diffusionCount"><ins>diffusionCount</ins></a></strong>(<em>source, target, sourceType=’raw’, pandasFriendly=False, compareCounts=False, numAuthors=True, byYear=False</em>):</p>
 
-<p>Takes in two <a href="/metaknowledge/docs/RecordCollection#RecordCollection"><code>RecordCollections</code></a> and produces a <code>dict</code> counting the citations of <em>source</em> by the <a href="/metaknowledge/docs/Record#Record"><code>Records</code></a> of <em>target</em>. By default the <code>dict</code> uses <code>Record</code> objects as keys but this can be changed with the <em>sourceType</em> keyword to any of the WOS tags.</p>
+<p>Takes in two <a href="/metaknowledge/docs/metaknowledge#RecordCollection"><code>RecordCollections</code></a> and produces a <code>dict</code> counting the citations of <em>source</em> by the <a href="/metaknowledge/docs/metaknowledge#Record"><code>Records</code></a> of <em>target</em>. By default the <code>dict</code> uses <code>Record</code> objects as keys but this can be changed with the <em>sourceType</em> keyword to any of the WOS tags.</p>
 
 <h6 id="parameters-2">Parameters</h6>
 
@@ -270,17 +270,17 @@ The functions provided by metaknowledge are:</p>
 
 <p><a name="read_graph"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#read_graph"><ins>read_graph</ins></a></strong>(<em>edgeList, nodeList=None, directed=False, idKey=’ID’, eSource=’From’, eDest=’To’</em>):</p>
 
-<p>Reads the files given by <em>edgeList</em> and <em>nodeList</em>. Creates a networkx graph for the files.</p>
+<p>Reads the files given by <em>edgeList</em> and <em>nodeList</em> and creates a networkx graph for the files.</p>
 
-<p>This is designed only for the files produced by metaknowledge and is meant to be the reverse of <a href="/metaknowledge/docs/metaknowledge#write_graph">write_graph()</a>, if this does not produce the desired results the networkx builtin <a href="https://networkx.github.io/documentation/networkx-1.10/reference/generated/networkx.readwrite.edgelist.read_edgelist.html">networkx.read_edgelist()</a> could be tried as it is aimed targeted more generally.</p>
+<p>This is designed only for the files produced by metaknowledge and is meant to be the reverse of <a href="/metaknowledge/docs/metaknowledge#write_graph">write_graph()</a>, if this does not produce the desired results the networkx builtin <a href="https://networkx.github.io/documentation/networkx-1.10/reference/generated/networkx.readwrite.edgelist.read_edgelist.html">networkx.read_edgelist()</a> could be tried as it is aimed at a more general usage.</p>
 
-<p>The read edge list format assumes the column named <em>eSource</em> (default ‘<code>From</code>’) is the source node, then the column <em>eDest</em> (default ‘<code>To</code>’) givens the destination and all other columns are attributes of the edges, e.g. weight.</p>
+<p>The read edge list format assumes the column named <em>eSource</em> (default <code>'From'</code>) is the source node, then the column <em>eDest</em> (default <code>'To'</code>) givens the destination and all other columns are attributes of the edges, e.g. weight.</p>
 
 <p>The read node list format assumes the column <em>idKey</em> (default <code>'ID'</code>) is the ID of the node for the edge list and the resulting network. All other columns are considered attributes of the node, e.g. count.</p>
 
 <p><strong>Note</strong>: If the names of the columns do not match those given to <strong>read_graph()</strong> a <code>KeyError</code> exception will be raised.</p>
 
-<p><strong>Note</strong>: If nodes appear in the edgelist but not the nodeList they will be created with no attributes.</p>
+<p><strong>Note</strong>: If nodes appear in the edgelist but not the nodeList they will be created silently with no attributes.</p>
 
 <h6 id="parameters-3">Parameters</h6>
 
@@ -320,9 +320,9 @@ The functions provided by metaknowledge are:</p>
 
 <p>Writes an edge list of <em>grph</em> at the destination <em>name</em>.</p>
 
-<p>The edge list has two columns for the source and destination of the edge, “From” and “To” respectively, then, if <em>edgeInfo</em> is <code>True</code>, for each attribute of the node another column is created.</p>
+<p>The edge list has two columns for the source and destination of the edge, <code>'From'</code> and <code>'To'</code> respectively, then, if <em>edgeInfo</em> is <code>True</code>, for each attribute of the node another column is created.</p>
 
-<p><strong>Note</strong>: If any edges are missing an attribute <code>KeyError</code> will be raised.</p>
+<p><strong>Note</strong>: If any edges are missing an attribute it will be left blank by default, enable <em>allSameAttribute</em> to cause a <code>KeyError</code> to be raised.</p>
 
 <h6 id="parameters-4">Parameters</h6>
 
@@ -346,11 +346,11 @@ The functions provided by metaknowledge are:</p>
 
 <p><a name="write_nodeAttributeFile"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#write_nodeAttributeFile"><ins>write_nodeAttributeFile</ins></a></strong>(<em>grph, name, allSameAttribute=False</em>):</p>
 
-<p>Writes a node attribute list of <em>grph</em> with filename <em>name</em></p>
+<p>Writes a node attribute list of <em>grph</em> to the file given by the path <em>name</em>.</p>
 
-<p>The node list has one column call “ID” with the node ids used by networkx and all other columns are the node attributes.</p>
+<p>The node list has one column call <code>'ID'</code> with the node ids used by networkx and all other columns are the node attributes.</p>
 
-<p><strong>Note</strong>: If any edges are missing an attribute <code>KeyError</code> will be raised.</p>
+<p><strong>Note</strong>: If any nodes are missing an attribute it will be left blank by default, enable <em>allSameAttribute</em> to cause a <code>KeyError</code> to be raised.</p>
 
 <h6 id="parameters-5">Parameters</h6>
 
@@ -370,45 +370,127 @@ The functions provided by metaknowledge are:</p>
 
 <p><a name="drop_edges"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#drop_edges"><ins>drop_edges</ins></a></strong>(<em>grph, minWeight=-inf, maxWeight=inf, parameterName=’weight’, ignoreUnweighted=False, dropSelfLoops=False</em>):</p>
 
-<p>Modifies a graph dropping edges whose weight is not within the inclusive bounds of minWeight and maxWeight, i.e minWeight &lt;= edges weight &lt;= maxWeight, will throw a Keyerror if the graph is unweighted</p>
+<p>Modifies <em>grph</em> by dropping edges whose weight is not within the inclusive bounds of <em>minWeight</em> and <em>maxWeight</em>, i.e after running <em>grph</em> will only have edges whose weights meet the following inequality: <em>minWeight</em> &lt;= edge’s weight &lt;= <em>maxWeight</em>. A <code>Keyerror</code> will be raised if the graph is unweighted unless <em>ignoreUnweighted</em> is <code>True</code>, the weight is determined by examining the attribute <em>parameterName</em>.</p>
 
-<p>minWeight and maxWeight default to negative and positive infinity respectively so without specifying either the output should be the input</p>
+<p><strong>Note</strong>: none of the default options will result in <em>grph</em> being modified so only specify the relevant ones, e.g. <code>drop_edges(G, dropSelfLoops = True)</code> will remove only the self loops from <code>G</code>.</p>
 
-<p>parameterName is key to weight field in the edge’s dictionary, default is weight as that is almost always correct</p>
+<h6 id="parameters-6">Parameters</h6>
 
-<p>ignoreUnweighted can be set False to suppress the KeyError and make unweighted edges be ignored</p>
+<p><em>grph</em> : <code>networkx Graph</code></p>
+
+<p>The graph to be modified.</p>
+
+<p><em>minWeight</em> : <code>optional [int or double]</code></p>
+
+<p>default <code>-inf</code>, the minimum weight for an edge to be kept in the graph.</p>
+
+<p><em>maxWeight</em> : <code>optional [int or double]</code></p>
+
+<p>default <code>inf</code>, the maximum weight for an edge to be kept in the graph.</p>
+
+<p><em>parameterName</em> : <code>optional [str]</code></p>
+
+<p>default <code>'weight'</code>, key to weight field in the edge’s attribute dictionary, the default is the same as networkx and metaknowledge so is likely to be correct</p>
+
+<p><em>ignoreUnweighted</em> : <code>optional [bool]</code></p>
+
+<p>default <code>False</code>, if <code>True</code> unweighted edges will kept</p>
+
+<p><em>dropSelfLoops</em> : <code>optional [bool]</code></p>
+
+<p>default <code>False</code>, if <code>True</code> self loops will be removed regardless of their weight</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="drop_nodesByDegree"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#drop_nodesByDegree"><ins>drop_nodesByDegree</ins></a></strong>(<em>grph, minDegree=-inf, maxDegree=inf, useWeight=True, parameterName=’weight’, ignoreUnweighted=True</em>):</p>
+<p><a name="drop_nodesByDegree"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#drop_nodesByDegree"><ins>drop_nodesByDegree</ins></a></strong>(<em>grph, minDegree=-inf, maxDegree=inf, useWeight=True, parameterName=’weight’, includeUnweighted=True</em>):</p>
 
-<p>Modifies the graph dropping nodes that do not nodes have a degree that is within inclusive bounds of minDegree and maxDegree, i.e minDegree &lt;= degree &lt;= maxDegree. Degree can be determined in two ways by default it is the total number of edges touching a node, alternative if useWeight is True it is the sum of the weight of all the edges touching a node.</p>
+<p>Modifies <em>grph</em> by dropping nodes that do not have a degree that is within inclusive bounds of <em>minDegree</em> and <em>maxDegree</em>, i.e after running <em>grph</em> will only have nodes whose degrees meet the following inequality: <em>minDegree</em> &lt;= node’s degree &lt;= <em>maxDegree</em>.</p>
 
-<p>minDegree and maxDegree default to negative and positive infinity respectively so without specifying either the output should be the input</p>
+<p>Degree is determined in two ways, the default <em>useWeight</em> is the weight attribute of the edges to a node will be summed, the attribute’s name is <em>parameterName</em> otherwise the number of edges touching the node is used. If <em>includeUnweighted</em> is <code>True</code> then <em>useWeight</em> will assign a degree of 1 to unweighted edges.</p>
 
-<p>useWeight can be set True to use an alternative method for calculating degree, the total weight of all edges</p>
+<h6 id="parameters-7">Parameters</h6>
 
-<p>parameterName is key to weight field in the edge’s dictionary, default is weight as that is almost always correct, only used if useWeight is True</p>
+<p><em>grph</em> : <code>networkx Graph</code></p>
 
-<p>ignoreUnweighted can be set False to suppress the KeyError and make unweighted edges be not counted, only used if useWeight is True</p>
+<p>The graph to be modified.</p>
+
+<p><em>minDegree</em> : <code>optional [int or double]</code></p>
+
+<p>default <code>-inf</code>, the minimum degree for an node to be kept in the graph.</p>
+
+<p><em>maxDegree</em> : <code>optional [int or double]</code></p>
+
+<p>default <code>inf</code>, the maximum degree for an node to be kept in the graph.</p>
+
+<p><em>useWeight</em> : <code>optional [bool]</code></p>
+
+<p>default <code>True</code>, if <code>True</code> the the edge weights will be summed to get the degree, if <code>False</code> the number of edges will be used to determine the degree.</p>
+
+<p><em>parameterName</em> : <code>optional [str]</code></p>
+
+<p>default <code>'weight'</code>, key to weight field in the edge’s attribute dictionary, the default is the same as networkx and metaknowledge so is likely to be correct.</p>
+
+<p><em>includeUnweighted</em> : <code>optional [bool]</code></p>
+
+<p>default <code>True</code>, if <code>True</code> edges with no weight will be considered to have a weight of 1, if <code>False</code> they will cause a <code>KeyError</code> to be raised.</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="drop_nodesByCount"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#drop_nodesByCount"><ins>drop_nodesByCount</ins></a></strong>(<em>grph, minCount=-inf, maxCount=inf, parameterName=’count’, ignoreMissing=False</em>):</p>
 
-<p>Modifies a graph dropping nodes that have a occurrence count that is not within inclusive bounds of minCount and maxCount, i.e minCount &lt;= count &lt;= maxCount. Occurrence count is determined by reading the variable associated with the node named parameterName.</p>
+<p>Modifies <em>grph</em> by dropping nodes that do not have a count that is within inclusive bounds of <em>minCount</em> and <em>maxCount</em>, i.e after running <em>grph</em> will only have nodes whose degrees meet the following inequality: <em>minCount</em> &lt;= node’s degree &lt;= <em>maxCount</em>.</p>
+
+<p>Count is determined by the count attribute, <em>parameterName</em>, and if missing will result in a <code>KeyError</code> being raised. <em>ignoreMissing</em> can be set to <code>True</code> to suppress the error.</p>
 
 <p>minCount and maxCount default to negative and positive infinity respectively so without specifying either the output should be the input</p>
 
-<p>parameterName is key to count field in the node’s dictionary, default is count as that is often correct</p>
+<h6 id="parameters-8">Parameters</h6>
 
-<p>ignoreMissing can be set False to suppress the KeyError and make nodes missing counts be dropped instead of throwing errors</p>
+<p><em>grph</em> : <code>networkx Graph</code></p>
+
+<p>The graph to be modified.</p>
+
+<p><em>minCount</em> : <code>optional [int or double]</code></p>
+
+<p>default <code>-inf</code>, the minimum Count for an node to be kept in the graph.</p>
+
+<p><em>maxCount</em> : <code>optional [int or double]</code></p>
+
+<p>default <code>inf</code>, the maximum Count for an node to be kept in the graph.</p>
+
+<p><em>parameterName</em> : <code>optional [str]</code></p>
+
+<p>default <code>'count'</code>, key to count field in the nodes’s attribute dictionary, the default is the same thoughout metaknowledge so is likely to be correct.</p>
+
+<p><em>ignoreMissing</em> : <code>optional [bool]</code></p>
+
+<p>default <code>False</code>, if <code>True</code> nodes missing a count will be kept in the graph instead of raising an exception</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="mergeGraphs"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#mergeGraphs"><ins>mergeGraphs</ins></a></strong>(<em>targetGraph, addedGraph, incrementedNodeVal=’count’, incrementedEdgeVal=’weight’</em>):</p>
 
-<p>A quick way of merging graphs, this is meant to be quick and is only intended for graphs generated by metaknowledge. This does not check anything and as such may cause unexpected results if the source and target were not generated by the same method. <strong>mergeGraphs</strong>() will modify the first graph, <em>targetGraph</em> by adding the nodes and edges found in the second, <em>addedGraph</em>. If a node or edge exists <em>targetGraph</em> is given precedence, but the edge and node attributes given by <em>incrementedNodeVal</em> and incrementedEdgeVal are added instead of being overwritten.</p>
+<p>A quick way of merging graphs, this is meant to be quick and is only intended for graphs generated by metaknowledge. This does not check anything and as such may cause unexpected results if the source and target were not generated by the same method.</p>
+
+<p><strong>mergeGraphs</strong>() will <strong>modify</strong> <em>targetGraph</em> in place by adding the nodes and edges found in the second, <em>addedGraph</em>. If a node or edge exists <em>targetGraph</em> is given precedence, but the edge and node attributes given by <em>incrementedNodeVal</em> and incrementedEdgeVal are added instead of being overwritten.</p>
+
+<h6 id="parameters-9">Parameters</h6>
+
+<p><em>targetGraph</em> : <code>networkx Graph</code></p>
+
+<p>the graph to be modified, it has precedence.</p>
+
+<p><em>addedGraph</em> : <code>networkx Graph</code></p>
+
+<p>the graph that is unmodified, it is added and does <strong>not</strong> have precedence.</p>
+
+<p><em>incrementedNodeVal</em> : <code>optional [str]</code></p>
+
+<p>default <code>'count'</code>, the name of the count attribute for the graph’s nodes. When merging this attribute will be the sum of the values in the input graphs, instead of <em>targetGraph</em>’s value.</p>
+
+<p><em>incrementedEdgeVal</em> : <code>optional [str]</code></p>
+
+<p>default <code>'weight'</code>, the name of the weight attribute for the graph’s edges. When merging this attribute will be the sum of the values in the input graphs, instead of <em>targetGraph</em>’s value.</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
@@ -418,7 +500,7 @@ The functions provided by metaknowledge are:</p>
 
 <p><strong>graphStats()</strong> gives 6 different statistics: number of nodes, number of edges, number of isolates, number of loops, density and transitivity. The ones wanted can be given to <em>stats</em>. By default a string giving a sentence containing all the requested statistics is returned but the raw values can be accessed instead by setting <em>makeString</em> to <code>False</code>.</p>
 
-<h6 id="parameters-6">Parameters</h6>
+<h6 id="parameters-10">Parameters</h6>
 
 <p><em>G</em> : <code>networkx Graph</code></p>
 
@@ -426,7 +508,7 @@ The functions provided by metaknowledge are:</p>
 
 <p><em>stats</em> : <code>optional [list or tuple [str]]</code></p>
 
-<p>Default ‘nodes’, ‘edges’, ‘isolates’, ‘loops’, ‘density’, ‘transitivity’), a list or tuple containing any number or combination of the strings:</p>
+<p>Default <code>('nodes', 'edges', 'isolates', 'loops', 'density', 'transitivity')</code>, a list or tuple containing any number or combination of the strings:</p>
 
 <p><code>"nodes"</code>, <code>"edges"</code>, <code>"isolates"</code>, <code>"loops"</code>, <code>"density"</code> and <code>"transitivity"</code>`</p>
 
@@ -466,7 +548,7 @@ The functions provided by metaknowledge are:</p>
 
 <p><strong>Note</strong>: If any nodes or edges are missing an attribute a <code>KeyError</code> will be raised.</p>
 
-<h6 id="parameters-7">Parameters</h6>
+<h6 id="parameters-11">Parameters</h6>
 
 <p><em>grph</em> : <code>networkx Graph</code></p>
 
@@ -496,24 +578,23 @@ The functions provided by metaknowledge are:</p>
 
 <p><a name="recordParser"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#recordParser"><ins>recordParser</ins></a></strong>(<em>paper</em>):</p>
 
-<p>Reads the file <em>paper</em> until it reaches ‘ER’.</p>
+<p>This is function that is used to create <a href="/metaknowledge/docs/metaknowledge#Record"><code>Records</code></a> from files.</p>
 
-<p>For each field tag it adds an entry to the returned dict with the tag as the key and a list of the entries as the value, the list has each line separately, so for the following string in a record:</p>
+<p><strong>recordParser</strong>() reads the file <em>paper</em> until it reaches ‘ER’. For each field tag it adds an entry to the returned dict with the tag as the key and a list of the entries as the value, the list has each line separately, so for the following two lines in a record:</p>
 
-<p>“AF BREVIK, I</p>
-
-<pre><code>ANICIN, B"
+<pre><code>AF BREVIK, I
+   ANICIN, B
 </code></pre>
 
 <p>The entry in the returned dict would be <code>{'AF' : ["BREVIK, I", "ANICIN, B"]}</code></p>
 
-<p><a href="/metaknowledge/docs/metaknowledge#Record">Record</a> objects can be created with these dictionaries as the initializer.</p>
+<p><code>Record</code> objects can be created with these dictionaries as the initializer.</p>
 
-<h6 id="parameters-8">Parameters</h6>
+<h6 id="parameters-12">Parameters</h6>
 
 <p><em>paper</em> : <code>file stream</code></p>
 
-<p>An open file, with the current line at the beginning of the record.</p>
+<p>An open file, with the current line at the beginning of the WOS record.</p>
 
 <h6 id="returns-5">Returns</h6>
 
@@ -525,22 +606,37 @@ The functions provided by metaknowledge are:</p>
 
 <p><a name="isiParser"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#isiParser"><ins>isiParser</ins></a></strong>(<em>isifile</em>):</p>
 
-<p>isiParser() reads the file given by the path isifile, checks that the header is correct then reads until it reaches EF.
-Each it finds is used to initialize a Record then all Record are returned as a list.</p>
+<p>This is function that is used to create <a href="/metaknowledge/docs/metaknowledge#RecordCollection"><code>RecordCollections</code></a> from files.</p>
+
+<p><strong>isiParser</strong>() reads the file given by the path isifile, checks that the header is correct then reads until it reaches EF. All WOS records it encounters are parsed with <a href="/metaknowledge/docs/metaknowledge#recordParser"><strong>recordParser</strong>()</a> and converted into <a href="/metaknowledge/docs/metaknowledge#Record"><code>Records</code></a>. A list of these <code>Records</code> is returned.</p>
+
+<p><code>BadISIFile</code> is raised if an issue is found with the file.</p>
+
+<h6 id="parameters-13">Parameters</h6>
+
+<p><em>isifile</em> : <code>str</code></p>
+
+<p>The path to the target file</p>
+
+<h6 id="returns-6">Returns</h6>
+
+<p><code>List[Record]</code></p>
+
+<p>All the <code>Records</code> found in <em>isifile</em></p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="tagToFull"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#tagToFull"><ins>tagToFull</ins></a></strong>(<em>tag</em>):</p>
 
-<p>A wrapper for <a href="/metaknowledge/docs/tagProcessing#tagProcessing"><code>tagToFullDict</code></a> it maps 2 character tags to thir full names.</p>
+<p>A wrapper for <a href="/metaknowledge/docs/metaknowledge#tagProcessing"><code>tagToFullDict</code></a> it maps 2 character tags to their full names.</p>
 
-<h6 id="parameters-9">Parameters</h6>
+<h6 id="parameters-14">Parameters</h6>
 
 <p><em>tag</em>: <code>str</code></p>
 
 <p>A two character string giving the tag</p>
 
-<h6 id="returns-6">Returns</h6>
+<h6 id="returns-7">Returns</h6>
 
 <p><code>str</code></p>
 
@@ -550,15 +646,15 @@ Each it finds is used to initialize a Record then all Record are returned as a l
 
 <p><a name="normalizeToTag"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#normalizeToTag"><ins>normalizeToTag</ins></a></strong>(<em>val</em>):</p>
 
-<p>Converts tags or full names to tags, case insensitive</p>
+<p>Converts tags or full names to 2 character tags, case insensitive</p>
 
-<h6 id="parameters-10">Parameters</h6>
+<h6 id="parameters-15">Parameters</h6>
 
 <p><em>val</em>: <code>str</code></p>
 
 <p>A two character string giving the tag or its full name</p>
 
-<h6 id="returns-7">Returns</h6>
+<h6 id="returns-8">Returns</h6>
 
 <p><code>str</code></p>
 
@@ -568,15 +664,15 @@ Each it finds is used to initialize a Record then all Record are returned as a l
 
 <p><a name="normalizeToName"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#normalizeToName"><ins>normalizeToName</ins></a></strong>(<em>val</em>):</p>
 
-<p>Converts tags or full names to full names</p>
+<p>Converts tags or full names to full names, case sensitive</p>
 
-<h6 id="parameters-11">Parameters</h6>
+<h6 id="parameters-16">Parameters</h6>
 
 <p><em>val</em>: <code>str</code></p>
 
 <p>A two character string giving the tag or its full name</p>
 
-<h6 id="returns-8">Returns</h6>
+<h6 id="returns-9">Returns</h6>
 
 <p><code>str</code></p>
 
@@ -588,30 +684,27 @@ Each it finds is used to initialize a Record then all Record are returned as a l
 
 <p>Checks if <em>val</em> is a tag or full name of tag if so returns <code>True</code></p>
 
-<h6 id="parameters-12">Parameters</h6>
+<h6 id="parameters-17">Parameters</h6>
 
 <p><em>val</em>: <code>str</code></p>
 
 <p>A string possible forming a tag or name</p>
 
-<h6 id="returns-9">Returns</h6>
+<h6 id="returns-10">Returns</h6>
 
 <p><code>bool</code></p>
 
 <p><code>True</code> if <em>val</em> is a tag or name, otherwise <code>False</code></p>
 
-<p><a name="BadCitation"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#BadCitation"><ins>BadCitation</ins></a></strong>():</p>
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="BadCitation"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#BadCitation"><ins>BadCitation</ins></a></strong>(<em>Warning</em>):</p>
 
 <p>Exception thrown by Citation</p>
 
-<p>The BadCitation class has the following methods:</p>
-
-<ul class="post-list">
-
-</ul>
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="BadISIRecord"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#BadISIRecord"><ins>BadISIRecord</ins></a></strong>():</p>
+<p><a name="BadISIRecord"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#BadISIRecord"><ins>BadISIRecord</ins></a></strong>(<em>Warning</em>):</p>
 
 <p>Exception thrown by the <a href="#metaknowledge.recordParser">record parser</a> to indicate a mis-formated record. This occurs when some component of the record does not parse. The messages will be any of:</p>
 
@@ -625,12 +718,6 @@ Each it finds is used to initialize a Record then all Record are returned as a l
 </code></pre>
 
 <p>Records with a BadISIRecord error are likely incomplete or the combination of two or more single records.</p>
-
-<p>The BadISIRecord class has the following methods:</p>
-
-<ul class="post-list">
-
-</ul>
 
 <hr />
 

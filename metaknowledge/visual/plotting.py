@@ -6,7 +6,14 @@ import scipy.ndimage as ndi
 import math
 
 def quickVisual(G, showLabel = False):
-    """just makes a simple matplotlib figure and displays it, with each node coloured by its type"""
+    """just makes a simple matplotlib figure and displays it, with each node coloured by its type. You can add labels with _showLabel_.
+
+    # Parameters
+
+    _showLabel_ : `optional [bool]`
+
+    > Default `False`, if `True` labels will be added to the nodes giving their IDs.
+    """
     colours = "brcmykwg"
     f = plt.figure(1)
     ax = f.add_subplot(1,1,1)
@@ -30,11 +37,53 @@ def quickVisual(G, showLabel = False):
     plt.axis('off')
     f.set_facecolor('w')
 
-def graphDensityContourPlot(G, layout = None, layoutScaleFactor = 1, shifAxis = False, overlay = False, axisSamples = 100, blurringFactor = .1, contours = 15, nodeSize = 10, graphType = 'coloured', iters = 50):
-    """
-    Requires numpy and matplotlib
+def graphDensityContourPlot(G, iters = 50, layout = None, layoutScaleFactor = 1, overlay = False, nodeSize = 10, axisSamples = 100, blurringFactor = .1, contours = 15, graphType = 'coloured'):
+    """Creates a 3D plot giving the density of nodes on a 2D layout as a surface in 3 dimensions.
 
-    graphType is either "coloured or "solid"
+    Most of the options are for tweaking the final appearance. _layout_ and _layoutScaleFactor_ allow a pre-layout graph to be provided. If a layout is not provided the [networkx.**spring_layout**()](https://networkx.github.io/documentation/latest/reference/generated/networkx.drawing.layout.spring_layout.html) is used after _iters_ iterations. Then, once the graph has been laid out a grid of _axisSamples_ cells by _axisSamples_ cells is overlaid and the number of nodes in each cell is determined. This then forms a surface in 3-space, gaussian blur is applied with a sigma of _blurringFactor_. The surface is then be plotted.
+
+    # Parameters
+
+    _G_ : `networkx Graph`
+
+    > The graph to be plotted
+
+    _iters_ : `optional [int]`
+
+    > Default `50`, the number of iterations for the spring layout if _layout_ is not provided.
+
+    _layout_ : `optional [networkx layout dictionary]`
+
+    > Default `None`, if provided will be used as a layout of the graph, the maximum distance from the origin along any axis must also given as _layoutScaleFactor_, which is by default `1`.
+
+    _layoutScaleFactor_ : `optional [double]`
+
+    > Default `1`, The maximum distance from the origin allowed along any axis given by _layout_, i.e. the layout must fit in a square centered at the origin with side lengths 2 * _layoutScaleFactor_
+
+    _overlay_ : `optional [bool]`
+
+    > Default `False`, if `True` the graph will be plotted on the X-Y plane at Z = 0.
+
+    _nodeSize_ : `optional [double]`
+
+    > Default `10`, the size of the nodes dawn in the overlay
+
+    _axisSamples_ : `optional [int]`
+
+    > Default 100, the number of cells used along each axis for sampling. A larger number will mean a lower average density.
+
+    _blurringFactor_ : `optional [double]`
+
+    > Default `0.1`, the sigma value used for smoothing the surface density. The higher this number the smoother the surface.
+
+    _contours_ : `optional [int]`
+
+    > Default 15, the number of different heights drawn. If this number is low the resultant image will look very banded. It is recommended this be raised above `50` if you want your images to look good, **Warning** this will make them much slower to generate and interact with.
+
+    _graphType_ : `optional [str]`
+
+    > Default `'coloured'`, if `'coloured'` the image will have a destiny based colourization applied, the only other option is `'solid'` which removes the colourization.
+
     """
     from mpl_toolkits.mplot3d import Axes3D
 
@@ -51,16 +100,12 @@ def graphDensityContourPlot(G, layout = None, layoutScaleFactor = 1, shifAxis = 
         grid = np.zeros([axisSamples, axisSamples],dtype=np.float32)
         multFactor = (axisSamples - 1) / layoutScaleFactor
         for k in layout.keys():
-            if shifAxis:
-                tmpPos = (layout[k]  + layoutScaleFactor / 2) * multFactor
-            else:
-                tmpPos = layout[k] * multFactor
+            tmpPos = layout[k] * multFactor
             layout[k] = tmpPos
             x, y = tuple(int(x) for x in tmpPos.round(0))
             grid[y][x] += 1
     else:
         raise TypeError("{} is not a valid input.".format(type(layout)))
-
     fig = plt.figure()
     #axis = fig.add_subplot(111)
     axis = fig.gca(projection='3d')

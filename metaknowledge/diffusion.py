@@ -33,11 +33,15 @@ def diffusionGraph(source, target, sourceType = "raw", targetType = "raw"):
 
     _sourceType_ : `str`
 
-    > default `'raw'`, if `'raw'` the returned graph will contain `Records` as source nodes. If it is a WOS tag then the nodes will be of that type.
+    > Default `'raw'`, if `'raw'` the returned graph will contain `Records` as source nodes.
+
+    > If Records are not wanted then it can be set to a WOS tag, such as `'SO'` (for journals ), to make the nodes into the type of object returned by that tag from Records.
 
     _targetType_ : `str`
 
-    > default `'raw'`, if `'raw'` the returned graph will contain `Records` as target nodes. If it is a WOS tag of the long name of one then the nodes will be of that type.
+    > Default `'raw'`, if `'raw'` the returned graph will contain `Records` as target nodes.
+
+    > If Records are not wanted then it can be set to a WOS tag, such as `'SO'` (for journals ), to make the nodes into the type of object returned by that tag from Records.
 
     # Returns
 

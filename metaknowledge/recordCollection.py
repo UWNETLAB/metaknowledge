@@ -1618,16 +1618,13 @@ def isiParser(isifile):
         else:
             try:
                 plst.append(Record(itertools.chain([line], f), sFile = isifile, sLine = line[0]))
-            except BadISIFile as w:
+            except BadISIFile as e:
                 try:
                     s = f.__next__()[1]
                     while s[:2] != 'ER':
                         s = f.__next__()[1]
                 except:
-                    raise BadISIFile(str(w) + " could not be resolved")
-            except Exception as e:
-                openfile.close()
-                raise e
+                    raise BadISIFile("The file {} was not terminated corrrectly caused the following error:\n{}".format(isifile, str(e)))
     try:
         f.__next__()
         raise BadISIFile("EF not at end of " + isifile)

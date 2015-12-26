@@ -48,6 +48,14 @@ class RecordCollection(object):
     _extension_ : `optional [str]`
 
     > The extension to search for when reading a directory for files. _extension_ is the suffix searched for when a directory is read for files, by default it is empty so all files are read.
+
+    _cached_ : `optional [bool]`
+
+    > Default `False`, if `True` and the _inCollection_ is a directory (a string giving the path to a directory) then the initialized `RecordCollection` will be saved in the directory as a Python pickle with the suffix `'.mkDirCache'`. Then if the `RecordCollection` is initialized a second time it will be recovered from the file, which is much faster than reprising every file in the directory.
+
+    > _metaknowledge_ saves the names of the parsed files as well as their last modification times and will check these when recreating the `RecordCollection`, so modifying existing files or adding new ones will result in the entire directory being reanalyzed and a new cache file being created. The extension given to **__init__**() is taken into account as well and each suffix is given its own cache.
+
+    > **Note** The pickle allows for arbitrary python code exicution so only use caches that you trust.
     """
 
     def __init__(self, inCollection = None, name = '', extension = '', cached = False):

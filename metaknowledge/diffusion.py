@@ -17,7 +17,7 @@ def diffusion(source, target):
 """
 
 def diffusionGraph(source, target, sourceType = "raw", targetType = "raw"):
-    """Takes in two [`RecordCollections`](#RecordCollection.RecordCollection) and produces a graph of the citations of _source_ by the [`Records`](#Record.Record) in _target_. By default the nodes in the are `Record` objects but this can be changed with the _sourceType_ and _targetType_ keywords.
+    """Takes in two [`RecordCollections`](#RecordCollection.RecordCollection) and produces a graph of the citations of _source_ by the [`Records`](#Record.Record) in _target_. By default the nodes in the are `Record` objects but this can be changed with the _sourceType_ and _targetType_ keywords. The edges of the graph go from the target to the source.
 
     Each node on the output graph has two boolean attributes, `"source"` and `"target"` indicating if they are targets or sources. Note, if the types of the sources and targets are different the attributes will not be checked for overlap of the other type. e.g. if the source type is `'TI'` (title) and the target type is `'UT'` (WOS number), and there is some overlap of the targets and sources. Then the Record corresponding to a source node will not be checked for being one of the titles of the targets, only its WOS number will be considered.
 
@@ -92,7 +92,7 @@ def diffusionGraph(source, target, sourceType = "raw", targetType = "raw"):
                     if targetCites:
                         for Rs in (sourceDict[c] for c in targetCites if c in sourceDict):
                             for sVal in Rs:
-                                workingGraph.add_edge(val, sVal)
+                                workingGraph.add_edge(sVal, val)
         if PBar:
             PBar.finish("Done making a diffusion network of {} sources and {} targets".format(len(source), len(target)))
     return workingGraph

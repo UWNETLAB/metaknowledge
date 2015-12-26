@@ -1607,7 +1607,7 @@ def isiParser(isifile):
         try:
             line = f.__next__()
         except StopIteration as e:
-            raise BadISIFile("File ends before EF found")
+            raise BadISIFile("The file '{}' ends before EF was found".format(isifile))
         if not line[1]:
             raise BadISIFile("No ER found in " + isifile)
         elif line[1].isspace():

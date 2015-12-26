@@ -11,7 +11,7 @@ class TestHelpers(unittest.TestCase):
     def test_diffusionGraph(self):
         G = metaknowledge.diffusionGraph(self.RC, self.RC)
         Gcr_ut = metaknowledge.diffusionGraph(self.RC, self.RC, sourceType = "CR", targetType = "UT")
-        self.assertEqual(metaknowledge.graphStats(G), 'The graph has 33 nodes, 31 edges, 11 isolates, 0 self loops, a density of 0.0293561 and a transitivity of 0.23913')
+        self.assertEqual(metaknowledge.graphStats(G), 'The graph has 33 nodes, 31 edges, 11 isolates, 0 self loops, a density of 0.0293561 and a transitivity of 0.127907')
         self.assertEqual(metaknowledge.graphStats(Gcr_ut), 'The graph has 525 nodes, 597 edges, 254 isolates, 0 self loops, a density of 0.00217012 and a transitivity of 0')
 
     def test_diffusionCounts(self):

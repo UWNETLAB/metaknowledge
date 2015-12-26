@@ -8,6 +8,8 @@ from .citation import Citation
 import itertools
 import os
 import csv
+import pickle
+import hashlib
 
 import networkx as nx
 
@@ -48,7 +50,7 @@ class RecordCollection(object):
     > The extension to search for when reading a directory for files. _extension_ is the suffix searched for when a directory is read for files, by default it is empty so all files are read.
     """
 
-    def __init__(self, inCollection = None, name = '', extension = ''):
+    def __init__(self, inCollection = None, name = '', extension = '', cached = False):
         self.bad = False
         self._repr = name
         if not inCollection:
@@ -85,8 +87,19 @@ class RecordCollection(object):
                     flist = []
                     for f in os.listdir(inCollection):
                         fullF = os.path.join(os.path.abspath(inCollection), f)
-                        if fullF.endswith(extension) and os.path.isfile(fullF):
+                        if fullF.endswith(extension) and not fullF.endswith('mkDirCache') and os.path.isfile(fullF):
                             flist.append(fullF)
+                    if cached:
+                        cacheName = os.path.join(inCollection, '{}.[{}].mkDirCache'.format(os.path.basename(os.path.abspath(inCollection)), extension))
+                        if os.path.isfile(cacheName):
+                            try:
+                                self.__dict__ = loadCache(cacheName, flist, name, extension, PBar).__dict__
+                            except cacheError:
+                                PBar.updateVal(0, 'Cache error, rereading files')
+                                os.remove(cacheName)
+                            else:
+                                PBar.finish("Done reloading from cache")
+                                return
                     for file in flist:
                         if PBar:
                             count += 1
@@ -102,6 +115,8 @@ class RecordCollection(object):
                                 pass
                         except UnicodeDecodeError:
                             pass
+                    if cached:
+                        writeCache(self, cacheName, flist, name, extension, PBar)
                     if PBar:
                         PBar.finish("Done reading records from: " + str(inCollection))
             else:
@@ -1795,3 +1810,43 @@ def expandRecs(G, RecCollect, nodeType, weighted):
                                 G.add_edge(citeID1, citeID2, weight = 1)
                         for e1, e2, data in G.edges_iter(citeID1, data = True):
                             G.add_edge(citeID2, e2, attr_dict = data)
+
+class cacheError(Exception):
+    """Exception raised when loading a cached RecordCollection fails, should only be seen inside metaknowledge and always be caught."""
+    pass
+
+def loadCache(cacheFile, flist, rcName, fileExtensions, PBar):
+    if PBar:
+        PBar.updateVal(0, "Loading cached RecordCollection")
+    with open(cacheFile, 'rb') as f:
+        try:
+            dat, RC = pickle.load(f)
+        except pickle.PickleError as e:
+            raise cacheError("pickle Error: {}".format(e))
+    if dat["RecordCollection Name"] != rcName:
+        raise cacheError("Name mismatch")
+    if dat["File Extension"] != fileExtensions:
+        raise cacheError("Extension mismatch")
+    if len(flist) != len(dat["File dict"]):
+        raise cacheError("File number mismatch")
+    while len(flist) > 0:
+        workingFile = flist.pop()
+        try:
+            if os.stat(workingFile).st_mtime != dat["File dict"][workingFile]:
+                raise cacheError("File modification mismatch")
+        except KeyError:
+            raise cacheError("File modification mismatch")
+    return RC
+
+def writeCache(RC, cacheFile, flist, rcName, fileExtensions, PBar):
+    if PBar:
+        PBar.updateVal(1, "Writing RecordCollection cache to {}".format(cacheFile))
+    dat = {
+        "File dict" : {},
+        "RecordCollection Name" : rcName,
+        "File Extension" : fileExtensions,
+    }
+    for fileName in flist:
+        dat["File dict"][fileName] =  os.stat(fileName).st_mtime
+    with open(cacheFile, 'wb') as f:
+        pickle.dump((dat, RC), f)

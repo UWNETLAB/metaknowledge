@@ -1,22 +1,14 @@
 #Written by Reid McIlroy-Young for Dr. John McLevey, University of Waterloo 2015
-"""
-"""
 import itertools
 
-from .tagProcessing.funcDicts import tagsAndNameSet
+from .tagProcessing.funcDicts import tagsAndNameSet, normalizeToTag
 from .graphHelpers import _ProgressBar
 from .recordCollection import RecordCollection
 
 import networkx as nx
 import metaknowledge
-"""
-TODO: FIGURE OUT
-def diffusion(source, target):
-    targetCounts = diffusionCount(source, target)
-    sourceCounts = diffusionCount(source, source)
-"""
 
-def diffusionGraph(source, target, sourceType = "raw", targetType = "raw"):
+def diffusionGraph(source, target, weighted = True, sourceType = "raw", targetType = "raw", labelEdgesBy = None):
     """Takes in two [`RecordCollections`](#RecordCollection.RecordCollection) and produces a graph of the citations of _source_ by the [`Records`](#Record.Record) in _target_. By default the nodes in the are `Record` objects but this can be changed with the _sourceType_ and _targetType_ keywords. The edges of the graph go from the target to the source.
 
     Each node on the output graph has two boolean attributes, `"source"` and `"target"` indicating if they are targets or sources. Note, if the types of the sources and targets are different the attributes will not be checked for overlap of the other type. e.g. if the source type is `'TI'` (title) and the target type is `'UT'` (WOS number), and there is some overlap of the targets and sources. Then the Record corresponding to a source node will not be checked for being one of the titles of the targets, only its WOS number will be considered.
@@ -31,28 +23,45 @@ def diffusionGraph(source, target, sourceType = "raw", targetType = "raw"):
 
     > A metaknowledge `RecordCollection` containing the `Records` citing those in _source_
 
-    _sourceType_ : `str`
+    _weighted_ : `optional [bool]`
+
+    > Default `True`, if `True` each edge will have an attribute `'weight'` giving the number of times the source has referenced the target.
+
+    _sourceType_ : `optional [str]`
 
     > Default `'raw'`, if `'raw'` the returned graph will contain `Records` as source nodes.
 
     > If Records are not wanted then it can be set to a WOS tag, such as `'SO'` (for journals ), to make the nodes into the type of object returned by that tag from Records.
 
-    _targetType_ : `str`
+    _targetType_ : `optional [str]`
 
     > Default `'raw'`, if `'raw'` the returned graph will contain `Records` as target nodes.
 
     > If Records are not wanted then it can be set to a WOS tag, such as `'SO'` (for journals ), to make the nodes into the type of object returned by that tag from Records.
 
+    _labelEdgesBy_ : `optional [str]`
+
+    > Default `None`, if a WOS tag (or long name of WOS tag) then the edges of the output graph will have a attribute `'key'` that is the value of the referenced tag, of source `Record`, i.e. if `'PY'` is given then each edge will have a `'key'` value equal to the publication year of the source.
+
+    > This option will cause the output graph to be an `MultiDiGraph` and is likely to result in parallel edges. If a `Record` has multiple values for at tag (e.g. `'AF'`) the each tag will create its own edge.
+
     # Returns
 
-    `networkx Directed Graph`
+    `networkx Directed Graph or networkx multi Directed Graph`
 
-    > A directed graph of the diffusion network
+    > A directed graph of the diffusion network, _labelEdgesBy_ is used the graph will allow parallel edges.
     """
     if sourceType != "raw" and sourceType not in tagsAndNameSet:
         raise RuntimeError("{} is not a valid node type, only 'raw' or those strings in tagsAndNameSet are allowed".format(nodeType))
     if targetType != "raw" and targetType not in tagsAndNameSet:
         raise RuntimeError("{} is not a valid node type, only 'raw' or those strings in tagsAndNameSet are allowed".format(nodeType))
+    if labelEdgesBy is not None:
+        try:
+            normVal = normalizeToTag(labelEdgesBy)
+        except KeyError:
+            raise RuntimeError ("{} is not a known tag, only tags in tagsAndNameSet are allowed.".format(labelEdgesBy))
+        else:
+            labelEdgesBy = normVal
     count = 0
     maxCount = len(source)
     progArgs = (0, "Starting to make a diffusion network")
@@ -62,7 +71,10 @@ def diffusionGraph(source, target, sourceType = "raw", targetType = "raw"):
         progKwargs = {'dummy' : True}
     with _ProgressBar(*progArgs, **progKwargs) as PBar:
         sourceDict = {}
-        workingGraph = nx.DiGraph()
+        if labelEdgesBy is None:
+            workingGraph = nx.DiGraph()
+        else:
+            workingGraph = nx.MultiDiGraph()
         for Rs in source:
             if PBar:
                 count += 1
@@ -79,6 +91,12 @@ def diffusionGraph(source, target, sourceType = "raw", targetType = "raw"):
             PBar.updateVal(.25, "Done analyzing sources, starting on targets")
         for Rt in target:
             RtVal, RtExtras = makeNodeID(Rt, targetType)
+            if labelEdgesBy is not None:
+                edgeVals = getattr(Rt, labelEdgesBy)
+                if edgeVals is None:
+                    continue
+                if not isinstance(edgeVals, list):
+                    edgeVals = [edgeVals]
             if PBar:
                 count += 1
                 PBar.updateVal(count / maxCount * .75 + .25, "Analyzing target: " + str(Rt))
@@ -92,7 +110,28 @@ def diffusionGraph(source, target, sourceType = "raw", targetType = "raw"):
                     if targetCites:
                         for Rs in (sourceDict[c] for c in targetCites if c in sourceDict):
                             for sVal in Rs:
-                                workingGraph.add_edge(sVal, val)
+                                if labelEdgesBy is not None:
+                                    for edgeVal in (str(ev) for ev in edgeVals):
+                                        if weighted:
+                                            if workingGraph.has_edge(sVal, val, key = edgeVal):
+                                                for i, a in workingGraph[sVal][val].items():
+                                                    if a[key] == edgeVal:
+                                                        workingGraph[sVal][val][i]['weight'] += 1
+                                                        break
+                                            else:
+                                                attrDict = {'key' : edgeVal, 'weight' : 1}
+                                                workingGraph.add_edge(sVal, val, attr_dict = attrDict)
+                                        else:
+                                            if not workingGraph.has_edge(sVal, val, key = edgeVal):
+                                                workingGraph.add_edge(sVal, val, key = edgeVal)
+                                else:
+                                    if weighted:
+                                        try:
+                                            workingGraph[sVal][val]['weight'] += 1
+                                        except KeyError:
+                                            workingGraph.add_edge(sVal, val, weight = 1)
+                                    else:
+                                        workingGraph.add_edge(sVal, val)
         if PBar:
             PBar.finish("Done making a diffusion network of {} sources and {} targets".format(len(source), len(target)))
     return workingGraph

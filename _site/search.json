@@ -2,14 +2,6 @@
 
   
     {
-      "title"			: "visual",
-      "link"			: "http://networkslab.org/docs/visual",
-      "excerpt"		: "A nicer matplotlib graph visualizer and contour plot"
-    }
-  
-
-  
-    ,{
       "title"			: "tagProcessing",
       "link"			: "http://networkslab.org/docs/tagProcessing",
       "excerpt"		: "All the tags and how they are handled"
@@ -37,6 +29,14 @@
       "title"			: "journalAbbreviations",
       "link"			: "http://networkslab.org/docs/journalAbbreviations",
       "excerpt"		: "Look here to get your J9 database"
+    }
+  
+
+  
+    ,{
+      "title"			: "contour",
+      "link"			: "http://networkslab.org/docs/contour",
+      "excerpt"		: "A nicer matplotlib graph visualizer and contour plot"
     }
   
 

@@ -152,19 +152,19 @@ The functions provided by metaknowledge are:</p>
 
 <ul class="post-list">
 <li><article><a href="#filterNonJournals"><b>filterNonJournals</b>(<i>citesLst, invert=False</i>)</a></article></li>
-<li><article><a href="#diffusionGraph"><b>diffusionGraph</b>(<i>source, target, sourceType='raw', targetType='raw'</i>)</a></article></li>
+<li><article><a href="#diffusionGraph"><b>diffusionGraph</b>(<i>source, target, weighted=True, sourceType='raw', targetType='raw', labelEdgesBy=None</i>)</a></article></li>
 <li><article><a href="#diffusionCount"><b>diffusionCount</b>(<i>source, target, sourceType='raw', pandasFriendly=False, compareCounts=False, numAuthors=True, byYear=False</i>)</a></article></li>
-<li><article><a href="#read_graph"><b>read_graph</b>(<i>edgeList, nodeList=None, directed=False, idKey='ID', eSource='From', eDest='To'</i>)</a></article></li>
-<li><article><a href="#write_edgeList"><b>write_edgeList</b>(<i>grph, name, extraInfo=True, allSameAttribute=False</i>)</a></article></li>
-<li><article><a href="#write_nodeAttributeFile"><b>write_nodeAttributeFile</b>(<i>grph, name, allSameAttribute=False</i>)</a></article></li>
-<li><article><a href="#drop_edges"><b>drop_edges</b>(<i>grph, minWeight=-inf, maxWeight=inf, parameterName='weight', ignoreUnweighted=False, dropSelfLoops=False</i>)</a></article></li>
-<li><article><a href="#drop_nodesByDegree"><b>drop_nodesByDegree</b>(<i>grph, minDegree=-inf, maxDegree=inf, useWeight=True, parameterName='weight', includeUnweighted=True</i>)</a></article></li>
-<li><article><a href="#drop_nodesByCount"><b>drop_nodesByCount</b>(<i>grph, minCount=-inf, maxCount=inf, parameterName='count', ignoreMissing=False</i>)</a></article></li>
+<li><article><a href="#readGraph"><b>readGraph</b>(<i>edgeList, nodeList=None, directed=False, idKey='ID', eSource='From', eDest='To'</i>)</a></article></li>
+<li><article><a href="#writeEdgeList"><b>writeEdgeList</b>(<i>grph, name, extraInfo=True, allSameAttribute=False</i>)</a></article></li>
+<li><article><a href="#writeNodeAttributeFile"><b>writeNodeAttributeFile</b>(<i>grph, name, allSameAttribute=False</i>)</a></article></li>
+<li><article><a href="#dropEdges"><b>dropEdges</b>(<i>grph, minWeight=-inf, maxWeight=inf, parameterName='weight', ignoreUnweighted=False, dropSelfLoops=False</i>)</a></article></li>
+<li><article><a href="#dropNodesByDegree"><b>dropNodesByDegree</b>(<i>grph, minDegree=-inf, maxDegree=inf, useWeight=True, parameterName='weight', includeUnweighted=True</i>)</a></article></li>
+<li><article><a href="#dropNodesByCount"><b>dropNodesByCount</b>(<i>grph, minCount=-inf, maxCount=inf, parameterName='count', ignoreMissing=False</i>)</a></article></li>
 <li><article><a href="#mergeGraphs"><b>mergeGraphs</b>(<i>targetGraph, addedGraph, incrementedNodeVal='count', incrementedEdgeVal='weight'</i>)</a></article></li>
 <li><article><a href="#graphStats"><b>graphStats</b>(<i>G, stats=('nodes', 'edges', 'isolates', 'loops', 'density', 'transitivity'), makeString=True</i>)</a></article></li>
-<li><article><a href="#write_graph"><b>write_graph</b>(<i>grph, name, edgeInfo=True, typing=False, suffix='csv', overwrite=True</i>)</a></article></li>
+<li><article><a href="#writeGraph"><b>writeGraph</b>(<i>grph, name, edgeInfo=True, typing=False, suffix='csv', overwrite=True</i>)</a></article></li>
 <li><article><a href="#recordParser"><b>recordParser</b>(<i>paper</i>)</a></article></li>
-<li><article><a href="#isiParser"><b>isiParser</b>(<i>isifile</i>)</a></article></li>
+<li><article><a href="#wosParser"><b>wosParser</b>(<i>isifile</i>)</a></article></li>
 <li><article><a href="#tagToFull"><b>tagToFull</b>(<i>tag</i>)</a></article></li>
 <li><article><a href="#normalizeToTag"><b>normalizeToTag</b>(<i>val</i>)</a></article></li>
 <li><article><a href="#normalizeToName"><b>normalizeToName</b>(<i>val</i>)</a></article></li>
@@ -194,9 +194,9 @@ The functions provided by metaknowledge are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="diffusionGraph"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#diffusionGraph"><ins>diffusionGraph</ins></a></strong>(<em>source, target, sourceType=’raw’, targetType=’raw’</em>):</p>
+<p><a name="diffusionGraph"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#diffusionGraph"><ins>diffusionGraph</ins></a></strong>(<em>source, target, weighted=True, sourceType=’raw’, targetType=’raw’, labelEdgesBy=None</em>):</p>
 
-<p>Takes in two <a href="/metaknowledge/docs/metaknowledge#RecordCollection"><code>RecordCollections</code></a> and produces a graph of the citations of <em>source</em> by the <a href="/metaknowledge/docs/metaknowledge#Record"><code>Records</code></a> in <em>target</em>. By default the nodes in the are <code>Record</code> objects but this can be changed with the <em>sourceType</em> and <em>targetType</em> keywords.</p>
+<p>Takes in two <a href="/metaknowledge/docs/metaknowledge#RecordCollection"><code>RecordCollections</code></a> and produces a graph of the citations of <em>source</em> by the <a href="/metaknowledge/docs/metaknowledge#Record"><code>Records</code></a> in <em>target</em>. By default the nodes in the are <code>Record</code> objects but this can be changed with the <em>sourceType</em> and <em>targetType</em> keywords. The edges of the graph go from the target to the source.</p>
 
 <p>Each node on the output graph has two boolean attributes, <code>"source"</code> and <code>"target"</code> indicating if they are targets or sources. Note, if the types of the sources and targets are different the attributes will not be checked for overlap of the other type. e.g. if the source type is <code>'TI'</code> (title) and the target type is <code>'UT'</code> (WOS number), and there is some overlap of the targets and sources. Then the Record corresponding to a source node will not be checked for being one of the titles of the targets, only its WOS number will be considered.</p>
 
@@ -210,19 +210,33 @@ The functions provided by metaknowledge are:</p>
 
 <p>A metaknowledge <code>RecordCollection</code> containing the <code>Records</code> citing those in <em>source</em></p>
 
-<p><em>sourceType</em> : <code>str</code></p>
+<p><em>weighted</em> : <code>optional [bool]</code></p>
 
-<p>default <code>'raw'</code>, if <code>'raw'</code> the returned graph will contain <code>Records</code> as source nodes. If it is a WOS tag then the nodes will be of that type.</p>
+<p>Default <code>True</code>, if <code>True</code> each edge will have an attribute <code>'weight'</code> giving the number of times the source has referenced the target.</p>
 
-<p><em>targetType</em> : <code>str</code></p>
+<p><em>sourceType</em> : <code>optional [str]</code></p>
 
-<p>default <code>'raw'</code>, if <code>'raw'</code> the returned graph will contain <code>Records</code> as target nodes. If it is a WOS tag of the long name of one then the nodes will be of that type.</p>
+<p>Default <code>'raw'</code>, if <code>'raw'</code> the returned graph will contain <code>Records</code> as source nodes.</p>
+
+<p>If Records are not wanted then it can be set to a WOS tag, such as <code>'SO'</code> (for journals ), to make the nodes into the type of object returned by that tag from Records.</p>
+
+<p><em>targetType</em> : <code>optional [str]</code></p>
+
+<p>Default <code>'raw'</code>, if <code>'raw'</code> the returned graph will contain <code>Records</code> as target nodes.</p>
+
+<p>If Records are not wanted then it can be set to a WOS tag, such as <code>'SO'</code> (for journals ), to make the nodes into the type of object returned by that tag from Records.</p>
+
+<p><em>labelEdgesBy</em> : <code>optional [str]</code></p>
+
+<p>Default <code>None</code>, if a WOS tag (or long name of WOS tag) then the edges of the output graph will have a attribute <code>'key'</code> that is the value of the referenced tag, of source <code>Record</code>, i.e. if <code>'PY'</code> is given then each edge will have a <code>'key'</code> value equal to the publication year of the source.</p>
+
+<p>This option will cause the output graph to be an <code>MultiDiGraph</code> and is likely to result in parallel edges. If a <code>Record</code> has multiple values for at tag (e.g. <code>'AF'</code>) the each tag will create its own edge.</p>
 
 <h6 id="returns-1">Returns</h6>
 
-<p><code>networkx Directed Graph</code></p>
+<p><code>networkx Directed Graph or networkx multi Directed Graph</code></p>
 
-<p>A directed graph of the diffusion network</p>
+<p>A directed graph of the diffusion network, <em>labelEdgesBy</em> is used the graph will allow parallel edges.</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
@@ -268,17 +282,17 @@ The functions provided by metaknowledge are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="read_graph"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#read_graph"><ins>read_graph</ins></a></strong>(<em>edgeList, nodeList=None, directed=False, idKey=’ID’, eSource=’From’, eDest=’To’</em>):</p>
+<p><a name="readGraph"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#readGraph"><ins>readGraph</ins></a></strong>(<em>edgeList, nodeList=None, directed=False, idKey=’ID’, eSource=’From’, eDest=’To’</em>):</p>
 
 <p>Reads the files given by <em>edgeList</em> and <em>nodeList</em> and creates a networkx graph for the files.</p>
 
-<p>This is designed only for the files produced by metaknowledge and is meant to be the reverse of <a href="/metaknowledge/docs/metaknowledge#write_graph">write_graph()</a>, if this does not produce the desired results the networkx builtin <a href="https://networkx.github.io/documentation/networkx-1.10/reference/generated/networkx.readwrite.edgelist.read_edgelist.html">networkx.read_edgelist()</a> could be tried as it is aimed at a more general usage.</p>
+<p>This is designed only for the files produced by metaknowledge and is meant to be the reverse of <a href="/metaknowledge/docs/metaknowledge#writeGraph">writeGraph()</a>, if this does not produce the desired results the networkx builtin <a href="https://networkx.github.io/documentation/networkx-1.10/reference/generated/networkx.readwrite.edgelist.read_edgelist.html">networkx.read_edgelist()</a> could be tried as it is aimed at a more general usage.</p>
 
 <p>The read edge list format assumes the column named <em>eSource</em> (default <code>'From'</code>) is the source node, then the column <em>eDest</em> (default <code>'To'</code>) givens the destination and all other columns are attributes of the edges, e.g. weight.</p>
 
 <p>The read node list format assumes the column <em>idKey</em> (default <code>'ID'</code>) is the ID of the node for the edge list and the resulting network. All other columns are considered attributes of the node, e.g. count.</p>
 
-<p><strong>Note</strong>: If the names of the columns do not match those given to <strong>read_graph()</strong> a <code>KeyError</code> exception will be raised.</p>
+<p><strong>Note</strong>: If the names of the columns do not match those given to <strong>readGraph()</strong> a <code>KeyError</code> exception will be raised.</p>
 
 <p><strong>Note</strong>: If nodes appear in the edgelist but not the nodeList they will be created silently with no attributes.</p>
 
@@ -316,7 +330,7 @@ The functions provided by metaknowledge are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="write_edgeList"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#write_edgeList"><ins>write_edgeList</ins></a></strong>(<em>grph, name, extraInfo=True, allSameAttribute=False</em>):</p>
+<p><a name="writeEdgeList"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#writeEdgeList"><ins>writeEdgeList</ins></a></strong>(<em>grph, name, extraInfo=True, allSameAttribute=False</em>):</p>
 
 <p>Writes an edge list of <em>grph</em> at the destination <em>name</em>.</p>
 
@@ -344,7 +358,7 @@ The functions provided by metaknowledge are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="write_nodeAttributeFile"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#write_nodeAttributeFile"><ins>write_nodeAttributeFile</ins></a></strong>(<em>grph, name, allSameAttribute=False</em>):</p>
+<p><a name="writeNodeAttributeFile"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#writeNodeAttributeFile"><ins>writeNodeAttributeFile</ins></a></strong>(<em>grph, name, allSameAttribute=False</em>):</p>
 
 <p>Writes a node attribute list of <em>grph</em> to the file given by the path <em>name</em>.</p>
 
@@ -368,11 +382,11 @@ The functions provided by metaknowledge are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="drop_edges"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#drop_edges"><ins>drop_edges</ins></a></strong>(<em>grph, minWeight=-inf, maxWeight=inf, parameterName=’weight’, ignoreUnweighted=False, dropSelfLoops=False</em>):</p>
+<p><a name="dropEdges"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#dropEdges"><ins>dropEdges</ins></a></strong>(<em>grph, minWeight=-inf, maxWeight=inf, parameterName=’weight’, ignoreUnweighted=False, dropSelfLoops=False</em>):</p>
 
 <p>Modifies <em>grph</em> by dropping edges whose weight is not within the inclusive bounds of <em>minWeight</em> and <em>maxWeight</em>, i.e after running <em>grph</em> will only have edges whose weights meet the following inequality: <em>minWeight</em> &lt;= edge’s weight &lt;= <em>maxWeight</em>. A <code>Keyerror</code> will be raised if the graph is unweighted unless <em>ignoreUnweighted</em> is <code>True</code>, the weight is determined by examining the attribute <em>parameterName</em>.</p>
 
-<p><strong>Note</strong>: none of the default options will result in <em>grph</em> being modified so only specify the relevant ones, e.g. <code>drop_edges(G, dropSelfLoops = True)</code> will remove only the self loops from <code>G</code>.</p>
+<p><strong>Note</strong>: none of the default options will result in <em>grph</em> being modified so only specify the relevant ones, e.g. <code>dropEdges(G, dropSelfLoops = True)</code> will remove only the self loops from <code>G</code>.</p>
 
 <h6 id="parameters-6">Parameters</h6>
 
@@ -402,7 +416,7 @@ The functions provided by metaknowledge are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="drop_nodesByDegree"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#drop_nodesByDegree"><ins>drop_nodesByDegree</ins></a></strong>(<em>grph, minDegree=-inf, maxDegree=inf, useWeight=True, parameterName=’weight’, includeUnweighted=True</em>):</p>
+<p><a name="dropNodesByDegree"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#dropNodesByDegree"><ins>dropNodesByDegree</ins></a></strong>(<em>grph, minDegree=-inf, maxDegree=inf, useWeight=True, parameterName=’weight’, includeUnweighted=True</em>):</p>
 
 <p>Modifies <em>grph</em> by dropping nodes that do not have a degree that is within inclusive bounds of <em>minDegree</em> and <em>maxDegree</em>, i.e after running <em>grph</em> will only have nodes whose degrees meet the following inequality: <em>minDegree</em> &lt;= node’s degree &lt;= <em>maxDegree</em>.</p>
 
@@ -436,7 +450,7 @@ The functions provided by metaknowledge are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="drop_nodesByCount"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#drop_nodesByCount"><ins>drop_nodesByCount</ins></a></strong>(<em>grph, minCount=-inf, maxCount=inf, parameterName=’count’, ignoreMissing=False</em>):</p>
+<p><a name="dropNodesByCount"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#dropNodesByCount"><ins>dropNodesByCount</ins></a></strong>(<em>grph, minCount=-inf, maxCount=inf, parameterName=’count’, ignoreMissing=False</em>):</p>
 
 <p>Modifies <em>grph</em> by dropping nodes that do not have a count that is within inclusive bounds of <em>minCount</em> and <em>maxCount</em>, i.e after running <em>grph</em> will only have nodes whose degrees meet the following inequality: <em>minCount</em> &lt;= node’s degree &lt;= <em>maxCount</em>.</p>
 
@@ -530,7 +544,7 @@ The functions provided by metaknowledge are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="write_graph"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#write_graph"><ins>write_graph</ins></a></strong>(<em>grph, name, edgeInfo=True, typing=False, suffix=’csv’, overwrite=True</em>):</p>
+<p><a name="writeGraph"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#writeGraph"><ins>writeGraph</ins></a></strong>(<em>grph, name, edgeInfo=True, typing=False, suffix=’csv’, overwrite=True</em>):</p>
 
 <p>Writes both the edge list and the node attribute list of <em>grph</em> to files starting with <em>name</em>.</p>
 
@@ -542,7 +556,7 @@ The functions provided by metaknowledge are:</p>
 
 <p>Both files are csv’s with comma delimiters and double quote quoting characters. The edge list has two columns for the source and destination of the edge, <code>'From'</code> and <code>'To'</code> respectively, then, if <em>edgeInfo</em> is <code>True</code>, for each attribute of the node another column is created. The node list has one column call “ID” with the node ids used by networkx and all other columns are the node attributes.</p>
 
-<p>To read back these files use <a href="/metaknowledge/docs/metaknowledge#read_graph">read_graph()</a> and to write only one type of lsit use <a href="/metaknowledge/docs/metaknowledge#write_edgeList">write_edgeList()</a> or <a href="/metaknowledge/docs/metaknowledge#write_nodeAttributeFile">write_nodeAttributeFile()</a>.</p>
+<p>To read back these files use <a href="/metaknowledge/docs/metaknowledge#readGraph">readGraph()</a> and to write only one type of lsit use <a href="/metaknowledge/docs/metaknowledge#writeEdgeList">writeEdgeList()</a> or <a href="/metaknowledge/docs/metaknowledge#writeNodeAttributeFile">writeNodeAttributeFile()</a>.</p>
 
 <p><strong>Warning</strong>: this function will overwrite files, if they are in the way of the output, to prevent this set <em>overwrite</em> to <code>False</code></p>
 
@@ -604,13 +618,13 @@ The functions provided by metaknowledge are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="isiParser"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#isiParser"><ins>isiParser</ins></a></strong>(<em>isifile</em>):</p>
+<p><a name="wosParser"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#wosParser"><ins>wosParser</ins></a></strong>(<em>isifile</em>):</p>
 
 <p>This is function that is used to create <a href="/metaknowledge/docs/metaknowledge#RecordCollection"><code>RecordCollections</code></a> from files.</p>
 
-<p><strong>isiParser</strong>() reads the file given by the path isifile, checks that the header is correct then reads until it reaches EF. All WOS records it encounters are parsed with <a href="/metaknowledge/docs/metaknowledge#recordParser"><strong>recordParser</strong>()</a> and converted into <a href="/metaknowledge/docs/metaknowledge#Record"><code>Records</code></a>. A list of these <code>Records</code> is returned.</p>
+<p><strong>wosParser</strong>() reads the file given by the path isifile, checks that the header is correct then reads until it reaches EF. All WOS records it encounters are parsed with <a href="/metaknowledge/docs/metaknowledge#recordParser"><strong>recordParser</strong>()</a> and converted into <a href="/metaknowledge/docs/metaknowledge#Record"><code>Records</code></a>. A list of these <code>Records</code> is returned.</p>
 
-<p><code>BadISIFile</code> is raised if an issue is found with the file.</p>
+<p><code>BadWOSFile</code> is raised if an issue is found with the file.</p>
 
 <h6 id="parameters-13">Parameters</h6>
 
@@ -704,7 +718,7 @@ The functions provided by metaknowledge are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="BadISIRecord"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#BadISIRecord"><ins>BadISIRecord</ins></a></strong>(<em>Warning</em>):</p>
+<p><a name="BadWOSRecord"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#BadWOSRecord"><ins>BadWOSRecord</ins></a></strong>(<em>Warning</em>):</p>
 
 <p>Exception thrown by the <a href="#metaknowledge.recordParser">record parser</a> to indicate a mis-formated record. This occurs when some component of the record does not parse. The messages will be any of:</p>
 
@@ -717,7 +731,7 @@ The functions provided by metaknowledge are:</p>
 * _Missing WOS number_, which indicates the record did not have a 'UT' tag.
 </code></pre>
 
-<p>Records with a BadISIRecord error are likely incomplete or the combination of two or more single records.</p>
+<p>Records with a BadWOSRecord error are likely incomplete or the combination of two or more single records.</p>
 
 <hr />
 
@@ -744,7 +758,7 @@ The functions provided by metaknowledge are:</p>
   <footer role="contentinfo" class="entry-wrapper">
     
 
-<span>&copy; 2015 John McLevey and Reid McIlroy-Young. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> using the <a href="http://mademistakes.com/so-simple/" rel="nofollow">So Simple Theme</a>.</span>
+<span>&copy; 2016 John McLevey and Reid McIlroy-Young. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> using the <a href="http://mademistakes.com/so-simple/" rel="nofollow">So Simple Theme</a>.</span>
 <div class="social-icons">
 	
 	

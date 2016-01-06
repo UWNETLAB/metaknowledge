@@ -9,7 +9,7 @@ weight: 2
 <a name="RecordCollection"></a>
 <a name="RecordCollection"></a><small></small>**[<ins>RecordCollection</ins>]({{ site.baseurl }}{{ page.url }}#RecordCollection)**(_object_):
 
-<a name="RecordCollection.__init__"></a><small></small>**[<ins>RecordCollection.__init__</ins>]({{ site.baseurl }}{{ page.url }}#RecordCollection.__init__)**(_inCollection=None, name='', extension=''_):
+<a name="RecordCollection.__init__"></a><small></small>**[<ins>RecordCollection.__init__</ins>]({{ site.baseurl }}{{ page.url }}#RecordCollection.__init__)**(_inCollection=None, name='', extension='', cached=False_):
 
 A container for a large number of indivual WOS records.
 
@@ -45,6 +45,14 @@ _extension_ : `optional [str]`
 
  The extension to search for when reading a directory for files. _extension_ is the suffix searched for when a directory is read for files, by default it is empty so all files are read.
 
+_cached_ : `optional [bool]`
+
+ Default `False`, if `True` and the _inCollection_ is a directory (a string giving the path to a directory) then the initialized `RecordCollection` will be saved in the directory as a Python pickle with the suffix `'.mkDirCache'`. Then if the `RecordCollection` is initialized a second time it will be recovered from the file, which is much faster than reprising every file in the directory.
+
+ _metaknowledge_ saves the names of the parsed files as well as their last modification times and will check these when recreating the `RecordCollection`, so modifying existing files or adding new ones will result in the entire directory being reanalyzed and a new cache file being created. The extension given to **__init__**() is taken into account as well and each suffix is given its own cache.
+
+ **Note** The pickle allows for arbitrary python code exicution so only use caches that you trust.
+
 
 
 The RecordCollection class has the following methods:
@@ -59,8 +67,8 @@ The RecordCollection class has the following methods:
 <li><article><a href="#peak"><b>peak</b>()</a></article></li>
 <li><article><a href="#dropWOS"><b>dropWOS</b>(<i>wosNum</i>)</a></article></li>
 <li><article><a href="#addRec"><b>addRec</b>(<i>Rec</i>)</a></article></li>
-<li><article><a href="#getWOS"><b>getWOS</b>(<i>wosNum, drop=False</i>)</a></article></li>
-<li><article><a href="#getBadRecords"><b>getBadRecords</b>()</a></article></li>
+<li><article><a href="#WOS"><b>WOS</b>(<i>wosNum, drop=False</i>)</a></article></li>
+<li><article><a href="#BadRecords"><b>BadRecords</b>()</a></article></li>
 <li><article><a href="#dropBadRecords"><b>dropBadRecords</b>()</a></article></li>
 <li><article><a href="#dropNonJournals"><b>dropNonJournals</b>(<i>ptVal='J', dropBad=True, invert=False</i>)</a></article></li>
 <li><article><a href="#writeFile"><b>writeFile</b>(<i>fname=None</i>)</a></article></li>
@@ -294,7 +302,7 @@ _Rec_ : `Record or iterable[Record]`
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="getWOS"></a><small>RecordCollection.</small>**[<ins>getWOS</ins>]({{ site.baseurl }}{{ page.url }}#getWOS)**(_wosNum, drop=False_):
+<a name="WOS"></a><small>RecordCollection.</small>**[<ins>WOS</ins>]({{ site.baseurl }}{{ page.url }}#WOS)**(_wosNum, drop=False_):
 
 Gets the `Record` from the collection by its WOS number (ID number) _wosNum_.
 
@@ -306,7 +314,7 @@ _wosNum_ : `str`
 
 _drop_ : `optional [bool]`
 
- Default `False`. If `True` the Record is dropped from the collection after being extract, i.e. if `False` [**getWOS**()]({{ site.baseurl }}{{ page.url }}#getWOS) acts like [**peak**()]({{ site.baseurl }}{{ page.url }}#peak), if `True` it acts like [**pop**()]({{ site.baseurl }}{{ page.url }}#pop)
+ Default `False`. If `True` the Record is dropped from the collection after being extract, i.e. if `False` [**WOS**()]({{ site.baseurl }}{{ page.url }}#WOS) acts like [**peak**()]({{ site.baseurl }}{{ page.url }}#peak), if `True` it acts like [**pop**()]({{ site.baseurl }}{{ page.url }}#pop)
 
 ###### Returns
 
@@ -317,7 +325,7 @@ _drop_ : `optional [bool]`
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="getBadRecords"></a><small>RecordCollection.</small>**[<ins>getBadRecords</ins>]({{ site.baseurl }}{{ page.url }}#getBadRecords)**():
+<a name="BadRecords"></a><small>RecordCollection.</small>**[<ins>BadRecords</ins>]({{ site.baseurl }}{{ page.url }}#BadRecords)**():
 
 creates a `RecordCollection` containing all the `Record` which have their `bad` attribute set to `True`, i.e. all those removed by [**dropBadRecords**()]({{ site.baseurl }}{{ page.url }}#dropBadRecords).
 
@@ -332,7 +340,7 @@ creates a `RecordCollection` containing all the `Record` which have their `bad` 
 
 <a name="dropBadRecords"></a><small>RecordCollection.</small>**[<ins>dropBadRecords</ins>]({{ site.baseurl }}{{ page.url }}#dropBadRecords)**():
 
-Removes all `Records` with `bad` attribute `True` from the collection, i.e. drop all those returned by [**getBadRecords**()]({{ site.baseurl }}{{ page.url }}#getBadRecords).
+Removes all `Records` with `bad` attribute `True` from the collection, i.e. drop all those returned by [**BadRecords**()]({{ site.baseurl }}{{ page.url }}#BadRecords).
         
 
 

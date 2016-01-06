@@ -150,7 +150,7 @@
         <p><a name="RecordCollection"></a>
 <a name="RecordCollection"></a><small></small><strong><a href="/metaknowledge/docs/RecordCollection#RecordCollection"><ins>RecordCollection</ins></a></strong>(<em>object</em>):</p>
 
-<p><a name="RecordCollection.__init__"></a><small></small><strong><a href="/metaknowledge/docs/RecordCollection#RecordCollection.__init__"><ins>RecordCollection.__init__</ins></a></strong>(<em>inCollection=None, name=’’, extension=’‘</em>):</p>
+<p><a name="RecordCollection.__init__"></a><small></small><strong><a href="/metaknowledge/docs/RecordCollection#RecordCollection.__init__"><ins>RecordCollection.__init__</ins></a></strong>(<em>inCollection=None, name=’’, extension=’’, cached=False</em>):</p>
 
 <p>A container for a large number of indivual WOS records.</p>
 
@@ -186,6 +186,14 @@
 
 <p>The extension to search for when reading a directory for files. <em>extension</em> is the suffix searched for when a directory is read for files, by default it is empty so all files are read.</p>
 
+<p><em>cached</em> : <code>optional [bool]</code></p>
+
+<p>Default <code>False</code>, if <code>True</code> and the <em>inCollection</em> is a directory (a string giving the path to a directory) then the initialized <code>RecordCollection</code> will be saved in the directory as a Python pickle with the suffix <code>'.mkDirCache'</code>. Then if the <code>RecordCollection</code> is initialized a second time it will be recovered from the file, which is much faster than reprising every file in the directory.</p>
+
+<p><em>metaknowledge</em> saves the names of the parsed files as well as their last modification times and will check these when recreating the <code>RecordCollection</code>, so modifying existing files or adding new ones will result in the entire directory being reanalyzed and a new cache file being created. The extension given to <strong>__init__</strong>() is taken into account as well and each suffix is given its own cache.</p>
+
+<p><strong>Note</strong> The pickle allows for arbitrary python code exicution so only use caches that you trust.</p>
+
 <p>The RecordCollection class has the following methods:</p>
 
 <ul class="post-list">
@@ -198,8 +206,8 @@
 <li><article><a href="#peak"><b>peak</b>()</a></article></li>
 <li><article><a href="#dropWOS"><b>dropWOS</b>(<i>wosNum</i>)</a></article></li>
 <li><article><a href="#addRec"><b>addRec</b>(<i>Rec</i>)</a></article></li>
-<li><article><a href="#getWOS"><b>getWOS</b>(<i>wosNum, drop=False</i>)</a></article></li>
-<li><article><a href="#getBadRecords"><b>getBadRecords</b>()</a></article></li>
+<li><article><a href="#WOS"><b>WOS</b>(<i>wosNum, drop=False</i>)</a></article></li>
+<li><article><a href="#BadRecords"><b>BadRecords</b>()</a></article></li>
 <li><article><a href="#dropBadRecords"><b>dropBadRecords</b>()</a></article></li>
 <li><article><a href="#dropNonJournals"><b>dropNonJournals</b>(<i>ptVal='J', dropBad=True, invert=False</i>)</a></article></li>
 <li><article><a href="#writeFile"><b>writeFile</b>(<i>fname=None</i>)</a></article></li>
@@ -426,7 +434,7 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="getWOS"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/docs/RecordCollection#getWOS"><ins>getWOS</ins></a></strong>(<em>wosNum, drop=False</em>):</p>
+<p><a name="WOS"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/docs/RecordCollection#WOS"><ins>WOS</ins></a></strong>(<em>wosNum, drop=False</em>):</p>
 
 <p>Gets the <code>Record</code> from the collection by its WOS number (ID number) <em>wosNum</em>.</p>
 
@@ -438,7 +446,7 @@ The other options are:</p>
 
 <p><em>drop</em> : <code>optional [bool]</code></p>
 
-<p>Default <code>False</code>. If <code>True</code> the Record is dropped from the collection after being extract, i.e. if <code>False</code> <a href="/metaknowledge/docs/RecordCollection#getWOS"><strong>getWOS</strong>()</a> acts like <a href="/metaknowledge/docs/RecordCollection#peak"><strong>peak</strong>()</a>, if <code>True</code> it acts like <a href="/metaknowledge/docs/RecordCollection#pop"><strong>pop</strong>()</a></p>
+<p>Default <code>False</code>. If <code>True</code> the Record is dropped from the collection after being extract, i.e. if <code>False</code> <a href="/metaknowledge/docs/RecordCollection#WOS"><strong>WOS</strong>()</a> acts like <a href="/metaknowledge/docs/RecordCollection#peak"><strong>peak</strong>()</a>, if <code>True</code> it acts like <a href="/metaknowledge/docs/RecordCollection#pop"><strong>pop</strong>()</a></p>
 
 <h6 id="returns-6">Returns</h6>
 
@@ -448,7 +456,7 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="getBadRecords"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/docs/RecordCollection#getBadRecords"><ins>getBadRecords</ins></a></strong>():</p>
+<p><a name="BadRecords"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/docs/RecordCollection#BadRecords"><ins>BadRecords</ins></a></strong>():</p>
 
 <p>creates a <code>RecordCollection</code> containing all the <code>Record</code> which have their <code>bad</code> attribute set to <code>True</code>, i.e. all those removed by <a href="/metaknowledge/docs/RecordCollection#dropBadRecords"><strong>dropBadRecords</strong>()</a>.</p>
 
@@ -462,7 +470,7 @@ The other options are:</p>
 
 <p><a name="dropBadRecords"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/docs/RecordCollection#dropBadRecords"><ins>dropBadRecords</ins></a></strong>():</p>
 
-<p>Removes all <code>Records</code> with <code>bad</code> attribute <code>True</code> from the collection, i.e. drop all those returned by <a href="/metaknowledge/docs/RecordCollection#getBadRecords"><strong>getBadRecords</strong>()</a>.</p>
+<p>Removes all <code>Records</code> with <code>bad</code> attribute <code>True</code> from the collection, i.e. drop all those returned by <a href="/metaknowledge/docs/RecordCollection#BadRecords"><strong>BadRecords</strong>()</a>.</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
@@ -868,7 +876,7 @@ The other options are:</p>
   <footer role="contentinfo" class="entry-wrapper">
     
 
-<span>&copy; 2015 John McLevey and Reid McIlroy-Young. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> using the <a href="http://mademistakes.com/so-simple/" rel="nofollow">So Simple Theme</a>.</span>
+<span>&copy; 2016 John McLevey and Reid McIlroy-Young. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> using the <a href="http://mademistakes.com/so-simple/" rel="nofollow">So Simple Theme</a>.</span>
 <div class="social-icons">
 	
 	

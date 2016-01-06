@@ -11,19 +11,19 @@ The functions provided by metaknowledge are:
 
 <ul class="post-list">
 <li><article><a href="#filterNonJournals"><b>filterNonJournals</b>(<i>citesLst, invert=False</i>)</a></article></li>
-<li><article><a href="#diffusionGraph"><b>diffusionGraph</b>(<i>source, target, sourceType='raw', targetType='raw'</i>)</a></article></li>
+<li><article><a href="#diffusionGraph"><b>diffusionGraph</b>(<i>source, target, weighted=True, sourceType='raw', targetType='raw', labelEdgesBy=None</i>)</a></article></li>
 <li><article><a href="#diffusionCount"><b>diffusionCount</b>(<i>source, target, sourceType='raw', pandasFriendly=False, compareCounts=False, numAuthors=True, byYear=False</i>)</a></article></li>
-<li><article><a href="#read_graph"><b>read_graph</b>(<i>edgeList, nodeList=None, directed=False, idKey='ID', eSource='From', eDest='To'</i>)</a></article></li>
-<li><article><a href="#write_edgeList"><b>write_edgeList</b>(<i>grph, name, extraInfo=True, allSameAttribute=False</i>)</a></article></li>
-<li><article><a href="#write_nodeAttributeFile"><b>write_nodeAttributeFile</b>(<i>grph, name, allSameAttribute=False</i>)</a></article></li>
-<li><article><a href="#drop_edges"><b>drop_edges</b>(<i>grph, minWeight=-inf, maxWeight=inf, parameterName='weight', ignoreUnweighted=False, dropSelfLoops=False</i>)</a></article></li>
-<li><article><a href="#drop_nodesByDegree"><b>drop_nodesByDegree</b>(<i>grph, minDegree=-inf, maxDegree=inf, useWeight=True, parameterName='weight', includeUnweighted=True</i>)</a></article></li>
-<li><article><a href="#drop_nodesByCount"><b>drop_nodesByCount</b>(<i>grph, minCount=-inf, maxCount=inf, parameterName='count', ignoreMissing=False</i>)</a></article></li>
+<li><article><a href="#readGraph"><b>readGraph</b>(<i>edgeList, nodeList=None, directed=False, idKey='ID', eSource='From', eDest='To'</i>)</a></article></li>
+<li><article><a href="#writeEdgeList"><b>writeEdgeList</b>(<i>grph, name, extraInfo=True, allSameAttribute=False</i>)</a></article></li>
+<li><article><a href="#writeNodeAttributeFile"><b>writeNodeAttributeFile</b>(<i>grph, name, allSameAttribute=False</i>)</a></article></li>
+<li><article><a href="#dropEdges"><b>dropEdges</b>(<i>grph, minWeight=-inf, maxWeight=inf, parameterName='weight', ignoreUnweighted=False, dropSelfLoops=False</i>)</a></article></li>
+<li><article><a href="#dropNodesByDegree"><b>dropNodesByDegree</b>(<i>grph, minDegree=-inf, maxDegree=inf, useWeight=True, parameterName='weight', includeUnweighted=True</i>)</a></article></li>
+<li><article><a href="#dropNodesByCount"><b>dropNodesByCount</b>(<i>grph, minCount=-inf, maxCount=inf, parameterName='count', ignoreMissing=False</i>)</a></article></li>
 <li><article><a href="#mergeGraphs"><b>mergeGraphs</b>(<i>targetGraph, addedGraph, incrementedNodeVal='count', incrementedEdgeVal='weight'</i>)</a></article></li>
 <li><article><a href="#graphStats"><b>graphStats</b>(<i>G, stats=('nodes', 'edges', 'isolates', 'loops', 'density', 'transitivity'), makeString=True</i>)</a></article></li>
-<li><article><a href="#write_graph"><b>write_graph</b>(<i>grph, name, edgeInfo=True, typing=False, suffix='csv', overwrite=True</i>)</a></article></li>
+<li><article><a href="#writeGraph"><b>writeGraph</b>(<i>grph, name, edgeInfo=True, typing=False, suffix='csv', overwrite=True</i>)</a></article></li>
 <li><article><a href="#recordParser"><b>recordParser</b>(<i>paper</i>)</a></article></li>
-<li><article><a href="#isiParser"><b>isiParser</b>(<i>isifile</i>)</a></article></li>
+<li><article><a href="#wosParser"><b>wosParser</b>(<i>isifile</i>)</a></article></li>
 <li><article><a href="#tagToFull"><b>tagToFull</b>(<i>tag</i>)</a></article></li>
 <li><article><a href="#normalizeToTag"><b>normalizeToTag</b>(<i>val</i>)</a></article></li>
 <li><article><a href="#normalizeToName"><b>normalizeToName</b>(<i>val</i>)</a></article></li>
@@ -54,9 +54,9 @@ _invert_ : `optional [bool]`
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="diffusionGraph"></a><small></small>**[<ins>diffusionGraph</ins>]({{ site.baseurl }}{{ page.url }}#diffusionGraph)**(_source, target, sourceType='raw', targetType='raw'_):
+<a name="diffusionGraph"></a><small></small>**[<ins>diffusionGraph</ins>]({{ site.baseurl }}{{ page.url }}#diffusionGraph)**(_source, target, weighted=True, sourceType='raw', targetType='raw', labelEdgesBy=None_):
 
-Takes in two [`RecordCollections`]({{ site.baseurl }}{{ page.url }}#RecordCollection) and produces a graph of the citations of _source_ by the [`Records`]({{ site.baseurl }}{{ page.url }}#Record) in _target_. By default the nodes in the are `Record` objects but this can be changed with the _sourceType_ and _targetType_ keywords.
+Takes in two [`RecordCollections`]({{ site.baseurl }}{{ page.url }}#RecordCollection) and produces a graph of the citations of _source_ by the [`Records`]({{ site.baseurl }}{{ page.url }}#Record) in _target_. By default the nodes in the are `Record` objects but this can be changed with the _sourceType_ and _targetType_ keywords. The edges of the graph go from the target to the source.
 
 Each node on the output graph has two boolean attributes, `"source"` and `"target"` indicating if they are targets or sources. Note, if the types of the sources and targets are different the attributes will not be checked for overlap of the other type. e.g. if the source type is `'TI'` (title) and the target type is `'UT'` (WOS number), and there is some overlap of the targets and sources. Then the Record corresponding to a source node will not be checked for being one of the titles of the targets, only its WOS number will be considered.
 
@@ -70,19 +70,33 @@ _target_ : `RecordCollection`
 
  A metaknowledge `RecordCollection` containing the `Records` citing those in _source_
 
-_sourceType_ : `str`
+_weighted_ : `optional [bool]`
 
- default `'raw'`, if `'raw'` the returned graph will contain `Records` as source nodes. If it is a WOS tag then the nodes will be of that type.
+ Default `True`, if `True` each edge will have an attribute `'weight'` giving the number of times the source has referenced the target.
 
-_targetType_ : `str`
+_sourceType_ : `optional [str]`
 
- default `'raw'`, if `'raw'` the returned graph will contain `Records` as target nodes. If it is a WOS tag of the long name of one then the nodes will be of that type.
+ Default `'raw'`, if `'raw'` the returned graph will contain `Records` as source nodes.
+
+ If Records are not wanted then it can be set to a WOS tag, such as `'SO'` (for journals ), to make the nodes into the type of object returned by that tag from Records.
+
+_targetType_ : `optional [str]`
+
+ Default `'raw'`, if `'raw'` the returned graph will contain `Records` as target nodes.
+
+ If Records are not wanted then it can be set to a WOS tag, such as `'SO'` (for journals ), to make the nodes into the type of object returned by that tag from Records.
+
+_labelEdgesBy_ : `optional [str]`
+
+ Default `None`, if a WOS tag (or long name of WOS tag) then the edges of the output graph will have a attribute `'key'` that is the value of the referenced tag, of source `Record`, i.e. if `'PY'` is given then each edge will have a `'key'` value equal to the publication year of the source.
+
+ This option will cause the output graph to be an `MultiDiGraph` and is likely to result in parallel edges. If a `Record` has multiple values for at tag (e.g. `'AF'`) the each tag will create its own edge.
 
 ###### Returns
 
-`networkx Directed Graph`
+`networkx Directed Graph or networkx multi Directed Graph`
 
- A directed graph of the diffusion network
+ A directed graph of the diffusion network, _labelEdgesBy_ is used the graph will allow parallel edges.
 
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
@@ -130,17 +144,17 @@ default `False`, if `True` the returned dictionary will have Records mapped to m
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="read_graph"></a><small></small>**[<ins>read_graph</ins>]({{ site.baseurl }}{{ page.url }}#read_graph)**(_edgeList, nodeList=None, directed=False, idKey='ID', eSource='From', eDest='To'_):
+<a name="readGraph"></a><small></small>**[<ins>readGraph</ins>]({{ site.baseurl }}{{ page.url }}#readGraph)**(_edgeList, nodeList=None, directed=False, idKey='ID', eSource='From', eDest='To'_):
 
 Reads the files given by _edgeList_ and _nodeList_ and creates a networkx graph for the files.
 
-This is designed only for the files produced by metaknowledge and is meant to be the reverse of [write_graph()]({{ site.baseurl }}{{ page.url }}#write_graph), if this does not produce the desired results the networkx builtin [networkx.read_edgelist()](https://networkx.github.io/documentation/networkx-1.10/reference/generated/networkx.readwrite.edgelist.read_edgelist.html) could be tried as it is aimed at a more general usage.
+This is designed only for the files produced by metaknowledge and is meant to be the reverse of [writeGraph()]({{ site.baseurl }}{{ page.url }}#writeGraph), if this does not produce the desired results the networkx builtin [networkx.read_edgelist()](https://networkx.github.io/documentation/networkx-1.10/reference/generated/networkx.readwrite.edgelist.read_edgelist.html) could be tried as it is aimed at a more general usage.
 
 The read edge list format assumes the column named _eSource_ (default `'From'`) is the source node, then the column _eDest_ (default `'To'`) givens the destination and all other columns are attributes of the edges, e.g. weight.
 
 The read node list format assumes the column _idKey_ (default `'ID'`) is the ID of the node for the edge list and the resulting network. All other columns are considered attributes of the node, e.g. count.
 
-**Note**: If the names of the columns do not match those given to **read_graph()** a `KeyError` exception will be raised.
+**Note**: If the names of the columns do not match those given to **readGraph()** a `KeyError` exception will be raised.
 
 **Note**: If nodes appear in the edgelist but not the nodeList they will be created silently with no attributes.
 
@@ -179,7 +193,7 @@ _eDest_ : `optional [str]`
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="write_edgeList"></a><small></small>**[<ins>write_edgeList</ins>]({{ site.baseurl }}{{ page.url }}#write_edgeList)**(_grph, name, extraInfo=True, allSameAttribute=False_):
+<a name="writeEdgeList"></a><small></small>**[<ins>writeEdgeList</ins>]({{ site.baseurl }}{{ page.url }}#writeEdgeList)**(_grph, name, extraInfo=True, allSameAttribute=False_):
 
 Writes an edge list of _grph_ at the destination _name_.
 
@@ -208,7 +222,7 @@ _allSameAttribute_ : `optional [bool]`
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="write_nodeAttributeFile"></a><small></small>**[<ins>write_nodeAttributeFile</ins>]({{ site.baseurl }}{{ page.url }}#write_nodeAttributeFile)**(_grph, name, allSameAttribute=False_):
+<a name="writeNodeAttributeFile"></a><small></small>**[<ins>writeNodeAttributeFile</ins>]({{ site.baseurl }}{{ page.url }}#writeNodeAttributeFile)**(_grph, name, allSameAttribute=False_):
 
 Writes a node attribute list of _grph_ to the file given by the path _name_.
 
@@ -233,11 +247,11 @@ _allSameAttribute_ : `optional [bool]`
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="drop_edges"></a><small></small>**[<ins>drop_edges</ins>]({{ site.baseurl }}{{ page.url }}#drop_edges)**(_grph, minWeight=-inf, maxWeight=inf, parameterName='weight', ignoreUnweighted=False, dropSelfLoops=False_):
+<a name="dropEdges"></a><small></small>**[<ins>dropEdges</ins>]({{ site.baseurl }}{{ page.url }}#dropEdges)**(_grph, minWeight=-inf, maxWeight=inf, parameterName='weight', ignoreUnweighted=False, dropSelfLoops=False_):
 
 Modifies _grph_ by dropping edges whose weight is not within the inclusive bounds of _minWeight_ and _maxWeight_, i.e after running _grph_ will only have edges whose weights meet the following inequality: _minWeight_ <= edge's weight <= _maxWeight_. A `Keyerror` will be raised if the graph is unweighted unless _ignoreUnweighted_ is `True`, the weight is determined by examining the attribute _parameterName_.
 
-**Note**: none of the default options will result in _grph_ being modified so only specify the relevant ones, e.g. `drop_edges(G, dropSelfLoops = True)` will remove only the self loops from `G`.
+**Note**: none of the default options will result in _grph_ being modified so only specify the relevant ones, e.g. `dropEdges(G, dropSelfLoops = True)` will remove only the self loops from `G`.
 
 ###### Parameters
 
@@ -268,7 +282,7 @@ _dropSelfLoops_ : `optional [bool]`
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="drop_nodesByDegree"></a><small></small>**[<ins>drop_nodesByDegree</ins>]({{ site.baseurl }}{{ page.url }}#drop_nodesByDegree)**(_grph, minDegree=-inf, maxDegree=inf, useWeight=True, parameterName='weight', includeUnweighted=True_):
+<a name="dropNodesByDegree"></a><small></small>**[<ins>dropNodesByDegree</ins>]({{ site.baseurl }}{{ page.url }}#dropNodesByDegree)**(_grph, minDegree=-inf, maxDegree=inf, useWeight=True, parameterName='weight', includeUnweighted=True_):
 
 Modifies _grph_ by dropping nodes that do not have a degree that is within inclusive bounds of _minDegree_ and _maxDegree_, i.e after running _grph_ will only have nodes whose degrees meet the following inequality: _minDegree_ <= node's degree <= _maxDegree_.
 
@@ -304,7 +318,7 @@ _includeUnweighted_ : `optional [bool]`
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="drop_nodesByCount"></a><small></small>**[<ins>drop_nodesByCount</ins>]({{ site.baseurl }}{{ page.url }}#drop_nodesByCount)**(_grph, minCount=-inf, maxCount=inf, parameterName='count', ignoreMissing=False_):
+<a name="dropNodesByCount"></a><small></small>**[<ins>dropNodesByCount</ins>]({{ site.baseurl }}{{ page.url }}#dropNodesByCount)**(_grph, minCount=-inf, maxCount=inf, parameterName='count', ignoreMissing=False_):
 
 Modifies _grph_ by dropping nodes that do not have a count that is within inclusive bounds of _minCount_ and _maxCount_, i.e after running _grph_ will only have nodes whose degrees meet the following inequality: _minCount_ <= node's degree <= _maxCount_.
 
@@ -402,7 +416,7 @@ _makeString_ : `optional [bool]`
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="write_graph"></a><small></small>**[<ins>write_graph</ins>]({{ site.baseurl }}{{ page.url }}#write_graph)**(_grph, name, edgeInfo=True, typing=False, suffix='csv', overwrite=True_):
+<a name="writeGraph"></a><small></small>**[<ins>writeGraph</ins>]({{ site.baseurl }}{{ page.url }}#writeGraph)**(_grph, name, edgeInfo=True, typing=False, suffix='csv', overwrite=True_):
 
 Writes both the edge list and the node attribute list of _grph_ to files starting with _name_.
 
@@ -412,7 +426,7 @@ The output files start with _name_, the file type (edgeList, nodeAttributes) the
 
 Both files are csv's with comma delimiters and double quote quoting characters. The edge list has two columns for the source and destination of the edge, `'From'` and `'To'` respectively, then, if _edgeInfo_ is `True`, for each attribute of the node another column is created. The node list has one column call "ID" with the node ids used by networkx and all other columns are the node attributes.
 
-To read back these files use [read_graph()]({{ site.baseurl }}{{ page.url }}#read_graph) and to write only one type of lsit use [write_edgeList()]({{ site.baseurl }}{{ page.url }}#write_edgeList) or [write_nodeAttributeFile()]({{ site.baseurl }}{{ page.url }}#write_nodeAttributeFile).
+To read back these files use [readGraph()]({{ site.baseurl }}{{ page.url }}#readGraph) and to write only one type of lsit use [writeEdgeList()]({{ site.baseurl }}{{ page.url }}#writeEdgeList) or [writeNodeAttributeFile()]({{ site.baseurl }}{{ page.url }}#writeNodeAttributeFile).
 
 **Warning**: this function will overwrite files, if they are in the way of the output, to prevent this set _overwrite_ to `False`
 
@@ -475,13 +489,13 @@ _paper_ : `file stream`
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="isiParser"></a><small></small>**[<ins>isiParser</ins>]({{ site.baseurl }}{{ page.url }}#isiParser)**(_isifile_):
+<a name="wosParser"></a><small></small>**[<ins>wosParser</ins>]({{ site.baseurl }}{{ page.url }}#wosParser)**(_isifile_):
 
 This is function that is used to create [`RecordCollections`]({{ site.baseurl }}{{ page.url }}#RecordCollection) from files.
 
-**isiParser**() reads the file given by the path isifile, checks that the header is correct then reads until it reaches EF. All WOS records it encounters are parsed with [**recordParser**()]({{ site.baseurl }}{{ page.url }}#recordParser) and converted into [`Records`]({{ site.baseurl }}{{ page.url }}#Record). A list of these `Records` is returned.
+**wosParser**() reads the file given by the path isifile, checks that the header is correct then reads until it reaches EF. All WOS records it encounters are parsed with [**recordParser**()]({{ site.baseurl }}{{ page.url }}#recordParser) and converted into [`Records`]({{ site.baseurl }}{{ page.url }}#Record). A list of these `Records` is returned.
 
-`BadISIFile` is raised if an issue is found with the file.
+`BadWOSFile` is raised if an issue is found with the file.
 
 ###### Parameters
 
@@ -581,7 +595,7 @@ Exception thrown by Citation
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="BadISIRecord"></a><small></small>**[<ins>BadISIRecord</ins>]({{ site.baseurl }}{{ page.url }}#BadISIRecord)**(_Warning_):
+<a name="BadWOSRecord"></a><small></small>**[<ins>BadWOSRecord</ins>]({{ site.baseurl }}{{ page.url }}#BadWOSRecord)**(_Warning_):
 
 Exception thrown by the [record parser](#metaknowledge.recordParser) to indicate a mis-formated record. This occurs when some component of the record does not parse. The messages will be any of:
 
@@ -593,7 +607,7 @@ Exception thrown by the [record parser](#metaknowledge.recordParser) to indicate
 
     * _Missing WOS number_, which indicates the record did not have a 'UT' tag.
 
-Records with a BadISIRecord error are likely incomplete or the combination of two or more single records.
+Records with a BadWOSRecord error are likely incomplete or the combination of two or more single records.
 
 
 

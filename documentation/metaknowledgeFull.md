@@ -18,7 +18,7 @@ search_omit: true
 <li><article><a href="#Citation"><b>Citation</b><span class="excerpt">Citation are special, here is how they are handled</span></a></article></li>
 <li><article><a href="#Record"><b>Record</b><span class="excerpt">What RecordCollections are made of</span></a></article></li>
 <li><article><a href="#RecordCollection"><b>RecordCollection</b><span class="excerpt">Where all the stuff happens, look here if you want to make things</span></a></article></li>
-<li><article><a href="#visual"><b>visual</b><span class="excerpt">A nicer matplotlib graph visualizer and contour plot</span></a></article></li>
+<li><article><a href="#contour"><b>contour</b><span class="excerpt">A nicer matplotlib graph visualizer and contour plot</span></a></article></li>
 <li><article><a href="#journalAbbreviations"><b>journalAbbreviations</b><span class="excerpt">Look here to get your J9 database</span></a></article></li>
 <li><article><a href="#tagProcessing"><b>tagProcessing</b><span class="excerpt">All the tags and how they are handled</span></a></article></li>
 </ul>
@@ -26,35 +26,35 @@ search_omit: true
 
 <ul class="post-list">
 <li><article><a href="#filterNonJournals"><b>filterNonJournals</b>(<i>citesLst, invert=False</i>)</a></article></li>
-<li><article><a href="#diffusionGraph"><b>diffusionGraph</b>(<i>source, target, sourceType='raw', targetType='raw'</i>)</a></article></li>
+<li><article><a href="#diffusionGraph"><b>diffusionGraph</b>(<i>source, target, weighted=True, sourceType='raw', targetType='raw', labelEdgesBy=None</i>)</a></article></li>
 <li><article><a href="#diffusionCount"><b>diffusionCount</b>(<i>source, target, sourceType='raw', pandasFriendly=False, compareCounts=False, numAuthors=True, byYear=False</i>)</a></article></li>
-<li><article><a href="#read_graph"><b>read_graph</b>(<i>edgeList, nodeList=None, directed=False, idKey='ID', eSource='From', eDest='To'</i>)</a></article></li>
-<li><article><a href="#write_edgeList"><b>write_edgeList</b>(<i>grph, name, extraInfo=True, allSameAttribute=False</i>)</a></article></li>
-<li><article><a href="#write_nodeAttributeFile"><b>write_nodeAttributeFile</b>(<i>grph, name, allSameAttribute=False</i>)</a></article></li>
-<li><article><a href="#drop_edges"><b>drop_edges</b>(<i>grph, minWeight=-inf, maxWeight=inf, parameterName='weight', ignoreUnweighted=False, dropSelfLoops=False</i>)</a></article></li>
-<li><article><a href="#drop_nodesByDegree"><b>drop_nodesByDegree</b>(<i>grph, minDegree=-inf, maxDegree=inf, useWeight=True, parameterName='weight', includeUnweighted=True</i>)</a></article></li>
-<li><article><a href="#drop_nodesByCount"><b>drop_nodesByCount</b>(<i>grph, minCount=-inf, maxCount=inf, parameterName='count', ignoreMissing=False</i>)</a></article></li>
+<li><article><a href="#readGraph"><b>readGraph</b>(<i>edgeList, nodeList=None, directed=False, idKey='ID', eSource='From', eDest='To'</i>)</a></article></li>
+<li><article><a href="#writeEdgeList"><b>writeEdgeList</b>(<i>grph, name, extraInfo=True, allSameAttribute=False</i>)</a></article></li>
+<li><article><a href="#writeNodeAttributeFile"><b>writeNodeAttributeFile</b>(<i>grph, name, allSameAttribute=False</i>)</a></article></li>
+<li><article><a href="#dropEdges"><b>dropEdges</b>(<i>grph, minWeight=-inf, maxWeight=inf, parameterName='weight', ignoreUnweighted=False, dropSelfLoops=False</i>)</a></article></li>
+<li><article><a href="#dropNodesByDegree"><b>dropNodesByDegree</b>(<i>grph, minDegree=-inf, maxDegree=inf, useWeight=True, parameterName='weight', includeUnweighted=True</i>)</a></article></li>
+<li><article><a href="#dropNodesByCount"><b>dropNodesByCount</b>(<i>grph, minCount=-inf, maxCount=inf, parameterName='count', ignoreMissing=False</i>)</a></article></li>
 <li><article><a href="#mergeGraphs"><b>mergeGraphs</b>(<i>targetGraph, addedGraph, incrementedNodeVal='count', incrementedEdgeVal='weight'</i>)</a></article></li>
 <li><article><a href="#graphStats"><b>graphStats</b>(<i>G, stats=('nodes', 'edges', 'isolates', 'loops', 'density', 'transitivity'), makeString=True</i>)</a></article></li>
-<li><article><a href="#write_graph"><b>write_graph</b>(<i>grph, name, edgeInfo=True, typing=False, suffix='csv', overwrite=True</i>)</a></article></li>
+<li><article><a href="#writeGraph"><b>writeGraph</b>(<i>grph, name, edgeInfo=True, typing=False, suffix='csv', overwrite=True</i>)</a></article></li>
 <li><article><a href="#recordParser"><b>recordParser</b>(<i>paper</i>)</a></article></li>
-<li><article><a href="#isiParser"><b>isiParser</b>(<i>isifile</i>)</a></article></li>
+<li><article><a href="#wosParser"><b>wosParser</b>(<i>isifile</i>)</a></article></li>
 <li><article><a href="#tagToFull"><b>tagToFull</b>(<i>tag</i>)</a></article></li>
 <li><article><a href="#normalizeToTag"><b>normalizeToTag</b>(<i>val</i>)</a></article></li>
 <li><article><a href="#normalizeToName"><b>normalizeToName</b>(<i>val</i>)</a></article></li>
 <li><article><a href="#isTagOrName"><b>isTagOrName</b>(<i>val</i>)</a></article></li>
 <li><article><a href="#isAnonymous"><small>Citation</small>.<b>isAnonymous</b>()</a></article></li>
-<li><article><a href="#getID"><small>Citation</small>.<b>getID</b>()</a></article></li>
+<li><article><a href="#ID"><small>Citation</small>.<b>ID</b>()</a></article></li>
 <li><article><a href="#allButDOI"><small>Citation</small>.<b>allButDOI</b>()</a></article></li>
-<li><article><a href="#getExtra"><small>Citation</small>.<b>getExtra</b>()</a></article></li>
+<li><article><a href="#Extra"><small>Citation</small>.<b>Extra</b>()</a></article></li>
 <li><article><a href="#isJournal"><small>Citation</small>.<b>isJournal</b>(<i>dbname='j9Abbreviations', manaulDB='manualj9Abbreviations', returnDict='both', checkIfExcluded=False</i>)</a></article></li>
-<li><article><a href="#getFullJournalName"><small>Citation</small>.<b>getFullJournalName</b>()</a></article></li>
+<li><article><a href="#FullJournalName"><small>Citation</small>.<b>FullJournalName</b>()</a></article></li>
 <li><article><a href="#addToDB"><small>Citation</small>.<b>addToDB</b>(<i>manualName=None, manaulDB='manualj9Abbreviations', invert=False</i>)</a></article></li>
 <li><article><a href="#numAuthors"><small>Record</small>.<b>numAuthors</b>()</a></article></li>
-<li><article><a href="#getTag"><small>Record</small>.<b>getTag</b>(<i>tag, clean=False</i>)</a></article></li>
+<li><article><a href="#Tag"><small>Record</small>.<b>Tag</b>(<i>tag, clean=False</i>)</a></article></li>
 <li><article><a href="#createCitation"><small>Record</small>.<b>createCitation</b>(<i>multiCite=False</i>)</a></article></li>
-<li><article><a href="#getTagsList"><small>Record</small>.<b>getTagsList</b>(<i>taglst, cleaned=False</i>)</a></article></li>
-<li><article><a href="#getTagsDict"><small>Record</small>.<b>getTagsDict</b>(<i>taglst, cleaned=False</i>)</a></article></li>
+<li><article><a href="#TagsList"><small>Record</small>.<b>TagsList</b>(<i>taglst, cleaned=False</i>)</a></article></li>
+<li><article><a href="#TagsDict"><small>Record</small>.<b>TagsDict</b>(<i>taglst, cleaned=False</i>)</a></article></li>
 <li><article><a href="#activeTags"><small>Record</small>.<b>activeTags</b>()</a></article></li>
 <li><article><a href="#writeRecord"><small>Record</small>.<b>writeRecord</b>(<i>infile</i>)</a></article></li>
 <li><article><a href="#bibString"><small>Record</small>.<b>bibString</b>(<i>maxLength=1000, WOSMode=False, restrictedOutput=False, niceID=True</i>)</a></article></li>
@@ -68,8 +68,8 @@ search_omit: true
 <li><article><a href="#peak"><small>RecordCollection</small>.<b>peak</b>()</a></article></li>
 <li><article><a href="#dropWOS"><small>RecordCollection</small>.<b>dropWOS</b>(<i>wosNum</i>)</a></article></li>
 <li><article><a href="#addRec"><small>RecordCollection</small>.<b>addRec</b>(<i>Rec</i>)</a></article></li>
-<li><article><a href="#getWOS"><small>RecordCollection</small>.<b>getWOS</b>(<i>wosNum, drop=False</i>)</a></article></li>
-<li><article><a href="#getBadRecords"><small>RecordCollection</small>.<b>getBadRecords</b>()</a></article></li>
+<li><article><a href="#WOS"><small>RecordCollection</small>.<b>WOS</b>(<i>wosNum, drop=False</i>)</a></article></li>
+<li><article><a href="#BadRecords"><small>RecordCollection</small>.<b>BadRecords</b>()</a></article></li>
 <li><article><a href="#dropBadRecords"><small>RecordCollection</small>.<b>dropBadRecords</b>()</a></article></li>
 <li><article><a href="#dropNonJournals"><small>RecordCollection</small>.<b>dropNonJournals</b>(<i>ptVal='J', dropBad=True, invert=False</i>)</a></article></li>
 <li><article><a href="#writeFile"><small>RecordCollection</small>.<b>writeFile</b>(<i>fname=None</i>)</a></article></li>
@@ -81,8 +81,8 @@ search_omit: true
 <li><article><a href="#citationNetwork"><small>RecordCollection</small>.<b>citationNetwork</b>(<i>dropAnon=True, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, directed=True, keyWords=None, detailedCore=None, coreOnly=False, expandedCore=False</i>)</a></article></li>
 <li><article><a href="#yearSplit"><small>RecordCollection</small>.<b>yearSplit</b>(<i>startYear, endYear, dropMissingYears=True</i>)</a></article></li>
 <li><article><a href="#oneModeNetwork"><small>RecordCollection</small>.<b>oneModeNetwork</b>(<i>mode, nodeCount=True, edgeWeight=True, stemmer=None</i>)</a></article></li>
-<li><article><a href="#graphDensityContourPlot"><small>visual</small>.<b>graphDensityContourPlot</b>(<i>G, iters=50, layout=None, layoutScaleFactor=1, overlay=False, nodeSize=10, axisSamples=100, blurringFactor=0.1, contours=15, graphType='coloured'</i>)</a></article></li>
-<li><article><a href="#quickVisual"><small>visual</small>.<b>quickVisual</b>(<i>G, showLabel=False</i>)</a></article></li>
+<li><article><a href="#graphDensityContourPlot"><small>contour</small>.<b>graphDensityContourPlot</b>(<i>G, iters=50, layout=None, layoutScaleFactor=1, overlay=False, nodeSize=10, axisSamples=100, blurringFactor=0.1, contours=15, graphType='coloured'</i>)</a></article></li>
+<li><article><a href="#quickVisual"><small>contour</small>.<b>quickVisual</b>(<i>G, showLabel=False</i>)</a></article></li>
 <li><article><a href="#getj9dict"><small>journalAbbreviations</small>.<b>getj9dict</b>(<i>dbname='j9Abbreviations', manualDB='manualj9Abbreviations', returnDict='both'</i>)</a></article></li>
 <li><article><a href="#addToDB"><small>journalAbbreviations</small>.<b>addToDB</b>(<i>abbr=None, dbname='manualj9Abbreviations'</i>)</a></article></li>
 <li><article><a href="#excludeFromDB"><small>journalAbbreviations</small>.<b>excludeFromDB</b>(<i>abbr=None, dbname='manualj9Abbreviations'</i>)</a></article></li>
@@ -167,7 +167,7 @@ To load the data from files and make a network:
     Done making a co-citation network of files-from-records                 1.1s
     >>> print(len(G.nodes()))
     223
-    >>> mk.write_graph(G, "Cocitation-Network-of-Journals")
+    >>> mk.writeGraph(G, "Cocitation-Network-of-Journals")
 
 There is also a simple command line program called `metaknowledge` that comes with the package. It allows for creating networks without any need to know Python. More information about it can be found at [networkslab.org/metaknowledge/cli]({{ site.baseurl }}/cli)
 
@@ -193,19 +193,19 @@ The functions provided by metaknowledge are:
 
 <ul class="post-list">
 <li><article><a href="#filterNonJournals"><b>filterNonJournals</b>(<i>citesLst, invert=False</i>)</a></article></li>
-<li><article><a href="#diffusionGraph"><b>diffusionGraph</b>(<i>source, target, sourceType='raw', targetType='raw'</i>)</a></article></li>
+<li><article><a href="#diffusionGraph"><b>diffusionGraph</b>(<i>source, target, weighted=True, sourceType='raw', targetType='raw', labelEdgesBy=None</i>)</a></article></li>
 <li><article><a href="#diffusionCount"><b>diffusionCount</b>(<i>source, target, sourceType='raw', pandasFriendly=False, compareCounts=False, numAuthors=True, byYear=False</i>)</a></article></li>
-<li><article><a href="#read_graph"><b>read_graph</b>(<i>edgeList, nodeList=None, directed=False, idKey='ID', eSource='From', eDest='To'</i>)</a></article></li>
-<li><article><a href="#write_edgeList"><b>write_edgeList</b>(<i>grph, name, extraInfo=True, allSameAttribute=False</i>)</a></article></li>
-<li><article><a href="#write_nodeAttributeFile"><b>write_nodeAttributeFile</b>(<i>grph, name, allSameAttribute=False</i>)</a></article></li>
-<li><article><a href="#drop_edges"><b>drop_edges</b>(<i>grph, minWeight=-inf, maxWeight=inf, parameterName='weight', ignoreUnweighted=False, dropSelfLoops=False</i>)</a></article></li>
-<li><article><a href="#drop_nodesByDegree"><b>drop_nodesByDegree</b>(<i>grph, minDegree=-inf, maxDegree=inf, useWeight=True, parameterName='weight', includeUnweighted=True</i>)</a></article></li>
-<li><article><a href="#drop_nodesByCount"><b>drop_nodesByCount</b>(<i>grph, minCount=-inf, maxCount=inf, parameterName='count', ignoreMissing=False</i>)</a></article></li>
+<li><article><a href="#readGraph"><b>readGraph</b>(<i>edgeList, nodeList=None, directed=False, idKey='ID', eSource='From', eDest='To'</i>)</a></article></li>
+<li><article><a href="#writeEdgeList"><b>writeEdgeList</b>(<i>grph, name, extraInfo=True, allSameAttribute=False</i>)</a></article></li>
+<li><article><a href="#writeNodeAttributeFile"><b>writeNodeAttributeFile</b>(<i>grph, name, allSameAttribute=False</i>)</a></article></li>
+<li><article><a href="#dropEdges"><b>dropEdges</b>(<i>grph, minWeight=-inf, maxWeight=inf, parameterName='weight', ignoreUnweighted=False, dropSelfLoops=False</i>)</a></article></li>
+<li><article><a href="#dropNodesByDegree"><b>dropNodesByDegree</b>(<i>grph, minDegree=-inf, maxDegree=inf, useWeight=True, parameterName='weight', includeUnweighted=True</i>)</a></article></li>
+<li><article><a href="#dropNodesByCount"><b>dropNodesByCount</b>(<i>grph, minCount=-inf, maxCount=inf, parameterName='count', ignoreMissing=False</i>)</a></article></li>
 <li><article><a href="#mergeGraphs"><b>mergeGraphs</b>(<i>targetGraph, addedGraph, incrementedNodeVal='count', incrementedEdgeVal='weight'</i>)</a></article></li>
 <li><article><a href="#graphStats"><b>graphStats</b>(<i>G, stats=('nodes', 'edges', 'isolates', 'loops', 'density', 'transitivity'), makeString=True</i>)</a></article></li>
-<li><article><a href="#write_graph"><b>write_graph</b>(<i>grph, name, edgeInfo=True, typing=False, suffix='csv', overwrite=True</i>)</a></article></li>
+<li><article><a href="#writeGraph"><b>writeGraph</b>(<i>grph, name, edgeInfo=True, typing=False, suffix='csv', overwrite=True</i>)</a></article></li>
 <li><article><a href="#recordParser"><b>recordParser</b>(<i>paper</i>)</a></article></li>
-<li><article><a href="#isiParser"><b>isiParser</b>(<i>isifile</i>)</a></article></li>
+<li><article><a href="#wosParser"><b>wosParser</b>(<i>isifile</i>)</a></article></li>
 <li><article><a href="#tagToFull"><b>tagToFull</b>(<i>tag</i>)</a></article></li>
 <li><article><a href="#normalizeToTag"><b>normalizeToTag</b>(<i>val</i>)</a></article></li>
 <li><article><a href="#normalizeToName"><b>normalizeToName</b>(<i>val</i>)</a></article></li>
@@ -236,9 +236,9 @@ _invert_ : `optional [bool]`
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="diffusionGraph"></a><small></small>**[<ins>diffusionGraph</ins>]({{ site.baseurl }}{{ page.url }}#diffusionGraph)**(_source, target, sourceType='raw', targetType='raw'_):
+<a name="diffusionGraph"></a><small></small>**[<ins>diffusionGraph</ins>]({{ site.baseurl }}{{ page.url }}#diffusionGraph)**(_source, target, weighted=True, sourceType='raw', targetType='raw', labelEdgesBy=None_):
 
-Takes in two [`RecordCollections`]({{ site.baseurl }}{{ page.url }}#RecordCollection) and produces a graph of the citations of _source_ by the [`Records`]({{ site.baseurl }}{{ page.url }}#Record) in _target_. By default the nodes in the are `Record` objects but this can be changed with the _sourceType_ and _targetType_ keywords.
+Takes in two [`RecordCollections`]({{ site.baseurl }}{{ page.url }}#RecordCollection) and produces a graph of the citations of _source_ by the [`Records`]({{ site.baseurl }}{{ page.url }}#Record) in _target_. By default the nodes in the are `Record` objects but this can be changed with the _sourceType_ and _targetType_ keywords. The edges of the graph go from the target to the source.
 
 Each node on the output graph has two boolean attributes, `"source"` and `"target"` indicating if they are targets or sources. Note, if the types of the sources and targets are different the attributes will not be checked for overlap of the other type. e.g. if the source type is `'TI'` (title) and the target type is `'UT'` (WOS number), and there is some overlap of the targets and sources. Then the Record corresponding to a source node will not be checked for being one of the titles of the targets, only its WOS number will be considered.
 
@@ -252,19 +252,33 @@ _target_ : `RecordCollection`
 
  A metaknowledge `RecordCollection` containing the `Records` citing those in _source_
 
-_sourceType_ : `str`
+_weighted_ : `optional [bool]`
 
- default `'raw'`, if `'raw'` the returned graph will contain `Records` as source nodes. If it is a WOS tag then the nodes will be of that type.
+ Default `True`, if `True` each edge will have an attribute `'weight'` giving the number of times the source has referenced the target.
 
-_targetType_ : `str`
+_sourceType_ : `optional [str]`
 
- default `'raw'`, if `'raw'` the returned graph will contain `Records` as target nodes. If it is a WOS tag of the long name of one then the nodes will be of that type.
+ Default `'raw'`, if `'raw'` the returned graph will contain `Records` as source nodes.
+
+ If Records are not wanted then it can be set to a WOS tag, such as `'SO'` (for journals ), to make the nodes into the type of object returned by that tag from Records.
+
+_targetType_ : `optional [str]`
+
+ Default `'raw'`, if `'raw'` the returned graph will contain `Records` as target nodes.
+
+ If Records are not wanted then it can be set to a WOS tag, such as `'SO'` (for journals ), to make the nodes into the type of object returned by that tag from Records.
+
+_labelEdgesBy_ : `optional [str]`
+
+ Default `None`, if a WOS tag (or long name of WOS tag) then the edges of the output graph will have a attribute `'key'` that is the value of the referenced tag, of source `Record`, i.e. if `'PY'` is given then each edge will have a `'key'` value equal to the publication year of the source.
+
+ This option will cause the output graph to be an `MultiDiGraph` and is likely to result in parallel edges. If a `Record` has multiple values for at tag (e.g. `'AF'`) the each tag will create its own edge.
 
 ###### Returns
 
-`networkx Directed Graph`
+`networkx Directed Graph or networkx multi Directed Graph`
 
- A directed graph of the diffusion network
+ A directed graph of the diffusion network, _labelEdgesBy_ is used the graph will allow parallel edges.
 
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
@@ -312,17 +326,17 @@ default `False`, if `True` the returned dictionary will have Records mapped to m
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="read_graph"></a><small></small>**[<ins>read_graph</ins>]({{ site.baseurl }}{{ page.url }}#read_graph)**(_edgeList, nodeList=None, directed=False, idKey='ID', eSource='From', eDest='To'_):
+<a name="readGraph"></a><small></small>**[<ins>readGraph</ins>]({{ site.baseurl }}{{ page.url }}#readGraph)**(_edgeList, nodeList=None, directed=False, idKey='ID', eSource='From', eDest='To'_):
 
 Reads the files given by _edgeList_ and _nodeList_ and creates a networkx graph for the files.
 
-This is designed only for the files produced by metaknowledge and is meant to be the reverse of [write_graph()]({{ site.baseurl }}{{ page.url }}#write_graph), if this does not produce the desired results the networkx builtin [networkx.read_edgelist()](https://networkx.github.io/documentation/networkx-1.10/reference/generated/networkx.readwrite.edgelist.read_edgelist.html) could be tried as it is aimed at a more general usage.
+This is designed only for the files produced by metaknowledge and is meant to be the reverse of [writeGraph()]({{ site.baseurl }}{{ page.url }}#writeGraph), if this does not produce the desired results the networkx builtin [networkx.read_edgelist()](https://networkx.github.io/documentation/networkx-1.10/reference/generated/networkx.readwrite.edgelist.read_edgelist.html) could be tried as it is aimed at a more general usage.
 
 The read edge list format assumes the column named _eSource_ (default `'From'`) is the source node, then the column _eDest_ (default `'To'`) givens the destination and all other columns are attributes of the edges, e.g. weight.
 
 The read node list format assumes the column _idKey_ (default `'ID'`) is the ID of the node for the edge list and the resulting network. All other columns are considered attributes of the node, e.g. count.
 
-**Note**: If the names of the columns do not match those given to **read_graph()** a `KeyError` exception will be raised.
+**Note**: If the names of the columns do not match those given to **readGraph()** a `KeyError` exception will be raised.
 
 **Note**: If nodes appear in the edgelist but not the nodeList they will be created silently with no attributes.
 
@@ -361,7 +375,7 @@ _eDest_ : `optional [str]`
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="write_edgeList"></a><small></small>**[<ins>write_edgeList</ins>]({{ site.baseurl }}{{ page.url }}#write_edgeList)**(_grph, name, extraInfo=True, allSameAttribute=False_):
+<a name="writeEdgeList"></a><small></small>**[<ins>writeEdgeList</ins>]({{ site.baseurl }}{{ page.url }}#writeEdgeList)**(_grph, name, extraInfo=True, allSameAttribute=False_):
 
 Writes an edge list of _grph_ at the destination _name_.
 
@@ -390,7 +404,7 @@ _allSameAttribute_ : `optional [bool]`
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="write_nodeAttributeFile"></a><small></small>**[<ins>write_nodeAttributeFile</ins>]({{ site.baseurl }}{{ page.url }}#write_nodeAttributeFile)**(_grph, name, allSameAttribute=False_):
+<a name="writeNodeAttributeFile"></a><small></small>**[<ins>writeNodeAttributeFile</ins>]({{ site.baseurl }}{{ page.url }}#writeNodeAttributeFile)**(_grph, name, allSameAttribute=False_):
 
 Writes a node attribute list of _grph_ to the file given by the path _name_.
 
@@ -415,11 +429,11 @@ _allSameAttribute_ : `optional [bool]`
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="drop_edges"></a><small></small>**[<ins>drop_edges</ins>]({{ site.baseurl }}{{ page.url }}#drop_edges)**(_grph, minWeight=-inf, maxWeight=inf, parameterName='weight', ignoreUnweighted=False, dropSelfLoops=False_):
+<a name="dropEdges"></a><small></small>**[<ins>dropEdges</ins>]({{ site.baseurl }}{{ page.url }}#dropEdges)**(_grph, minWeight=-inf, maxWeight=inf, parameterName='weight', ignoreUnweighted=False, dropSelfLoops=False_):
 
 Modifies _grph_ by dropping edges whose weight is not within the inclusive bounds of _minWeight_ and _maxWeight_, i.e after running _grph_ will only have edges whose weights meet the following inequality: _minWeight_ <= edge's weight <= _maxWeight_. A `Keyerror` will be raised if the graph is unweighted unless _ignoreUnweighted_ is `True`, the weight is determined by examining the attribute _parameterName_.
 
-**Note**: none of the default options will result in _grph_ being modified so only specify the relevant ones, e.g. `drop_edges(G, dropSelfLoops = True)` will remove only the self loops from `G`.
+**Note**: none of the default options will result in _grph_ being modified so only specify the relevant ones, e.g. `dropEdges(G, dropSelfLoops = True)` will remove only the self loops from `G`.
 
 ###### Parameters
 
@@ -450,7 +464,7 @@ _dropSelfLoops_ : `optional [bool]`
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="drop_nodesByDegree"></a><small></small>**[<ins>drop_nodesByDegree</ins>]({{ site.baseurl }}{{ page.url }}#drop_nodesByDegree)**(_grph, minDegree=-inf, maxDegree=inf, useWeight=True, parameterName='weight', includeUnweighted=True_):
+<a name="dropNodesByDegree"></a><small></small>**[<ins>dropNodesByDegree</ins>]({{ site.baseurl }}{{ page.url }}#dropNodesByDegree)**(_grph, minDegree=-inf, maxDegree=inf, useWeight=True, parameterName='weight', includeUnweighted=True_):
 
 Modifies _grph_ by dropping nodes that do not have a degree that is within inclusive bounds of _minDegree_ and _maxDegree_, i.e after running _grph_ will only have nodes whose degrees meet the following inequality: _minDegree_ <= node's degree <= _maxDegree_.
 
@@ -486,7 +500,7 @@ _includeUnweighted_ : `optional [bool]`
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="drop_nodesByCount"></a><small></small>**[<ins>drop_nodesByCount</ins>]({{ site.baseurl }}{{ page.url }}#drop_nodesByCount)**(_grph, minCount=-inf, maxCount=inf, parameterName='count', ignoreMissing=False_):
+<a name="dropNodesByCount"></a><small></small>**[<ins>dropNodesByCount</ins>]({{ site.baseurl }}{{ page.url }}#dropNodesByCount)**(_grph, minCount=-inf, maxCount=inf, parameterName='count', ignoreMissing=False_):
 
 Modifies _grph_ by dropping nodes that do not have a count that is within inclusive bounds of _minCount_ and _maxCount_, i.e after running _grph_ will only have nodes whose degrees meet the following inequality: _minCount_ <= node's degree <= _maxCount_.
 
@@ -584,7 +598,7 @@ _makeString_ : `optional [bool]`
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="write_graph"></a><small></small>**[<ins>write_graph</ins>]({{ site.baseurl }}{{ page.url }}#write_graph)**(_grph, name, edgeInfo=True, typing=False, suffix='csv', overwrite=True_):
+<a name="writeGraph"></a><small></small>**[<ins>writeGraph</ins>]({{ site.baseurl }}{{ page.url }}#writeGraph)**(_grph, name, edgeInfo=True, typing=False, suffix='csv', overwrite=True_):
 
 Writes both the edge list and the node attribute list of _grph_ to files starting with _name_.
 
@@ -594,7 +608,7 @@ The output files start with _name_, the file type (edgeList, nodeAttributes) the
 
 Both files are csv's with comma delimiters and double quote quoting characters. The edge list has two columns for the source and destination of the edge, `'From'` and `'To'` respectively, then, if _edgeInfo_ is `True`, for each attribute of the node another column is created. The node list has one column call "ID" with the node ids used by networkx and all other columns are the node attributes.
 
-To read back these files use [read_graph()]({{ site.baseurl }}{{ page.url }}#read_graph) and to write only one type of lsit use [write_edgeList()]({{ site.baseurl }}{{ page.url }}#write_edgeList) or [write_nodeAttributeFile()]({{ site.baseurl }}{{ page.url }}#write_nodeAttributeFile).
+To read back these files use [readGraph()]({{ site.baseurl }}{{ page.url }}#readGraph) and to write only one type of lsit use [writeEdgeList()]({{ site.baseurl }}{{ page.url }}#writeEdgeList) or [writeNodeAttributeFile()]({{ site.baseurl }}{{ page.url }}#writeNodeAttributeFile).
 
 **Warning**: this function will overwrite files, if they are in the way of the output, to prevent this set _overwrite_ to `False`
 
@@ -657,13 +671,13 @@ _paper_ : `file stream`
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="isiParser"></a><small></small>**[<ins>isiParser</ins>]({{ site.baseurl }}{{ page.url }}#isiParser)**(_isifile_):
+<a name="wosParser"></a><small></small>**[<ins>wosParser</ins>]({{ site.baseurl }}{{ page.url }}#wosParser)**(_isifile_):
 
 This is function that is used to create [`RecordCollections`]({{ site.baseurl }}{{ page.url }}#RecordCollection) from files.
 
-**isiParser**() reads the file given by the path isifile, checks that the header is correct then reads until it reaches EF. All WOS records it encounters are parsed with [**recordParser**()]({{ site.baseurl }}{{ page.url }}#recordParser) and converted into [`Records`]({{ site.baseurl }}{{ page.url }}#Record). A list of these `Records` is returned.
+**wosParser**() reads the file given by the path isifile, checks that the header is correct then reads until it reaches EF. All WOS records it encounters are parsed with [**recordParser**()]({{ site.baseurl }}{{ page.url }}#recordParser) and converted into [`Records`]({{ site.baseurl }}{{ page.url }}#Record). A list of these `Records` is returned.
 
-`BadISIFile` is raised if an issue is found with the file.
+`BadWOSFile` is raised if an issue is found with the file.
 
 ###### Parameters
 
@@ -763,7 +777,7 @@ Exception thrown by Citation
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="BadISIRecord"></a><small></small>**[<ins>BadISIRecord</ins>]({{ site.baseurl }}{{ page.url }}#BadISIRecord)**(_Warning_):
+<a name="BadWOSRecord"></a><small></small>**[<ins>BadWOSRecord</ins>]({{ site.baseurl }}{{ page.url }}#BadWOSRecord)**(_Warning_):
 
 Exception thrown by the [record parser](#metaknowledge.recordParser) to indicate a mis-formated record. This occurs when some component of the record does not parse. The messages will be any of:
 
@@ -775,7 +789,7 @@ Exception thrown by the [record parser](#metaknowledge.recordParser) to indicate
 
     * _Missing WOS number_, which indicates the record did not have a 'UT' tag.
 
-Records with a BadISIRecord error are likely incomplete or the combination of two or more single records.
+Records with a BadWOSRecord error are likely incomplete or the combination of two or more single records.
 
 
 
@@ -805,7 +819,7 @@ Combined they look like:
 
 ##### Customizations
 
-Citation's hashing and equality checking are based on [`getID()`](#getID) and use the values of `author`, `year` and `journal`.
+Citation's hashing and equality checking are based on [`ID()`](#ID) and use the values of `author`, `year` and `journal`.
 
 When converted to a string a Citation will return the original string.
 
@@ -833,11 +847,11 @@ The Citation class has the following methods:
 
 <ul class="post-list">
 <li><article><a href="#isAnonymous"><b>isAnonymous</b>()</a></article></li>
-<li><article><a href="#getID"><b>getID</b>()</a></article></li>
+<li><article><a href="#ID"><b>ID</b>()</a></article></li>
 <li><article><a href="#allButDOI"><b>allButDOI</b>()</a></article></li>
-<li><article><a href="#getExtra"><b>getExtra</b>()</a></article></li>
+<li><article><a href="#Extra"><b>Extra</b>()</a></article></li>
 <li><article><a href="#isJournal"><b>isJournal</b>(<i>dbname='j9Abbreviations', manaulDB='manualj9Abbreviations', returnDict='both', checkIfExcluded=False</i>)</a></article></li>
-<li><article><a href="#getFullJournalName"><b>getFullJournalName</b>()</a></article></li>
+<li><article><a href="#FullJournalName"><b>FullJournalName</b>()</a></article></li>
 <li><article><a href="#addToDB"><b>addToDB</b>(<i>manualName=None, manaulDB='manualj9Abbreviations', invert=False</i>)</a></article></li>
 </ul>
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
@@ -855,9 +869,9 @@ Checks if the author is given as `'[ANONYMOUS]'` and returns `True` if so.
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="getID"></a><small>Citation.</small>**[<ins>getID</ins>]({{ site.baseurl }}{{ page.url }}#getID)**():
+<a name="ID"></a><small>Citation.</small>**[<ins>ID</ins>]({{ site.baseurl }}{{ page.url }}#ID)**():
 
-Returns all of `author`, `year` and `journal` available separated by `' ,'`. It is for shortening labels when creating networks as the resultant strings are often unique. [**getExtra**()]({{ site.baseurl }}{{ page.url }}#getExtra) gets everything not returned by **getID**().
+Returns all of `author`, `year` and `journal` available separated by `' ,'`. It is for shortening labels when creating networks as the resultant strings are often unique. [**Extra**()]({{ site.baseurl }}{{ page.url }}#Extra) gets everything not returned by **ID**().
 
 This is also used for hashing and equality checking.
 
@@ -872,7 +886,7 @@ This is also used for hashing and equality checking.
 
 <a name="allButDOI"></a><small>Citation.</small>**[<ins>allButDOI</ins>]({{ site.baseurl }}{{ page.url }}#allButDOI)**():
 
-Returns a string of the normalized values from the Citation excluding the DOI number. Equivalent to getting the ID with [**getID**()]({{ site.baseurl }}{{ page.url }}#getID) then appending the extra values from [**getExtra**()]({{ site.baseurl }}{{ page.url }}#getExtra) and then removing the substring containing the DOI number.
+Returns a string of the normalized values from the Citation excluding the DOI number. Equivalent to getting the ID with [**ID**()]({{ site.baseurl }}{{ page.url }}#ID) then appending the extra values from [**Extra**()]({{ site.baseurl }}{{ page.url }}#Extra) and then removing the substring containing the DOI number.
 
 ###### Returns
 
@@ -883,9 +897,9 @@ Returns a string of the normalized values from the Citation excluding the DOI nu
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="getExtra"></a><small>Citation.</small>**[<ins>getExtra</ins>]({{ site.baseurl }}{{ page.url }}#getExtra)**():
+<a name="Extra"></a><small>Citation.</small>**[<ins>Extra</ins>]({{ site.baseurl }}{{ page.url }}#Extra)**():
 
-Returns any `V`, `P`, `DOI` or `misc` values as a string. These are all the values not returned by [**getID**()]({{ site.baseurl }}{{ page.url }}#getID), they are separated by `' ,'`.
+Returns any `V`, `P`, `DOI` or `misc` values as a string. These are all the values not returned by [**ID**()]({{ site.baseurl }}{{ page.url }}#ID), they are separated by `' ,'`.
 
 ###### Returns
 
@@ -927,7 +941,7 @@ _returnDict_ : `optional [str]`
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="getFullJournalName"></a><small>Citation.</small>**[<ins>getFullJournalName</ins>]({{ site.baseurl }}{{ page.url }}#getFullJournalName)**():
+<a name="FullJournalName"></a><small>Citation.</small>**[<ins>FullJournalName</ins>]({{ site.baseurl }}{{ page.url }}#FullJournalName)**():
 
 Returns the full name of the Citation's journal field. Requires the [j9Abbreviations]({{ site.baseurl }}{{ page.url }}#getj9dict) database file.
 
@@ -974,7 +988,7 @@ Class for full WOS records
 
 It is meant to be immutable; many of the methods and attributes are evaluated when first called, not when the object is created, and the results are stored privately.
 
-The record's meta-data is stored in an ordered dictionary labeled by WOS tags. To access the raw data stored in the original record the [**getTag**()](#getTag) method can be used. To access data that has been processed and cleaned the attributes named after the tags are used.
+The record's meta-data is stored in an ordered dictionary labeled by WOS tags. To access the raw data stored in the original record the [**Tag**()](#Tag) method can be used. To access data that has been processed and cleaned the attributes named after the tags are used.
 
 ##### Customizations
 
@@ -1020,10 +1034,10 @@ The Record class has the following methods:
 
 <ul class="post-list">
 <li><article><a href="#numAuthors"><b>numAuthors</b>()</a></article></li>
-<li><article><a href="#getTag"><b>getTag</b>(<i>tag, clean=False</i>)</a></article></li>
+<li><article><a href="#Tag"><b>Tag</b>(<i>tag, clean=False</i>)</a></article></li>
 <li><article><a href="#createCitation"><b>createCitation</b>(<i>multiCite=False</i>)</a></article></li>
-<li><article><a href="#getTagsList"><b>getTagsList</b>(<i>taglst, cleaned=False</i>)</a></article></li>
-<li><article><a href="#getTagsDict"><b>getTagsDict</b>(<i>taglst, cleaned=False</i>)</a></article></li>
+<li><article><a href="#TagsList"><b>TagsList</b>(<i>taglst, cleaned=False</i>)</a></article></li>
+<li><article><a href="#TagsDict"><b>TagsDict</b>(<i>taglst, cleaned=False</i>)</a></article></li>
 <li><article><a href="#activeTags"><b>activeTags</b>()</a></article></li>
 <li><article><a href="#writeRecord"><b>writeRecord</b>(<i>infile</i>)</a></article></li>
 <li><article><a href="#bibString"><b>bibString</b>(<i>maxLength=1000, WOSMode=False, restrictedOutput=False, niceID=True</i>)</a></article></li>
@@ -1044,7 +1058,7 @@ Returns the number of authors of the records, i.e. `len(self.authors)`
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="getTag"></a><small>Record.</small>**[<ins>getTag</ins>]({{ site.baseurl }}{{ page.url }}#getTag)**(_tag, clean=False_):
+<a name="Tag"></a><small>Record.</small>**[<ins>Tag</ins>]({{ site.baseurl }}{{ page.url }}#Tag)**(_tag, clean=False_):
 
 Returns a list containing the raw data of the record associated with _tag_. Each line of the record is one string in the list.
 
@@ -1086,14 +1100,14 @@ _multiCite_ : `optional [bool]`
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="getTagsList"></a><small>Record.</small>**[<ins>getTagsList</ins>]({{ site.baseurl }}{{ page.url }}#getTagsList)**(_taglst, cleaned=False_):
+<a name="TagsList"></a><small>Record.</small>**[<ins>TagsList</ins>]({{ site.baseurl }}{{ page.url }}#TagsList)**(_taglst, cleaned=False_):
 
-Returns a list of the results of [**getTag**()]({{ site.baseurl }}{{ page.url }}#getTag) for each tag in _taglist_, the return has the same order as the original.
+Returns a list of the results of [**Tag**()]({{ site.baseurl }}{{ page.url }}#Tag) for each tag in _taglist_, the return has the same order as the original.
 
 ###### Parameters
 _taglst_ : `List[str]`
 
- Each string in _taglst_ can be a two character string corresponding to a WOS tag e.g. 'J9', the matching is case insensitive so 'j9' is the same as 'J9',  or it can be one of the full names for a tag with the mappings in [fullToTag]({{ site.baseurl }}{{ page.url }}#tagProcessing). If the string is not found in the original record before or after being translated through [fullToTag]({{ site.baseurl }}{{ page.url }}#tagProcessing), `None` is used instead. Same as in [**getTag()**]({{ site.baseurl }}{{ page.url }}#getTag)
+ Each string in _taglst_ can be a two character string corresponding to a WOS tag e.g. 'J9', the matching is case insensitive so 'j9' is the same as 'J9',  or it can be one of the full names for a tag with the mappings in [fullToTag]({{ site.baseurl }}{{ page.url }}#tagProcessing). If the string is not found in the original record before or after being translated through [fullToTag]({{ site.baseurl }}{{ page.url }}#tagProcessing), `None` is used instead. Same as in [**Tag()**]({{ site.baseurl }}{{ page.url }}#Tag)
 
  Then they are compiled into a list in the same order as _taglst_
 
@@ -1106,14 +1120,14 @@ _taglst_ : `List[str]`
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="getTagsDict"></a><small>Record.</small>**[<ins>getTagsDict</ins>]({{ site.baseurl }}{{ page.url }}#getTagsDict)**(_taglst, cleaned=False_):
+<a name="TagsDict"></a><small>Record.</small>**[<ins>TagsDict</ins>]({{ site.baseurl }}{{ page.url }}#TagsDict)**(_taglst, cleaned=False_):
 
-returns a dict of the results of getTag, with the elements of _taglst_ as the keys and the results as the values.
+returns a dict of the results of Tag, with the elements of _taglst_ as the keys and the results as the values.
 
 ###### Parameters
 _taglst_ : `List[str]`
 
- Each string in _taglst_ can be a two character string corresponding to a WOS tag e.g. 'J9', the matching is case insensitive so 'j9' is the same as 'J9'. Or it can be one of the full names for a tag with the mappings in [fullToTag]({{ site.baseurl }}{{ page.url }}#tagProcessing). If the string is not found in the oriagnal record before or after being translated through [fullToTag]({{ site.baseurl }}{{ page.url }}#tagProcessing), `None` is used instead. Same as in [**getTag**()]({{ site.baseurl }}{{ page.url }}#getTag)
+ Each string in _taglst_ can be a two character string corresponding to a WOS tag e.g. 'J9', the matching is case insensitive so 'j9' is the same as 'J9'. Or it can be one of the full names for a tag with the mappings in [fullToTag]({{ site.baseurl }}{{ page.url }}#tagProcessing). If the string is not found in the oriagnal record before or after being translated through [fullToTag]({{ site.baseurl }}{{ page.url }}#tagProcessing), `None` is used instead. Same as in [**Tag**()]({{ site.baseurl }}{{ page.url }}#Tag)
 
 ###### Returns
 
@@ -1126,7 +1140,7 @@ _taglst_ : `List[str]`
 
 <a name="activeTags"></a><small>Record.</small>**[<ins>activeTags</ins>]({{ site.baseurl }}{{ page.url }}#activeTags)**():
 
-Returns a list of all the tags the original WOS record had. These are all the tags that [**getTag**()]({{ site.baseurl }}{{ page.url }}#getTag) will not return `None` for.
+Returns a list of all the tags the original WOS record had. These are all the tags that [**Tag**()]({{ site.baseurl }}{{ page.url }}#Tag) will not return `None` for.
 
 ###### Returns
 
@@ -1201,7 +1215,7 @@ Returns the bibTex type corresonding to the record
 <a name="RecordCollection"></a>
 <a name="RecordCollection"></a><small></small>**[<ins>RecordCollection</ins>](#RecordCollection)**(_object_):
 
-<a name="RecordCollection.__init__"></a><small></small>**[<ins>RecordCollection.__init__</ins>](#RecordCollection.__init__)**(_inCollection=None, name='', extension=''_):
+<a name="RecordCollection.__init__"></a><small></small>**[<ins>RecordCollection.__init__</ins>](#RecordCollection.__init__)**(_inCollection=None, name='', extension='', cached=False_):
 
 A container for a large number of indivual WOS records.
 
@@ -1237,6 +1251,14 @@ _extension_ : `optional [str]`
 
  The extension to search for when reading a directory for files. _extension_ is the suffix searched for when a directory is read for files, by default it is empty so all files are read.
 
+_cached_ : `optional [bool]`
+
+ Default `False`, if `True` and the _inCollection_ is a directory (a string giving the path to a directory) then the initialized `RecordCollection` will be saved in the directory as a Python pickle with the suffix `'.mkDirCache'`. Then if the `RecordCollection` is initialized a second time it will be recovered from the file, which is much faster than reprising every file in the directory.
+
+ _metaknowledge_ saves the names of the parsed files as well as their last modification times and will check these when recreating the `RecordCollection`, so modifying existing files or adding new ones will result in the entire directory being reanalyzed and a new cache file being created. The extension given to **__init__**() is taken into account as well and each suffix is given its own cache.
+
+ **Note** The pickle allows for arbitrary python code exicution so only use caches that you trust.
+
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 The RecordCollection class has the following methods:
@@ -1251,8 +1273,8 @@ The RecordCollection class has the following methods:
 <li><article><a href="#peak"><b>peak</b>()</a></article></li>
 <li><article><a href="#dropWOS"><b>dropWOS</b>(<i>wosNum</i>)</a></article></li>
 <li><article><a href="#addRec"><b>addRec</b>(<i>Rec</i>)</a></article></li>
-<li><article><a href="#getWOS"><b>getWOS</b>(<i>wosNum, drop=False</i>)</a></article></li>
-<li><article><a href="#getBadRecords"><b>getBadRecords</b>()</a></article></li>
+<li><article><a href="#WOS"><b>WOS</b>(<i>wosNum, drop=False</i>)</a></article></li>
+<li><article><a href="#BadRecords"><b>BadRecords</b>()</a></article></li>
 <li><article><a href="#dropBadRecords"><b>dropBadRecords</b>()</a></article></li>
 <li><article><a href="#dropNonJournals"><b>dropNonJournals</b>(<i>ptVal='J', dropBad=True, invert=False</i>)</a></article></li>
 <li><article><a href="#writeFile"><b>writeFile</b>(<i>fname=None</i>)</a></article></li>
@@ -1486,7 +1508,7 @@ _Rec_ : `Record or iterable[Record]`
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="getWOS"></a><small>RecordCollection.</small>**[<ins>getWOS</ins>]({{ site.baseurl }}{{ page.url }}#getWOS)**(_wosNum, drop=False_):
+<a name="WOS"></a><small>RecordCollection.</small>**[<ins>WOS</ins>]({{ site.baseurl }}{{ page.url }}#WOS)**(_wosNum, drop=False_):
 
 Gets the `Record` from the collection by its WOS number (ID number) _wosNum_.
 
@@ -1498,7 +1520,7 @@ _wosNum_ : `str`
 
 _drop_ : `optional [bool]`
 
- Default `False`. If `True` the Record is dropped from the collection after being extract, i.e. if `False` [**getWOS**()]({{ site.baseurl }}{{ page.url }}#getWOS) acts like [**peak**()]({{ site.baseurl }}{{ page.url }}#peak), if `True` it acts like [**pop**()]({{ site.baseurl }}{{ page.url }}#pop)
+ Default `False`. If `True` the Record is dropped from the collection after being extract, i.e. if `False` [**WOS**()]({{ site.baseurl }}{{ page.url }}#WOS) acts like [**peak**()]({{ site.baseurl }}{{ page.url }}#peak), if `True` it acts like [**pop**()]({{ site.baseurl }}{{ page.url }}#pop)
 
 ###### Returns
 
@@ -1509,7 +1531,7 @@ _drop_ : `optional [bool]`
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="getBadRecords"></a><small>RecordCollection.</small>**[<ins>getBadRecords</ins>]({{ site.baseurl }}{{ page.url }}#getBadRecords)**():
+<a name="BadRecords"></a><small>RecordCollection.</small>**[<ins>BadRecords</ins>]({{ site.baseurl }}{{ page.url }}#BadRecords)**():
 
 creates a `RecordCollection` containing all the `Record` which have their `bad` attribute set to `True`, i.e. all those removed by [**dropBadRecords**()]({{ site.baseurl }}{{ page.url }}#dropBadRecords).
 
@@ -1524,7 +1546,7 @@ creates a `RecordCollection` containing all the `Record` which have their `bad` 
 
 <a name="dropBadRecords"></a><small>RecordCollection.</small>**[<ins>dropBadRecords</ins>]({{ site.baseurl }}{{ page.url }}#dropBadRecords)**():
 
-Removes all `Records` with `bad` attribute `True` from the collection, i.e. drop all those returned by [**getBadRecords**()]({{ site.baseurl }}{{ page.url }}#getBadRecords).
+Removes all `Records` with `bad` attribute `True` from the collection, i.e. drop all those returned by [**BadRecords**()]({{ site.baseurl }}{{ page.url }}#BadRecords).
         
 
 
@@ -1912,18 +1934,18 @@ _stemmer_ : `optional [func]`
 
 
 ---
-<a name="visual"></a>
+<a name="contour"></a>
 
-# [visual]({{ site.baseurl }}{{ page.url }}#visual)
+# [contour]({{ site.baseurl }}{{ page.url }}#contour)
 
 Two functions based on _matplotlib_ for generating nicer looking graphs
 
-This is the only module that depends on anything besides _networkx_, as it depends on _numpy_, _scipy_ and _matplotlib_ in addition to _networkx_.
+This is the only module that depends on anything besides _networkx_, as it depends on _numpy_, _scipy_ and _matplotlib_ as well.
 
 
 
 
-The visual module provides the following functions:
+The contour module provides the following functions:
 
 <ul class="post-list">
 <li><article><a href="#graphDensityContourPlot"><b>graphDensityContourPlot</b>(<i>G, iters=50, layout=None, layoutScaleFactor=1, overlay=False, nodeSize=10, axisSamples=100, blurringFactor=0.1, contours=15, graphType='coloured'</i>)</a></article></li>
@@ -1931,7 +1953,7 @@ The visual module provides the following functions:
 </ul>
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="graphDensityContourPlot"></a><small>visual.</small>**[<ins>graphDensityContourPlot</ins>]({{ site.baseurl }}{{ page.url }}#graphDensityContourPlot)**(_G, iters=50, layout=None, layoutScaleFactor=1, overlay=False, nodeSize=10, axisSamples=100, blurringFactor=0.1, contours=15, graphType='coloured'_):
+<a name="graphDensityContourPlot"></a><small>contour.</small>**[<ins>graphDensityContourPlot</ins>]({{ site.baseurl }}{{ page.url }}#graphDensityContourPlot)**(_G, iters=50, layout=None, layoutScaleFactor=1, overlay=False, nodeSize=10, axisSamples=100, blurringFactor=0.1, contours=15, graphType='coloured'_):
 
 Creates a 3D plot giving the density of nodes on a 2D layout as a surface in 3 dimensions.
 
@@ -1982,7 +2004,7 @@ _graphType_ : `optional [str]`
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="quickVisual"></a><small>visual.</small>**[<ins>quickVisual</ins>]({{ site.baseurl }}{{ page.url }}#quickVisual)**(_G, showLabel=False_):
+<a name="quickVisual"></a><small>contour.</small>**[<ins>quickVisual</ins>]({{ site.baseurl }}{{ page.url }}#quickVisual)**(_G, showLabel=False_):
 
 just makes a simple matplotlib figure and displays it, with each node coloured by its type. You can add labels with _showLabel_.
 

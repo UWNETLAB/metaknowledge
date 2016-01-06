@@ -156,7 +156,7 @@
 
 <p>It is meant to be immutable; many of the methods and attributes are evaluated when first called, not when the object is created, and the results are stored privately.</p>
 
-<p>The record’s meta-data is stored in an ordered dictionary labeled by WOS tags. To access the raw data stored in the original record the <a href="/metaknowledge/docs/Record#getTag"><strong>getTag</strong>()</a> method can be used. To access data that has been processed and cleaned the attributes named after the tags are used.</p>
+<p>The record’s meta-data is stored in an ordered dictionary labeled by WOS tags. To access the raw data stored in the original record the <a href="/metaknowledge/docs/Record#Tag"><strong>Tag</strong>()</a> method can be used. To access data that has been processed and cleaned the attributes named after the tags are used.</p>
 
 <h5 id="customizations">Customizations</h5>
 
@@ -200,10 +200,10 @@
 
 <ul class="post-list">
 <li><article><a href="#numAuthors"><b>numAuthors</b>()</a></article></li>
-<li><article><a href="#getTag"><b>getTag</b>(<i>tag, clean=False</i>)</a></article></li>
+<li><article><a href="#Tag"><b>Tag</b>(<i>tag, clean=False</i>)</a></article></li>
 <li><article><a href="#createCitation"><b>createCitation</b>(<i>multiCite=False</i>)</a></article></li>
-<li><article><a href="#getTagsList"><b>getTagsList</b>(<i>taglst, cleaned=False</i>)</a></article></li>
-<li><article><a href="#getTagsDict"><b>getTagsDict</b>(<i>taglst, cleaned=False</i>)</a></article></li>
+<li><article><a href="#TagsList"><b>TagsList</b>(<i>taglst, cleaned=False</i>)</a></article></li>
+<li><article><a href="#TagsDict"><b>TagsDict</b>(<i>taglst, cleaned=False</i>)</a></article></li>
 <li><article><a href="#activeTags"><b>activeTags</b>()</a></article></li>
 <li><article><a href="#writeRecord"><b>writeRecord</b>(<i>infile</i>)</a></article></li>
 <li><article><a href="#bibString"><b>bibString</b>(<i>maxLength=1000, WOSMode=False, restrictedOutput=False, niceID=True</i>)</a></article></li>
@@ -223,7 +223,7 @@
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="getTag"></a><small>Record.</small><strong><a href="/metaknowledge/docs/Record#getTag"><ins>getTag</ins></a></strong>(<em>tag, clean=False</em>):</p>
+<p><a name="Tag"></a><small>Record.</small><strong><a href="/metaknowledge/docs/Record#Tag"><ins>Tag</ins></a></strong>(<em>tag, clean=False</em>):</p>
 
 <p>Returns a list containing the raw data of the record associated with <em>tag</em>. Each line of the record is one string in the list.</p>
 
@@ -263,14 +263,14 @@
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="getTagsList"></a><small>Record.</small><strong><a href="/metaknowledge/docs/Record#getTagsList"><ins>getTagsList</ins></a></strong>(<em>taglst, cleaned=False</em>):</p>
+<p><a name="TagsList"></a><small>Record.</small><strong><a href="/metaknowledge/docs/Record#TagsList"><ins>TagsList</ins></a></strong>(<em>taglst, cleaned=False</em>):</p>
 
-<p>Returns a list of the results of <a href="/metaknowledge/docs/Record#getTag"><strong>getTag</strong>()</a> for each tag in <em>taglist</em>, the return has the same order as the original.</p>
+<p>Returns a list of the results of <a href="/metaknowledge/docs/Record#Tag"><strong>Tag</strong>()</a> for each tag in <em>taglist</em>, the return has the same order as the original.</p>
 
 <h6 id="parameters-3">Parameters</h6>
 <p><em>taglst</em> : <code>List[str]</code></p>
 
-<p>Each string in <em>taglst</em> can be a two character string corresponding to a WOS tag e.g. ‘J9’, the matching is case insensitive so ‘j9’ is the same as ‘J9’,  or it can be one of the full names for a tag with the mappings in <a href="/metaknowledge/docs/Record#tagProcessing">fullToTag</a>. If the string is not found in the original record before or after being translated through <a href="/metaknowledge/docs/Record#tagProcessing">fullToTag</a>, <code>None</code> is used instead. Same as in <a href="/metaknowledge/docs/Record#getTag"><strong>getTag()</strong></a></p>
+<p>Each string in <em>taglst</em> can be a two character string corresponding to a WOS tag e.g. ‘J9’, the matching is case insensitive so ‘j9’ is the same as ‘J9’,  or it can be one of the full names for a tag with the mappings in <a href="/metaknowledge/docs/Record#tagProcessing">fullToTag</a>. If the string is not found in the original record before or after being translated through <a href="/metaknowledge/docs/Record#tagProcessing">fullToTag</a>, <code>None</code> is used instead. Same as in <a href="/metaknowledge/docs/Record#Tag"><strong>Tag()</strong></a></p>
 
 <p>Then they are compiled into a list in the same order as <em>taglst</em></p>
 
@@ -282,14 +282,14 @@
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="getTagsDict"></a><small>Record.</small><strong><a href="/metaknowledge/docs/Record#getTagsDict"><ins>getTagsDict</ins></a></strong>(<em>taglst, cleaned=False</em>):</p>
+<p><a name="TagsDict"></a><small>Record.</small><strong><a href="/metaknowledge/docs/Record#TagsDict"><ins>TagsDict</ins></a></strong>(<em>taglst, cleaned=False</em>):</p>
 
-<p>returns a dict of the results of getTag, with the elements of <em>taglst</em> as the keys and the results as the values.</p>
+<p>returns a dict of the results of Tag, with the elements of <em>taglst</em> as the keys and the results as the values.</p>
 
 <h6 id="parameters-4">Parameters</h6>
 <p><em>taglst</em> : <code>List[str]</code></p>
 
-<p>Each string in <em>taglst</em> can be a two character string corresponding to a WOS tag e.g. ‘J9’, the matching is case insensitive so ‘j9’ is the same as ‘J9’. Or it can be one of the full names for a tag with the mappings in <a href="/metaknowledge/docs/Record#tagProcessing">fullToTag</a>. If the string is not found in the oriagnal record before or after being translated through <a href="/metaknowledge/docs/Record#tagProcessing">fullToTag</a>, <code>None</code> is used instead. Same as in <a href="/metaknowledge/docs/Record#getTag"><strong>getTag</strong>()</a></p>
+<p>Each string in <em>taglst</em> can be a two character string corresponding to a WOS tag e.g. ‘J9’, the matching is case insensitive so ‘j9’ is the same as ‘J9’. Or it can be one of the full names for a tag with the mappings in <a href="/metaknowledge/docs/Record#tagProcessing">fullToTag</a>. If the string is not found in the oriagnal record before or after being translated through <a href="/metaknowledge/docs/Record#tagProcessing">fullToTag</a>, <code>None</code> is used instead. Same as in <a href="/metaknowledge/docs/Record#Tag"><strong>Tag</strong>()</a></p>
 
 <h6 id="returns-4">Returns</h6>
 
@@ -301,7 +301,7 @@
 
 <p><a name="activeTags"></a><small>Record.</small><strong><a href="/metaknowledge/docs/Record#activeTags"><ins>activeTags</ins></a></strong>():</p>
 
-<p>Returns a list of all the tags the original WOS record had. These are all the tags that <a href="/metaknowledge/docs/Record#getTag"><strong>getTag</strong>()</a> will not return <code>None</code> for.</p>
+<p>Returns a list of all the tags the original WOS record had. These are all the tags that <a href="/metaknowledge/docs/Record#Tag"><strong>Tag</strong>()</a> will not return <code>None</code> for.</p>
 
 <h6 id="returns-5">Returns</h6>
 
@@ -392,7 +392,7 @@
   <footer role="contentinfo" class="entry-wrapper">
     
 
-<span>&copy; 2015 John McLevey and Reid McIlroy-Young. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> using the <a href="http://mademistakes.com/so-simple/" rel="nofollow">So Simple Theme</a>.</span>
+<span>&copy; 2016 John McLevey and Reid McIlroy-Young. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> using the <a href="http://mademistakes.com/so-simple/" rel="nofollow">So Simple Theme</a>.</span>
 <div class="social-icons">
 	
 	

@@ -174,7 +174,7 @@ Combined they look like:</p>
 
 <h5 id="customizations">Customizations</h5>
 
-<p>Citation’s hashing and equality checking are based on <a href="/metaknowledge/docs/Citation#getID"><code>getID()</code></a> and use the values of <code>author</code>, <code>year</code> and <code>journal</code>.</p>
+<p>Citation’s hashing and equality checking are based on <a href="/metaknowledge/docs/Citation#ID"><code>ID()</code></a> and use the values of <code>author</code>, <code>year</code> and <code>journal</code>.</p>
 
 <p>When converted to a string a Citation will return the original string.</p>
 
@@ -200,11 +200,11 @@ Combined they look like:</p>
 
 <ul class="post-list">
 <li><article><a href="#isAnonymous"><b>isAnonymous</b>()</a></article></li>
-<li><article><a href="#getID"><b>getID</b>()</a></article></li>
+<li><article><a href="#ID"><b>ID</b>()</a></article></li>
 <li><article><a href="#allButDOI"><b>allButDOI</b>()</a></article></li>
-<li><article><a href="#getExtra"><b>getExtra</b>()</a></article></li>
+<li><article><a href="#Extra"><b>Extra</b>()</a></article></li>
 <li><article><a href="#isJournal"><b>isJournal</b>(<i>dbname='j9Abbreviations', manaulDB='manualj9Abbreviations', returnDict='both', checkIfExcluded=False</i>)</a></article></li>
-<li><article><a href="#getFullJournalName"><b>getFullJournalName</b>()</a></article></li>
+<li><article><a href="#FullJournalName"><b>FullJournalName</b>()</a></article></li>
 <li><article><a href="#addToDB"><b>addToDB</b>(<i>manualName=None, manaulDB='manualj9Abbreviations', invert=False</i>)</a></article></li>
 </ul>
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
@@ -221,9 +221,9 @@ Combined they look like:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="getID"></a><small>Citation.</small><strong><a href="/metaknowledge/docs/Citation#getID"><ins>getID</ins></a></strong>():</p>
+<p><a name="ID"></a><small>Citation.</small><strong><a href="/metaknowledge/docs/Citation#ID"><ins>ID</ins></a></strong>():</p>
 
-<p>Returns all of <code>author</code>, <code>year</code> and <code>journal</code> available separated by <code>' ,'</code>. It is for shortening labels when creating networks as the resultant strings are often unique. <a href="/metaknowledge/docs/Citation#getExtra"><strong>getExtra</strong>()</a> gets everything not returned by <strong>getID</strong>().</p>
+<p>Returns all of <code>author</code>, <code>year</code> and <code>journal</code> available separated by <code>' ,'</code>. It is for shortening labels when creating networks as the resultant strings are often unique. <a href="/metaknowledge/docs/Citation#Extra"><strong>Extra</strong>()</a> gets everything not returned by <strong>ID</strong>().</p>
 
 <p>This is also used for hashing and equality checking.</p>
 
@@ -237,7 +237,7 @@ Combined they look like:</p>
 
 <p><a name="allButDOI"></a><small>Citation.</small><strong><a href="/metaknowledge/docs/Citation#allButDOI"><ins>allButDOI</ins></a></strong>():</p>
 
-<p>Returns a string of the normalized values from the Citation excluding the DOI number. Equivalent to getting the ID with <a href="/metaknowledge/docs/Citation#getID"><strong>getID</strong>()</a> then appending the extra values from <a href="/metaknowledge/docs/Citation#getExtra"><strong>getExtra</strong>()</a> and then removing the substring containing the DOI number.</p>
+<p>Returns a string of the normalized values from the Citation excluding the DOI number. Equivalent to getting the ID with <a href="/metaknowledge/docs/Citation#ID"><strong>ID</strong>()</a> then appending the extra values from <a href="/metaknowledge/docs/Citation#Extra"><strong>Extra</strong>()</a> and then removing the substring containing the DOI number.</p>
 
 <h6 id="returns-2">Returns</h6>
 
@@ -247,9 +247,9 @@ Combined they look like:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="getExtra"></a><small>Citation.</small><strong><a href="/metaknowledge/docs/Citation#getExtra"><ins>getExtra</ins></a></strong>():</p>
+<p><a name="Extra"></a><small>Citation.</small><strong><a href="/metaknowledge/docs/Citation#Extra"><ins>Extra</ins></a></strong>():</p>
 
-<p>Returns any <code>V</code>, <code>P</code>, <code>DOI</code> or <code>misc</code> values as a string. These are all the values not returned by <a href="/metaknowledge/docs/Citation#getID"><strong>getID</strong>()</a>, they are separated by <code>' ,'</code>.</p>
+<p>Returns any <code>V</code>, <code>P</code>, <code>DOI</code> or <code>misc</code> values as a string. These are all the values not returned by <a href="/metaknowledge/docs/Citation#ID"><strong>ID</strong>()</a>, they are separated by <code>' ,'</code>.</p>
 
 <h6 id="returns-3">Returns</h6>
 
@@ -289,7 +289,7 @@ Combined they look like:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="getFullJournalName"></a><small>Citation.</small><strong><a href="/metaknowledge/docs/Citation#getFullJournalName"><ins>getFullJournalName</ins></a></strong>():</p>
+<p><a name="FullJournalName"></a><small>Citation.</small><strong><a href="/metaknowledge/docs/Citation#FullJournalName"><ins>FullJournalName</ins></a></strong>():</p>
 
 <p>Returns the full name of the Citation’s journal field. Requires the <a href="/metaknowledge/docs/Citation#getj9dict">j9Abbreviations</a> database file.</p>
 
@@ -348,7 +348,7 @@ Combined they look like:</p>
   <footer role="contentinfo" class="entry-wrapper">
     
 
-<span>&copy; 2015 John McLevey and Reid McIlroy-Young. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> using the <a href="http://mademistakes.com/so-simple/" rel="nofollow">So Simple Theme</a>.</span>
+<span>&copy; 2016 John McLevey and Reid McIlroy-Young. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> using the <a href="http://mademistakes.com/so-simple/" rel="nofollow">So Simple Theme</a>.</span>
 <div class="social-icons">
 	
 	

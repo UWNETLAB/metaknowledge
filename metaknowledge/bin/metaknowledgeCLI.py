@@ -12,6 +12,7 @@ import platform
 
 #TODO: Figure output name stuff
 
+#These are used when the user goes to the interactive terminal, so they must be global
 RC = None
 G = None
 
@@ -261,22 +262,22 @@ def getThresholds(clargs, grph):
     if thresID == 0:
         return grph
     elif thresID == 1:
-        metaknowledge.drop_nodesByDegree(grph, minDegree = 1)
+        metaknowledge.dropNodesByDegree(grph, minDegree = 1)
         return getThresholds(clargs, grph)
     elif thresID == 2:
-        metaknowledge.drop_edges(grph, dropSelfLoops = True)
+        metaknowledge.dropEdges(grph, dropSelfLoops = True)
         return getThresholds(clargs, grph)
     elif thresID == 3:
-        metaknowledge.drop_edges(grph, minWeight = getNum("What is the minumum weight for an edge to be included? "))
+        metaknowledge.dropEdges(grph, minWeight = getNum("What is the minumum weight for an edge to be included? "))
         return getThresholds(clargs, grph)
     elif thresID == 4:
-        metaknowledge.drop_edges(grph, minWeight = getNum("What is the maximum weight for an edge to be included? "))
+        metaknowledge.dropEdges(grph, minWeight = getNum("What is the maximum weight for an edge to be included? "))
         return getThresholds(clargs, grph)
     elif thresID == 5:
-        metaknowledge.drop_nodesByDegree(grph, minDegree = getNum("What is the minumum degree for an edge to be included? "))
+        metaknowledge.dropNodesByDegree(grph, minDegree = getNum("What is the minumum degree for an edge to be included? "))
         return getThresholds(clargs, grph)
     else:
-        metaknowledge.drop_nodesByDegree(grph, minDegree = getNum("What is the maximum degree for an edge to be included? "))
+        metaknowledge.dropNodesByDegree(grph, minDegree = getNum("What is the maximum degree for an edge to be included? "))
         return getThresholds(clargs, grph)
 
 def  outputNetwork(clargs, grph):
@@ -302,15 +303,15 @@ def  outputNetwork(clargs, grph):
         while True:
             try:
                 outName = getOutputName(clargs, '', checking = False)
-                metaknowledge.write_graph(grph, outName)
+                metaknowledge.writeGraph(grph, outName)
             except OSError:
                 if clargs.name:
-                    metaknowledge.write_graph(grph, outName, overwrite = True)
+                    metaknowledge.writeGraph(grph, outName, overwrite = True)
                     break
                 else:
                     overWrite = yesorNo("{}, overwrite (y/n)? ")
                     if overWrite:
-                        metaknowledge.write_graph(grph, outName, overwrite = True)
+                        metaknowledge.writeGraph(grph, outName, overwrite = True)
                         break
                     else:
                         pass
@@ -319,13 +320,13 @@ def  outputNetwork(clargs, grph):
 
     elif outID == 2:
         outName = getOutputName(clargs, '.csv')
-        metaknowledge.write_edgeList(grph, outName)
+        metaknowledge.writeEdgeList(grph, outName)
     elif outID == 3:
         outName = getOutputName(clargs, '.csv')
-        metaknowledge.write_nodeAttributeFile(grph, outName)
+        metaknowledge.writeNodeAttributeFile(grph, outName)
     else:
         outName = getOutputName(clargs, '.graphml')
-        nx.write_graphml(grph, outName)
+        nx.writeGraphml(grph, outName)
 
 def mkCLI():
     try:

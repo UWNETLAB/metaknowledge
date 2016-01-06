@@ -12,7 +12,7 @@ from .tagProcessing.funcDicts import tagToFull
 
 
 
-class BadISIRecord(Warning):
+class BadWOSRecord(Warning):
     """Exception thrown by the [record parser](#metaknowledge.recordParser) to indicate a mis-formated record. This occurs when some component of the record does not parse. The messages will be any of:
 
         * _Missing field on line (line Number):(line)_, which indicates a line was to short, there should have been a tag followed by information
@@ -23,12 +23,12 @@ class BadISIRecord(Warning):
 
         * _Missing WOS number_, which indicates the record did not have a 'UT' tag.
 
-    Records with a BadISIRecord error are likely incomplete or the combination of two or more single records.
+    Records with a BadWOSRecord error are likely incomplete or the combination of two or more single records.
     """
     pass
 
-class BadISIFile(Warning):
-    """Exception thrown by isiParser for mis-formated files
+class BadWOSFile(Warning):
+    """Exception thrown by wosParser for mis-formated files
     """
     pass
 
@@ -93,11 +93,11 @@ class Record(object):
             else:
                 self._wosNum = None
                 self.bad = True
-                self.error = BadISIRecord("Missing WOS number")
+                self.error = BadWOSRecord("Missing WOS number")
         elif isinstance(inRecord, itertools.chain):
             try:
                 self._fieldDict = recordParser(inRecord)
-            except BadISIRecord as b:
+            except BadWOSRecord as b:
                 self.bad = True
                 self.error = b
                 self._fieldDict = collections.OrderedDict()
@@ -107,11 +107,11 @@ class Record(object):
                 else:
                     self._wosNum = None
                     self.bad = True
-                    self.error = BadISIRecord("Missing WOS number")
+                    self.error = BadWOSRecord("Missing WOS number")
         elif isinstance(inRecord, io.IOBase):
             try:
                 self._fieldDict = recordParser(enumerate(inRecord))
-            except BadISIRecord as b:
+            except BadWOSRecord as b:
                 self.bad = True
                 self.error = b
                 self._fieldDict = {}
@@ -121,7 +121,7 @@ class Record(object):
                 else:
                     self._wosNum = None
                     self.bad = True
-                    self.error = BadISIRecord("Missing WOS number")
+                    self.error = BadWOSRecord("Missing WOS number")
         elif isinstance(inRecord, str):
             try:
                 def addChartoEnd(lst):
@@ -129,7 +129,7 @@ class Record(object):
                         yield s + '\n'
                 self._fieldDict = recordParser(enumerate(addChartoEnd(inRecord.split('\n')), start = 1))
                 #string io
-            except BadISIRecord as b:
+            except BadWOSRecord as b:
                 self.bad = True
                 self.error = b
                 self._fieldDict = {}
@@ -139,7 +139,7 @@ class Record(object):
                 else:
                     self._wosNum = "NO WOS NUMBER"
                     self.bad = True
-                    self.error = BadISIRecord("Missing WOS number")
+                    self.error = BadWOSRecord("Missing WOS number")
         if hasattr(self, "_fieldDict"):
             for tag in self._fieldDict:
                 if tag != 'UT':
@@ -412,7 +412,7 @@ class Record(object):
         > An open utf-8 encoded file
         """
         if self.bad:
-            raise BadISIRecord("This record cannot be converted to a file as the input was malformed.\nThe original line number (if any) is: {} and the original file is: '{}'".format(self._sourceLine, self._sourceFile))
+            raise BadWOSRecord("This record cannot be converted to a file as the input was malformed.\nThe original line number (if any) is: {} and the original file is: '{}'".format(self._sourceLine, self._sourceFile))
         else:
             for tag in self._fieldDict.keys():
                 for i, value in enumerate(self._fieldDict[tag]):
@@ -457,7 +457,7 @@ class Record(object):
         restrictedTags = ['AF', 'BF', 'ED', 'TI', 'SO', 'LA', 'NR', 'TC','Z9','PU','J9','PY','PD','VL','IS','SU','PG', 'DI','D2','UT']
         keyEntries = []
         if self.bad:
-            raise BadISIRecord("This record cannot be converted to a bibtex entry as the input was malformed.\nThe original line number (if any) is: {} and the original file is: '{}'".format(self._sourceLine, self._sourceFile))
+            raise BadWOSRecord("This record cannot be converted to a bibtex entry as the input was malformed.\nThe original line number (if any) is: {} and the original file is: '{}'".format(self._sourceLine, self._sourceFile))
         texType = self.bibTexType()
         if niceID:
             if self.authors:
@@ -577,14 +577,14 @@ def recordParser(paper):
     for l in paper:
         if len(l[1]) < 3:
             #Line too short
-            raise BadISIRecord("Missing field on line " + str(l[0]) + " : " + l[1])
+            raise BadWOSRecord("Missing field on line " + str(l[0]) + " : " + l[1])
         elif 'ER' in l[1][:2]:
             #Reached the end of the record
             doneReading = True
             break
         elif l[1][2] != ' ':
             #Field tag longer than 2 or offset in some way
-            raise BadISIFile("Field tag not formed correctly on line " + str(l[0]) + " : " + l[1])
+            raise BadWOSFile("Field tag not formed correctly on line " + str(l[0]) + " : " + l[1])
         elif '   ' in l[1][:3]: #the string is three spaces in row
             #No new tag append line to current tag (last tag in tagList)
             tagList[-1][1].append(l[1][3:-1])
@@ -592,7 +592,7 @@ def recordParser(paper):
             #New tag create new entry at the end of tagList
             tagList.append((l[1][:2], [l[1][3:-1]]))
     if not doneReading:
-        raise BadISIRecord("End of file reached before ER: " + l[1])
+        raise BadWOSRecord("End of file reached before ER: " + l[1])
     else:
         retdict = collections.OrderedDict(tagList)
         if len(retdict) == len(tagList):
@@ -602,4 +602,4 @@ def recordParser(paper):
             for tupl in tagList:
                 if tupl[0] in retdict:
                     dupSet.add(tupl[0])
-            raise BadISIRecord("Duplicate tags (" + ', '.join(dupSet) + ") in record")
+            raise BadWOSRecord("Duplicate tags (" + ', '.join(dupSet) + ") in record")

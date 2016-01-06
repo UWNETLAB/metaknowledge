@@ -39,7 +39,7 @@ class TestRecordCollection(unittest.TestCase):
         self.assertFalse(self.RCbad == self.RC)
 
     def test_badRecords(self):
-        badRecs = self.RC.getBadRecords()
+        badRecs = self.RC.BadRecords()
         self.assertTrue(badRecs <= self.RC)
         self.assertTrue(badRecs.pop().bad)
         self.RC.dropBadRecords()
@@ -63,19 +63,19 @@ class TestRecordCollection(unittest.TestCase):
         self.RC.addRec(RC2)
         self.assertEqual(len(self.RC), l + 2)
 
-    def test_getWOS(self):
+    def test_WOS(self):
         self.RC.dropBadRecords()
         R = self.RC.peak()
         l = len(self.RC)
-        self.assertTrue(R, self.RC.getWOS(R.UT))
+        self.assertTrue(R, self.RC.WOS(R.UT))
         self.assertEqual(len(self.RC), l)
         self.RC.dropWOS(R.UT)
         self.assertEqual(len(self.RC), l - 1)
-        self.RC.getWOS(self.RC.peak().UT, drop = True)
+        self.RC.WOS(self.RC.peak().UT, drop = True)
         self.assertEqual(len(self.RC), l - 2)
-        self.assertFalse(self.RC.getWOS(self.RC.pop().UT))
+        self.assertFalse(self.RC.WOS(self.RC.pop().UT))
         with self.assertRaises(ValueError):
-            self.RC.getWOS("asdfghjkjhgfdsdfghj")
+            self.RC.WOS("asdfghjkjhgfdsdfghj")
             self.RC.dropWOS("asdfghjkjhgfdsdfghj")
 
     def test_directoryRead(self):

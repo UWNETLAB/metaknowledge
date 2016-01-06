@@ -31,7 +31,7 @@ class Citation(object):
 
     # Customizations
 
-    Citation's hashing and equality checking are based on [`getID()`](#Citation.getID) and use the values of `author`, `year` and `journal`.
+    Citation's hashing and equality checking are based on [`ID()`](#Citation.ID) and use the values of `author`, `year` and `journal`.
 
     When converted to a string a Citation will return the original string.
 
@@ -102,12 +102,12 @@ class Citation(object):
 
     def __hash__(self):
         """
-        A hash for Citation that should be equal to the hash of other citations that are equal to it. Based on the values returned by [`getID()`](#Citation.getID).
+        A hash for Citation that should be equal to the hash of other citations that are equal to it. Based on the values returned by [`ID()`](#Citation.ID).
         """
         if self._hash:
             return self._hash
         else:
-            self._hash = hash(self.getID())
+            self._hash = hash(self.ID())
             return self._hash
 
     def __eq__(self, other):
@@ -142,9 +142,9 @@ class Citation(object):
         """
         return self.author == "[Anonymous]"
 
-    def getID(self):
+    def ID(self):
         """
-        Returns all of `author`, `year` and `journal` available separated by `' ,'`. It is for shortening labels when creating networks as the resultant strings are often unique. [**getExtra**()](#Citation.getExtra) gets everything not returned by **getID**().
+        Returns all of `author`, `year` and `journal` available separated by `' ,'`. It is for shortening labels when creating networks as the resultant strings are often unique. [**Extra**()](#Citation.Extra) gets everything not returned by **ID**().
 
         This is also used for hashing and equality checking.
 
@@ -168,7 +168,7 @@ class Citation(object):
 
     def allButDOI(self):
         """
-        Returns a string of the normalized values from the Citation excluding the DOI number. Equivalent to getting the ID with [**getID**()](#Citation.getID) then appending the extra values from [**getExtra**()](#Citation.getExtra) and then removing the substring containing the DOI number.
+        Returns a string of the normalized values from the Citation excluding the DOI number. Equivalent to getting the ID with [**ID**()](#Citation.ID) then appending the extra values from [**Extra**()](#Citation.Extra) and then removing the substring containing the DOI number.
 
         # Returns
 
@@ -177,7 +177,7 @@ class Citation(object):
         > A string containing the data of the Citation.
         """
         extraTags = ['V', 'P', 'misc']
-        s = self.getID()
+        s = self.ID()
         extras = []
         for tag in extraTags:
             if getattr(self, tag):
@@ -187,9 +187,9 @@ class Citation(object):
         else:
             return s
 
-    def getExtra(self):
+    def Extra(self):
         """
-        Returns any `V`, `P`, `DOI` or `misc` values as a string. These are all the values not returned by [**getID**()](#Citation.getID), they are separated by `' ,'`.
+        Returns any `V`, `P`, `DOI` or `misc` values as a string. These are all the values not returned by [**ID**()](#Citation.ID), they are separated by `' ,'`.
 
         # Returns
 
@@ -256,7 +256,7 @@ class Citation(object):
                 self._isjourn = False
         return self._isjourn
 
-    def getFullJournalName(self):
+    def FullJournalName(self):
         """Returns the full name of the Citation's journal field. Requires the [j9Abbreviations](#journalAbbreviations.getj9dict) database file.
 
         **Note**: Requires the [j9Abbreviations](#journalAbbreviations.getj9dict) database file and will raise an error if it cannot be found.

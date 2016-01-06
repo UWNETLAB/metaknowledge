@@ -37,7 +37,7 @@ class Record(object):
 
     It is meant to be immutable; many of the methods and attributes are evaluated when first called, not when the object is created, and the results are stored privately.
 
-    The record's meta-data is stored in an ordered dictionary labeled by WOS tags. To access the raw data stored in the original record the [**getTag**()](#Record.getTag) method can be used. To access data that has been processed and cleaned the attributes named after the tags are used.
+    The record's meta-data is stored in an ordered dictionary labeled by WOS tags. To access the raw data stored in the original record the [**Tag**()](#Record.Tag) method can be used. To access data that has been processed and cleaned the attributes named after the tags are used.
 
     # Customizations
 
@@ -281,7 +281,7 @@ class Record(object):
         else:
             return 0
 
-    def getTag(self, tag, clean = False):
+    def Tag(self, tag, clean = False):
         """Returns a list containing the raw data of the record associated with _tag_. Each line of the record is one string in the list.
 
         # Parameters
@@ -351,13 +351,13 @@ class Record(object):
         else:
             return Citation(', '.join(valsLst))
 
-    def getTagsList(self, taglst, cleaned = False):
-        """Returns a list of the results of [**getTag**()](#Record.getTag) for each tag in _taglist_, the return has the same order as the original.
+    def TagsList(self, taglst, cleaned = False):
+        """Returns a list of the results of [**Tag**()](#Record.Tag) for each tag in _taglist_, the return has the same order as the original.
 
         # Parameters
         _taglst_ : `List[str]`
 
-        > Each string in _taglst_ can be a two character string corresponding to a WOS tag e.g. 'J9', the matching is case insensitive so 'j9' is the same as 'J9',  or it can be one of the full names for a tag with the mappings in [fullToTag](#metaknowledge.tagProcessing). If the string is not found in the original record before or after being translated through [fullToTag](#metaknowledge.tagProcessing), `None` is used instead. Same as in [**getTag()**](#Record.getTag)
+        > Each string in _taglst_ can be a two character string corresponding to a WOS tag e.g. 'J9', the matching is case insensitive so 'j9' is the same as 'J9',  or it can be one of the full names for a tag with the mappings in [fullToTag](#metaknowledge.tagProcessing). If the string is not found in the original record before or after being translated through [fullToTag](#metaknowledge.tagProcessing), `None` is used instead. Same as in [**Tag()**](#Record.Tag)
 
         > Then they are compiled into a list in the same order as _taglst_
 
@@ -369,16 +369,16 @@ class Record(object):
         """
         retList = []
         for tag in taglst:
-            retList.append(self.getTag(tag), clean = cleaned)
+            retList.append(self.Tag(tag), clean = cleaned)
         return retList
 
-    def getTagsDict(self, taglst, cleaned = False):
-        """returns a dict of the results of getTag, with the elements of _taglst_ as the keys and the results as the values.
+    def TagsDict(self, taglst, cleaned = False):
+        """returns a dict of the results of Tag, with the elements of _taglst_ as the keys and the results as the values.
 
         # Parameters
         _taglst_ : `List[str]`
 
-        > Each string in _taglst_ can be a two character string corresponding to a WOS tag e.g. 'J9', the matching is case insensitive so 'j9' is the same as 'J9'. Or it can be one of the full names for a tag with the mappings in [fullToTag](#metaknowledge.tagProcessing). If the string is not found in the oriagnal record before or after being translated through [fullToTag](#metaknowledge.tagProcessing), `None` is used instead. Same as in [**getTag**()](#Record.getTag)
+        > Each string in _taglst_ can be a two character string corresponding to a WOS tag e.g. 'J9', the matching is case insensitive so 'j9' is the same as 'J9'. Or it can be one of the full names for a tag with the mappings in [fullToTag](#metaknowledge.tagProcessing). If the string is not found in the oriagnal record before or after being translated through [fullToTag](#metaknowledge.tagProcessing), `None` is used instead. Same as in [**Tag**()](#Record.Tag)
 
         # Returns
 
@@ -388,11 +388,11 @@ class Record(object):
         """
         retDict = {}
         for tag in taglst:
-            retDict[tag] = self.getTag(tag, clean = cleaned)
+            retDict[tag] = self.Tag(tag, clean = cleaned)
         return retDict
 
     def activeTags(self):
-        """Returns a list of all the tags the original WOS record had. These are all the tags that [**getTag**()](#Record.getTag) will not return `None` for.
+        """Returns a list of all the tags the original WOS record had. These are all the tags that [**Tag**()](#Record.Tag) will not return `None` for.
 
         # Returns
 

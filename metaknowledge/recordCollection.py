@@ -314,7 +314,7 @@ class RecordCollection(object):
         elif Rec not in self:
             self._Records.add(Rec)
 
-    def getWOS(self, wosNum, drop = False):
+    def WOS(self, wosNum, drop = False):
         """Gets the `Record` from the collection by its WOS number (ID number) _wosNum_.
 
         # Parameters
@@ -325,7 +325,7 @@ class RecordCollection(object):
 
         _drop_ : `optional [bool]`
 
-        > Default `False`. If `True` the Record is dropped from the collection after being extract, i.e. if `False` [**getWOS**()](#RecordCollection.getWOS) acts like [**peak**()](#RecordCollection.peak), if `True` it acts like [**pop**()](#RecordCollection.pop)
+        > Default `False`. If `True` the Record is dropped from the collection after being extract, i.e. if `False` [**WOS**()](#RecordCollection.WOS) acts like [**peak**()](#RecordCollection.peak), if `True` it acts like [**pop**()](#RecordCollection.pop)
 
         # Returns
 
@@ -345,7 +345,7 @@ class RecordCollection(object):
                 return R
         return None
 
-    def getBadRecords(self):
+    def BadRecords(self):
         """creates a `RecordCollection` containing all the `Record` which have their `bad` attribute set to `True`, i.e. all those removed by [**dropBadRecords**()](#RecordCollection.dropBadRecords).
 
         # Returns
@@ -361,7 +361,7 @@ class RecordCollection(object):
         return RecordCollection(badRecords, repr(self) + '_badRecords')
 
     def dropBadRecords(self):
-        """Removes all `Records` with `bad` attribute `True` from the collection, i.e. drop all those returned by [**getBadRecords**()](#RecordCollection.getBadRecords).
+        """Removes all `Records` with `bad` attribute `True` from the collection, i.e. drop all those returned by [**BadRecords**()](#RecordCollection.BadRecords).
         """
         self._Records = {r for r in self._Records if not r.bad}
         self._repr = repr(self) + '_badRecordsDropped'
@@ -484,7 +484,7 @@ class RecordCollection(object):
             csvWriter = csv.DictWriter(f, retrievedFields, delimiter = csvDelimiter, quotechar = csvQuote, quoting=csv.QUOTE_ALL)
         csvWriter.writeheader()
         for R in self:
-            recDict = R.getTagsDict(retrievedFields)
+            recDict = R.TagsDict(retrievedFields)
             if numAuthors:
                 recDict["numAuthors"] = str(R.numAuthors())
             for k in recDict.keys():
@@ -589,7 +589,7 @@ class RecordCollection(object):
         for R in self:
             if numAuthors:
                 retDict["numAuthors"].append(R.numAuthors())
-            for k, v in R.getTagsDict(retrievedFields, cleaned = cleanedVal).items():
+            for k, v in R.TagsDict(retrievedFields, cleaned = cleanedVal).items():
                 retDict[k].append(v)
         return retDict
 
@@ -1424,7 +1424,7 @@ class RecordCollection(object):
             recCite = rec.createCitation()
         if isinstance(rec, str):
             try:
-                recCite = self.getWOS(rec)
+                recCite = self.WOS(rec)
             except ValueError:
                 try:
                     recCite = Citation(rec)
@@ -1640,9 +1640,9 @@ def getCoCiteIDs(clst):
     """
     idDict = {}
     for c in clst:
-        cId = c.getID()
+        cId = c.ID()
         if cId not in idDict:
-            idDict[cId] = c.getExtra()
+            idDict[cId] = c.Extra()
     return idDict
 
 def updateWeightedEdges(grph, ebunch):
@@ -1725,7 +1725,7 @@ def makeID(citation, nodeType):
     if nodeType != "full":
         return getattr(citation, nodeType)
     else:
-        return citation.getID()
+        return citation.ID()
 
 def makeNodeTuple(citation, idVal, nodeInfo, fullInfo, nodeType, count, coreCitesDict, coreValues):
     """Makes a tuple of idVal and a dict of the selected attributes"""
@@ -1753,7 +1753,7 @@ def makeNodeTuple(citation, idVal, nodeInfo, fullInfo, nodeType, count, coreCite
                 d['info'] = citation.allButDOI()
         elif nodeType == 'journal':
             if citation.isJournal():
-                d['info'] = str(citation.getFullJournalName())
+                d['info'] = str(citation.FullJournalName())
             else:
                 d['info'] = "None"
         elif nodeType == 'original':

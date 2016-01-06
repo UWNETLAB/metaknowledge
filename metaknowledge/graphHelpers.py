@@ -1,3 +1,4 @@
+#Written by Reid McIlroy-Young for Dr. John McLevey, University of Waterloo 2015
 import metaknowledge
 
 import networkx as nx
@@ -8,18 +9,18 @@ import time
 import math
 import threading
 
-def read_graph(edgeList, nodeList = None, directed = False, idKey = 'ID', eSource = 'From', eDest = 'To'):
-    """Reads the files given by edgeList and if given nodeList. Outputs a networkx graph for the lists.
+def readGraph(edgeList, nodeList = None, directed = False, idKey = 'ID', eSource = 'From', eDest = 'To'):
+    """Reads the files given by _edgeList_ and _nodeList_ and creates a networkx graph for the files.
 
-    This is designed only for the files produced by metaknowledge and is meant to be the reverse of [write_graph()](#metaknowledge.write_graph), if this dow not produce the desired results the networkx builtin [networkx.read_edgelist()](https://networkx.github.io/documentation/networkx-1.9.1/reference/generated/networkx.readwrite.edgelist.read_edgelist.html) could be tried.
+    This is designed only for the files produced by metaknowledge and is meant to be the reverse of [writeGraph()](#metaknowledge.writeGraph), if this does not produce the desired results the networkx builtin [networkx.read_edgelist()](https://networkx.github.io/documentation/networkx-1.10/reference/generated/networkx.readwrite.edgelist.read_edgelist.html) could be tried as it is aimed at a more general usage.
 
-    The read edge list format assumes the column named _eSource_ (From) is the source node, then the next column _eDest_ (To) givens the destination and all other columns are attributes of the edge, e.g. weight.
+    The read edge list format assumes the column named _eSource_ (default `'From'`) is the source node, then the column _eDest_ (default `'To'`) givens the destination and all other columns are attributes of the edges, e.g. weight.
 
-    The read nodeList format assumes the column called _idKey_ is the ID of the node as used by the edge list and the resulting network. All other columns are considered attributes of the node, e.g. count.
+    The read node list format assumes the column _idKey_ (default `'ID'`) is the ID of the node for the edge list and the resulting network. All other columns are considered attributes of the node, e.g. count.
 
-    If the names of the columns do not match those given to **read_graph()** a KeyError exception will be raised.
+    **Note**: If the names of the columns do not match those given to **readGraph()** a `KeyError` exception will be raised.
 
-    **Note**: if nodes appear in the edgelist but not the nodeList they will be created with no attributes.
+    **Note**: If nodes appear in the edgelist but not the nodeList they will be created silently with no attributes.
 
     # Parameters
 
@@ -29,29 +30,29 @@ def read_graph(edgeList, nodeList = None, directed = False, idKey = 'ID', eSourc
 
     _nodeList_ : `optional [str]`
 
-    > a string giving the path to the node list file
+    > default `None`, a string giving the path to the node list file
 
     _directed_ : `optional [bool]`
 
-    > default `False`, if `True` the produced network is directed instead of undirected
+    > default `False`, if `True` the produced network is directed from _eSource_ to _eDest_
 
     _idKey_ : `optional [str]`
 
-    > default `"ID"`, the name of the ID column in the node list
+    > default `'ID'`, the name of the ID column in the node list
 
     _eSource_ : `optional [str]`
 
-    > default `"From"`, the name of the source column in the edge list
+    > default `'From'`, the name of the source column in the edge list
 
     _eDest_ : `optional [str]`
 
-    > default `"To"`, the name of the destination column in the edge list
+    > default `'To'`, the name of the destination column in the edge list
 
     # Returns
 
     `networkx Graph`
 
-    > the Graph described by the files
+    > the graph described by the input files
     """
     if metaknowledge.VERBOSE_MODE:
         PBar = _ProgressBar(0, "Starting to reading graphs")
@@ -64,7 +65,7 @@ def read_graph(edgeList, nodeList = None, directed = False, idKey = 'ID', eSourc
     if nodeList:
         if PBar:
             PBar.updateVal(0, "Reading " + nodeList)
-        f = open(nodeList)
+        f = open(os.path.expanduser(os.path.abspath(nodeList)))
         nFile = csv.DictReader(f)
         for line in nFile:
             vals = line
@@ -77,7 +78,7 @@ def read_graph(edgeList, nodeList = None, directed = False, idKey = 'ID', eSourc
         f.close()
     if PBar:
         PBar.updateVal(.5, "Reading " + edgeList)
-    f = open(edgeList)
+    f = open(os.path.expanduser(os.path.abspath(edgeList)))
     eFile = csv.DictReader(f)
     for line in eFile:
         vals = line
@@ -94,16 +95,16 @@ def read_graph(edgeList, nodeList = None, directed = False, idKey = 'ID', eSourc
     f.close()
     return grph
 
-def write_graph(grph, name, edgeInfo = True, typing = False, suffix = 'csv', overwrite = True):
+def writeGraph(grph, name, edgeInfo = True, typing = False, suffix = 'csv', overwrite = True):
     """Writes both the edge list and the node attribute list of _grph_ to files starting with _name_.
 
     The output files start with _name_, the file type (edgeList, nodeAttributes) then if typing is True the type of graph (directed or undirected) then the suffix, the default is as follows:
 
     >> name_fileType.suffix
 
-    Both files are csv's with comma delimiters and double quote quoting characters. The edge list has two columns for the source and destination of the edge, "From" and "To" respectively, then, if _edgeInfo_ is `True`, for each attribute of the node another column is created. The node list has one column call "ID" with the node ids used by networkx and all other columns are the node attributes.
+    Both files are csv's with comma delimiters and double quote quoting characters. The edge list has two columns for the source and destination of the edge, `'From'` and `'To'` respectively, then, if _edgeInfo_ is `True`, for each attribute of the node another column is created. The node list has one column call "ID" with the node ids used by networkx and all other columns are the node attributes.
 
-    To read back these files use [read_graph()](#metaknowledge.read_graph) and to write only one type of lsit use [write_edgeList()](#metaknowledge.write_edgeList) or [write_nodeAttributeFile()](#metaknowledge.write_nodeAttributeFile).
+    To read back these files use [readGraph()](#metaknowledge.readGraph) and to write only one type of lsit use [writeEdgeList()](#metaknowledge.writeEdgeList) or [writeNodeAttributeFile()](#metaknowledge.writeNodeAttributeFile).
 
     **Warning**: this function will overwrite files, if they are in the way of the output, to prevent this set _overwrite_ to `False`
 
@@ -164,19 +165,19 @@ def write_graph(grph, name, edgeInfo = True, typing = False, suffix = 'csv', ove
             raise OSError(edgeListName+ " already exists")
         if os.path.isfile(nodesAtrName):
             raise OSError(nodesAtrName + " already exists")
-    write_edgeList(grph, edgeListName, extraInfo = edgeInfo, _progBar = PBar)
+    writeEdgeList(grph, edgeListName, extraInfo = edgeInfo, _progBar = PBar)
     if PBar:
         PBar.jumpUp()
-    write_nodeAttributeFile(grph, nodesAtrName, _progBar = PBar)
+    writeNodeAttributeFile(grph, nodesAtrName, _progBar = PBar)
     if PBar:
         PBar.finish(str(len(grph.nodes())) + " nodes and " + str(len(grph.edges())) + " edges written to file")
 
-def write_edgeList(grph, name, extraInfo = True, allSameAttribute = False, _progBar = None):
+def writeEdgeList(grph, name, extraInfo = True, allSameAttribute = False, _progBar = None):
     """Writes an edge list of _grph_ at the destination _name_.
 
-    The edge list has two columns for the source and destination of the edge, "From" and "To" respectively, then, if _edgeInfo_ is `True`, for each attribute of the node another column is created.
+    The edge list has two columns for the source and destination of the edge, `'From'` and `'To'` respectively, then, if _edgeInfo_ is `True`, for each attribute of the node another column is created.
 
-    **Note**: If any edges are missing an attribute `KeyError` will be raised.
+    **Note**: If any edges are missing an attribute it will be left blank by default, enable _allSameAttribute_ to cause a `KeyError` to be raised.
 
     # Parameters
 
@@ -204,7 +205,7 @@ def write_edgeList(grph, name, extraInfo = True, allSameAttribute = False, _prog
         else:
             _progBar = _ProgressBar(0, "Writing edge list " + name)
     if len(grph.edges(data = True)) < 1:
-        outFile = open(name, 'w')
+        outFile = open(os.path.expanduser(os.path.abspath(name)), 'w')
         outFile.write('"From","To"\n')
         outFile.close()
         if _progBar:
@@ -222,7 +223,7 @@ def write_edgeList(grph, name, extraInfo = True, allSameAttribute = False, _prog
                 csvHeader += ['From', 'To']
         else:
             csvHeader = ['From'] +  ['To']
-        f = open(name, 'w')
+        f = open(os.path.expanduser(os.path.abspath(name)), 'w')
         outFile = csv.DictWriter(f, csvHeader, delimiter = ',', quotechar = '"', quoting=csv.QUOTE_ALL)
         outFile.writeheader()
         if extraInfo:
@@ -250,12 +251,12 @@ def write_edgeList(grph, name, extraInfo = True, allSameAttribute = False, _prog
             _progBar.finish("Done edge list " + name + ", " + str(count) + " edges written.")
         f.close()
 
-def write_nodeAttributeFile(grph, name, allSameAttribute = False,_progBar = None):
-    """Writes a node attribute list of _grph_ with filename _name_
+def writeNodeAttributeFile(grph, name, allSameAttribute = False,_progBar = None):
+    """Writes a node attribute list of _grph_ to the file given by the path _name_.
 
-    The node list has one column call "ID" with the node ids used by networkx and all other columns are the node attributes.
+    The node list has one column call `'ID'` with the node ids used by networkx and all other columns are the node attributes.
 
-    **Note**: If any edges are missing an attribute `KeyError` will be raised.
+    **Note**: If any nodes are missing an attribute it will be left blank by default, enable _allSameAttribute_ to cause a `KeyError` to be raised.
 
     # Parameters
 
@@ -279,7 +280,7 @@ def write_nodeAttributeFile(grph, name, allSameAttribute = False,_progBar = None
         else:
             _progBar = _ProgressBar(0, "Writing edgelist " + name)
     if len(grph.nodes(data = True)) < 1:
-        outFile = open(name, 'w')
+        outFile = open(os.path.expanduser(os.path.abspath(name)), 'w')
         outFile.write('ID\n')
         outFile.close()
         if _progBar:
@@ -426,13 +427,13 @@ class _ProgressBar(object):
             percentString = '{:.1%}'.format(self.per).rjust(self.percLength, ' ')
             barLength = int(self.per * self.barMaxLength)
             if self.big and self.inputString:
-                    self.dString = self.prepString(self.inputString, self.barMaxLength + self.difTermAndBar - self.timeLength) + self.prepTime(time.time() - self.sTime, self.timeLength)
-                    if barLength >= self.barMaxLength:
-                        self.out.write('[' + '=' * barLength + ']' + percentString)
-                        self.out.write('\n' + self.dString + '\033[F')
-                    else:
-                        self.out.write('[' + '=' * barLength + '>' + ' ' * (self.barMaxLength - barLength - 1) + ']' + percentString)
-                        self.out.write('\n' + self.dString + '\033[')
+                self.dString = self.prepString(self.inputString, self.barMaxLength + self.difTermAndBar - self.timeLength) + self.prepTime(time.time() - self.sTime, self.timeLength)
+                if barLength >= self.barMaxLength:
+                    self.out.write('[' + '=' * barLength + ']' + percentString)
+                    self.out.write('\n' + self.dString + '\033[F')
+                else:
+                    self.out.write('[' + '=' * barLength + '>' + ' ' * (self.barMaxLength - barLength - 1) + ']' + percentString)
+                    self.out.write('\n' + self.dString + '\033[')
             elif self.inputString:
                 self.dString = self.prepString(self.inputString, self.barMaxLength + self.difTermAndBar - self.timeLength - self.percLength - 2) + '[' + self.prepTime(time.time() - self.sTime, self.timeLength) +  ']' + percentString
                 self.out.write(self.dString)
@@ -494,15 +495,36 @@ def getDegreeDistribution(grph, weightParameter = "weight", strictWeightNames = 
         distVec[v] += 1
     return distVec
 
-def drop_edges(grph, minWeight = - float('inf'), maxWeight = float('inf'), parameterName = 'weight', ignoreUnweighted = False, dropSelfLoops = False):
-    """
-    Modifies a graph dropping edges whose weight is not within the inclusive bounds of minWeight and maxWeight, i.e minWeight <= edges weight <= maxWeight, will throw a Keyerror if the graph is unweighted
+def dropEdges(grph, minWeight = - float('inf'), maxWeight = float('inf'), parameterName = 'weight', ignoreUnweighted = False, dropSelfLoops = False):
+    """Modifies _grph_ by dropping edges whose weight is not within the inclusive bounds of _minWeight_ and _maxWeight_, i.e after running _grph_ will only have edges whose weights meet the following inequality: _minWeight_ <= edge's weight <= _maxWeight_. A `Keyerror` will be raised if the graph is unweighted unless _ignoreUnweighted_ is `True`, the weight is determined by examining the attribute _parameterName_.
 
-    minWeight and maxWeight default to negative and positive infinity respectively so without specifying either the output should be the input
+    **Note**: none of the default options will result in _grph_ being modified so only specify the relevant ones, e.g. `dropEdges(G, dropSelfLoops = True)` will remove only the self loops from `G`.
 
-    parameterName is key to weight field in the edge's dictionary, default is weight as that is almost always correct
+    # Parameters
 
-    ignoreUnweighted can be set False to suppress the KeyError and make unweighted edges be ignored
+    _grph_ : `networkx Graph`
+
+    > The graph to be modified.
+
+    _minWeight_ : `optional [int or double]`
+
+    > default `-inf`, the minimum weight for an edge to be kept in the graph.
+
+    _maxWeight_ : `optional [int or double]`
+
+    > default `inf`, the maximum weight for an edge to be kept in the graph.
+
+    _parameterName_ : `optional [str]`
+
+    > default `'weight'`, key to weight field in the edge's attribute dictionary, the default is the same as networkx and metaknowledge so is likely to be correct
+
+    _ignoreUnweighted_ : `optional [bool]`
+
+    > default `False`, if `True` unweighted edges will kept
+
+    _dropSelfLoops_ : `optional [bool]`
+
+    > default `False`, if `True` self loops will be removed regardless of their weight
     """
     count = 0
     total = len(grph.edges())
@@ -538,17 +560,37 @@ def drop_edges(grph, minWeight = - float('inf'), maxWeight = float('inf'), param
         if PBar:
             PBar.finish(str(total - len(grph.edges())) + " edges out of " + str(total) + " dropped, " + str(len(grph.edges())) + " returned")
 
-def drop_nodesByDegree(grph, minDegree = -float('inf'), maxDegree = float('inf'), useWeight = True, parameterName = 'weight', ignoreUnweighted = True):
-    """
-    Modifies the graph dropping nodes that do not nodes have a degree that is within inclusive bounds of minDegree and maxDegree, i.e minDegree <= degree <= maxDegree. Degree can be determined in two ways by default it is the total number of edges touching a node, alternative if useWeight is True it is the sum of the weight of all the edges touching a node.
+def dropNodesByDegree(grph, minDegree = -float('inf'), maxDegree = float('inf'), useWeight = True, parameterName = 'weight', includeUnweighted = True):
+    """Modifies _grph_ by dropping nodes that do not have a degree that is within inclusive bounds of _minDegree_ and _maxDegree_, i.e after running _grph_ will only have nodes whose degrees meet the following inequality: _minDegree_ <= node's degree <= _maxDegree_.
 
-    minDegree and maxDegree default to negative and positive infinity respectively so without specifying either the output should be the input
+    Degree is determined in two ways, the default _useWeight_ is the weight attribute of the edges to a node will be summed, the attribute's name is _parameterName_ otherwise the number of edges touching the node is used. If _includeUnweighted_ is `True` then _useWeight_ will assign a degree of 1 to unweighted edges.
 
-    useWeight can be set True to use an alternative method for calculating degree, the total weight of all edges
 
-    parameterName is key to weight field in the edge's dictionary, default is weight as that is almost always correct, only used if useWeight is True
+    # Parameters
 
-    ignoreUnweighted can be set False to suppress the KeyError and make unweighted edges be not counted, only used if useWeight is True
+    _grph_ : `networkx Graph`
+
+    > The graph to be modified.
+
+    _minDegree_ : `optional [int or double]`
+
+    > default `-inf`, the minimum degree for an node to be kept in the graph.
+
+    _maxDegree_ : `optional [int or double]`
+
+    > default `inf`, the maximum degree for an node to be kept in the graph.
+
+    _useWeight_ : `optional [bool]`
+
+    > default `True`, if `True` the the edge weights will be summed to get the degree, if `False` the number of edges will be used to determine the degree.
+
+    _parameterName_ : `optional [str]`
+
+    > default `'weight'`, key to weight field in the edge's attribute dictionary, the default is the same as networkx and metaknowledge so is likely to be correct.
+
+    _includeUnweighted_ : `optional [bool]`
+
+    > default `True`, if `True` edges with no weight will be considered to have a weight of 1, if `False` they will cause a `KeyError` to be raised.
     """
     count = 0
     total = len(grph.nodes())
@@ -571,7 +613,7 @@ def drop_nodesByDegree(grph, minDegree = -float('inf'), maxDegree = float('inf')
                     try:
                         val += e[2][parameterName]
                     except KeyError:
-                        if not ignoreUnweighted:
+                        if not includeUnweighted:
                             raise KeyError("One or more Edges do not have weight or " + str(parameterName), " is not the name of the weight")
                         else:
                             val += 1
@@ -586,16 +628,34 @@ def drop_nodesByDegree(grph, minDegree = -float('inf'), maxDegree = float('inf')
             PBar.finish("{} nodes out of {} dropped, {} returned".format(len(badNodes), total, total - len(badNodes)))
 
 
-def drop_nodesByCount(grph, minCount = -float('inf'), maxCount = float('inf'), parameterName = 'count', ignoreMissing = False):
-    """
-    Modifies a graph dropping nodes that have a occurrence count that is not within inclusive bounds of minCount and maxCount, i.e minCount <= count <= maxCount. Occurrence count is determined by reading the variable associated with the node named parameterName.
+def dropNodesByCount(grph, minCount = -float('inf'), maxCount = float('inf'), parameterName = 'count', ignoreMissing = False):
+    """Modifies _grph_ by dropping nodes that do not have a count that is within inclusive bounds of _minCount_ and _maxCount_, i.e after running _grph_ will only have nodes whose degrees meet the following inequality: _minCount_ <= node's degree <= _maxCount_.
+
+    Count is determined by the count attribute, _parameterName_, and if missing will result in a `KeyError` being raised. _ignoreMissing_ can be set to `True` to suppress the error.
 
     minCount and maxCount default to negative and positive infinity respectively so without specifying either the output should be the input
 
+    # Parameters
 
-    parameterName is key to count field in the node's dictionary, default is count as that is often correct
+    _grph_ : `networkx Graph`
 
-    ignoreMissing can be set False to suppress the KeyError and make nodes missing counts be dropped instead of throwing errors
+    > The graph to be modified.
+
+    _minCount_ : `optional [int or double]`
+
+    > default `-inf`, the minimum Count for an node to be kept in the graph.
+
+    _maxCount_ : `optional [int or double]`
+
+    > default `inf`, the maximum Count for an node to be kept in the graph.
+
+    _parameterName_ : `optional [str]`
+
+    > default `'count'`, key to count field in the nodes's attribute dictionary, the default is the same thoughout metaknowledge so is likely to be correct.
+
+    _ignoreMissing_ : `optional [bool]`
+
+    > default `False`, if `True` nodes missing a count will be kept in the graph instead of raising an exception
     """
     count = 0
     total = len(grph.nodes())
@@ -629,8 +689,27 @@ def drop_nodesByCount(grph, minCount = -float('inf'), maxCount = float('inf'), p
             PBar.finish("{} nodes out of {} dropped, {} returned".format(len(badNodes), total, total - len(badNodes)))
 
 def mergeGraphs(targetGraph, addedGraph, incrementedNodeVal = 'count', incrementedEdgeVal = 'weight'):
-    """
-    A quick way of merging graphs, this is meant to be quick and is only intended for graphs generated by metaknowledge. This does not check anything and as such may cause unexpected results if the source and target were not generated by the same method. **mergeGraphs**() will modify the first graph, _targetGraph_ by adding the nodes and edges found in the second, _addedGraph_. If a node or edge exists _targetGraph_ is given precedence, but the edge and node attributes given by _incrementedNodeVal_ and incrementedEdgeVal are added instead of being overwritten.
+    """A quick way of merging graphs, this is meant to be quick and is only intended for graphs generated by metaknowledge. This does not check anything and as such may cause unexpected results if the source and target were not generated by the same method.
+
+    **mergeGraphs**() will **modify** _targetGraph_ in place by adding the nodes and edges found in the second, _addedGraph_. If a node or edge exists _targetGraph_ is given precedence, but the edge and node attributes given by _incrementedNodeVal_ and incrementedEdgeVal are added instead of being overwritten.
+
+    # Parameters
+
+    _targetGraph_ : `networkx Graph`
+
+    > the graph to be modified, it has precedence.
+
+    _addedGraph_ : `networkx Graph`
+
+    > the graph that is unmodified, it is added and does **not** have precedence.
+
+    _incrementedNodeVal_ : `optional [str]`
+
+    > default `'count'`, the name of the count attribute for the graph's nodes. When merging this attribute will be the sum of the values in the input graphs, instead of _targetGraph_'s value.
+
+    _incrementedEdgeVal_ : `optional [str]`
+
+    > default `'weight'`, the name of the weight attribute for the graph's edges. When merging this attribute will be the sum of the values in the input graphs, instead of _targetGraph_'s value.
     """
     for addedNode, attribs in addedGraph.nodes_iter(data = True):
         if incrementedNodeVal:
@@ -664,7 +743,7 @@ def graphStats(G, stats = ('nodes', 'edges', 'isolates', 'loops', 'density', 'tr
 
     _stats_ : `optional [list or tuple [str]]`
 
-    > Default 'nodes', 'edges', 'isolates', 'loops', 'density', 'transitivity'), a list or tuple containing any number or combination of the strings:
+    > Default `('nodes', 'edges', 'isolates', 'loops', 'density', 'transitivity')`, a list or tuple containing any number or combination of the strings:
 
     > `"nodes"`, `"edges"`, `"isolates"`, `"loops"`, `"density"` and `"transitivity"``
 

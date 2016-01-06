@@ -1,0 +1,26 @@
+metaknowledge
+=============
+
+metaknowledge is a Python3 library that simplifies bibliometric research
+using Web of Science data. It reads a directory of plain text files
+containing meta-data on publications and citations, and writes to a
+variety of data structures that are suitable for quantitative, network,
+and text analyses. It handles large datasets (e.g. several million
+records) efficiently.
+
+The website can be found at
+`networkslab.org/metaknowledge <http://networkslab.org/metaknowledge/>`__.
+
+Currently in Beta
+-----------------
+
+metaknowledge is in the final stages of testing before a 1.0 release
+different versions may behave differently.
+
+Installing
+----------
+
+To install run ``python3 setup.py install``
+
+For information on alternate installs read the documentation at the
+`website <http://networkslab.org/metaknowledge/installation/>`__.

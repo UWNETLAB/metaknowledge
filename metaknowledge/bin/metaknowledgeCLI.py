@@ -1,3 +1,4 @@
+#Written by Reid McIlroy-Young for Dr. John McLevey, University of Waterloo 2015
 import metaknowledge
 import metaknowledge.journalAbbreviations
 import networkx as nx
@@ -11,6 +12,7 @@ import platform
 
 #TODO: Figure output name stuff
 
+#These are used when the user goes to the interactive terminal, so they must be global
 RC = None
 G = None
 
@@ -21,7 +23,7 @@ def argumentParser():
     parser.add_argument("--name", "-n",  default = False, help = "The name used for the recordCollection and resulting files.")
     parser.add_argument("--debug", "-d", action = 'store_true', default = False, help = "Enables debug messages.")
     parser.add_argument("--progress", "-p", action = 'store_true' ,default = False, help = "Progress bar mode, shows progress bars where appropriate")
-    parser.add_argument("--suffix", "-s", default = '', help = "Progress bar mode, shows progress bars where appropriate")
+    parser.add_argument("--suffix", "-s", default = '', help = "The suffix of the WOS files you wish to extract Records from, by default all files are used and those that do not have Records are skipped")
     return parser.parse_args()
 
 def yesorNo(prompt):
@@ -81,7 +83,7 @@ def getOutputName(clargs, suffix, prompt = "What do you wish to call the output 
         else:
             return s
 
-def getTag(prompt, nMode = False):
+def Tag(prompt, nMode = False):
     retTag = input(prompt).upper()
     if retTag in metaknowledge.tagsAndNames:
         return retTag
@@ -90,7 +92,7 @@ def getTag(prompt, nMode = False):
             return False
         else:
             print("{} is not a valid tag, please try again".format(retTag))
-            return getTag(prompt, nMode = nMode)
+            return Tag(prompt, nMode = nMode)
 
 def getNum(prompt):
     retNum = input(prompt)
@@ -218,21 +220,21 @@ def getNetwork(clargs, inRC):
     ])
     netID = int(inputMenu(netsDict, header = "What type of network do you wish to create?", promptMsg = "Input the number corresponding to the type of network you wish to generate? "))
     if netID == 1:
-        otg = getTag("What is the tag to use for the network? ")
+        otg = Tag("What is the tag to use for the network? ")
         print("Generating a network using the {0} tag.".format(otg))
         return inRC.oneModeNetwork(otg)
     elif netID == 2:
-        tg1 = getTag("What is the first tag to use for the network? ")
-        tg2 = getTag("And the second tag? ")
+        tg1 = Tag("What is the first tag to use for the network? ")
+        tg2 = Tag("And the second tag? ")
         print("Generating a network using the {0} and {1} tags.".format(tg1, tg2))
         return inRC.twoModeNetwork(tg1, tg2)
     elif netID == 3:
         tgs = []
-        tgs.append(getTag("What is the first tag to use for the network? "))
-        innertag = getTag("And the next tag (leave blank to continue)? ", nMode = True)
+        tgs.append(Tag("What is the first tag to use for the network? "))
+        innertag = Tag("And the next tag (leave blank to continue)? ", nMode = True)
         while innertag:
             tgs.append(innertag)
-            innertag = getTag("And the next tag (leave blank to continue)? ", nMode = True)
+            innertag = Tag("And the next tag (leave blank to continue)? ", nMode = True)
         print("Generating a network using the {0} and {1} tags".format(', '.join(tgs[:-1]), tgs[-1]))
         return inRC.nModeNetwork(tgs)
     elif netID == 4:
@@ -260,18 +262,23 @@ def getThresholds(clargs, grph):
     if thresID == 0:
         return grph
     elif thresID == 1:
-        return getThresholds(clargs, metaknowledge.drop_nodesByDegree(grph, minDegree = 1))
+        metaknowledge.dropNodesByDegree(grph, minDegree = 1)
+        return getThresholds(clargs, grph)
     elif thresID == 2:
-        return getThresholds(clargs, metaknowledge.drop_edges(grph, dropSelfLoops = True))
+        metaknowledge.dropEdges(grph, dropSelfLoops = True)
+        return getThresholds(clargs, grph)
     elif thresID == 3:
-        return getThresholds(clargs, metaknowledge.drop_edges(grph, minWeight = getNum("What is the minumum weight for an edge to be included? ")))
+        metaknowledge.dropEdges(grph, minWeight = getNum("What is the minumum weight for an edge to be included? "))
+        return getThresholds(clargs, grph)
     elif thresID == 4:
-        return getThresholds(clargs, metaknowledge.drop_edges(grph, minWeight = getNum("What is the maximum weight for an edge to be included? ")))
+        metaknowledge.dropEdges(grph, minWeight = getNum("What is the maximum weight for an edge to be included? "))
+        return getThresholds(clargs, grph)
     elif thresID == 5:
-        return getThresholds(clargs, metaknowledge.drop_nodesByDegree(grph, minDegree = getNum("What is the minumum degree for an edge to be included? ")))
+        metaknowledge.dropNodesByDegree(grph, minDegree = getNum("What is the minumum degree for an edge to be included? "))
+        return getThresholds(clargs, grph)
     else:
-        return getThresholds(clargs, metaknowledge.drop_nodesByDegree(grph, minDegree = getNum("What is the maximum degree for an edge to be included? ")))
-
+        metaknowledge.dropNodesByDegree(grph, minDegree = getNum("What is the maximum degree for an edge to be included? "))
+        return getThresholds(clargs, grph)
 
 def  outputNetwork(clargs, grph):
     outDict = collections.OrderedDict([
@@ -296,15 +303,15 @@ def  outputNetwork(clargs, grph):
         while True:
             try:
                 outName = getOutputName(clargs, '', checking = False)
-                metaknowledge.write_graph(grph, outName)
+                metaknowledge.writeGraph(grph, outName)
             except OSError:
                 if clargs.name:
-                    metaknowledge.write_graph(grph, outName, overwrite = True)
+                    metaknowledge.writeGraph(grph, outName, overwrite = True)
                     break
                 else:
                     overWrite = yesorNo("{}, overwrite (y/n)? ")
                     if overWrite:
-                        metaknowledge.write_graph(grph, outName, overwrite = True)
+                        metaknowledge.writeGraph(grph, outName, overwrite = True)
                         break
                     else:
                         pass
@@ -313,13 +320,13 @@ def  outputNetwork(clargs, grph):
 
     elif outID == 2:
         outName = getOutputName(clargs, '.csv')
-        metaknowledge.write_edgeList(grph, outName)
+        metaknowledge.writeEdgeList(grph, outName)
     elif outID == 3:
         outName = getOutputName(clargs, '.csv')
-        metaknowledge.write_nodeAttributeFile(grph, outName)
+        metaknowledge.writeNodeAttributeFile(grph, outName)
     else:
         outName = getOutputName(clargs, '.graphml')
-        nx.write_graphml(grph, outName)
+        nx.writeGraphml(grph, outName)
 
 def mkCLI():
     try:

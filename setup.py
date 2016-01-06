@@ -20,9 +20,10 @@ setup(name='metaknowledge',
     download_url = "https://github.com/networks-lab/metaknowledge/archive/{}.tar.gz".format(versionNumber),
     keywords= 'WOS',
     classifiers = [
-    'Development Status :: 4 - Beta',
+    'Development Status :: 5 - Production/Stable',
     'Environment :: Console',
     'Environment :: MacOS X',
+    'Intended Audience :: Science/Research',
     'License :: OSI Approved :: GNU General Public License v2 (GPLv2)',
     'Operating System :: MacOS :: MacOS X',
     'Operating System :: POSIX',
@@ -50,7 +51,7 @@ except ImportError:
     print("Setup did not work, metaknowledge cannot be imported")
 else:
     try:
-        print("journal abbreviations database being downloaded\nPress ctr-C to cancel")
+        print("journal abbreviations database being downloaded\nPress ctr-C to cancel, nothing bad will happen if you cancel")
         metaknowledge.journalAbbreviations.updatej9DB()
     except:
         print("journal abbreviations database could not be downloaded. Try again when you have a connection if you wish to use them. The function to updated them is metaknowledge.journalAbbreviations.updatej9DB().")

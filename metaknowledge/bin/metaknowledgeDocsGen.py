@@ -15,7 +15,7 @@ documentedModules = ['contour', 'journalAbbreviations', 'tagProcessing']
 docsPrefix = time.strftime("%Y-%m-%d-")
 
 blurbDict = {
-    'visual' : "A nicer matplotlib graph visualizer and contour plot",
+    'contour' : "A nicer matplotlib graph visualizer and contour plot",
     'tagProcessing' : "All the tags and how they are handled",
     'journalAbbreviations' : "Look here to get your J9 database",
     'Citation' : "Citation are special, here is how they are handled",

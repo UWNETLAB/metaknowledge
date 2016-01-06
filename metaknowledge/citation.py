@@ -305,7 +305,6 @@ class Citation(object):
         except KeyError:
             raise KeyError("This citation does not have a journal field.")
         else:
-            global abbrevDict
             abbrevDict.update(d)
 
 def filterNonJournals(citesLst, invert = False):

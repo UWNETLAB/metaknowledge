@@ -4,12 +4,13 @@
 import itertools
 import io
 import collections
+import importlib
 
 from .citation import Citation
 from .tagProcessing.funcDicts import tagNameConverterDict, tagsAndNameSet, fullToTagDict
 from .tagProcessing.tagFunctions import tagToFunc
 from .tagProcessing.funcDicts import tagToFull
-import importlib
+
 
 
 class BadISIRecord(Warning):

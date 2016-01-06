@@ -1,11 +1,10 @@
 #Written by Reid McIlroy-Young for Dr. John McLevey, University of Waterloo 2015
-import itertools
+import networkx as nx
 
 from .tagProcessing.funcDicts import tagsAndNameSet, normalizeToTag
 from .graphHelpers import _ProgressBar
 from .recordCollection import RecordCollection
 
-import networkx as nx
 import metaknowledge
 
 def diffusionGraph(source, target, weighted = True, sourceType = "raw", targetType = "raw", labelEdgesBy = None):
@@ -52,9 +51,9 @@ def diffusionGraph(source, target, weighted = True, sourceType = "raw", targetTy
     > A directed graph of the diffusion network, _labelEdgesBy_ is used the graph will allow parallel edges.
     """
     if sourceType != "raw" and sourceType not in tagsAndNameSet:
-        raise RuntimeError("{} is not a valid node type, only 'raw' or those strings in tagsAndNameSet are allowed".format(nodeType))
+        raise RuntimeError("{} is not a valid node type, only 'raw' or those strings in tagsAndNameSet are allowed".format(sourceType))
     if targetType != "raw" and targetType not in tagsAndNameSet:
-        raise RuntimeError("{} is not a valid node type, only 'raw' or those strings in tagsAndNameSet are allowed".format(nodeType))
+        raise RuntimeError("{} is not a valid node type, only 'raw' or those strings in tagsAndNameSet are allowed".format(targetType))
     if labelEdgesBy is not None:
         try:
             normVal = normalizeToTag(labelEdgesBy)
@@ -115,7 +114,7 @@ def diffusionGraph(source, target, weighted = True, sourceType = "raw", targetTy
                                         if weighted:
                                             if workingGraph.has_edge(sVal, val, key = edgeVal):
                                                 for i, a in workingGraph[sVal][val].items():
-                                                    if a[key] == edgeVal:
+                                                    if a['key'] == edgeVal:
                                                         workingGraph[sVal][val][i]['weight'] += 1
                                                         break
                                             else:
@@ -179,7 +178,7 @@ def diffusionCount(source, target, sourceType = "raw", pandasFriendly = False,  
     sourceCountString = "SourceCount"
     targetCountString = "TargetCount"
     if sourceType != "raw" and sourceType not in tagsAndNameSet:
-        raise RuntimeError("{} is not a valid node type, only 'raw' or those strings in tagsAndNameSet are allowed".format(nodeType))
+        raise RuntimeError("{} is not a valid node type, only 'raw' or those strings in tagsAndNameSet are allowed".format(sourceType))
     if not isinstance(source, RecordCollection) or not isinstance(target, RecordCollection):
         raise RuntimeError("Source and target must be RecordCollections.")
     if metaknowledge.VERBOSE_MODE or _ProgBar:
@@ -323,7 +322,7 @@ def makeNodeID(Rec, ndType, extras = None):
     if extras:
         for tag in extras:
             if tag == "raw":
-                extraDict[Tag] = Rec
+                extraDict['Tag'] = Rec
             else:
-                extraDict[Tag] = getattr(Rec, tag)
+                extraDict['Tag'] = getattr(Rec, tag)
     return recID, extraDict

@@ -427,13 +427,13 @@ class _ProgressBar(object):
             percentString = '{:.1%}'.format(self.per).rjust(self.percLength, ' ')
             barLength = int(self.per * self.barMaxLength)
             if self.big and self.inputString:
-                    self.dString = self.prepString(self.inputString, self.barMaxLength + self.difTermAndBar - self.timeLength) + self.prepTime(time.time() - self.sTime, self.timeLength)
-                    if barLength >= self.barMaxLength:
-                        self.out.write('[' + '=' * barLength + ']' + percentString)
-                        self.out.write('\n' + self.dString + '\033[F')
-                    else:
-                        self.out.write('[' + '=' * barLength + '>' + ' ' * (self.barMaxLength - barLength - 1) + ']' + percentString)
-                        self.out.write('\n' + self.dString + '\033[')
+                self.dString = self.prepString(self.inputString, self.barMaxLength + self.difTermAndBar - self.timeLength) + self.prepTime(time.time() - self.sTime, self.timeLength)
+                if barLength >= self.barMaxLength:
+                    self.out.write('[' + '=' * barLength + ']' + percentString)
+                    self.out.write('\n' + self.dString + '\033[F')
+                else:
+                    self.out.write('[' + '=' * barLength + '>' + ' ' * (self.barMaxLength - barLength - 1) + ']' + percentString)
+                    self.out.write('\n' + self.dString + '\033[')
             elif self.inputString:
                 self.dString = self.prepString(self.inputString, self.barMaxLength + self.difTermAndBar - self.timeLength - self.percLength - 2) + '[' + self.prepTime(time.time() - self.sTime, self.timeLength) +  ']' + percentString
                 self.out.write(self.dString)

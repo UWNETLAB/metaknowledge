@@ -1,3 +1,4 @@
+#Written by Reid McIlroy-Young for Dr. John McLevey, University of Waterloo 2015
 import unittest
 import metaknowledge
 import metaknowledge.tagProcessing
@@ -18,6 +19,17 @@ class TestRecordCollection(unittest.TestCase):
         self.assertEqual(repr(metaknowledge.RecordCollection()), "empty")
         self.assertTrue(self.RC == self.RC)
 
+    def test_caching(self):
+        RC = metaknowledge.RecordCollection("metaknowledge/tests/", cached = True, name = 'testingCache', extension = 'testFile.isi')
+        self.assertTrue(os.path.isfile("metaknowledge/tests/tests.[testFile.isi].mkDirCache"))
+        accessTime = os.stat("metaknowledge/tests/testFile.isi").st_atime
+        RC2 = metaknowledge.RecordCollection("metaknowledge/tests/", cached = True, name = 'testingCache', extension = 'testFile.isi')
+        self.assertEqual(accessTime, os.stat("metaknowledge/tests/testFile.isi").st_atime)
+        RC.dropBadRecords()
+        RC2.dropBadRecords()
+        self.assertEqual(RC, RC2)
+        os.remove("metaknowledge/tests/tests.[testFile.isi].mkDirCache")
+
     def test_bad(self):
         self.assertTrue(metaknowledge.RecordCollection('metaknowledge/tests/badFile.isi').bad)
         with self.assertRaises(TypeError):
@@ -27,7 +39,7 @@ class TestRecordCollection(unittest.TestCase):
         self.assertFalse(self.RCbad == self.RC)
 
     def test_badRecords(self):
-        badRecs = self.RC.getBadRecords()
+        badRecs = self.RC.BadRecords()
         self.assertTrue(badRecs <= self.RC)
         self.assertTrue(badRecs.pop().bad)
         self.RC.dropBadRecords()
@@ -51,19 +63,19 @@ class TestRecordCollection(unittest.TestCase):
         self.RC.addRec(RC2)
         self.assertEqual(len(self.RC), l + 2)
 
-    def test_getWOS(self):
+    def test_WOS(self):
         self.RC.dropBadRecords()
         R = self.RC.peak()
         l = len(self.RC)
-        self.assertTrue(R, self.RC.getWOS(R.UT))
+        self.assertTrue(R, self.RC.WOS(R.UT))
         self.assertEqual(len(self.RC), l)
         self.RC.dropWOS(R.UT)
         self.assertEqual(len(self.RC), l - 1)
-        self.RC.getWOS(self.RC.peak().UT, drop = True)
+        self.RC.WOS(self.RC.peak().UT, drop = True)
         self.assertEqual(len(self.RC), l - 2)
-        self.assertFalse(self.RC.getWOS(self.RC.pop().UT))
+        self.assertFalse(self.RC.WOS(self.RC.pop().UT))
         with self.assertRaises(ValueError):
-            self.RC.getWOS("asdfghjkjhgfdsdfghj")
+            self.RC.WOS("asdfghjkjhgfdsdfghj")
             self.RC.dropWOS("asdfghjkjhgfdsdfghj")
 
     def test_directoryRead(self):
@@ -94,6 +106,17 @@ class TestRecordCollection(unittest.TestCase):
         self.assertEqual(os.path.getsize(filename), 88346)
         os.remove(filename)
 
+    def test_bibWrite(self):
+        filename = 'testFile.bib'
+        if os.path.isfile(filename):
+            os.remove(filename)
+        self.RC.writeBib(maxStringLength = 100)
+        self.assertEqual(os.path.getsize(filename), 106458)
+        os.remove(filename)
+        self.RC.writeBib(fname = filename, wosMode = True, reducedOutput = True, niceIDs = False)
+        self.assertEqual(os.path.getsize(filename), 17150)
+        os.remove(filename)
+
     def test_makeDict(self):
         d = self.RC.makeDict(onlyTheseTags = list(metaknowledge.tagProcessing.tagsAndNameSet), longNames = True)
         self.assertEqual(len(d), 62)
@@ -113,6 +136,7 @@ class TestRecordCollection(unittest.TestCase):
         Gjour = self.RC.coCiteNetwork(nodeType = "journal", dropNonJournals = True)
         Gyear = self.RC.coCiteNetwork(nodeType = "year", fullInfo = True, count = False)
         Gcore = self.RC.coCiteNetwork(detailedCore = ['AF','AU', 'DE', 'ID', 'PY'], coreOnly = True)
+        Gexplode = self.RC.coCiteNetwork(expandedCore = True, keyWords = 'a')
         self.assertIsInstance(Gdefault, nx.classes.graph.Graph)
         self.assertLessEqual(len(Gdefault.edges()), len(Gunwei.edges()))
         self.assertLessEqual(len(Gdefault.nodes()), len(Gunwei.nodes()))
@@ -134,6 +158,7 @@ class TestRecordCollection(unittest.TestCase):
         self.assertTrue('info' in Gyear.nodes(data=True)[0][1])
         self.assertTrue('fullCite' in Gyear.nodes(data = True)[0][1])
         self.assertEqual(Gcore.node['Costadebeauregard O, 1975, CAN J PHYS']['info'], 'COSTADEBEAUREGARD O, COSTADEBEAUREGARD O')
+        self.assertEqual(metaknowledge.graphStats(Gexplode), "The graph has 72 nodes, 365 edges, 0 isolates, 6 self loops, a density of 0.142801 and a transitivity of 0.528532")
 
     def test_coAuth(self):
         Gdefault = self.RC.coAuthNetwork()
@@ -151,7 +176,8 @@ class TestRecordCollection(unittest.TestCase):
         Gunwei = self.RC.citationNetwork(nodeType = 'original', weighted = False)
         Gjour = self.RC.citationNetwork(nodeType = "author", dropNonJournals = True, nodeInfo = True, count = False)
         Gyear = self.RC.citationNetwork(nodeType = "year", nodeInfo = True)
-        Gcore = self.RC.coCiteNetwork(detailedCore = True, coreOnly = False)
+        Gcore = self.RC.citationNetwork(detailedCore = True, coreOnly = False)
+        Gexplode = self.RC.citationNetwork(expandedCore = True, keyWords = ['b', 'c'])
         self.assertIsInstance(Gdefault, nx.classes.digraph.DiGraph)
         self.assertLessEqual(len(Gdefault.edges()), len(Gunwei.edges()))
         self.assertLessEqual(len(Gdefault.nodes()), len(Gunwei.nodes()))
@@ -170,7 +196,7 @@ class TestRecordCollection(unittest.TestCase):
         self.assertTrue('info' in Gjour.nodes(data=True)[0][1])
         self.assertTrue('info' in Gyear.nodes(data=True)[0][1])
         self.assertEqual(Gcore.node['Gilles H, 2002, OPT LETT']['info'], 'Gilles H, Simple technique for measuring the Goos-Hanchen effect with polarization modulation and a position-sensitive detector, OPTICS LETTERS, 27, 1421')
-
+        self.assertEqual(metaknowledge.graphStats(Gexplode), "The graph has 19 nodes, 29 edges, 0 isolates, 3 self loops, a density of 0.0847953 and a transitivity of 0.132075")
 
     def test_oneMode(self):
         Gcr  = self.RC.oneModeNetwork('CR')

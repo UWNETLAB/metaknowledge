@@ -1,3 +1,4 @@
+#Written by Reid McIlroy-Young for Dr. John McLevey, University of Waterloo 2015
 import urllib.request
 import string
 import os
@@ -122,13 +123,21 @@ def updatej9DB(dbname = abrevDBname, saveRawHTML = False):
                 db[k] = '|'.join(v)
 
 def getj9dict(dbname = abrevDBname, manualDB = manaulDBname, returnDict = 'both'):
-    """Returns the dictionary of journal abbreviations to a list of the associated journal names. By default the local database is used. The database is in the file _dbname_ in the same directory as this source file
+    """Returns the dictionary of journal abbreviations mapping to a list of the associated journal names. By default the local database is used. The database is in the file _dbname_ in the same directory as this source file
 
     # Parameters
 
     _dbname_ : `optional [str]`
 
-    > The name of the database file
+    > The name of the downloaded database file, the default is determined at run time. It is recommended that this remain untouched.
+
+    _manaulDB_ : `optional [str]`
+
+    > The name of the manually created database file, the default is determined at run time. It is recommended that this remain untouched.
+
+    _returnDict_ : `optional [str]`
+
+    > default `'both'`, can be used to get both databases or only one  with `'WOS'` or `'manual'`.
     """
     dbLoc = os.path.normpath(os.path.dirname(__file__))
 
@@ -178,7 +187,7 @@ def addToDB(abbr = None, dbname = manaulDBname):
             raise TypeError("abbr must be a str or dict.")
 
 def excludeFromDB(abbr = None, dbname = manaulDBname):
-    """Marks _abbr_ to be excluded the database of journals. The database is kept separate from the one scraped from WOS, this supersedes it. The database by default is stored with the WOS one and the name is given by `metaknowledge.journalAbbreviations.manaulDBname`. To create an empty database run **addToDB** without an _abbr_ argument.
+    """Marks _abbr_ to be excluded the database of journals. The database is kept separate from the one scraped from WOS, this supersedes it. The database by default is stored with the WOS one and the name is given by `metaknowledge.journalAbbreviations.manaulDBname`. To create an empty database run [**addToDB**()](#journalAbbreviations.addToDB) without an _abbr_ argument.
 
     # Parameters
 

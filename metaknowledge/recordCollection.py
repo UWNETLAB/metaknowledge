@@ -1,34 +1,35 @@
 #Written by Reid McIlroy-Young for Dr. John McLevey, University of Waterloo 2015
-import metaknowledge
-from .record import Record, BadISIFile
-from .graphHelpers import _ProgressBar
-from .tagProcessing.funcDicts import tagsAndNameSet, tagToFullDict, fullToTagDict, normalizeToTag
-from .citation import Citation
-
 import itertools
 import os
 import csv
+import pickle
 
 import networkx as nx
 
+from .record import Record, BadWOSFile, BadWOSRecord
+from .graphHelpers import _ProgressBar
+from .tagProcessing.funcDicts import tagToFullDict, fullToTagDict, normalizeToTag
+from .citation import Citation
+
+import metaknowledge
+
 class RecordCollection(object):
     """
-    A way of containing a large number of Record objects, it provides ways of creating them from an isi file, string, list of records or directory containing isi files. The Records are containing within a set and as such many of the set operations are defined, pop, union, in ... also records are hashed with their WOS string so no duplication can occur.
-    The comparison operators <, <=, >, >= are based strictly on the number of Records within the collection, while equality looks for an exact match on the Records
+    A container for a large number of indivual WOS records.
 
-    When being created if there are issues the Record collection will be declared bad (self.bad = True) it will then mostly return nothing or False. The error attribute contains the exception that occurred.
+    `RecordCollection` provides ways of creating `[Records`](#metaknowledge.Record) from an isi file, string, list of records or directory containing isi files.
 
-    They also possess a name accessed with repr(), this is used to auto generate the names of files and can be set at creation, note though that any operations that modify the RecordCollection's contents will update the name to include what occurred, read __repr__'s doc string for more information
+    When being created if there are issues the Record collection will be declared bad, `bad` wil be set to `False`, it will then mostly return `None` or False. The attribute `error` contains the exception that occurred.
 
-    inCollection is the object containing the information about the Records to be constructed it can be an isi file, string, list of records or directory containing isi files
+    They also possess an attribute `name` also accessed accessed with **__repr__**(), this is used to auto generate the names of files and can be set at creation, note though that any operations that modify the RecordCollection's contents will update the name to include what occurred.
 
-    name sets the name of the of the record if left blank name will be generated based on the object that created the Recordcollection
+    # Customizations
 
-    extension controls the extension that __init__ looks for when reading a directory, set it to the extension on the isi files you wish to load, if left blank all files will be tried and any that are not isi files will be silently skipped
+    The Records are containing within a set and as such many of the set operations are defined, pop, union, in ... also records are hashed with their WOS string so no duplication can occur. The comparison operators `<`, `<=`, `>`, `>=` are based strictly on the number of Records within the collection, while equality looks for an exact match on the Records
 
     # \_\_Init\_\_
 
-    RecordCollections are made from either a single file or directory supplied as _inCollection_.
+    _inCollection_ is the object containing the information about the Records to be constructed it can be an isi file, string, list of records or directory containing isi files
 
     # Parameters
 
@@ -46,10 +47,18 @@ class RecordCollection(object):
 
     _extension_ : `optional [str]`
 
-    > The extension to search for when reading a directoy for files. _extension_ is the suffix searched for when a direcorty is read for files, by default it is empty so all files are read.
+    > The extension to search for when reading a directory for files. _extension_ is the suffix searched for when a directory is read for files, by default it is empty so all files are read.
+
+    _cached_ : `optional [bool]`
+
+    > Default `False`, if `True` and the _inCollection_ is a directory (a string giving the path to a directory) then the initialized `RecordCollection` will be saved in the directory as a Python pickle with the suffix `'.mkDirCache'`. Then if the `RecordCollection` is initialized a second time it will be recovered from the file, which is much faster than reprising every file in the directory.
+
+    > _metaknowledge_ saves the names of the parsed files as well as their last modification times and will check these when recreating the `RecordCollection`, so modifying existing files or adding new ones will result in the entire directory being reanalyzed and a new cache file being created. The extension given to **__init__**() is taken into account as well and each suffix is given its own cache.
+
+    > **Note** The pickle allows for arbitrary python code exicution so only use caches that you trust.
     """
 
-    def __init__(self, inCollection = None, name = '', extension = ''):
+    def __init__(self, inCollection = None, name = '', extension = '', cached = False):
         self.bad = False
         self._repr = name
         if not inCollection:
@@ -62,8 +71,8 @@ class RecordCollection(object):
                     if not inCollection.endswith(extension):
                         raise TypeError("extension of input file does not match requested extension")
                     self._repr = os.path.splitext(os.path.split(inCollection)[1])[0]
-                    self._Records = set(isiParser(inCollection))
-                except BadISIFile as w:
+                    self._Records = set(wosParser(inCollection))
+                except BadWOSFile as w:
                     self.bad = True
                     self.error = w
             elif os.path.isdir(inCollection):
@@ -86,8 +95,19 @@ class RecordCollection(object):
                     flist = []
                     for f in os.listdir(inCollection):
                         fullF = os.path.join(os.path.abspath(inCollection), f)
-                        if fullF.endswith(extension) and os.path.isfile(fullF):
+                        if fullF.endswith(extension) and not fullF.endswith('mkDirCache') and os.path.isfile(fullF):
                             flist.append(fullF)
+                    if cached:
+                        cacheName = os.path.join(inCollection, '{}.[{}].mkDirCache'.format(os.path.basename(os.path.abspath(inCollection)), extension))
+                        if os.path.isfile(cacheName):
+                            try:
+                                self.__dict__ = loadCache(cacheName, flist, name, extension, PBar).__dict__
+                            except cacheError:
+                                PBar.updateVal(0, 'Cache error, rereading files')
+                                os.remove(cacheName)
+                            else:
+                                PBar.finish("Done reloading from cache")
+                                return
                     for file in flist:
                         if PBar:
                             count += 1
@@ -95,14 +115,16 @@ class RecordCollection(object):
                         else:
                             PBar = None
                         try:
-                            self._Records |= set(isiParser(file))
-                        except BadISIFile:
+                            self._Records |= set(wosParser(file))
+                        except BadWOSFile:
                             if extension != '':
                                 raise
                             else:
                                 pass
                         except UnicodeDecodeError:
                             pass
+                    if cached:
+                        writeCache(self, cacheName, flist, name, extension, PBar)
                     if PBar:
                         PBar.finish("Done reading records from: " + str(inCollection))
             else:
@@ -233,7 +255,13 @@ class RecordCollection(object):
 
     def pop(self):
         """
-        Returns a random Record from the recordCollection, the Record is deleted from the collection, use peak for nondestructive access
+        Returns a random `Record` from the `RecordCollection`, the `Record` is deleted from the collection, use [**peak**()](#recordCollection.peak) for nondestructive, but slower, access
+
+        # Returns
+
+        `Record`
+
+        > A random `Record` that has been removed from the collection
         """
         if len(self._Records) > 0:
             self._repr = "Pop-" + self._repr
@@ -243,7 +271,13 @@ class RecordCollection(object):
 
     def peak(self):
         """
-        Returns a random Record from the recordCollection, the Record is kept in the collection, use pop for faster destructive access
+        Returns a random `Record` from the `RecordCollection`, the `Record` is kept in the collection, use [**pop**()](#recordCollection.pop) for faster destructive access.
+
+        # Returns
+
+        `Record`
+
+        > A random `Record` in the collection
         """
         if len(self._Records) > 0:
             return self._Records.__iter__().__next__()
@@ -251,13 +285,13 @@ class RecordCollection(object):
             return None
 
     def dropWOS(self, wosNum):
-        """Removes the Record with WOS number (ID number) _wosNum_
+        """Removes the `Record` with WOS number (ID number) _wosNum_ from the collection. If it cannot be found nothing happens.
 
         # Parameters
 
         _wosNum_ : `str`
 
-        > _wosNum_ is the WOS number of the Record to be dropped. _wosNum_ must begin with 'WOS:' or a valueError is raise.
+        > _wosNum_ is the WOS number of the Record to be dropped. _wosNum_ must begin with `'WOS:'` or a valueError is raise.
         """
         if wosNum[:4] != 'WOS:':
             raise ValueError("{} is not a valid WOS number string, it does not start with 'WOS:'.".format(wosNum))
@@ -267,37 +301,37 @@ class RecordCollection(object):
                 break
 
     def addRec(self, Rec):
-        """Adds a Record or Records to the RecordCollection.
+        """Adds a `Record` or `Records` to the collection.
 
         # Parameters
 
         _Rec_ : `Record or iterable[Record]`
 
-        > A Record or some iterable containg records to add
+        > A Record or some iterable containing `Records` to add
         """
         if hasattr(Rec, '__iter__'):
             self._Records |= set(Rec)
         elif Rec not in self:
             self._Records.add(Rec)
 
-    def getWOS(self, wosNum, drop = False):
-        """Gets the Record from the collection by its WOS number.
+    def WOS(self, wosNum, drop = False):
+        """Gets the `Record` from the collection by its WOS number (ID number) _wosNum_.
 
         # Parameters
 
         _wosNum_ : `str`
 
-        > _wosNum_ is the WOS number of the Record to be extracted. _wosNum_ must begin with 'WOS:' or a valueError is raise.
+        > _wosNum_ is the WOS number of the `Record` to be extracted. _wosNum_ must begin with `'WOS:'` or a valueError is raise.
 
         _drop_ : `optional [bool]`
 
-        > Default `False`. If `True` the Record is dropped from the collection after being extract, i.e. if `False` [getWOS()](#RecordCollection.getWOS) acts like [peak()](#RecordCollection.peak), if `True` it acts like [pop()](#RecordCollection.pop)
+        > Default `False`. If `True` the Record is dropped from the collection after being extract, i.e. if `False` [**WOS**()](#RecordCollection.WOS) acts like [**peak**()](#RecordCollection.peak), if `True` it acts like [**pop**()](#RecordCollection.pop)
 
         # Returns
 
         `metaknowledge.Record`
 
-        > The Record whose WOS number is _wosNum_
+        > The `Record` whose WOS number is _wosNum_
         """
         try:
             if wosNum[:4] != 'WOS:':
@@ -311,9 +345,14 @@ class RecordCollection(object):
                 return R
         return None
 
-    def getBadRecords(self):
-        """
-        returns RecordCollection containing all the Record which have their bad flag set to True, i.e. all those removed by dropBadRecords()
+    def BadRecords(self):
+        """creates a `RecordCollection` containing all the `Record` which have their `bad` attribute set to `True`, i.e. all those removed by [**dropBadRecords**()](#RecordCollection.dropBadRecords).
+
+        # Returns
+
+        `RecordCollection`
+
+        > All the bad `Records` in one collection
         """
         badRecords = set()
         for R in self._Records:
@@ -322,28 +361,27 @@ class RecordCollection(object):
         return RecordCollection(badRecords, repr(self) + '_badRecords')
 
     def dropBadRecords(self):
-        """
-        Removes all Records with bad attributes == True from the collection
+        """Removes all `Records` with `bad` attribute `True` from the collection, i.e. drop all those returned by [**BadRecords**()](#RecordCollection.BadRecords).
         """
         self._Records = {r for r in self._Records if not r.bad}
         self._repr = repr(self) + '_badRecordsDropped'
 
     def dropNonJournals(self, ptVal = 'J', dropBad = True, invert = False):
-        """Drops the non journal type Records from the collection
+        """Drops the non journal type `Records` from the collection, this is done by checking _ptVal_ against the PT tag
 
         # Parameters
 
         _ptVal_ : `optional [str]`
 
-        > The value of the PT tag to be kept, default is 'J' the journal tag
+        > Default `'J'`, The value of the PT tag to be kept, default is `'J'` the journal tag, other tags can be substituted.
 
         _dropBad_ : `optional [bool]`
 
-        > Determines if bad Records will be dropped as well, default `True`
+        > Default `True`, if `True` bad `Records` will be dropped as well those that are not journal entries
 
         _invert_ : `optional [bool]`
 
-        > Set `True` to drop journals (or the PT tag given by _ptVal) instead of keeping them. Note, it still drops bad Records if _dropBad_ is `True`, default `False`
+        > Default `False`, Set `True` to drop journals (or the PT tag given by _ptVal_) instead of keeping them. **Note**, it still drops bad Records if _dropBad_ is `True`
         """
         if dropBad:
             self.dropBadRecords()
@@ -355,10 +393,13 @@ class RecordCollection(object):
             self._repr = repr(self) + '_PT-{}-Only'.format(ptVal)
 
     def writeFile(self, fname = None):
-        """
-        Writes the RecordCollection to a file, the written file is identical to those download from WOS. The order of Records written is random.
+        """Writes the `RecordCollection` to a file, the written file's format is identical to those download from WOS. The order of `Records` written is random.
 
-        fname set the name of the file, if blank the RecordCollection's name's first 200 characters are use with the suffix .isi
+        # Parameters
+
+        _fname_ : `optional [str]`
+
+        > Default `None`, if given the output file will written to _fanme_, if `None` the `RecordCollection`'s name's first 200 characters are used with the suffix .isi
         """
         if fname:
             f = open(fname, mode = 'w', encoding = 'utf-8')
@@ -373,25 +414,45 @@ class RecordCollection(object):
         f.close()
 
     def writeCSV(self, fname = None, onlyTheseTags = None, numAuthors = True, longNames = False, firstTags = None, csvDelimiter = ',', csvQuote = '"', listDelimiter = '|'):
-        """Writes all the Records from the collection into a csv file with each row a record and each column a tag
+        """Writes all the `Records` from the collection into a csv file with each row a record and each column a tag.
 
-        fname is the name of the file to write to, if none is given it uses the Collections name suffixed by .csv
+        # Parameters
 
-        onlyTheseTags lets you specify which tags to use, if not given then all tags in the records are given.
-        If you want to use all known tags the use onlyTheseTags = metaknowledge.knownTagsList
+        _fname_ : `optional [str]`
 
-        numAuthors adds the number of auhtors as the column numAuthors
+        > Default `None`, the name of the file to write to, if `None` it uses the collections name suffixed by .csv.
 
-        longNames if set to True will convert the tags to their longer names, otherwise the short 2 character ones will be used
+        _onlyTheseTags_ : `optional [iterable]`
 
-        firstTags is the column's tags, it is set by default to ['UT', 'PT', 'TI', 'AF', 'CR'] so those will be written first if given by onlyTheseTags.
-        Note if tags are in firstTags but not in onlyTheseTags, onlyTheseTags will override onlyTheseTags
+        > Default `None`, if an iterable (list, tuple, etc) only the tags in _onlyTheseTags_ will be used, if not given then all tags in the records are given.
 
-        csvDelimiter is the delimiter used for the cells of the csv file, default is the comma (,)
+        > If you want to use all known tags pass [`metaknowledge.knownTagsList`](#metaknowledge.tagProcessing).
 
-        csvQuote is  the quote character used for the csv, default is the double quote (")
+        _numAuthors_ : `optional [bool]`
 
-        listDelimiter is the delimiter used between values of the same cell if the tag for that record has multiple outputs, default is the pipe (|)
+        > Default `True`, if `True` adds the number of authors as the column `'numAuthors'`.
+
+        _longNames_ : `optional [bool]`
+
+        > Default `False`, if `True` will convert the tags to their longer names, otherwise the short 2 character ones will be used.
+
+        _firstTags_ : `optional [iterable]`
+
+        > Default `None`, if `None` the iterable `['UT', 'PT', 'TI', 'AF', 'CR']` is used. The tags given by the iterable are the first ones in the csv in the order given.
+
+        > **Note** if tags are in _firstTags_ but not in _onlyTheseTags_, _onlyTheseTags_ will override _firstTags_
+
+        _csvDelimiter_ : `optional [str]`
+
+        > Default `','`, the delimiter used for the cells of the csv file.
+
+        _csvQuote_ : `optional [str]`
+
+        > Default `'"'`, the quote character used for the csv.
+
+        _listDelimiter_ : `optional [str]`
+
+        > Default `'|'`, the delimiter used between values of the same cell if the tag for that record has multiple outputs.
         """
         if firstTags is None:
             firstTags = ['UT', 'PT', 'TI', 'AF', 'CR']
@@ -423,7 +484,7 @@ class RecordCollection(object):
             csvWriter = csv.DictWriter(f, retrievedFields, delimiter = csvDelimiter, quotechar = csvQuote, quoting=csv.QUOTE_ALL)
         csvWriter.writeheader()
         for R in self:
-            recDict = R.getTagsDict(retrievedFields)
+            recDict = R.TagsDict(retrievedFields)
             if numAuthors:
                 recDict["numAuthors"] = str(R.numAuthors())
             for k in recDict.keys():
@@ -437,14 +498,75 @@ class RecordCollection(object):
             csvWriter.writerow(recDict)
         f.close()
 
-    def makeDict(self, onlyTheseTags = None, longNames = False, cleanedVal = True, numAuthors = True):
-        """Returns a dict with each key a tag and the values being lists of the values for each of the Records in the collection, `None` is given when there is no value and they are in the same order across each tag.
+    def writeBib(self, fname = None, maxStringLength = 1000, wosMode = False, reducedOutput = False, niceIDs = True):
+        """Writes a bibTex entry to _fname_ for each `Record` in the collection.
 
-        When used in pandas: `pandas.DataFrame(RC.makeDict())` returns a data frame with each column a tag and each row a Record.
+        If the Record is of a journal article (PT J) the bibtext type is set to `'article'`, otherwise it is set to `'misc'`. The ID of the entry is the WOS number and all the Record's fields are given as entries with their long names.
+
+        **Note** This is not meant to be used directly with LaTeX none of the special characters have been escaped and there are a large number of unnecessary fields provided. _niceID_ and _maxLength_ have been provided to make conversions easier only.
+
+        **Note** Record entries that are lists have their values separated with the string `' and '`, as this is the way bibTex understands
 
         # Parameters
 
-        See writeCSV()
+        _fname_ : `optional [str]`
+
+        > Default `None`, The name of the file to be written. If not given one will be derived from the collection and the file will be written to .
+
+        _maxStringLength_ : `optional [int]`
+
+        > Default 1000, The max length for a continuous string. Most bibTex implementation only allow string to be up to 1000 characters ([source](https://www.cs.arizona.edu/~collberg/Teaching/07.231/BibTeX/bibtex.html)), this splits them up into substrings then uses the native string concatenation (the `'#'` character) to allow for longer strings
+
+        _WOSMode_ : `optional [bool]`
+
+        > Default `False`, if `True` the data produced will be unprocessed and use double curly braces. This is the style WOS produces bib files in and mostly macthes that.
+
+        _restrictedOutput_ : `optional [bool]`
+
+        > Default `False`, if `True` the tags output will be limited to: `'AF'`, `'BF'`, `'ED'`, `'TI'`, `'SO'`, `'LA'`, `'NR'`, `'TC'`, `'Z9'`, `'PU'`, `'J9'`, `'PY'`, `'PD'`, `'VL'`, `'IS'`, `'SU'`, `'PG'`, `'DI'`, `'D2'`, and `'UT'`
+
+        _niceID_ : `optional [bool]`
+
+        > Default `True`, if `True` the IDs used will be derived from the authors, publishing date and title, if `False` it will be the UT tag
+        """
+        if fname:
+            f = open(fname, mode = 'w', encoding = 'utf-8')
+        else:
+            f = open(repr(self)[:200] + '.bib', mode = 'w', encoding = 'utf-8')
+        f.write("%This file was generated by the metaknowledge Python package.\n%The contents have been automatically generated and are likely to not work with\n%LaTeX without some human intervention. This file is meant for other automatic\n%systems and not to be used directly for making citations\n")
+        #I figure this is worth mentioning, as someone will get annoyed at none of the special characters being escaped and how terrible some of the fields look to humans
+        for R in self:
+            try:
+                f.write('\n\n')
+                f.write(R.bibString(maxLength =  maxStringLength, WOSMode = wosMode, restrictedOutput = reducedOutput, niceID = niceIDs))
+            except BadWOSRecord:
+                pass
+        f.close()
+
+    def makeDict(self, onlyTheseTags = None, longNames = False, cleanedVal = True, numAuthors = True):
+        """Returns a dict with each key a tag and the values being lists of the values for each of the Records in the collection, `None` is given when there is no value and they are in the same order across each tag.
+
+        When used with pandas: `pandas.DataFrame(RC.makeDict())` returns a data frame with each column a tag and each row a Record.
+
+        # Parameters
+
+        _onlyTheseTags_ : `optional [iterable]`
+
+        > Default `None`, if an iterable (list, tuple, etc) only the tags in _onlyTheseTags_ will be used, if not given then all tags in the records are given.
+
+        > If you want to use all known tags pass [`metaknowledge.knownTagsList`](#metaknowledge.tagProcessing).
+
+        _longNames_ : `optional [bool]`
+
+        > Default `False`, if `True` will convert the tags to their longer names, otherwise the short 2 character ones will be used.
+
+        _cleanedVal_ : `optional [bool]`
+
+        > Default `True`, if `True` the processed values for each `Record`'s field will be provided, otherwise the raw values are given.
+
+        _numAuthors_ : `optional [bool]`
+
+        > Default `True`, if `True` adds the number of authors as the column `'numAuthors'`.
         """
         if onlyTheseTags:
             for i in range(len(onlyTheseTags)):
@@ -467,7 +589,7 @@ class RecordCollection(object):
         for R in self:
             if numAuthors:
                 retDict["numAuthors"].append(R.numAuthors())
-            for k, v in R.getTagsDict(retrievedFields, cleaned = cleanedVal).items():
+            for k, v in R.TagsDict(retrievedFields, cleaned = cleanedVal).items():
                 retDict[k].append(v)
         return retDict
 
@@ -478,25 +600,25 @@ class RecordCollection(object):
 
         _detailedInfo_ : `optional [bool or iterable[WOS tag Strings]]`
 
-        > default `False`, if `True` all nodes will be given info strings composed of information from the Record objects themselves. This is Equivalent to passing the list: `['PY', 'TI', 'SO', 'VL', 'BP']`.
+        > Default `False`, if `True` all nodes will be given info strings composed of information from the Record objects themselves. This is Equivalent to passing the list: `['PY', 'TI', 'SO', 'VL', 'BP']`.
 
-        > If _detailedCore_ is an iterable (That evaluates to `True`) of WOS Tags (or long names) The values  of those tags will be used to make the info attributes. All
+        > If _detailedInfo_ is an iterable (that evaluates to `True`) of WOS Tags (or long names) The values  of those tags will be used to make the info attributes.
 
         > For each of the selected tags an attribute will be added to the node using the values of those tags on the first `Record` encountered. **Warning** iterating over `RecordCollection` objects is not deterministic the first `Record` will not always be same between runs. The node will be given attributes with the names of the WOS tags for each of the selected tags. The attributes will contain strings of containing the values (with commas removed), if multiple values are encountered they will be comma separated.
 
-        > Note: _detailedInfo_ is not identical to the _detailedCore_ argument of [`Recordcollection.coCiteNetwork()`](#RecordCollection.coCiteNetwork) or [`Recordcollection.citationNetwork()'](#RecordCollection.citationNetwork)
+        > Note: _detailedInfo_ is not identical to the _detailedCore_ argument of [`Recordcollection.coCiteNetwork()`](#RecordCollection.coCiteNetwork) or [`Recordcollection.citationNetwork()`](#RecordCollection.citationNetwork)
 
         _weighted_ : `optional [bool]`
 
-        > default `True`, wether the edges are weighted. If `True` the edges are weighted by the number of co-authorships.
+        > Default `True`, wether the edges are weighted. If `True` the edges are weighted by the number of co-authorships.
 
         _dropNonJournals_ : `optional [bool]`
 
-        > default `False`, wether to drop authors from non-journals
+        > Default `False`, wether to drop authors from non-journals
 
         _count_ : `optional [bool]`
 
-        > default `True`, causes the number of occurrences of a node to be counted
+        > Default `True`, causes the number of occurrences of a node to be counted
 
         # Returns
 
@@ -523,7 +645,7 @@ class RecordCollection(object):
                 for val in infoVals:
                     recVal = getattr(Rec, val)
                     if isinstance(recVal, list):
-                        attribsDict[val] = ', '.join((str(v).replace(',', '') , recVal))
+                        attribsDict[val] = ', '.join((str(v).replace(',', '') for v in recVal))
                     else:
                         attribsDict[val] = str(recVal).replace(',', '')
                 if count:
@@ -572,7 +694,7 @@ class RecordCollection(object):
                 PBar.finish("Done making a co-authorship network")
         return grph
 
-    def coCiteNetwork(self, dropAnon = True, nodeType = "full", nodeInfo = True, fullInfo = False, weighted = True, dropNonJournals = False, count = True, keyWords = None, detailedCore = None, coreOnly = False):
+    def coCiteNetwork(self, dropAnon = True, nodeType = "full", nodeInfo = True, fullInfo = False, weighted = True, dropNonJournals = False, count = True, keyWords = None, detailedCore = None, coreOnly = False, expandedCore = False):
         """Creates a co-citation network for the RecordCollection.
 
         # Parameters
@@ -623,6 +745,10 @@ class RecordCollection(object):
 
         > default `False`, if `True` only Citations from the RecordCollection will be included in the network
 
+        _expandedCore_ : `optional [bool]`
+
+        > default `False`, if `True` all citations in the ouput graph that are records in the collection will be duplicated for each author. If the nodes are `"full"`, `"original"` or `"author"` this will result in new noded being created for the other options the results are **not** defined or tested. Edges will be created between each of the nodes for each record expanded, attributes will be copied from exiting nodes.
+
         # Returns
 
         `Networkx Graph`
@@ -647,7 +773,7 @@ class RecordCollection(object):
         else:
             progKwargs = {'dummy' : True}
         with _ProgressBar(*progArgs, **progKwargs) as PBar:
-            if coreOnly or coreValues:
+            if coreOnly or coreValues or expandedCore:
                 coreCitesDict = {R.createCitation() : R for R in self}
                 if coreOnly:
                     coreCites = coreCitesDict.keys()
@@ -664,12 +790,16 @@ class RecordCollection(object):
                 if Cites:
                     filteredCites = filterCites(Cites, nodeType, dropAnon, dropNonJournals, keyWords, coreCites)
                     addToNetwork(tmpgrph, filteredCites, count, weighted, nodeType, nodeInfo , fullInfo, coreCitesDict, coreValues, headNd = None)
+            if expandedCore:
+                if PBar:
+                    PBar.updateVal(.98, "Expanding core Records")
+                expandRecs(tmpgrph, self, nodeType, weighted)
             if PBar:
                 PBar.finish("Done making a co-citation network of " + repr(self))
         return tmpgrph
 
 
-    def citationNetwork(self, dropAnon = True, nodeType = "full", nodeInfo = True, fullInfo = False, weighted = True, dropNonJournals = False, count = True, directed = True, keyWords = None, detailedCore = None, coreOnly = False):
+    def citationNetwork(self, dropAnon = True, nodeType = "full", nodeInfo = True, fullInfo = False, weighted = True, dropNonJournals = False, count = True, directed = True, keyWords = None, detailedCore = None, coreOnly = False, expandedCore = False):
 
         """Creates a citation network for the RecordCollection.
 
@@ -725,6 +855,10 @@ class RecordCollection(object):
 
         > default `False`, if `True` only Citations from the RecordCollection will be included in the network
 
+        _expandedCore_ : `optional [bool]`
+
+        > default `False`, if `True` all citations in the ouput graph that are records in the collection will be duplicated for each author. If the nodes are `"full"`, `"original"` or `"author"` this will result in new noded being created for the other options the results are **not** defined or tested. Edges will be created between each of the nodes for each record expanded, attributes will be copied from exiting nodes.
+
         # Returns
 
         `Networkx DiGraph or Networkx Graph`
@@ -774,6 +908,10 @@ class RecordCollection(object):
                 if rCites:
                     filteredCites = filterCites(rCites, nodeType, dropAnon, dropNonJournals, keyWords, coreCites)
                     addToNetwork(tmpgrph, filteredCites, count, weighted, nodeType, nodeInfo, fullInfo, coreCitesDict, coreValues, headNd = reRef)
+            if expandedCore:
+                if PBar:
+                    PBar.updateVal(.98, "Expanding core Records")
+                expandRecs(tmpgrph, self, nodeType, weighted)
             if PBar:
                 PBar.finish("Done making a citation network of " + repr(self))
         return tmpgrph
@@ -797,11 +935,11 @@ class RecordCollection(object):
 
         _startYear_ : `int`
 
-        > The smallest year to be included in the retuned RecordCollection
+        > The smallest year to be included in the returned RecordCollection
 
         _endYear_ : `int`
 
-        > The largest year to be included in the retuned RecordCollection
+        > The largest year to be included in the returned RecordCollection
 
         _dropMissingYears_ : `optional [bool]`
 
@@ -829,7 +967,7 @@ class RecordCollection(object):
     def oneModeNetwork(self, mode, nodeCount = True, edgeWeight = True, stemmer = None):
         """Creates a network of the objects found by one WOS tag _mode_.
 
-        A **oneModeNetwork()** looks are each Record in the RecordCollection and extracts its values for the tag given by _mode_, e.g. the `"AF"` tag. Then if multiple are returned an edge is created between them. So in the case of the author tag `"AF"` a co-authorship network is created.
+        A **oneModeNetwork**() looks are each Record in the RecordCollection and extracts its values for the tag given by _mode_, e.g. the `'AF'` tag. Then if multiple are returned an edge is created between them. So in the case of the author tag `'AF'` a co-authorship network is created.
 
         The number of times each object occurs is count if _nodeCount_ is `True` and the edges count the number of co-occurrences if _edgeWeight_ is `True`. Both are`True` by default.
 
@@ -851,9 +989,9 @@ class RecordCollection(object):
 
         _stemmer_ : `optional [func]`
 
-        > default `None`, If _stemmer_ is a callable object, basically a function or possibly a class, it will be called for the ID of every node in the graph, all IDs are strings. For example:
+        > Default `None`, If _stemmer_ is a callable object, basically a function or possibly a class, it will be called for the ID of every node in the graph, all IDs are strings. For example:
 
-        >The function ` f = lambda x: x[0]` if given as the stemmer will cause all IDs to be the first character of their unstemmed IDs. e.g. the title `'Goos-Hanchen and Imbert-Fedorov shifts for leaky guided modes'` will create the node `'G'`.
+        > The function ` f = lambda x: x[0]` if given as the stemmer will cause all IDs to be the first character of their unstemmed IDs. e.g. the title `'Goos-Hanchen and Imbert-Fedorov shifts for leaky guided modes'` will create the node `'G'`.
 
         # Returns
 
@@ -938,9 +1076,9 @@ class RecordCollection(object):
         return grph
 
     def twoModeNetwork(self, tag1, tag2, directed = False, recordType = True, nodeCount = True, edgeWeight = True, stemmerTag1 = None, stemmerTag2 = None):
-        """Creates a network of the objects found by two WOS tags _tag1_ and _tag2_.
+        """Creates a network of the objects found by two WOS tags _tag1_ and _tag2_, each node marked by which tag spawned it making the resultant graph bipartite.
 
-        A **twoModeNetwork()** looks are each Record in the RecordCollection and extracts its values for the tags given by _tag1_ and _tag2_, e.g. the `"WC"` and `"LA"` tags. Then for each object returned by each tag and edge is created between it and every other object of the other tag. So the WOS defined subject tag `"WC"` and language tag `"LA"`, will give a two-mode network showing the connections between subjects and languages. Each node will have an attribute call `"type"` that gives the tag that created it or both if both created it, e.g. the node `"English"` would have the type attribute be `"LA"`.
+        A **twoModeNetwork()** looks at each Record in the `RecordCollection` and extracts its values for the tags given by _tag1_ and _tag2_, e.g. the `'WC'` and `'LA'` tags. Then for each object returned by each tag and edge is created between it and every other object of the other tag. So the WOS defined subject tag `'WC'` and language tag `'LA'`, will give a two-mode network showing the connections between subjects and languages. Each node will have an attribute call `'type'` that gives the tag that created it or both if both created it, e.g. the node `'English'` would have the type attribute be `'LA'`.
 
         The number of times each object occurs is count if _nodeCount_ is `True` and the edges count the number of co-occurrences if _edgeWeight_ is `True`. Both are`True` by default.
 
@@ -970,13 +1108,13 @@ class RecordCollection(object):
 
         _stemmerTag1_ : `optional [func]`
 
-        > default `None`, If _stemmerTag1_ is a callable object, basically a function or possibly a class, it will be called for the ID of every node given by _tag1_ in the graph, all IDs are strings. For example:
+        > Default `None`, If _stemmerTag1_ is a callable object, basically a function or possibly a class, it will be called for the ID of every node given by _tag1_ in the graph, all IDs are strings.
 
-        >The function ` f = lambda x: x[0]` if given as the stemmer will cause all IDs to be the first character of their unstemmed IDs. e.g. the title `'Goos-Hanchen and Imbert-Fedorov shifts for leaky guided modes'` will create the node `'G'`.
+        > For example: the function `f = lambda x: x[0]` if given as the stemmer will cause all IDs to be the first character of their unstemmed IDs. e.g. the title `'Goos-Hanchen and Imbert-Fedorov shifts for leaky guided modes'` will create the node `'G'`.
 
         _stemmerTag2_ : `optional [func]`
 
-        > default `None`, see _stemmerTag1_ as it is the same but for _tag2_
+        > Default `None`, see _stemmerTag1_ as it is the same but for _tag2_
 
         # Returns
 
@@ -1092,11 +1230,11 @@ class RecordCollection(object):
         return grph
 
     def nModeNetwork(self, tags, recordType = True, nodeCount = True, edgeWeight = True, stemmer = None):
-        """Creates a network of the objects found by all WOS tags in _tags_.
+        """Creates a network of the objects found by all WOS tags in _tags_, each node is marked by which tag spawned it making the resultant graph n-partite.
 
-        A **nModeNetwork()** looks are each Record in the RecordCollection and extracts its values for the tags given by _tags_. Then for all objects returned an edge is created between them, regardless of their type. Each node will have an attribute call `"type"` that gives the tag that created it or both if both created it, e.g. if `"LA"` were in _tags_ node `"English"` would have the type attribute be `"LA"`.
+        A **nModeNetwork()** looks are each Record in the RecordCollection and extracts its values for the tags given by _tags_. Then for all objects returned an edge is created between them, regardless of their type. Each node will have an attribute call `'type'` that gives the tag that created it or both if both created it, e.g. if `'LA'` were in _tags_ node `'English'` would have the type attribute be `'LA'`.
 
-        For example if _tags_ was set to `['CR', 'UT', 'LA']`, a three mode network would be created, composed of a co-citation network from the `"CR"` tag. Then each citation would also have edges to all the languages of Records that cited it and to the WOS number of the those Records.
+        For example if _tags_ was set to `['CR', 'UT', 'LA']`, a three mode network would be created, composed of a co-citation network from the `'CR'` tag. Then each citation would also have edges to all the languages of Records that cited it and to the WOS number of the those Records.
 
         The number of times each object occurs is count if _nodeCount_ is `True` and the edges count the number of co-occurrences if _edgeWeight_ is `True`. Both are`True` by default.
 
@@ -1108,17 +1246,17 @@ class RecordCollection(object):
 
         _nodeCount_ : `optional [bool]`
 
-        > Default `True`, if `True` each node will have an attribute called "count" that contains an int giving the number of time the object occurred.
+        > Default `True`, if `True` each node will have an attribute called `'count'` that contains an int giving the number of time the object occurred.
 
         _edgeWeight_ : `optional [bool]`
 
-        > Default `True`, if `True` each edge will have an attribute called "weight" that contains an int giving the number of time the two objects co-occurrenced.
+        > Default `True`, if `True` each edge will have an attribute called `'weight'` that contains an int giving the number of time the two objects co-occurrenced.
 
         _stemmer_ : `optional [func]`
 
-        > default `None`, If _stemmer_ is a callable object, basically a function or possibly a class, it will be called for the ID of every node in the graph, note that all IDs are strings. For example:
+        > Default `None`, If _stemmer_ is a callable object, basically a function or possibly a class, it will be called for the ID of every node in the graph, note that all IDs are strings.
 
-        >The function ` f = lambda x: x[0]` if given as the stemmer will cause all IDs to be the first character of their unstemmed IDs. e.g. the title `'Goos-Hanchen and Imbert-Fedorov shifts for leaky guided modes'` will create the node `'G'`.
+        > For example: the function `f = lambda x: x[0]` if given as the stemmer will cause all IDs to be the first character of their unstemmed IDs. e.g. the title `'Goos-Hanchen and Imbert-Fedorov shifts for leaky guided modes'` will create the node `'G'`.
 
         # Returns
 
@@ -1213,11 +1351,11 @@ class RecordCollection(object):
 
         _pandasFriendly_ : `optional [bool]`
 
-        > default `False`, makes the output be a dict with two keys one "Citations" is the citations the other is their occurence counts as "Counts".
+        > default `False`, makes the output be a dict with two keys one `'Citations'` is the citations the other is their occurrence counts as `'Counts'`.
 
         _keyType_ : `optional [str]`
 
-        > default `'citation'`, the type of key to use for the dictionary, the valid strings are `"citation"`, `"journal"`, `"year"` or `"author"`
+        > default `'citation'`, the type of key to use for the dictionary, the valid strings are `'citation'`, `'journal'`, `'year'` or `'author'`. IF changed from `'citation'` all citations matching the requested option will be contracted and their counts added together.
 
         # Returns
 
@@ -1236,7 +1374,7 @@ class RecordCollection(object):
             keyTypesLst = ["citation", "journal", "year", "author"]
             citesDict = {}
             if keyType not in keyTypesLst:
-                raise TypeError("{} is not a valid key type, only '{}' or '{}' are.".format(keyType, "', '".join(keyTypesLst[:-1], keyTypesLst[-1]) ))
+                raise TypeError("{} is not a valid key type, only '{}' or '{}' are.".format(keyType, "', '".join(keyTypesLst[:-1]), keyTypesLst[-1]))
             for R in self:
                 rCites = R.CR
                 if PBar:
@@ -1268,13 +1406,25 @@ class RecordCollection(object):
 
     def localCitesOf(self, rec):
         """Takes in a Record, WOS string, citation string or Citation and returns a RecordCollection of all records that cite it.
+
+        # Parameters
+
+        _rec_ : `Record, str or Citation`
+
+        > The object that is being cited
+
+        # Returns
+
+        `RecordCollection`
+
+        > A `RecordCollection` containing only those `Records` that cite _rec_
         """
         localCites = []
         if isinstance(rec, Record):
             recCite = rec.createCitation()
         if isinstance(rec, str):
             try:
-                recCite = self.getWOS(rec)
+                recCite = self.WOS(rec)
             except ValueError:
                 try:
                     recCite = Citation(rec)
@@ -1299,27 +1449,35 @@ class RecordCollection(object):
         return RecordCollection(inCollection = localCites, name = "Records_citing_'{}'".format(rec))
 
     def citeFilter(self, keyString = '', field = 'all', reverse = False, caseSensitive = False):
-        """
-        Filters Records by some string, keyString, in all of their citations.
-        Returns all Records with at least one citation possessing keyString in the field given by field.
+        """Filters `Records` by some string, _keyString_, in their citations and returns all `Records` with at least one citation possessing _keyString_ in the field given by _field_.
 
-        keyString give the string to be searched for if it is is blank then all citations with the specified field will be matched
+        # Parameters
 
-        field give the component of the citation to be looked at, it is one of a few strings. The default is 'all' which will cause the entire original citation to be searched. It can be used to search across fields, e.g. '1970, V2' is a valid keystring
+        _keyString_ : `optional [str]`
+
+        > Default `''`, gives the string to be searched for, if it is is blank then all citations with the specified field will be matched
+
+        _field_ : `optional [str]`
+
+        > Default `'all'`, gives the component of the citation to be looked at, it can be one of a few strings. The default is `'all'` which will cause the entire original `Citation` to be searched. It can be used to search across fields, e.g. `'1970, V2'` is a valid keystring
         The other options are:
-        `author`, searches the author field
-        `year`, searches the year field
-        `journal`, searches the journal field
-        `V`, searches the volume field
-        `P`, searches the page field
-        misc, searches all the remaining uncategorized information
-        anonymous, searches for anonymous citations, keyString is not used
-        bad, searches for bad citations, keyString is not used
 
-        reverse being True causes all Records not matching the query to be returned, default is False
+        + `'author'`, searches the author field
+        + `'year'`, searches the year field
+        + `'journal'`, searches the journal field
+        + `'V'`, searches the volume field
+        + `'P'`, searches the page field
+        + `'misc'`, searches all the remaining uncategorized information
+        + `'anonymous'`, searches for anonymous `Citations`, _keyString_ is not ignored
+        + `'bad'`, searches for bad citations, keyString is not used
 
-        caseSensitive if True causes the search across the original to be case sensitive, only the 'all' option can be case sensitive
+        _reverse_ : `optional [bool]`
 
+        > Default `False`, being set to `True` causes all `Records` not matching the query to be returned
+
+        _caseSensitive_ : `optional [bool]`
+
+        > Default `False`, if `True` causes the search across the original to be case sensitive, **only** the `'all'` option can be case sensitive
         """
         retRecs = []
         keyString = str(keyString)
@@ -1404,11 +1562,24 @@ class RecordCollection(object):
         else:
             return RecordCollection(inCollection = retRecs, name = self._repr + '_subsetByCite')
 
+def wosParser(isifile):
+    """This is function that is used to create [`RecordCollections`](#metaknowledge.RecordCollection) from files.
 
-def isiParser(isifile):
-    """
-    isiParser() reads the file given by the path isifile, checks that the header is correct then reads until it reaches EF.
-    Each it finds is used to initialize a Record then all Record are returned as a list.
+    **wosParser**() reads the file given by the path isifile, checks that the header is correct then reads until it reaches EF. All WOS records it encounters are parsed with [**recordParser**()](#metaknowledge.recordParser) and converted into [`Records`](#metaknowledge.Record). A list of these `Records` is returned.
+
+    `BadWOSFile` is raised if an issue is found with the file.
+
+    # Parameters
+
+    _isifile_ : `str`
+
+    > The path to the target file
+
+    # Returns
+
+    `List[Record]`
+
+    > All the `Records` found in _isifile_
     """
     try:
         openfile = open(isifile, 'r', encoding='utf-8-sig')
@@ -1423,10 +1594,10 @@ def isiParser(isifile):
                 break
             if i == linesChecked - 1:
                 openfile.close()
-                raise BadISIFile(isifile + " Does not have a valid header, 'VR 1.0' not in first two lines")
+                raise BadWOSFile(isifile + " Does not have a valid header, 'VR 1.0' not in first two lines")
     except StopIteration as e:
         openfile.close()
-        raise BadISIFile("File ends before EF found")
+        raise BadWOSFile("File ends before EF found")
     except UnicodeDecodeError as e:
         openfile.close()
         raise e
@@ -1436,9 +1607,9 @@ def isiParser(isifile):
         try:
             line = f.__next__()
         except StopIteration as e:
-            raise BadISIFile("File ends before EF found")
+            raise BadWOSFile("The file '{}' ends before EF was found".format(isifile))
         if not line[1]:
-            raise BadISIFile("No ER found in " + isifile)
+            raise BadWOSFile("No ER found in " + isifile)
         elif line[1].isspace():
             continue
         elif 'EF' in line[1][:2]:
@@ -1446,20 +1617,17 @@ def isiParser(isifile):
             continue
         else:
             try:
-                plst.append(Record(itertools.chain([line], f), isifile, line[0]))
-            except BadISIFile as w:
+                plst.append(Record(itertools.chain([line], f), sFile = isifile, sLine = line[0]))
+            except BadWOSFile as e:
                 try:
                     s = f.__next__()[1]
                     while s[:2] != 'ER':
                         s = f.__next__()[1]
                 except:
-                    raise BadISIFile(str(w) + " could not be resolved")
-            except Exception as e:
-                openfile.close()
-                raise e
+                    raise BadWOSFile("The file {} was not terminated corrrectly caused the following error:\n{}".format(isifile, str(e)))
     try:
         f.__next__()
-        raise BadISIFile("EF not at end of " + isifile)
+        raise BadWOSFile("EF not at end of " + isifile)
     except StopIteration as e:
         pass
     finally:
@@ -1472,9 +1640,9 @@ def getCoCiteIDs(clst):
     """
     idDict = {}
     for c in clst:
-        cId = c.getID()
+        cId = c.ID()
         if cId not in idDict:
-            idDict[cId] = c.getExtra()
+            idDict[cId] = c.Extra()
     return idDict
 
 def updateWeightedEdges(grph, ebunch):
@@ -1557,7 +1725,7 @@ def makeID(citation, nodeType):
     if nodeType != "full":
         return getattr(citation, nodeType)
     else:
-        return citation.getID()
+        return citation.ID()
 
 def makeNodeTuple(citation, idVal, nodeInfo, fullInfo, nodeType, count, coreCitesDict, coreValues):
     """Makes a tuple of idVal and a dict of the selected attributes"""
@@ -1585,7 +1753,7 @@ def makeNodeTuple(citation, idVal, nodeInfo, fullInfo, nodeType, count, coreCite
                 d['info'] = citation.allButDOI()
         elif nodeType == 'journal':
             if citation.isJournal():
-                d['info'] = str(citation.getFullJournalName())
+                d['info'] = str(citation.FullJournalName())
             else:
                 d['info'] = "None"
         elif nodeType == 'original':
@@ -1625,3 +1793,65 @@ def filterCites(cites, nodeType, dropAnon, dropNonJournals, keyWords, coreCites)
         else:
             filteredCites.append(c)
     return filteredCites
+
+def expandRecs(G, RecCollect, nodeType, weighted):
+    """Expand all the citations from _RecCollect_"""
+    for Rec in RecCollect:
+        fullCiteList = [makeID(c, nodeType) for c in Rec.createCitation(multiCite = True)]
+        if len(fullCiteList) > 1:
+            for i, citeID1 in enumerate(fullCiteList):
+                if citeID1 in G:
+                    for citeID2 in fullCiteList[i + 1:]:
+                        if citeID2 not in G:
+                            G.add_node(citeID2, attr_dict = G.node[citeID1])
+                            if weighted:
+                                G.add_edge(citeID1, citeID2, weight = 1)
+                            else:
+                                G.add_edge(citeID1, citeID2)
+                        elif weighted:
+                            try:
+                                G.edge[citeID1][citeID2]['weight'] += 1
+                            except KeyError:
+                                G.add_edge(citeID1, citeID2, weight = 1)
+                        for e1, e2, data in G.edges_iter(citeID1, data = True):
+                            G.add_edge(citeID2, e2, attr_dict = data)
+
+class cacheError(Exception):
+    """Exception raised when loading a cached RecordCollection fails, should only be seen inside metaknowledge and always be caught."""
+    pass
+
+def loadCache(cacheFile, flist, rcName, fileExtensions, PBar):
+    if PBar:
+        PBar.updateVal(0, "Loading cached RecordCollection")
+    with open(cacheFile, 'rb') as f:
+        try:
+            dat, RC = pickle.load(f)
+        except pickle.PickleError as e:
+            raise cacheError("pickle Error: {}".format(e))
+    if dat["RecordCollection Name"] != rcName:
+        raise cacheError("Name mismatch")
+    if dat["File Extension"] != fileExtensions:
+        raise cacheError("Extension mismatch")
+    if len(flist) != len(dat["File dict"]):
+        raise cacheError("File number mismatch")
+    while len(flist) > 0:
+        workingFile = flist.pop()
+        try:
+            if os.stat(workingFile).st_mtime != dat["File dict"][workingFile]:
+                raise cacheError("File modification mismatch")
+        except KeyError:
+            raise cacheError("File modification mismatch")
+    return RC
+
+def writeCache(RC, cacheFile, flist, rcName, fileExtensions, PBar):
+    if PBar:
+        PBar.updateVal(1, "Writing RecordCollection cache to {}".format(cacheFile))
+    dat = {
+        "File dict" : {},
+        "RecordCollection Name" : rcName,
+        "File Extension" : fileExtensions,
+    }
+    for fileName in flist:
+        dat["File dict"][fileName] =  os.stat(fileName).st_mtime
+    with open(cacheFile, 'wb') as f:
+        pickle.dump((dat, RC), f)

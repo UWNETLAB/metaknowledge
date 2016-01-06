@@ -1,5 +1,4 @@
-#!/usr/bin/env python3
-
+#Written by Reid McIlroy-Young for Dr. John McLevey, University of Waterloo 2015
 """This is intended for metaknowledge only and may not work with anything else"""
 
 import inspect
@@ -7,15 +6,16 @@ import argparse
 import os
 import time
 import metaknowledge
+import metaknowledge.tagProcessing
 import importlib
 import re
 
-documentedModules = ['visual', 'journalAbbreviations', 'tagProcessing']
+documentedModules = ['contour', 'journalAbbreviations', 'tagProcessing']
 
 docsPrefix = time.strftime("%Y-%m-%d-")
 
 blurbDict = {
-    'visual' : "A nicer matplotlib graph visualizer and contour plot",
+    'contour' : "A nicer matplotlib graph visualizer and contour plot",
     'tagProcessing' : "All the tags and how they are handled",
     'journalAbbreviations' : "Look here to get your J9 database",
     'Citation' : "Citation are special, here is how they are handled",
@@ -25,7 +25,7 @@ blurbDict = {
 
 singleFileYAML = """---
 layout: page
-title: ""
+title: Full Documentation
 author:
 - name: Reid McIlroy-Young
   department:
@@ -90,7 +90,7 @@ def cleanargs(obj, basic = False):
         return '()'
 
 def makeUrls(s):
-    return "[{0}]({{{{ site.baseurl }}}}{{% post_url /docs/{1}{2} %}}#{3})".format(s.group(1), docsPrefix, s.group(2), s.group(3))
+    return "[{0}]({{{{ site.baseurl }}}}{{{{ page.url }}}}#{3})".format(s.group(1), docsPrefix, s.group(2), s.group(3))
 
 def makeSingleFileUrls(s):
     return "[{0}](#{1})".format(s.group(1), s.group(3))
@@ -137,7 +137,7 @@ def makeLine():
     "border-top-style: solid;",
     "border-bottom-style: solid;",
     ]
-    return('<hr style="{}">'.format(''.join(style)))
+    return '<hr style="{}">'.format(''.join(style))
 
 def makeTable(entries, header = '', prefix = '', withBlurbs = False, bigTable = False):
     ents = []
@@ -165,26 +165,31 @@ def writeFunc(fn, f, prefix = '', level = 5, singleFile = False):
         f.write("# Needs to be written\n\n")
         print("\033[93m{0}{1} had no docs\033[0m".format(prefix, fn[0]))
 
-def writeClass(cl, f, prefix = '', level = 4, singleFile = False):
-    f.write(makeTitle(prefix, cl[0], cleanargs(cl[1].__init__), singleFile = singleFile))
+def writeClass(cl, f, prefix = '', level = 4, singleFile = False, exceptMode = False):
+    f.write(makeTitle(prefix, cl[0], "(_{}_)".format(cl[1].__bases__[0].__name__), singleFile = singleFile))
+    if not exceptMode:
+        f.write(makeTitle(prefix, "{}.__init__".format(cl[0]), cleanargs(cl[1].__init__), singleFile = singleFile))
     try:
         f.write(cleanedDoc(cl[1], lvl = level, singleFile = singleFile))
     except AttributeError:
         f.write("# Needs to be written\n\n")
         print("\033[93m{0}{1} had no docs\033[0m".format(prefix, cl[0]))
 
-def proccessClass(cl, f, singleFile = False):
-    writeClass(cl, f, singleFile = singleFile)
+def proccessClass(cl, f, singleFile = False, exceptMode = False):
+    writeClass(cl, f, singleFile = singleFile, exceptMode = exceptMode)
     baseMems = inspect.getmembers(cl[1].__bases__[0])
     funcs = []
+    if singleFile:
+        f.write(makeLine())
     for m in sorted(inspect.getmembers(cl[1]), key = getLineNumber):
-        if m[0][0] == '_' or m in baseMems:
+        if m[0][0] == '_' or m in baseMems or m[0] == 'with_traceback':
             pass
         elif inspect.isfunction(m[1]):
             funcs.append(m)
-    f.write(makeTable(funcs, prefix = cl[0], header = "The {} class has the following methods:".format(cl[0])))
-    for m in funcs:
-        writeFunc(m, f, prefix = '{}.'.format(cl[0], singleFile = singleFile))
+    if len(m) > 0 and not exceptMode:
+        f.write(makeTable(funcs, prefix = cl[0], header = "\nThe {} class has the following methods:".format(cl[0])))
+        for m in funcs:
+            writeFunc(m, f, prefix = '{}.'.format(cl[0], singleFile = singleFile))
 
 def writeClassFile(name, typ, targetFile = None, singleFile = False):
     fname = docsPrefix + "{}.md".format(name)
@@ -216,8 +221,11 @@ def writeModuleFile(mod, targetFile = None, singleFile = False):
             funcs.append(m)
     if mod != "tagProcessing":
         f.write(makeTable(funcs, prefix = mod, header = "The {} module provides the following functions:".format(mod)))
-    for fn in funcs:
-        writeFunc(fn, f, prefix = "{}.".format(mod))
+        for fn in funcs:
+            writeFunc(fn, f, prefix = "{}.".format(mod))
+    else:
+        for fn in metaknowledge.tagProcessing.tagToFunc.items():
+            writeFunc((metaknowledge.tagToFull(fn[0]), fn[1]), f, prefix = "{}.".format(mod))
     if targetFile is None:
         f.write("\n{% include docsFooter.md %}")
         f.close()
@@ -239,11 +247,8 @@ def writeMainBody(funcs, vrs, exceptions, targetFile = None, singleFile = False)
         writeFunc(fnc, f)
     first = True
     for excpt in exceptions:
-        if first:
-            first = False
-        else:
-            f.write(makeLine() + "\n\n")
-        proccessClass(excpt, f)
+        f.write(makeLine() + "\n\n")
+        proccessClass(excpt, f, exceptMode = True)
     if targetFile is None:
         f.write("\n{% include docsFooter.md %}")
         f.close()

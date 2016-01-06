@@ -1,3 +1,4 @@
+#Written by Reid McIlroy-Young for Dr. John McLevey, University of Waterloo 2015
 import unittest
 import metaknowledge
 
@@ -24,13 +25,13 @@ class TestCitation(unittest.TestCase):
         self.assertEqual(self.Cite.DOI, "0.1063/1.1695064")
 
     def test_citation_id(self):
-        self.assertEqual(self.Cite.getID(), "John D, 2015, TOPICS IN COGNITIVE SCIENCE")
+        self.assertEqual(self.Cite.ID(), "John D, 2015, TOPICS IN COGNITIVE SCIENCE")
 
     def test_citation_str(self):
         self.assertEqual(str(self.Cite), "John D., 2015, TOPICS IN COGNITIVE SCIENCE, V1, P1, DOI 0.1063/1.1695064")
 
     def test_citation_extra(self):
-        self.assertEqual(self.Cite.getExtra(), "V1, P1, 0.1063/1.1695064")
+        self.assertEqual(self.Cite.Extra(), "V1, P1, 0.1063/1.1695064")
 
     def test_citation_badDetection(self):
         self.assertTrue(metaknowledge.Citation("").bad)
@@ -53,12 +54,12 @@ class TestCitation(unittest.TestCase):
         c = metaknowledge.Citation("a, b")
         self.assertTrue(c.bad)
         self.assertEqual(str(c.error), "Not a complete set of author, year and journal")
-        self.assertEqual(c.getExtra(),'')
+        self.assertEqual(c.Extra(),'')
         self.assertEqual(c.author,'A')
-        self.assertEqual(c.getID(),'A, B')
+        self.assertEqual(c.ID(),'A, B')
 
     def test_citation_badNumbers(self):
         c = metaknowledge.Citation("1 2, 2, 3, 4")
         self.assertTrue(c.bad)
-        self.assertEqual(c.getID(), '1 2, 4')
+        self.assertEqual(c.ID(), '1 2, 4')
         self.assertEqual(str(c.error), "Not a complete set of author, year and journal")

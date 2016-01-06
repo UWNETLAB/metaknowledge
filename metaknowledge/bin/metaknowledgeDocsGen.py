@@ -10,7 +10,7 @@ import metaknowledge.tagProcessing
 import importlib
 import re
 
-documentedModules = ['visual', 'journalAbbreviations', 'tagProcessing']
+documentedModules = ['contour', 'journalAbbreviations', 'tagProcessing']
 
 docsPrefix = time.strftime("%Y-%m-%d-")
 

@@ -35,7 +35,7 @@ setup(name='metaknowledge',
     'Topic :: Text Processing',
     ],
     install_requires= ['networkx'],
-    extras_require={'visual' : ['matplotlib', 'scipy', 'numpy']},
+    extras_require={'contour' : ['matplotlib', 'scipy', 'numpy']},
     packages=['metaknowledge', 'metaknowledge.journalAbbreviations', 'metaknowledge.visual', 'metaknowledge.tagProcessing'],
     entry_points={'console_scripts': [
               'metaknowledge = metaknowledge.bin:mkCLI',

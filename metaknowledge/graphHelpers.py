@@ -9,16 +9,16 @@ import time
 import math
 import threading
 
-def read_graph(edgeList, nodeList = None, directed = False, idKey = 'ID', eSource = 'From', eDest = 'To'):
+def readGraph(edgeList, nodeList = None, directed = False, idKey = 'ID', eSource = 'From', eDest = 'To'):
     """Reads the files given by _edgeList_ and _nodeList_ and creates a networkx graph for the files.
 
-    This is designed only for the files produced by metaknowledge and is meant to be the reverse of [write_graph()](#metaknowledge.write_graph), if this does not produce the desired results the networkx builtin [networkx.read_edgelist()](https://networkx.github.io/documentation/networkx-1.10/reference/generated/networkx.readwrite.edgelist.read_edgelist.html) could be tried as it is aimed at a more general usage.
+    This is designed only for the files produced by metaknowledge and is meant to be the reverse of [writeGraph()](#metaknowledge.writeGraph), if this does not produce the desired results the networkx builtin [networkx.read_edgelist()](https://networkx.github.io/documentation/networkx-1.10/reference/generated/networkx.readwrite.edgelist.read_edgelist.html) could be tried as it is aimed at a more general usage.
 
     The read edge list format assumes the column named _eSource_ (default `'From'`) is the source node, then the column _eDest_ (default `'To'`) givens the destination and all other columns are attributes of the edges, e.g. weight.
 
     The read node list format assumes the column _idKey_ (default `'ID'`) is the ID of the node for the edge list and the resulting network. All other columns are considered attributes of the node, e.g. count.
 
-    **Note**: If the names of the columns do not match those given to **read_graph()** a `KeyError` exception will be raised.
+    **Note**: If the names of the columns do not match those given to **readGraph()** a `KeyError` exception will be raised.
 
     **Note**: If nodes appear in the edgelist but not the nodeList they will be created silently with no attributes.
 
@@ -95,7 +95,7 @@ def read_graph(edgeList, nodeList = None, directed = False, idKey = 'ID', eSourc
     f.close()
     return grph
 
-def write_graph(grph, name, edgeInfo = True, typing = False, suffix = 'csv', overwrite = True):
+def writeGraph(grph, name, edgeInfo = True, typing = False, suffix = 'csv', overwrite = True):
     """Writes both the edge list and the node attribute list of _grph_ to files starting with _name_.
 
     The output files start with _name_, the file type (edgeList, nodeAttributes) then if typing is True the type of graph (directed or undirected) then the suffix, the default is as follows:
@@ -104,7 +104,7 @@ def write_graph(grph, name, edgeInfo = True, typing = False, suffix = 'csv', ove
 
     Both files are csv's with comma delimiters and double quote quoting characters. The edge list has two columns for the source and destination of the edge, `'From'` and `'To'` respectively, then, if _edgeInfo_ is `True`, for each attribute of the node another column is created. The node list has one column call "ID" with the node ids used by networkx and all other columns are the node attributes.
 
-    To read back these files use [read_graph()](#metaknowledge.read_graph) and to write only one type of lsit use [write_edgeList()](#metaknowledge.write_edgeList) or [write_nodeAttributeFile()](#metaknowledge.write_nodeAttributeFile).
+    To read back these files use [readGraph()](#metaknowledge.readGraph) and to write only one type of lsit use [writeEdgeList()](#metaknowledge.writeEdgeList) or [writeNodeAttributeFile()](#metaknowledge.writeNodeAttributeFile).
 
     **Warning**: this function will overwrite files, if they are in the way of the output, to prevent this set _overwrite_ to `False`
 
@@ -165,14 +165,14 @@ def write_graph(grph, name, edgeInfo = True, typing = False, suffix = 'csv', ove
             raise OSError(edgeListName+ " already exists")
         if os.path.isfile(nodesAtrName):
             raise OSError(nodesAtrName + " already exists")
-    write_edgeList(grph, edgeListName, extraInfo = edgeInfo, _progBar = PBar)
+    writeEdgeList(grph, edgeListName, extraInfo = edgeInfo, _progBar = PBar)
     if PBar:
         PBar.jumpUp()
-    write_nodeAttributeFile(grph, nodesAtrName, _progBar = PBar)
+    writeNodeAttributeFile(grph, nodesAtrName, _progBar = PBar)
     if PBar:
         PBar.finish(str(len(grph.nodes())) + " nodes and " + str(len(grph.edges())) + " edges written to file")
 
-def write_edgeList(grph, name, extraInfo = True, allSameAttribute = False, _progBar = None):
+def writeEdgeList(grph, name, extraInfo = True, allSameAttribute = False, _progBar = None):
     """Writes an edge list of _grph_ at the destination _name_.
 
     The edge list has two columns for the source and destination of the edge, `'From'` and `'To'` respectively, then, if _edgeInfo_ is `True`, for each attribute of the node another column is created.
@@ -251,7 +251,7 @@ def write_edgeList(grph, name, extraInfo = True, allSameAttribute = False, _prog
             _progBar.finish("Done edge list " + name + ", " + str(count) + " edges written.")
         f.close()
 
-def write_nodeAttributeFile(grph, name, allSameAttribute = False,_progBar = None):
+def writeNodeAttributeFile(grph, name, allSameAttribute = False,_progBar = None):
     """Writes a node attribute list of _grph_ to the file given by the path _name_.
 
     The node list has one column call `'ID'` with the node ids used by networkx and all other columns are the node attributes.
@@ -495,10 +495,10 @@ def getDegreeDistribution(grph, weightParameter = "weight", strictWeightNames = 
         distVec[v] += 1
     return distVec
 
-def drop_edges(grph, minWeight = - float('inf'), maxWeight = float('inf'), parameterName = 'weight', ignoreUnweighted = False, dropSelfLoops = False):
+def dropEdges(grph, minWeight = - float('inf'), maxWeight = float('inf'), parameterName = 'weight', ignoreUnweighted = False, dropSelfLoops = False):
     """Modifies _grph_ by dropping edges whose weight is not within the inclusive bounds of _minWeight_ and _maxWeight_, i.e after running _grph_ will only have edges whose weights meet the following inequality: _minWeight_ <= edge's weight <= _maxWeight_. A `Keyerror` will be raised if the graph is unweighted unless _ignoreUnweighted_ is `True`, the weight is determined by examining the attribute _parameterName_.
 
-    **Note**: none of the default options will result in _grph_ being modified so only specify the relevant ones, e.g. `drop_edges(G, dropSelfLoops = True)` will remove only the self loops from `G`.
+    **Note**: none of the default options will result in _grph_ being modified so only specify the relevant ones, e.g. `dropEdges(G, dropSelfLoops = True)` will remove only the self loops from `G`.
 
     # Parameters
 
@@ -560,7 +560,7 @@ def drop_edges(grph, minWeight = - float('inf'), maxWeight = float('inf'), param
         if PBar:
             PBar.finish(str(total - len(grph.edges())) + " edges out of " + str(total) + " dropped, " + str(len(grph.edges())) + " returned")
 
-def drop_nodesByDegree(grph, minDegree = -float('inf'), maxDegree = float('inf'), useWeight = True, parameterName = 'weight', includeUnweighted = True):
+def dropNodesByDegree(grph, minDegree = -float('inf'), maxDegree = float('inf'), useWeight = True, parameterName = 'weight', includeUnweighted = True):
     """Modifies _grph_ by dropping nodes that do not have a degree that is within inclusive bounds of _minDegree_ and _maxDegree_, i.e after running _grph_ will only have nodes whose degrees meet the following inequality: _minDegree_ <= node's degree <= _maxDegree_.
 
     Degree is determined in two ways, the default _useWeight_ is the weight attribute of the edges to a node will be summed, the attribute's name is _parameterName_ otherwise the number of edges touching the node is used. If _includeUnweighted_ is `True` then _useWeight_ will assign a degree of 1 to unweighted edges.
@@ -628,7 +628,7 @@ def drop_nodesByDegree(grph, minDegree = -float('inf'), maxDegree = float('inf')
             PBar.finish("{} nodes out of {} dropped, {} returned".format(len(badNodes), total, total - len(badNodes)))
 
 
-def drop_nodesByCount(grph, minCount = -float('inf'), maxCount = float('inf'), parameterName = 'count', ignoreMissing = False):
+def dropNodesByCount(grph, minCount = -float('inf'), maxCount = float('inf'), parameterName = 'count', ignoreMissing = False):
     """Modifies _grph_ by dropping nodes that do not have a count that is within inclusive bounds of _minCount_ and _maxCount_, i.e after running _grph_ will only have nodes whose degrees meet the following inequality: _minCount_ <= node's degree <= _maxCount_.
 
     Count is determined by the count attribute, _parameterName_, and if missing will result in a `KeyError` being raised. _ignoreMissing_ can be set to `True` to suppress the error.

@@ -13,7 +13,7 @@ To load the data from files and make a network:
     Done making a co-citation network of files-from-records                 1.1s
     >>> print(len(G.nodes()))
     223
-    >>> mk.write_graph(G, "Cocitation-Network-of-Journals")
+    >>> mk.writeGraph(G, "Cocitation-Network-of-Journals")
 
 There is also a simple command line program called `metaknowledge` that comes with the package. It allows for creating networks without any need to know Python. More information about it can be found at [networkslab.org/metaknowledge/cli]({{ site.baseurl }}/cli)
 
@@ -33,7 +33,7 @@ from .record import Record, recordParser, BadWOSRecord
 from .citation import Citation, BadCitation, filterNonJournals
 from .recordCollection import RecordCollection, wosParser
 
-from .graphHelpers import write_edgeList, write_nodeAttributeFile, write_graph, read_graph, _ProgressBar, drop_edges, drop_nodesByDegree, drop_nodesByCount, mergeGraphs, graphStats
+from .graphHelpers import writeEdgeList, writeNodeAttributeFile, writeGraph, readGraph, _ProgressBar, dropEdges, dropNodesByDegree, dropNodesByCount, mergeGraphs, graphStats
 from .constants import VERBOSE_MODE
 from .diffusion import diffusionGraph, diffusionCount
 from .tagProcessing.funcDicts import tagToFull, isTagOrName, normalizeToTag, normalizeToName

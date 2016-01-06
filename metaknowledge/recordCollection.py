@@ -6,7 +6,7 @@ import pickle
 
 import networkx as nx
 
-from .record import Record, BadISIFile, BadISIRecord
+from .record import Record, BadWOSFile, BadWOSRecord
 from .graphHelpers import _ProgressBar
 from .tagProcessing.funcDicts import tagToFullDict, fullToTagDict, normalizeToTag
 from .citation import Citation
@@ -71,8 +71,8 @@ class RecordCollection(object):
                     if not inCollection.endswith(extension):
                         raise TypeError("extension of input file does not match requested extension")
                     self._repr = os.path.splitext(os.path.split(inCollection)[1])[0]
-                    self._Records = set(isiParser(inCollection))
-                except BadISIFile as w:
+                    self._Records = set(wosParser(inCollection))
+                except BadWOSFile as w:
                     self.bad = True
                     self.error = w
             elif os.path.isdir(inCollection):
@@ -115,8 +115,8 @@ class RecordCollection(object):
                         else:
                             PBar = None
                         try:
-                            self._Records |= set(isiParser(file))
-                        except BadISIFile:
+                            self._Records |= set(wosParser(file))
+                        except BadWOSFile:
                             if extension != '':
                                 raise
                             else:
@@ -539,7 +539,7 @@ class RecordCollection(object):
             try:
                 f.write('\n\n')
                 f.write(R.bibString(maxLength =  maxStringLength, WOSMode = wosMode, restrictedOutput = reducedOutput, niceID = niceIDs))
-            except BadISIRecord:
+            except BadWOSRecord:
                 pass
         f.close()
 
@@ -1562,12 +1562,12 @@ class RecordCollection(object):
         else:
             return RecordCollection(inCollection = retRecs, name = self._repr + '_subsetByCite')
 
-def isiParser(isifile):
+def wosParser(isifile):
     """This is function that is used to create [`RecordCollections`](#metaknowledge.RecordCollection) from files.
 
-    **isiParser**() reads the file given by the path isifile, checks that the header is correct then reads until it reaches EF. All WOS records it encounters are parsed with [**recordParser**()](#metaknowledge.recordParser) and converted into [`Records`](#metaknowledge.Record). A list of these `Records` is returned.
+    **wosParser**() reads the file given by the path isifile, checks that the header is correct then reads until it reaches EF. All WOS records it encounters are parsed with [**recordParser**()](#metaknowledge.recordParser) and converted into [`Records`](#metaknowledge.Record). A list of these `Records` is returned.
 
-    `BadISIFile` is raised if an issue is found with the file.
+    `BadWOSFile` is raised if an issue is found with the file.
 
     # Parameters
 
@@ -1594,10 +1594,10 @@ def isiParser(isifile):
                 break
             if i == linesChecked - 1:
                 openfile.close()
-                raise BadISIFile(isifile + " Does not have a valid header, 'VR 1.0' not in first two lines")
+                raise BadWOSFile(isifile + " Does not have a valid header, 'VR 1.0' not in first two lines")
     except StopIteration as e:
         openfile.close()
-        raise BadISIFile("File ends before EF found")
+        raise BadWOSFile("File ends before EF found")
     except UnicodeDecodeError as e:
         openfile.close()
         raise e
@@ -1607,9 +1607,9 @@ def isiParser(isifile):
         try:
             line = f.__next__()
         except StopIteration as e:
-            raise BadISIFile("The file '{}' ends before EF was found".format(isifile))
+            raise BadWOSFile("The file '{}' ends before EF was found".format(isifile))
         if not line[1]:
-            raise BadISIFile("No ER found in " + isifile)
+            raise BadWOSFile("No ER found in " + isifile)
         elif line[1].isspace():
             continue
         elif 'EF' in line[1][:2]:
@@ -1618,16 +1618,16 @@ def isiParser(isifile):
         else:
             try:
                 plst.append(Record(itertools.chain([line], f), sFile = isifile, sLine = line[0]))
-            except BadISIFile as e:
+            except BadWOSFile as e:
                 try:
                     s = f.__next__()[1]
                     while s[:2] != 'ER':
                         s = f.__next__()[1]
                 except:
-                    raise BadISIFile("The file {} was not terminated corrrectly caused the following error:\n{}".format(isifile, str(e)))
+                    raise BadWOSFile("The file {} was not terminated corrrectly caused the following error:\n{}".format(isifile, str(e)))
     try:
         f.__next__()
-        raise BadISIFile("EF not at end of " + isifile)
+        raise BadWOSFile("EF not at end of " + isifile)
     except StopIteration as e:
         pass
     finally:

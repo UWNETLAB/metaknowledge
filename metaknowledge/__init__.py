@@ -29,9 +29,9 @@ Citations are handled by a special [Citation](#Citation.Citation) class. This cl
 
 Note for those reading the docstrings metaknowledge's docs are written in markdown and are processed to produce the documentation found at [networkslab.org/metaknowledge/documentation]({{ site.baseurl }}/documentation/), but you should have no problem reading them from the help function.
 """
-from .record import Record, recordParser, BadISIRecord
+from .record import Record, recordParser, BadWOSRecord
 from .citation import Citation, BadCitation, filterNonJournals
-from .recordCollection import RecordCollection, isiParser
+from .recordCollection import RecordCollection, wosParser
 
 from .graphHelpers import write_edgeList, write_nodeAttributeFile, write_graph, read_graph, _ProgressBar, drop_edges, drop_nodesByDegree, drop_nodesByCount, mergeGraphs, graphStats
 from .constants import VERBOSE_MODE

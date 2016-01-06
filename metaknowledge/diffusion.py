@@ -249,7 +249,7 @@ def diffusionCount(source, target, sourceType = "raw", pandasFriendly = False,  
                 retDict[tag] = []
             for R, occ in sourceCounts.items():
                 if byYear:
-                    Rvals = R.getTagsDict(retrievedFields, cleaned = True)
+                    Rvals = R.TagsDict(retrievedFields, cleaned = True)
                     for year, occCount in occ.items():
                         retDict["year"].append(year)
                         if numAuthors:
@@ -263,7 +263,7 @@ def diffusionCount(source, target, sourceType = "raw", pandasFriendly = False,  
                             except KeyError:
                                 retDict[sourceCountString].append(0)
                 else:
-                    Rvals = R.getTagsDict(retrievedFields, cleaned = True)
+                    Rvals = R.TagsDict(retrievedFields, cleaned = True)
                     if numAuthors:
                         retDict["numAuthors"].append(R.numAuthors())
                     for tag in retrievedFields:

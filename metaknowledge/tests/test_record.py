@@ -42,7 +42,7 @@ class TestRecord(unittest.TestCase):
     def test_journal(self):
         self.assertEqual(self.R.journal, 'TOPICS IN COGNITIVE SCIENCE')
     def test_tags(self):
-        self.assertEqual(self.R.getTagsDict(['a', 'b']), {'a': None, 'b': None})
+        self.assertEqual(self.R.TagsDict(['a', 'b']), {'a': None, 'b': None})
 
 simplePaperString = """PT J
 AU John, D

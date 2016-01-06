@@ -82,7 +82,7 @@ def getOutputName(clargs, suffix, prompt = "What do you wish to call the output 
         else:
             return s
 
-def getTag(prompt, nMode = False):
+def Tag(prompt, nMode = False):
     retTag = input(prompt).upper()
     if retTag in metaknowledge.tagsAndNames:
         return retTag
@@ -91,7 +91,7 @@ def getTag(prompt, nMode = False):
             return False
         else:
             print("{} is not a valid tag, please try again".format(retTag))
-            return getTag(prompt, nMode = nMode)
+            return Tag(prompt, nMode = nMode)
 
 def getNum(prompt):
     retNum = input(prompt)
@@ -219,21 +219,21 @@ def getNetwork(clargs, inRC):
     ])
     netID = int(inputMenu(netsDict, header = "What type of network do you wish to create?", promptMsg = "Input the number corresponding to the type of network you wish to generate? "))
     if netID == 1:
-        otg = getTag("What is the tag to use for the network? ")
+        otg = Tag("What is the tag to use for the network? ")
         print("Generating a network using the {0} tag.".format(otg))
         return inRC.oneModeNetwork(otg)
     elif netID == 2:
-        tg1 = getTag("What is the first tag to use for the network? ")
-        tg2 = getTag("And the second tag? ")
+        tg1 = Tag("What is the first tag to use for the network? ")
+        tg2 = Tag("And the second tag? ")
         print("Generating a network using the {0} and {1} tags.".format(tg1, tg2))
         return inRC.twoModeNetwork(tg1, tg2)
     elif netID == 3:
         tgs = []
-        tgs.append(getTag("What is the first tag to use for the network? "))
-        innertag = getTag("And the next tag (leave blank to continue)? ", nMode = True)
+        tgs.append(Tag("What is the first tag to use for the network? "))
+        innertag = Tag("And the next tag (leave blank to continue)? ", nMode = True)
         while innertag:
             tgs.append(innertag)
-            innertag = getTag("And the next tag (leave blank to continue)? ", nMode = True)
+            innertag = Tag("And the next tag (leave blank to continue)? ", nMode = True)
         print("Generating a network using the {0} and {1} tags".format(', '.join(tgs[:-1]), tgs[-1]))
         return inRC.nModeNetwork(tgs)
     elif netID == 4:

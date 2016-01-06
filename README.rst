@@ -11,12 +11,6 @@ records) efficiently.
 The website can be found at
 `networkslab.org/metaknowledge <http://networkslab.org/metaknowledge/>`__.
 
-Currently in Beta
------------------
-
-metaknowledge is in the final stages of testing before a 1.0 release
-different versions may behave differently.
-
 Installing
 ----------
 

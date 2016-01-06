@@ -4,7 +4,6 @@
 import itertools
 import io
 import collections
-import importlib
 
 from .citation import Citation
 from .tagProcessing.funcDicts import tagNameConverterDict, tagsAndNameSet, fullToTagDict
@@ -29,14 +28,12 @@ class BadISIRecord(Warning):
     pass
 
 class BadISIFile(Warning):
-    """
-    Exception thrown by isiParser for mis-formated files
+    """Exception thrown by isiParser for mis-formated files
     """
     pass
 
 class Record(object):
-    """
-    Class for full WOS records
+    """Class for full WOS records
 
     It is meant to be immutable; many of the methods and attributes are evaluated when first called, not when the object is created, and the results are stored privately.
 
@@ -103,7 +100,7 @@ class Record(object):
             except BadISIRecord as b:
                 self.bad = True
                 self.error = b
-                self._fieldDict = {}
+                self._fieldDict = collections.OrderedDict()
             finally:
                 if hasattr(self, '_fieldDict') and 'UT' in self._fieldDict:
                     self._wosNum = self._fieldDict['UT'][0]
@@ -303,9 +300,6 @@ class Record(object):
 
         > Each string in the list is a line from the record associated with _tag_ or `None` if not found.
         """
-
-        #tag = tag.upper()
-        #TODO Figure out why this causes issues
         if clean:
             return getattr(self, tag.upper(), None)
         if tag in self._fieldDict:

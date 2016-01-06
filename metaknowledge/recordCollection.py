@@ -1,17 +1,17 @@
 #Written by Reid McIlroy-Young for Dr. John McLevey, University of Waterloo 2015
-import metaknowledge
-from .record import Record, BadISIFile, BadISIRecord
-from .graphHelpers import _ProgressBar
-from .tagProcessing.funcDicts import tagsAndNameSet, tagToFullDict, fullToTagDict, normalizeToTag
-from .citation import Citation
-
 import itertools
 import os
 import csv
 import pickle
-import hashlib
 
 import networkx as nx
+
+from .record import Record, BadISIFile, BadISIRecord
+from .graphHelpers import _ProgressBar
+from .tagProcessing.funcDicts import tagToFullDict, fullToTagDict, normalizeToTag
+from .citation import Citation
+
+import metaknowledge
 
 class RecordCollection(object):
     """
@@ -645,7 +645,7 @@ class RecordCollection(object):
                 for val in infoVals:
                     recVal = getattr(Rec, val)
                     if isinstance(recVal, list):
-                        attribsDict[val] = ', '.join((str(v).replace(',', '') , recVal))
+                        attribsDict[val] = ', '.join((str(v).replace(',', '') for v in recVal))
                     else:
                         attribsDict[val] = str(recVal).replace(',', '')
                 if count:
@@ -1374,7 +1374,7 @@ class RecordCollection(object):
             keyTypesLst = ["citation", "journal", "year", "author"]
             citesDict = {}
             if keyType not in keyTypesLst:
-                raise TypeError("{} is not a valid key type, only '{}' or '{}' are.".format(keyType, "', '".join(keyTypesLst[:-1], keyTypesLst[-1]) ))
+                raise TypeError("{} is not a valid key type, only '{}' or '{}' are.".format(keyType, "', '".join(keyTypesLst[:-1]), keyTypesLst[-1]))
             for R in self:
                 rCites = R.CR
                 if PBar:

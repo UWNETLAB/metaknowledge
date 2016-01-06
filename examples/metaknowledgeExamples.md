@@ -16,7 +16,7 @@ _metaknowledge_ is a python library for creating and analyzing scientific metada
 
 This document was made from a [jupyter](https://jupyter.org) notebook, if you know how to use them, you can download the notebook [here]({{ site.baseurl }}/examples/metaknowledgeExamples.ipynb) and the sample file is [here]({{ site.baseurl }}/examples/savedrecs.txt) if you wish to have an interactive version of this page. Now lets begin.
 
-#Importing
+# Importing
 
 
 First you need to import the _metaknowledge_ package
@@ -33,10 +33,13 @@ I am using [_matplotlib_](http://matplotlib.org/) to display the graphs and to m
 []import matplotlib.pyplot as plt
 []%matplotlib inline
 
-_metaknowledge_ also has a _matplotlib_ based graph [visualizer]({{ site.baseurl }}/docs/visual#visual)
+_metaknowledge_ also has a _matplotlib_ based graph [visualizer]({{ site.baseurl }}/documentation/metaknowledgeFull.html#contour) that we will use, the module also contains the titular contour plot generator
 
-[]import metaknowledge.visual as mkv
+[]import metaknowledge.contour as mkv
 
+The functions for handling the raw WOS tags are all found in [_tagProcessing_]({{ site.baseurl }}/documentation/metaknowledgeFull.html#tagProcessing) which also contains low level interface to them
+
+[]import metaknowledge.tagProcessing as mkt
 
 [_pandas_](http://pandas.pydata.org/) is also used in one example
 
@@ -91,7 +94,7 @@ There are two ways of getting each tag, one is using the WOS 2 letter abbreviati
 []print(R.activeTags())
 
 
-#`RecordCollection` object
+# `RecordCollection` object
 
 
 [`RecordCollection`]({{ site.baseurl }}/docs/RecordCollection#RecordCollection) is the object that _metaknowledge_ uses the most. It is your interface with the data you want.
@@ -103,7 +106,7 @@ To iterate over all of the `Records` you can use a for loop
 
 The individual `Records` are index by their WOS numbers so you can access a specific one in the collection if you know its number.
 
-[]RC.getWOS("WOS:A1979GV55600001")
+[]RC.WOS("WOS:A1979GV55600001")
 
 
 # `Citation` object
@@ -181,7 +184,7 @@ To make a basic co-citation network of Records use [`coCiteNetwork()`]({{ site.b
 []coCites = RC.coCiteNetwork()
 []print(mk.graphStats(coCites, makeString = True)) #makestring by default is True so it is not strictly necessary to include
 
-[`graphStats()`]({{ site.baseurl }}/docs/metaknowledge#graphStats) is a function to extract some of the statists of a graph and make them into a nice string.
+[`graphStats()`]({{ site.baseurl }}/documentation/metaknowledgeFull.html#graphStats) is a function to extract some of the statists of a graph and make them into a nice string.
 
 `coCites` is now a [_networkx_](https://networkx.github.io/documentation/networkx-1.9.1/) graph of the co-citation network, with the hashes of the `Citations` as nodes and the full citations stored  as an attributes. Lets look at one node
 
@@ -268,7 +271,7 @@ For any number of tags the [`nModeNetwork()`]({{ site.baseurl }}/docs/RecordColl
 
 Beware this can very easily produce hairballs
 
-[]tags = mk.tagsAndNames #All the tags, twice
+[]tags = mkt.tagsAndNameSet #All the tags, twice
 []sillyMultiModeNet = RC.nModeNetwork(tags)
 []mk.graphStats(sillyMultiModeNet)
 
@@ -280,16 +283,17 @@ Beware this can very easily produce hairballs
 
 If you wish to apply a well known algorithm or process to a graph [_networkx_](https://networkx.github.io/documentation/networkx-1.9.1/) is a good place to look as they do a good job at implementing  them.
 
-One of the features it lacks though is pruning of graphs, _metaknowledge_ has these capabilities. To remove edges outside of some weight range, use [`drop_edges()`]({{ site.baseurl }}/docs/metaknowledge#drop_edges). For example if you wish to remove the self loops, edges with weight less than 2 and weight higher than 10 from `coCiteJournals`.
+One of the features it lacks though is pruning of graphs, _metaknowledge_ has these capabilities. To remove edges outside of some weight range, use [`drop_edges()`]({{ site.baseurl }}/documentation/metaknowledgeFull.html#dropEdges). The functions all mutate the given graph, so if you wish to keep the original keep a copy. For example if you wish to remove the self loops, edges with weight less than 2 and weight higher than 10 from `coCiteJournals`.
 
 []minWeight = 3
 []maxWeight = 10
-[]proccessedCoCiteJournals = mk.drop_edges(coCiteJournals, minWeight, maxWeight, dropSelfLoops = True)
+[]proccessedCoCiteJournals = coCiteJournals.copy()
+[]mk.dropEdges(proccessedCoCiteJournals, minWeight, maxWeight, dropSelfLoops = True)
 []mk.graphStats(proccessedCoCiteJournals)
 
-Then to remove all the isolates, i.e. nodes with degree less than 1, use [`drop_nodesByDegree()`]({{ site.baseurl }}/docs/metaknowledge#drop_nodesByDegree)
+Then to remove all the isolates, i.e. nodes with degree less than 1, use [`drop_nodesByDegree()`]({{ site.baseurl }}/documentation/metaknowledgeFull.html#dropNodesByDegree)
 
-[]proccessedCoCiteJournals = mk.drop_nodesByDegree(proccessedCoCiteJournals, 1)
+[]mk.dropNodesByDegree(proccessedCoCiteJournals, 1)
 []mk.graphStats(proccessedCoCiteJournals)
 
 Now before the processing the graph can be seen [here](#Making-a-co-citation-network). After the processing it looks like
@@ -302,14 +306,14 @@ Hm, it looks a bit thinner. Using a visualizer will make the difference a bit mo
 #Exporting graphs
 
 
-Now you have a graph the last step is to write it to disk. _networkx_ has a few ways of doing this, but they tend to be slow. _metaknowledge_ can write an edge list and node attribute file that contain all the information of the graph. The function to do this is called [`write_graph()`]({{ site.baseurl }}/docs/metaknowledge#write_graph). You give it the start of the file name and it makes two labeled files containing the graph.
+Now you have a graph the last step is to write it to disk. _networkx_ has a few ways of doing this, but they tend to be slow. _metaknowledge_ can write an edge list and node attribute file that contain all the information of the graph. The function to do this is called [`writeGraph()`]({{ site.baseurl }}/documentation/metaknowledgeFull.html#writeGraph). You give it the start of the file name and it makes two labeled files containing the graph.
 
 
-[]mk.write_graph(proccessedCoCiteJournals, "FinalJournalCoCites")
+[]mk.writeGraph(proccessedCoCiteJournals, "FinalJournalCoCites")
 
-These files are simple CSVs an can be read easily by most systems. If you want to read them back into Python the [`read_graph()`]({{ site.baseurl }}/docs/metaknowledge#read_graph) function will do that.
+These files are simple CSVs an can be read easily by most systems. If you want to read them back into Python the [`readGraph()`]({{ site.baseurl }}/documentation/metaknowledgeFull.html#readGraph) function will do that.
 
-[] FinalJournalCoCites = mk.read_graph("FinalJournalCoCites_edgeList.csv", "FinalJournalCoCites_nodeAttributes.csv")
+[] FinalJournalCoCites = mk.readGraph("FinalJournalCoCites_edgeList.csv", "FinalJournalCoCites_nodeAttributes.csv")
 []mk.graphStats(FinalJournalCoCites)
 
 This is full example workflow for _metaknowledge_, the package is flexible and you hopefully will be able to customize it to do what you want (I assume you do not want the Records staring with 'A').

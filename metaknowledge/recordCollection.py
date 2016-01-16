@@ -6,10 +6,11 @@ import pickle
 
 import networkx as nx
 
-from .record import Record, BadWOSFile, BadWOSRecord
+from .record import Record
 from .graphHelpers import _ProgressBar
 from .tagProcessing.funcDicts import tagToFullDict, fullToTagDict, normalizeToTag
 from .citation import Citation
+from .mkExceptions import cacheError, BadWOSFile, BadWOSRecord
 
 import metaknowledge
 
@@ -1816,9 +1817,6 @@ def expandRecs(G, RecCollect, nodeType, weighted):
                         for e1, e2, data in G.edges_iter(citeID1, data = True):
                             G.add_edge(citeID2, e2, attr_dict = data)
 
-class cacheError(Exception):
-    """Exception raised when loading a cached RecordCollection fails, should only be seen inside metaknowledge and always be caught."""
-    pass
 
 def loadCache(cacheFile, flist, rcName, fileExtensions, PBar):
     if PBar:

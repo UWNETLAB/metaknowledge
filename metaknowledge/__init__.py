@@ -29,7 +29,7 @@ Citations are handled by a special [Citation](#Citation.Citation) class. This cl
 
 Note for those reading the docstrings metaknowledge's docs are written in markdown and are processed to produce the documentation found at [networkslab.org/metaknowledge/documentation]({{ site.baseurl }}/documentation/), but you should have no problem reading them from the help function.
 """
-from .record import Record, recordParser, BadWOSRecord
+from .record import Record, recordParser
 from .citation import Citation, BadCitation, filterNonJournals
 from .recordCollection import RecordCollection, wosParser
 
@@ -37,5 +37,6 @@ from .graphHelpers import writeEdgeList, writeNodeAttributeFile, writeGraph, rea
 from .constants import VERBOSE_MODE
 from .diffusion import diffusionGraph, diffusionCount
 from .tagProcessing.funcDicts import tagToFull, isTagOrName, normalizeToTag, normalizeToName
+from .mkExceptions import  BadWOSRecord
 
 #from .blondel import blondel, modularity #Better implementations can be found on Pypi so this has been discontinued

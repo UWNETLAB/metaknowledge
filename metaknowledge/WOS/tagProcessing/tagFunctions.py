@@ -1,6 +1,6 @@
 #Written by Reid McIlroy-Young for Dr. John McLevey, University of Waterloo 2015
 from .helpFuncs import getMonth
-from ..citation import Citation
+from ...citation import Citation
 
 import collections
 

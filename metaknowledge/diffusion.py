@@ -1,7 +1,7 @@
 #Written by Reid McIlroy-Young for Dr. John McLevey, University of Waterloo 2015
 import networkx as nx
 
-from .tagProcessing.funcDicts import tagsAndNameSet, normalizeToTag
+from .WOS.tagProcessing.funcDicts import tagsAndNameSet, normalizeToTag
 from .graphHelpers import _ProgressBar
 from .recordCollection import RecordCollection
 

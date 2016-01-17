@@ -6,7 +6,7 @@ import argparse
 import os
 import time
 import metaknowledge
-import metaknowledge.tagProcessing
+import metaknowledge.WOS.tagProcessing
 import importlib
 import re
 
@@ -224,7 +224,7 @@ def writeModuleFile(mod, targetFile = None, singleFile = False):
         for fn in funcs:
             writeFunc(fn, f, prefix = "{}.".format(mod))
     else:
-        for fn in metaknowledge.tagProcessing.tagToFunc.items():
+        for fn in metaknowledge.WOS.tagProcessing.tagToFunc.items():
             writeFunc((metaknowledge.tagToFull(fn[0]), fn[1]), f, prefix = "{}.".format(mod))
     if targetFile is None:
         f.write("\n{% include docsFooter.md %}")

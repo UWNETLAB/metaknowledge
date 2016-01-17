@@ -1,13 +1,9 @@
 #Written by Reid McIlroy-Young for Dr. John McLevey, University of Waterloo 2015
-from .journalAbbreviations import getj9dict, abrevDBname, manaulDBname, addToDB
+from .WOS.journalAbbreviations import getj9dict, abrevDBname, manaulDBname, addToDB
+
+from .mkExceptions import BadCitation
 
 abbrevDict = None
-
-class BadCitation(Warning):
-    """
-    Exception thrown by Citation
-    """
-    pass
 
 class Citation(object):
     """

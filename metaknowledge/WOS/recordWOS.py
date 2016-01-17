@@ -5,13 +5,15 @@ import itertools
 import io
 import collections
 
+from ..record import Record
+
 from ..citation import Citation
-from ..tagProcessing.funcDicts import tagNameConverterDict, tagsAndNameSet, fullToTagDict
-from ..tagProcessing.tagFunctions import tagToFunc
-from ..tagProcessing.funcDicts import tagToFull
+from ..WOS.tagProcessing.funcDicts import tagNameConverterDict, tagsAndNameSet, fullToTagDict
+from ..WOS.tagProcessing.tagFunctions import tagToFunc
+from ..WOS.tagProcessing.funcDicts import tagToFull
 from ..mkExceptions import BadWOSFile, BadWOSRecord
 
-class Record(object):
+class WOSRecord(Record):
     """Class for full WOS records
 
     It is meant to be immutable; many of the methods and attributes are evaluated when first called, not when the object is created, and the results are stored privately.
@@ -57,70 +59,39 @@ class Record(object):
     > Is the line the record starts on in the raw data file. It is mostly used to make error messages more informative.
     """
 
-    def __init__(self, inRecord, taglist = (), sFile = "", sLine = 0):
+    def __init__(self, inRecord, sFile = "", sLine = 0):
         """See help on [Record](#Record.Record) for details"""
+        bad = False
+        error = None
+        fieldDict = None
         self._unComputedTags = set()
-        self.bad = False
-        self.error = None
-        self.tags = taglist
-        self._sourceFile = sFile
-        self._sourceLine = sLine
-        if isinstance(inRecord, dict):
-            self._fieldDict = inRecord
-            if 'UT' in self._fieldDict:
-                self._wosNum = self._fieldDict['UT'][0]
-            else:
-                self._wosNum = None
-                self.bad = True
-                self.error = BadWOSRecord("Missing WOS number")
-        elif isinstance(inRecord, itertools.chain):
-            try:
-                self._fieldDict = recordParser(inRecord)
-            except BadWOSRecord as b:
-                self.bad = True
-                self.error = b
-                self._fieldDict = collections.OrderedDict()
-            finally:
-                if hasattr(self, '_fieldDict') and 'UT' in self._fieldDict:
-                    self._wosNum = self._fieldDict['UT'][0]
-                else:
-                    self._wosNum = None
-                    self.bad = True
-                    self.error = BadWOSRecord("Missing WOS number")
-        elif isinstance(inRecord, io.IOBase):
-            try:
-                self._fieldDict = recordParser(enumerate(inRecord))
-            except BadWOSRecord as b:
-                self.bad = True
-                self.error = b
-                self._fieldDict = {}
-            finally:
-                if 'UT' in self._fieldDict:
-                    self._wosNum = self._fieldDict['UT'][0]
-                else:
-                    self._wosNum = None
-                    self.bad = True
-                    self.error = BadWOSRecord("Missing WOS number")
-        elif isinstance(inRecord, str):
-            try:
+        try:
+            if isinstance(inRecord, dict) or isinstance(inRecord, collections.OrderedDict):
+                fieldDict = collections.OrderedDict(inRecord)
+            elif isinstance(inRecord, itertools.chain):
+                fieldDict = recordParser(inRecord)
+            elif isinstance(inRecord, io.IOBase):
+                fieldDict = recordParser(enumerate(inRecord))
+            elif isinstance(inRecord, str):
                 def addChartoEnd(lst):
                     for s in lst:
                         yield s + '\n'
-                self._fieldDict = recordParser(enumerate(addChartoEnd(inRecord.split('\n')), start = 1))
+                fieldDict = recordParser(enumerate(addChartoEnd(inRecord.split('\n')), start = 1))
                 #string io
-            except BadWOSRecord as b:
-                self.bad = True
-                self.error = b
-                self._fieldDict = {}
-            finally:
-                if 'UT' in self._fieldDict:
-                    self._wosNum = self._fieldDict['UT'][0]
-                else:
-                    self._wosNum = "NO WOS NUMBER"
-                    self.bad = True
-                    self.error = BadWOSRecord("Missing WOS number")
-        if hasattr(self, "_fieldDict"):
-            for tag in self._fieldDict:
+            else:
+                raise TypeError("Unsupported input type '{}', Records cannot be created from '{}'".format(inRecord, type(inRecord)))
+        except BadWOSRecord as b:
+            self.bad = True
+            self.error = b
+            fieldDict = collections.OrderedDict()
+        if fieldDict is not None:
+            if 'UT' in fieldDict:
+                self._wosNum = fieldDict['UT'][0]
+            else:
+                self._wosNum = None
+                bad = True
+                error = BadWOSRecord("Missing WOS number")
+            for tag in fieldDict:
                 if tag != 'UT':
                     self.__dict__[tag] = None
                     self._unComputedTags.add(tag)
@@ -131,6 +102,7 @@ class Record(object):
                     else:
                         self.__dict__[fullName] = None
                         self._unComputedTags.add(fullName)
+        Record.__init__(self, fieldDict, self._wosNum, bad, error, sFile = sFile, sLine = sLine)
 
     def __getattribute__(self, name):
         """

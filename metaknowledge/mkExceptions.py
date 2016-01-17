@@ -21,3 +21,9 @@ class BadWOSFile(Warning):
     """Exception thrown by wosParser for mis-formated files
     """
     pass
+
+class BadCitation(Warning):
+    """
+    Exception thrown by Citation
+    """
+    pass

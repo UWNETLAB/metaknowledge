@@ -59,6 +59,7 @@ class RecordCollection(object):
     """
 
     def __init__(self, inCollection = None, name = '', extension = '', cached = False):
+        print("**WARNING**: This version of mk is for grants only")
         self.bad = False
         self._repr = name
         if not inCollection:

@@ -19,6 +19,10 @@ def grantFileParser(fileName):
     orgName = fileName.split('_')[0].upper()
     recs = []
     with open(fileName, encoding = 'latin1') as f:
+        if orgName == 'CIHR':
+            f.readline()
+            f.readline()
+            f.readline()
         reader = csv.DictReader(f)
         for row in reader:
             recs.append(grantToRec(row, orgName, fileName))

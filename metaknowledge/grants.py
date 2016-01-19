@@ -29,7 +29,7 @@ def grantFileParser(fileName):
     return RecordCollection(recs)
 
 def grantToRec(rowDict, org, fileName):
-    recDict = {k.replace(' ', '')[:5] : [v] for k,v in rowDict.items()}
+    recDict = {k.replace(' ', '')[:5] : v.split(';') for k,v in rowDict.items()}
     recDict['org'] = org
     recDict['UT'] = ["{0}:{1}".format(org, hash(''.join(rowDict.values())))]
     Rec = Record(recDict, sFile = fileName)

@@ -141,9 +141,10 @@ class Record(object):
                     self.bad = True
                     self.error = BadWOSRecord("Missing WOS number")
         if hasattr(self, "_fieldDict"):
-            for tag in self._fieldDict:
+            for tag, value in self._fieldDict.items():
                 if tag != 'UT':
-                    self.__dict__[tag] = None
+                    self.__dict__[tag] = value
+                    '''
                     self._unComputedTags.add(tag)
                     try:
                         fullName = tagNameConverterDict[tag]
@@ -152,6 +153,7 @@ class Record(object):
                     else:
                         self.__dict__[fullName] = None
                         self._unComputedTags.add(fullName)
+                    '''
 
     def __getattribute__(self, name):
         """

@@ -1010,7 +1010,7 @@ class RecordCollection(object):
             else:
                 raise TypeError("stemmer must be callable, e.g. a function or class with a __call__ method.")
         count = 0
-        progArgs = (0, "Starting to make a one mode network with " + mode)
+        progArgs = (0, "Starting to make a one mode network with " + str(mode))
         if metaknowledge.VERBOSE_MODE:
             progKwargs = {'dummy' : False}
         else:
@@ -1026,7 +1026,16 @@ class RecordCollection(object):
                     PBar.updateVal(count / len(self), "Analyzing: " + str(R))
                 if edgeAttribute:
                     edgeVals = [str(v) for v in getattr(R, edgeAttribute, [])]
-                contents = getattr(R, mode, None)
+                if isinstance(mode, list):
+                    contents = []
+                    for attr in mode:
+                        tmpContents = getattr(R, attr, [])
+                        if isinstance(tmpContents, list):
+                            contents += tmpContents
+                        else:
+                            contents.append(tmpContents)
+                else:
+                    contents = getattr(R, mode, None)
                 if contents:
                     if isinstance(contents, list):
                         if stemCheck:
@@ -1090,7 +1099,7 @@ class RecordCollection(object):
                             if not grph.has_node(nodeVal):
                                 grph.add_node(nodeVal)
             if PBar:
-                PBar.finish("Done making a one mode network with " + mode)
+                PBar.finish("Done making a one mode network with " + str(mode))
         return grph
 
     def twoModeNetwork(self, tag1, tag2, directed = False, recordType = True, nodeCount = True, edgeWeight = True, stemmerTag1 = None, stemmerTag2 = None, edgeAttribute = None):

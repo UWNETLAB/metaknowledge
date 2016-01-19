@@ -59,7 +59,6 @@ class RecordCollection(object):
     """
 
     def __init__(self, inCollection = None, name = '', extension = '', cached = False):
-        print("**WARNING**: This version of mk is for grants only")
         self.bad = False
         self._repr = name
         if not inCollection:
@@ -1000,10 +999,6 @@ class RecordCollection(object):
 
         > A networkx Graph with the objects of the tag _mode_ as nodes and their co-occurrences as edges
         """
-        try:
-            mode = normalizeToTag(mode)
-        except KeyError:
-            raise TypeError(str(mode) + " is not a known tag, or the name of a known tag.")
         stemCheck = False
         if stemmer is not None:
             if hasattr(stemmer, '__call__'):
@@ -1123,11 +1118,6 @@ class RecordCollection(object):
 
         > A networkx Graph with the objects of the tags _tag1_ and _tag2_ as nodes and their co-occurrences as edges.
         """
-        try:
-            tag1 = normalizeToTag(tag1)
-            tag2 = normalizeToTag(tag2)
-        except KeyError:
-            raise TypeError(str(tag1) + " or " + str(tag2) + " is not a known tag, or the name of a known tag.")
         if stemmerTag1 is not None:
             if hasattr(stemmerTag1, '__call__'):
                 stemCheck = True
@@ -1265,12 +1255,7 @@ class RecordCollection(object):
 
         > A networkx Graph with the objects of the tags _tags_ as nodes and their co-occurrences as edges
         """
-        nomalizedTags = []
-        for t in tags:
-            try:
-                nomalizedTags.append(normalizeToTag(t))
-            except KeyError:
-                raise TypeError(str(t) + " is not a known tag, or the name of a known tag.")
+        nomalizedTags = list(tags)
         stemCheck = False
         if stemmer is not None:
             if hasattr(stemmer, '__call__'):

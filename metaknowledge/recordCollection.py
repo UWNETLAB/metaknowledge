@@ -964,7 +964,7 @@ class RecordCollection(object):
                     raise
         return RecordCollection(recordsInRange, repr(self) + "_(" + str(startYear) + " ," + str(endYear) + ")")
 
-    def oneModeNetwork(self, mode, nodeCount = True, edgeWeight = True, stemmer = None):
+    def oneModeNetwork(self, mode, nodeCount = True, edgeWeight = True, stemmer = None, edgeAttribute = None):
         """Creates a network of the objects found by one WOS tag _mode_.
 
         A **oneModeNetwork**() looks are each Record in the RecordCollection and extracts its values for the tag given by _mode_, e.g. the `'AF'` tag. Then if multiple are returned an edge is created between them. So in the case of the author tag `'AF'` a co-authorship network is created.
@@ -993,6 +993,10 @@ class RecordCollection(object):
 
         > The function ` f = lambda x: x[0]` if given as the stemmer will cause all IDs to be the first character of their unstemmed IDs. e.g. the title `'Goos-Hanchen and Imbert-Fedorov shifts for leaky guided modes'` will create the node `'G'`.
 
+        _edgeAttribute_ : `optional [str]`
+
+        > Default `None`, if set to a WOS tag then for each edge created it will have the attribute of the value of the tag from the Record. If there are mutiple values each will create a seperate parallel edge.
+
         # Returns
 
         `networkx Graph`
@@ -1012,11 +1016,16 @@ class RecordCollection(object):
         else:
             progKwargs = {'dummy' : True}
         with _ProgressBar(*progArgs, **progKwargs) as PBar:
-            grph = nx.Graph()
+            if edgeAttribute is not None:
+                grph = nx.MultiGraph()
+            else:
+                grph = nx.Graph()
             for R in self:
                 if PBar:
                     count += 1
                     PBar.updateVal(count / len(self), "Analyzing: " + str(R))
+                if edgeAttribute:
+                    edgeVals = [str(v) for v in getattr(R, edgeAttribute, [])]
                 contents = getattr(R, mode, None)
                 if contents:
                     if isinstance(contents, list):
@@ -1027,7 +1036,17 @@ class RecordCollection(object):
                         if len(tmplst) > 1:
                             for i, node1 in enumerate(tmplst):
                                 for node2 in tmplst[i + 1:]:
-                                    if edgeWeight:
+                                    if edgeAttribute:
+                                        for edgeVal in edgeVals:
+                                            if grph.has_edge(node1, node2, key = edgeVal):
+                                                for i, a in grph[node1][node2].items():
+                                                    if a['key'] == edgeVal:
+                                                        workingGraph[node1][node2][i]['weight'] += 1
+                                                        break
+                                            else:
+                                                attrDict = {'key' : edgeVal, 'weight' : 1}
+                                                workingGraph.add_edge(node1, node2, attr_dict = attrDict)
+                                    elif edgeWeight:
                                         try:
                                             grph.edge[node1][node2]['weight'] += 1
                                         except KeyError:

@@ -964,7 +964,7 @@ class RecordCollection(object):
                     raise
         return RecordCollection(recordsInRange, repr(self) + "_(" + str(startYear) + " ," + str(endYear) + ")")
 
-    def oneModeNetwork(self, mode, nodeCount = True, edgeWeight = True, stemmer = None, edgeAttribute = None):
+    def oneModeNetwork(self, mode, nodeCount = True, edgeWeight = True, stemmer = None, edgeAttribute = None, nodeAttribute = None):
         """Creates a network of the objects found by one WOS tag _mode_.
 
         A **oneModeNetwork**() looks are each Record in the RecordCollection and extracts its values for the tag given by _mode_, e.g. the `'AF'` tag. Then if multiple are returned an edge is created between them. So in the case of the author tag `'AF'` a co-authorship network is created.
@@ -1026,6 +1026,8 @@ class RecordCollection(object):
                     PBar.updateVal(count / len(self), "Analyzing: " + str(R))
                 if edgeAttribute:
                     edgeVals = [str(v) for v in getattr(R, edgeAttribute, [])]
+                if nodeAttribute:
+                    nodeVals = [str(v) for v in getattr(R, nodeAttribute, [])]
                 if isinstance(mode, list):
                     contents = []
                     for attr in mode:
@@ -1074,6 +1076,13 @@ class RecordCollection(object):
                                         grph.node[node1]['count'] += 1
                                     except KeyError:
                                         grph.node[node1]['count'] = 1
+                                if nodeAttribute:
+                                    for nodeValue in nodeVals:
+                                        try:
+                                            if nodeValue not in grph.node[node1][nodeAttribute]:
+                                                grph.node[node1][nodeAttribute].append(nodeValue)
+                                        except KeyError:
+                                            grph.node[node1][nodeAttribute] = nodeVals
                         elif len(tmplst) == 1:
                             if nodeCount:
                                 try:
@@ -1083,6 +1092,13 @@ class RecordCollection(object):
                             else:
                                 if not grph.has_node(tmplst[0]):
                                     grph.add_node(tmplst[0])
+                            if nodeAttribute:
+                                for nodeValue in nodeVals:
+                                    try:
+                                        if nodeValue not in grph.node[tmplst[0]][nodeAttribute]:
+                                            grph.node[tmplst[0]][nodeAttribute].append(nodeValue)
+                                    except KeyError:
+                                        grph.node[tmplst[0]][nodeAttribute] = nodeVals
                         else:
                             pass
                     else:
@@ -1098,6 +1114,13 @@ class RecordCollection(object):
                         else:
                             if not grph.has_node(nodeVal):
                                 grph.add_node(nodeVal)
+                        if nodeAttribute:
+                            for nodeValue in nodeVals:
+                                try:
+                                    if nodeValue not in grph.node[nodeVal][nodeAttribute]:
+                                        grph.node[nodeVal][nodeAttribute].append(nodeValue)
+                                except KeyError:
+                                    grph.node[nodeVal][nodeAttribute] = nodeVals
             if PBar:
                 PBar.finish("Done making a one mode network with " + str(mode))
         return grph

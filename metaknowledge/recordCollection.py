@@ -1077,12 +1077,13 @@ class RecordCollection(object):
                                     except KeyError:
                                         grph.node[node1]['count'] = 1
                                 if nodeAttribute:
-                                    for nodeValue in nodeVals:
-                                        try:
-                                            if nodeValue not in grph.node[node1][nodeAttribute]:
+                                    try:
+                                        currentAttrib = grph.node[node1][nodeAttribute]
+                                    except KeyError:
+                                        grph.node[node1][nodeAttribute] = nodeVals
+                                    else:
+                                        for nodeValue in (n for n in nodeVals if n not in currentAttrib):
                                                 grph.node[node1][nodeAttribute].append(nodeValue)
-                                        except KeyError:
-                                            grph.node[node1][nodeAttribute] = nodeVals
                         elif len(tmplst) == 1:
                             if nodeCount:
                                 try:
@@ -1093,12 +1094,13 @@ class RecordCollection(object):
                                 if not grph.has_node(tmplst[0]):
                                     grph.add_node(tmplst[0])
                             if nodeAttribute:
-                                for nodeValue in nodeVals:
-                                    try:
-                                        if nodeValue not in grph.node[tmplst[0]][nodeAttribute]:
+                                try:
+                                    currentAttrib = grph.node[tmplst[0]][nodeAttribute]
+                                except KeyError:
+                                    grph.node[tmplst[0]][nodeAttribute] = nodeVals
+                                else:
+                                    for nodeValue in (n for n in nodeVals if n not in currentAttrib):
                                             grph.node[tmplst[0]][nodeAttribute].append(nodeValue)
-                                    except KeyError:
-                                        grph.node[tmplst[0]][nodeAttribute] = nodeVals
                         else:
                             pass
                     else:
@@ -1115,12 +1117,13 @@ class RecordCollection(object):
                             if not grph.has_node(nodeVal):
                                 grph.add_node(nodeVal)
                         if nodeAttribute:
-                            for nodeValue in nodeVals:
-                                try:
-                                    if nodeValue not in grph.node[nodeVal][nodeAttribute]:
+                            try:
+                                currentAttrib = grph.node[nodeVal][nodeAttribute]
+                            except KeyError:
+                                grph.node[nodeVal][nodeAttribute] = nodeVals
+                            else:
+                                for nodeValue in (n for n in nodeVals if n not in currentAttrib):
                                         grph.node[nodeVal][nodeAttribute].append(nodeValue)
-                                except KeyError:
-                                    grph.node[nodeVal][nodeAttribute] = nodeVals
             if PBar:
                 PBar.finish("Done making a one mode network with " + str(mode))
         return grph

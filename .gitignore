@@ -20,7 +20,7 @@ profile_wosserver/
 metaknowledgeDocs.md
 j9Raws/
 /manualj9Abbreviations*
-/j9Abbreviations*
+*/j9Abbreviations.*
 !savedrecs.txt
 
 # Byte-compiled / optimized / DLL files

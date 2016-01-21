@@ -10,7 +10,7 @@ from ..record import Record
 from ..citation import Citation
 from ..WOS.tagProcessing.funcDicts import tagNameConverterDict, tagsAndNameSet, fullToTagDict
 from ..WOS.tagProcessing.tagFunctions import tagToFunc
-from ..WOS.tagProcessing.funcDicts import tagToFull
+from ..WOS.tagProcessing.funcDicts import tagToFull, tagNameConverterDict
 from ..mkExceptions import BadWOSFile, BadWOSRecord
 
 class WOSRecord(Record):
@@ -91,6 +91,7 @@ class WOSRecord(Record):
                 self._wosNum = None
                 bad = True
                 error = BadWOSRecord("Missing WOS number")
+            """
             for tag in fieldDict:
                 if tag != 'UT':
                     self.__dict__[tag] = None
@@ -101,9 +102,10 @@ class WOSRecord(Record):
                         pass
                     else:
                         self.__dict__[fullName] = None
-                        self._unComputedTags.add(fullName)
-        Record.__init__(self, fieldDict, self._wosNum, bad, error, sFile = sFile, sLine = sLine)
-
+                        self._unComputedTags.add(fullName)"""
+        Record.__init__(self, fieldDict, self._wosNum,
+        'TI', bad, error, strEncoding = 'utf-8',sFile = sFile, sLine = sLine, altNames = tagNameConverterDict, proccessingFuncs = tagToFunc)
+    '''
     def __getattribute__(self, name):
         """
         Hack to get the attributes correct, read the Record help for more information
@@ -146,47 +148,9 @@ class WOSRecord(Record):
                         self._unComputedTags.remove(name)
                         self._unComputedTags.remove(otherName)
                 return object.__getattribute__(self, name)
+    '''
 
-    def __str__(self):
-        """
-        returns a string with the title of the file as given by self.title(), if there is not one it returns "Untitled record"
-        """
-        if self.title:
-            return self.title
-        else:
-            return "Untitled record"
 
-    def __repr__(self):
-        if self.bad:
-            return "< metaknowledge.record.Record object BAD >"
-        else:
-            return "< metaknowledge.record.Record object {} >".format(self.UT)
-
-    def __eq__(self, other):
-        """
-        returns true if the WOS numbers of both Records are identical.
-
-        if either is bad False is returned
-        """
-        if not isinstance(other, Record):
-            return NotImplemented
-        if self.bad or other.bad:
-            return False
-        else:
-            return self.wosString == other.wosString
-
-    def __ne__(self, other):
-        """returns the opposite of \_\_eq\_\_"""
-        return not self == other
-
-    def __hash__(self):
-        """returns a hash of the WOS number or if `bad` returns a hash of the fields combined with the error messages, either of these could be blank
-
-        `bad` Records are more likely to cause hash collisions due to their lack of entropy when created.
-        """
-        if self.bad:
-            return hash(str(self._fieldDict.values()) + str(self.error))
-        return hash(self._wosNum)
 
     def __getstate__(self):
         """gets the __dict__ of the Record"""

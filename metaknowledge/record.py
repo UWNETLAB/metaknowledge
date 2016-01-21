@@ -1,10 +1,14 @@
+from .mkExceptions import BadRecord
+
 class Record(object):
-    def __init__(self, fieldDict, idValue, bad, error, sFile = "", sLine = 0, altNames = None, proccessingFuncs = None):
+    def __init__(self, fieldDict, idValue, titleKey, bad, error, strEncoding = 'utf-8', sFile = "", sLine = 0, altNames = None, proccessingFuncs = None):
         """Base constructor for Records
 
         _fieldDict_ : is the unpared entry dict with tags as keys and their lines as a list of strings
 
         _idValue_ : is the unique ID of the Record, e.g. the WOS number
+
+        _titleKey_ : is the tag giving the title of the Record, e.g. the WOS tag is `'TI'`
 
         _bad_ : is the bool tto flag the Record as having encountered an errror
 
@@ -30,11 +34,21 @@ class Record(object):
         #Important data
         self._id = idValue
         self._fieldDict = fieldDict
+        self.encoding = strEncoding
+
+        #Memoizing stuff
         self._computedFields = {}
         self._altNames = altNames
         if proccessingFuncs is None:
             proccessingFuncs = {}
         self._proccessingFuncs = proccessingFuncs
+
+        #Give it a title
+        title = self.getTag(titleKey)
+        if isinstance(title, str):
+            self.title = title
+        else:
+            self.title = "Untitled record"
 
     def __getitem__(self, key):
         """Proccesses the tag requested with _key_ and memoize it.
@@ -51,14 +65,82 @@ class Record(object):
                     key = self._altNames.get(key)
                     computedVal = self._proccessingFuncs[key](self._fieldDict[key])
                 else:
-                    raise KeyError("'{}' could not be found in the Record".format(key))
+                    raise KeyError("'{}' could not be found in the Record".format(key)) from None
                 self._computedFields[key] = computedVal
                 self._computedFields[self._altNames.get(key)] = computedVal
                 return computedVal
             else:
                 raise TypeError("Keys to Records must be strings they cannot be of the type: {}.".format(type(key)))
 
-    def getTag(tag, raw = False):
+    def __iter__(self):
+        """Iterates over the tags in the Record"""
+        for t in self._fieldDict:
+            yield t
+
+    def __contains__(self, item):
+        """Checks if the tag _item_ is in the Record"""
+        return item in self._fieldDict
+
+    def __str__(self):
+        """returns a string with the title of the file as given by self.title, if there is not one it returns "Untitled record"
+        """
+        return "{}({})".format(type(self).__name__, self.title)
+
+    def __repr__(self):
+        if self.bad:
+            return "< metaknowledge.{} object BAD >".format(type(self).__name__)
+        else:
+            return "< metaknowledge.{} object {} >".format(type(self).__name__, self.UT)
+
+    def __bytes__(self):
+        """Returns the binary form of the original"""
+        if self.bad:
+            raise BadRecord("This record cannot be converted to binary as the input was malformed.\nThe original line number (if any) is: {} and the original file is: '{}'".format(self._sourceLine, self._sourceFile))
+        else:
+            strLst = []
+            for tag in self._fieldDict.keys():
+                for i, value in enumerate(self._fieldDict[tag]):
+                    if i == 0:
+                        strLst.append(tag + ' ')
+                    else:
+                        strLst.append('   ')
+                    strLst.append(value + '\n')
+            strLst.append("ER\n")
+            return bytes(''.join(strLst), self.encoding)
+
+    def __hash__(self):
+        """returns a hash of the ID or if `bad` returns a hash of the fields combined with the error messages, either of these could be blank
+
+        `bad` Records are more likely to cause hash collisions due to their lack of entropy when created.
+        """
+        if self.bad:
+            return hash(str(self._fieldDict.values()) + str(self.error))
+        return hash(self._id)
+
+    def __eq__(self, other):
+        """
+        returns true if the hashes of both Records are identical.
+
+        if either is bad False is returned
+        """
+        if not isinstance(other, Record):
+            return NotImplemented
+        else:
+            return self.__hash__() == other.__hash__()
+
+    def __len__(self):
+        """Returns the number of tags"""
+        return len(self._fieldDict)
+
+    @property
+    def id(self):
+        """the ID of the record
+
+        not overwritable
+        """
+        return self._id
+
+    def getTag(self, tag, raw = False):
         """Allows access to the raw values or is wrapper to __getitem__.
 
         Does not raise KeyError, will just return `None` if _tag_ cannot be found.

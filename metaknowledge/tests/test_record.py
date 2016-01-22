@@ -19,10 +19,45 @@ class TestRecord(unittest.TestCase):
     def test_equality(self):
         self.assertEqual(self.R, self.R)
         self.assertTrue(self.R != self.Rbad)
+        self.assertFalse(self.R == 1)
+
+    def test_contains(self):
+        self.assertFalse('WOS' in self.R)
+        self.assertTrue('C1' in self.R)
+
+    def test_getitem(self):
+        self.assertEqual(self.R['UT'], self.R.id)
+        with self.assertRaises(TypeError):
+            ret = self.R[1]
+
+    def test_get(self):
+        self.assertEqual(self.R.get('VL'), '1')
+        self.assertEqual(self.R.get('volume'), '1')
+        self.assertEqual(self.R.get('VL', raw = True), ['1'])
+        self.assertEqual(self.R.get('volume', raw = True), ['1'])
+        self.assertEqual(self.R.get('!@#$%^&*&%$#'), None)
+
+    def test_values(self):
+        self.assertTrue('1' in self.R.values())
+        self.assertFalse('1' in self.R.values(raw = True))
+
+    def test_items(self):
+        self.assertTrue(('volume', '1') in self.R.items())
+        self.assertTrue(('VL', ['1']) in self.R.items(raw = True))
 
     def test_hash(self):
         self.assertNotEqual(hash(self.R), hash(self.Rbad))
 
+    def test_repr(self):
+        self.assertEqual(repr(self.R), "< metaknowledge.WOSRecord object {} >".format(self.R.id))
+        self.R.bad = True
+        self.assertEqual(repr(self.R), "< metaknowledge.WOSRecord object BAD >")
+
+    def test_binary(self):
+        self.assertEqual(bytes(self.R), bytes(simplePaperString, encoding = 'utf-8'))
+        self.R.bad = True
+        with self.assertRaises(metaknowledge.BadRecord):
+            b = bytes(self.R)
     def test_state(self):
         state = self.R.__getstate__()
         Rtmp = metaknowledge.Record('PT J')

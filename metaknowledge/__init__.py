@@ -32,7 +32,7 @@ Note for those reading the docstrings metaknowledge's docs are written in markdo
 #from .record import Record
 from .citation import Citation, filterNonJournals
 from .recordCollection import RecordCollection
-from .mkExceptions import BadWOSRecord, BadCitation
+from .mkExceptions import BadWOSRecord, BadCitation, BadRecord
 
 from .graphHelpers import writeEdgeList, writeNodeAttributeFile, writeGraph, readGraph, _ProgressBar, dropEdges, dropNodesByDegree, dropNodesByCount, mergeGraphs, graphStats
 from .constants import VERBOSE_MODE

@@ -6,7 +6,13 @@ search_omit: true
 ---
 
 
-<p>metaknowledge is a <a href="https://www.python.org">Python3</a> library that simplifies bibliometric and computational sociology of knowledge research using Web of Science data. It reads a directory of plain text files containing meta-data on publications and citations, and writes to a variety of data structures that are suitable for quantitative, network, and text analyses. It handles large datasets (e.g. several million records) efficiently. Among other things, it currently has functions for:</p>
+<p>metaknowledge is a <a href="https://www.python.org">Python3</a> package for doing social networks and bibliometric research on knowledge. It is developed primarily for conducting research in science and health policy studies, for quantitative / computational sociology of knowledge, and for simplifying the process of doing systematic reviews in any disciplinary context. 
+
+metaknowledge reads a directory of plain text files containing meta-data on publications and citations, and writes to a variety of data structures that are suitable for quantitative, network, and text analyses. It handles large datasets (e.g. several million records) efficiently. 
+
+metaknowledge currently handles data from the Web of Science. However, we are preparing a new release that will handle data from PubMed, ProQuest Dissertations and Theses, selected open data repositories, and awards data from selected granting agencies. 
+
+Among other things, metaknowledge currently has functions for:</p>
 
 <ul>
   <li>cleaning and preprocessing Web of Science data (e.g. identifying and deleting duplicate records)</li>
@@ -15,7 +21,7 @@ search_omit: true
   <li>extracting data for textual analysis (e.g. titles, abstracts)</li>
 </ul>
 
-<p>Datasets created with <a href="https://github.com/networks-lab/metaknowledge">metaknowledge</a> can be analyzed using the standard libraries for data analysis in Python, including <a href="https://networkx.github.io"> NetworkX</a>. It is also easy to write data to csv or graphml files for analysis and visualization in <a href="http://www.r-project.org">R</a>, <a href="http://visone.info">Visone</a>, <a href="http://gephi.github.io">Gephi</a>, or any other tools for data analysis.</p>
+<p>Datasets created with metaknowledge can be analyzed using <a href="https://networkx.github.io"> NetworkX</a> and the <a href="http://www.scipy.org/about.html">standard libraries</a> for data analysis in Python. It is also easy to write data to csv or graphml files for analysis and visualization in <a href="http://www.r-project.org">R</a>, <a href="http://www.stata.com">Stata</a>, <a href="http://visone.info">Visone</a>, <a href="http://gephi.github.io">Gephi</a>, or any other tools for data analysis.</p>
 
 <p>metaknowledge also has a simple command line tool for extracting quantitative datasets and network files from Web of Science files. This makes the library more accessible to researchers who do not know Python, and makes it easier to quickly explore new datasets.</p>
 

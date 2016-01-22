@@ -1,8 +1,9 @@
+import abc
 import collections.abc
 
 from .mkExceptions import BadRecord
 
-class Record(collections.abc.Mapping, collections.abc.Hashable):
+class Record(collections.abc.Mapping, collections.abc.Hashable, metaclass = abc.ABCMeta):
     def __init__(self, fieldDict, idValue, titleKey, bad, error, strEncoding = 'utf-8', sFile = "", sLine = 0, altNames = None, proccessingFuncs = None):
         """Base constructor for Records
 
@@ -179,3 +180,17 @@ class Record(collections.abc.Mapping, collections.abc.Hashable):
         """the ID of the record, not overwritable
         """
         return self._id
+
+    @abc.abstractmethod
+    def writeRecord(self, infile):
+        pass
+
+    def tagsDict(self, tags, raw = True):
+        """returns a dict of values of _tags_ from the Record. The tags are the keys and the values are the values
+
+        _raw_ can be used to make the the retuned values  unproccesed
+        """
+        retDict = {}
+        for tag in tags:
+            retDict[tag] = self.get(tag, raw = raw)
+        return retDict

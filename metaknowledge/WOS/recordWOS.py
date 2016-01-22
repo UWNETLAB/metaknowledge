@@ -150,17 +150,6 @@ class WOSRecord(Record):
                 return object.__getattribute__(self, name)
     '''
 
-
-
-    def __getstate__(self):
-        """gets the __dict__ of the Record"""
-        return self.__dict__
-
-    def __setstate__(self, state):
-        """This is necessary because __getattribute__ is overwritten, but works like \_\_setstate\_\_ usually does"""
-        for k in state:
-            object.__setattr__(self, k, state[k])
-
     @property
     def wosString(self):
         """Returns the WOS number (UT tag) of the record"""
@@ -176,53 +165,11 @@ class WOSRecord(Record):
         """Returns the full names of the authors (AF tag) if available otherwise attempts to use their shorter names (AU tag) if that fails None is returned
         Usually another way of calling authorsFull or AF
         """
-        auth = self.authorsFull
+        auth = self['authorsFull']
         if auth is None:
-            return self.authorsShort
+            return self['authorsShort']
         else:
             return auth
-
-    def numAuthors(self):
-        """Returns the number of authors of the records, i.e. `len(self.authors)`
-
-        # Returns
-
-        `int`
-
-        > The number of authors
-        """
-        if self.authors:
-            return len(self.authors)
-        else:
-            return 0
-
-    def Tag(self, tag, clean = False):
-        """Returns a list containing the raw data of the record associated with _tag_. Each line of the record is one string in the list.
-
-        # Parameters
-
-        _tag_ : `str`
-
-        > _tag_ can be a two character string corresponding to a WOS tag e.g. 'J9', the matching is case insensitive so 'j9' is the same as 'J9'. Or it can be one of the full names for a tag with the mappings in [fullToTag](#metaknowledge.tagProcessing). If the string is not found in the original record or after being translated through [fullToTag](#metaknowledge.tagProcessing), `None` is returned.
-
-        _clean_ : `optional [bool]`
-
-        > Default `False`, if `True` the processed data will be returned instead of the raw data.
-
-        # Returns
-
-        `List [str]`
-
-        > Each string in the list is a line from the record associated with _tag_ or `None` if not found.
-        """
-        if clean:
-            return getattr(self, tag.upper(), None)
-        if tag in self._fieldDict:
-            return self._fieldDict[tag]
-        elif tag in fullToTagDict and fullToTagDict[tag] in self._fieldDict:
-            return self._fieldDict[fullToTagDict[tag]]
-        else:
-            return None
 
     def createCitation(self, multiCite = False):
         """Creates a citation string, using the same format as other WOS citations, for the [Record](#Record.Record) by reading the relevant tags (`year`, `J9`, `volume`, `beginningPage`, `DOI`) and using it to create a [`Citation`](#Citation.Citation) object.
@@ -286,36 +233,6 @@ class WOSRecord(Record):
         for tag in taglst:
             retList.append(self.Tag(tag), clean = cleaned)
         return retList
-
-    def TagsDict(self, taglst, cleaned = False):
-        """returns a dict of the results of Tag, with the elements of _taglst_ as the keys and the results as the values.
-
-        # Parameters
-        _taglst_ : `List[str]`
-
-        > Each string in _taglst_ can be a two character string corresponding to a WOS tag e.g. 'J9', the matching is case insensitive so 'j9' is the same as 'J9'. Or it can be one of the full names for a tag with the mappings in [fullToTag](#metaknowledge.tagProcessing). If the string is not found in the oriagnal record before or after being translated through [fullToTag](#metaknowledge.tagProcessing), `None` is used instead. Same as in [**Tag**()](#Record.Tag)
-
-        # Returns
-
-        `dict[str : List [str]]`
-
-        > a dictionary with keys as the original tags in _taglst_ and the values as the results
-        """
-        retDict = {}
-        for tag in taglst:
-            retDict[tag] = self.Tag(tag, clean = cleaned)
-        return retDict
-
-    def activeTags(self):
-        """Returns a list of all the tags the original WOS record had. These are all the tags that [**Tag**()](#Record.Tag) will not return `None` for.
-
-        # Returns
-
-        `List[str]`
-
-        > a list of WOS tags in the Record
-        """
-        return list(self._fieldDict.keys())
 
     def writeRecord(self, infile):
         """Writes to _infile_ the original contents of the Record. This is intended for use by [RecordCollections](#RecordCollection.RecordCollection) to write to file. What is written to _infile_ is bit for bit identical to the original record file (if utf-8 is used). No newline is inserted above the write but the last character is a newline.

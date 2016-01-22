@@ -3,6 +3,19 @@ import itertools
 from .recordWOS import WOSRecord
 from ..mkExceptions import cacheError, BadWOSFile, BadWOSRecord
 
+def isWOSFile(infile, checkedLines = 3):
+    """Checks if _infile_ has the right header in the first _checkedLines_ lines
+    """
+    try:
+        with open(isifile, 'r', encoding='utf-8-sig') as openfile:
+            f = enumerate(openfile, start = 0)
+            for i in range(checkedLines):
+                if "VR 1.0" in f.__next__()[1]:
+                    return True
+    except (StopIteration, UnicodeDecodeError):
+        return False
+    else:
+        return False
 
 def wosParser(isifile):
     """This is function that is used to create [`RecordCollections`](#metaknowledge.RecordCollection) from files.
@@ -24,54 +37,41 @@ def wosParser(isifile):
     > All the `Records` found in _isifile_
     """
     try:
-        openfile = open(isifile, 'r', encoding='utf-8-sig')
-    except UnicodeDecodeError as e:
-        openfile.close()
-        raise e
-    f = enumerate(openfile, start = 0)
-    try:
-        linesChecked = 3
-        for i in range(linesChecked):
-            if "VR 1.0" in f.__next__()[1]:
-                break
-            if i == linesChecked - 1:
-                openfile.close()
-                raise BadWOSFile(isifile + " Does not have a valid header, 'VR 1.0' not in first two lines")
-    except StopIteration as e:
-        openfile.close()
-        raise BadWOSFile("File ends before EF found")
-    except UnicodeDecodeError as e:
-        openfile.close()
-        raise e
-    notEnd = True
-    plst = []
-    while notEnd:
-        try:
-            line = f.__next__()
-        except StopIteration as e:
-            raise BadWOSFile("The file '{}' ends before EF was found".format(isifile))
-        if not line[1]:
-            raise BadWOSFile("No ER found in " + isifile)
-        elif line[1].isspace():
-            continue
-        elif 'EF' in line[1][:2]:
-            notEnd = False
-            continue
-        else:
+        with open(isifile, 'r', encoding='utf-8-sig') as openfile:
+            f = enumerate(openfile, start = 0)
+            while "VR 1.0" not in f.__next__()[1]:
+                pass
+            notEnd = True
+            plst = []
+            while notEnd:
+                line = f.__next__()
+                if line[1] == '':
+                    raise BadWOSFile("'{}' does not have an 'EF', lines 1 to {} were checked".format(isifile, line[0] + 1))
+                elif line[1].isspace():
+                    continue
+                elif 'EF' in line[1][:2]:
+                    notEnd = False
+                    continue
+                else:
+                    try:
+                        plst.append(WOSRecord(itertools.chain([line], f), sFile = isifile, sLine = line[0]))
+                    except BadWOSFile as e:
+                        try:
+                            s = f.__next__()[1]
+                            while s[:2] != 'ER':
+                                s = f.__next__()[1]
+                        except:
+                            raise BadWOSFile("The file {} was not terminated corrrectly caused the following error:\n{}".format(isifile, str(e)))
             try:
-                plst.append(WOSRecord(itertools.chain([line], f), sFile = isifile, sLine = line[0]))
-            except BadWOSFile as e:
-                try:
-                    s = f.__next__()[1]
-                    while s[:2] != 'ER':
-                        s = f.__next__()[1]
-                except:
-                    raise BadWOSFile("The file {} was not terminated corrrectly caused the following error:\n{}".format(isifile, str(e)))
-    try:
-        f.__next__()
-        raise BadWOSFile("EF not at end of " + isifile)
-    except StopIteration as e:
-        pass
-    finally:
-        openfile.close()
-    return plst
+                f.__next__()
+            except StopIteration:
+                return plst
+            else:
+                raise BadWOSFile("EF not at end of " + isifile)
+    except UnicodeDecodeError:
+        try:
+            raise BadWOSFile("'{}' has a unicode issue on line: {}.".format(isifile, f.__next__()[0]))
+        except:
+            raise BadWOSFile("'{}' has a unicode issue".format(isifile))
+    except StopIteration:
+        raise BadWOSFile("The file '{}' ends before EF was found".format(isifile))

@@ -64,7 +64,7 @@ class RecordCollection(object):
     def __init__(self, inCollection = None, name = '', extension = '', cached = False):
         self.bad = False
         self._repr = name
-        if not inCollection:
+        if inCollection is None:
             if not name:
                 self._repr = "empty"
             self._Records = set()

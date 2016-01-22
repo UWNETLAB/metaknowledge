@@ -1,5 +1,16 @@
+class mkException(Exception):
+    pass
+
+class RCTypeError(mkException):
+    pass
+
+class BadInputFile(mkException):
+    pass
+
 class BadRecord(Exception):
     pass
+
+
 
 class cacheError(Exception):
     """Exception raised when loading a cached RecordCollection fails, should only be seen inside metaknowledge and always be caught."""

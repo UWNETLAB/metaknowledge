@@ -3,6 +3,7 @@ import itertools
 import os
 import csv
 import pickle
+import collections.abc
 
 import networkx as nx
 
@@ -10,9 +11,9 @@ from .record import Record
 from .graphHelpers import _ProgressBar
 from .WOS.tagProcessing.funcDicts import tagToFullDict, fullToTagDict, normalizeToTag
 from .citation import Citation
-from .mkExceptions import cacheError, BadWOSFile, BadWOSRecord
+from .mkExceptions import cacheError, BadWOSFile, BadWOSRecord, RCTypeError
 
-from .WOS.wosHandlers import wosParser
+from .WOS.wosHandlers import wosParser, isWOSFile
 
 import metaknowledge
 
@@ -62,38 +63,40 @@ class RecordCollection(object):
     """
 
     def __init__(self, inCollection = None, name = '', extension = '', cached = False):
-        self.bad = False
-        self._repr = name
-        if inCollection is None:
-            if not name:
-                self._repr = "empty"
-            self._Records = set()
-        elif isinstance(inCollection, str):
-            if os.path.isfile(inCollection):
-                try:
-                    if not inCollection.endswith(extension):
-                        raise TypeError("extension of input file does not match requested extension")
-                    self._repr = os.path.splitext(os.path.split(inCollection)[1])[0]
-                    self._Records = set(wosParser(inCollection))
-                except BadWOSFile as w:
-                    self.bad = True
-                    self.error = w
-            elif os.path.isdir(inCollection):
-                count = 0
-                if metaknowledge.VERBOSE_MODE:
-                    progArgs = (0, "Reading files from " + str(inCollection))
-                    progKwargs = {}
-                else:
-                    progArgs = (0, "Reading files from " + str(inCollection))
-                    progKwargs = {'dummy' : True}
-                with _ProgressBar(*progArgs, **progKwargs) as PBar:
-                    if extension and not name:
-                        if extension[0] == '.':
-                            self._repr = extension[1:] + "-files-from-" + os.path.dirname(inCollection)
+        progArgs = (0, "Starting to make a RecordCollection")
+        if metaknowledge.VERBOSE_MODE:
+            progKwargs = {'dummy' : False}
+        else:
+            progKwargs = {'dummy' : True}
+        with _ProgressBar(*progArgs, **progKwargs) as PBar:
+            self.bad = False
+            self._repr = name
+            if inCollection is None:
+                PBar.updateVal(.5, "Empty RecordCollection created")
+                if not name:
+                    self._repr = "empty"
+                self._Records = set()
+            elif isinstance(inCollection, str):
+                if os.path.isfile(inCollection):
+                    PBar.updateVal(.5, "RecordCollection from a file started")
+                    try:
+                        if not inCollection.endswith(extension):
+                            raise RCTypeError("extension of input file does not match requested extension")
+                        self._repr = os.path.splitext(os.path.split(inCollection)[1])[0]
+                        if isWOSFile(inCollection):
+                            self._Records = wosParser(inCollection)
                         else:
-                            self._repr = extension + "-files-from-" + inCollection
+                            raise BadInputFile("'{}' does not match any known file type. Its header might be damaged or it could have been modified by another program".format(inCollection))
+                    except BadWOSFile as w:
+                        self.bad = True
+                        self.error = w
+                elif os.path.isdir(inCollection):
+                    count = 0
+                    PBar.updateVal(0, "RecordCollection from a files in {}".format(inCollection))
+                    if extension and not name:
+                        self._repr = "{}-files-from-{}".format(extension, inCollection)
                     elif not name:
-                        self._repr = "files-from-" + inCollection
+                        self._repr = "files-from-{}".format(inCollection)
                     self._Records = set()
                     flist = []
                     for f in os.listdir(inCollection):
@@ -109,35 +112,30 @@ class RecordCollection(object):
                                 PBar.updateVal(0, 'Cache error, rereading files')
                                 os.remove(cacheName)
                             else:
-                                PBar.finish("Done reloading from cache")
+                                PBar.finish("Done reloading {} Records from cache".format(len(self)))
                                 return
-                    for file in flist:
-                        if PBar:
-                            count += 1
-                            PBar.updateVal(count / len(flist), "Reading records from: " + file)
+                    for fileName in flist:
+                        count += 1
+                        PBar.updateVal(count / len(flist), "Reading records from: {}".format(fileName))
+                        if isWOSFile(fileName):
+                            self._Records |= wosParser(fileName)
+                        elif extension != '':
+                            raise BadInputFile("'{}' does not match any known file type, but has the requested extension '{}'. Its header might be damaged or it could have been modified by another program".format(fileName, extension))
                         else:
-                            PBar = None
-                        try:
-                            self._Records |= set(wosParser(file))
-                        except BadWOSFile:
-                            if extension != '':
-                                raise
-                            else:
-                                pass
-                        except UnicodeDecodeError:
                             pass
                     if cached:
                         writeCache(self, cacheName, flist, name, extension, PBar)
-                    if PBar:
-                        PBar.finish("Done reading records from: " + str(inCollection))
+                else:
+                    raise RCTypeError("'{}' is not a path to a directory or file. Strings cannot be used to initialize RecordCollections".format(inCollection))
+            elif isinstance(inCollection, collections.abc.Iterable):
+                PBar.updateVal(.5, "RecordCollection from an iterable started")
+                for R in inCollection:
+                    if not isinstance(R, Record):
+                        raise RCTypeError("RecordCollections can only contain Records, '{}' is not a valid part of an input iterable.".format(R))
+                self._Records = set(inCollection)
             else:
-                raise TypeError("inCollection is not a directory or a file")
-        elif isinstance(inCollection, list):
-            self._Records = set(inCollection)
-        elif isinstance(inCollection, set):
-            self._Records = inCollection
-        else:
-            raise TypeError
+                raise RCTypeError("RecordCollection cannot be created from {}.".format(inCollection))
+            PBar.finish("Done making a RecordCollection of {} Records".format(len(self)))
 
     def __add__(self, other):
         """

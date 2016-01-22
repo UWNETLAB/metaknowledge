@@ -7,7 +7,7 @@ def isWOSFile(infile, checkedLines = 3):
     """Checks if _infile_ has the right header in the first _checkedLines_ lines
     """
     try:
-        with open(isifile, 'r', encoding='utf-8-sig') as openfile:
+        with open(infile, 'r', encoding='utf-8-sig') as openfile:
             f = enumerate(openfile, start = 0)
             for i in range(checkedLines):
                 if "VR 1.0" in f.__next__()[1]:
@@ -42,7 +42,7 @@ def wosParser(isifile):
             while "VR 1.0" not in f.__next__()[1]:
                 pass
             notEnd = True
-            plst = []
+            plst = set()
             while notEnd:
                 line = f.__next__()
                 if line[1] == '':
@@ -54,7 +54,7 @@ def wosParser(isifile):
                     continue
                 else:
                     try:
-                        plst.append(WOSRecord(itertools.chain([line], f), sFile = isifile, sLine = line[0]))
+                        plst.add(WOSRecord(itertools.chain([line], f), sFile = isifile, sLine = line[0]))
                     except BadWOSFile as e:
                         try:
                             s = f.__next__()[1]
@@ -72,6 +72,7 @@ def wosParser(isifile):
         try:
             raise BadWOSFile("'{}' has a unicode issue on line: {}.".format(isifile, f.__next__()[0]))
         except:
-            raise BadWOSFile("'{}' has a unicode issue".format(isifile))
+            #Fallback needed incase f.__next__() causes issues
+            raise BadWOSFile("'{}' has a unicode issue. Probably when being opened or possibly on the first line".format(isifile))
     except StopIteration:
         raise BadWOSFile("The file '{}' ends before EF was found".format(isifile))

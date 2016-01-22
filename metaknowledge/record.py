@@ -40,6 +40,9 @@ class Record(collections.abc.Mapping, collections.abc.Hashable, metaclass = abc.
         self.encoding = strEncoding
 
         #Memoizing stuff
+        #I have done some testing
+        #altNames and proccessingFuncs are not usually replicated for each Record
+        #This is memory effient
         self._computedFields = {}
         self._altNames = altNames
         if proccessingFuncs is None:
@@ -83,6 +86,7 @@ class Record(collections.abc.Mapping, collections.abc.Hashable, metaclass = abc.
                     computedVal = self._proccessingFuncs[key](self._fieldDict[key])
                 else:
                     raise KeyError("'{}' could not be found in the Record".format(key)) from None
+                #Both refer to the same object, computedVal
                 self._computedFields[key] = computedVal
                 self._computedFields[self._altNames.get(key)] = computedVal
                 return computedVal

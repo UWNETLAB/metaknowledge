@@ -1,6 +1,8 @@
+import collections.abc
+
 from .mkExceptions import BadRecord
 
-class Record(object):
+class Record(collections.abc.Mapping, collections.abc.Hashable):
     def __init__(self, fieldDict, idValue, titleKey, bad, error, strEncoding = 'utf-8', sFile = "", sLine = 0, altNames = None, proccessingFuncs = None):
         """Base constructor for Records
 
@@ -44,11 +46,25 @@ class Record(object):
         self._proccessingFuncs = proccessingFuncs
 
         #Give it a title
-        title = self.getTag(titleKey)
+        title = self.get(titleKey)
         if isinstance(title, str):
             self.title = title
         else:
             self.title = "Untitled record"
+
+    #collections.abc.Hashable method
+
+    def __hash__(self):
+        """returns a hash of the ID or if `bad` returns a hash of the fields combined with the error messages, either of these could be blank
+
+        `bad` Records are more likely to cause hash collisions due to their lack of entropy when created.
+        """
+        if self.bad:
+            return hash(str(self._fieldDict.values()) + str(self.error))
+        return hash(self._id)
+
+    #collections.abc.Mapping methods
+    #All but keys() are custom
 
     def __getitem__(self, key):
         """Proccesses the tag requested with _key_ and memoize it.
@@ -58,6 +74,7 @@ class Record(object):
         try:
             return self._computedFields[key]
         except KeyError:
+            print("Getting {}".format(key))
             if isinstance(key, str):
                 if key in self._fieldDict:
                     computedVal = self._proccessingFuncs.get(key, lambda x : x)(self._fieldDict[key])
@@ -77,9 +94,58 @@ class Record(object):
         for t in self._fieldDict:
             yield t
 
+    def __len__(self):
+        """Returns the number of tags"""
+        return len(self._fieldDict)
+
     def __contains__(self, item):
         """Checks if the tag _item_ is in the Record"""
         return item in self._fieldDict
+
+    def __eq__(self, other):
+        """
+        returns true if the hashes of both Records are identical.
+
+        if either is bad False is returned
+        """
+        if not isinstance(other, Record):
+            return NotImplemented
+        else:
+            return self.__hash__() == other.__hash__()
+
+    def get(self, tag, default = None, raw = False):
+        """Allows access to the raw values or is wrapper to __getitem__.
+
+        Does not raise KeyError, will just return `None` if _tag_ cannot be found.
+        """
+        if raw:
+            if tag in self._fieldDict:
+                return self._fieldDict[tag]
+            elif self._altNames.get(tag) in self._fieldDict:
+                return self._fieldDict[self._altNames.get(tag)]
+            else:
+                return default
+        else:
+            try:
+                return self[tag]
+            except KeyError:
+                return default
+
+    def values(self, raw = False):
+        if raw:
+            return self._fieldDict.values()
+        else:
+            return collections.abc.Mapping.values(self)
+
+    #Keys given by the mixin
+
+    def items(self, raw = False):
+        if raw:
+            return self._fieldDict.items()
+        else:
+            return collections.abc.Mapping.items(self)
+
+    #Other niceties
 
     def __str__(self):
         """returns a string with the title of the file as given by self.title, if there is not one it returns "Untitled record"
@@ -108,52 +174,8 @@ class Record(object):
             strLst.append("ER\n")
             return bytes(''.join(strLst), self.encoding)
 
-    def __hash__(self):
-        """returns a hash of the ID or if `bad` returns a hash of the fields combined with the error messages, either of these could be blank
-
-        `bad` Records are more likely to cause hash collisions due to their lack of entropy when created.
-        """
-        if self.bad:
-            return hash(str(self._fieldDict.values()) + str(self.error))
-        return hash(self._id)
-
-    def __eq__(self, other):
-        """
-        returns true if the hashes of both Records are identical.
-
-        if either is bad False is returned
-        """
-        if not isinstance(other, Record):
-            return NotImplemented
-        else:
-            return self.__hash__() == other.__hash__()
-
-    def __len__(self):
-        """Returns the number of tags"""
-        return len(self._fieldDict)
-
     @property
     def id(self):
-        """the ID of the record
-
-        not overwritable
+        """the ID of the record, not overwritable
         """
         return self._id
-
-    def getTag(self, tag, raw = False):
-        """Allows access to the raw values or is wrapper to __getitem__.
-
-        Does not raise KeyError, will just return `None` if _tag_ cannot be found.
-        """
-        if raw:
-            if tag in self._fieldDict:
-                return self._fieldDict[tag]
-            elif self._altNames.get(tag) in self._fieldDict:
-                return self._fieldDict[self._altNames.get(tag)]
-            else:
-                return None
-        else:
-            try:
-                return self[tag]
-            except KeyError:
-                return None

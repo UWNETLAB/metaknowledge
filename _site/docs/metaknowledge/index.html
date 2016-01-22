@@ -1,0 +1,705 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>Base Functions &#8211; metaknowledge</title>
+<meta name="description" content="The metaknowledge functions, for filtering reading and writing graphs">
+<meta name="keywords" content="functions">
+
+
+
+<!-- Twitter Cards -->
+<meta name="twitter:title" content="Base Functions">
+<meta name="twitter:description" content="The metaknowledge functions, for filtering reading and writing graphs">
+
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="/metaknowledge/images/site-logo.png">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Base Functions">
+<meta property="og:description" content="The metaknowledge functions, for filtering reading and writing graphs">
+<meta property="og:url" content="/metaknowledge/docs/metaknowledge">
+<meta property="og:site_name" content="metaknowledge">
+
+
+
+
+
+
+<link rel="canonical" href="/metaknowledge/docs/metaknowledge">
+<link href="/metaknowledge/feed.xml" type="application/atom+xml" rel="alternate" title="metaknowledge Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/metaknowledge/assets/css/main.css">
+<!-- Webfonts -->
+<script src="https://use.edgefonts.net/source-sans-pro:n2,i2,n3,i3,n4,i4,n6,i6,n7,i7,n9,i9;source-code-pro:n4,n7;volkhov.js"></script>
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- HTML5 Shiv and Media Query Support -->
+<!--[if lt IE 9]>
+  <script src="/metaknowledge/assets/js/vendor/html5shiv.min.js"></script>
+  <script src="/metaknowledge/assets/js/vendor/respond.min.js"></script>
+<![endif]-->
+
+<!-- Modernizr -->
+<script src="/metaknowledge/assets/js/vendor/modernizr-2.7.1.custom.min.js"></script>
+
+
+<!-- MathJax -->
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="/metaknowledge/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="/metaknowledge/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="/metaknowledge/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="/metaknowledge/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="/metaknowledge/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/metaknowledge/images/apple-touch-icon-144x144-precomposed.png">
+
+</head>
+
+<body id="page">
+
+<div class="navigation-wrapper">
+	<nav role="navigation" id="site-nav" class="animated drop">
+	    <ul>
+      
+		    
+		        
+		    
+		    <li><a href="/metaknowledge/" >Home</a></li>
+		  
+		    
+		        
+		    
+		    <li><a href="/metaknowledge/documentation/#Installing" >install</a></li>
+		  
+		    
+		        
+		    
+		    <li><a href="/metaknowledge/documentation" >Documentation</a></li>
+		  
+		    
+		        
+		    
+		    <li><a href="/metaknowledge/examples" >Examples</a></li>
+		  
+		    
+		        
+		    
+		    <li><a href="/metaknowledge/cli" >CLI</a></li>
+		  
+		    
+		        
+		        
+		    <li><a href="https://github.com/networks-lab/metaknowledge" target="_blank">GitHub</a></li>
+		  
+		    
+		        
+		        
+		    <li><a href="http://www.networkslab.org" target="_blank">NetworksLab</a></li>
+		  
+		    
+		        
+		    
+		    <li><a href="/metaknowledge/search" >Search</a></li>
+		  
+	    </ul>
+	</nav>
+</div><!-- /.navigation-wrapper -->
+
+<!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
+
+<header class="masthead">
+	<div class="wrap">
+      
+  		<a href="/metaknowledge/" class="site-logo" rel="home" title="metaknowledge"><img src="/metaknowledge/images/site-logo.png" width="200" height="200" alt="metaknowledge logo" class="animated fadeInDown"></a>
+      
+      <h1 class="site-title animated fadeIn"><a href="/metaknowledge/">metaknowledge</a></h1>
+		<h2 class="site-description animated fadeIn" itemprop="description">A Python3 Library for Bibliometric and Sociology of Knowledge Research.</h2>
+	</div>
+</header><!-- /.masthead -->
+
+<div class="js-menu-screen menu-screen"></div>
+
+
+<div id="main" role="main">
+  <article class="entry">
+    <div class="entry-wrapper">
+      <div class="entry-content">
+        <p><a name="Base Functions"></a>
+The functions provided by metaknowledge are:</p>
+
+<ul class="post-list">
+<li><article><a href="#filterNonJournals"><b>filterNonJournals</b>(<i>citesLst, invert=False</i>)</a></article></li>
+<li><article><a href="#diffusionGraph"><b>diffusionGraph</b>(<i>source, target, sourceType='raw', targetType='raw'</i>)</a></article></li>
+<li><article><a href="#diffusionCount"><b>diffusionCount</b>(<i>source, target, sourceType='raw', pandasFriendly=False, compareCounts=False, numAuthors=True</i>)</a></article></li>
+<li><article><a href="#read_graph"><b>read_graph</b>(<i>edgeList, nodeList=None, directed=False, idKey='ID', eSource='From', eDest='To'</i>)</a></article></li>
+<li><article><a href="#write_edgeList"><b>write_edgeList</b>(<i>grph, name, extraInfo=True, allSameAttribute=False</i>)</a></article></li>
+<li><article><a href="#write_nodeAttributeFile"><b>write_nodeAttributeFile</b>(<i>grph, name, allSameAttribute=False</i>)</a></article></li>
+<li><article><a href="#drop_edges"><b>drop_edges</b>(<i>grph, minWeight=-inf, maxWeight=inf, parameterName='weight', ignoreUnweighted=False, dropSelfLoops=False</i>)</a></article></li>
+<li><article><a href="#drop_nodesByDegree"><b>drop_nodesByDegree</b>(<i>grph, minDegree=-inf, maxDegree=inf, useWeight=True, parameterName='weight', ignoreUnweighted=True</i>)</a></article></li>
+<li><article><a href="#drop_nodesByCount"><b>drop_nodesByCount</b>(<i>grph, minCount=-inf, maxCount=inf, parameterName='count', ignoreMissing=False</i>)</a></article></li>
+<li><article><a href="#graphStats"><b>graphStats</b>(<i>G, stats=('nodes', 'edges', 'isolates', 'loops', 'density', 'transitivity'), makeString=True</i>)</a></article></li>
+<li><article><a href="#write_graph"><b>write_graph</b>(<i>grph, name, edgeInfo=True, typing=False, suffix='csv', overwrite=True</i>)</a></article></li>
+<li><article><a href="#recordParser"><b>recordParser</b>(<i>paper</i>)</a></article></li>
+<li><article><a href="#isiParser"><b>isiParser</b>(<i>isifile</i>)</a></article></li>
+<li><article><a href="#tagToFull"><b>tagToFull</b>(<i>tag</i>)</a></article></li>
+<li><article><a href="#normalizeToTag"><b>normalizeToTag</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#normalizeToName"><b>normalizeToName</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#isTagOrName"><b>isTagOrName</b>(<i>val</i>)</a></article></li>
+</ul>
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="filterNonJournals"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#filterNonJournals"><ins>filterNonJournals</ins></a></strong>(<em>citesLst, invert=False</em>):</p>
+
+<p>Removes the Citations from <em>citesLst</em> that are not journals.</p>
+
+<h6 id="parameters">Parameters</h6>
+
+<p><em>citesLst</em> : <code>list [Citation]</code></p>
+
+<p>A list of citations to be filtered</p>
+
+<p><em>invert</em> : <code>optional [bool]</code></p>
+
+<p>Default <code>False</code>, if <code>True</code> non-journals will be kept istead of journals</p>
+
+<h6 id="returns">Returns</h6>
+
+<p><code>list [Citation]</code></p>
+
+<p>A filtered list of Citations from <em>citesLst</em></p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="diffusionGraph"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#diffusionGraph"><ins>diffusionGraph</ins></a></strong>(<em>source, target, sourceType=’raw’, targetType=’raw’</em>):</p>
+
+<p>Takes in two <a href="/metaknowledge/docs/RecordCollection#RecordCollection"><code>RecordCollections</code></a> and produces a graph of the citations of the <code>Records</code> of <em>source</em> by the <code>Records</code> of <em>target</em>. By default the graph is of <code>Record</code> objects but this can be changed with the <em>sourceType</em> and <em>targetType</em> keywords.</p>
+
+<p>Each node on the graph has two boolean attributes, <code>"source"</code> and <code>"target"</code> indicating if they are targets or sources. Note, if the types of the sources and targets are different the attributes will not be checked for overlap of the other type. e.g. if the source type is <code>'TI'</code> (title) and the target type is <code>'UT'</code> (WOS number), and there is some overlap of the targets and sources. Then the Record corresponding to a source node will not be checked for being one of the titles of the targets, only its WOS number will be considered.</p>
+
+<h6 id="parameters-1">Parameters</h6>
+
+<p><em>source</em> : <code>RecordCollection</code></p>
+
+<p>A metaknowledge <code>RecordCollection</code> containing the <code>Records</code> being cited</p>
+
+<p><em>target</em> : <code>RecordCollection</code></p>
+
+<p>A metaknowledge <code>RecordCollection</code> containing the <code>Records</code> citing those in <em>source</em></p>
+
+<p><em>sourceType</em> : <code>str</code></p>
+
+<p>default <code>'raw'</code>, if <code>'raw'</code> the returned graph will contain <code>Records</code> as source nodes. If it is a WOS tag of the long name of one then the nodes will be of that type.</p>
+
+<p><em>targetType</em> : <code>str</code></p>
+
+<p>default <code>'raw'</code>, if <code>'raw'</code> the returned graph will contain <code>Records</code> as target nodes. If it is a WOS tag of the long name of one then the nodes will be of that type.</p>
+
+<h6 id="returns-1">Returns</h6>
+
+<p><code>networkx Directed Graph</code></p>
+
+<p>A directed graph of the diffusion network</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="diffusionCount"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#diffusionCount"><ins>diffusionCount</ins></a></strong>(<em>source, target, sourceType=’raw’, pandasFriendly=False, compareCounts=False, numAuthors=True</em>):</p>
+
+<p>Takes in two <a href="/metaknowledge/docs/RecordCollection#RecordCollection"><code>RecordCollections</code></a> and produces a <code>dict</code> counting the citations of the <code>Records</code> of <em>source</em> by the <code>Records</code> of <em>target</em>. By default the <code>dict</code> uses <code>Record</code> objects as keys but this can be changed with the <em>sourceType</em> keyword to any of the WOS tags.</p>
+
+<h6 id="parameters-2">Parameters</h6>
+
+<p><em>source</em> : <code>RecordCollection</code></p>
+
+<p>A metaknowledge <code>RecordCollection</code> containing the <code>Records</code> being cited</p>
+
+<p><em>target</em> : <code>RecordCollection</code></p>
+
+<p>A metaknowledge <code>RecordCollection</code> containing the <code>Records</code> citing those in <em>source</em></p>
+
+<p><em>sourceType</em> : <code>optional [str]</code></p>
+
+<p>default <code>'raw'</code>, if <code>'raw'</code> the returned <code>dict</code> will contain <code>Records</code> as keys. If it is a WOS tag of the long name of one then the keys will be of that type.</p>
+
+<p><em>pandasFriendly</em> : <code>optional [bool]</code></p>
+
+<p>default <code>False</code>, makes the output be a dict with two keys one <code>"Record"</code> is the list of Records ( or data type requested by <em>sourceType</em>) the other is their occurence counts as <code>"Counts"</code>.</p>
+
+<p><em>compareCounts</em> : <code>optional [boo]</code></p>
+
+<p>default <code>False</code>, if <code>True</code> the diffusion analysis will be run twice, first with source and target setup like the default (global scope) then using only the source <code>RecordCollection</code> (local scope).</p>
+
+<h6 id="returns-2">Returns</h6>
+
+<p><code>dict[:int]</code></p>
+
+<p>A dictionary with the type given by <em>sourceType</em> as keys and integers as values, by default. If <em>compareCounts</em> is <code>True</code> the values are tuples with the first integer being the diffusion in the target and the second the diffusion in the source.</p>
+
+<p>If <em>pandasFriendly</em> is <code>True</code> the returned dict has keys with the names of the WOS tags and lists with their values, i.e. a table with labled columns. The counts are in the column named <code>"TargetCount"</code> and if <em>compareCounts</em> the local count is in a column called <code>"SourceCount"</code>.</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="read_graph"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#read_graph"><ins>read_graph</ins></a></strong>(<em>edgeList, nodeList=None, directed=False, idKey=’ID’, eSource=’From’, eDest=’To’</em>):</p>
+
+<p>Reads the files given by edgeList and if given nodeList. Outputs a networkx graph for the lists.</p>
+
+<p>This is designed only for the files produced by metaknowledge and is meant to be the reverse of <a href="/metaknowledge/docs/metaknowledge#write_graph">write_graph()</a>, if this dow not produce the desired results the networkx builtin <a href="https://networkx.github.io/documentation/networkx-1.9.1/reference/generated/networkx.readwrite.edgelist.read_edgelist.html">networkx.read_edgelist()</a> could be tried.</p>
+
+<p>The read edge list format assumes the column named <em>eSource</em> (From) is the source node, then the next column <em>eDest</em> (To) givens the destination and all other columns are attributes of the edge, e.g. weight.</p>
+
+<p>The read nodeList format assumes the column called <em>idKey</em> is the ID of the node as used by the edge list and the resulting network. All other columns are considered attributes of the node, e.g. count.</p>
+
+<p>If the names of the columns do not match those given to <strong>read_graph()</strong> a KeyError exception will be raised.</p>
+
+<p><strong>Note</strong>: if nodes appear in the edgelist but not the nodeList they will be created with no attributes.</p>
+
+<h6 id="parameters-3">Parameters</h6>
+
+<p><em>edgeList</em> : <code>str</code></p>
+
+<p>a string giving the path to the edge list file</p>
+
+<p><em>nodeList</em> : <code>optional [str]</code></p>
+
+<p>a string giving the path to the node list file</p>
+
+<p><em>directed</em> : <code>optional [bool]</code></p>
+
+<p>default <code>False</code>, if <code>True</code> the produced network is directed instead of undirected</p>
+
+<p><em>idKey</em> : <code>optional [str]</code></p>
+
+<p>default <code>"ID"</code>, the name of the ID column in the node list</p>
+
+<p><em>eSource</em> : <code>optional [str]</code></p>
+
+<p>default <code>"From"</code>, the name of the source column in the edge list</p>
+
+<p><em>eDest</em> : <code>optional [str]</code></p>
+
+<p>default <code>"To"</code>, the name of the destination column in the edge list</p>
+
+<h6 id="returns-3">Returns</h6>
+
+<p><code>networkx Graph</code></p>
+
+<p>the Graph described by the files</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="write_edgeList"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#write_edgeList"><ins>write_edgeList</ins></a></strong>(<em>grph, name, extraInfo=True, allSameAttribute=False</em>):</p>
+
+<p>Writes an edge list of <em>grph</em> at the destination <em>name</em>.</p>
+
+<p>The edge list has two columns for the source and destination of the edge, “From” and “To” respectively, then, if <em>edgeInfo</em> is <code>True</code>, for each attribute of the node another column is created.</p>
+
+<p><strong>Note</strong>: If any edges are missing an attribute <code>KeyError</code> will be raised.</p>
+
+<h6 id="parameters-4">Parameters</h6>
+
+<p><em>grph</em> : <code>networkx Graph</code></p>
+
+<p>The graph to be written to <em>name</em></p>
+
+<p><em>name</em> : <code>str</code></p>
+
+<p>The name of the file to be written</p>
+
+<p><em>edgeInfo</em> : <code>optional [bool]</code></p>
+
+<p>Default <code>True</code>, if <code>True</code> the attributes of each edge will be written</p>
+
+<p><em>allSameAttribute</em> : <code>optional [bool]</code></p>
+
+<p>Default <code>False</code>, if <code>True</code> all the edges must have the same attributes or an exception will be raised. If <code>False</code> the missing attributes will be left blank.</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="write_nodeAttributeFile"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#write_nodeAttributeFile"><ins>write_nodeAttributeFile</ins></a></strong>(<em>grph, name, allSameAttribute=False</em>):</p>
+
+<p>Writes a node attribute list of <em>grph</em> with filename <em>name</em></p>
+
+<p>The node list has one column call “ID” with the node ids used by networkx and all other columns are the node attributes.</p>
+
+<p><strong>Note</strong>: If any edges are missing an attribute <code>KeyError</code> will be raised.</p>
+
+<h6 id="parameters-5">Parameters</h6>
+
+<p><em>grph</em> : <code>networkx Graph</code></p>
+
+<p>The graph to be written to <em>name</em></p>
+
+<p><em>name</em> : <code>str</code></p>
+
+<p>The name of the file to be written</p>
+
+<p><em>allSameAttribute</em> : <code>optional [bool]</code></p>
+
+<p>Default <code>False</code>, if <code>True</code> all the nodes must have the same attributes or an exception will be raised. If <code>False</code> the missing attributes will be left blank.</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="drop_edges"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#drop_edges"><ins>drop_edges</ins></a></strong>(<em>grph, minWeight=-inf, maxWeight=inf, parameterName=’weight’, ignoreUnweighted=False, dropSelfLoops=False</em>):</p>
+
+<p>Returns a graph with edges whose weight is within the inclusive bounds of minWeight and maxWeight, i.e minWeight &lt;= edges weight &lt;= maxWeight, will throw a Keyerror if the graph is unweighted</p>
+
+<p>minWeight and maxWeight default to negative and positive infinity respectively so without specifying either the output should be the input</p>
+
+<p>parameterName is key to weight field in the edge’s dictionary, default is weight as that is almost always correct</p>
+
+<p>ignoreUnweighted can be set False to suppress the KeyError and make unweighted edges be ignored</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="drop_nodesByDegree"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#drop_nodesByDegree"><ins>drop_nodesByDegree</ins></a></strong>(<em>grph, minDegree=-inf, maxDegree=inf, useWeight=True, parameterName=’weight’, ignoreUnweighted=True</em>):</p>
+
+<p>Returns a graph whose nodes have a degree that is within inclusive bounds of minDegree and maxDegree, i.e minDegree &lt;= degree &lt;= maxDegree. Degree can be determined in two ways by default it is the total number of edges touching a node, alternative if useWeight is True it is the sum of the weight of all the edges touching a node.</p>
+
+<p>minDegree and maxDegree default to negative and positive infinity respectively so without specifying either the output should be the input</p>
+
+<p>useWeight can be set True to use an alternative method for calculating degree, the total weight of all edges</p>
+
+<p>parameterName is key to weight field in the edge’s dictionary, default is weight as that is almost always correct, only used if useWeight is True</p>
+
+<p>ignoreUnweighted can be set False to suppress the KeyError and make unweighted edges be not counted, only used if useWeight is True</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="drop_nodesByCount"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#drop_nodesByCount"><ins>drop_nodesByCount</ins></a></strong>(<em>grph, minCount=-inf, maxCount=inf, parameterName=’count’, ignoreMissing=False</em>):</p>
+
+<p>Returns a graph whose nodes have a occurrence count that is within inclusive bounds of minCount and maxCount, i.e minCount &lt;= count &lt;= maxCount. Occurrence count is determined by reading the variable associated with the node named parameterName.</p>
+
+<p>minCount and maxCount default to negative and positive infinity respectively so without specifying either the output should be the input</p>
+
+<p>parameterName is key to count field in the node’s dictionary, default is count as that is often correct</p>
+
+<p>ignoreMissing can be set False to suppress the KeyError and make nodes missing counts be dropped instead of throwing errors</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="graphStats"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#graphStats"><ins>graphStats</ins></a></strong>(<em>G, stats=(‘nodes’, ‘edges’, ‘isolates’, ‘loops’, ‘density’, ‘transitivity’), makeString=True</em>):</p>
+
+<p>Returns a string or list containing statistics about the graph <em>G</em>.</p>
+
+<p><strong>graphStats()</strong> gives 6 different statistics: number of nodes, number of edges, number of isolates, number of loops, density and transitivity. The ones wanted can be given to <em>stats</em>. By default a string giving a sentence containing all the requested statistics is returned but the raw values can be accessed instead by setting <em>makeString</em> to <code>False</code>.</p>
+
+<h6 id="parameters-6">Parameters</h6>
+
+<p><em>G</em> : <code>networkx Graph</code></p>
+
+<p>The graph for the statistics to be determined of</p>
+
+<p><em>stats</em> : <code>optional [list or tuple [str]]</code></p>
+
+<p>Default ‘nodes’, ‘edges’, ‘isolates’, ‘loops’, ‘density’, ‘transitivity’), a list or tuple containing any number or combination of the strings:</p>
+
+<p><code>"nodes"</code>, <code>"edges"</code>, <code>"isolates"</code>, <code>"loops"</code>, <code>"density"</code> and <code>"transitivity"</code>`</p>
+
+<p>At least one occurrence of the corresponding string causes the statistics to be provided in the string output. For the non-string (tuple) output the returned tuple has the same length as the input and each output is at the same index as the string that requested it, e.g.</p>
+
+<p><code>_stats_ = ("edges", "loops", "edges")</code></p>
+
+<p>The return is a tuple with 2 elements the first and last of which are the number of edges and the second is the number of loops</p>
+
+<p><em>makeString</em> : <code>optional [bool]</code></p>
+
+<p>Default <code>True</code>, if <code>True</code> a string is returned if <code>False</code> a tuple</p>
+
+<h6 id="returns-4">Returns</h6>
+
+<p><code>str or tuple [float and int]</code></p>
+
+<p>The type is determined by <em>makeString</em> and the layout by <em>stats</em></p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="write_graph"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#write_graph"><ins>write_graph</ins></a></strong>(<em>grph, name, edgeInfo=True, typing=False, suffix=’csv’, overwrite=True</em>):</p>
+
+<p>Writes both the edge list and the node attribute list of <em>grph</em> to files starting with <em>name</em>.</p>
+
+<p>The output files start with <em>name</em>, the file type (edgeList, nodeAttributes) then if typing is True the type of graph (directed or undirected) then the suffix, the default is as follows:</p>
+
+<blockquote>
+  <p>name_fileType.suffix</p>
+</blockquote>
+
+<p>Both files are csv’s with comma delimiters and double quote quoting characters. The edge list has two columns for the source and destination of the edge, “From” and “To” respectively, then, if <em>edgeInfo</em> is <code>True</code>, for each attribute of the node another column is created. The node list has one column call “ID” with the node ids used by networkx and all other columns are the node attributes.</p>
+
+<p>To read back these files use <a href="/metaknowledge/docs/metaknowledge#read_graph">read_graph()</a> and to write only one type of lsit use <a href="/metaknowledge/docs/metaknowledge#write_edgeList">write_edgeList()</a> or <a href="/metaknowledge/docs/metaknowledge#write_nodeAttributeFile">write_nodeAttributeFile()</a>.</p>
+
+<p><strong>Warning</strong>: this function will overwrite files, if they are in the way of the output, to prevent this set <em>overwrite</em> to <code>False</code></p>
+
+<p><strong>Note</strong>: If any nodes or edges are missing an attribute a <code>KeyError</code> will be raised.</p>
+
+<h6 id="parameters-7">Parameters</h6>
+
+<p><em>grph</em> : <code>networkx Graph</code></p>
+
+<p>A networkx graph of the network to be written.</p>
+
+<p><em>name</em> : <code>str</code></p>
+
+<p>The start of the file name to be written, can include a path.</p>
+
+<p><em>edgeInfo</em> : <code>optional [bool]</code></p>
+
+<p>Default <code>True</code>, if <code>True</code> the the attributes of each edge are written to the edge list.</p>
+
+<p><em>typing</em> : <code>optional [bool]</code></p>
+
+<p>Default <code>False</code>, if <code>True</code> the directed ness of the graph will be added to the file names.</p>
+
+<p><em>suffix</em> : <code>optional [str]</code></p>
+
+<p>Default <code>"csv"</code>, the suffix of the file.</p>
+
+<p><em>overwrite</em> : <code>optional [bool]</code></p>
+
+<p>Default <code>True</code>, if <code>True</code> files will be overwritten silently, otherwise an <code>OSError</code> exception will be raised.</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="recordParser"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#recordParser"><ins>recordParser</ins></a></strong>(<em>paper</em>):</p>
+
+<p>Reads the file <em>paper</em> until it reaches ‘ER’.</p>
+
+<p>For each field tag it adds an entry to the returned dict with the tag as the key and a list of the entries as the value, the list has each line separately, so for the following string in a record:</p>
+
+<p>“AF BREVIK, I</p>
+
+<pre><code>ANICIN, B"
+</code></pre>
+
+<p>The entry in the returned dict would be <code>{'AF' : ["BREVIK, I", "ANICIN, B"]}</code></p>
+
+<p><a href="/metaknowledge/docs/metaknowledge#Record">Record</a> objects can be created with these dictionaries as the initializer.</p>
+
+<h6 id="parameters-8">Parameters</h6>
+
+<p><em>paper</em> : <code>file stream</code></p>
+
+<p>An open file, with the current line at the beginning of the record.</p>
+
+<h6 id="returns-5">Returns</h6>
+
+<p><code>dict[str : List[str]]</code></p>
+
+<p>A dictionary mapping WOS tags to lists, the lists are of strings, each string is a line of the record associated with the tag.</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="isiParser"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#isiParser"><ins>isiParser</ins></a></strong>(<em>isifile</em>):</p>
+
+<p>isiParser() reads the file given by the path isifile, checks that the header is correct then reads until it reaches EF.
+Each it finds is used to initialize a Record then all Record are returned as a list.</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="tagToFull"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#tagToFull"><ins>tagToFull</ins></a></strong>(<em>tag</em>):</p>
+
+<p>A wrapper for <a href="/metaknowledge/docs/tagProcessing#tagProcessing"><code>tagToFullDict</code></a> it maps 2 character tags to thir full names.</p>
+
+<h6 id="parameters-9">Parameters</h6>
+
+<p><em>tag</em>: <code>str</code></p>
+
+<p>A two character string giving the tag</p>
+
+<h6 id="returns-6">Returns</h6>
+
+<p><code>str</code></p>
+
+<p>The full name of <em>tag</em></p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="normalizeToTag"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#normalizeToTag"><ins>normalizeToTag</ins></a></strong>(<em>val</em>):</p>
+
+<p>Converts tags or full names to tags</p>
+
+<h6 id="parameters-10">Parameters</h6>
+
+<p><em>val</em>: <code>str</code></p>
+
+<p>A two character string giving the tag or its full name</p>
+
+<h6 id="returns-7">Returns</h6>
+
+<p><code>str</code></p>
+
+<p>The short name of <em>val</em></p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="normalizeToName"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#normalizeToName"><ins>normalizeToName</ins></a></strong>(<em>val</em>):</p>
+
+<p>Converts tags or full names to full names</p>
+
+<h6 id="parameters-11">Parameters</h6>
+
+<p><em>val</em>: <code>str</code></p>
+
+<p>A two character string giving the tag or its full name</p>
+
+<h6 id="returns-8">Returns</h6>
+
+<p><code>str</code></p>
+
+<p>The full name of <em>val</em></p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="isTagOrName"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#isTagOrName"><ins>isTagOrName</ins></a></strong>(<em>val</em>):</p>
+
+<p>Checks if <em>val</em> is a tag or full name of tag if so returns <code>True</code></p>
+
+<h6 id="parameters-12">Parameters</h6>
+
+<p><em>val</em>: <code>str</code></p>
+
+<p>A string possible forming a tag or name</p>
+
+<h6 id="returns-9">Returns</h6>
+
+<p><code>bool</code></p>
+
+<p><code>True</code> if <em>val</em> is a tag or name, otherwise <code>False</code></p>
+
+<p><a name="BadCitation"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#BadCitation"><ins>BadCitation</ins></a></strong>():</p>
+
+<p>Exception thrown by Citation</p>
+
+<p>The BadCitation class has the following methods:</p>
+
+<ul class="post-list">
+
+</ul>
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="BadISIRecord"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#BadISIRecord"><ins>BadISIRecord</ins></a></strong>():</p>
+
+<p>Exception thrown by the <a href="#metaknowledge.recordParser">record parser</a> to indicate a mis-formated record. This occurs when some component of the record does not parse. The messages will be any of:</p>
+
+<pre><code>* _Missing field on line (line Number):(line)_, which indicates a line was to short, there should have been a tag followed by information
+
+* _End of file reached before ER_, which indicates the file ended before the 'ER' indicator appeared, 'ER' indicates the end of a record. This is often due to a copy and paste error.
+
+* _Duplicate tags in record_, which indicates the record had 2 or more lines with the same tag.
+
+* _Missing WOS number_, which indicates the record did not have a 'UT' tag.
+</code></pre>
+
+<p>Records with a BadISIRecord error are likely incomplete or the combination of two or more single records.</p>
+
+<p>The BadISIRecord class has the following methods:</p>
+
+<ul class="post-list">
+
+</ul>
+
+<hr />
+
+<h2 id="questions">Questions?</h2>
+
+<p>If you find bugs, or have questions, please write to:</p>
+
+<p>Reid McIlroy-Young <a href="&#109;&#097;&#105;&#108;&#116;&#111;:&#114;&#101;&#105;&#100;&#064;&#114;&#101;&#105;&#100;&#109;&#099;&#121;&#046;&#099;&#111;&#109;">&#114;&#101;&#105;&#100;&#064;&#114;&#101;&#105;&#100;&#109;&#099;&#121;&#046;&#099;&#111;&#109;</a></p>
+
+<p>John McLevey <a href="&#109;&#097;&#105;&#108;&#116;&#111;:&#106;&#111;&#104;&#110;&#046;&#109;&#099;&#108;&#101;&#118;&#101;&#121;&#064;&#117;&#119;&#097;&#116;&#101;&#114;&#108;&#111;&#111;&#046;&#099;&#097;">&#106;&#111;&#104;&#110;&#046;&#109;&#099;&#108;&#101;&#118;&#101;&#121;&#064;&#117;&#119;&#097;&#116;&#101;&#114;&#108;&#111;&#111;&#046;&#099;&#097;</a></p>
+
+<hr />
+
+<h2 id="license">License</h2>
+
+<p><em>metaknowledge</em> is free and open source software, distributed under the GPL License.</p>
+
+      </div><!-- /.entry-content -->
+    </div><!-- /.entry-wrapper -->
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrapper">
+  <footer role="contentinfo" class="entry-wrapper">
+    
+
+<span>&copy; 2015 John McLevey and Reid McIlroy-Young. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> using the <a href="http://mademistakes.com/so-simple/" rel="nofollow">So Simple Theme</a>.</span>
+<div class="social-icons">
+	
+	
+	
+	
+	
+	
+	
+	
+	
+  
+	
+  
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-25394214-5', 'auto');
+  ga('send', 'pageview');
+
+</script>
+  
+</div><!-- /.social-icons -->
+
+  </footer>
+</div><!-- /.footer-wrapper -->
+
+<script type="text/javascript">
+  var BASE_URL = '/metaknowledge';
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/metaknowledge/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="/metaknowledge/assets/js/scripts.min.js"></script>
+
+
+<!-- Asynchronous Google Analytics snippet -->
+<script>
+  var _gaq = _gaq || [];
+  var pluginUrl =
+ 'https://www.google-analytics.com/plugins/ga/inpage_linkid.js';
+  _gaq.push(['_require', 'inpage_linkid', pluginUrl]);
+  _gaq.push(['_setAccount', 'UA-25394214-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = 'https://stats.g.doubleclick.net/dc.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+
+</body>
+</html>

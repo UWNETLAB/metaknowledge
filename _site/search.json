@@ -1,0 +1,115 @@
+[
+
+  
+    {
+      "title"			: "visual",
+      "link"			: "http://networkslab.org/docs/visual",
+      "excerpt"		: "A nicer matplotlib graph visualizer and contour plot"
+    }
+  
+
+  
+    ,{
+      "title"			: "tagProcessing",
+      "link"			: "http://networkslab.org/docs/tagProcessing",
+      "excerpt"		: "All the tags and how they are handled"
+    }
+  
+
+  
+    ,{
+      "title"			: "Overview",
+      "link"			: "http://networkslab.org/docs/overview",
+      "excerpt"		: "The metaknowledge Package, a quick tour"
+    }
+  
+
+  
+    ,{
+      "title"			: "Base Functions",
+      "link"			: "http://networkslab.org/docs/metaknowledge",
+      "excerpt"		: "The metaknowledge functions, for filtering reading and writing graphs"
+    }
+  
+
+  
+    ,{
+      "title"			: "journalAbbreviations",
+      "link"			: "http://networkslab.org/docs/journalAbbreviations",
+      "excerpt"		: "Look here to get your J9 database"
+    }
+  
+
+  
+    ,{
+      "title"			: "RecordCollection",
+      "link"			: "http://networkslab.org/docs/RecordCollection",
+      "excerpt"		: "Where all the stuff happens, look here if you want to make things"
+    }
+  
+
+  
+    ,{
+      "title"			: "Record",
+      "link"			: "http://networkslab.org/docs/Record",
+      "excerpt"		: "What RecordCollections are made of"
+    }
+  
+
+  
+    ,{
+      "title"			: "Citation",
+      "link"			: "http://networkslab.org/docs/Citation",
+      "excerpt"		: "Citation are special, here is how they are handled"
+    }
+  
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    ,{
+      "title"			: "Documentation",
+      "link"			: "http://networkslab.org/documentation/",
+      "excerpt"		: "Instructions on how to install and use metaknowledge."
+    }
+  
+
+  
+    ,{
+      "title"			: "About the Jekyll Theme",
+      "link"			: "http://networkslab.org/about/",
+      "excerpt"		: "So Simple is a responsive Jekyll theme for your words and images."
+    }
+  
+
+  
+
+  
+
+  
+
+  
+    ,{
+      "title"			: "Command Line Tool",
+      "link"			: "http://networkslab.org/cli/",
+      "excerpt"		: "How to use the metaknowledge command line tool."
+    }
+  
+
+  
+
+  
+
+  
+
+]

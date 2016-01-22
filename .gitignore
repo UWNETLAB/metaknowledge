@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #isi Files and logins
 *.txt
 *.sh
@@ -22,6 +23,16 @@ j9Raws/
 /manualj9Abbreviations*
 /j9Abbreviations*
 !savedrecs.txt
+=======
+vagrant/
+notebooks/
+*.sh
+!MakeDocs.sh
+!MakeExamples.sh
+isilibDocs.md
+.ipynb_checkpoints/
+.sass-cache/
+>>>>>>> gh-pages
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

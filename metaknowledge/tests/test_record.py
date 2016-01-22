@@ -7,42 +7,57 @@ class TestRecord(unittest.TestCase):
         metaknowledge.VERBOSE_MODE = False
         self.R = metaknowledge.Record(simplePaperString)
         self.Rbad = metaknowledge.Record(simplePaperString[:-3])
+
     def test_isRecord(self):
-        self.assertTrue(isinstance(self.R, metaknowledge.Record))
+        self.assertTrue(isinstance(self.R, metaknowledge.WOSRecord))
+
     def test_bad(self):
         self.assertTrue(self.Rbad.bad)
         with self.assertRaises(TypeError):
             metaknowledge.Record(set('a','b'))
+
     def test_equality(self):
         self.assertEqual(self.R, self.R)
         self.assertTrue(self.R != self.Rbad)
+
     def test_hash(self):
         self.assertNotEqual(hash(self.R), hash(self.Rbad))
+
     def test_state(self):
         state = self.R.__getstate__()
         Rtmp = metaknowledge.Record('PT J')
         Rtmp.__setstate__(state)
         self.assertEqual(self.R, Rtmp)
+
     def test_title(self):
         self.assertEqual(self.R.title, "Example Paper")
-        self.assertEqual(str(self.R), "Example Paper")
+        self.assertEqual(str(self.R), "WOSRecord(Example Paper)")
+
     def test_author(self):
-        self.assertEqual(self.R.authorsFull, ["John, Doe"])
+        self.assertEqual(self.R['authorsFull'], ["John, Doe"])
+
     def test_year(self):
-        self.assertEqual(self.R.year, 2015)
+        self.assertEqual(self.R['year'], 2015)
+
     def test_month(self):
-        self.assertEqual(self.R.month, 4)
+        self.assertEqual(self.R['month'], 4)
+
     def test_cites(self):
-        self.assertEqual(str(self.R.citations[0]), "John D. 1999, TOPICS IN COGNITIVE SCIENCE")
-        self.assertEqual(len(self.R.citations), 1)
+        self.assertEqual(str(self.R['citations'][0]), "John D. 1999, TOPICS IN COGNITIVE SCIENCE")
+
+        self.assertEqual(len(self.R['citations']), 1)
+
     def test_WOS(self):
-        self.assertEqual(self.R.wosString, 'WOS:123317623000007')
+        self.assertEqual(self.R['wosString'], 'WOS:123317623000007')
+
     def test_citationGen(self):
         self.assertTrue(self.R.createCitation() == metaknowledge.Citation("John D, 2015, EXAMPLE, V1, P1, DOI 10.1111"))
+
     def test_journal(self):
-        self.assertEqual(self.R.journal, 'TOPICS IN COGNITIVE SCIENCE')
+        self.assertEqual(self.R['journal'], 'TOPICS IN COGNITIVE SCIENCE')
+
     def test_tags(self):
-        self.assertEqual(self.R.TagsDict(['a', 'b']), {'a': None, 'b': None})
+        self.assertEqual(self.R.subDict(['a', 'b']), {'a': None, 'b': None})
 
 simplePaperString = """PT J
 AU John, D

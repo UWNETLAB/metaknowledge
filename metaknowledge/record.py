@@ -75,7 +75,6 @@ class Record(collections.abc.Mapping, collections.abc.Hashable, metaclass = abc.
         try:
             return self._computedFields[key]
         except KeyError:
-            print("Getting {}".format(key))
             if isinstance(key, str):
                 if key in self._fieldDict:
                     computedVal = self._proccessingFuncs.get(key, lambda x : x)(self._fieldDict[key])
@@ -175,6 +174,15 @@ class Record(collections.abc.Mapping, collections.abc.Hashable, metaclass = abc.
             strLst.append("ER\n")
             return bytes(''.join(strLst), self.encoding)
 
+    def __getstate__(self):
+        #Makes a slightly smaller object than __dict__
+        d = self.__dict__.copy()
+        d['_computedFields'] = []
+        return d
+
+    def __setstate__(self, state):
+        self.__dict__ = state
+
     @property
     def id(self):
         """the ID of the record, not overwritable
@@ -185,7 +193,7 @@ class Record(collections.abc.Mapping, collections.abc.Hashable, metaclass = abc.
     def writeRecord(self, infile):
         pass
 
-    def tagsDict(self, tags, raw = True):
+    def subDict(self, tags, raw = True):
         """returns a dict of values of _tags_ from the Record. The tags are the keys and the values are the values
 
         _raw_ can be used to make the the retuned values  unproccesed

@@ -189,23 +189,23 @@ class WOSRecord(Record):
         valsLst = []
         if multiCite:
             auths = []
-            for auth in self.authorsShort:
+            for auth in self.get("authorsShort"):
                 auths.append(auth.replace(',', ''))
         else:
-            if self.authorsShort:
-                valsLst.append(self.authorsShort[0].replace(',', ''))
-        if getattr(self, "year", False):
-            valsLst.append(str(self.year))
-        if getattr(self, "j9", False):
-            valsLst.append(self.j9)
-        elif getattr(self, "TI", False):
-            valsLst.append(self.TI)
-        if getattr(self, "volume", False):
-            valsLst.append('V' + str(self.volume))
-        if getattr(self, "beginningPage", False):
-            valsLst.append('P' + str(self.beginningPage))
-        if getattr(self, "DOI", False):
-            valsLst.append('DOI ' + self.DOI)
+            if self.get("authorsShort", False):
+                valsLst.append(self['authorsShort'][0].replace(',', ''))
+        if self.get("year", False):
+            valsLst.append(str(self.get('year')))
+        if self.get("j9", False):
+            valsLst.append(self.get('j9'))
+        elif self.get("TI", False):
+            valsLst.append(self.get('TI'))
+        if self.get("volume", False):
+            valsLst.append('V' + str(self.get('volume')))
+        if self.get("beginningPage", False):
+            valsLst.append('P' + str(self.get('beginningPage')))
+        if self.get("DOI", False):
+            valsLst.append('DOI ' + self.get('DOI'))
         if multiCite and len(auths) > 0:
             return(tuple((Citation(', '.join([a] + valsLst)) for a in auths)))
         elif multiCite:

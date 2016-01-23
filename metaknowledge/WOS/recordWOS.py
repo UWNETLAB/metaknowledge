@@ -97,9 +97,13 @@ class WOSRecord(Record):
     def encoding(self):
         return 'utf-8'
 
-    @property
-    def titleTag(self):
-        return 'TI'
+    @staticmethod
+    def specialTags(tagName):
+        specialTags = {
+        'title' : 'TI',
+        'authors' : 'AF',
+        }
+        return specialTags.get(tagName, None)
 
     @staticmethod
     def getAltName(tag):

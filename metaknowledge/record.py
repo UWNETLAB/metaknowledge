@@ -48,13 +48,6 @@ class Record(collections.abc.Mapping, collections.abc.Hashable, metaclass = abc.
         #Memoizing stuff
         self._computedFields = {}
 
-        #Give it a title
-        title = self.get(self.titleTag)
-        if isinstance(title, str):
-            self.title = title
-        else:
-            self.title = "Untitled record"
-
     #collections.abc.Hashable method
 
     def __hash__(self):
@@ -205,9 +198,13 @@ class Record(collections.abc.Mapping, collections.abc.Hashable, metaclass = abc.
     def encoding(self):
         return 'utf-8' #Most likely to be the encoding
 
-    @property
+    @staticmethod
     @abc.abstractmethod
-    def titleTag(self):
+    def specialTags(self, tagName):
+        """The special tags are:
+        title
+        authors
+        """
         return None #Default to Null case
 
     @staticmethod
@@ -221,6 +218,14 @@ class Record(collections.abc.Mapping, collections.abc.Hashable, metaclass = abc.
     def tagProccessingFunc(tag):
         #Should not raise an exception
         return lambda x: x
+
+    @property
+    def title(self):
+        t = self[self.specialTags('title')]
+        if isinstance(t, str):
+            return t
+        else:
+            return "Untitled record"
 
     def subDict(self, tags, raw = True):
         """returns a dict of values of _tags_ from the Record. The tags are the keys and the values are the values

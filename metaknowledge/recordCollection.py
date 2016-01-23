@@ -11,13 +11,13 @@ from .record import Record
 from .graphHelpers import _ProgressBar
 from .WOS.tagProcessing.funcDicts import tagToFullDict, fullToTagDict, normalizeToTag
 from .citation import Citation
-from .mkExceptions import cacheError, BadWOSFile, BadWOSRecord, RCTypeError
+from .mkExceptions import cacheError, BadWOSFile, BadWOSRecord, RCTypeError, BadInputFile
 
 from .WOS.wosHandlers import wosParser, isWOSFile
 
 import metaknowledge
 
-class RecordCollection(object):
+class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
     """
     A container for a large number of indivual WOS records.
 
@@ -86,7 +86,7 @@ class RecordCollection(object):
                         if isWOSFile(inCollection):
                             self._Records = wosParser(inCollection)
                         else:
-                            raise BadInputFile("'{}' does not match any known file type. Its header might be damaged or it could have been modified by another program".format(inCollection))
+                            raise BadInputFile("'{}' does not match any known file type. Its header might be damaged or it could have been modified by another program.".format(inCollection))
                     except BadWOSFile as w:
                         self.bad = True
                         self.error = w
@@ -120,7 +120,7 @@ class RecordCollection(object):
                         if isWOSFile(fileName):
                             self._Records |= wosParser(fileName)
                         elif extension != '':
-                            raise BadInputFile("'{}' does not match any known file type, but has the requested extension '{}'. Its header might be damaged or it could have been modified by another program".format(fileName, extension))
+                            raise BadInputFile("'{}' does not match any known file type, but has the requested extension '{}'. Its header might be damaged or it could have been modified by another program.".format(fileName, extension))
                         else:
                             pass
                     if cached:
@@ -137,45 +137,6 @@ class RecordCollection(object):
                 raise RCTypeError("RecordCollection cannot be created from {}.".format(inCollection))
             PBar.finish("Done making a RecordCollection of {} Records".format(len(self)))
 
-    def __add__(self, other):
-        """
-        returns the union of the two RecordCollections
-        """
-        if self.bad and other.bad:
-            return RecordCollection(set(), '[BAD ' + repr(self) + ']'+ '_plus_' + '[BAD ' +  repr(other) + ']')
-        if self.bad:
-            return RecordCollection(other._Records, '[BAD ' + repr(self) + ']' + '_plus_' + repr(other))
-        elif other.bad:
-            return RecordCollection(self._Records,  repr(self) + '[BAD ' + repr(other) + ']')
-        else:
-            return RecordCollection(self._Records | other._Records, repr(self) + '_plus_' + repr(other))
-
-    def __and__(self, other):
-        """
-        returns the intersection of the two RecordCollections
-        """
-        if self.bad or other.bad:
-            raise Exception
-        else:
-            return RecordCollection(self._Records & other._Records, repr(self) + '_and_' + repr(other))
-
-    def __sub__(self, other):
-        """
-        returns the difference of the two RecordCollections
-        """
-        if self.bad or other.bad:
-            raise Exception
-        else:
-            return RecordCollection(self._Records - other._Records, repr(self) + '_diff_' + repr(other))
-
-    def __xor__(self, other):
-        """
-        returns the symmetric difference of the two RecordCollections
-        """
-        if self.bad or other.bad:
-            raise Exception
-        else:
-            return RecordCollection(self._Records ^ other._Records, repr(self) + '_symdiff_' + repr(other))
 
     def __str__(self):
         """
@@ -197,35 +158,30 @@ class RecordCollection(object):
         """
         return self._repr
 
-    def __lt__(self, other):
-        if self.bad or other.bad:
-            return False
-        else:
-            return len(self) < len(other)
+    #Hashable method
+
+    def __hash__(self):
+        return hash(sum((hash(R) for R in self)))
+
+    #Set methods
+
     def __le__(self, other):
-        if self.bad or other.bad:
-            return False
+        if not isinstance(other, RecordCollection):
+            return NotImplemented
         else:
             return len(self) <= len(other)
-    def __gt__(self, other):
-        if self.bad or other.bad:
-            return False
-        else:
-            return len(self) > len(other)
+
     def __ge__(self, other):
-        if self.bad or other.bad:
-            return False
+        if not isinstance(other, RecordCollection):
+            return NotImplemented
         else:
             return len(self) >= len(other)
 
     def __eq__(self, other):
-        if self.bad or other.bad:
-            return False
+        if not isinstance(other, RecordCollection):
+            return NotImplemented
         else:
             return self._Records == other._Records
-
-    def __ne__(self, other):
-        return not self == other
 
     def __len__(self):
         """
@@ -241,34 +197,136 @@ class RecordCollection(object):
             yield R
 
     def __contains__(self, item):
-        """
-        Returns True if the item is a WOS string of one of the Records containing or if item is a Record checks if the record is in the RecordCollection, otherwise returns False
-        """
-        if isinstance(item, str):
-            for R in self:
-                if R.UT == item:
-                    return True
-            return False
-        elif isinstance(item, Record):
-            return item in self._Records
+        return item in self._Records
+
+    #Mutable Set methods
+
+    def add(self, elem):
+        if isinstance(elem, Record):
+            self._Records.add(elem)
         else:
-            return False
+            raise RCTypeError("recordCollections can only contain Records, '{}' is not a Record.".format(elem))
+
+    def discard(self, elem):
+        return self._Records.discard(elem)
+
+    def remove(self, elem):
+        try:
+            return self._Records.remove(elem)
+        except KeyError:
+            raise KeyError("'{}' was not found in the RecordCollection: '{}'.".format(elem, self)) from None
+
+    def clear(self):
+        self.bad = False
+        self.error = None
+        return self._Records.clear()
 
     def pop(self):
-        """
-        Returns a random `Record` from the `RecordCollection`, the `Record` is deleted from the collection, use [**peak**()](#recordCollection.peak) for nondestructive, but slower, access
-
-        # Returns
-
-        `Record`
-
-        > A random `Record` that has been removed from the collection
-        """
-        if len(self._Records) > 0:
-            self._repr = "Pop-" + self._repr
+        try:
             return self._Records.pop()
+        except KeyError:
+            raise KeyError("No more Records in the RecordCollection: '{}'.".format(self)) from None
+
+    def __ior__(self, other):
+        if not isinstance(other, RecordCollection):
+            return NotImplemented
         else:
-            return None
+            self._Records |= other._Records
+            if other.bad and not self.bad:
+                self.bad = True
+                self.error = other.error
+            return self
+
+    def __iand__(self, other):
+        if not isinstance(other, RecordCollection):
+            return NotImplemented
+        else:
+            self._Records &= other._Records
+            if other.bad and not self.bad:
+                self.bad = True
+                self.error = other.error
+            return self
+
+    def __ixor__(self, other):
+        if not isinstance(other, RecordCollection):
+            return NotImplemented
+        else:
+            self._Records ^= other._Records
+            if other.bad and not self.bad:
+                self.bad = True
+                self.error = other.error
+            return self
+
+    def __isub__(self, other):
+        if not isinstance(other, RecordCollection):
+            return NotImplemented
+        else:
+            self._Records -= other._Records
+            if other.bad and not self.bad:
+                self.bad = True
+                self.error = other.error
+            return self
+
+    #These are provided by the above
+    #but don't work right unless they are custom writen
+
+    def __or__(self, other):
+        if not isinstance(other, RecordCollection):
+            return NotImplemented
+        else:
+            retRC = RecordCollection(self._Records | other._Records, name = '{} | {}'.format(self, other))
+            if self.bad:
+                retRC.bad = True
+                retRC.error = self.error
+            elif other.bad:
+                retRC.bad = True
+                retRC.error = other.error
+            return retRC
+
+    def __and__(self, other):
+        if not isinstance(other, RecordCollection):
+            return NotImplemented
+        else:
+            retRC = RecordCollection(self._Records & other._Records, name = '{} & {}'.format(self, other))
+            if self.bad:
+                retRC.bad = True
+                retRC.error = self.error
+            elif other.bad:
+                retRC.bad = True
+                retRC.error = other.error
+            return retRC
+
+    def __sub__(self, other):
+        if not isinstance(other, RecordCollection):
+            return NotImplemented
+        else:
+            retRC = RecordCollection(self._Records - other._Records, name = '{} - {}'.format(self, other))
+            if self.bad:
+                retRC.bad = True
+                retRC.error = self.error
+            elif other.bad:
+                retRC.bad = True
+                retRC.error = other.error
+            return retRC
+
+    def __xor__(self, other):
+        if not isinstance(other, RecordCollection):
+            return NotImplemented
+        else:
+            retRC = RecordCollection(self._Records ^ other._Records, name = '{} ^ {}'.format(self, other))
+            if self.bad:
+                retRC.bad = True
+                retRC.error = self.error
+            elif other.bad:
+                retRC.bad = True
+                retRC.error = other.error
+            return retRC
+
+    def containsID(self, idVal):
+        for R in self:
+            if R.id == idVal:
+                return True
+        return False
 
     def peak(self):
         """
@@ -301,19 +359,7 @@ class RecordCollection(object):
                 self._Records.remove(R)
                 break
 
-    def addRec(self, Rec):
-        """Adds a `Record` or `Records` to the collection.
 
-        # Parameters
-
-        _Rec_ : `Record or iterable[Record]`
-
-        > A Record or some iterable containing `Records` to add
-        """
-        if hasattr(Rec, '__iter__'):
-            self._Records |= set(Rec)
-        elif Rec not in self:
-            self._Records.add(Rec)
 
     def WOS(self, wosNum, drop = False):
         """Gets the `Record` from the collection by its WOS number (ID number) _wosNum_.

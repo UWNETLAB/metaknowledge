@@ -11,7 +11,7 @@ from .record import Record
 from .graphHelpers import _ProgressBar
 from .WOS.tagProcessing.funcDicts import tagToFullDict, fullToTagDict, normalizeToTag
 from .citation import Citation
-from .mkExceptions import cacheError, BadWOSFile, BadWOSRecord, RCTypeError, BadInputFile
+from .mkExceptions import cacheError, BadWOSFile, BadWOSRecord, RCTypeError, BadInputFile, BadRecord
 
 from .WOS.wosHandlers import wosParser, isWOSFile
 
@@ -62,19 +62,19 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
     > **Note** The pickle allows for arbitrary python code exicution so only use caches that you trust.
     """
 
-    def __init__(self, inCollection = None, name = '', extension = '', cached = False):
+    def __init__(self, inCollection = None, name = '', extension = '', cached = False, quietStart = False):
         progArgs = (0, "Starting to make a RecordCollection")
-        if metaknowledge.VERBOSE_MODE:
+        if metaknowledge.VERBOSE_MODE and not quietStart:
             progKwargs = {'dummy' : False}
         else:
             progKwargs = {'dummy' : True}
         with _ProgressBar(*progArgs, **progKwargs) as PBar:
             self.bad = False
-            self._repr = name
+            self.name = name
             if inCollection is None:
                 PBar.updateVal(.5, "Empty RecordCollection created")
                 if not name:
-                    self._repr = "empty"
+                    self.name = "Empty"
                 self._Records = set()
             elif isinstance(inCollection, str):
                 if os.path.isfile(inCollection):
@@ -82,7 +82,7 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
                     try:
                         if not inCollection.endswith(extension):
                             raise RCTypeError("extension of input file does not match requested extension")
-                        self._repr = os.path.splitext(os.path.split(inCollection)[1])[0]
+                        self.name = os.path.splitext(os.path.split(inCollection)[1])[0]
                         if isWOSFile(inCollection):
                             self._Records = wosParser(inCollection)
                         else:
@@ -94,9 +94,9 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
                     count = 0
                     PBar.updateVal(0, "RecordCollection from a files in {}".format(inCollection))
                     if extension and not name:
-                        self._repr = "{}-files-from-{}".format(extension, inCollection)
+                        self.name = "{}-files-from-{}".format(extension, inCollection)
                     elif not name:
-                        self._repr = "files-from-{}".format(inCollection)
+                        self.name = "files-from-{}".format(inCollection)
                     self._Records = set()
                     flist = []
                     for f in os.listdir(inCollection):
@@ -136,27 +136,6 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
             else:
                 raise RCTypeError("RecordCollection cannot be created from {}.".format(inCollection))
             PBar.finish("Done making a RecordCollection of {} Records".format(len(self)))
-
-
-    def __str__(self):
-        """
-        Returns a string giving the the number Records in a sentence:
-        "Collection of # records"
-        """
-        return "Collection of " + str(len(self._Records)) + " records"
-
-    def __repr__(self):
-        """
-        The name of the RecordCollection, this used to identify the Collection when it is written as a file by writeFile() or in some of CL scripts
-        It is updated when some modification of the RecordCollection occurs i.e.
-        >>> RC = metaknowledge.RecordCollection('.', extension = 'isi')
-        >>> repr(RC)
-        isi-files-from-.
-        >>> R = RC.pop()
-        >>> repr(RC)
-        pop-isi-files-from-.
-        """
-        return self._repr
 
     #Hashable method
 
@@ -274,7 +253,7 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
         if not isinstance(other, RecordCollection):
             return NotImplemented
         else:
-            retRC = RecordCollection(self._Records | other._Records, name = '{} | {}'.format(self, other))
+            retRC = RecordCollection(self._Records | other._Records, name = '{} | {}'.format(self, other), quietStart = True)
             if self.bad:
                 retRC.bad = True
                 retRC.error = self.error
@@ -287,7 +266,7 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
         if not isinstance(other, RecordCollection):
             return NotImplemented
         else:
-            retRC = RecordCollection(self._Records & other._Records, name = '{} & {}'.format(self, other))
+            retRC = RecordCollection(self._Records & other._Records, name = '{} & {}'.format(self, other), quietStart = True)
             if self.bad:
                 retRC.bad = True
                 retRC.error = self.error
@@ -300,7 +279,7 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
         if not isinstance(other, RecordCollection):
             return NotImplemented
         else:
-            retRC = RecordCollection(self._Records - other._Records, name = '{} - {}'.format(self, other))
+            retRC = RecordCollection(self._Records - other._Records, name = '{} - {}'.format(self, other), quietStart = True)
             if self.bad:
                 retRC.bad = True
                 retRC.error = self.error
@@ -313,7 +292,7 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
         if not isinstance(other, RecordCollection):
             return NotImplemented
         else:
-            retRC = RecordCollection(self._Records ^ other._Records, name = '{} ^ {}'.format(self, other))
+            retRC = RecordCollection(self._Records ^ other._Records, name = '{} ^ {}'.format(self, other), quietStart = True)
             if self.bad:
                 retRC.bad = True
                 retRC.error = self.error
@@ -321,6 +300,15 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
                 retRC.bad = True
                 retRC.error = other.error
             return retRC
+
+    #Other niceties
+
+    def __str__(self):
+        return "RecordCollection({})".format(self.name)
+
+    def __bytes__(self):
+        encoding = self.peak().encoding
+        return bytes('\n', encoding = encoding).join((bytes(R) for R in self))
 
     def containsID(self, idVal):
         for R in self:
@@ -405,13 +393,12 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
         for R in self._Records:
             if R.bad:
                 badRecords.add(R)
-        return RecordCollection(badRecords, repr(self) + '_badRecords')
+        return RecordCollection(badRecords, repr(self) + '_badRecords', quietStart = True)
 
     def dropBadRecords(self):
         """Removes all `Records` with `bad` attribute `True` from the collection, i.e. drop all those returned by [**BadRecords**()](#RecordCollection.BadRecords).
         """
         self._Records = {r for r in self._Records if not r.bad}
-        self._repr = repr(self) + '_badRecordsDropped'
 
     def dropNonJournals(self, ptVal = 'J', dropBad = True, invert = False):
         """Drops the non journal type `Records` from the collection, this is done by checking _ptVal_ against the PT tag
@@ -434,10 +421,8 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
             self.dropBadRecords()
         if invert:
             self._Records = {r for r in self._Records if r.PT != ptVal.upper()}
-            self._repr = repr(self) + '_PT-{}-Dropped'.format(ptVal)
         else:
             self._Records = {r for r in self._Records if r.PT == ptVal.upper()}
-            self._repr = repr(self) + '_PT-{}-Only'.format(ptVal)
 
     def writeFile(self, fname = None):
         """Writes the `RecordCollection` to a file, the written file's format is identical to those download from WOS. The order of `Records` written is random.
@@ -973,7 +958,7 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
                     break
             if hasTags:
                 recordsWithTags.add(R)
-        return RecordCollection(recordsWithTags, repr(self) + "_tags(" + ','.join(taglist) + ')')
+        return RecordCollection(recordsWithTags, repr(self) + "_tags(" + ','.join(taglist) + ')', quietStart = True)
 
     def yearSplit(self, startYear, endYear, dropMissingYears = True):
         """Creates a RecordCollection of Records from the years between _startYear_ and _endYear_ inclusive.
@@ -1009,7 +994,7 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
                     pass
                 else:
                     raise
-        return RecordCollection(recordsInRange, repr(self) + "_(" + str(startYear) + " ," + str(endYear) + ")")
+        return RecordCollection(recordsInRange, repr(self) + "_(" + str(startYear) + " ," + str(endYear) + ")", quietStart = True)
 
     def oneModeNetwork(self, mode, nodeCount = True, edgeWeight = True, stemmer = None):
         """Creates a network of the objects found by one WOS tag _mode_.
@@ -1479,7 +1464,7 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
                     raise ValueError("{} is not a valid WOS string or a valid citation string".format(recCite))
             else:
                 if recCite is None:
-                    return RecordCollection(inCollection = localCites, name = "Records_citing_{}".format(rec))
+                    return RecordCollection(inCollection = localCites, name = "Records_citing_{}".format(rec), quietStart = True)
                 else:
                     recCite = recCite.createCitation()
         elif isinstance(rec, Citation):
@@ -1493,7 +1478,7 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
                     if recCite == cite:
                         localCites.append(R)
                         break
-        return RecordCollection(inCollection = localCites, name = "Records_citing_'{}'".format(rec))
+        return RecordCollection(inCollection = localCites, name = "Records_citing_'{}'".format(rec), quietStart = True)
 
     def citeFilter(self, keyString = '', field = 'all', reverse = False, caseSensitive = False):
         """Filters `Records` by some string, _keyString_, in their citations and returns all `Records` with at least one citation possessing _keyString_ in the field given by _field_.
@@ -1605,9 +1590,9 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
             for R in self:
                 if R not in retRecs:
                     excluded.append(R)
-            return RecordCollection(inCollection = excluded, name = self._repr + '_subsetByNotCite')
+            return RecordCollection(inCollection = excluded, name = self.name, quietStart = True)
         else:
-            return RecordCollection(inCollection = retRecs, name = self._repr + '_subsetByCite')
+            return RecordCollection(inCollection = retRecs, name = self.name, quietStart = True)
 
 def getCoCiteIDs(clst):
     """

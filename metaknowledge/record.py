@@ -216,6 +216,14 @@ class Record(collections.abc.Mapping, collections.abc.Hashable, metaclass = abc.
     def title(self):
         return self.get('title', default = "Untitled record")
 
+    @property
+    def authors(self):
+        auth = self.get('authorsFull')
+        if auth is None:
+            return self.get('authorsShort')
+        else:
+            return auth
+
     def subDict(self, tags, raw = True):
         """returns a dict of values of _tags_ from the Record. The tags are the keys and the values are the values
 

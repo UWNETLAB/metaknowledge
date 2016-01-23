@@ -114,39 +114,6 @@ class WOSRecord(Record):
         """Returns the UT tag (WOS number) of the record"""
         return self._wosNum
 
-    @property
-    def authors(self):
-        """Returns the full names of the authors (AF tag) if available otherwise attempts to use their shorter names (AU tag) if that fails None is returned
-        Usually another way of calling authorsFull or AF
-        """
-        auth = self['authorsFull']
-        if auth is None:
-            return self['authorsShort']
-        else:
-            return auth
-
-
-    def TagsList(self, taglst, cleaned = False):
-        """Returns a list of the results of [**Tag**()](#Record.Tag) for each tag in _taglist_, the return has the same order as the original.
-
-        # Parameters
-        _taglst_ : `List[str]`
-
-        > Each string in _taglst_ can be a two character string corresponding to a WOS tag e.g. 'J9', the matching is case insensitive so 'j9' is the same as 'J9',  or it can be one of the full names for a tag with the mappings in [fullToTag](#metaknowledge.tagProcessing). If the string is not found in the original record before or after being translated through [fullToTag](#metaknowledge.tagProcessing), `None` is used instead. Same as in [**Tag()**](#Record.Tag)
-
-        > Then they are compiled into a list in the same order as _taglst_
-
-        # Returns
-
-        `List[str]`
-
-        > a list of the values for each tag in _taglst_, in the same order
-        """
-        retList = []
-        for tag in taglst:
-            retList.append(self.Tag(tag), clean = cleaned)
-        return retList
-
     def writeRecord(self, infile):
         """Writes to _infile_ the original contents of the Record. This is intended for use by [RecordCollections](#RecordCollection.RecordCollection) to write to file. What is written to _infile_ is bit for bit identical to the original record file (if utf-8 is used). No newline is inserted above the write but the last character is a newline.
 

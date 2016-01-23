@@ -91,64 +91,23 @@ class WOSRecord(Record):
                 self._wosNum = None
                 bad = True
                 error = BadWOSRecord("Missing WOS number")
-            """
-            for tag in fieldDict:
-                if tag != 'UT':
-                    self.__dict__[tag] = None
-                    self._unComputedTags.add(tag)
-                    try:
-                        fullName = tagNameConverterDict[tag]
-                    except KeyError:
-                        pass
-                    else:
-                        self.__dict__[fullName] = None
-                        self._unComputedTags.add(fullName)"""
-        Record.__init__(self, fieldDict, self._wosNum,
-        'TI', bad, error, strEncoding = 'utf-8',sFile = sFile, sLine = sLine, altNames = tagNameConverterDict, proccessingFuncs = tagToFunc)
-    '''
-    def __getattribute__(self, name):
-        """
-        Hack to get the attributes correct, read the Record help for more information
-        """
-        try:
-            val = object.__getattribute__(self, name)
-        except AttributeError:
-            if name in tagsAndNameSet:
-                return None
-            else:
-                raise
-        else:
-            if val is not None:
-                return val
-            else:
-                if name in self._unComputedTags:
-                    try:
-                        otherName = tagNameConverterDict[name]
-                    except KeyError:
-                        try:
-                            tagVal = tagToFunc[name](self._fieldDict[name])
-                        except KeyError:
-                            tagVal = self._fieldDict[name]
-                        setattr(self, name, tagVal)
-                        self._unComputedTags.remove(name)
-                    else:
-                        try:
-                            prossFunc = tagToFunc[name]
-                        except KeyError:
-                            try:
-                                prossFunc = tagToFunc[otherName]
-                            except KeyError:
-                                prossFunc = lambda x: x
-                        try:
-                            tagVal = prossFunc(self._fieldDict[name])
-                        except KeyError:
-                            tagVal = prossFunc(self._fieldDict[otherName])
-                        object.__setattr__(self, name, tagVal)
-                        object.__setattr__(self, otherName, tagVal)
-                        self._unComputedTags.remove(name)
-                        self._unComputedTags.remove(otherName)
-                return object.__getattribute__(self, name)
-    '''
+        Record.__init__(self, fieldDict, self._wosNum, bad, error, sFile = sFile, sLine = sLine)
+
+    @property
+    def encoding(self):
+        return 'utf-8'
+
+    @property
+    def titleTag(self):
+        return 'TI'
+
+    @staticmethod
+    def getAltName(tag):
+        return tagNameConverterDict.get(tag)
+
+    @staticmethod
+    def tagProccessingFunc(tag):
+        return tagToFunc.get(tag, lambda x: x)
 
     @property
     def wosString(self):

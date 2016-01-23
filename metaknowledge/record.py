@@ -4,7 +4,7 @@ import collections.abc
 from .mkExceptions import BadRecord
 
 class Record(collections.abc.Mapping, collections.abc.Hashable, metaclass = abc.ABCMeta):
-    def __init__(self, fieldDict, idValue, titleKey, bad, error, strEncoding = 'utf-8', sFile = "", sLine = 0, altNames = None, proccessingFuncs = None):
+    def __init__(self, fieldDict, idValue, bad, error, sFile = "", sLine = 0):
         """Base constructor for Records
 
         _fieldDict_ : is the unpared entry dict with tags as keys and their lines as a list of strings
@@ -24,6 +24,13 @@ class Record(collections.abc.Mapping, collections.abc.Hashable, metaclass = abc.
         _altNames_ : is a dict that maps the names of tags to an alternative name, i.e. the long names dict. It **must** be bidirectional: map long to short and short to long
 
         _proccessingFuncs_ : is a dict of functions to proccess the tags. It has the short names as keys and their proccessing fucntions as values. Missing tags will result in the unparsed value to be returned.
+
+        The Records inheting from this must implement, calling the implementations in Record with super() will not cause errors:
+        + writeRecord
+        + tagProccessingFunc
+        + encoding
+        + titleTag
+        + getAltName
         """
 
         #File stuff for debug/error messages
@@ -37,20 +44,12 @@ class Record(collections.abc.Mapping, collections.abc.Hashable, metaclass = abc.
         #Important data
         self._id = idValue
         self._fieldDict = fieldDict
-        self.encoding = strEncoding
 
         #Memoizing stuff
-        #I have done some testing
-        #altNames and proccessingFuncs are not usually replicated for each Record
-        #This is memory effient
         self._computedFields = {}
-        self._altNames = altNames
-        if proccessingFuncs is None:
-            proccessingFuncs = {}
-        self._proccessingFuncs = proccessingFuncs
 
         #Give it a title
-        title = self.get(titleKey)
+        title = self.get(self.titleTag)
         if isinstance(title, str):
             self.title = title
         else:
@@ -80,15 +79,17 @@ class Record(collections.abc.Mapping, collections.abc.Hashable, metaclass = abc.
         except KeyError:
             if isinstance(key, str):
                 if key in self._fieldDict:
-                    computedVal = self._proccessingFuncs.get(key, lambda x : x)(self._fieldDict[key])
-                elif self._altNames.get(key) in self._fieldDict:
-                    key = self._altNames.get(key)
-                    computedVal = self._proccessingFuncs[key](self._fieldDict[key])
+                    computedVal = self.tagProccessingFunc(key)(self._fieldDict[key])
+                elif self.getAltName(key) in self._fieldDict:
+                    key = self.getAltName(key)
+                    computedVal = self.tagProccessingFunc(key)(self._fieldDict[key])
                 else:
                     raise KeyError("'{}' could not be found in the Record".format(key)) from None
                 #Both refer to the same object, computedVal
                 self._computedFields[key] = computedVal
-                self._computedFields[self._altNames.get(key)] = computedVal
+                alt = self.getAltName(key)
+                if alt is not None:
+                    self._computedFields[alt] = computedVal
                 return computedVal
             else:
                 raise TypeError("Keys to Records must be strings they cannot be of the type: {}.".format(type(key)))
@@ -125,8 +126,8 @@ class Record(collections.abc.Mapping, collections.abc.Hashable, metaclass = abc.
         if raw:
             if tag in self._fieldDict:
                 return self._fieldDict[tag]
-            elif self._altNames.get(tag) in self._fieldDict:
-                return self._fieldDict[self._altNames.get(tag)]
+            elif self.getAltName(tag) in self._fieldDict:
+                return self._fieldDict[self.getAltName(tag)]
             else:
                 return default
         else:
@@ -193,9 +194,33 @@ class Record(collections.abc.Mapping, collections.abc.Hashable, metaclass = abc.
         """
         return self._id
 
+    #Making the 'virtual' methods
+
     @abc.abstractmethod
     def writeRecord(self, infile):
         pass
+
+    @property
+    @abc.abstractmethod
+    def encoding(self):
+        return 'utf-8' #Most likely to be the encoding
+
+    @property
+    @abc.abstractmethod
+    def titleTag(self):
+        return None #Default to Null case
+
+    @staticmethod
+    @abc.abstractmethod
+    def getAltName(tag):
+        #Should not raise an exception
+        return None #Default to Null case
+
+    @staticmethod
+    @abc.abstractmethod
+    def tagProccessingFunc(tag):
+        #Should not raise an exception
+        return lambda x: x
 
     def subDict(self, tags, raw = True):
         """returns a dict of values of _tags_ from the Record. The tags are the keys and the values are the values

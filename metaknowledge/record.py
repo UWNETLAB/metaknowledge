@@ -1,5 +1,6 @@
 import abc
 import collections.abc
+import copy
 
 from .mkExceptions import BadRecord
 
@@ -177,11 +178,15 @@ class Record(collections.abc.Mapping, collections.abc.Hashable, metaclass = abc.
     def __getstate__(self):
         #Makes a slightly smaller object than __dict__
         d = self.__dict__.copy()
-        d['_computedFields'] = []
+        d['_fieldDict'] = d['_fieldDict'].copy()
+        d['_computedFields'] = {}
         return d
 
     def __setstate__(self, state):
         self.__dict__ = state
+
+    def copy(self):
+        return copy.copy(self)
 
     @property
     def id(self):

@@ -45,6 +45,9 @@ class TestRecord(unittest.TestCase):
         self.assertTrue(('volume', '1') in self.R.items())
         self.assertTrue(('VL', ['1']) in self.R.items(raw = True))
 
+    def test_len(self):
+        self.assertEqual(len(self.R), 22)
+
     def test_hash(self):
         self.assertNotEqual(hash(self.R), hash(self.Rbad))
 
@@ -58,6 +61,7 @@ class TestRecord(unittest.TestCase):
         self.R.bad = True
         with self.assertRaises(metaknowledge.BadRecord):
             b = bytes(self.R)
+
     def test_state(self):
         state = self.R.__getstate__()
         Rtmp = metaknowledge.Record('PT J')
@@ -69,7 +73,11 @@ class TestRecord(unittest.TestCase):
         self.assertEqual(str(self.R), "WOSRecord(Example Paper)")
 
     def test_author(self):
+        R2 = self.R.copy()
+        del R2._fieldDict['AF']
         self.assertEqual(self.R['authorsFull'], ["John, Doe"])
+        self.assertEqual(self.R.authors, ["John, Doe"])
+        self.assertEqual(R2.authors, ['John, D'])
 
     def test_year(self):
         self.assertEqual(self.R['year'], 2015)

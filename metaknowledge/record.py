@@ -3,6 +3,8 @@ import collections.abc
 
 from .mkExceptions import BadRecord
 
+from .citation import Citation
+
 class Record(collections.abc.Mapping, collections.abc.Hashable, metaclass = abc.ABCMeta):
     def __init__(self, fieldDict, idValue, bad, error, sFile = "", sLine = 0):
         """Base constructor for Records
@@ -200,15 +202,6 @@ class Record(collections.abc.Mapping, collections.abc.Hashable, metaclass = abc.
 
     @staticmethod
     @abc.abstractmethod
-    def specialTags(self, tagName):
-        """The special tags are:
-        title
-        authors
-        """
-        return None #Default to Null case
-
-    @staticmethod
-    @abc.abstractmethod
     def getAltName(tag):
         #Should not raise an exception
         return None #Default to Null case
@@ -221,11 +214,7 @@ class Record(collections.abc.Mapping, collections.abc.Hashable, metaclass = abc.
 
     @property
     def title(self):
-        t = self[self.specialTags('title')]
-        if isinstance(t, str):
-            return t
-        else:
-            return "Untitled record"
+        return self.get('title', default = "Untitled record")
 
     def subDict(self, tags, raw = True):
         """returns a dict of values of _tags_ from the Record. The tags are the keys and the values are the values
@@ -236,3 +225,45 @@ class Record(collections.abc.Mapping, collections.abc.Hashable, metaclass = abc.
         for tag in tags:
             retDict[tag] = self.get(tag, raw = raw)
         return retDict
+
+    def createCitation(self, multiCite = False):
+        """Creates a citation string, using the same format as other WOS citations, for the [Record](#Record.Record) by reading the relevant tags (`year`, `J9`, `volume`, `beginningPage`, `DOI`) and using it to create a [`Citation`](#Citation.Citation) object.
+
+        # Parameters
+
+        _multiCite_ : `optional [bool]`
+
+        > Default `False`, if `True` a tuple of Citations is returned with each having a different one of the records authors as the author
+
+        # Returns
+
+        `Citation`
+
+        > A [`Citation`](#Citation.Citation) object containing a citation for the Record.
+        """
+        valsLst = []
+        if multiCite:
+            auths = []
+            for auth in self.get("authorsShort"):
+                auths.append(auth.replace(',', ''))
+        else:
+            if self.get("authorsShort", False):
+                valsLst.append(self['authorsShort'][0].replace(',', ''))
+        if self.get("year", False):
+            valsLst.append(str(self.get('year')))
+        if self.get("j9", False):
+            valsLst.append(self.get('j9'))
+        elif self.get("title", False):
+            valsLst.append(self.get('TI'))
+        if self.get("volume", False):
+            valsLst.append('V' + str(self.get('volume')))
+        if self.get("beginningPage", False):
+            valsLst.append('P' + str(self.get('beginningPage')))
+        if self.get("DOI", False):
+            valsLst.append('DOI ' + self.get('DOI'))
+        if multiCite and len(auths) > 0:
+            return(tuple((Citation(', '.join([a] + valsLst)) for a in auths)))
+        elif multiCite:
+            return tuple(Citation(', '.join(valsLst)))
+        else:
+            return Citation(', '.join(valsLst))

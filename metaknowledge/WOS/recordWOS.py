@@ -8,9 +8,8 @@ import collections
 from ..record import Record
 
 from ..citation import Citation
-from ..WOS.tagProcessing.funcDicts import tagNameConverterDict, tagsAndNameSet, fullToTagDict
+from ..WOS.tagProcessing.funcDicts import tagNameConverterDict, tagsAndNameSet, fullToTagDict, tagToFull, tagNameConverterDict
 from ..WOS.tagProcessing.tagFunctions import tagToFunc
-from ..WOS.tagProcessing.funcDicts import tagToFull, tagNameConverterDict
 from ..mkExceptions import BadWOSFile, BadWOSRecord
 
 class WOSRecord(Record):
@@ -98,14 +97,6 @@ class WOSRecord(Record):
         return 'utf-8'
 
     @staticmethod
-    def specialTags(tagName):
-        specialTags = {
-        'title' : 'TI',
-        'authors' : 'AF',
-        }
-        return specialTags.get(tagName, None)
-
-    @staticmethod
     def getAltName(tag):
         return tagNameConverterDict.get(tag)
 
@@ -134,47 +125,6 @@ class WOSRecord(Record):
         else:
             return auth
 
-    def createCitation(self, multiCite = False):
-        """Creates a citation string, using the same format as other WOS citations, for the [Record](#Record.Record) by reading the relevant tags (`year`, `J9`, `volume`, `beginningPage`, `DOI`) and using it to create a [`Citation`](#Citation.Citation) object.
-
-        # Parameters
-
-        _multiCite_ : `optional [bool]`
-
-        > Default `False`, if `True` a tuple of Citations is returned with each having a different one of the records authors as the author
-
-        # Returns
-
-        `Citation`
-
-        > A [`Citation`](#Citation.Citation) object containing a citation for the Record.
-        """
-        valsLst = []
-        if multiCite:
-            auths = []
-            for auth in self.get("authorsShort"):
-                auths.append(auth.replace(',', ''))
-        else:
-            if self.get("authorsShort", False):
-                valsLst.append(self['authorsShort'][0].replace(',', ''))
-        if self.get("year", False):
-            valsLst.append(str(self.get('year')))
-        if self.get("j9", False):
-            valsLst.append(self.get('j9'))
-        elif self.get("TI", False):
-            valsLst.append(self.get('TI'))
-        if self.get("volume", False):
-            valsLst.append('V' + str(self.get('volume')))
-        if self.get("beginningPage", False):
-            valsLst.append('P' + str(self.get('beginningPage')))
-        if self.get("DOI", False):
-            valsLst.append('DOI ' + self.get('DOI'))
-        if multiCite and len(auths) > 0:
-            return(tuple((Citation(', '.join([a] + valsLst)) for a in auths)))
-        elif multiCite:
-            return tuple(Citation(', '.join(valsLst)))
-        else:
-            return Citation(', '.join(valsLst))
 
     def TagsList(self, taglst, cleaned = False):
         """Returns a list of the results of [**Tag**()](#Record.Tag) for each tag in _taglist_, the return has the same order as the original.

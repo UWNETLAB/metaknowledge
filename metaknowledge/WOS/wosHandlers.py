@@ -43,10 +43,11 @@ def wosParser(isifile):
                 pass
             notEnd = True
             plst = set()
+            error = None
             while notEnd:
                 line = f.__next__()
                 if line[1] == '':
-                    raise BadWOSFile("'{}' does not have an 'EF', lines 1 to {} were checked".format(isifile, line[0] + 1))
+                    error =  BadWOSFile("'{}' does not have an 'EF', lines 1 to {} were checked".format(isifile, line[0] + 1))
                 elif line[1].isspace():
                     continue
                 elif 'EF' in line[1][:2]:
@@ -61,18 +62,20 @@ def wosParser(isifile):
                             while s[:2] != 'ER':
                                 s = f.__next__()[1]
                         except:
-                            raise BadWOSFile("The file {} was not terminated corrrectly caused the following error:\n{}".format(isifile, str(e)))
+                            error =  BadWOSFile("The file {} was not terminated corrrectly caused the following error:\n{}".format(isifile, str(e)))
             try:
                 f.__next__()
             except StopIteration:
-                return plst
+                pass
             else:
-                raise BadWOSFile("EF not at end of " + isifile)
+                error =  BadWOSFile("EF not at end of " + isifile)
     except UnicodeDecodeError:
         try:
-            raise BadWOSFile("'{}' has a unicode issue on line: {}.".format(isifile, f.__next__()[0]))
+            error =  BadWOSFile("'{}' has a unicode issue on line: {}.".format(isifile, f.__next__()[0]))
         except:
             #Fallback needed incase f.__next__() causes issues
-            raise BadWOSFile("'{}' has a unicode issue. Probably when being opened or possibly on the first line".format(isifile))
+            error =  BadWOSFile("'{}' has a unicode issue. Probably when being opened or possibly on the first line".format(isifile))
     except StopIteration:
-        raise BadWOSFile("The file '{}' ends before EF was found".format(isifile))
+        error =  BadWOSFile("The file '{}' ends before EF was found".format(isifile))
+    finally:
+        return plst, error

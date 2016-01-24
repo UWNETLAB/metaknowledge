@@ -14,9 +14,9 @@ class TestRecordCollection(unittest.TestCase):
         self.RC = metaknowledge.RecordCollection("metaknowledge/tests/testFile.isi")
         self.RCbad = metaknowledge.RecordCollection("metaknowledge/tests/badFile.isi")
 
-    def test_iscollection(self):
+    def test_isCollection(self):
         self.assertIsInstance(self.RC, metaknowledge.RecordCollection)
-        self.assertEqual(repr(metaknowledge.RecordCollection()), "empty")
+        self.assertEqual(str(metaknowledge.RecordCollection()), "RecordCollection(Empty)")
         self.assertTrue(self.RC == self.RC)
 
     def test_caching(self):
@@ -32,11 +32,12 @@ class TestRecordCollection(unittest.TestCase):
 
     def test_bad(self):
         self.assertTrue(metaknowledge.RecordCollection('metaknowledge/tests/badFile.isi').bad)
-        with self.assertRaises(TypeError):
-            metaknowledge.RecordCollection('metaknowledge/tests/testFile.isi', extension= '.txt')
-        self.assertTrue(self.RCbad + self.RC <= self.RC + self.RCbad)
-        self.assertTrue(len(self.RCbad + self.RCbad) == 0)
+        with self.assertRaises(metaknowledge.mkExceptions.RCTypeError):
+            metaknowledge.RecordCollection('metaknowledge/tests/testFile.isi', extension = '.txt')
+        self.assertEqual(self.RCbad | self.RC, self.RCbad | self.RC )
+        self.assertEqual(len(self.RCbad | self.RCbad), 32)
         self.assertFalse(self.RCbad == self.RC)
+        self.assertEqual('metaknowledge/tests/badFile.isi', self.RCbad.errors.keys().__iter__().__next__())
 
     def test_badRecords(self):
         badRecs = self.RC.BadRecords()
@@ -45,7 +46,7 @@ class TestRecordCollection(unittest.TestCase):
         self.RC.dropBadRecords()
 
     def test_dropJourn(self):
-        RCcopy = copy.copy(self.RC)
+        RCcopy = self.RC.copy()
         self.RC.dropNonJournals()
         self.assertEqual(len(self.RC), len(RCcopy) - 2)
         self.RC.dropNonJournals(invert = True)

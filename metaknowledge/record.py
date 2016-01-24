@@ -178,8 +178,9 @@ class Record(collections.abc.Mapping, collections.abc.Hashable, metaclass = abc.
     def __getstate__(self):
         #Makes a slightly smaller object than __dict__
         d = self.__dict__.copy()
-        d['_fieldDict'] = d['_fieldDict'].copy()
         d['_computedFields'] = {}
+        #Make copy.copy() produce a shallow copy
+        d['_fieldDict'] = d['_fieldDict'].copy()
         return d
 
     def __setstate__(self, state):

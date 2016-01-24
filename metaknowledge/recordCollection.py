@@ -4,11 +4,12 @@ import os
 import csv
 import pickle
 import collections.abc
+import copy
 
 import networkx as nx
 
 from .record import Record
-from .graphHelpers import _ProgressBar
+from .graphHelpers import _ProgressBar, __version__
 from .WOS.tagProcessing.funcDicts import tagToFullDict, fullToTagDict, normalizeToTag
 from .citation import Citation
 from .mkExceptions import cacheError, BadWOSFile, BadWOSRecord, RCTypeError, BadInputFile, BadRecord
@@ -70,6 +71,7 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
             progKwargs = {'dummy' : True}
         with _ProgressBar(*progArgs, **progKwargs) as PBar:
             self.bad = False
+            self.errors = {}
             self.name = name
             if inCollection is None:
                 PBar.updateVal(.5, "Empty RecordCollection created")
@@ -79,17 +81,16 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
             elif isinstance(inCollection, str):
                 if os.path.isfile(inCollection):
                     PBar.updateVal(.5, "RecordCollection from a file started")
-                    try:
-                        if not inCollection.endswith(extension):
-                            raise RCTypeError("extension of input file does not match requested extension")
-                        self.name = os.path.splitext(os.path.split(inCollection)[1])[0]
-                        if isWOSFile(inCollection):
-                            self._Records = wosParser(inCollection)
-                        else:
-                            raise BadInputFile("'{}' does not match any known file type. Its header might be damaged or it could have been modified by another program.".format(inCollection))
-                    except BadWOSFile as w:
-                        self.bad = True
-                        self.error = w
+                    if not inCollection.endswith(extension):
+                        raise RCTypeError("extension of input file does not match requested extension")
+                    self.name = os.path.splitext(os.path.split(inCollection)[1])[0]
+                    if isWOSFile(inCollection):
+                        self._Records, pError = wosParser(inCollection)
+                        if pError is not None:
+                            self.bad = True
+                            self.errors[inCollection] = pError
+                    else:
+                        raise BadInputFile("'{}' does not match any known file type. Its header might be damaged or it could have been modified by another program.".format(inCollection))
                 elif os.path.isdir(inCollection):
                     count = 0
                     PBar.updateVal(0, "RecordCollection from a files in {}".format(inCollection))
@@ -118,7 +119,11 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
                         count += 1
                         PBar.updateVal(count / len(flist), "Reading records from: {}".format(fileName))
                         if isWOSFile(fileName):
-                            self._Records |= wosParser(fileName)
+                            recs, pError = wosParser(fileName)
+                            if pError is not None:
+                                self.bad = True
+                                self.errors[fileName]= pError
+                            self._Records |= recs
                         elif extension != '':
                             raise BadInputFile("'{}' does not match any known file type, but has the requested extension '{}'. Its header might be damaged or it could have been modified by another program.".format(fileName, extension))
                         else:
@@ -135,7 +140,10 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
                 self._Records = set(inCollection)
             else:
                 raise RCTypeError("RecordCollection cannot be created from {}.".format(inCollection))
-            PBar.finish("Done making a RecordCollection of {} Records".format(len(self)))
+            try:
+                PBar.finish("Done making a RecordCollection of {} Records".format(len(self)))
+            except AttributeError:
+                PBar.finish("Done making a RecordCollection. Warning an error occured.")
 
     #Hashable method
 
@@ -197,8 +205,8 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
 
     def clear(self):
         self.bad = False
-        self.error = None
-        return self._Records.clear()
+        self.errors = {}
+        self._Records.clear()
 
     def pop(self):
         try:
@@ -211,9 +219,9 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
             return NotImplemented
         else:
             self._Records |= other._Records
-            if other.bad and not self.bad:
+            if other.bad or self.bad:
                 self.bad = True
-                self.error = other.error
+                self.errors.update(other.errors)
             return self
 
     def __iand__(self, other):
@@ -221,9 +229,9 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
             return NotImplemented
         else:
             self._Records &= other._Records
-            if other.bad and not self.bad:
+            if other.bad or self.bad:
                 self.bad = True
-                self.error = other.error
+                self.errors.update(other.errors)
             return self
 
     def __ixor__(self, other):
@@ -231,9 +239,9 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
             return NotImplemented
         else:
             self._Records ^= other._Records
-            if other.bad and not self.bad:
+            if other.bad or self.bad:
                 self.bad = True
-                self.error = other.error
+                self.errors.update(other.errors)
             return self
 
     def __isub__(self, other):
@@ -241,9 +249,9 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
             return NotImplemented
         else:
             self._Records -= other._Records
-            if other.bad and not self.bad:
+            if other.bad or self.bad:
                 self.bad = True
-                self.error = other.error
+                self.errors.update(other.errors)
             return self
 
     #These are provided by the above
@@ -254,12 +262,9 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
             return NotImplemented
         else:
             retRC = RecordCollection(self._Records | other._Records, name = '{} | {}'.format(self, other), quietStart = True)
-            if self.bad:
+            if other.bad or self.bad:
                 retRC.bad = True
-                retRC.error = self.error
-            elif other.bad:
-                retRC.bad = True
-                retRC.error = other.error
+                retRC.errors.update(other.errors)
             return retRC
 
     def __and__(self, other):
@@ -267,12 +272,9 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
             return NotImplemented
         else:
             retRC = RecordCollection(self._Records & other._Records, name = '{} & {}'.format(self, other), quietStart = True)
-            if self.bad:
+            if other.bad or self.bad:
                 retRC.bad = True
-                retRC.error = self.error
-            elif other.bad:
-                retRC.bad = True
-                retRC.error = other.error
+                retRC.errors.update(other.errors)
             return retRC
 
     def __sub__(self, other):
@@ -280,12 +282,9 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
             return NotImplemented
         else:
             retRC = RecordCollection(self._Records - other._Records, name = '{} - {}'.format(self, other), quietStart = True)
-            if self.bad:
+            if other.bad or self.bad:
                 retRC.bad = True
-                retRC.error = self.error
-            elif other.bad:
-                retRC.bad = True
-                retRC.error = other.error
+                retRC.errors.update(other.errors)
             return retRC
 
     def __xor__(self, other):
@@ -293,12 +292,9 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
             return NotImplemented
         else:
             retRC = RecordCollection(self._Records ^ other._Records, name = '{} ^ {}'.format(self, other), quietStart = True)
-            if self.bad:
+            if other.bad or self.bad:
                 retRC.bad = True
-                retRC.error = self.error
-            elif other.bad:
-                retRC.bad = True
-                retRC.error = other.error
+                retRC.errors.update(other.errors)
             return retRC
 
     #Other niceties
@@ -309,6 +305,12 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
     def __bytes__(self):
         encoding = self.peak().encoding
         return bytes('\n', encoding = encoding).join((bytes(R) for R in self))
+
+    def copy(self):
+        rcCopy = copy.copy(self)
+        rcCopy._Records = rcCopy._Records.copy()
+        rcCopy.errors = rcCopy.errors.copy()
+        return rcCopy
 
     def containsID(self, idVal):
         for R in self:
@@ -420,9 +422,9 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
         if dropBad:
             self.dropBadRecords()
         if invert:
-            self._Records = {r for r in self._Records if r.PT != ptVal.upper()}
+            self._Records = {r for r in self._Records if r['PT'] != ptVal.upper()}
         else:
-            self._Records = {r for r in self._Records if r.PT == ptVal.upper()}
+            self._Records = {r for r in self._Records if r['PT'] == ptVal.upper()}
 
     def writeFile(self, fname = None):
         """Writes the `RecordCollection` to a file, the written file's format is identical to those download from WOS. The order of `Records` written is random.
@@ -1785,6 +1787,8 @@ def loadCache(cacheFile, flist, rcName, fileExtensions, PBar):
             dat, RC = pickle.load(f)
         except pickle.PickleError as e:
             raise cacheError("pickle Error: {}".format(e))
+    if dat["metaknowledge Version"] != __version__:
+        raise cacheError("mk version mismatch")
     if dat["RecordCollection Name"] != rcName:
         raise cacheError("Name mismatch")
     if dat["File Extension"] != fileExtensions:
@@ -1804,6 +1808,7 @@ def writeCache(RC, cacheFile, flist, rcName, fileExtensions, PBar):
     if PBar:
         PBar.updateVal(1, "Writing RecordCollection cache to {}".format(cacheFile))
     dat = {
+        "metaknowledge Version" : __version__,
         "File dict" : {},
         "RecordCollection Name" : rcName,
         "File Extension" : fileExtensions,

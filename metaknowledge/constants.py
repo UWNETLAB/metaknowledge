@@ -2,7 +2,7 @@
 import os
 import sys
 
-__version__ = '1.1a0'
+__version__ = '1.1a1'
 
 specialRecordFields = [
     'authorsShort',

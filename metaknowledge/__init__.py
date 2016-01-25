@@ -39,8 +39,6 @@ from .graphHelpers import writeEdgeList, writeNodeAttributeFile, writeGraph, rea
 from .constants import VERBOSE_MODE, __version__, specialRecordFields
 from .diffusion import diffusionGraph, diffusionCount
 
-
-
 from .WOS.tagProcessing.funcDicts import tagToFull, isTagOrName, normalizeToTag, normalizeToName
 from .WOS.wosHandlers import wosParser
 from .WOS.recordWOS import recordParser, WOSRecord

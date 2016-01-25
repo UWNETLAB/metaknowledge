@@ -83,7 +83,8 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
                     PBar.updateVal(.5, "RecordCollection from a file started")
                     if not inCollection.endswith(extension):
                         raise RCTypeError("extension of input file does not match requested extension")
-                    self.name = os.path.splitext(os.path.split(inCollection)[1])[0]
+                    if not name:
+                        self.name = os.path.splitext(os.path.split(inCollection)[1])[0]
                     if isWOSFile(inCollection):
                         self._Records, pError = wosParser(inCollection)
                         if pError is not None:
@@ -333,52 +334,22 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
         else:
             return None
 
-    def dropWOS(self, wosNum):
-        """Removes the `Record` with WOS number (ID number) _wosNum_ from the collection. If it cannot be found nothing happens.
-
-        # Parameters
-
-        _wosNum_ : `str`
-
-        > _wosNum_ is the WOS number of the Record to be dropped. _wosNum_ must begin with `'WOS:'` or a valueError is raise.
-        """
-        if wosNum[:4] != 'WOS:':
-            raise ValueError("{} is not a valid WOS number string, it does not start with 'WOS:'.".format(wosNum))
-        for R in self._Records:
-            if R.wosString == wosNum:
-                self._Records.remove(R)
-                break
-
-
-
-    def WOS(self, wosNum, drop = False):
-        """Gets the `Record` from the collection by its WOS number (ID number) _wosNum_.
-
-        # Parameters
-
-        _wosNum_ : `str`
-
-        > _wosNum_ is the WOS number of the `Record` to be extracted. _wosNum_ must begin with `'WOS:'` or a valueError is raise.
-
-        _drop_ : `optional [bool]`
-
-        > Default `False`. If `True` the Record is dropped from the collection after being extract, i.e. if `False` [**WOS**()](#RecordCollection.WOS) acts like [**peak**()](#RecordCollection.peak), if `True` it acts like [**pop**()](#RecordCollection.pop)
-
-        # Returns
-
-        `metaknowledge.Record`
-
-        > The `Record` whose WOS number is _wosNum_
-        """
-        try:
-            if wosNum[:4] != 'WOS:':
-                raise ValueError("{} is not a valid WOS number string, it does not start with 'WOS:'.".format(wosNum))
-        except (TypeError, IndexError):
-            raise ValueError("{} is not a valid WOS number string, it does not start with 'WOS:'.".format(wosNum))
+    def discardID(self, idVal):
         for R in self:
-            if R.wosString == wosNum:
-                if drop:
-                    self._Records.remove(R)
+            if R.id == idVal:
+                self._Records.discard(R)
+                return
+
+    def removeID(self, idVal):
+        for R in self:
+            if R.id == idVal:
+                self._Records.remove(R)
+                return
+        raise KeyError("A Record with the ID '{}' was not found in the RecordCollection: '{}'.".format(idVal, self))
+
+    def getID(self, idVal):
+        for R in self:
+            if R.id == idVal:
                 return R
         return None
 
@@ -501,7 +472,7 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
         else:
             retrievedFields = firstTags
             for R in self:
-                tagsLst = [t for t in R.activeTags() if t not in retrievedFields]
+                tagsLst = [t for t in R.keys() if t not in retrievedFields]
                 retrievedFields += tagsLst
         if longNames:
             try:
@@ -511,16 +482,16 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
         if fname:
             f = open(fname, mode = 'w', encoding = 'utf-8')
         else:
-            f = open(repr(self)[:200] + '.csv', mode = 'w', encoding = 'utf-8')
+            f = open(self.name[:200] + '.csv', mode = 'w', encoding = 'utf-8')
         if numAuthors:
             csvWriter = csv.DictWriter(f, retrievedFields + ["numAuthors"], delimiter = csvDelimiter, quotechar = csvQuote, quoting=csv.QUOTE_ALL)
         else:
             csvWriter = csv.DictWriter(f, retrievedFields, delimiter = csvDelimiter, quotechar = csvQuote, quoting=csv.QUOTE_ALL)
         csvWriter.writeheader()
         for R in self:
-            recDict = R.TagsDict(retrievedFields)
+            recDict = R.subDict(retrievedFields)
             if numAuthors:
-                recDict["numAuthors"] = str(R.numAuthors())
+                recDict["numAuthors"] = len(R['authorsShort'])
             for k in recDict.keys():
                 value = recDict[k]
                 if hasattr(value, '__iter__'):
@@ -566,7 +537,7 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
         if fname:
             f = open(fname, mode = 'w', encoding = 'utf-8')
         else:
-            f = open(repr(self)[:200] + '.bib', mode = 'w', encoding = 'utf-8')
+            f = open(self.name[:200] + '.bib', mode = 'w', encoding = 'utf-8')
         f.write("%This file was generated by the metaknowledge Python package.\n%The contents have been automatically generated and are likely to not work with\n%LaTeX without some human intervention. This file is meant for other automatic\n%systems and not to be used directly for making citations\n")
         #I figure this is worth mentioning, as someone will get annoyed at none of the special characters being escaped and how terrible some of the fields look to humans
         for R in self:
@@ -577,7 +548,7 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
                 pass
         f.close()
 
-    def makeDict(self, onlyTheseTags = None, longNames = False, cleanedVal = True, numAuthors = True):
+    def makeDict(self, onlyTheseTags = None, longNames = False, raw = False, numAuthors = True):
         """Returns a dict with each key a tag and the values being lists of the values for each of the Records in the collection, `None` is given when there is no value and they are in the same order across each tag.
 
         When used with pandas: `pandas.DataFrame(RC.makeDict())` returns a data frame with each column a tag and each row a Record.
@@ -610,7 +581,7 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
         else:
             retrievedFields = []
             for R in self:
-                tagsLst = [t for t in R.activeTags() if t not in retrievedFields]
+                tagsLst = [t for t in R.keys() if t not in retrievedFields]
                 retrievedFields += tagsLst
         if longNames:
             try:
@@ -622,8 +593,8 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
             retDict["numAuthors"] = []
         for R in self:
             if numAuthors:
-                retDict["numAuthors"].append(R.numAuthors())
-            for k, v in R.TagsDict(retrievedFields, cleaned = cleanedVal).items():
+                retDict["numAuthors"].append(len(R.get('authorsShort')))
+            for k, v in R.subDict(retrievedFields, raw = raw).items():
                 retDict[k].append(v)
         return retDict
 
@@ -677,7 +648,7 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
             def attributeMaker(Rec):
                 attribsDict = {}
                 for val in infoVals:
-                    recVal = getattr(Rec, val)
+                    recVal = Rec.get(val)
                     if isinstance(recVal, list):
                         attribsDict[val] = ', '.join((str(v).replace(',', '') for v in recVal))
                     else:
@@ -697,7 +668,7 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
                     PBar.updateVal(pcount/ len(self), "Analyzing: " + str(R))
                 if dropNonJournals and not R.createCitation().isJournal():
                     continue
-                authsList = R.authorsFull
+                authsList = R.get('authorsFull')
                 if authsList:
                     authsList = list(authsList)
                     detailedInfo = attributeMaker(R)
@@ -819,8 +790,8 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
             for R in self:
                 if PBar:
                     pcount += 1
-                    PBar.updateVal(pcount / len(self), "Analyzing: " + str(R))
-                Cites = R.citations
+                    PBar.updateVal(pcount / len(self), "Analyzing: {}".format(R))
+                Cites = R.get('citations')
                 if Cites:
                     filteredCites = filterCites(Cites, nodeType, dropAnon, dropNonJournals, keyWords, coreCites)
                     addToNetwork(tmpgrph, filteredCites, count, weighted, nodeType, nodeInfo , fullInfo, coreCitesDict, coreValues, headNd = None)
@@ -938,7 +909,7 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
                 reRef = R.createCitation()
                 if len(filterCites([reRef], nodeType, dropAnon, dropNonJournals, keyWords, coreCites)) == 0:
                     continue
-                rCites = R.citations
+                rCites = R.get('citations')
                 if rCites:
                     filteredCites = filterCites(rCites, nodeType, dropAnon, dropNonJournals, keyWords, coreCites)
                     addToNetwork(tmpgrph, filteredCites, count, weighted, nodeType, nodeInfo, fullInfo, coreCitesDict, coreValues, headNd = reRef)
@@ -1055,7 +1026,7 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
                 if PBar:
                     count += 1
                     PBar.updateVal(count / len(self), "Analyzing: " + str(R))
-                contents = getattr(R, mode, None)
+                contents = R.get(mode)
                 if contents:
                     if isinstance(contents, list):
                         if stemCheck:
@@ -1190,8 +1161,8 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
                 if PBar:
                     count += 1
                     PBar.updateVal(count / len(self), "Analyzing: " + str(R))
-                contents1 = getattr(R, tag1, None)
-                contents2 = getattr(R, tag2, None)
+                contents1 = R.get(tag1)
+                contents2 = R.get(tag2)
                 if isinstance(contents1, list):
                     contents1 = [stemmerTag1(str(v)) for v in contents1]
                 elif contents1 == None:
@@ -1325,7 +1296,7 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
                     PBar.updateVal(count / len(self), "Analyzing: " + str(R))
                 contents = []
                 for t in tags:
-                    tmpVal = getattr(R, t, None)
+                    tmpVal = R.get(t)
                     if stemCheck:
                         if tmpVal:
                             if isinstance(tmpVal, list):
@@ -1410,7 +1381,7 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
             if keyType not in keyTypesLst:
                 raise TypeError("{} is not a valid key type, only '{}' or '{}' are.".format(keyType, "', '".join(keyTypesLst[:-1]), keyTypesLst[-1]))
             for R in self:
-                rCites = R.CR
+                rCites = R.get('CR')
                 if PBar:
                     count += 1
                     PBar.updateVal(count / recCount, "Analysing: {}".format(R.UT))
@@ -1458,7 +1429,7 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
             recCite = rec.createCitation()
         if isinstance(rec, str):
             try:
-                recCite = self.WOS(rec)
+                recCite = self.getID(rec)
             except ValueError:
                 try:
                     recCite = Citation(rec)
@@ -1474,7 +1445,7 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
         else:
             raise ValueError("{} is not a valid input, rec must be a Record, string or Citation object.".format(rec))
         for R in self:
-            rCites = R.CR
+            rCites = R.get('CR')
             if rCites:
                 for cite in rCites:
                     if recCite == cite:
@@ -1518,7 +1489,7 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
         for R in self:
             try:
                 if field == 'all':
-                    for cite in R.citations:
+                    for cite in R.get('citations'):
                         if caseSensitive:
                             if keyString in cite.original:
                                 retRecs.append(R)
@@ -1528,7 +1499,7 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
                                 retRecs.append(R)
                                 break
                 elif field == 'author':
-                    for cite in R.citations:
+                    for cite in R.get('citations'):
                         try:
                             if keyString.upper() in cite.author.upper():
                                 retRecs.append(R)
@@ -1536,7 +1507,7 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
                         except AttributeError:
                             pass
                 elif field == 'journal':
-                    for cite in R.citations:
+                    for cite in R.get('citations'):
                         try:
                             if keyString.upper() in cite.journal:
                                 retRecs.append(R)
@@ -1544,7 +1515,7 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
                         except AttributeError:
                             pass
                 elif field == 'year':
-                    for cite in R.citations:
+                    for cite in R.get('citations'):
                         try:
                             if int(keyString) == cite.year:
                                 retRecs.append(R)
@@ -1552,7 +1523,7 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
                         except AttributeError:
                             pass
                 elif field == 'V':
-                    for cite in R.citations:
+                    for cite in R.get('citations'):
                         try:
                             if keyString.upper() in cite.V:
                                 retRecs.append(R)
@@ -1560,7 +1531,7 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
                         except AttributeError:
                             pass
                 elif field == 'P':
-                    for cite in R.citations:
+                    for cite in R.get('citations'):
                         try:
                             if keyString.upper() in cite.P:
                                 retRecs.append(R)
@@ -1568,7 +1539,7 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
                         except AttributeError:
                             pass
                 elif field == 'misc':
-                    for cite in R.citations:
+                    for cite in R.get('citations'):
                         try:
                             if keyString.upper() in cite.misc:
                                 retRecs.append(R)
@@ -1576,12 +1547,12 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
                         except AttributeError:
                             pass
                 elif field == 'anonymous':
-                    for cite in R.citations:
+                    for cite in R.get('citations'):
                         if cite.isAnonymous():
                             retRecs.append(R)
                             break
                 elif field == 'bad':
-                    for cite in R.citations:
+                    for cite in R.get('citations'):
                         if cite.bad:
                             retRecs.append(R)
                             break
@@ -1699,7 +1670,7 @@ def makeNodeTuple(citation, idVal, nodeInfo, fullInfo, nodeType, count, coreCite
                     R = coreCitesDict[citation]
                     infoVals = []
                     for tag in coreValues:
-                        tagVal = getattr(R, tag)
+                        tagVal = R.get(tag)
                         if isinstance(tagVal, str):
                             infoVals.append(tagVal.replace(',',''))
                         elif isinstance(tagVal, list):

@@ -172,31 +172,31 @@ class WOSRecord(Record):
             raise BadWOSRecord("This record cannot be converted to a bibtex entry as the input was malformed.\nThe original line number (if any) is: {} and the original file is: '{}'".format(self._sourceLine, self._sourceFile))
         texType = self.bibTexType()
         if niceID:
-            if self.authors:
-                bibID = self.authors[0].title().replace(' ', '').replace(',', '').replace('.','')
+            if self.get('authorsFull'):
+                bibID = self['authorsFull'][0].title().replace(' ', '').replace(',', '').replace('.','')
             else:
                 bibID = ''
-            if self.year:
-                bibID += '-' + str(self.year)
-            if self.month:
-                bibID += '-' + str(self.month)
-            if self.title:
-                tiSorted = sorted(self.title.split(' '), key = len)
+            if self.get('year'):
+                bibID += '-' + str(self['year'])
+            if self.get('month'):
+                bibID += '-' + str(self['month'])
+            if self.get('title'):
+                tiSorted = sorted(self['title'].split(' '), key = len)
                 bibID += '-' + tiSorted.pop().title()
                 while len(bibID) < 35 and len(tiSorted) > 0:
-                    bibID += '-' + tiSorted.pop().title()
+                    bibID += '-' + tiSorted.pop().title() #Title Case
             if len(bibID) < 30:
-                bibID += str(self.UT)
+                bibID += str(self.id)
         elif WOSMode:
-            bibID = 'ISI:{}'.format(self.wosString[4:])
+            bibID = 'ISI:{}'.format(self.id[4:])
         else:
-            bibID = str(self.wosString)
+            bibID = str(self.id)
         if WOSMode:
-            for tag, value in self._fieldDict.items():
+            for tag, value in self.items():
                 if restrictedOutput and tag not in restrictedTags:
                     pass
                 elif tag == 'AF':
-                    keyEntries.append("{} = {{{{{}}}}},".format('author',' and '.join(self.AF)))
+                    keyEntries.append("{} = {{{{{}}}}},".format('author',' and '.join(value)))
                 elif isinstance(value, list):
                     keyEntries.append("{} = {{{{{}}}}},".format(tagToFull(tag),'\n   '.join(value)))
                 else:
@@ -204,7 +204,7 @@ class WOSRecord(Record):
             s = """@{0}{{ {1},\n{2}\n}}""".format(texType, bibID, '\n'.join(keyEntries))
         else:
             tagsList = []
-            for tag in self.activeTags():
+            for tag in self.keys():
                 try:
                     if restrictedOutput and tag not in restrictedTags:
                         pass
@@ -213,7 +213,7 @@ class WOSRecord(Record):
                 except KeyError:
                     tagsList.append(tag)
             for tagName in tagsList:
-                keyEntries.append("{} = {},".format(tagName, _bibFormatter(getattr(self, tagName), maxLength)))
+                keyEntries.append("{} = {},".format(tagName, _bibFormatter(self.get(tagName), maxLength)))
             s = """@{0}{{ {1},\n    {2}\n}}""".format(texType, bibID, '\n    '.join(keyEntries))
         return s
 
@@ -232,8 +232,8 @@ class WOSRecord(Record):
             'Meeting Abstract' : 'inproceedings',
             'Book' : 'book',
         }
-        if self.DT in mappingDict:
-            return mappingDict[self.DT]
+        if self['DT'] in mappingDict:
+            return mappingDict[self['DT']]
         else:
             return 'misc'
 

@@ -102,6 +102,10 @@ class TestRecord(unittest.TestCase):
     def test_tags(self):
         self.assertEqual(self.R.subDict(['a', 'b']), {'a': None, 'b': None})
 
+    def test_specials(self):
+        for t in metaknowledge.specialRecordFields:
+            self.assertIsInstance(self.R.getAltName(t), str)
+
 simplePaperString = """PT J
 AU John, D
 AF John, Doe

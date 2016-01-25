@@ -397,9 +397,9 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
         if dropBad:
             self.dropBadRecords()
         if invert:
-            self._Records = {r for r in self._Records if r['PT'] != ptVal.upper()}
+            self._Records = {r for r in self._Records if r['pubType'] != ptVal.upper()}
         else:
-            self._Records = {r for r in self._Records if r['PT'] == ptVal.upper()}
+            self._Records = {r for r in self._Records if r['pubType'] == ptVal.upper()}
 
     def writeFile(self, fname = None):
         """Writes the `RecordCollection` to a file, the written file's format is identical to those download from WOS. The order of `Records` written is random.
@@ -1384,7 +1384,7 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
             if keyType not in keyTypesLst:
                 raise TypeError("{} is not a valid key type, only '{}' or '{}' are.".format(keyType, "', '".join(keyTypesLst[:-1]), keyTypesLst[-1]))
             for R in self:
-                rCites = R.get('CR')
+                rCites = R.get('citations')
                 if PBar:
                     count += 1
                     PBar.updateVal(count / recCount, "Analysing: {}".format(R.UT))
@@ -1448,7 +1448,7 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
         else:
             raise ValueError("{} is not a valid input, rec must be a Record, string or Citation object.".format(rec))
         for R in self:
-            rCites = R.get('CR')
+            rCites = R.get('citations')
             if rCites:
                 for cite in rCites:
                     if recCite == cite:

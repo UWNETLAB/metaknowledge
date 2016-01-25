@@ -36,7 +36,7 @@ from .recordCollection import RecordCollection
 from .mkExceptions import *
 
 from .graphHelpers import writeEdgeList, writeNodeAttributeFile, writeGraph, readGraph, _ProgressBar, dropEdges, dropNodesByDegree, dropNodesByCount, mergeGraphs, graphStats
-from .constants import VERBOSE_MODE, __version__
+from .constants import VERBOSE_MODE, __version__, specialRecordFields
 from .diffusion import diffusionGraph, diffusionCount
 
 

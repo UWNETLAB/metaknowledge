@@ -956,18 +956,17 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
 
         > A RecordCollection of Records from _startYear_ to _endYear_
         """
-
         recordsInRange = set()
-        for R in self._Records:
+        for R in self:
             try:
-                if R.year >= startYear and R.year <= endYear:
+                if R.get('year') >= startYear and R.get('year') <= endYear:
                     recordsInRange.add(R)
             except TypeError:
                 if dropMissingYears:
                     pass
                 else:
                     raise
-        return RecordCollection(recordsInRange, repr(self) + "_(" + str(startYear) + " ," + str(endYear) + ")", quietStart = True)
+        return RecordCollection(recordsInRange, name = "{}_({}-{})".format(self.name, startYear, endYear), quietStart = True)
 
     def oneModeNetwork(self, mode, nodeCount = True, edgeWeight = True, stemmer = None):
         """Creates a network of the objects found by one WOS tag _mode_.

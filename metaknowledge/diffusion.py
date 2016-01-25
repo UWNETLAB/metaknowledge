@@ -91,7 +91,7 @@ def diffusionGraph(source, target, weighted = True, sourceType = "raw", targetTy
         for Rt in target:
             RtVal, RtExtras = makeNodeID(Rt, targetType)
             if labelEdgesBy is not None:
-                edgeVals = getattr(Rt, labelEdgesBy)
+                edgeVals = Rt.get(labelEdgesBy)
                 if edgeVals is None:
                     continue
                 if not isinstance(edgeVals, list):
@@ -105,7 +105,7 @@ def diffusionGraph(source, target, weighted = True, sourceType = "raw", targetTy
                         workingGraph.add_node(val, source = False, target = True, **RtExtras)
                     else:
                         workingGraph.node[val]["target"] = True
-                    targetCites = Rt.CR
+                    targetCites = Rt.get('CR')
                     if targetCites:
                         for Rs in (sourceDict[c] for c in targetCites if c in sourceDict):
                             for sVal in Rs:
@@ -217,15 +217,15 @@ def diffusionCount(source, target, sourceType = "raw", pandasFriendly = False,  
         if PBar:
             count += 1
             PBar.updateVal(count / maxCount * .75 + .25, "Analyzing target: " + str(Rt))
-        targetCites = Rt.CR
+        targetCites = Rt.get('CR')
         if targetCites:
             for Rs in (sourceDict[c] for c in targetCites if c in sourceDict):
                 for sVal in Rs:
                     if byYear:
                         try:
-                            sourceCounts[sVal][Rt.year] += 1
+                            sourceCounts[sVal][Rt.get('year')] += 1
                         except KeyError:
-                            sourceCounts[sVal][Rt.year] = 1
+                            sourceCounts[sVal][Rt.get('year')] = 1
                     else:
                         sourceCounts[sVal] += 1
     if compareCounts:
@@ -243,17 +243,17 @@ def diffusionCount(source, target, sourceType = "raw", pandasFriendly = False,  
         if sourceType == 'raw':
             retrievedFields = []
             for R in sourceCounts.keys():
-                tagsLst = [t for t in R.activeTags() if t not in retrievedFields]
+                tagsLst = [t for t in R.keys() if t not in retrievedFields]
                 retrievedFields += tagsLst
             for tag in retrievedFields:
                 retDict[tag] = []
             for R, occ in sourceCounts.items():
                 if byYear:
-                    Rvals = R.TagsDict(retrievedFields, cleaned = True)
+                    Rvals = R.subDict(retrievedFields)
                     for year, occCount in occ.items():
                         retDict["year"].append(year)
                         if numAuthors:
-                            retDict["numAuthors"].append(R.numAuthors())
+                            retDict["numAuthors"].append(len(R.get('authorsShort')))
                         for tag in retrievedFields:
                             retDict[tag].append(Rvals[tag])
                         retDict[targetCountString].append(occCount)
@@ -263,9 +263,9 @@ def diffusionCount(source, target, sourceType = "raw", pandasFriendly = False,  
                             except KeyError:
                                 retDict[sourceCountString].append(0)
                 else:
-                    Rvals = R.TagsDict(retrievedFields, cleaned = True)
+                    Rvals = R.subDict(retrievedFields)
                     if numAuthors:
-                        retDict["numAuthors"].append(R.numAuthors())
+                        retDict["numAuthors"].append(len(R.get('authorsShort')))
                     for tag in retrievedFields:
                         retDict[tag].append(Rvals[tag])
                     retDict[targetCountString].append(occ)
@@ -311,7 +311,7 @@ def makeNodeID(Rec, ndType, extras = None):
     if ndType == 'raw':
         recID = Rec
     else:
-        recID =  getattr(Rec, ndType)
+        recID = Rec.get(ndType)
     if recID is None:
         pass
     elif isinstance(recID, list):
@@ -324,5 +324,5 @@ def makeNodeID(Rec, ndType, extras = None):
             if tag == "raw":
                 extraDict['Tag'] = Rec
             else:
-                extraDict['Tag'] = getattr(Rec, tag)
+                extraDict['Tag'] = Rec.get(tag)
     return recID, extraDict

@@ -2,6 +2,8 @@
 import os
 import sys
 
+__version__ = '1.1a0'
+
 def isInteractive():
     """
     A basic check of if the program is running in interactive mode

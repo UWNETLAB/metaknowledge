@@ -8,8 +8,9 @@ import copy
 
 import networkx as nx
 
+from .constants import __version__
 from .record import Record
-from .graphHelpers import _ProgressBar, __version__
+from .graphHelpers import _ProgressBar
 from .WOS.tagProcessing.funcDicts import tagToFullDict, fullToTagDict, normalizeToTag
 from .citation import Citation
 from .mkExceptions import cacheError, BadWOSFile, BadWOSRecord, RCTypeError, BadInputFile, BadRecord
@@ -305,7 +306,10 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
 
     def __bytes__(self):
         encoding = self.peak().encoding
-        return bytes('\n', encoding = encoding).join((bytes(R) for R in self))
+        try:
+            return bytes('\n', encoding = encoding).join((bytes(R) for R in self))
+        except BadRecord as e:
+            raise e from None
 
     def copy(self):
         rcCopy = copy.copy(self)
@@ -966,7 +970,7 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
                     pass
                 else:
                     raise
-        return RecordCollection(recordsInRange, name = "{}_({}-{})".format(self.name, startYear, endYear), quietStart = True)
+        return RecordCollection(recordsInRange, name = "{}({}-{})".format(self.name, startYear, endYear), quietStart = True)
 
     def oneModeNetwork(self, mode, nodeCount = True, edgeWeight = True, stemmer = None):
         """Creates a network of the objects found by one WOS tag _mode_.

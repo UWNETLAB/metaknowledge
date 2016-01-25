@@ -30,13 +30,13 @@ Citations are handled by a special [Citation](#Citation.Citation) class. This cl
 Note for those reading the docstrings metaknowledge's docs are written in markdown and are processed to produce the documentation found at [networkslab.org/metaknowledge/documentation]({{ site.baseurl }}/documentation/), but you should have no problem reading them from the help function.
 """
 
-#from .record import Record
+from .record import Record
 from .citation import Citation, filterNonJournals
 from .recordCollection import RecordCollection
-from .mkExceptions import BadWOSRecord, BadCitation, BadRecord
+from .mkExceptions import *
 
-from .graphHelpers import writeEdgeList, writeNodeAttributeFile, writeGraph, readGraph, _ProgressBar, dropEdges, dropNodesByDegree, dropNodesByCount, mergeGraphs, graphStats, __version__
-from .constants import VERBOSE_MODE
+from .graphHelpers import writeEdgeList, writeNodeAttributeFile, writeGraph, readGraph, _ProgressBar, dropEdges, dropNodesByDegree, dropNodesByCount, mergeGraphs, graphStats
+from .constants import VERBOSE_MODE, __version__
 from .diffusion import diffusionGraph, diffusionCount
 
 
@@ -45,6 +45,4 @@ from .WOS.tagProcessing.funcDicts import tagToFull, isTagOrName, normalizeToTag,
 from .WOS.wosHandlers import wosParser
 from .WOS.recordWOS import recordParser, WOSRecord
 
-
-Record = WOSRecord
 #from .blondel import blondel, modularity #Better implementations can be found on Pypi so this has been discontinued

@@ -5,8 +5,8 @@ import metaknowledge
 class TestRecord(unittest.TestCase):
     def setUp(self):
         metaknowledge.VERBOSE_MODE = False
-        self.R = metaknowledge.Record(simplePaperString)
-        self.Rbad = metaknowledge.Record(simplePaperString[:-3])
+        self.R = metaknowledge.WOSRecord(simplePaperString)
+        self.Rbad = metaknowledge.WOSRecord(simplePaperString[:-3])
 
     def test_isRecord(self):
         self.assertTrue(isinstance(self.R, metaknowledge.WOSRecord))
@@ -14,7 +14,7 @@ class TestRecord(unittest.TestCase):
     def test_bad(self):
         self.assertTrue(self.Rbad.bad)
         with self.assertRaises(TypeError):
-            metaknowledge.Record(set('a','b'))
+            metaknowledge.WOSRecord(set('a','b'))
 
     def test_equality(self):
         self.assertEqual(self.R, self.R)
@@ -64,7 +64,7 @@ class TestRecord(unittest.TestCase):
 
     def test_state(self):
         state = self.R.__getstate__()
-        Rtmp = metaknowledge.Record('PT J')
+        Rtmp = metaknowledge.WOSRecord('PT J')
         Rtmp.__setstate__(state)
         self.assertEqual(self.R, Rtmp)
 

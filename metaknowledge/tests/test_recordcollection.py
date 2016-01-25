@@ -4,7 +4,6 @@ import metaknowledge
 import metaknowledge.WOS.tagProcessing
 import os
 import filecmp
-import copy
 import networkx as nx
 
 class TestRecordCollection(unittest.TestCase):
@@ -54,6 +53,102 @@ class TestRecordCollection(unittest.TestCase):
         RCcopy.dropNonJournals(ptVal = 'B')
         self.assertEqual(len(RCcopy), 1)
 
+    def test_hash(self):
+        self.assertNotEqual(hash(self.RC), hash(self.RCbad))
+        R = self.RC.pop()
+        RC = metaknowledge.RecordCollection([R])
+        self.assertEqual(hash(RC), hash(hash(R)))
+
+    def test_contains(self):
+        R = self.RC.peak()
+        self.assertTrue(R in self.RC)
+        R = self.RC.pop()
+        self.assertFalse(R in self.RC)
+
+    def test_conID(self):
+        R = self.RC.peak()
+        self.assertTrue(self.RC.containsID(R.id))
+        self.assertFalse(self.RC.containsID('234567654'))
+
+    def test_discard(self):
+        R = self.RC.peak()
+        l = len(self.RC)
+        self.RC.discard(R)
+        l2 = len(self.RC)
+        self.assertEqual(l, l2 + 1)
+        self.RC.discard(R)
+        self.assertEqual(l2, len(self.RC))
+
+    def test_pop(self):
+        R = self.RC.pop()
+        self.assertFalse(R in self.RC)
+        self.RC.clear()
+        with self.assertRaises(KeyError):
+            R = self.RC.pop()
+
+    def test_peak(self):
+        R = self.RC.peak()
+        self.assertTrue(R in self.RC)
+        self.RC.clear()
+        R = self.RC.peak()
+        self.assertTrue(R is None)
+
+    def test_clear(self):
+        R = self.RCbad.peak()
+        self.assertTrue(self.RCbad.bad)
+        self.RCbad.clear()
+        self.assertFalse(self.RCbad.bad)
+        self.assertFalse(R in self.RCbad)
+
+    def test_remove(self):
+        R = self.RC.peak()
+        l = len(self.RC)
+        self.RC.remove(R)
+        self.assertEqual(l, len(self.RC) + 1)
+        with self.assertRaises(KeyError):
+            self.RC.remove(R)
+
+    def test_ops(self):
+        l = len(self.RC)
+        for i in range(10):
+            self.RCbad.pop()
+        lb = len(self.RCbad)
+        RC = metaknowledge.RecordCollection([])
+        RC.bad = True
+        RC |= self.RC
+        self.assertEqual(self.RC, RC)
+        RC -= self.RC
+        self.assertNotEqual(self.RC, RC)
+        RC ^= self.RC
+        self.assertEqual(self.RC, RC)
+        RC &= self.RCbad
+        self.assertNotEqual(self.RC, RC)
+
+    def test_opErrors(self):
+        with self.assertRaises(TypeError):
+            self.RC <= 1
+        with self.assertRaises(TypeError):
+            self.RC >= 1
+        self.assertTrue(self.RC != 1)
+        with self.assertRaises(TypeError):
+            self.RC >= 1
+        with self.assertRaises(TypeError):
+            self.RC |= 1
+        with self.assertRaises(TypeError):
+            self.RC ^= 1
+        with self.assertRaises(TypeError):
+            self.RC &= 1
+        with self.assertRaises(TypeError):
+            self.RC -= 1
+        with self.assertRaises(TypeError):
+            self.RC | 1
+        with self.assertRaises(TypeError):
+            self.RC ^ 1
+        with self.assertRaises(TypeError):
+            self.RC & 1
+        with self.assertRaises(TypeError):
+            self.RC - 1
+
     def test_addRec(self):
         l = len(self.RC)
         R = self.RC.pop()
@@ -63,6 +158,14 @@ class TestRecordCollection(unittest.TestCase):
         RC2 = metaknowledge.RecordCollection("metaknowledge/tests/TwoPaper.isi")
         self.RC |= RC2
         self.assertEqual(len(self.RC), l + 2)
+        with self.assertRaises(metaknowledge.RCTypeError):
+            self.RC.add(1)
+
+    def test_bytes(self):
+        with self.assertRaises(metaknowledge.BadRecord):
+            self.assertIsInstance(bytes(self.RC), bytes)
+        self.RC.dropBadRecords()
+        self.assertIsInstance(bytes(self.RC), bytes)
 
     def test_WOS(self):
         self.RC.dropBadRecords()

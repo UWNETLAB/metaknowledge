@@ -78,7 +78,7 @@ class WOSRecord(Record):
                 fieldDict = recordParser(enumerate(addChartoEnd(inRecord.split('\n')), start = 1))
                 #string io
             else:
-                raise TypeError("Unsupported input type '{}', Records cannot be created from '{}'".format(inRecord, type(inRecord)))
+                raise TypeError("Unsupported input type '{}', WOSRecords cannot be created from '{}'".format(inRecord, type(inRecord)))
         except BadWOSRecord as b:
             self.bad = True
             self.error = b

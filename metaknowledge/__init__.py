@@ -43,4 +43,6 @@ from .WOS.tagProcessing.funcDicts import tagToFull, isTagOrName, normalizeToTag,
 from .WOS.wosHandlers import wosParser
 from .WOS.recordWOS import recordParser, WOSRecord
 
+from .pubmed import *
+
 #from .blondel import blondel, modularity #Better implementations can be found on Pypi so this has been discontinued

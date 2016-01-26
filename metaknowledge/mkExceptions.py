@@ -7,16 +7,17 @@ class RCTypeError(mkException):
 class BadInputFile(mkException):
     pass
 
-class BadRecord(Exception):
+class BadRecord(mkException):
     pass
 
+class BadPubmedRecord(mkException):
+    pass
 
-
-class cacheError(Exception):
+class cacheError(mkException):
     """Exception raised when loading a cached RecordCollection fails, should only be seen inside metaknowledge and always be caught."""
     pass
 
-class BadWOSRecord(Warning):
+class BadWOSRecord(BadRecord):
     """Exception thrown by the [record parser](#metaknowledge.recordParser) to indicate a mis-formated record. This occurs when some component of the record does not parse. The messages will be any of:
 
         * _Missing field on line (line Number):(line)_, which indicates a line was to short, there should have been a tag followed by information

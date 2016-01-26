@@ -3,7 +3,7 @@
 from ..mkExceptions import BadPubmedRecord
 from ..record import Record
 
-class PubmedRecord(Record):
+class MedlineRecord(Record):
     def __init__(self, inRecord, sFile = "", sLine = 0):
         """See help on [Record](#Record.Record) for details"""
         bad = False

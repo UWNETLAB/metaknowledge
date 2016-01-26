@@ -36,14 +36,14 @@ def wosParser(isifile):
 
     > All the `Records` found in _isifile_
     """
+    plst = set()
+    error = None
     try:
         with open(isifile, 'r', encoding='utf-8-sig') as openfile:
             f = enumerate(openfile, start = 0)
             while "VR 1.0" not in f.__next__()[1]:
                 pass
             notEnd = True
-            plst = set()
-            error = None
             while notEnd:
                 line = f.__next__()
                 if line[1] == '':

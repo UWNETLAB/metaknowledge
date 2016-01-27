@@ -17,6 +17,8 @@ from .mkExceptions import cacheError, BadWOSFile, BadWOSRecord, RCTypeError, Bad
 
 from .WOS.wosHandlers import wosParser, isWOSFile
 
+from .medline.medlineHandlers import medlineParser, isMedlineFile
+
 import metaknowledge
 
 class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
@@ -91,6 +93,11 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
                         if pError is not None:
                             self.bad = True
                             self.errors[inCollection] = pError
+                    elif isMedlineFile(inCollection):
+                        self._Records, pError = medlineParser(inCollection)
+                        if pError is not None:
+                            self.bad = True
+                            self.errors[inCollection] = pError
                     else:
                         raise BadInputFile("'{}' does not match any known file type. Its header might be damaged or it could have been modified by another program.".format(inCollection))
                 elif os.path.isdir(inCollection):
@@ -122,6 +129,12 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
                         PBar.updateVal(count / len(flist), "Reading records from: {}".format(fileName))
                         if isWOSFile(fileName):
                             recs, pError = wosParser(fileName)
+                            if pError is not None:
+                                self.bad = True
+                                self.errors[fileName]= pError
+                            self._Records |= recs
+                        if isMedlineFile(fileName):
+                            recs, pError = medlineParser(fileName)
                             if pError is not None:
                                 self.bad = True
                                 self.errors[fileName]= pError

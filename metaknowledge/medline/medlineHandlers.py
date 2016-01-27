@@ -2,7 +2,7 @@ import itertools
 
 from .recordMedline import MedlineRecord
 
-def isMedline(infile, checkedLines = 2):
+def isMedlineFile(infile, checkedLines = 2):
     """Checks if _infile_ has the right header in the first _checkedLines_ lines
     """
     try:
@@ -29,7 +29,8 @@ def medlineParser(pubFile):
                 while True:
                     if line.startswith("PMID- "):
                         try:
-                            recSet.add(MedlineRecord(itertools.chain([line], f), sFile = pubFile, sLine = lineNum))
+                            r = MedlineRecord(itertools.chain([(lineNum, line)], f), sFile = pubFile, sLine = lineNum)
+                            recSet.add(r)
                         except BadPubmedFile as e:
                             badLine = lineNum
                             try:
@@ -39,9 +40,11 @@ def medlineParser(pubFile):
                             except (StopIteration, UnicodeDecodeError) as e:
                                 if error is None:
                                     error = BadPubmedFile("The file '{}' becomes unparsable after line: {}, due to the error: ".format(pubFile, badLine, e))
+                                raise e
                     elif line != '\n':
                         if error is None:
                             error = BadPubmedFile("The file '{}' has parts of it that are unparsable starting at line: {}.".format(pubFile, lineNum))
+                    lineNum, line = next(f)
             except StopIteration:
                 #End of the file has been reached
                 pass

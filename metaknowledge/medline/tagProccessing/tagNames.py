@@ -1,17 +1,20 @@
+from ...WOS.tagProcessing.helpFuncs import makeBiDirectional
+
+
 authorBasedTags = [
     'AD',
     'AUID',
 ]
 
-tagNameConverterDict = {
+tagNameDict = {
 "Abstract" : "AB",
 "Copyright Information" : "CI",
 "Affiliation" : "AD",
 "Investigator Affiliation" : "IRAD",
 "Article Identifier" : "AID",
-"Author" : "AU",
+"authorsShort" : "AU",
 "Author Identifier" : "AUID",
-"Full Author" : "FAU",
+"authorsFull" : "FAU",
 "Book Title" : "BTI",
 "Collection Title" : "CTI",
 "Corporate Author" : "CN",
@@ -67,7 +70,7 @@ tagNameConverterDict = {
 "Space Flight Mission" : "SFM",
 "Status" : "STAT",
 "Subset" : "SB",
-"Title" : "TI",
+"title" : "TI",
 "Transliterated Title" : "TT",
 "Volume" : "VI",
 "Volume Title" : "VTI",
@@ -89,3 +92,5 @@ tagNameConverterDict = {
 "Summary for patients in" : "SPIN",
 "Original report in" : "ORI",
 }
+
+tagNameConverterDict = makeBiDirectional(tagNameDict)

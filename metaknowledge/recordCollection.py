@@ -133,7 +133,7 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
                                 self.bad = True
                                 self.errors[fileName]= pError
                             self._Records |= recs
-                        if isMedlineFile(fileName):
+                        elif isMedlineFile(fileName):
                             recs, pError = medlineParser(fileName)
                             if pError is not None:
                                 self.bad = True

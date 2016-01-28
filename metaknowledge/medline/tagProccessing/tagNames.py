@@ -1,3 +1,8 @@
+authorBasedTags = [
+    'AD',
+    'AUID',
+]
+
 tagNameConverterDict = {
 "Abstract" : "(AB)",
 "Copyright Information" : "(CI)",

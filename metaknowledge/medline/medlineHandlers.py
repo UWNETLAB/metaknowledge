@@ -1,4 +1,7 @@
 import itertools
+import pdb
+
+from ..mkExceptions import BadPubmedFile
 
 from .recordMedline import MedlineRecord
 
@@ -51,5 +54,4 @@ def medlineParser(pubFile):
     except UnicodeDecodeError:
         if error is None:
             error = BadPubmedFile("The file '{}' has parts of it that are unparsable starting at line: {}.".format(pubFile, lineNum))
-    finally:
-        return recSet, error
+    return recSet, error

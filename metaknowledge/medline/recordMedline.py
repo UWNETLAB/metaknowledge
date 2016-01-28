@@ -6,13 +6,12 @@ import io
 
 from ..mkExceptions import BadPubmedRecord
 from ..record import Record
-from .tagProccessing.tagNames import tagNameConverterDict
+from .tagProccessing.tagNames import tagNameConverterDict, authorBasedTags
 
 
 class MedlineRecord(Record):
     def __init__(self, inRecord, sFile = "", sLine = 0):
         """See help on [Record](#Record.Record) for details"""
-
         bad = False
         error = None
         fieldDict = None
@@ -64,17 +63,22 @@ class MedlineRecord(Record):
 def medlineRecordParser(record):
     tagDict = {}
     tag = 'PMID'
+    mostRecentAuthor = None
     for lineNum, line in record:
         tmptag = line[:4].rstrip()
         contents = line[6:-1]
         if tmptag.isalpha() and line[4] == '-':
             tag = tmptag
+            if tag == 'AU':
+                mostRecentAuthor = contents
+            if tag in authorBasedTags:
+                contents = "{} : {}".format(mostRecentAuthor, contents)
             try:
                 tagDict[tag].append(contents)
             except KeyError:
                 tagDict[tag] = [contents]
         elif line[:6] == '      ':
-            tagDict[tag].append(line[6:-1])
+            tagDict[tag][-1] += '\n' + line[6:-1]
         elif line == '\n':
             break
         else:

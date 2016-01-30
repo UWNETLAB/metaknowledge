@@ -57,6 +57,9 @@ class MedlineRecord(Record):
     def tagProccessingFunc(tag):
         return lambda x : x
 
+    def specialFuncs(self, key):
+        raise KeyError
+
     def writeRecord(self, f):
         pass
 

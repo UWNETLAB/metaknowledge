@@ -80,7 +80,10 @@ class Record(collections.abc.Mapping, collections.abc.Hashable, metaclass = abc.
                     key = self.getAltName(key)
                     computedVal = self.tagProccessingFunc(key)(self._fieldDict[key])
                 else:
-                    raise KeyError("'{}' could not be found in the Record".format(key)) from None
+                    try:
+                        computedVal = self.specialFuncs(key)
+                    except KeyError:
+                        raise KeyError("'{}' could not be found in the Record".format(key)) from None
                 #Both refer to the same object, computedVal
                 self._computedFields[key] = computedVal
                 alt = self.getAltName(key)
@@ -217,6 +220,10 @@ class Record(collections.abc.Mapping, collections.abc.Hashable, metaclass = abc.
     def tagProccessingFunc(tag):
         #Should not raise an exception
         return lambda x: x
+
+    @abc.abstractmethod
+    def specialFuncs(self, key):
+        raise KeyError("There are no special functions given by default.")
 
     @property
     def title(self):

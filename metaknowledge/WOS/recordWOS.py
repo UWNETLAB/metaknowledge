@@ -64,6 +64,7 @@ class WOSRecord(Record):
         error = None
         fieldDict = None
         self._unComputedTags = set()
+        self._specialFuncs = {}
         try:
             if isinstance(inRecord, dict) or isinstance(inRecord, collections.OrderedDict):
                 fieldDict = collections.OrderedDict(inRecord)
@@ -103,6 +104,9 @@ class WOSRecord(Record):
     @staticmethod
     def tagProccessingFunc(tag):
         return tagToFunc.get(tag, lambda x: x)
+
+    def specialFuncs(self, key):
+        raise KeyError("WOS Records do not have any special functions, they are what the special functions are based on.")
 
     @property
     def wosString(self):

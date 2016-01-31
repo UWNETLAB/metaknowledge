@@ -8,7 +8,6 @@ from ..mkExceptions import BadPubmedRecord
 from ..record import Record
 from .tagProccessing.tagNames import tagNameConverterDict, authorBasedTags
 
-
 class MedlineRecord(Record):
     def __init__(self, inRecord, sFile = "", sLine = 0):
         """See help on [Record](#Record.Record) for details"""

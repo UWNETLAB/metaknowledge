@@ -63,8 +63,6 @@ class WOSRecord(Record):
         bad = False
         error = None
         fieldDict = None
-        self._unComputedTags = set()
-        self._specialFuncs = {}
         try:
             if isinstance(inRecord, dict) or isinstance(inRecord, collections.OrderedDict):
                 fieldDict = collections.OrderedDict(inRecord)

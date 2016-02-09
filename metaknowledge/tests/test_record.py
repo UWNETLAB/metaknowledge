@@ -52,9 +52,9 @@ class TestRecord(unittest.TestCase):
         self.assertNotEqual(hash(self.R), hash(self.Rbad))
 
     def test_repr(self):
-        self.assertEqual(repr(self.R), "< metaknowledge.WOSRecord object {} >".format(self.R.id))
+        self.assertEqual(repr(self.R), "<metaknowledge.WOSRecord object {}>".format(self.R.id))
         self.R.bad = True
-        self.assertEqual(repr(self.R), "< metaknowledge.WOSRecord object BAD >")
+        self.assertEqual(repr(self.R), "<metaknowledge.WOSRecord object BAD>")
 
     def test_binary(self):
         self.assertEqual(bytes(self.R), bytes(simplePaperString, encoding = 'utf-8'))

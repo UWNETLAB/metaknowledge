@@ -47,16 +47,19 @@ def PMCR(val):
     return val
 
 def PG(val):
-    """Pagination"""
-    return val
+    """Pagination
+    all pagination seen so far seems to be only on one line"""
+    return val[0]
 
 def GS(val):
     """GeneSymbol"""
     return val
 
 def VI(val):
-    """Volume"""
-    return val
+    """Volume
+    The volumes as a string as volume is single line
+    """
+    return val[0]
 
 def UOF(val):
     """UpdateOf"""
@@ -119,7 +122,7 @@ def SPIN(val):
     return val
 
 def AU(val):
-    """authorsShort"""
+    """Author"""
     return val
 
 def FED(val):
@@ -167,8 +170,9 @@ def CRF(val):
     return val
 
 def TI(val):
-    """title"""
-    return val
+    """Title
+    only one per record"""
+    return val[0]
 
 def CRI(val):
     """CorrectedRepublishedIn"""
@@ -215,8 +219,9 @@ def LA(val):
     return val
 
 def TA(val):
-    """JournalTitleAbbreviation"""
-    return val
+    """JournalTitleAbbreviation
+    One line only"""
+    return val[0]
 
 def JT(val):
     """JournalTitle"""
@@ -243,7 +248,7 @@ def CTI(val):
     return val
 
 def FAU(val):
-    """authorsFull"""
+    """FullAuthor"""
     return val
 
 def VTI(val):
@@ -291,7 +296,8 @@ def EIN(val):
     return val
 
 def AID(val):
-    """ArticleIdentifier"""
+    """ArticleIdentifier
+    The given values do not require any work"""
     return val
 
 def PRIN(val):

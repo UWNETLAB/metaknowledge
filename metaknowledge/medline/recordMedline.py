@@ -16,7 +16,6 @@ class MedlineRecord(Record):
         bad = False
         error = None
         fieldDict = None
-        self._unComputedTags = set()
         try:
             if isinstance(inRecord, dict) or isinstance(inRecord, collections.OrderedDict):
                 fieldDict = collections.OrderedDict(inRecord)
@@ -44,7 +43,6 @@ class MedlineRecord(Record):
                 bad = True
                 error = BadPubmedRecord("Missing WOS number")
         Record.__init__(self, fieldDict, self._pubNum, bad, error, sFile = sFile, sLine = sLine)
-
 
     @property
     def encoding(self):

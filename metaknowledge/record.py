@@ -190,6 +190,8 @@ class Record(collections.abc.Mapping, collections.abc.Hashable, metaclass = abc.
         self.__dict__ = state
 
     def copy(self):
+        #This is a method of dict and many other builtins
+        #So it seems reasonable to included
         return copy.copy(self)
 
     @property

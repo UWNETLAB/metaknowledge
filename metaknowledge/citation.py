@@ -124,7 +124,7 @@ class Citation(object):
         """
         the representation of the Citation is its original form
         """
-        return self.original
+        return "<metaknowledge.{} object {}>".format(type(self).__name__, self.original)
 
     def isAnonymous(self):
         """

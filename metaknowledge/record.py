@@ -158,9 +158,9 @@ class Record(collections.abc.Mapping, collections.abc.Hashable, metaclass = abc.
 
     def __repr__(self):
         if self.bad:
-            return "< metaknowledge.{} object BAD >".format(type(self).__name__)
+            return "<metaknowledge.{} object BAD>".format(type(self).__name__)
         else:
-            return "< metaknowledge.{} object {} >".format(type(self).__name__, self.id)
+            return "<metaknowledge.{} object {}>".format(type(self).__name__, self.id)
 
     def __bytes__(self):
         """Returns the binary form of the original"""

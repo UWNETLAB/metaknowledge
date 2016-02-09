@@ -314,6 +314,9 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
 
     #Other niceties
 
+    def __repr__(self):
+        return "<metaknowledge.{} object {}>".format(type(self).__name__, self.name)
+
     def __str__(self):
         return "RecordCollection({})".format(self.name)
 

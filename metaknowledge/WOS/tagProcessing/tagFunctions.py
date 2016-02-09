@@ -1097,7 +1097,7 @@ def year(val):
     else:
         raise ValueError("Incorrectly formatted PY tag")
 
-def authKeyWords(val):
+def authKeywords(val):
     """
     #The DE Tag
 
@@ -1225,7 +1225,7 @@ def subjects(val):
     """
     return ' '.join(val).split('; ')
 
-def keyWords(val):
+def keywords(val):
     """
     #The ID Tag
 
@@ -1311,8 +1311,8 @@ tagToFunc = collections.OrderedDict([
             ('HO', confHost),
             ('CL', confLocation),
             ('SP', confSponsors),
-            ('DE', authKeyWords),
-            ('ID', keyWords),
+            ('DE', authKeywords),
+            ('ID', keywords),
             ('AB', abstract),
             ('C1', authAddress),
             ('RP', reprintAddress),

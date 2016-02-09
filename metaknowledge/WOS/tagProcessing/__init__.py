@@ -41,7 +41,7 @@ The full list of tags and their long names is provided below followed by the des
 | [`'CL'`]({{ site.baseurl }}{{ page.url }}#confLocation) | [confLocation]({{ site.baseurl }}{{ page.url }}#confLocation) |
 | [`'SP'`]({{ site.baseurl }}{{ page.url }}#confSponsors) | [confSponsors]({{ site.baseurl }}{{ page.url }}#confSponsors) |
 | [`'DE'`]({{ site.baseurl }}{{ page.url }}#authKeyWords) | [authKeyWords]({{ site.baseurl }}{{ page.url }}#authKeyWords) |
-| [`'ID'`]({{ site.baseurl }}{{ page.url }}#keyWords) | [keyWords]({{ site.baseurl }}{{ page.url }}#keyWords) |
+| [`'ID'`]({{ site.baseurl }}{{ page.url }}#keywords) | [keywords]({{ site.baseurl }}{{ page.url }}#keywords) |
 | [`'AB'`]({{ site.baseurl }}{{ page.url }}#abstract) | [abstract]({{ site.baseurl }}{{ page.url }}#abstract) |
 | [`'C1'`]({{ site.baseurl }}{{ page.url }}#authAddress) | [authAddress]({{ site.baseurl }}{{ page.url }}#authAddress) |
 | [`'RP'`]({{ site.baseurl }}{{ page.url }}#reprintAddress) | [reprintAddress]({{ site.baseurl }}{{ page.url }}#reprintAddress) |

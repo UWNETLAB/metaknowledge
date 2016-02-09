@@ -7,7 +7,7 @@ def month(R):
     try:
         m = R['DP'].split(' ')[1]
     except IndexError:
-        raise KeyError
+        raise KeyError("Unable to extract a month")
     else:
         return getMonth(m)
 
@@ -30,14 +30,26 @@ def DOI(R):
             return a[:-6]
     raise KeyError("No DOI number found")
 
+def address(R):
+    """Gets the first address of the first author"""
+    return R['AD'][R['AU'][0]][0]
+
 medlineSpecialTagToFunc = {
     'year' : year,
     'month' : month,
     'volume' : volume,
     'beginningPage' : beginningPage,
     'DOI' : DOI,
+    'address' : address,
+
+    'j9' : lambda R : R['TA'], #remaps to the closests field TA, but J9 != TA
+
+    'citations' : lambda R: None, #Medline does not have citations
+
     'authorsShort' : lambda R: R['AU'], #just remaps to the correct name
     'authorsFull' : lambda R : R['FAU'], #just remaps to the correct name
     'title' : lambda R : R['TI'], #just remaps to the correct name
-    'j9' : lambda R : R['TA'], #remaps to the closests name TA is not quite J9
+    'journal' : lambda R : R['JT'], #just remaps to the correct name
+    'keywords' : lambda R : R['OT'], #just remaps to the correct name
+    'abstract' : lambda R : R['AB'], #just remaps to the correct name
 }

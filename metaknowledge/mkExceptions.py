@@ -4,6 +4,9 @@ class mkException(Exception):
 class RCTypeError(mkException):
     pass
 
+class RCValueError(mkException):
+    pass
+
 class BadInputFile(mkException):
     pass
 

@@ -179,7 +179,8 @@ def CRI(val):
     return val
 
 def OT(val):
-    """OtherTerm"""
+    """OtherTerm
+    Nothing needs to be done"""
     return val
 
 def ROF(val):
@@ -187,8 +188,9 @@ def ROF(val):
     return val
 
 def OTO(val):
-    """OtherTermOwner"""
-    return val
+    """OtherTermOwner
+    one line field"""
+    return val[0]
 
 def OID(val):
     """OtherID"""
@@ -203,16 +205,22 @@ def RPI(val):
     return val
 
 def AB(val):
-    """Abstract"""
-    return val
+    """Abstract
+    basically a one liner after parsing"""
+    return val[0]
 
 def EN(val):
     """Edition"""
     return val
 
 def AD(val):
-    """Affiliation"""
-    return val
+    """Affiliation
+    Undoing what the parser does then splitting at the semicolons and dropping newlines extra fitlering is required beacuse some AD's end with a semicolon"""
+    retDict = {}
+    for v in val:
+        split = v.split(' : ')
+        retDict[split[0]] = [s for s in' : '.join(split[1:]).replace('\n', '').split(';') if s != '']
+    return retDict
 
 def LA(val):
     """Language"""
@@ -224,8 +232,9 @@ def TA(val):
     return val[0]
 
 def JT(val):
-    """JournalTitle"""
-    return val
+    """JournalTitle
+    One line only"""
+    return val[0]
 
 def IRAD(val):
     """InvestigatorAffiliation"""
@@ -309,8 +318,13 @@ def DEP(val):
     return val
 
 def AUID(val):
-    """AuthorIdentifier"""
-    return val
+    """AuthorIdentifier
+    one line only just need to undo the parser's effects"""
+    retDict = {}
+    for v in val:
+        split = v.split(' : ')
+        retDict[split[0]] = ' : '.join(split[1:])
+    return retDict
 
 def SI(val):
     """SecondarySourceID"""

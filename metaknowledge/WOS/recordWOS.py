@@ -86,7 +86,7 @@ class WOSRecord(Record):
             if 'UT' in fieldDict:
                 self._wosNum = fieldDict['UT'][0]
             else:
-                self._wosNum = None
+                self._wosNum = 'WOS:Missing'
                 bad = True
                 error = BadWOSRecord("Missing WOS number")
         Record.__init__(self, fieldDict, self._wosNum, bad, error, sFile = sFile, sLine = sLine)

@@ -94,7 +94,15 @@ class TestRecord(unittest.TestCase):
         self.assertEqual(self.R['wosString'], 'WOS:123317623000007')
 
     def test_citationGen(self):
+        R2 = self.R.copy()
+        R2._fieldDict['AU'] = ['John D', 'John H']
+        R0 = self.R.copy()
+        del R0._fieldDict['AU']
+        del R0._fieldDict['AF']
+        del R0._fieldDict['J9']
         self.assertTrue(self.R.createCitation() == metaknowledge.Citation("John D, 2015, EXAMPLE, V1, P1, DOI 10.1111"))
+        self.assertTrue(R0.createCitation(multiCite = True)[0] == metaknowledge.Citation("2015, Example Paper, V1, P1, DOI 10.1111"))
+        self.assertTrue(set(R2.createCitation(multiCite = True)) == set((self.R.createCitation(), metaknowledge.Citation("John H, 2015, EXAMPLE, V1, P1, DOI 10.1111"))))
 
     def test_journal(self):
         self.assertEqual(self.R['journal'], 'TOPICS IN COGNITIVE SCIENCE')

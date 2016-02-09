@@ -91,7 +91,7 @@ class Record(collections.abc.Mapping, collections.abc.Hashable, metaclass = abc.
                     self._computedFields[alt] = computedVal
                 return computedVal
             else:
-                raise TypeError("Keys to Records must be strings they cannot be of the type: {}.".format(type(key)))
+                raise TypeError("Keys to Records must be strings they cannot be of the type '{}'.".format(type(key).__name__)) from None
 
     def __iter__(self):
         """Iterates over the tags in the Record"""
@@ -267,7 +267,7 @@ class Record(collections.abc.Mapping, collections.abc.Hashable, metaclass = abc.
         valsLst = []
         if multiCite:
             auths = []
-            for auth in self.get("authorsShort"):
+            for auth in self.get("authorsShort", []):
                 auths.append(auth.replace(',', ''))
         else:
             if self.get("authorsShort", False):
@@ -277,7 +277,8 @@ class Record(collections.abc.Mapping, collections.abc.Hashable, metaclass = abc.
         if self.get("j9", False):
             valsLst.append(self.get('j9'))
         elif self.get("title", False):
-            valsLst.append(self.get('TI'))
+            #Get no j9 means its a book so using the books title
+            valsLst.append(self.get('title'))
         if self.get("volume", False):
             valsLst.append('V' + str(self.get('volume')))
         if self.get("beginningPage", False):
@@ -287,6 +288,6 @@ class Record(collections.abc.Mapping, collections.abc.Hashable, metaclass = abc.
         if multiCite and len(auths) > 0:
             return(tuple((Citation(', '.join([a] + valsLst)) for a in auths)))
         elif multiCite:
-            return tuple(Citation(', '.join(valsLst)))
+            return Citation(', '.join(valsLst)),
         else:
             return Citation(', '.join(valsLst))

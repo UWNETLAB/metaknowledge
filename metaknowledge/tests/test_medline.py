@@ -18,4 +18,4 @@ class TestRecord(unittest.TestCase):
         for R in self.RC:
             for k,v in R.items():
                 self.assertIsInstance(k, str)
-                self.assertIsInstance(v, (str, list))
+                self.assertIsInstance(v, (str, list, dict))

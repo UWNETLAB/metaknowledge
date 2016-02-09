@@ -13,7 +13,7 @@ from .record import Record
 from .graphHelpers import _ProgressBar
 from .WOS.tagProcessing.funcDicts import tagToFullDict, fullToTagDict, normalizeToTag
 from .citation import Citation
-from .mkExceptions import cacheError, BadWOSFile, BadWOSRecord, RCTypeError, BadInputFile, BadRecord
+from .mkExceptions import cacheError, BadWOSFile, BadWOSRecord, RCTypeError, BadInputFile, BadRecord, RCValueError
 
 from .WOS.wosHandlers import wosParser, isWOSFile
 
@@ -782,7 +782,7 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
         """
         allowedTypes = ["full", "original", "author", "journal", "year"]
         if nodeType not in allowedTypes:
-            raise ValueError("{} is not an allowed nodeType.".format(nodeType))
+            raise RCValueError("{} is not an allowed nodeType.".format(nodeType))
         coreValues = []
         if bool(detailedCore):
             try:
@@ -894,7 +894,7 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
         """
         allowedTypes = ["full", "original", "author", "journal", "year"]
         if nodeType not in allowedTypes:
-            raise ValueError("{} is not an allowed nodeType.".format(nodeType))
+            raise RCValueError("{} is not an allowed nodeType.".format(nodeType))
         coreValues = []
         if bool(detailedCore):
             try:

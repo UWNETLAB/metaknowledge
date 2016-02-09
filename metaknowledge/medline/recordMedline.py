@@ -6,7 +6,9 @@ import io
 
 from ..mkExceptions import BadPubmedRecord
 from ..record import Record
-from .tagProccessing.tagNames import tagNameConverterDict, authorBasedTags
+from .tagProcessing.tagNames import tagNameConverterDict, authorBasedTags
+from .tagProcessing.tagFunctions import medlineTagToFunc
+from .tagProcessing.specialFunctions import medlineSpecialTagToFunc
 
 class MedlineRecord(Record):
     def __init__(self, inRecord, sFile = "", sLine = 0):
@@ -54,10 +56,12 @@ class MedlineRecord(Record):
 
     @staticmethod
     def tagProccessingFunc(tag):
-        return lambda x : x
+        return medlineTagToFunc[tag]
 
     def specialFuncs(self, key):
-        raise KeyError
+        #This will usually raise a key error that needs to be caught higher up
+        #Catching it here would require unnecessary overhead
+        return medlineSpecialTagToFunc[key](self)
 
     def writeRecord(self, f):
         pass

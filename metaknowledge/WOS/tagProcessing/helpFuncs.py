@@ -11,7 +11,7 @@ def getMonth(s):
     Month Day Year ("%b %d %Y")
     Month Year ("%b %Y")
     """
-    monthOrSeason = s.split(' ')[0].split('-')[0].upper()
+    monthOrSeason = s.split('-')[0].upper()
     if monthOrSeason in monthDict:
         return monthDict[monthOrSeason]
     else:

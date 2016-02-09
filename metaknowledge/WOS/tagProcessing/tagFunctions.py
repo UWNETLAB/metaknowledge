@@ -839,7 +839,7 @@ def month(val):
     > A integer giving the month
 
     """
-    return getMonth(val[0])
+    return getMonth(val[0].split(' ')[0])
 
 def fundingText(val):
     """

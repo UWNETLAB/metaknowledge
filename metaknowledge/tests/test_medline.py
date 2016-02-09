@@ -13,3 +13,9 @@ class TestRecord(unittest.TestCase):
 
     def test_ismedline(self):
         self.assertIsInstance(self.R, metaknowledge.MedlineRecord)
+
+    def test_allFields(self):
+        for R in self.RC:
+            for k,v in R.items():
+                self.assertIsInstance(k, str)
+                self.assertIsInstance(v, (str, list))

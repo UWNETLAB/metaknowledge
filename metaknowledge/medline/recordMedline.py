@@ -37,7 +37,7 @@ class MedlineRecord(Record):
             fieldDict = collections.OrderedDict()
         if fieldDict is not None:
             if 'PMID' in fieldDict:
-                self._pubNum = fieldDict['PMID'][0]
+                self._pubNum = "PMID:{}".format(fieldDict['PMID'][0])
             else:
                 self._pubNum = None
                 bad = True
@@ -84,7 +84,6 @@ class MedlineRecord(Record):
                         if tag == 'AU':
                             for authVal in authTags.get(v,[]):
                                 f.write(authVal)
-
 
 def medlineRecordParser(record):
     tagDict = collections.OrderedDict()

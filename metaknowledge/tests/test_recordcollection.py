@@ -195,6 +195,7 @@ class TestRecordCollection(unittest.TestCase):
         self.assertEqual(len(self.RC), l - 1)
         self.assertFalse(self.RC.getID(self.RC.pop().id))
         self.RC.discardID('sdfghjkjhgfdfghj')
+        self.RC.discardID('WOS:A1979GV55600001')
         with self.assertRaises(KeyError):
             self.RC.removeID('ghjkljhgfdfghjmh')
 

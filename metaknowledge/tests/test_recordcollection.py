@@ -108,7 +108,7 @@ class TestRecordCollection(unittest.TestCase):
         with self.assertRaises(KeyError):
             self.RC.remove(R)
 
-    def test_ops(self):
+    def test_equOps(self):
         l = len(self.RC)
         for i in range(10):
             self.RCbad.pop()
@@ -123,6 +123,22 @@ class TestRecordCollection(unittest.TestCase):
         self.assertEqual(self.RC, RC)
         RC &= self.RCbad
         self.assertNotEqual(self.RC, RC)
+
+    def test_newOps(self):
+        l = len(self.RC)
+        for i in range(10):
+            self.RCbad.pop()
+        lb = len(self.RCbad)
+        RC = metaknowledge.RecordCollection([])
+        RC.bad = True
+        RC3 = self.RC | RC
+        self.assertEqual(self.RC, RC3)
+        RC4 = RC3 - self.RC
+        self.assertNotEqual(self.RC, RC4)
+        RC5 = RC4 ^ self.RC
+        self.assertEqual(self.RC, RC5)
+        RC6 = RC5 & self.RCbad
+        self.assertNotEqual(self.RC, RC6)
 
     def test_opErrors(self):
         with self.assertRaises(TypeError):
@@ -187,15 +203,19 @@ class TestRecordCollection(unittest.TestCase):
         self.assertTrue(metaknowledge.RecordCollection('metaknowledge/tests/') >= self.RC)
         self.assertTrue(metaknowledge.RecordCollection('metaknowledge/tests/', extension= '.txt') <= self.RC)
 
+    def test_contentType(self):
+        RC = metaknowledge.RecordCollection('metaknowledge/tests/')
+        self.assertEqual(RC.recordTypes, {'WOS', 'MEDLINE'})
+        self.assertEqual(self.RC.recordTypes, {'WOS'})
     def test_write(self):
         fileName = 'OnePaper2.isi'
         RC = metaknowledge.RecordCollection('metaknowledge/tests/' + fileName)
         RC.writeFile(fileName + '.tmp')
         RC.writeFile()
         self.assertTrue(filecmp.cmp('metaknowledge/tests/' + fileName, fileName + '.tmp'))
-        self.assertTrue(filecmp.cmp('metaknowledge/tests/' + fileName, repr(RC)[:200] + '.isi'))
+        self.assertTrue(filecmp.cmp('metaknowledge/tests/' + fileName, RC.name + '.txt'))
         os.remove(fileName + '.tmp')
-        os.remove(repr(RC)[:200] + '.isi')
+        os.remove(RC.name + '.txt')
 
     def test_writeCSV(self):
         filename = "test_writeCSV_temporaryFile.csv"

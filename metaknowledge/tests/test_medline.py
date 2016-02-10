@@ -1,5 +1,8 @@
 #Written by Reid McIlroy-Young for Dr. John McLevey, University of Waterloo 2016
 import unittest
+import os.path
+import os
+
 import metaknowledge
 
 class TestRecord(unittest.TestCase):
@@ -19,3 +22,9 @@ class TestRecord(unittest.TestCase):
             for k,v in R.items():
                 self.assertIsInstance(k, str)
                 self.assertIsInstance(v, (str, list, dict))
+
+    def test_write(self):
+        fileName = 'tempFile.medline.tmp'
+        self.RC.writeFile(fileName)
+        self.assertEqual(os.path.getsize(fileName), os.path.getsize("metaknowledge/tests/medline_test.medline"))
+        os.remove(fileName)

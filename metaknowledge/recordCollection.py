@@ -76,6 +76,7 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
             self.bad = False
             self.errors = {}
             self.name = name
+            self.recordTypes = set()
             if inCollection is None:
                 PBar.updateVal(.5, "Empty RecordCollection created")
                 if not name:
@@ -89,11 +90,13 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
                     if not name:
                         self.name = os.path.splitext(os.path.split(inCollection)[1])[0]
                     if isWOSFile(inCollection):
+                        self.recordTypes.add('WOS')
                         self._Records, pError = wosParser(inCollection)
                         if pError is not None:
                             self.bad = True
                             self.errors[inCollection] = pError
                     elif isMedlineFile(inCollection):
+                        self.recordTypes.add('MEDLINE')
                         self._Records, pError = medlineParser(inCollection)
                         if pError is not None:
                             self.bad = True
@@ -128,12 +131,16 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
                         count += 1
                         PBar.updateVal(count / len(flist), "Reading records from: {}".format(fileName))
                         if isWOSFile(fileName):
+                            if 'WOS' not in self.recordTypes:
+                                self.recordTypes.add('WOS')
                             recs, pError = wosParser(fileName)
                             if pError is not None:
                                 self.bad = True
                                 self.errors[fileName]= pError
                             self._Records |= recs
                         elif isMedlineFile(fileName):
+                            if 'MEDLINE' not in self.recordTypes:
+                                self.recordTypes.add('MEDLINE')
                             recs, pError = medlineParser(fileName)
                             if pError is not None:
                                 self.bad = True
@@ -426,16 +433,24 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
 
         > Default `None`, if given the output file will written to _fanme_, if `None` the `RecordCollection`'s name's first 200 characters are used with the suffix .isi
         """
-        if fname:
-            f = open(fname, mode = 'w', encoding = 'utf-8')
+        if len(self.recordTypes) < 2:
+            recEncoding = self.peak().encoding
         else:
-            f = open(repr(self)[:200] + '.isi', mode = 'w', encoding = 'utf-8')
-        f.write("\ufeffFN Thomson Reuters Web of Science\u2122\n")
-        f.write("VR 1.0\n")
+            recEncoding = 'utf-8'
+        if fname:
+            f = open(fname, mode = 'w', encoding = recEncoding)
+        else:
+            f = open(self.name[:200] + '.txt', mode = 'w', encoding = recEncoding)
+        if self.recordTypes == {'WOS'}:
+            f.write("\ufeffFN Thomson Reuters Web of Science\u2122\n")
+            f.write("VR 1.0\n")
+        elif self.recordTypes == {'MEDLINE'}:
+            f.write('\n')
         for R in self._Records:
             R.writeRecord(f)
             f.write('\n')
-        f.write('EF')
+        if self.recordTypes == {'WOS'}:
+            f.write('EF')
         f.close()
 
     def writeCSV(self, fname = None, onlyTheseTags = None, numAuthors = True, longNames = False, firstTags = None, csvDelimiter = ',', csvQuote = '"', listDelimiter = '|'):

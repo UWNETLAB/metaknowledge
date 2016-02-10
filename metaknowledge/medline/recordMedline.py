@@ -62,7 +62,29 @@ class MedlineRecord(Record):
         return medlineSpecialTagToFunc[key](self)
 
     def writeRecord(self, f):
-        pass
+        """This is nearly identical to the original the FAU tag is the only tag not writen in the same place, doing so would require changing the parser and lots of extra logic.
+        """
+        if self.bad:
+            raise BadPubmedRecord("This record cannot be converted to a file as the input was malformed.\nThe original line number (if any) is: {} and the original file is: '{}'".format(self._sourceLine, self._sourceFile))
+        else:
+            authTags = {}
+            for tag in authorBasedTags:
+                for val in self._fieldDict.get(tag, []):
+                    split = val.split(' : ')
+                    try:
+                        authTags[split[0]].append("{0}{1}- {2}\n".format(tag, ' ' * (4 - len(tag)),' : '.join(split[1:]).replace('\n', '\n      ')))
+                    except KeyError:
+                        authTags[split[0]] = ["{0}{1}- {2}\n".format(tag, ' ' * (4 - len(tag)),' : '.join(split[1:]).replace('\n', '\n      '))]
+            for tag, value in self._fieldDict.items():
+                if tag in authorBasedTags:
+                    continue
+                else:
+                    for v in value:
+                        f.write("{0}{1}- {2}\n".format(tag, ' ' * (4 - len(tag)), v.replace('\n', '\n      ')))
+                        if tag == 'AU':
+                            for authVal in authTags.get(v,[]):
+                                f.write(authVal)
+
 
 def medlineRecordParser(record):
     tagDict = {}

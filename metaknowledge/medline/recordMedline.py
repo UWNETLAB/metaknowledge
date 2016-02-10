@@ -87,7 +87,7 @@ class MedlineRecord(Record):
 
 
 def medlineRecordParser(record):
-    tagDict = {}
+    tagDict = collections.OrderedDict()
     tag = 'PMID'
     mostRecentAuthor = None
     for lineNum, line in record:

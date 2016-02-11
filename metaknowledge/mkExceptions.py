@@ -19,6 +19,9 @@ class BadPubmedRecord(mkException):
 class BadPubmedFile(mkException):
     pass
 
+class RecordsNotCompatible(mkException):
+    pass
+
 class cacheError(mkException):
     """Exception raised when loading a cached RecordCollection fails, should only be seen inside metaknowledge and always be caught."""
     pass

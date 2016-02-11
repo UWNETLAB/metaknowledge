@@ -13,7 +13,7 @@ from .record import Record
 from .graphHelpers import _ProgressBar
 from .WOS.tagProcessing.funcDicts import tagToFullDict, fullToTagDict, normalizeToTag
 from .citation import Citation
-from .mkExceptions import cacheError, BadWOSFile, BadWOSRecord, RCTypeError, BadInputFile, BadRecord, RCValueError
+from .mkExceptions import cacheError, BadWOSFile, BadWOSRecord, RCTypeError, BadInputFile, BadRecord, RCValueError, RecordsNotCompatible
 
 from .WOS.wosHandlers import wosParser, isWOSFile
 
@@ -581,6 +581,8 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
                 f.write(R.bibString(maxLength =  maxStringLength, WOSMode = wosMode, restrictedOutput = reducedOutput, niceID = niceIDs))
             except BadWOSRecord:
                 pass
+            except AttributeError:
+                raise RecordsNotCompatible("The Record '{}', with ID '{}' does not support writing to bibtext files.".format(R, R.id))
         f.close()
 
     def makeDict(self, onlyTheseTags = None, longNames = False, raw = False, numAuthors = True):

@@ -34,6 +34,11 @@ class TestRecord(unittest.TestCase):
     def test_ismedline(self):
         self.assertIsInstance(self.R, metaknowledge.MedlineRecord)
 
+    def test_bibWrite(self):
+        with self.assertRaises(metaknowledge.RecordsNotCompatible):
+            self.RC.writeBib("tempFile.bib.tmp")
+        os.remove("tempFile.bib.tmp")
+
     def test_specials(self):
         for R in self.RC:
             for s in metaknowledge.medlineSpecialTagToFunc.keys():

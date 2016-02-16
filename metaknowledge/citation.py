@@ -96,6 +96,12 @@ class Citation(object):
         """
         return self.original
 
+    def __repr__(self):
+        """
+        the representation of the Citation is its original form
+        """
+        return "<metaknowledge.{} object {}>".format(type(self).__name__, self.original)
+
     def __hash__(self):
         """
         A hash for Citation that should be equal to the hash of other citations that are equal to it. Based on the values returned by [`ID()`](#Citation.ID).
@@ -114,17 +120,6 @@ class Citation(object):
             return NotImplemented
         return hash(self) == hash(other)
 
-    def __ne__(self, other):
-        """
-        Returns the inverse of equality
-        """
-        return not self == other
-
-    def __repr__(self):
-        """
-        the representation of the Citation is its original form
-        """
-        return "<metaknowledge.{} object {}>".format(type(self).__name__, self.original)
 
     def isAnonymous(self):
         """

@@ -352,7 +352,7 @@ class TestRecordCollection(unittest.TestCase):
         self.assertEqual(metaknowledge.graphStats(Gstem), 'The graph has 41 nodes, 142 edges, 2 isolates, 0 self loops, a density of 0.173171 and a transitivity of 0.854015')
         self.assertIsInstance(Gstem.nodes()[0], str)
         with self.assertRaises(TypeError):
-            G = self.RC.oneModeNetwork('Not a Tag')
+            G = self.RC.oneModeNetwork(b'Not a Tag')
             del G
 
     def test_twoMode(self):
@@ -367,7 +367,10 @@ class TestRecordCollection(unittest.TestCase):
         self.assertEqual(Gutti.edges('WOS:A1979GV55600001')[0][1][:31], "EXPERIMENTS IN PHENOMENOLOGICAL")
         self.assertEqual(len(Gutti.nodes()), 2 * len(self.RC) - 1)
         with self.assertRaises(TypeError):
-            G = self.RC.oneModeNetwork('Not a Tag', 'TI')
+            G = self.RC.twoModeNetwork('TI', b'not a tag')
+            del G
+        with self.assertRaises(TypeError):
+            G = self.RC.twoModeNetwork(b'Not a Tag', 'TI')
             del G
         self.assertTrue(nx.is_isomorphic(Gd2em, Gemd2))
         self.assertEqual(metaknowledge.graphStats(Gstemm), 'The graph has 62 nodes, 31 edges, 0 isolates, 0 self loops, a density of 0.0163934 and a transitivity of 0')

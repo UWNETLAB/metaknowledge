@@ -1040,13 +1040,11 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
 
         > A networkx Graph with the objects of the tag _mode_ as nodes and their co-occurrences as edges
         """
-        try:
-            mode = normalizeToTag(mode)
-        except KeyError:
-            raise TypeError(str(mode) + " is not a known tag, or the name of a known tag.")
+        if not isinstance(mode, str):
+            raise TypeError("{} is not a string, it cannot be a tag".format(mode))
         stemCheck = False
         if stemmer is not None:
-            if hasattr(stemmer, '__call__'):
+            if isinstance(stemmer, collections.abc.Callable):
                 stemCheck = True
             else:
                 raise TypeError("stemmer must be callable, e.g. a function or class with a __call__ method.")
@@ -1063,12 +1061,12 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
                     count += 1
                     PBar.updateVal(count / len(self), "Analyzing: " + str(R))
                 contents = R.get(mode)
-                if contents:
+                if contents is not None:
                     if isinstance(contents, list):
                         if stemCheck:
                             tmplst = [stemmer(str(n)) for n in contents]
                         else:
-                            tmplst = [str(n) for n in contents]
+                            tmplst = contents
                         if len(tmplst) > 1:
                             for i, node1 in enumerate(tmplst):
                                 for node2 in tmplst[i + 1:]:
@@ -1163,20 +1161,19 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
 
         > A networkx Graph with the objects of the tags _tag1_ and _tag2_ as nodes and their co-occurrences as edges.
         """
-        try:
-            tag1 = normalizeToTag(tag1)
-            tag2 = normalizeToTag(tag2)
-        except KeyError:
-            raise TypeError(str(tag1) + " or " + str(tag2) + " is not a known tag, or the name of a known tag.")
+        if not isinstance(tag1, str):
+            raise TypeError("{} is not a string it cannot be a tag.".format(tag1))
+        if not isinstance(tag2, str):
+            raise TypeError("{} is not a string it cannot be a tag.".format(tag2))
         if stemmerTag1 is not None:
-            if hasattr(stemmerTag1, '__call__'):
+            if isinstance(stemmerTag1, collections.abc.Callable):
                 stemCheck = True
             else:
                 raise TypeError("stemmerTag1 must be callable, e.g. a function or class with a __call__ method.")
         else:
             stemmerTag1 = lambda x: x
         if stemmerTag2 is not None:
-            if hasattr(stemmerTag2, '__call__'):
+            if isinstance(stemmerTag2, collections.abc.Callable):
                 stemCheck = True
             else:
                 raise TypeError("stemmerTag2 must be callable, e.g. a function or class with a __call__ method.")
@@ -1305,19 +1302,14 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
 
         > A networkx Graph with the objects of the tags _tags_ as nodes and their co-occurrences as edges
         """
-        nomalizedTags = []
-        for t in tags:
-            try:
-                nomalizedTags.append(normalizeToTag(t))
-            except KeyError:
-                raise TypeError(str(t) + " is not a known tag, or the name of a known tag.")
+        for t in (i for i in tags if not isinstance(i, str)):
+            raise TypeError("{} is not a string it cannot be a tag.".format(t))
         stemCheck = False
         if stemmer is not None:
-            if hasattr(stemmer, '__call__'):
+            if isinstance(stemmer, collections.abc.Callable):
                 stemCheck = True
             else:
-                raise TypeError("stemmer must be callable, e.g. a function or class with a __call__ method.")
-        tags = nomalizedTags
+                raise TypeError("stemmer must be Callable, e.g. a function or class with a __call__ method.")
         count = 0
         progArgs = (0, "Starting to make a " + str(len(tags)) + "-mode network of: " + ', '.join(tags))
         if metaknowledge.VERBOSE_MODE:

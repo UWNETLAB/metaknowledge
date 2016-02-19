@@ -2,7 +2,7 @@
 import networkx as nx
 
 from .WOS.tagProcessing.funcDicts import tagsAndNameSet, normalizeToTag
-from .graphHelpers import _ProgressBar
+from .progressBar import _ProgressBar
 from .recordCollection import RecordCollection
 
 import metaknowledge

@@ -35,8 +35,10 @@ from .citation import Citation, filterNonJournals
 from .grant import Grant
 from .recordCollection import RecordCollection
 from .mkExceptions import *
+from .progressBar import _ProgressBar
 
-from .graphHelpers import writeEdgeList, writeNodeAttributeFile, writeGraph, readGraph, _ProgressBar, dropEdges, dropNodesByDegree, dropNodesByCount, mergeGraphs, graphStats
+
+from .graphHelpers import writeEdgeList, writeNodeAttributeFile, writeGraph, readGraph, dropEdges, dropNodesByDegree, dropNodesByCount, mergeGraphs, graphStats
 from .constants import VERBOSE_MODE, __version__, specialRecordFields
 from .diffusion import diffusionGraph, diffusionCount
 

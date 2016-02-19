@@ -3,7 +3,7 @@ import unittest
 import metaknowledge
 import os
 import io
-from metaknowledge.graphHelpers import _ProgressBar
+from metaknowledge.progressBar import _ProgressBar
 
 fileShortName = 'testNetworks'
 fileEName = 'testNetworks_edgeList.tst'

@@ -2,7 +2,8 @@
 #Better implementations can be found on Pypi so this has been discontinued
 #None of these functions are tested
 import metaknowledge
-from .graphHelpers import _ProgressBar
+from .progressBar import _ProgressBar
+
 
 import copy
 

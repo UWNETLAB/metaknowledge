@@ -10,7 +10,7 @@ import networkx as nx
 
 from .constants import __version__
 from .record import Record
-from .graphHelpers import _ProgressBar
+from .progressBar import _ProgressBar
 from .WOS.tagProcessing.funcDicts import tagToFullDict, fullToTagDict, normalizeToTag
 from .citation import Citation
 from .mkExceptions import cacheError, BadWOSFile, BadWOSRecord, RCTypeError, BadInputFile, BadRecord, RCValueError, RecordsNotCompatible

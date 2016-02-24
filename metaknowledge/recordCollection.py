@@ -1005,7 +1005,7 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
                     raise
         return RecordCollection(recordsInRange, name = "{}({}-{})".format(self.name, startYear, endYear), quietStart = True)
 
-    def oneModeNetwork(self, mode, nodeCount = True, edgeWeight = True, stemmer = None):
+    def oneModeNetwork(self, mode, nodeCount = True, edgeWeight = True, stemmer = None, edgeAttribute = None, nodeAttribute = None):
         """Creates a network of the objects found by one WOS tag _mode_.
 
         A **oneModeNetwork**() looks are each Record in the RecordCollection and extracts its values for the tag given by _mode_, e.g. the `'AF'` tag. Then if multiple are returned an edge is created between them. So in the case of the author tag `'AF'` a co-authorship network is created.
@@ -1055,22 +1055,52 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
         else:
             progKwargs = {'dummy' : True}
         with _ProgressBar(*progArgs, **progKwargs) as PBar:
-            grph = nx.Graph()
+            if edgeAttribute is not None:
+                grph = nx.MultiGraph()
+            else:
+                grph = nx.Graph()
             for R in self:
                 if PBar:
                     count += 1
                     PBar.updateVal(count / len(self), "Analyzing: " + str(R))
-                contents = R.get(mode)
+                if edgeAttribute:
+                    edgeVals = [str(v) for v in R.get(edgeAttribute, [])]
+                if nodeAttribute:
+                    nodeVals = [str(v) for v in R.get(nodeAttribute, [])]
+                if isinstance(mode, list):
+                    contents = []
+                    for attr in mode:
+                        tmpContents = R.get(attr, [])
+                        if isinstance(tmpContents, list):
+                            contents += tmpContents
+                        else:
+                            contents.append(tmpContents)
+                else:
+                    contents = R.get(mode)
                 if contents is not None:
                     if isinstance(contents, list):
                         if stemCheck:
                             tmplst = [stemmer(str(n)) for n in contents]
                         else:
-                            tmplst = contents
+                            tmplst = [str(n) for n in contents]
                         if len(tmplst) > 1:
                             for i, node1 in enumerate(tmplst):
                                 for node2 in tmplst[i + 1:]:
-                                    if edgeWeight:
+                                    if edgeAttribute:
+                                        for edgeVal in edgeVals:
+                                            if grph.has_edge(node1, node2, key = edgeVal):
+                                                if edgeWeight:
+                                                    for i, a in grph[node1][node2].items():
+                                                        if a['key'] == edgeVal:
+                                                            grph[node1][node2][i]['weight'] += 1
+                                                            break
+                                            else:
+                                                if edgeWeight:
+                                                    attrDict = {'key' : edgeVal, 'weight' : 1}
+                                                else:
+                                                    attrDict = {'key' : edgeVal}
+                                                grph.add_edge(node1, node2, attr_dict = attrDict)
+                                    elif edgeWeight:
                                         try:
                                             grph.edge[node1][node2]['weight'] += 1
                                         except KeyError:
@@ -1078,14 +1108,21 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
                                     else:
                                         if not grph.has_edge(node1, node2):
                                             grph.add_edge(node1, node2)
+                                if not grph.has_node(node1):
+                                    grph.add_node(node1)
                                 if nodeCount:
                                     try:
                                         grph.node[node1]['count'] += 1
                                     except KeyError:
                                         grph.node[node1]['count'] = 1
-                                else:
-                                    if not grph.has_node(node1):
-                                        grph.add_node(node1)
+                                if nodeAttribute:
+                                    try:
+                                        currentAttrib = grph.node[node1][nodeAttribute]
+                                    except KeyError:
+                                        grph.node[node1][nodeAttribute] = nodeVals
+                                    else:
+                                        for nodeValue in (n for n in nodeVals if n not in currentAttrib):
+                                                grph.node[node1][nodeAttribute].append(nodeValue)
                         elif len(tmplst) == 1:
                             if nodeCount:
                                 try:
@@ -1095,6 +1132,14 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
                             else:
                                 if not grph.has_node(tmplst[0]):
                                     grph.add_node(tmplst[0])
+                            if nodeAttribute:
+                                try:
+                                    currentAttrib = grph.node[tmplst[0]][nodeAttribute]
+                                except KeyError:
+                                    grph.node[tmplst[0]][nodeAttribute] = nodeVals
+                                else:
+                                    for nodeValue in (n for n in nodeVals if n not in currentAttrib):
+                                            grph.node[tmplst[0]][nodeAttribute].append(nodeValue)
                         else:
                             pass
                     else:
@@ -1110,8 +1155,16 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
                         else:
                             if not grph.has_node(nodeVal):
                                 grph.add_node(nodeVal)
+                        if nodeAttribute:
+                            try:
+                                currentAttrib = grph.node[nodeVal][nodeAttribute]
+                            except KeyError:
+                                grph.node[nodeVal][nodeAttribute] = nodeVals
+                            else:
+                                for nodeValue in (n for n in nodeVals if n not in currentAttrib):
+                                        grph.node[nodeVal][nodeAttribute].append(nodeValue)
             if PBar:
-                PBar.finish("Done making a one mode network with " + mode)
+                PBar.finish("Done making a one mode network with {}".format(mode))
         return grph
 
     def twoModeNetwork(self, tag1, tag2, directed = False, recordType = True, nodeCount = True, edgeWeight = True, stemmerTag1 = None, stemmerTag2 = None):

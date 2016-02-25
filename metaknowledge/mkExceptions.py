@@ -1,6 +1,9 @@
 class mkException(Exception):
     pass
 
+class CollectionTypeError(mkException):
+    pass
+
 class RCTypeError(mkException):
     pass
 

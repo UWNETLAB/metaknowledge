@@ -1,6 +1,7 @@
 #Written by Reid McIlroy-Young for Dr. John McLevey, University of Waterloo 2015
 import itertools
 import os
+import os.path
 import csv
 import pickle
 import collections.abc
@@ -84,7 +85,7 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
                 self._Records = set()
             elif isinstance(inCollection, str):
                 if os.path.isfile(inCollection):
-                    PBar.updateVal(.5, "RecordCollection from a file started")
+                    PBar.updateVal(.2, "RecordCollection from a file started")
                     if not inCollection.endswith(extension):
                         raise RCTypeError("extension of input file does not match requested extension")
                     if not name:
@@ -102,7 +103,7 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
                             self.bad = True
                             self.errors[inCollection] = pError
                     else:
-                        raise BadInputFile("'{}' does not match any known file type. Its header might be damaged or it could have been modified by another program.".format(inCollection))
+                        raise BadInputFile("'{}' does not match any known file type.\nIts header might be damaged or it could have been modified by another program.".format(inCollection))
                 elif os.path.isdir(inCollection):
                     count = 0
                     PBar.updateVal(0, "RecordCollection from a files in {}".format(inCollection))
@@ -161,7 +162,7 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
                         raise RCTypeError("RecordCollections can only contain Records, '{}' is not a valid part of an input iterable.".format(R))
                 self._Records = set(inCollection)
             else:
-                raise RCTypeError("RecordCollection cannot be created from {}.".format(inCollection))
+                raise RCTypeError("A RecordCollection cannot be created from {}.".format(inCollection))
             try:
                 PBar.finish("Done making a RecordCollection of {} Records".format(len(self)))
             except AttributeError:
@@ -213,8 +214,9 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
     def add(self, elem):
         if isinstance(elem, Record):
             self._Records.add(elem)
+            self.recordTypes.add(elem.typeString)
         else:
-            raise RCTypeError("recordCollections can only contain Records, '{}' is not a Record.".format(elem))
+            raise RCTypeError("RecordCollections can only contain Records, '{}' is not a Record.".format(elem))
 
     def discard(self, elem):
         return self._Records.discard(elem)

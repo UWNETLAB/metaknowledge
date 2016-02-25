@@ -94,6 +94,10 @@ class WOSRecord(Record):
     def encoding(self):
         return 'utf-8'
 
+    @property
+    def typeString(self):
+        return 'WOS'
+
     @staticmethod
     def getAltName(tag):
         return tagNameConverterDict.get(tag)

@@ -36,7 +36,7 @@ from .grant import Grant
 from .recordCollection import RecordCollection
 from .mkExceptions import *
 from .progressBar import _ProgressBar
-
+from .grantCollection import *
 
 from .graphHelpers import writeEdgeList, writeNodeAttributeFile, writeGraph, readGraph, dropEdges, dropNodesByDegree, dropNodesByCount, mergeGraphs, graphStats
 from .constants import VERBOSE_MODE, __version__, specialRecordFields

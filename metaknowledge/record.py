@@ -211,6 +211,11 @@ class Record(collections.abc.Mapping, collections.abc.Hashable, metaclass = abc.
     def encoding(self):
         return 'utf-8' #Most likely to be the encoding
 
+    @property
+    @abc.abstractmethod
+    def typeString(self):
+        return 'Base Record'
+
     @staticmethod
     @abc.abstractmethod
     def getAltName(tag):

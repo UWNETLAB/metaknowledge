@@ -51,3 +51,10 @@ class BadCitation(Warning):
     Exception thrown by Citation
     """
     pass
+
+
+class GrantCollectionException(mkException):
+    pass
+
+class NotAGrantFile(GrantCollectionException):
+    pass

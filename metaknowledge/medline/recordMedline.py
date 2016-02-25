@@ -48,6 +48,10 @@ class MedlineRecord(Record):
     def encoding(self):
         return 'latin-1'
 
+    @property
+    def typeString(self):
+        return 'MEDLINE'
+
     @staticmethod
     def getAltName(tag):
         return tagNameConverterDict.get(tag)

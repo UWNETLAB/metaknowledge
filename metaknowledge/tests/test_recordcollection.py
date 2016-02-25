@@ -176,7 +176,7 @@ class TestRecordCollection(unittest.TestCase):
         RC2 = metaknowledge.RecordCollection("metaknowledge/tests/TwoPaper.isi")
         self.RC |= RC2
         self.assertEqual(len(self.RC), l + 2)
-        with self.assertRaises(metaknowledge.RCTypeError):
+        with self.assertRaises(metaknowledge.CollectionTypeError):
             self.RC.add(1)
 
     def test_bytes(self):
@@ -208,8 +208,9 @@ class TestRecordCollection(unittest.TestCase):
 
     def test_contentType(self):
         RC = metaknowledge.RecordCollection('metaknowledge/tests/')
-        self.assertEqual(RC.recordTypes, {'WOS', 'MEDLINE'})
-        self.assertEqual(self.RC.recordTypes, {'WOS'})
+        self.assertEqual(RC._collectedTypes, {'WOS', 'MEDLINE'})
+        self.assertEqual(self.RC._collectedTypes, {'WOS'})
+
     def test_write(self):
         fileName = 'OnePaper2.isi'
         RC = metaknowledge.RecordCollection('metaknowledge/tests/' + fileName)

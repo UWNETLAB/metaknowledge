@@ -19,10 +19,13 @@ from .mkExceptions import cacheError, BadWOSFile, BadWOSRecord, RCTypeError, Bad
 from .WOS.wosHandlers import wosParser, isWOSFile
 
 from .medline.medlineHandlers import medlineParser, isMedlineFile
+from .mkCollection import Collection
+
+
 
 import metaknowledge
 
-class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
+class RecordCollection(Collection):
     """
     A container for a large number of indivual WOS records.
 
@@ -74,50 +77,52 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
         else:
             progKwargs = {'dummy' : True}
         with _ProgressBar(*progArgs, **progKwargs) as PBar:
-            self.bad = False
-            self.errors = {}
-            self.name = name
-            self.recordTypes = set()
+            bad = False
+            errors = {}
+            name = name
+            recordTypes = set()
+            cacheRec = False
             if inCollection is None:
                 PBar.updateVal(.5, "Empty RecordCollection created")
                 if not name:
-                    self.name = "Empty"
-                self._Records = set()
+                    name = "Empty"
+                recordsSet = set()
             elif isinstance(inCollection, str):
                 if os.path.isfile(inCollection):
                     PBar.updateVal(.2, "RecordCollection from a file started")
                     if not inCollection.endswith(extension):
                         raise RCTypeError("extension of input file does not match requested extension")
                     if not name:
-                        self.name = os.path.splitext(os.path.split(inCollection)[1])[0]
+                        name = os.path.splitext(os.path.split(inCollection)[1])[0]
                     if isWOSFile(inCollection):
-                        self.recordTypes.add('WOS')
-                        self._Records, pError = wosParser(inCollection)
+                        recordTypes.add('WOS')
+                        recordsSet, pError = wosParser(inCollection)
                         if pError is not None:
-                            self.bad = True
-                            self.errors[inCollection] = pError
+                            bad = True
+                            errors[inCollection] = pError
                     elif isMedlineFile(inCollection):
-                        self.recordTypes.add('MEDLINE')
-                        self._Records, pError = medlineParser(inCollection)
+                        recordTypes.add('MEDLINE')
+                        recordsSet, pError = medlineParser(inCollection)
                         if pError is not None:
-                            self.bad = True
-                            self.errors[inCollection] = pError
+                            bad = True
+                            errors[inCollection] = pError
                     else:
                         raise BadInputFile("'{}' does not match any known file type.\nIts header might be damaged or it could have been modified by another program.".format(inCollection))
                 elif os.path.isdir(inCollection):
                     count = 0
                     PBar.updateVal(0, "RecordCollection from a files in {}".format(inCollection))
                     if extension and not name:
-                        self.name = "{}-files-from-{}".format(extension, inCollection)
+                        name = "{}-files-from-{}".format(extension, inCollection)
                     elif not name:
-                        self.name = "files-from-{}".format(inCollection)
-                    self._Records = set()
+                        name = "files-from-{}".format(inCollection)
+                    recordsSet = set()
                     flist = []
                     for f in os.listdir(inCollection):
                         fullF = os.path.join(os.path.abspath(inCollection), f)
                         if fullF.endswith(extension) and not fullF.endswith('mkDirCache') and os.path.isfile(fullF):
                             flist.append(fullF)
                     if cached:
+                        cacheRec = True
                         cacheName = os.path.join(inCollection, '{}.[{}].mkDirCache'.format(os.path.basename(os.path.abspath(inCollection)), extension))
                         if os.path.isfile(cacheName):
                             try:
@@ -132,27 +137,25 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
                         count += 1
                         PBar.updateVal(count / len(flist), "Reading records from: {}".format(fileName))
                         if isWOSFile(fileName):
-                            if 'WOS' not in self.recordTypes:
-                                self.recordTypes.add('WOS')
+                            if 'WOS' not in recordTypes:
+                                recordTypes.add('WOS')
                             recs, pError = wosParser(fileName)
                             if pError is not None:
-                                self.bad = True
-                                self.errors[fileName]= pError
-                            self._Records |= recs
+                                bad = True
+                                errors[fileName]= pError
+                            recordsSet |= recs
                         elif isMedlineFile(fileName):
-                            if 'MEDLINE' not in self.recordTypes:
-                                self.recordTypes.add('MEDLINE')
+                            if 'MEDLINE' not in recordTypes:
+                                recordTypes.add('MEDLINE')
                             recs, pError = medlineParser(fileName)
                             if pError is not None:
-                                self.bad = True
-                                self.errors[fileName]= pError
-                            self._Records |= recs
+                                bad = True
+                                errors[fileName]= pError
+                            recordsSet |= recs
                         elif extension != '':
                             raise BadInputFile("'{}' does not match any known file type, but has the requested extension '{}'. Its header might be damaged or it could have been modified by another program.".format(fileName, extension))
                         else:
                             pass
-                    if cached:
-                        writeCache(self, cacheName, flist, name, extension, PBar)
                 else:
                     raise RCTypeError("'{}' is not a path to a directory or file. Strings cannot be used to initialize RecordCollections".format(inCollection))
             elif isinstance(inCollection, collections.abc.Iterable):
@@ -160,174 +163,16 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
                 for R in inCollection:
                     if not isinstance(R, Record):
                         raise RCTypeError("RecordCollections can only contain Records, '{}' is not a valid part of an input iterable.".format(R))
-                self._Records = set(inCollection)
+                recordsSet = set(inCollection)
             else:
                 raise RCTypeError("A RecordCollection cannot be created from {}.".format(inCollection))
+            Collection.__init__(self, recordsSet, Record, recordTypes, name, bad, errors)
+            if cacheRec:
+                writeCache(self, cacheName, flist, name, extension, PBar)
             try:
                 PBar.finish("Done making a RecordCollection of {} Records".format(len(self)))
             except AttributeError:
                 PBar.finish("Done making a RecordCollection. Warning an error occured.")
-
-    #Hashable method
-
-    def __hash__(self):
-        return hash(sum((hash(R) for R in self)))
-
-    #Set methods
-
-    def __le__(self, other):
-        if not isinstance(other, RecordCollection):
-            return NotImplemented
-        else:
-            return len(self) <= len(other)
-
-    def __ge__(self, other):
-        if not isinstance(other, RecordCollection):
-            return NotImplemented
-        else:
-            return len(self) >= len(other)
-
-    def __eq__(self, other):
-        if not isinstance(other, RecordCollection):
-            return NotImplemented
-        else:
-            return self._Records == other._Records
-
-    def __len__(self):
-        """
-        returns the number or Records
-        """
-        return len(self._Records)
-
-    def __iter__(self):
-        """
-        iterates over the Records
-        """
-        for R in self._Records:
-            yield R
-
-    def __contains__(self, item):
-        return item in self._Records
-
-    #Mutable Set methods
-
-    def add(self, elem):
-        if isinstance(elem, Record):
-            self._Records.add(elem)
-            self.recordTypes.add(elem.typeString)
-        else:
-            raise RCTypeError("RecordCollections can only contain Records, '{}' is not a Record.".format(elem))
-
-    def discard(self, elem):
-        return self._Records.discard(elem)
-
-    def remove(self, elem):
-        try:
-            return self._Records.remove(elem)
-        except KeyError:
-            raise KeyError("'{}' was not found in the RecordCollection: '{}'.".format(elem, self)) from None
-
-    def clear(self):
-        self.bad = False
-        self.errors = {}
-        self._Records.clear()
-
-    def pop(self):
-        try:
-            return self._Records.pop()
-        except KeyError:
-            raise KeyError("No more Records in the RecordCollection: '{}'.".format(self)) from None
-
-    def __ior__(self, other):
-        if not isinstance(other, RecordCollection):
-            return NotImplemented
-        else:
-            self._Records |= other._Records
-            if other.bad or self.bad:
-                self.bad = True
-                self.errors.update(other.errors)
-            return self
-
-    def __iand__(self, other):
-        if not isinstance(other, RecordCollection):
-            return NotImplemented
-        else:
-            self._Records &= other._Records
-            if other.bad or self.bad:
-                self.bad = True
-                self.errors.update(other.errors)
-            return self
-
-    def __ixor__(self, other):
-        if not isinstance(other, RecordCollection):
-            return NotImplemented
-        else:
-            self._Records ^= other._Records
-            if other.bad or self.bad:
-                self.bad = True
-                self.errors.update(other.errors)
-            return self
-
-    def __isub__(self, other):
-        if not isinstance(other, RecordCollection):
-            return NotImplemented
-        else:
-            self._Records -= other._Records
-            if other.bad or self.bad:
-                self.bad = True
-                self.errors.update(other.errors)
-            return self
-
-    #These are provided by the above
-    #but don't work right unless they are custom writen
-
-    def __or__(self, other):
-        if not isinstance(other, RecordCollection):
-            return NotImplemented
-        else:
-            retRC = RecordCollection(self._Records | other._Records, name = '{} | {}'.format(self, other), quietStart = True)
-            if other.bad or self.bad:
-                retRC.bad = True
-                retRC.errors.update(other.errors)
-            return retRC
-
-    def __and__(self, other):
-        if not isinstance(other, RecordCollection):
-            return NotImplemented
-        else:
-            retRC = RecordCollection(self._Records & other._Records, name = '{} & {}'.format(self, other), quietStart = True)
-            if other.bad or self.bad:
-                retRC.bad = True
-                retRC.errors.update(other.errors)
-            return retRC
-
-    def __sub__(self, other):
-        if not isinstance(other, RecordCollection):
-            return NotImplemented
-        else:
-            retRC = RecordCollection(self._Records - other._Records, name = '{} - {}'.format(self, other), quietStart = True)
-            if other.bad or self.bad:
-                retRC.bad = True
-                retRC.errors.update(other.errors)
-            return retRC
-
-    def __xor__(self, other):
-        if not isinstance(other, RecordCollection):
-            return NotImplemented
-        else:
-            retRC = RecordCollection(self._Records ^ other._Records, name = '{} ^ {}'.format(self, other), quietStart = True)
-            if other.bad or self.bad:
-                retRC.bad = True
-                retRC.errors.update(other.errors)
-            return retRC
-
-    #Other niceties
-
-    def __repr__(self):
-        return "<metaknowledge.{} object {}>".format(type(self).__name__, self.name)
-
-    def __str__(self):
-        return "RecordCollection({})".format(self.name)
 
     def __bytes__(self):
         encoding = self.peak().encoding
@@ -336,43 +181,22 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
         except BadRecord as e:
             raise e from None
 
-    def copy(self):
-        rcCopy = copy.copy(self)
-        rcCopy._Records = rcCopy._Records.copy()
-        rcCopy.errors = rcCopy.errors.copy()
-        return rcCopy
-
     def containsID(self, idVal):
         for R in self:
             if R.id == idVal:
                 return True
         return False
 
-    def peak(self):
-        """
-        Returns a random `Record` from the `RecordCollection`, the `Record` is kept in the collection, use [**pop**()](#recordCollection.pop) for faster destructive access.
-
-        # Returns
-
-        `Record`
-
-        > A random `Record` in the collection
-        """
-        if len(self._Records) > 0:
-            return self._Records.__iter__().__next__()
-        else:
-            return None
-
     def discardID(self, idVal):
         for R in self:
             if R.id == idVal:
-                self._Records.discard(R)
+                self._collection.discard(R)
                 return
 
     def removeID(self, idVal):
         for R in self:
             if R.id == idVal:
-                self._Records.remove(R)
+                self._collection.remove(R)
                 return
         raise KeyError("A Record with the ID '{}' was not found in the RecordCollection: '{}'.".format(idVal, self))
 
@@ -392,7 +216,7 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
         > All the bad `Records` in one collection
         """
         badRecords = set()
-        for R in self._Records:
+        for R in self._collection:
             if R.bad:
                 badRecords.add(R)
         return RecordCollection(badRecords, repr(self) + '_badRecords', quietStart = True)
@@ -400,7 +224,7 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
     def dropBadRecords(self):
         """Removes all `Records` with `bad` attribute `True` from the collection, i.e. drop all those returned by [**BadRecords**()](#RecordCollection.BadRecords).
         """
-        self._Records = {r for r in self._Records if not r.bad}
+        self._collection = {r for r in self._collection if not r.bad}
 
     def dropNonJournals(self, ptVal = 'J', dropBad = True, invert = False):
         """Drops the non journal type `Records` from the collection, this is done by checking _ptVal_ against the PT tag
@@ -422,9 +246,9 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
         if dropBad:
             self.dropBadRecords()
         if invert:
-            self._Records = {r for r in self._Records if r['pubType'] != ptVal.upper()}
+            self._collection = {r for r in self._collection if r['pubType'] != ptVal.upper()}
         else:
-            self._Records = {r for r in self._Records if r['pubType'] == ptVal.upper()}
+            self._collection = {r for r in self._collection if r['pubType'] == ptVal.upper()}
 
     def writeFile(self, fname = None):
         """Writes the `RecordCollection` to a file, the written file's format is identical to those download from WOS. The order of `Records` written is random.
@@ -435,7 +259,7 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
 
         > Default `None`, if given the output file will written to _fanme_, if `None` the `RecordCollection`'s name's first 200 characters are used with the suffix .isi
         """
-        if len(self.recordTypes) < 2:
+        if len(self._collectedTypes) < 2:
             recEncoding = self.peak().encoding
         else:
             recEncoding = 'utf-8'
@@ -443,15 +267,15 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
             f = open(fname, mode = 'w', encoding = recEncoding)
         else:
             f = open(self.name[:200] + '.txt', mode = 'w', encoding = recEncoding)
-        if self.recordTypes == {'WOS'}:
+        if self._collectedTypes == {'WOS'}:
             f.write("\ufeffFN Thomson Reuters Web of Science\u2122\n")
             f.write("VR 1.0\n")
-        elif self.recordTypes == {'MEDLINE'}:
+        elif self._collectedTypes == {'MEDLINE'}:
             f.write('\n')
-        for R in self._Records:
+        for R in self._collection:
             R.writeRecord(f)
             f.write('\n')
-        if self.recordTypes == {'WOS'}:
+        if self._collectedTypes == {'WOS'}:
             f.write('EF')
         f.close()
 

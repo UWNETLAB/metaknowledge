@@ -6,7 +6,7 @@ from .mkExceptions import CollectionTypeError
 
 class Collection(collections.abc.MutableSet, collections.abc.Hashable):
     def __init__(self, inSet, allowedTypes, collectedTypes, name, bad, errors, quietStart = False):
-        """Mostly based on RecordCollection 1.0 with some improvents/tweaks"""
+        """Basically a collections.abc.MutableSet wrapper for a set with a bunch of extra record keeping attached."""
         self._collection = inSet
         self._allowedTypes = allowedTypes
         self._collectedTypes = collectedTypes
@@ -60,7 +60,7 @@ class Collection(collections.abc.MutableSet, collections.abc.Hashable):
             raise CollectionTypeError("{} can only contain '{}', '{}' is not allowed.".format(type(self).__name__, self._allowedTypes, elem))
 
     def discard(self, elem):
-        return self._Grants.discard(elem)
+        return self._collection.discard(elem)
 
     def remove(self, elem):
         try:
@@ -178,10 +178,10 @@ class Collection(collections.abc.MutableSet, collections.abc.Hashable):
 
     def copy(self):
         collectedCopy = copy.copy(self)
-        collectedCopy._collection = collectedCopy._collection.copy()
-        self._collectedTypes = self._collectedTypes.copy()
-        self._allowedTypes = self._allowedTypes.copy()
-        collectedCopy.errors = collectedCopy.errors.copy()
+        collectedCopy._collection = copy.copy(collectedCopy._collection)
+        self._collectedTypes = copy.copy(self._collectedTypes)
+        self._allowedTypes = copy.copy(self._allowedTypes)
+        collectedCopy.errors = copy.copy(collectedCopy.errors)
         return collectedCopy
 
     def peak(self):

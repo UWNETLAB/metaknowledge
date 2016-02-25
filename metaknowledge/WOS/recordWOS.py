@@ -7,8 +7,7 @@ import collections
 
 from ..record import Record
 
-from ..citation import Citation
-from ..WOS.tagProcessing.funcDicts import tagNameConverterDict, tagsAndNameSet, fullToTagDict, tagToFull, tagNameConverterDict
+from ..WOS.tagProcessing.funcDicts import tagNameConverterDict, tagToFull
 from ..WOS.tagProcessing.tagFunctions import tagToFunc
 from ..mkExceptions import BadWOSFile, BadWOSRecord
 
@@ -288,10 +287,11 @@ def recordParser(paper):
     """
     tagList = []
     doneReading = False
+    l = (0, '')
     for l in paper:
         if len(l[1]) < 3:
             #Line too short
-            raise BadWOSRecord("Missing field on line " + str(l[0]) + " : " + l[1])
+            raise BadWOSRecord("Missing field on line {} : {}".format(l[0], l[1]))
         elif 'ER' in l[1][:2]:
             #Reached the end of the record
             doneReading = True
@@ -306,7 +306,7 @@ def recordParser(paper):
             #New tag create new entry at the end of tagList
             tagList.append((l[1][:2], [l[1][3:-1]]))
     if not doneReading:
-        raise BadWOSRecord("End of file reached before ER: " + l[1])
+        raise BadWOSRecord("End of file reached before ER: {}".format(l[1]))
     else:
         retdict = collections.OrderedDict(tagList)
         if len(retdict) == len(tagList):

@@ -1,5 +1,4 @@
 import itertools
-import pdb
 
 from ..mkExceptions import BadPubmedFile
 
@@ -42,7 +41,7 @@ def medlineParser(pubFile):
                                     lineNum, line = next(f)
                             except (StopIteration, UnicodeDecodeError) as e:
                                 if error is None:
-                                    error = BadPubmedFile("The file '{}' becomes unparsable after line: {}, due to the error: ".format(pubFile, badLine, e))
+                                    error = BadPubmedFile("The file '{}' becomes unparsable after line: {}, due to the error: {} ".format(pubFile, badLine, e))
                                 raise e
                     elif line != '\n':
                         if error is None:

@@ -4,10 +4,6 @@ import metaknowledge
 import networkx as nx
 import csv
 import os
-import sys
-import time
-import math
-import threading
 
 from .progressBar import _ProgressBar
 
@@ -218,8 +214,8 @@ def writeEdgeList(grph, name, extraInfo = True, allSameAttribute = False, _progB
             if allSameAttribute:
                 csvHeader = ['From'] +  ['To'] + list(grph.edges_iter(data = True).__next__()[2].keys())
             else:
-                for n1, n2, attribs in grph.edges_iter(data = True):
-                    for key in attribs.keys():
+                for eTuple in grph.edges_iter(data = True):
+                    for key in eTuple[2].keys():
                         if key not in csvHeader:
                             csvHeader.append(key)
                 csvHeader += ['From', 'To']

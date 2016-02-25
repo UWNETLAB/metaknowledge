@@ -1078,7 +1078,7 @@ class RecordCollection(collections.abc.MutableSet, collections.abc.Hashable):
                 else:
                     contents = R.get(mode)
                 if contents is not None:
-                    if isinstance(contents, list):
+                    if not isinstance(contents, str) and isinstance(contents, collections.abc.Iterable):
                         if stemCheck:
                             tmplst = [stemmer(str(n)) for n in contents]
                         else:

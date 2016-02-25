@@ -6,8 +6,7 @@ from .mkExceptions import BadCitation
 abbrevDict = None
 
 class Citation(object):
-    """
-    A class to hold citation strings and allow for comparison between them.
+    """A class to hold citation strings and allow for comparison between them.
 
     The initializer takes in a string representing a WOS citation in the form:
 

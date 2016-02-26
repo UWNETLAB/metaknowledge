@@ -26,8 +26,8 @@ class TestRecordCollection(unittest.TestCase):
         accessTime = os.stat("metaknowledge/tests/testFile.isi").st_atime
         RC2 = metaknowledge.RecordCollection("metaknowledge/tests/", cached = True, name = 'testingCache', extension = 'testFile.isi')
         self.assertEqual(accessTime, os.stat("metaknowledge/tests/testFile.isi").st_atime)
-        RC.dropBadRecords()
-        RC2.dropBadRecords()
+        RC.dropBadEntries()
+        RC2.dropBadEntries()
         self.assertEqual(RC, RC2)
         os.remove("metaknowledge/tests/tests.[testFile.isi].mkDirCache")
 
@@ -40,11 +40,11 @@ class TestRecordCollection(unittest.TestCase):
         self.assertFalse(self.RCbad == self.RC)
         self.assertEqual('metaknowledge/tests/badFile.isi', self.RCbad.errors.keys().__iter__().__next__())
 
-    def test_badRecords(self):
-        badRecs = self.RC.BadRecords()
+    def test_badEntries(self):
+        badRecs = self.RC.badEntries()
         self.assertTrue(badRecs <= self.RC)
         self.assertTrue(badRecs.pop().bad)
-        self.RC.dropBadRecords()
+        self.RC.dropBadEntries()
 
     def test_dropJourn(self):
         RCcopy = self.RC.copy()
@@ -182,11 +182,11 @@ class TestRecordCollection(unittest.TestCase):
     def test_bytes(self):
         with self.assertRaises(metaknowledge.BadRecord):
             self.assertIsInstance(bytes(self.RC), bytes)
-        self.RC.dropBadRecords()
+        self.RC.dropBadEntries()
         self.assertIsInstance(bytes(self.RC), bytes)
 
     def test_WOS(self):
-        self.RC.dropBadRecords()
+        self.RC.dropBadEntries()
         R = self.RC.peak()
         l = len(self.RC)
         self.assertTrue(R, self.RC.getID(R.id))
@@ -357,7 +357,7 @@ class TestRecordCollection(unittest.TestCase):
             del G
 
     def test_twoMode(self):
-        self.RC.dropBadRecords()
+        self.RC.dropBadEntries()
         Gutti = self.RC.twoModeNetwork('UT', 'title', directed = True, recordType = False)
         Gafwc = self.RC.twoModeNetwork('AF', 'WC', nodeCount = False, edgeWeight = False)
         Gd2em = self.RC.twoModeNetwork('D2', 'email')

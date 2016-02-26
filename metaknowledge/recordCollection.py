@@ -19,13 +19,13 @@ from .mkExceptions import cacheError, BadWOSFile, BadWOSRecord, RCTypeError, Bad
 from .WOS.wosHandlers import wosParser, isWOSFile
 
 from .medline.medlineHandlers import medlineParser, isMedlineFile
-from .mkCollection import Collection
+from .mkCollection import CollectionWithIDs
 
 
 
 import metaknowledge
 
-class RecordCollection(Collection):
+class RecordCollection(CollectionWithIDs):
     """
     A container for a large number of indivual WOS records.
 
@@ -166,7 +166,7 @@ class RecordCollection(Collection):
                 recordsSet = set(inCollection)
             else:
                 raise RCTypeError("A RecordCollection cannot be created from {}.".format(inCollection))
-            Collection.__init__(self, recordsSet, Record, recordTypes, name, bad, errors)
+            CollectionWithIDs.__init__(self, recordsSet, Record, recordTypes, name, bad, errors)
             if cacheRec:
                 writeCache(self, cacheName, flist, name, extension, PBar)
             try:
@@ -180,51 +180,6 @@ class RecordCollection(Collection):
             return bytes('\n', encoding = encoding).join((bytes(R) for R in self))
         except BadRecord as e:
             raise e from None
-
-    def containsID(self, idVal):
-        for R in self:
-            if R.id == idVal:
-                return True
-        return False
-
-    def discardID(self, idVal):
-        for R in self:
-            if R.id == idVal:
-                self._collection.discard(R)
-                return
-
-    def removeID(self, idVal):
-        for R in self:
-            if R.id == idVal:
-                self._collection.remove(R)
-                return
-        raise KeyError("A Record with the ID '{}' was not found in the RecordCollection: '{}'.".format(idVal, self))
-
-    def getID(self, idVal):
-        for R in self:
-            if R.id == idVal:
-                return R
-        return None
-
-    def BadRecords(self):
-        """creates a `RecordCollection` containing all the `Record` which have their `bad` attribute set to `True`, i.e. all those removed by [**dropBadRecords**()](#RecordCollection.dropBadRecords).
-
-        # Returns
-
-        `RecordCollection`
-
-        > All the bad `Records` in one collection
-        """
-        badRecords = set()
-        for R in self._collection:
-            if R.bad:
-                badRecords.add(R)
-        return RecordCollection(badRecords, repr(self) + '_badRecords', quietStart = True)
-
-    def dropBadRecords(self):
-        """Removes all `Records` with `bad` attribute `True` from the collection, i.e. drop all those returned by [**BadRecords**()](#RecordCollection.BadRecords).
-        """
-        self._collection = {r for r in self._collection if not r.bad}
 
     def dropNonJournals(self, ptVal = 'J', dropBad = True, invert = False):
         """Drops the non journal type `Records` from the collection, this is done by checking _ptVal_ against the PT tag
@@ -244,7 +199,7 @@ class RecordCollection(Collection):
         > Default `False`, Set `True` to drop journals (or the PT tag given by _ptVal_) instead of keeping them. **Note**, it still drops bad Records if _dropBad_ is `True`
         """
         if dropBad:
-            self.dropBadRecords()
+            self.dropBadEntries()
         if invert:
             self._collection = {r for r in self._collection if r['pubType'] != ptVal.upper()}
         else:

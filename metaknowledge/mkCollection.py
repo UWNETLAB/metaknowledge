@@ -189,3 +189,43 @@ class Collection(collections.abc.MutableSet, collections.abc.Hashable):
             return self._collection.__iter__().__next__()
         else:
             return None
+
+class CollectionWithIDs(Collection):
+    """A Collection with a few extra methods that assume all the contained items have an id attribute and a bad attribute, e.g. Records or Grants"""
+    def __init__(self, inSet, allowedTypes, collectedTypes, name, bad, errors, quietStart = False):
+        Collection.__init__(self, inSet, allowedTypes, collectedTypes, name, bad, errors, quietStart = quietStart)
+
+    def containsID(self, idVal):
+        for i in self:
+            if i.id == idVal:
+                return True
+        return False
+
+    def discardID(self, idVal):
+        for i in self:
+            if i.id == idVal:
+                self._collection.discard(i)
+                return
+
+    def removeID(self, idVal):
+        for i in self:
+            if i.id == idVal:
+                self._collection.remove(i)
+                return
+        raise KeyError("A Record with the ID '{}' was not found in the RecordCollection: '{}'.".format(idVal, self))
+
+    def getID(self, idVal):
+        for i in self:
+            if i.id == idVal:
+                return i
+        return None
+
+    def badEntries(self):
+        badEntries = set()
+        for i in self:
+            if i.bad:
+                badEntries.add(i)
+        return type(self)(badEntries, quietStart = True)
+
+    def dropBadEntries(self):
+        self._collection = set((i for i in self if not i.bad))

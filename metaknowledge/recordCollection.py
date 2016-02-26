@@ -14,7 +14,8 @@ from .record import Record
 from .progressBar import _ProgressBar
 from .WOS.tagProcessing.funcDicts import tagToFullDict, fullToTagDict, normalizeToTag
 from .citation import Citation
-from .mkExceptions import cacheError, BadWOSFile, BadWOSRecord, RCTypeError, BadInputFile, BadRecord, RCValueError, RecordsNotCompatible
+from .fileHandlers import recordHandlers
+from .mkExceptions import cacheError, BadWOSFile, BadWOSRecord, RCTypeError, BadInputFile, BadRecord, RCValueError, RecordsNotCompatible, UnknownFile
 
 from .WOS.wosHandlers import wosParser, isWOSFile
 
@@ -94,19 +95,16 @@ class RecordCollection(CollectionWithIDs):
                         raise RCTypeError("extension of input file does not match requested extension")
                     if not name:
                         name = os.path.splitext(os.path.split(inCollection)[1])[0]
-                    if isWOSFile(inCollection):
-                        recordTypes.add('WOS')
-                        recordsSet, pError = wosParser(inCollection)
-                        if pError is not None:
-                            bad = True
-                            errors[inCollection] = pError
-                    elif isMedlineFile(inCollection):
-                        recordTypes.add('MEDLINE')
-                        recordsSet, pError = medlineParser(inCollection)
-                        if pError is not None:
-                            bad = True
-                            errors[inCollection] = pError
-                    else:
+                    try:
+                        for recordType, processor, detector in recordHandlers:
+                            if detector(inCollection):
+                                recordTypes.add(recordType)
+                                recordsSet, pError = processor(inCollection)
+                                if pError is not None:
+                                    bad = True
+                                    errors[inCollection] = pError
+                                break
+                    except UnknownFile:
                         raise BadInputFile("'{}' does not match any known file type.\nIts header might be damaged or it could have been modified by another program.".format(inCollection))
                 elif os.path.isdir(inCollection):
                     count = 0
@@ -136,26 +134,21 @@ class RecordCollection(CollectionWithIDs):
                     for fileName in flist:
                         count += 1
                         PBar.updateVal(count / len(flist), "Reading records from: {}".format(fileName))
-                        if isWOSFile(fileName):
-                            if 'WOS' not in recordTypes:
-                                recordTypes.add('WOS')
-                            recs, pError = wosParser(fileName)
-                            if pError is not None:
-                                bad = True
-                                errors[fileName]= pError
-                            recordsSet |= recs
-                        elif isMedlineFile(fileName):
-                            if 'MEDLINE' not in recordTypes:
-                                recordTypes.add('MEDLINE')
-                            recs, pError = medlineParser(fileName)
-                            if pError is not None:
-                                bad = True
-                                errors[fileName]= pError
-                            recordsSet |= recs
-                        elif extension != '':
-                            raise BadInputFile("'{}' does not match any known file type, but has the requested extension '{}'. Its header might be damaged or it could have been modified by another program.".format(fileName, extension))
-                        else:
-                            pass
+                        try:
+                            for recordType, processor, detector in recordHandlers:
+                                if detector(fileName):
+                                    recordTypes.add(recordType)
+                                    recs, pError = processor(fileName)
+                                    if pError is not None:
+                                        bad = True
+                                        errors[fileName] = pError
+                                    recordsSet |= recs
+                                    break
+                        except UnknownFile:
+                            if extension != '':
+                                raise BadInputFile("'{}' does not match any known file type, but has the requested extension '{}'. Its header might be damaged or it could have been modified by another program.".format(fileName, extension))
+                            else:
+                                pass
                 else:
                     raise RCTypeError("'{}' is not a path to a directory or file. Strings cannot be used to initialize RecordCollections".format(inCollection))
             elif isinstance(inCollection, collections.abc.Iterable):
@@ -222,15 +215,15 @@ class RecordCollection(CollectionWithIDs):
             f = open(fname, mode = 'w', encoding = recEncoding)
         else:
             f = open(self.name[:200] + '.txt', mode = 'w', encoding = recEncoding)
-        if self._collectedTypes == {'WOS'}:
+        if self._collectedTypes == {'WOSRecord'}:
             f.write("\ufeffFN Thomson Reuters Web of Science\u2122\n")
             f.write("VR 1.0\n")
-        elif self._collectedTypes == {'MEDLINE'}:
+        elif self._collectedTypes == {'MedlineRecord'}:
             f.write('\n')
         for R in self._collection:
             R.writeRecord(f)
             f.write('\n')
-        if self._collectedTypes == {'WOS'}:
+        if self._collectedTypes == {'WOSRecord'}:
             f.write('EF')
         f.close()
 

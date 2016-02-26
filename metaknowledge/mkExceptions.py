@@ -59,5 +59,5 @@ class BadCitation(Warning):
 class GrantCollectionException(mkException):
     pass
 
-class NotAGrantFile(GrantCollectionException):
+class UnknownFile(mkException):
     pass

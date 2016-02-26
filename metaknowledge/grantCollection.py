@@ -2,7 +2,7 @@ import os.path
 import collections.abc
 
 from .progressBar import _ProgressBar
-from .mkExceptions import GrantCollectionException, BadInputFile, NotAGrantFile
+from .mkExceptions import GrantCollectionException, BadInputFile, UnknownFile
 
 import metaknowledge
 
@@ -43,7 +43,7 @@ class GrantCollection(collections.abc.MutableSet, collections.abc.Hashable):
                                     self.bad = True
                                     self.errors[inGrants] = gError
                             break
-                    except NotAGrantFile:
+                    except UnknownFile:
                         raise BadInputFile("'{}' does not match any known grant file type and the default parser could not handle it.\nIts header might be damaged or it could have been modified by another program.".format(inGrants))
                 else:
                     raise GrantCollectionException("'{}' is not a path to a directory or file. Strings cannot be used to initialize GrantCollections".format(inGrants))

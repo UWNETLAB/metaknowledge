@@ -20,6 +20,10 @@ class TestRecordCollection(unittest.TestCase):
         self.assertEqual(str(metaknowledge.RecordCollection()), "RecordCollection(Empty)")
         self.assertTrue(self.RC == self.RC)
 
+    def test_fullRead(self):
+        RC = metaknowledge.RecordCollection("metaknowledge/tests/")
+        self.assertEqual(len(RC), 712)
+
     def test_caching(self):
         RC = metaknowledge.RecordCollection("metaknowledge/tests/", cached = True, name = 'testingCache', extension = 'testFile.isi')
         self.assertTrue(os.path.isfile("metaknowledge/tests/tests.[testFile.isi].mkDirCache"))
@@ -54,6 +58,9 @@ class TestRecordCollection(unittest.TestCase):
         self.assertEqual(len(self.RC), 0)
         RCcopy.dropNonJournals(ptVal = 'B')
         self.assertEqual(len(RCcopy), 1)
+
+    def test_repr(self):
+        self.assertEqual(repr(self.RC), "<metaknowledge.RecordCollection object testFile>")
 
     def test_hash(self):
         self.assertNotEqual(hash(self.RC), hash(self.RCbad))
@@ -208,8 +215,8 @@ class TestRecordCollection(unittest.TestCase):
 
     def test_contentType(self):
         RC = metaknowledge.RecordCollection('metaknowledge/tests/')
-        self.assertEqual(RC._collectedTypes, {'WOS', 'MEDLINE'})
-        self.assertEqual(self.RC._collectedTypes, {'WOS'})
+        self.assertEqual(RC._collectedTypes, {'MedlineRecord', 'WOSRecord'})
+        self.assertEqual(self.RC._collectedTypes, {'WOSRecord'})
 
     def test_write(self):
         fileName = 'OnePaper2.isi'

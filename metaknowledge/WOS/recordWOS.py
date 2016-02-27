@@ -5,13 +5,13 @@ import itertools
 import io
 import collections
 
-from ..record import Record
+from ..record import ExtendedRecord
 
 from ..WOS.tagProcessing.funcDicts import tagNameConverterDict, tagToFull
 from ..WOS.tagProcessing.tagFunctions import tagToFunc
 from ..mkExceptions import BadWOSFile, BadWOSRecord
 
-class WOSRecord(Record):
+class WOSRecord(ExtendedRecord):
     """Class for full WOS records
 
     It is meant to be immutable; many of the methods and attributes are evaluated when first called, not when the object is created, and the results are stored privately.
@@ -88,7 +88,7 @@ class WOSRecord(Record):
                 self._wosNum = 'WOS:Missing'
                 bad = True
                 error = BadWOSRecord("Missing WOS number")
-        Record.__init__(self, fieldDict, self._wosNum, bad, error, sFile = sFile, sLine = sLine)
+        ExtendedRecord.__init__(self, fieldDict, self._wosNum, bad, error, sFile = sFile, sLine = sLine)
 
     @property
     def encoding(self):

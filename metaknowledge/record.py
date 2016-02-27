@@ -6,36 +6,8 @@ from .mkExceptions import BadRecord
 
 from .citation import Citation
 
-class Record(collections.abc.Mapping, collections.abc.Hashable, metaclass = abc.ABCMeta):
+class Record(collections.abc.Mapping, collections.abc.Hashable):
     def __init__(self, fieldDict, idValue, bad, error, sFile = "", sLine = 0):
-        """Base constructor for Records
-
-        _fieldDict_ : is the unpared entry dict with tags as keys and their lines as a list of strings
-
-        _idValue_ : is the unique ID of the Record, e.g. the WOS number
-
-        _titleKey_ : is the tag giving the title of the Record, e.g. the WOS tag is `'TI'`
-
-        _bad_ : is the bool tto flag the Record as having encountered an errror
-
-        _error_ : is the error that bad indicates
-
-        _sFile_ : is the name of the source file
-
-        _sLine_ : is the line number of the start of the Record entry
-
-        _altNames_ : is a dict that maps the names of tags to an alternative name, i.e. the long names dict. It **must** be bidirectional: map long to short and short to long
-
-        _proccessingFuncs_ : is a dict of functions to proccess the tags. It has the short names as keys and their proccessing fucntions as values. Missing tags will result in the unparsed value to be returned.
-
-        The Records inheting from this must implement, calling the implementations in Record with super() will not cause errors:
-        + writeRecord
-        + tagProccessingFunc
-        + encoding
-        + titleTag
-        + getAltName
-        """
-
         #File stuff for debug/error messages
         self._sourceFile = sFile
         self._sourceLine = sLine
@@ -47,9 +19,6 @@ class Record(collections.abc.Mapping, collections.abc.Hashable, metaclass = abc.
         #Important data
         self._id = idValue
         self._fieldDict = fieldDict
-
-        #Memoizing stuff
-        self._computedFields = {}
 
     #collections.abc.Hashable method
 
@@ -63,7 +32,6 @@ class Record(collections.abc.Mapping, collections.abc.Hashable, metaclass = abc.
         return hash(self._id)
 
     #collections.abc.Mapping methods
-    #All but keys() are custom
 
     def __getitem__(self, key):
         """Proccesses the tag requested with _key_ and memoize it.
@@ -112,42 +80,10 @@ class Record(collections.abc.Mapping, collections.abc.Hashable, metaclass = abc.
 
         if either is bad False is returned
         """
-        if not isinstance(other, Record):
+        if not isinstance(other, type(self)):
             return NotImplemented
         else:
             return self.__hash__() == other.__hash__()
-
-    def get(self, tag, default = None, raw = False):
-        """Allows access to the raw values or is wrapper to __getitem__.
-
-        Does not raise KeyError, will just return `None` if _tag_ cannot be found.
-        """
-        if raw:
-            if tag in self._fieldDict:
-                return self._fieldDict[tag]
-            elif self.getAltName(tag) in self._fieldDict:
-                return self._fieldDict[self.getAltName(tag)]
-            else:
-                return default
-        else:
-            try:
-                return self[tag]
-            except KeyError:
-                return default
-
-    def values(self, raw = False):
-        if raw:
-            return self._fieldDict.values()
-        else:
-            return collections.abc.Mapping.values(self)
-
-    #Keys given by the mixin
-
-    def items(self, raw = False):
-        if raw:
-            return self._fieldDict.items()
-        else:
-            return collections.abc.Mapping.items(self)
 
     #Other niceties
 
@@ -181,7 +117,6 @@ class Record(collections.abc.Mapping, collections.abc.Hashable, metaclass = abc.
     def __getstate__(self):
         #Makes a slightly smaller object than __dict__
         d = self.__dict__.copy()
-        d['_computedFields'] = {}
         #Make copy.copy() produce a shallow copy
         d['_fieldDict'] = d['_fieldDict'].copy()
         return d
@@ -200,6 +135,84 @@ class Record(collections.abc.Mapping, collections.abc.Hashable, metaclass = abc.
         """
         return self._id
 
+class ExtendedRecord(Record, metaclass = abc.ABCMeta):
+    def __init__(self, fieldDict, idValue, bad, error, sFile = "", sLine = 0):
+        """Base constructor for Records
+
+        _fieldDict_ : is the unpared entry dict with tags as keys and their lines as a list of strings
+
+        _idValue_ : is the unique ID of the Record, e.g. the WOS number
+
+        _titleKey_ : is the tag giving the title of the Record, e.g. the WOS tag is `'TI'`
+
+        _bad_ : is the bool tto flag the Record as having encountered an errror
+
+        _error_ : is the error that bad indicates
+
+        _sFile_ : is the name of the source file
+
+        _sLine_ : is the line number of the start of the Record entry
+
+        _altNames_ : is a dict that maps the names of tags to an alternative name, i.e. the long names dict. It **must** be bidirectional: map long to short and short to long
+
+        _proccessingFuncs_ : is a dict of functions to proccess the tags. It has the short names as keys and their proccessing fucntions as values. Missing tags will result in the unparsed value to be returned.
+
+        The Records inheting from this must implement, calling the implementations in Record with super() will not cause errors:
+        + writeRecord
+        + tagProccessingFunc
+        + encoding
+        + titleTag
+        + getAltName
+        """
+        Record.__init__(self, fieldDict, idValue, bad, error, sFile = sFile, sLine = sLine)
+
+        #Memoizing stuff
+        self._computedFields = {}
+
+    #Extra options added to the defaults to make access to raw data easier
+
+    def get(self, tag, default = None, raw = False):
+        """Allows access to the raw values or is wrapper to __getitem__.
+
+        Does not raise KeyError, will just return `None` if _tag_ cannot be found.
+        """
+        if raw:
+            if tag in self._fieldDict:
+                return self._fieldDict[tag]
+            elif self.getAltName(tag) in self._fieldDict:
+                return self._fieldDict[self.getAltName(tag)]
+            else:
+                return default
+        else:
+            try:
+                return self[tag]
+            except KeyError:
+                return default
+
+    def values(self, raw = False):
+        if raw:
+            return self._fieldDict.values()
+        else:
+            return collections.abc.Mapping.values(self)
+
+    #Keys given by the mixin
+
+    def items(self, raw = False):
+        if raw:
+            return self._fieldDict.items()
+        else:
+            return collections.abc.Mapping.items(self)
+
+    #This needs a slight tweak over Record's
+
+    def __getstate__(self):
+        #Makes a slightly smaller object than __dict__
+        d = self.__dict__.copy()
+        d['_computedFields'] = {}
+        #Make copy.copy() produce a shallow copy
+        d['_fieldDict'] = d['_fieldDict'].copy()
+        return d
+
     #Making the 'virtual' methods
 
     @abc.abstractmethod
@@ -210,11 +223,6 @@ class Record(collections.abc.Mapping, collections.abc.Hashable, metaclass = abc.
     @abc.abstractmethod
     def encoding(self):
         return 'utf-8' #Most likely to be the encoding
-
-    @property
-    @abc.abstractmethod
-    def typeString(self):
-        return 'Base Record'
 
     @staticmethod
     @abc.abstractmethod

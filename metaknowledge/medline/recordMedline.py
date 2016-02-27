@@ -5,12 +5,12 @@ import itertools
 import io
 
 from ..mkExceptions import BadPubmedRecord
-from ..record import Record
+from ..record import ExtendedRecord
 from .tagProcessing.tagNames import tagNameConverterDict, authorBasedTags
 from .tagProcessing.tagFunctions import medlineTagToFunc
 from .tagProcessing.specialFunctions import medlineSpecialTagToFunc
 
-class MedlineRecord(Record):
+class MedlineRecord(ExtendedRecord):
     def __init__(self, inRecord, sFile = "", sLine = 0):
         """See help on [Record](#Record.Record) for details"""
         bad = False
@@ -42,15 +42,11 @@ class MedlineRecord(Record):
                 self._pubNum = None
                 bad = True
                 error = BadPubmedRecord("Missing WOS number")
-        Record.__init__(self, fieldDict, self._pubNum, bad, error, sFile = sFile, sLine = sLine)
+        ExtendedRecord.__init__(self, fieldDict, self._pubNum, bad, error, sFile = sFile, sLine = sLine)
 
     @property
     def encoding(self):
         return 'latin-1'
-
-    @property
-    def typeString(self):
-        return 'MEDLINE'
 
     @staticmethod
     def getAltName(tag):

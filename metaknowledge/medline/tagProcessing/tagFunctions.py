@@ -1,4 +1,4 @@
-from ...grant import Grant
+from ...grants.medlineGrant import MedlineGrant
 
 def IR(val):
     """Investigator"""
@@ -346,7 +346,7 @@ def JID(val):
 
 def GR(val):
     """GrantNumber"""
-    return [Grant(v) for v in val]
+    return [MedlineGrant(v) for v in val]
 
 medlineTagToFunc = {
     "IR" : IR,

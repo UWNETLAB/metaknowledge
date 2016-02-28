@@ -5,7 +5,7 @@ import itertools
 import io
 import collections
 
-from ..record import ExtendedRecord
+from ..mkRecord import ExtendedRecord
 
 from ..WOS.tagProcessing.funcDicts import tagNameConverterDict, tagToFull
 from ..WOS.tagProcessing.tagFunctions import tagToFunc
@@ -93,10 +93,6 @@ class WOSRecord(ExtendedRecord):
     @property
     def encoding(self):
         return 'utf-8'
-
-    @property
-    def typeString(self):
-        return 'WOS'
 
     @staticmethod
     def getAltName(tag):

@@ -55,6 +55,9 @@ class BadCitation(Warning):
     """
     pass
 
+class BadGrant(mkException):
+    pass
+
 
 class GrantCollectionException(mkException):
     pass

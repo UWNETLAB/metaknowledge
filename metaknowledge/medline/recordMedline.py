@@ -5,7 +5,7 @@ import itertools
 import io
 
 from ..mkExceptions import BadPubmedRecord
-from ..record import ExtendedRecord
+from ..mkRecord import ExtendedRecord
 from .tagProcessing.tagNames import tagNameConverterDict, authorBasedTags
 from .tagProcessing.tagFunctions import medlineTagToFunc
 from .tagProcessing.specialFunctions import medlineSpecialTagToFunc

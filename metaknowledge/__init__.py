@@ -30,7 +30,7 @@ Citations are handled by a special [Citation](#Citation.Citation) class. This cl
 Note for those reading the docstrings metaknowledge's docs are written in markdown and are processed to produce the documentation found at [networkslab.org/metaknowledge/documentation]({{ site.baseurl }}/documentation/), but you should have no problem reading them from the help function.
 """
 
-from .record import Record
+from .mkRecord import *
 from .citation import Citation, filterNonJournals
 from .grants import *
 from .recordCollection import RecordCollection

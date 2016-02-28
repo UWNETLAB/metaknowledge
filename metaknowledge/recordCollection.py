@@ -10,7 +10,7 @@ import copy
 import networkx as nx
 
 from .constants import __version__
-from .record import Record
+from .mkRecord import Record
 from .progressBar import _ProgressBar
 from .WOS.tagProcessing.funcDicts import tagToFullDict, fullToTagDict, normalizeToTag
 from .citation import Citation

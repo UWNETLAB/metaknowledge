@@ -34,32 +34,11 @@ class Record(collections.abc.Mapping, collections.abc.Hashable):
     #collections.abc.Mapping methods
 
     def __getitem__(self, key):
-        """Proccesses the tag requested with _key_ and memoize it.
-
-        Allows long names, but will still raise a KeyError if the tag is missing, regardless of name used.
-        """
+        """This is redfined as something interesting for ExtendedRecord"""
         try:
-            return self._computedFields[key]
+            return self._fieldDict[key]
         except KeyError:
-            if isinstance(key, str):
-                if key in self._fieldDict:
-                    computedVal = self.tagProccessingFunc(key)(self._fieldDict[key])
-                elif self.getAltName(key) in self._fieldDict:
-                    key = self.getAltName(key)
-                    computedVal = self.tagProccessingFunc(key)(self._fieldDict[key])
-                else:
-                    try:
-                        computedVal = self.specialFuncs(key)
-                    except KeyError:
-                        raise KeyError("'{}' could not be found in the Record".format(key)) from None
-                #Both refer to the same object, computedVal
-                self._computedFields[key] = computedVal
-                alt = self.getAltName(key)
-                if alt is not None:
-                    self._computedFields[alt] = computedVal
-                return computedVal
-            else:
-                raise TypeError("Keys to Records must be strings they cannot be of the type '{}'.".format(type(key).__name__)) from None
+            raise KeyError("'{}' could not be found in the Record".format(key))
 
     def __iter__(self):
         """Iterates over the tags in the Record"""
@@ -90,7 +69,9 @@ class Record(collections.abc.Mapping, collections.abc.Hashable):
     def __str__(self):
         """returns a string with the title of the file as given by self.title, if there is not one it returns "Untitled record"
         """
-        return "{}({})".format(type(self).__name__, self.title)
+        #This is instead of than redefining for the subclasses
+        return "{}({})".format(type(self).__name__, self.get('title', self.id))
+
 
     def __repr__(self):
         if self.bad:
@@ -168,6 +149,34 @@ class ExtendedRecord(Record, metaclass = abc.ABCMeta):
 
         #Memoizing stuff
         self._computedFields = {}
+
+    def __getitem__(self, key):
+        """Proccesses the tag requested with _key_ and memoize it.
+
+        Allows long names, but will still raise a KeyError if the tag is missing, regardless of name used.
+        """
+        try:
+            return self._computedFields[key]
+        except KeyError:
+            if isinstance(key, str):
+                if key in self._fieldDict:
+                    computedVal = self.tagProccessingFunc(key)(self._fieldDict[key])
+                elif self.getAltName(key) in self._fieldDict:
+                    key = self.getAltName(key)
+                    computedVal = self.tagProccessingFunc(key)(self._fieldDict[key])
+                else:
+                    try:
+                        computedVal = self.specialFuncs(key)
+                    except KeyError:
+                        raise KeyError("'{}' could not be found in the Record".format(key)) from None
+                #Both refer to the same object, computedVal
+                self._computedFields[key] = computedVal
+                alt = self.getAltName(key)
+                if alt is not None:
+                    self._computedFields[alt] = computedVal
+                return computedVal
+            else:
+                raise TypeError("Keys to Records must be strings they cannot be of the type '{}'.".format(type(key).__name__)) from None
 
     #Extra options added to the defaults to make access to raw data easier
 

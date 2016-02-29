@@ -71,11 +71,11 @@ class GrantCollection(CollectionWithIDs):
                             for grantType, processor, detector in grantProcessors:
                                 if detector(fileName):
                                     grantTypes.add(grantType)
-                                    grants, gError = processor(inGrants)
+                                    grants, gError = processor(fileName)
                                     if gError is not None:
                                         bad = True
-                                        errors[inGrants] = gError
-                                    grantsSet |= recs
+                                        errors[fileName] = gError
+                                    grantsSet |= grants
                                     break
                         except UnknownFile:
                             if extension != '':
@@ -93,7 +93,7 @@ class GrantCollection(CollectionWithIDs):
             except AttributeError:
                 PBar.finish("Done making a GrantCollection. Warning an error occured.")
 
-    
+
     '''
     #Hashable method
 

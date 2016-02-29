@@ -2,7 +2,7 @@ import csv
 import os.path
 
 def isNSERCfile(fileName, useFileName = True):
-    if not os.path.basename(fileName).startswith('NSERC_'):
+    if useFileName and not os.path.basename(fileName).startswith('NSERC_'):
         return False
     try:
         with open(fileName, 'r', encoding = 'latin-1') as openfile:

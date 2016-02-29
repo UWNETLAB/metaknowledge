@@ -1,4 +1,5 @@
 import collections.abc
+import csv
 
 from ..mkRecord import Record
 
@@ -15,3 +16,18 @@ class Grant(Record, collections.abc.Mapping):
 
     def __delitem__(self, key):
         self._fieldDict.__delitem__(key)
+
+def csvAndLinesReader(enumeratedFile, *csvArgs, **csvKwargs):
+    currentData = {
+    'currentLineNum' : -1,
+    'currentLineString' : '',
+    }
+    def readerWithSideEffects(target, datDict):
+        while True:
+            datDict['currentLineNum'], datDict['currentLineString'] = next(target)
+            yield datDict['currentLineString']
+    reader = csv.DictReader(readerWithSideEffects(enumeratedFile, currentData), *csvArgs, **csvKwargs)
+    readerIter = reader.__iter__()
+    while True:
+        row = next(readerIter)
+        yield currentData['currentLineNum'], currentData['currentLineString'], row

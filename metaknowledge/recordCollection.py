@@ -108,7 +108,7 @@ class RecordCollection(CollectionWithIDs):
                         raise BadInputFile("'{}' does not match any known file type.\nIts header might be damaged or it could have been modified by another program.".format(inCollection))
                 elif os.path.isdir(inCollection):
                     count = 0
-                    PBar.updateVal(0, "RecordCollection from a files in {}".format(inCollection))
+                    PBar.updateVal(0, "RecordCollection from files in {}".format(inCollection))
                     if extension and not name:
                         name = "{}-files-from-{}".format(extension, inCollection)
                     elif not name:

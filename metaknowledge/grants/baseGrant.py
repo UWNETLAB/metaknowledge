@@ -38,12 +38,12 @@ class DefaultGrant(Grant):
     def __init__(self, original, grantdDict, sFile = "", sLine = 0):
         Grant.__init__(self, original, grantdDict, hash(original), False, None, sFile = sFile, sLine = sLine)
 
-def isDefaultGrantFile(fileName):
+def isDefaultGrantFile(fileName, encoding = 'latin-1', dialect = 'excel'):
     try:
         print(fileName)
         #Try ISO-8859
-        with open(fileName, 'r', encoding = 'latin-1') as openfile:
-            reader = csv.DictReader(openfile, fieldnames = None, dialect = 'excel')
+        with open(fileName, 'r', encoding = encoding) as openfile:
+            reader = csv.DictReader(openfile, fieldnames = None, dialect = dialect)
             for row in reader:
                 if set(row.keys()) != set(reader.fieldnames):
                     return False
@@ -52,13 +52,13 @@ def isDefaultGrantFile(fileName):
     else:
         return True
 
-def parserDefaultGrantFile(fileName):
+def parserDefaultGrantFile(fileName, encoding = 'latin-1', dialect = 'excel'):
     grantSet = set()
     error = None
     try:
-        with open(fileName, 'r', encoding = 'latin-1') as openfile:
+        with open(fileName, 'r', encoding = encoding) as openfile:
             f = enumerate(openfile, start = 1)
-            reader = csvAndLinesReader(f, fieldnames = None, dialect = 'excel')
+            reader = csvAndLinesReader(f, fieldnames = None, dialect = dialect)
             for lineNum, lineString, lineDict in reader:
                 grantSet.add(DefaultGrant(lineString, lineDict, sFile = fileName, sLine = lineNum))
     except UnicodeDecodeError:

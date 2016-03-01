@@ -20,8 +20,6 @@ grantProcessors = [
     ProccessorTuple("Invalid File", None, unrecognizedFileHandler),#Raise exception if reached
 ]
 
-
-
 recordHandlers = [
     ProccessorTuple("WOSRecord", wosParser, isWOSFile),
     ProccessorTuple("MedlineRecord", medlineParser, isMedlineFile),

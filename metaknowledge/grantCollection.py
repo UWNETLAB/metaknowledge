@@ -87,7 +87,7 @@ class GrantCollection(CollectionWithIDs):
 
             else:
                 raise GrantCollectionException("A GrantCollection cannot be created from {}".format(inGrants))
-            CollectionWithIDs.__init__(self, grants, Grant, grantTypes, name, bad, errors, quietStart = quietStart)
+            CollectionWithIDs.__init__(self, grantsSet, Grant, grantTypes, name, bad, errors, quietStart = quietStart)
             try:
                 PBar.finish("Done making a GrantCollection of {} Grants".format(len(self)))
             except AttributeError:

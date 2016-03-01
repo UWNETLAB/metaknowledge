@@ -3,6 +3,8 @@ import collections
 from .mkExceptions import UnknownFile
 
 from .grants.cihrGrant import parserCIHRfile, isCIHRfile
+from .grants.baseGrant import parserDefaultGrantFile, isDefaultGrantFile
+
 
 from .WOS.wosHandlers import isWOSFile, wosParser
 from .medline.medlineHandlers import isMedlineFile, medlineParser
@@ -14,6 +16,7 @@ def unrecognizedFileHandler(fileName):
 
 grantProcessors = [
     ProccessorTuple("CIHRGrant", parserCIHRfile, isCIHRfile),
+    ProccessorTuple("DefaultGrant", parserDefaultGrantFile, isDefaultGrantFile),
     ProccessorTuple("Invalid File", None, unrecognizedFileHandler),#Raise exception if reached
 ]
 

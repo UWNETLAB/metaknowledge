@@ -31,3 +31,37 @@ def csvAndLinesReader(enumeratedFile, *csvArgs, **csvKwargs):
     while True:
         row = next(readerIter)
         yield currentData['currentLineNum'], currentData['currentLineString'], row
+
+class DefaultGrant(Grant):
+    #Making it a subclass so that Grant is never used raw
+    #Also make interface simpler
+    def __init__(self, original, grantdDict, sFile = "", sLine = 0):
+        Grant.__init__(self, original, grantdDict, hash(original), False, None, sFile = sFile, sLine = sLine)
+
+def isDefaultGrantFile(fileName):
+    try:
+        print(fileName)
+        #Try ISO-8859
+        with open(fileName, 'r', encoding = 'latin-1') as openfile:
+            reader = csv.DictReader(openfile, fieldnames = None, dialect = 'excel')
+            for row in reader:
+                if set(row.keys()) != set(reader.fieldnames):
+                    return False
+    except (StopIteration, UnicodeDecodeError, csv.Error):
+        return False
+    else:
+        return True
+
+def parserDefaultGrantFile(fileName):
+    grantSet = set()
+    error = None
+    try:
+        with open(fileName, 'r', encoding = 'latin-1') as openfile:
+            f = enumerate(openfile, start = 1)
+            reader = csvAndLinesReader(f, fieldnames = None, dialect = 'excel')
+            for lineNum, lineString, lineDict in reader:
+                grantSet.add(DefaultGrant(lineString, lineDict, sFile = fileName, sLine = lineNum))
+    except UnicodeDecodeError:
+        if error is None:
+            error = BadGrant("The file '{}' is having decoding issues. It may have been modifed since it was downloaded or not be a CIHR grant file.".format(fileName))
+    return grantSet, error

@@ -75,6 +75,25 @@ class GrantCollection(CollectionWithIDs):
                                     if gError is not None:
                                         bad = True
                                         errors[fileName] = gError
+                                    #This is need for any grants thats can span mutiple files
+                                    if grantType == "NSERCGrant":
+                                        if len(grants & grantsSet) > 0:
+                                            #In theory this could be done with
+                                            #the builtin operators (& and ^),
+                                            #but the exact results are not
+                                            #defined for objects with identical
+                                            #hashes without identical attributes
+                                            #so it could not be counted on
+                                            #Thus we get this mess
+                                            overlap = {}
+                                            for Gin in grants:
+                                                if Gin in grantsSet:
+                                                    overlap[Gin.id] = Gin
+                                            for Gover in overlap.values():
+                                                grants.remove(Gover)
+                                            for Gset in grantsSet:
+                                                if Gset.id in overlap:
+                                                    Gset.update(overlap[Gset.id])
                                     grantsSet |= grants
                                     break
                         except UnknownFile:

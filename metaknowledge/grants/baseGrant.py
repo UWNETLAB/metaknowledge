@@ -38,9 +38,10 @@ class DefaultGrant(Grant):
     def __init__(self, original, grantdDict, sFile = "", sLine = 0):
         #We do not known anyhting about the structure of the grant so there is nothing to check about causing an error
         #The id needs to be unique so hashing the original will always give us that
-        Grant.__init__(self, original, grantdDict, hash(original), False, None, sFile = sFile, sLine = sLine)
+        idValue = "{}-l:{}-{:0=20}".format(os.path.basename(sFile), sLine, hash(original))
+        Grant.__init__(self, original, grantdDict, idValue, False, None, sFile = sFile, sLine = sLine)
 
-def isDefaultGrantFile(fileName, encoding = 'latin-1', dialect = 'excel'):
+def isDefaultGrantFile(fileName, useFileName = True, encoding = 'latin-1', dialect = 'excel'):
     try:
         #Try to open it
         with open(fileName, 'r', encoding = encoding) as openfile:

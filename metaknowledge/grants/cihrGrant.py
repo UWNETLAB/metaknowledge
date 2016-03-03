@@ -13,7 +13,7 @@ class CIHRGrant(Grant):
             error = BadGrant("Missing 'PI Names'")
 
         #Source file - line number - 6 character long numeric hash
-        idValue = "{}-l:{}-{}".format(os.path.basename(sFile), sLine, hash(original) % 1000000)
+        idValue = "{}-l:{}-{:0=20}".format(os.path.basename(sFile), sLine, hash(original))
 
         Grant.__init__(self, original, grantdDict, idValue, bad, error, sFile = sFile, sLine = sLine)
 
@@ -26,7 +26,7 @@ def isCIHRfile(fileName, useFileName = True):
                 return False
             elif not openfile.readline().endswith(',,,,,,,,,\n'):
                 return False
-            elif not openfile.readline().endswith(',,,,,,,,,,,,\n'):
+            elif not openfile.readline().endswith(',,,,,,,,,\n'):
                 return False
             reader = csv.DictReader(openfile, fieldnames = None, dialect = 'excel')
             for row in reader:

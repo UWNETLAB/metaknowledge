@@ -1,6 +1,6 @@
 # Grants
-+ Finish NSERC processor
-+ Complete how to guide
++ **Done** Finish NSERC processor
++ Complete how-to guide
 + Add tests
 + Integrate with pubmed
 + Integrate with Records in general
@@ -14,7 +14,7 @@
 
 # Records
 + Add tests
-+ Complete how to guide
++ Complete how-to guide
 + Add ProQuest
 
 # Collections
@@ -25,6 +25,9 @@
 
 # General
 + Add tests
++ Lint
++ Make organization make sense
++ Make names make sense
 + Remove `import *`
 + Update CLI
 + Update vagrant/notebooks

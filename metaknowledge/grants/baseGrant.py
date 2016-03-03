@@ -36,23 +36,37 @@ class DefaultGrant(Grant):
     #Making it a subclass so that Grant is never used raw
     #Also make interface simpler
     def __init__(self, original, grantdDict, sFile = "", sLine = 0):
+        #We do not known anyhting about the structure of the grant so there is nothing to check about causing an error
+        #The id needs to be unique so hashing the original will always give us that
         Grant.__init__(self, original, grantdDict, hash(original), False, None, sFile = sFile, sLine = sLine)
 
 def isDefaultGrantFile(fileName, encoding = 'latin-1', dialect = 'excel'):
     try:
-        print(fileName)
-        #Try ISO-8859
+        #Try to open it
         with open(fileName, 'r', encoding = encoding) as openfile:
+            #See if csv likes it
             reader = csv.DictReader(openfile, fieldnames = None, dialect = dialect)
+            #Check that every row can be read
+            length = 0
             for row in reader:
+                length += 1
+                #Just wanted to put something here that analysis the row
+                #There is probably a better check
                 if set(row.keys()) != set(reader.fieldnames):
                     return False
+            #Check that there are rows to read
+            if length < 1:
+                return False
     except (StopIteration, UnicodeDecodeError, csv.Error):
+        #If any of theses exceptions are raised the nit is defintly not as csv file
+        #We do not want to catch everything though as there could be an issue with the code
         return False
     else:
+        #IF nothing caused an issue return True
         return True
 
 def parserDefaultGrantFile(fileName, encoding = 'latin-1', dialect = 'excel'):
+    #Declare the returns out side of the block to show they are accessible everywhere inside it and so if there are issues with their creation it will no cause a problem with returning them
     grantSet = set()
     error = None
     try:
@@ -64,4 +78,5 @@ def parserDefaultGrantFile(fileName, encoding = 'latin-1', dialect = 'excel'):
     except UnicodeDecodeError:
         if error is None:
             error = BadGrant("The file '{}' is having decoding issues. It may have been modifed since it was downloaded or not be a CIHR grant file.".format(fileName))
-    return grantSet, error
+    finally:
+        return grantSet, error

@@ -1,3 +1,17 @@
+"""`Record` is the base of various objects in mk, it is intended to be used with things that have some sort of key-value relationship and is basiclly a hashable python dict. It also has a few extra attributes intead to make debugging and record keeping easier.
+
++ `bad` cand be set to `True` to indcate something is wrong with the issue being saved in `error` the exact details are left to designer
+
++ `_sourceFile` and `_sourceLine` store the original file name and line number and are mostly for improving error messages
+
++ `_id` should be a unique string, that preferably can be used to identify the record from its source, although the latter is not always possible to do so, do your best. It is also what is used for hashing and comparison
+
++ `_fieldDict` contains the base mapping of keys to values, it is the dictionary
+
+
+`ExtendedRecord` is what WOSRecord and its ilk inherit from and extends `Record` by adding memoizing and processing of the fields. `ExtendedRecord` cannot be invoked directly as it has many abstract (virtual) methods that define how the tags are to be proccesed what they are called, what encoding to use when writing to disk, etc.
+"""
+
 import abc
 import collections.abc
 import copy

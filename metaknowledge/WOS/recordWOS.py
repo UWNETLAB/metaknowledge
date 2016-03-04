@@ -103,7 +103,10 @@ class WOSRecord(ExtendedRecord):
         return tagToFunc.get(tag, lambda x: x)
 
     def specialFuncs(self, key):
-        raise KeyError("WOS Records do not have any special functions, they are what the special functions are based on.")
+        if key == 'grants':
+            return None
+        else:
+            raise KeyError("WOS Records do not have any special functions besides 'grants', they are what the special functions are mostly based on.")
 
     @property
     def wosString(self):

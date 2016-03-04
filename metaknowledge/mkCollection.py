@@ -1,5 +1,4 @@
 import copy
-import os.path
 import collections.abc
 
 import networkx as nx
@@ -91,7 +90,7 @@ class Collection(collections.abc.MutableSet, collections.abc.Hashable):
         else:
             self._collection |= other._collection
             self._collectedTypes |= other._collectedTypes
-            self.name = name = '{} |= {}'.format(self.name, other.name)
+            self.name = '{} |= {}'.format(self.name, other.name)
             if other.bad or self.bad:
                 self.bad = True
                 self.errors.update(other.errors)
@@ -103,7 +102,7 @@ class Collection(collections.abc.MutableSet, collections.abc.Hashable):
         else:
             self._collection &= other._collection
             self._collectedTypes |= other._collectedTypes
-            self.name = name = '{} &= {}'.format(self.name, other.name)
+            self.name = '{} &= {}'.format(self.name, other.name)
             if other.bad or self.bad:
                 self.bad = True
                 self.errors.update(other.errors)
@@ -115,7 +114,7 @@ class Collection(collections.abc.MutableSet, collections.abc.Hashable):
         else:
             self._collection ^= other._collection
             self._collectedTypes |= other._collectedTypes
-            self.name = name = '{} ^= {}'.format(self.name, other.name)
+            self.name = '{} ^= {}'.format(self.name, other.name)
             if other.bad or self.bad:
                 self.bad = True
                 self.errors.update(other.errors)
@@ -127,7 +126,7 @@ class Collection(collections.abc.MutableSet, collections.abc.Hashable):
         else:
             self._collection -= other._collection
             self._collectedTypes |= other._collectedTypes
-            self.name = name = '{} -= {}'.format(self.name, other.name)
+            self.name = '{} -= {}'.format(self.name, other.name)
             if other.bad or self.bad:
                 self.bad = True
                 self.errors.update(other.errors)
@@ -353,7 +352,7 @@ class CollectionWithIDs(Collection):
                                         grph.node[node1][nodeAttribute] = nodeVals
                                     else:
                                         for nodeValue in (n for n in nodeVals if n not in currentAttrib):
-                                                grph.node[node1][nodeAttribute].append(nodeValue)
+                                            grph.node[node1][nodeAttribute].append(nodeValue)
                         elif len(tmplst) == 1:
                             if nodeCount:
                                 try:
@@ -370,7 +369,7 @@ class CollectionWithIDs(Collection):
                                     grph.node[tmplst[0]][nodeAttribute] = nodeVals
                                 else:
                                     for nodeValue in (n for n in nodeVals if n not in currentAttrib):
-                                            grph.node[tmplst[0]][nodeAttribute].append(nodeValue)
+                                        grph.node[tmplst[0]][nodeAttribute].append(nodeValue)
                         else:
                             pass
                     else:
@@ -393,7 +392,7 @@ class CollectionWithIDs(Collection):
                                 grph.node[nodeVal][nodeAttribute] = nodeVals
                             else:
                                 for nodeValue in (n for n in nodeVals if n not in currentAttrib):
-                                        grph.node[nodeVal][nodeAttribute].append(nodeValue)
+                                    grph.node[nodeVal][nodeAttribute].append(nodeValue)
             if PBar:
                 PBar.finish("Done making a one mode network with {}".format(mode))
         return grph

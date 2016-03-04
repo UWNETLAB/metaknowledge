@@ -3,6 +3,7 @@ import csv
 import os
 
 from ..mkRecord import Record
+from ..mkExceptions import BadGrant
 
 class Grant(Record, collections.abc.MutableMapping):
     def __init__(self, original, grantdDict, idValue, bad, error, sFile = "", sLine = 0):
@@ -23,7 +24,7 @@ class Grant(Record, collections.abc.MutableMapping):
             return NotImplemented
         else:
             if other.bad:
-                self.error = otehr.error
+                self.error = other.error
                 self.bad = True
             self._fieldDict.update(other._fieldDict)
 
@@ -86,7 +87,7 @@ def parserDefaultGrantFile(fileName, encoding = 'latin-1', dialect = 'excel'):
             reader = csvAndLinesReader(f, fieldnames = None, dialect = dialect)
             for lineNum, lineString, lineDict in reader:
                 grantSet.add(DefaultGrant(lineString, lineDict, sFile = fileName, sLine = lineNum))
-    except UnicodeDecodeError:
+    except Exception:
         if error is None:
             error = BadGrant("The file '{}' is having decoding issues. It may have been modifed since it was downloaded or not be a CIHR grant file.".format(fileName))
     finally:

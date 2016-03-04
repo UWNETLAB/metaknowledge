@@ -2,9 +2,11 @@
 + **Done** Finish NSERC processor
 + Complete how-to guide
 + **In Progress** Add tests
-+ Integrate with pubmed
-+ Integrate with Records in general
-+ Think about encoding more
++ **Done** Integrate with pubmed
++ **Done** Integrate with Records in general
++ **Done** Think about encoding more
+    - every option is terrible
+    - going with utf-8, because unix
 + Add more methods
 + Performance test
 + Think about caching

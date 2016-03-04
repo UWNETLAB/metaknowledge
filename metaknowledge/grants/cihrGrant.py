@@ -49,7 +49,7 @@ def parserCIHRfile(fileName):
             reader = csvAndLinesReader(f, fieldnames = None, dialect = 'excel')
             for lineNum, lineString, lineDict in reader:
                 grantSet.add(CIHRGrant(lineString, lineDict, sFile = fileName, sLine = lineNum))
-    except UnicodeDecodeError:
+    except Exception:
         if error is None:
             error = BadGrant("The file '{}' is having decoding issues. It may have been modifed since it was downloaded or not be a CIHR grant file.".format(fileName))
     finally:

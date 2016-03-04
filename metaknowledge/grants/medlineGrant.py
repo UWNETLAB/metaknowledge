@@ -6,7 +6,6 @@ from ..mkExceptions import BadGrant
 class MedlineGrant(Grant):
     def __init__(self, grantString):
 
-
         grantDict = collections.OrderedDict()
 
         bad = False

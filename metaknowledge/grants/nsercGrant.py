@@ -50,7 +50,7 @@ def parserNSERCfile(fileName):
                             break
                 else:
                     grantSet.add(G)
-    except UnicodeDecodeError:
+    except Exception:
         if error is None:
             error = BadGrant("The file '{}' is having decoding issues. It may have been modifed since it was downloaded or not be a NSERC grant file.".format(fileName))
     finally:

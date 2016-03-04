@@ -22,9 +22,13 @@ def isNSERCfile(fileName, useFileName = True):
     try:
         with open(fileName, 'r', encoding = 'latin-1') as openfile:
             reader = csv.DictReader(openfile, fieldnames=None, dialect='excel')
+            length = 0
             for row in reader:
-                if len(row['Cle']) < 1:
+                length += 1
+                if set(row.keys()) != set(reader.fieldnames):
                     return False
+            if length < 1:
+                return False
     except (StopIteration, UnicodeDecodeError, KeyError):
         return False
     else:
@@ -49,4 +53,5 @@ def parserNSERCfile(fileName):
     except UnicodeDecodeError:
         if error is None:
             error = BadGrant("The file '{}' is having decoding issues. It may have been modifed since it was downloaded or not be a NSERC grant file.".format(fileName))
-    return grantSet, error
+    finally:
+        return grantSet, error

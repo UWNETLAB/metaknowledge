@@ -1,16 +1,19 @@
 # Grants
 + **Done** Finish NSERC processor
 + Complete how-to guide
-+ Add tests
++ **In Progress** Add tests
 + Integrate with pubmed
 + Integrate with Records in general
 + Think about encoding more
 + Add more methods
 + Performance test
++ Think about caching
 
 # Citations
-+ Make a `Record`
-+ Integrate with `Grants`
++ **Will not do** Make a `Record`
+    - Doesn't make sense
++ **Done** Integrate with `Grants`
+    - Nothing really to do
 
 # Records
 + Add tests

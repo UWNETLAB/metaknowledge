@@ -1,9 +1,10 @@
 import collections.abc
 import csv
+import os
 
 from ..mkRecord import Record
 
-class Grant(Record, collections.abc.Mapping):
+class Grant(Record, collections.abc.MutableMapping):
     def __init__(self, original, grantdDict, idValue, bad, error, sFile = "", sLine = 0):
         self.original = original
         Record.__init__(self, grantdDict, idValue, bad, error, sFile = sFile, sLine = sLine)
@@ -16,6 +17,15 @@ class Grant(Record, collections.abc.Mapping):
 
     def __delitem__(self, key):
         self._fieldDict.__delitem__(key)
+
+    def update(self, other):
+        if type(self) != type(other):
+            return NotImplemented
+        else:
+            if other.bad:
+                self.error = otehr.error
+                self.bad = True
+            self._fieldDict.update(other._fieldDict)
 
 def csvAndLinesReader(enumeratedFile, *csvArgs, **csvKwargs):
     currentData = {

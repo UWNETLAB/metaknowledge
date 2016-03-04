@@ -52,4 +52,5 @@ def parserCIHRfile(fileName):
     except UnicodeDecodeError:
         if error is None:
             error = BadGrant("The file '{}' is having decoding issues. It may have been modifed since it was downloaded or not be a CIHR grant file.".format(fileName))
-    return grantSet, error
+    finally:
+        return grantSet, error

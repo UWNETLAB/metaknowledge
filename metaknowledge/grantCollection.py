@@ -14,7 +14,6 @@ import metaknowledge
 
 class GrantCollection(CollectionWithIDs):
     def __init__(self, inGrants = None, name = '', extension = '', quietStart = False):
-        """Mostly based on RecordCollection with some improvents/tweaks"""
 
         progArgs = (0, "Starting to make a GrantCollection")
         if metaknowledge.VERBOSE_MODE and not quietStart:
@@ -31,7 +30,7 @@ class GrantCollection(CollectionWithIDs):
                 PBar.updateVal(.5, "Empty GrantCollection created")
                 if not name:
                     name = "Empty"
-                grants = set()
+                grantsSet = set()
 
             elif isinstance(inGrants, str):
                 if os.path.isfile(inGrants):
@@ -44,7 +43,7 @@ class GrantCollection(CollectionWithIDs):
                         for grantType, processor, detector in grantProcessors:
                             if detector(inGrants):
                                 grantTypes.add(grantType)
-                                grants, gError = processor(inGrants)
+                                grantsSet, gError = processor(inGrants)
                                 if gError is not None:
                                     bad = True
                                     errors[inGrants] = gError
@@ -104,6 +103,14 @@ class GrantCollection(CollectionWithIDs):
                 else:
                     raise GrantCollectionException("'{}' is not a path to a directory or file. Strings cannot be used to initialize GrantCollections".format(inGrants))
 
+            elif isinstance(inGrants, collections.abc.Iterable):
+                PBar.updateVal(.5, "GrantCollection started from {}".format(type(inGrants).__name__))
+                if not name:
+                    name = "Grants-from-a-{}".format(type(inGrants).__name__)
+                for G in inGrants:
+                    if not isinstance(G, Grant):
+                        raise GrantCollectionException("A GrantCollection cannot be created from a Iterable containing {}".format(G))
+                grantsSet = set(inGrants)
             else:
                 raise GrantCollectionException("A GrantCollection cannot be created from {}".format(inGrants))
             CollectionWithIDs.__init__(self, grantsSet, Grant, grantTypes, name, bad, errors, quietStart = quietStart)
@@ -111,35 +118,3 @@ class GrantCollection(CollectionWithIDs):
                 PBar.finish("Done making a GrantCollection of {} Grants".format(len(self)))
             except AttributeError:
                 PBar.finish("Done making a GrantCollection. Warning an error occured.")
-
-
-    '''
-    #Hashable method
-
-    def __hash__(self):
-        return hash(sum((hash(G) for G in self)))
-
-    #Set methods
-
-    def __len__(self):
-        return len(self._Grants)
-
-    def __iter__(self):
-        for G in self._Grants:
-            yield G
-
-    def __contains__(self, item):
-        return item in self._Grants
-
-    #Mutable Set methods
-
-    def add(self, elem):
-        if isinstance(elem, Record):
-            self._Grants.add(elem)
-            self.grantTypes.add(elem.typeString)
-        else:
-            raise RCTypeError("GrantCollections can only contain Grants, '{}' is not a Grant.".format(elem))
-
-    def discard(self, elem):
-        return self._Grants.discard(elem)
-    '''

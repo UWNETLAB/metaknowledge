@@ -1,8 +1,12 @@
 #Written by Reid McIlroy-Young for Dr. John McLevey, University of Waterloo 2016
 import unittest
+import shutil
+import os
+
 import metaknowledge
 
 class TestGrantCollection(unittest.TestCase):
+
     @classmethod
     def setUpClass(cls):
         metaknowledge.VERBOSE_MODE = False
@@ -11,8 +15,37 @@ class TestGrantCollection(unittest.TestCase):
     def setUp(self):
         self.GC = self.GCmain.copy()
 
+    def test_empty(self):
+        GCempty = metaknowledge.GrantCollection()
+        self.assertEqual(len(GCempty), 0)
+        self.assertEqual(GCempty.name, "Empty")
+
+    def test_creationErrors(self):
+        with self.assertRaises(metaknowledge.mkExceptions.GrantCollectionException):
+            GCbad = metaknowledge.GrantCollection("README.md", extension = '.csv')
+        with self.assertRaises(metaknowledge.mkExceptions.BadInputFile):
+            GCbad = metaknowledge.GrantCollection("README.md")
+        with self.assertRaises(metaknowledge.mkExceptions.BadInputFile):
+            GCbad = metaknowledge.GrantCollection("README.md", extension = '.md')
+        with self.assertRaises(metaknowledge.mkExceptions.BadInputFile):
+            GCbad = metaknowledge.GrantCollection(".", extension = '.md')
+        with self.assertRaises(metaknowledge.mkExceptions.GrantCollectionException):
+            GCbad = metaknowledge.GrantCollection("README")
+        with self.assertRaises(metaknowledge.mkExceptions.GrantCollectionException):
+            GCbad = metaknowledge.GrantCollection(1)
+        with self.assertRaises(metaknowledge.mkExceptions.GrantCollectionException):
+            GCbad = metaknowledge.GrantCollection({1})
+
     def test_creation(self):
         self.assertIsInstance(self.GC, metaknowledge.GrantCollection)
         self.assertIsInstance(self.GC, metaknowledge.Collection)
-        self.assertEqual(len(self.GC), 1989)
+        self.assertEqual(len(self.GC), 2870)
         self.assertIsInstance(self.GC.peak(), metaknowledge.Record)
+        self.assertEqual(metaknowledge.GrantCollection(self.GC), self.GC)
+
+    def test_default(self):
+        fname = "DefaultGrantTestFile.csv"
+        shutil.copyfile("metaknowledge/tests/NSERC_TEST_PARTNER.testcsv", fname)
+        GC = metaknowledge.GrantCollection(fname, extension = '.csv')
+        self.assertEqual(GC._collectedTypes, {"DefaultGrant"})
+        os.remove(fname)

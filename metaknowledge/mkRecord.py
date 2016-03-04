@@ -130,15 +130,6 @@ class Record(collections.abc.Mapping, collections.abc.Hashable):
         """
         return self._id
 
-    def update(self, other):
-        if type(self) != type(other):
-            return NotImplemented
-        else:
-            if other.bad:
-                self.error = otehr.error
-                self.bad = True
-            self._fieldDict.update(other._fieldDict)
-
 class ExtendedRecord(Record, metaclass = abc.ABCMeta):
     def __init__(self, fieldDict, idValue, bad, error, sFile = "", sLine = 0):
         """Base constructor for Records
@@ -244,10 +235,6 @@ class ExtendedRecord(Record, metaclass = abc.ABCMeta):
         #Make copy.copy() produce a shallow copy
         d['_fieldDict'] = d['_fieldDict'].copy()
         return d
-
-    def update(self, other):
-        Record.update(self, other)
-        self._computedFields = {}
 
     #Making the 'virtual' methods
 

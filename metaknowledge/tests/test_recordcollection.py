@@ -9,11 +9,15 @@ import networkx as nx
 disableJournChecking = True
 
 class TestRecordCollection(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        metaknowledge.VERBOSE_MODE = False
+        cls.RCmain = metaknowledge.RecordCollection("metaknowledge/tests/testFile.isi")
+        cls.RCbadmain = metaknowledge.RecordCollection("metaknowledge/tests/badFile.isi")
 
     def setUp(self):
-        metaknowledge.VERBOSE_MODE = False
-        self.RC = metaknowledge.RecordCollection("metaknowledge/tests/testFile.isi")
-        self.RCbad = metaknowledge.RecordCollection("metaknowledge/tests/badFile.isi")
+        self.RC = self.RCmain.copy()
+        self.RCbad = self.RCbadmain.copy()
 
     def test_isCollection(self):
         self.assertIsInstance(self.RC, metaknowledge.RecordCollection)

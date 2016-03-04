@@ -2,7 +2,7 @@
 import unittest
 import metaknowledge
 
-class TestGrant(unittest.TestCase):
+class TestMedlineGrant(unittest.TestCase):
     def setUp(self):
         self.Grant1 = metaknowledge.MedlineGrant("U10 HD04267/HG/NICHD NHI HHS/Unit State")
         self.Grant2 = metaknowledge.MedlineGrant("HG/NICHD NHI HHS/Unit State")

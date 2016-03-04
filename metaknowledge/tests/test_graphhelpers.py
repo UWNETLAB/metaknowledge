@@ -11,10 +11,15 @@ fileNName = 'testNetworks_nodeAttributes.tst'
 filesuffix = 'tst'
 
 class TestHelpers(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.RCmain = metaknowledge.RecordCollection("metaknowledge/tests/testFile.isi")
+        cls.Gmain = cls.RCmain.coCiteNetwork()
+
     def setUp(self):
         metaknowledge.VERBOSE_MODE = False
-        self.RC = metaknowledge.RecordCollection("metaknowledge/tests/testFile.isi")
-        self.G = self.RC.coCiteNetwork()
+        self.RC = self.RCmain.copy()
+        self.G = self.Gmain.copy()
 
     def test_graphwrite(self):
         metaknowledge.writeGraph(self.G, fileShortName, suffix = filesuffix)

@@ -83,16 +83,16 @@ def getOutputName(clargs, suffix, prompt = "What do you wish to call the output 
         else:
             return s
 
-def Tag(prompt, nMode = False):
+def Tag(prompt, collection, nMode = False):
     retTag = input(prompt).upper()
-    if retTag in metaknowledge.tagsAndNames:
+    if retTag in collection.tags():
         return retTag
     else:
         if nMode and retTag == '':
             return False
         else:
-            print("{} is not a valid tag, please try again".format(retTag))
-            return Tag(prompt, nMode = nMode)
+            print("{} is not a tag in any of the Records, please try again".format(retTag))
+            return Tag(prompt, collection, nMode = nMode)
 
 def getNum(prompt):
     retNum = input(prompt)
@@ -171,13 +171,14 @@ def getWhatToDo(clargs, inRC):
         cites = []
         for R in inRC:
             if drop:
-                cites += [str(c) + '\n' for c in R.citations if c.isJournal()]
+                cites += [str(c) + '\n' for c in R.get('citations', []) if c.isJournal()]
             else:
-                cites += [str(c) + '\n' for c in R.citations]
+                cites += [str(c) + '\n' for c in R.get('citations', [])]
         fName = getOutputName(clargs, '.csv')
         print("Writing {}".format(fName))
         with open(fName, 'w') as f:
             f.writelines(cites)
+        return False
     else:
         dbName = input("The default manual databse file is called {}, press Enter to use it or type the name of the database you wish to use:\n".format(metaknowledge.WOS.journalAbbreviations.manaulDBname))
         print("Starting to go over citations, to exit press ctr-C.")
@@ -185,7 +186,7 @@ def getWhatToDo(clargs, inRC):
             dbName = metaknowledge.WOS.journalAbbreviations.manaulDBname
         try:
             for R in inRC:
-                for c in R.citations:
+                for c in R.get('citations', []):
                     if not hasattr(c, 'journal'):
                         print("{} does not have a journal field".format(c))
                     elif c.isJournal(manaulDB = dbName, returnDict = 'both'):
@@ -205,7 +206,7 @@ def getWhatToDo(clargs, inRC):
             raise
         else:
             print('Done manual citation clasification')
-            return getWhatToDo(clargs, inRC)
+            return False
 
 
 
@@ -220,21 +221,21 @@ def getNetwork(clargs, inRC):
     ])
     netID = int(inputMenu(netsDict, header = "What type of network do you wish to create?", promptMsg = "Input the number corresponding to the type of network you wish to generate? "))
     if netID == 1:
-        otg = Tag("What is the tag to use for the network? ")
-        print("Generating a network using the {0} tag.".format(otg))
+        otg = Tag("What is the tag to use for the network? ", inRC)
+        print("Generating a network using the {0} tag.".format(otg), inRC)
         return inRC.oneModeNetwork(otg)
     elif netID == 2:
-        tg1 = Tag("What is the first tag to use for the network? ")
-        tg2 = Tag("And the second tag? ")
+        tg1 = Tag("What is the first tag to use for the network? ", inRC)
+        tg2 = Tag("And the second tag? ", inRC)
         print("Generating a network using the {0} and {1} tags.".format(tg1, tg2))
         return inRC.twoModeNetwork(tg1, tg2)
     elif netID == 3:
         tgs = []
-        tgs.append(Tag("What is the first tag to use for the network? "))
-        innertag = Tag("And the next tag (leave blank to continue)? ", nMode = True)
+        tgs.append(Tag("What is the first tag to use for the network? ", inRC))
+        innertag = Tag("And the next tag (leave blank to continue)? ", inRC, nMode = True)
         while innertag:
             tgs.append(innertag)
-            innertag = Tag("And the next tag (leave blank to continue)? ", nMode = True)
+            innertag = Tag("And the next tag (leave blank to continue)? ", inRC, nMode = True)
         print("Generating a network using the {0} and {1} tags".format(', '.join(tgs[:-1]), tgs[-1]))
         return inRC.nModeNetwork(tgs)
     elif netID == 4:
@@ -349,6 +350,7 @@ def mkCLI():
             raise e
         else:
             print("A {0} error occured: {1}".format(type(e).__name__ ,e))
+            return e
     else:
         return 1
 

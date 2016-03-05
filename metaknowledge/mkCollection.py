@@ -198,6 +198,7 @@ class Collection(collections.abc.MutableSet, collections.abc.Hashable):
 class CollectionWithIDs(Collection):
     """A Collection with a few extra methods that assume all the contained items have an id attribute and a bad attribute, e.g. Records or Grants"""
     def __init__(self, inSet, allowedTypes, collectedTypes, name, bad, errors, quietStart = False):
+
         Collection.__init__(self, inSet, allowedTypes, collectedTypes, name, bad, errors, quietStart = quietStart)
 
     def containsID(self, idVal):
@@ -234,6 +235,12 @@ class CollectionWithIDs(Collection):
 
     def dropBadEntries(self):
         self._collection = set((i for i in self if not i.bad))
+
+    def tags(self):
+        tags = set()
+        for i in self:
+            tags |= set(i.keys())
+        return tags
 
     def oneModeNetwork(self, mode, nodeCount = True, edgeWeight = True, stemmer = None, edgeAttribute = None, nodeAttribute = None):
         """Creates a network of the objects found by one WOS tag _mode_.

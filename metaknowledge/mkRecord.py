@@ -124,11 +124,19 @@ class Record(collections.abc.Mapping, collections.abc.Hashable):
         #So it seems reasonable to included
         return copy.copy(self)
 
+    #Making these immutable
+
     @property
     def id(self):
-        """the ID of the record, not overwritable
-        """
         return self._id
+
+    @property
+    def sourceFile(self):
+        return self._sourceFile
+
+    @property
+    def sourceLine(self):
+        return self._sourceLine
 
 class ExtendedRecord(Record, metaclass = abc.ABCMeta):
     def __init__(self, fieldDict, idValue, bad, error, sFile = "", sLine = 0):
@@ -313,8 +321,8 @@ class ExtendedRecord(Record, metaclass = abc.ABCMeta):
         if self.get("j9", False):
             valsLst.append(self.get('j9'))
         elif self.get("title", False):
-            #Get no j9 means its a book so using the books title
-            valsLst.append(self.get('title'))
+            #No j9 means its probably book so using the books title/leaving blank
+            valsLst.append(self.get('title', ''))
         if self.get("volume", False):
             valsLst.append('V' + str(self.get('volume')))
         if self.get("beginningPage", False):

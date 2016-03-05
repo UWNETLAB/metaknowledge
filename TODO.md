@@ -23,9 +23,10 @@
 + Add ProQuest
 
 # Collections
-+ Think about general collection (Grants and Records and ...)
++ **Done** Think about general collection (Grants and Records and ...)
+    - Maybe
 + Add tests
-+ Clean up interfaces of the network generators
++ **Done** Clean up interfaces of the network generators
 + Add more methods for dealing with mk objects
 
 # General

@@ -1,5 +1,6 @@
 #Written by Reid McIlroy-Young for Dr. John McLevey, University of Waterloo 2016
 import unittest
+import unittest.mock
 import builtins
 import importlib
 import sys
@@ -10,10 +11,12 @@ class TestHelpers(unittest.TestCase):
         self.assertFalse(metaknowledge.constants.isInteractive())
         sys.stdout.isatty = lambda : True
         self.assertTrue(metaknowledge.constants.isInteractive())
-        def NoThreadingImport(*args, **kwargs):
-            if args[0] == 'threading':
-                raise ImportError
-            else:
-                return importlib.__import__(*args, **kwargs)
-        builtins.__import__ = NoThreadingImport
-        self.assertFalse(metaknowledge.constants.isInteractive())
+        class ImportMock(unittest.mock.Mock):
+            def __call__(self, *args, **kwargs):
+                if args[0] == 'threading':
+                    raise ImportError
+                else:
+                    return importlib.__import__(*args, **kwargs)
+        with unittest.mock.patch('builtins.__import__', new_callable = ImportMock):#, NoThreadingImport):
+        #builtins.__import__ =
+            self.assertFalse(metaknowledge.constants.isInteractive())

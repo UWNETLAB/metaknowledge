@@ -39,7 +39,7 @@ class TestGrantCollection(unittest.TestCase):
     def test_creation(self):
         self.assertIsInstance(self.GC, metaknowledge.GrantCollection)
         self.assertIsInstance(self.GC, metaknowledge.Collection)
-        self.assertEqual(len(self.GC), 2870)
+        self.assertEqual(len(self.GC), 2853)
         self.assertIsInstance(self.GC.peak(), metaknowledge.Record)
         self.assertEqual(metaknowledge.GrantCollection(self.GC), self.GC)
 

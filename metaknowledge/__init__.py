@@ -50,3 +50,6 @@ from .WOS.recordWOS import recordParser, WOSRecord
 from .medline import *
 
 #from .blondel import blondel, modularity #Better implementations can be found on Pypi so this has been discontinued
+
+def testFunc():
+    return input("23456t543")

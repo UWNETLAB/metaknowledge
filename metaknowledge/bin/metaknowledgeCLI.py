@@ -22,7 +22,7 @@ def argumentParser():
     parser.add_argument("--verbose", "-v", action = 'store_true' , default = False, help = "Verbose mode, every step is printed")
     parser.add_argument("--name", "-n",  default = False, help = "The name used for the recordCollection and resulting files.")
     parser.add_argument("--debug", "-d", action = 'store_true', default = False, help = "Enables debug messages.")
-    parser.add_argument("--progress", "-p", action = 'store_true' ,default = False, help = "Progress bar mode, shows progress bars where appropriate")
+    parser.add_argument("--quiet", "-q", action = 'store_true', default = False, help = "Disables the progress bar. Progress bars only works on some operating system, if it does not work it will be disabled")
     parser.add_argument("--suffix", "-s", default = '', help = "The suffix of the WOS files you wish to extract Records from, by default all files are used and those that do not have Records are skipped")
     return parser.parse_args()
 
@@ -108,7 +108,7 @@ def getFiles(args):
         for f in args.files:
             path = os.path.abspath(os.path.expanduser(f))
             if os.path.exists(path):
-                tmpRC = tmpRC + metaknowledge.RecordCollection(path, extension = args.suffix)
+                tmpRC |= metaknowledge.RecordCollection(path, extension = args.suffix)
             else:
                 raise TypeError(path + " is not an existing file or directory")
         if args.name:
@@ -288,7 +288,7 @@ def  outputNetwork(clargs, grph):
     ('4', "graphml (SLOW)"),
     ])
     try:
-        import metaknowledge.visual
+        import metaknowledge.contour
     except ImportError:
         pass
     else:
@@ -297,7 +297,7 @@ def  outputNetwork(clargs, grph):
     print("The network contains {} nodes and {} edges.".format(len(grph.nodes()), len(grph.edges())))
     outID = int(inputMenu(outDict, header = "What type of output to you want? "))
     if outID == 0:
-        metaknowledge.visual.quickVisual(grph)
+        metaknowledge.contour.quickVisual(grph)
         outputNetwork(clargs, grph)
     elif outID == 1:
         while True:
@@ -331,8 +331,8 @@ def  outputNetwork(clargs, grph):
 def mkCLI():
     try:
         args = argumentParser()
-        if args.progress:
-            metaknowledge.VERBOSE_MODE = True
+        if args.quiet:
+            metaknowledge.VERBOSE_MODE = False
         global RC
         RC = getFiles(args)
         makeNetwork = getWhatToDo(args, RC)

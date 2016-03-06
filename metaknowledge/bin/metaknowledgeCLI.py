@@ -54,11 +54,11 @@ def inputMenu(inputDict, header = None, footer = None, errorMsg = 'That is not a
     elif extraOptions and selection == 'q':
         sys.exit()
     elif extraOptions and selection == 'i':
-        bannerMsg = 'Python {0} on {1}\nType "help", "copyright", "credits" or "license" for more information.\nmetaknowledge is imported as metaknowledge and Networkx is imported as nx.\n'.format(sys.version, platform.system())
+        bannerMsg = 'Python {0} on {1}\nType "help", "copyright", "credits" or "license" for more information.\nmetaknowledge is imported as "metaknowledge" and Networkx is imported as "nx".\n'.format(sys.version, platform.system())
         if RC:
-            bannerMsg += "The metaknowledge RecordCollection is called RC"
+            bannerMsg += "The metaknowledge RecordCollection is called 'RC'"
             if G:
-                bannerMsg += " and the Networkx graph is called G."
+                bannerMsg += " and the Networkx graph is called 'G'."
             else:
                 bannerMsg += '.'
         code.interact(local = globals(), banner = bannerMsg)
@@ -304,7 +304,7 @@ def  outputNetwork(clargs, grph):
         while True:
             try:
                 outName = getOutputName(clargs, '', checking = False)
-                metaknowledge.writeGraph(grph, outName)
+                metaknowledge.writeGraph(grph, outName, overwrite = False)
             except OSError:
                 if clargs.name:
                     metaknowledge.writeGraph(grph, outName, overwrite = True)
@@ -327,7 +327,7 @@ def  outputNetwork(clargs, grph):
         metaknowledge.writeNodeAttributeFile(grph, outName)
     else:
         outName = getOutputName(clargs, '.graphml')
-        nx.writeGraphml(grph, outName)
+        nx.write_graphml(grph, outName)
 
 def mkCLI():
     try:

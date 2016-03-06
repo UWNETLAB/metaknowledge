@@ -10,7 +10,7 @@ class TestGrantCollection(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         metaknowledge.VERBOSE_MODE = False
-        cls.GCmain = metaknowledge.GrantCollection("metaknowledge/tests/")
+        cls.GCmain = metaknowledge.GrantCollection("metaknowledge/tests/", cached = True)
 
     def setUp(self):
         self.GC = self.GCmain.copy()
@@ -39,9 +39,13 @@ class TestGrantCollection(unittest.TestCase):
     def test_creation(self):
         self.assertIsInstance(self.GC, metaknowledge.GrantCollection)
         self.assertIsInstance(self.GC, metaknowledge.Collection)
-        self.assertEqual(len(self.GC), 2853)
+        self.assertAlmostEqual(len(self.GC), 2811, delta = 4)
         self.assertIsInstance(self.GC.peak(), metaknowledge.Record)
         self.assertEqual(metaknowledge.GrantCollection(self.GC), self.GC)
+
+    def test_Caching(self):
+        self.assertTrue(os.path.isfile("metaknowledge/tests/tests.[].mkGrantDirCache"))
+        os.remove("metaknowledge/tests/tests.[].mkGrantDirCache")
 
     def test_default(self):
         fname = "DefaultGrantTestFile.csv"

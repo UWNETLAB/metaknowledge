@@ -1,11 +1,16 @@
 import copy
+import pickle
+import os
+import os.path
 import collections.abc
 
 import networkx as nx
 
 from .progressBar import _ProgressBar
 
-from .mkExceptions import CollectionTypeError
+from .constants import __version__
+
+from .mkExceptions import CollectionTypeError, cacheError
 
 import metaknowledge
 
@@ -194,6 +199,48 @@ class Collection(collections.abc.MutableSet, collections.abc.Hashable):
             return self._collection.__iter__().__next__()
         else:
             return None
+
+    def _loadFromCache(self, cacheName, flist, name, extension):
+        def loadCache(cacheFile, flist, rcName, fileExtensions):
+            with open(cacheFile, 'rb') as f:
+                try:
+                    dat, RC = pickle.load(f)
+                except pickle.PickleError as e:
+                    raise cacheError("pickle Error: {}".format(e))
+            if dat["metaknowledge Version"] != __version__:
+                raise cacheError("mk version mismatch")
+            if dat["Collection Name"] != rcName:
+                raise cacheError("Name mismatch")
+            if dat["File Extension"] != fileExtensions:
+                raise cacheError("Extension mismatch")
+            if len(flist) != len(dat["File dict"]):
+                raise cacheError("File number mismatch")
+            while len(flist) > 0:
+                workingFile = flist.pop()
+                if os.stat(workingFile).st_mtime != dat["File dict"][workingFile]:
+                    raise cacheError("File modification mismatch")
+            return RC.__dict__
+
+        if os.path.isfile(cacheName):
+            try:
+                self.__dict__ = loadCache(cacheName, flist, name, extension)
+            except (cacheError, KeyError):
+                os.remove(cacheName)
+                return False
+            else:
+                return True
+
+    def _createCache(self, cacheFile, flist, name, extension):
+        dat = {
+            "metaknowledge Version" : __version__,
+            "File dict" : {},
+            "RecordCollection Name" : name,
+            "File Extension" : extension,
+        }
+        for fileName in flist:
+            dat["File dict"][fileName] =  os.stat(fileName).st_mtime
+        with open(cacheFile, 'wb') as f:
+            pickle.dump((dat, self), f)
 
 class CollectionWithIDs(Collection):
     """A Collection with a few extra methods that assume all the contained items have an id attribute and a bad attribute, e.g. Records or Grants"""

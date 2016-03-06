@@ -13,7 +13,7 @@ from .fileHandlers import grantProcessors
 import metaknowledge
 
 class GrantCollection(CollectionWithIDs):
-    def __init__(self, inGrants = None, name = '', extension = '', quietStart = False):
+    def __init__(self, inGrants = None, name = '', extension = '', cached = False, quietStart = False):
 
         progArgs = (0, "Starting to make a GrantCollection")
         if metaknowledge.VERBOSE_MODE and not quietStart:
@@ -63,6 +63,16 @@ class GrantCollection(CollectionWithIDs):
                         fullF = os.path.join(os.path.abspath(inGrants), f)
                         if fullF.endswith(extension) and os.path.isfile(fullF):
                             flist.append(fullF)
+                    if cached:
+                        cacheName = os.path.join(inGrants, '{}.[{}].mkGrantDirCache'.format(os.path.basename(os.path.abspath(inGrants)), extension))
+                        if self._loadFromCache(cacheName, flist, name, extension):
+                            try:
+                                PBar.finish("Done reloading {} Grants from cache".format(len(self)))
+                            except AttributeError:
+                                PBar.finish("Done reloading from the cache {}. Warning an error occured.".format(cacheName))
+                            return
+                        else:
+                            PBar.updateVal(0, 'Cache error, rereading files')
                     for fileName in flist:
                         count += 1
                         PBar.updateVal(count / len(flist), "Reading grants from: {}".format(fileName))
@@ -114,6 +124,9 @@ class GrantCollection(CollectionWithIDs):
             else:
                 raise GrantCollectionException("A GrantCollection cannot be created from {}".format(inGrants))
             CollectionWithIDs.__init__(self, grantsSet, Grant, grantTypes, name, bad, errors, quietStart = quietStart)
+            if cached:
+                PBar.updateVal(1, "Writing GrantCollection cache to {}".format(cacheName))
+                self._createCache(cacheName, flist, name, extension)
             try:
                 PBar.finish("Done making a GrantCollection of {} Grants".format(len(self)))
             except AttributeError:

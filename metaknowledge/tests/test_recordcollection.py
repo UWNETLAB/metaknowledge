@@ -30,14 +30,14 @@ class TestRecordCollection(unittest.TestCase):
 
     def test_caching(self):
         RC = metaknowledge.RecordCollection("metaknowledge/tests/", cached = True, name = 'testingCache', extension = 'testFile.isi')
-        self.assertTrue(os.path.isfile("metaknowledge/tests/tests.[testFile.isi].mkDirCache"))
+        self.assertTrue(os.path.isfile("metaknowledge/tests/tests.[testFile.isi].mkRecordDirCache"))
         accessTime = os.stat("metaknowledge/tests/testFile.isi").st_atime
         RC2 = metaknowledge.RecordCollection("metaknowledge/tests/", cached = True, name = 'testingCache', extension = 'testFile.isi')
         self.assertEqual(accessTime, os.stat("metaknowledge/tests/testFile.isi").st_atime)
         RC.dropBadEntries()
         RC2.dropBadEntries()
         self.assertEqual(RC, RC2)
-        os.remove("metaknowledge/tests/tests.[testFile.isi].mkDirCache")
+        os.remove("metaknowledge/tests/tests.[testFile.isi].mkRecordDirCache")
 
     def test_bad(self):
         self.assertTrue(metaknowledge.RecordCollection('metaknowledge/tests/badFile.isi').bad)

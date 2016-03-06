@@ -9,7 +9,9 @@
     - going with utf-8, because unix
 + Add more methods
 + Performance test
-+ Think about caching
++ **Done** Think about caching
+    - Added to GrantCollections
+    - Still terrible
 
 # Citations
 + **Will not do** Make a `Record`
@@ -35,6 +37,6 @@
 + Make organization make sense
 + Make names make sense
 + Remove `import *`
-+ Update CLI
++ **Done** Update CLI
 + Update vagrant/notebooks
 + Update docs/website

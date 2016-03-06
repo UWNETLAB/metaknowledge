@@ -82,7 +82,6 @@ class RecordCollection(CollectionWithIDs):
             errors = {}
             name = name
             recordTypes = set()
-            cacheRec = False
             if inCollection is None:
                 PBar.updateVal(.5, "Empty RecordCollection created")
                 if not name:
@@ -120,17 +119,16 @@ class RecordCollection(CollectionWithIDs):
                         if fullF.endswith(extension) and not fullF.endswith('mkDirCache') and os.path.isfile(fullF):
                             flist.append(fullF)
                     if cached:
-                        cacheRec = True
-                        cacheName = os.path.join(inCollection, '{}.[{}].mkDirCache'.format(os.path.basename(os.path.abspath(inCollection)), extension))
-                        if os.path.isfile(cacheName):
+                        cacheName = os.path.join(inCollection, '{}.[{}].mkRecordDirCache'.format(os.path.basename(os.path.abspath(inCollection)), extension))
+                        if self._loadFromCache(cacheName, flist, name, extension):
                             try:
-                                self.__dict__ = loadCache(cacheName, flist, name, extension, PBar).__dict__
-                            except cacheError:
-                                PBar.updateVal(0, 'Cache error, rereading files')
-                                os.remove(cacheName)
-                            else:
                                 PBar.finish("Done reloading {} Records from cache".format(len(self)))
-                                return
+                            except AttributeError:
+                                PBar.finish("Done reloading from the cache {}. Warning an error occured.".format(cacheName))
+                            return
+
+                        else:
+                            PBar.updateVal(0, 'Cache error, rereading files')
                     for fileName in flist:
                         count += 1
                         PBar.updateVal(count / len(flist), "Reading records from: {}".format(fileName))
@@ -160,8 +158,9 @@ class RecordCollection(CollectionWithIDs):
             else:
                 raise RCTypeError("A RecordCollection cannot be created from {}.".format(inCollection))
             CollectionWithIDs.__init__(self, recordsSet, Record, recordTypes, name, bad, errors)
-            if cacheRec:
-                writeCache(self, cacheName, flist, name, extension, PBar)
+            if cached:
+                PBar.updateVal(1, "Writing RecordCollection cache to {}".format(cacheName))
+                self._createCache(cacheName, flist, name, extension)
             try:
                 PBar.finish("Done making a RecordCollection of {} Records".format(len(self)))
             except AttributeError:
@@ -1178,43 +1177,3 @@ def expandRecs(G, RecCollect, nodeType, weighted):
                                 G.add_edge(citeID1, citeID2, weight = 1)
                         for e1, e2, data in G.edges_iter(citeID1, data = True):
                             G.add_edge(citeID2, e2, attr_dict = data)
-
-
-def loadCache(cacheFile, flist, rcName, fileExtensions, PBar):
-    if PBar:
-        PBar.updateVal(0, "Loading cached RecordCollection")
-    with open(cacheFile, 'rb') as f:
-        try:
-            dat, RC = pickle.load(f)
-        except pickle.PickleError as e:
-            raise cacheError("pickle Error: {}".format(e))
-    if dat["metaknowledge Version"] != __version__:
-        raise cacheError("mk version mismatch")
-    if dat["RecordCollection Name"] != rcName:
-        raise cacheError("Name mismatch")
-    if dat["File Extension"] != fileExtensions:
-        raise cacheError("Extension mismatch")
-    if len(flist) != len(dat["File dict"]):
-        raise cacheError("File number mismatch")
-    while len(flist) > 0:
-        workingFile = flist.pop()
-        try:
-            if os.stat(workingFile).st_mtime != dat["File dict"][workingFile]:
-                raise cacheError("File modification mismatch")
-        except KeyError:
-            raise cacheError("File modification mismatch")
-    return RC
-
-def writeCache(RC, cacheFile, flist, rcName, fileExtensions, PBar):
-    if PBar:
-        PBar.updateVal(1, "Writing RecordCollection cache to {}".format(cacheFile))
-    dat = {
-        "metaknowledge Version" : __version__,
-        "File dict" : {},
-        "RecordCollection Name" : rcName,
-        "File Extension" : fileExtensions,
-    }
-    for fileName in flist:
-        dat["File dict"][fileName] =  os.stat(fileName).st_mtime
-    with open(cacheFile, 'wb') as f:
-        pickle.dump((dat, RC), f)

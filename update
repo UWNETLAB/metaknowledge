@@ -1,0 +1,11 @@
+#! /bin/bash -e
+
+cd "$( dirname "${BASH_SOURCE[0]}" )"
+
+git pull
+
+nosetests
+
+python3 setup.py develop
+
+echo "Done"

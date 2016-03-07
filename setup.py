@@ -1,7 +1,6 @@
 #Written by Reid McIlroy-Young for Dr. John McLevey, University of Waterloo 2015
 import os.path
 from setuptools import setup, find_packages
-from metaknowledge.constants import __version__
 
 long_descriptionLOC = "README.rst"
 if os.path.isfile(long_descriptionLOC):
@@ -10,14 +9,14 @@ else:
     long_description = ''
 
 setup(name='metaknowledge',
-    version=__version__,
+    version='2.0.b1',
     description = "A library for handling Web of science files",
     long_description = long_description,
     author="Reid McIlroy-Young, John McLevey",
     author_email = "rmcilroy@uwaterloo.ca, john.mclevey@uwaterloo.ca",
     license = 'GPL',
     url="https://github.com/networks-lab/metaknowledge",
-    download_url = "https://github.com/networks-lab/metaknowledge/archive/.tar.gz".format(__version__),
+    download_url = "https://github.com/networks-lab/metaknowledge/archive/.tar.gz".format('2.0.b1'),
     keywords= 'WOS',
     classifiers = [
     'Development Status :: 5 - Production/Stable',
@@ -46,16 +45,3 @@ setup(name='metaknowledge',
     include_package_data = True,
     package_data = {'': ['manualj9Abbreviations.*']}
 )
-
-try:
-    import metaknowledge.WOS.journalAbbreviations
-except ImportError:
-    print("Setup did not work, metaknowledge cannot be imported")
-else:
-    try:
-        print("journal abbreviations database being downloaded\nPress ctr-C to cancel")
-        metaknowledge.WOS.journalAbbreviations.updatej9DB()
-    except:
-        print("journal abbreviations database could not be downloaded. Try again when you have a connection if you wish to use them. The function to updated them is metaknowledge.journalAbbreviations.updatej9DB().")
-    else:
-        print("journal abbreviations database downloaded")

@@ -291,7 +291,7 @@ def  outputNetwork(clargs, grph):
     try:
         import metaknowledge.contour
     except ImportError:
-        pass
+        import metaknowledge
     else:
         outDict['0'] = "view graph"
         outDict.move_to_end('0', last = False)

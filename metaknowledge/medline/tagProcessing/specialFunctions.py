@@ -48,6 +48,7 @@ medlineSpecialTagToFunc = {
 
     'grants' : lambda R: R['GR'],#This is the basis for the 'grants' special function
 
+    'selfCitation' : lambda R: R.createCitation(), #just remaps to the correct function
     'authorsShort' : lambda R: R['AU'], #just remaps to the correct name
     'authorsFull' : lambda R : R['FAU'], #just remaps to the correct name
     'title' : lambda R : R['TI'], #just remaps to the correct name

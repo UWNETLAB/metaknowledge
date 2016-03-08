@@ -135,7 +135,6 @@ def diffusionGraph(source, target, weighted = True, sourceType = "raw", targetTy
             PBar.finish("Done making a diffusion network of {} sources and {} targets".format(len(source), len(target)))
     return workingGraph
 
-
 def diffusionCount(source, target, sourceType = "raw", pandasFriendly = False,  compareCounts = False, numAuthors = True, byYear = False, _ProgBar = None):
     """Takes in two [`RecordCollections`](#RecordCollection.RecordCollection) and produces a `dict` counting the citations of _source_ by the [`Records`](#Record.Record) of _target_. By default the `dict` uses `Record` objects as keys but this can be changed with the _sourceType_ keyword to any of the WOS tags.
 
@@ -326,3 +325,30 @@ def makeNodeID(Rec, ndType, extras = None):
             else:
                 extraDict['Tag'] = Rec.get(tag)
     return recID, extraDict
+
+def diffusionAddCounts(grph, source, target, nodeType, diffusionLabel = 'DiffusionCount'):
+    progArgs = (0, "Starting to add counts to graph")
+    if metaknowledge.VERBOSE_MODE:
+        progKwargs = {'dummy' : False}
+    else:
+        progKwargs = {'dummy' : True}
+    with _ProgressBar(*progArgs, **progKwargs) as PBar:
+        PBar.updateVal(0, 'Getting counts')
+        countsDict = diffusionCount(source, target, sourceType = nodeType, _ProgBar = PBar)
+        if not isinstance(countsDict.keys().__iter__().__next__(), str):
+            PBar.updateVal(.5, "Prepping the counts")
+            newCountsDict = {}
+            while True:
+                try:
+                    k, v = countsDict.popitem()
+                except KeyError:
+                    break
+                newCountsDict[str(k)] = v
+            countsDict = newCountsDict
+        count = 0
+        for n in grph.nodes_iter():
+            PBar.updateVal(.5 + .5 * (count / len(grph)), "Adding count for '{}'".format(n))
+            grph.node[n][diffusionLabel] = countsDict.get(n, 0)
+            count += 1
+        PBar.finish("Done adding counts to a graph")
+    return countsDict

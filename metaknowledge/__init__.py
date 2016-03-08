@@ -41,7 +41,7 @@ from .mkCollection import *
 
 from .graphHelpers import writeEdgeList, writeNodeAttributeFile, writeGraph, readGraph, dropEdges, dropNodesByDegree, dropNodesByCount, mergeGraphs, graphStats
 from .constants import VERBOSE_MODE, __version__, specialRecordFields
-from .diffusion import diffusionGraph, diffusionCount
+from .diffusion import diffusionGraph, diffusionCount, diffusionAddCounts
 
 from .WOS.tagProcessing.funcDicts import tagToFull, isTagOrName, normalizeToTag, normalizeToName
 from .WOS.wosHandlers import wosParser

@@ -103,7 +103,10 @@ class WOSRecord(ExtendedRecord):
         return tagToFunc.get(tag, lambda x: x)
 
     def specialFuncs(self, key):
-        if key == 'grants':
+        if key == 'selfCitation':
+            #this cannot be computed until after the Record is created
+            return self.createCitation()
+        elif key == 'grants':
             return None
         else:
             raise KeyError("WOS Records do not have any special functions besides 'grants', they are what the special functions are mostly based on.")

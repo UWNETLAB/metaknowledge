@@ -42,7 +42,7 @@ class TestRecord(unittest.TestCase):
     def test_specials(self):
         for R in self.RC:
             for s in metaknowledge.medlineSpecialTagToFunc.keys():
-                self.assertIsInstance(R.get(s), (str, type(None), list, int))
+                self.assertIsInstance(R.get(s), (str, type(None), list, int, metaknowledge.Citation))
 
     def test_allFields(self):
         for R in self.RC:

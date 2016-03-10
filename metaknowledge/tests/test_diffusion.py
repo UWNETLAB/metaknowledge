@@ -33,7 +33,7 @@ class TestHelpers(unittest.TestCase):
     def test_diffusionPandas(self):
         d = metaknowledge.diffusionCount(self.RC, self.RC, pandasFriendly = True)
         dwc = metaknowledge.diffusionCount(self.RC, self.RC, pandasFriendly = True, sourceType = "WC", compareCounts = True)
-        dyear = metaknowledge.diffusionCount(self.RC, self.RC, pandasFriendly = True, byYear = True)
+        dyear = metaknowledge.diffusionCount(self.RC, self.RC, pandasFriendly = True, extraValue = 'year')
         self.assertTrue("TI" in d.keys())
         self.assertEqual(len(d), 44)
         self.assertTrue(len(d["UT"]), len(self.RC))
@@ -43,5 +43,5 @@ class TestHelpers(unittest.TestCase):
         self.assertEqual(dwc["TargetCount"], dwc["SourceCount"])
         self.assertEqual(len(dyear), len(d) + 1)
         self.assertNotEqual(dyear["TargetCount"], dwc["SourceCount"])
-        self.assertTrue(len([c for c in dyear["TargetCount"] if c > 1]) == 2 )
+        self.assertEqual(len([c for c in dyear["TargetCount"] if c > 1]), 2 )
         self.assertTrue(1979 in dyear['year'])

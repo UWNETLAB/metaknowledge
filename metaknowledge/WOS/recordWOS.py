@@ -107,7 +107,7 @@ class WOSRecord(ExtendedRecord):
             #this cannot be computed until after the Record is created
             return self.createCitation()
         elif key == 'grants':
-            return None
+            return []
         else:
             raise KeyError("WOS Records do not have any special functions besides 'grants', they are what the special functions are mostly based on.")
 

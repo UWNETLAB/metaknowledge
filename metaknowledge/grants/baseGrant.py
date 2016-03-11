@@ -1,4 +1,8 @@
-import collections.abc
+try:
+    import collections.abc
+except ImportError:
+    import collections
+    collections.abc = collections
 import csv
 import os
 
@@ -90,5 +94,9 @@ def parserDefaultGrantFile(fileName, encoding = 'latin-1', dialect = 'excel'):
     except Exception:
         if error is None:
             error = BadGrant("The file '{}' is having decoding issues. It may have been modifed since it was downloaded or not be a CIHR grant file.".format(fileName))
+    except KeyboardInterrupt as e:
+        error = e
     finally:
+        if isinstance(error,KeyboardInterrupt):
+            raise error
         return grantSet, error

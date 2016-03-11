@@ -2,7 +2,11 @@ import copy
 import pickle
 import os
 import os.path
-import collections.abc
+try:
+    import collections.abc
+except ImportError:
+    import collections
+    collections.abc = collections
 
 import networkx as nx
 
@@ -224,7 +228,7 @@ class Collection(collections.abc.MutableSet, collections.abc.Hashable):
         if os.path.isfile(cacheName):
             try:
                 self.__dict__ = loadCache(cacheName, flist, name, extension)
-            except (cacheError, KeyError):
+            except (cacheError, KeyError, FileNotFoundError):
                 os.remove(cacheName)
                 return False
             else:
@@ -234,7 +238,7 @@ class Collection(collections.abc.MutableSet, collections.abc.Hashable):
         dat = {
             "metaknowledge Version" : __version__,
             "File dict" : {},
-            "RecordCollection Name" : name,
+            "Collection Name" : name,
             "File Extension" : extension,
         }
         for fileName in flist:

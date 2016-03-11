@@ -576,6 +576,7 @@ def mergeGraphs(targetGraph, addedGraph, incrementedNodeVal = 'count', increment
 
     > default `'weight'`, the name of the weight attribute for the graph's edges. When merging this attribute will be the sum of the values in the input graphs, instead of _targetGraph_'s value.
     """
+
     for addedNode, attribs in addedGraph.nodes_iter(data = True):
         if incrementedNodeVal:
             try:

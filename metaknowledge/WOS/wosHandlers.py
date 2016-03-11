@@ -77,5 +77,9 @@ def wosParser(isifile):
             error =  BadWOSFile("'{}' has a unicode issue. Probably when being opened or possibly on the first line".format(isifile))
     except StopIteration:
         error =  BadWOSFile("The file '{}' ends before EF was found".format(isifile))
+    except KeyboardInterrupt as e:
+        error = e
     finally:
+        if isinstance(error,KeyboardInterrupt):
+            raise error
         return plst, error

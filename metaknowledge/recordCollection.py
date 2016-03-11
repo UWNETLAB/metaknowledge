@@ -4,7 +4,11 @@ import os
 import os.path
 import csv
 import pickle
-import collections.abc
+try:
+    import collections.abc
+except ImportError:
+    import collections
+    collections.abc = collections
 import copy
 
 import networkx as nx
@@ -116,7 +120,7 @@ class RecordCollection(CollectionWithIDs):
                     flist = []
                     for f in os.listdir(inCollection):
                         fullF = os.path.join(os.path.abspath(inCollection), f)
-                        if fullF.endswith(extension) and not fullF.endswith('mkDirCache') and os.path.isfile(fullF):
+                        if fullF.endswith(extension) and not fullF.endswith('mkRecordDirCache') and os.path.isfile(fullF):
                             flist.append(fullF)
                     if cached:
                         cacheName = os.path.join(inCollection, '{}.[{}].mkRecordDirCache'.format(os.path.basename(os.path.abspath(inCollection)), extension))
@@ -126,7 +130,6 @@ class RecordCollection(CollectionWithIDs):
                             except AttributeError:
                                 PBar.finish("Done reloading from the cache {}. Warning an error occured.".format(cacheName))
                             return
-
                         else:
                             PBar.updateVal(0, 'Cache error, rereading files')
                     for fileName in flist:

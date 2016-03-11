@@ -53,5 +53,9 @@ def parserNSERCfile(fileName):
     except Exception:
         if error is None:
             error = BadGrant("The file '{}' is having decoding issues. It may have been modifed since it was downloaded or not be a NSERC grant file.".format(fileName))
+    except KeyboardInterrupt as e:
+        error = e
     finally:
+        if isinstance(error, KeyboardInterrupt):
+            raise error
         return grantSet, error

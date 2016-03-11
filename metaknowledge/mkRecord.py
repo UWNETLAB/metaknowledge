@@ -13,7 +13,11 @@
 """
 
 import abc
-import collections.abc
+try:
+    import collections.abc
+except ImportError:
+    import collections
+    collections.abc = collections
 import copy
 
 from .mkExceptions import BadRecord
@@ -190,7 +194,7 @@ class ExtendedRecord(Record, metaclass = abc.ABCMeta):
                     try:
                         computedVal = self.specialFuncs(key)
                     except KeyError:
-                        raise KeyError("'{}' could not be found in the Record".format(key)) from None
+                        raise KeyError("'{}' could not be found in the Record".format(key)) from BaseException
                 #Both refer to the same object, computedVal
                 self._computedFields[key] = computedVal
                 alt = self.getAltName(key)
@@ -198,7 +202,7 @@ class ExtendedRecord(Record, metaclass = abc.ABCMeta):
                     self._computedFields[alt] = computedVal
                 return computedVal
             else:
-                raise TypeError("Keys to Records must be strings they cannot be of the type '{}'.".format(type(key).__name__)) from None
+                raise TypeError("Keys to Records must be strings they cannot be of the type '{}'.".format(type(key).__name__)) from BaseException
 
     #Extra options added to the defaults to make access to raw data easier
 

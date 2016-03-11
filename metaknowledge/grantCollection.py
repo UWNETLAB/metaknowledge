@@ -1,5 +1,9 @@
 import os.path
-import collections.abc
+try:
+    import collections.abc
+except ImportError:
+    import collections
+    collections.abc = collections
 
 from .progressBar import _ProgressBar
 

@@ -3,6 +3,10 @@ from .WOS.journalAbbreviations import getj9dict, abrevDBname, manaulDBname, addT
 
 from .mkExceptions import BadCitation
 
+import re
+
+import metaknowledge
+
 abbrevDict = None
 
 class Citation(object):
@@ -48,10 +52,50 @@ class Citation(object):
 
     > A str containing a WOS style citation.
     """
+    #citeRegex = re.compile(r"(([^,]+), )((DOI (.+))?|.+?)")
+    citeRegex = re.compile(r"([^0-9,][^,]+)?(, )?(-?[0-9]{1,5})?(, )?([^,]+)?(, (V[^,]+))?(, (P[^,]+))?($|, DOI (.+)|((.+?)(, DOI (.+))?))")
+    #@profile
     def __init__(self, cite):
         #save original
-        self.original = cite
         #setup attributes
+        #Nunez R., 1998, MATH COGNITION, V4, P85, DOI 10.1080/135467998387343
+        #Author, Year, Journal, Volume, Page, DOI
+        regex = re.match(self.citeRegex, cite.upper())
+        if regex is None:
+            import pdb; pdb.set_trace()
+        try:
+            self.author = regex.group(1).replace('.', '').title()
+        except AttributeError:
+            self.author = None
+        try:
+            self.year = int(regex.group(3))
+        except TypeError:
+            self.year = None
+        self.journal = regex.group(5)
+        self.V = regex.group(7)
+        self.P = regex.group(9)
+        self.DOI = regex.group(11)
+        if regex.group(12) is not None:
+            self.misc = regex.group(12)
+            self.DOI = regex.group(15)
+            self.bad = True
+            self.error = BadCitation("The citation did not fully match the expected pattern")
+        elif self.author is None or self.year is None or self.journal is None:
+            self.bad = True
+            self.misc = None
+            self.error = BadCitation("Not a complete set of author, year and journal")
+        else:
+            self.bad = False
+            self.error = None
+            self.misc = None
+
+        if not metaknowledge.FAST_CITES:
+            self.original = cite
+        else:
+            self.original = self.ID()
+
+        """
+
         self.bad = False
         self._isjourn = None
         self._hash = None
@@ -71,13 +115,12 @@ class Citation(object):
         if len(c) < 2:
             self.bad = True
             self.error = BadCitation("Too few elements")
-        while len(c) > 0:
-            field = c.pop(0).upper()
-            if field.isnumeric():
+        for field in c:
+            if field.isnumeric() and self.year is None:
                 self.year = int(field)
-            elif not self.author:
+            elif self.author is None:
                 self.author = field.replace('.','').title()
-            elif not self.journal:
+            elif self.journal is None:
                 self.journal = field
             elif field[0] == 'V' and field[1:].isnumeric():
                 self.V = field
@@ -85,9 +128,8 @@ class Citation(object):
                 self.P = field
             else:
                 self.misc.append(field)
-        if not self.author or not self.year or not self.journal and not self.bad:
-            self.bad = True
-            self.error = BadCitation("Not a complete set of author, year and journal")
+        """
+
 
     def __str__(self):
         """
@@ -100,17 +142,17 @@ class Citation(object):
         the representation of the Citation is its original form
         """
         return "<metaknowledge.{} object {}>".format(type(self).__name__, self.original)
-
+    #@profile
     def __hash__(self):
         """
         A hash for Citation that should be equal to the hash of other citations that are equal to it. Based on the values returned by [`ID()`](#Citation.ID).
         """
-        if self._hash:
+        try:
             return self._hash
-        else:
+        except AttributeError:
             self._hash = hash(self.ID())
             return self._hash
-
+    #@profile
     def __eq__(self, other):
         """
         First checks DOI for equality then checks each attribute if any are not equal False is returned
@@ -131,7 +173,7 @@ class Citation(object):
         > `True` if the author is `'[ANONYMOUS]'` otherwise `False`.
         """
         return self.author == "[Anonymous]"
-
+    #@profile
     def ID(self):
         """
         Returns all of `author`, `year` and `journal` available separated by `' ,'`. It is for shortening labels when creating networks as the resultant strings are often unique. [**Extra**()](#Citation.Extra) gets everything not returned by **ID**().
@@ -144,17 +186,21 @@ class Citation(object):
 
         > A string to use as the ID of a node.
         """
-        if self.bad:
-            atrLst = []
-            if self.author:
-                atrLst.append(self.author)
-            if self.year:
-                atrLst.append(str(self.year))
-            if self.journal:
-                atrLst.append(self.journal)
-            return ', '.join(atrLst)
-        else:
-            return "{0}, {1}, {2}".format(self.author, self.year, self.journal)
+        try:
+            return self._id
+        except AttributeError:
+            if self.bad:
+                atrLst = []
+                if self.author:
+                    atrLst.append(self.author)
+                if self.year:
+                    atrLst.append(str(self.year))
+                if self.journal:
+                    atrLst.append(self.journal)
+                self._id =  ', '.join(atrLst)
+            else:
+                self._id =  "{0}, {1}, {2}".format(self.author, self.year, self.journal)
+            return self._id
 
     def allButDOI(self):
         """
@@ -235,16 +281,15 @@ class Citation(object):
                     return True
             except IndexError:
                 return False
-        elif self._isjourn is None:
+        else:
             if self.journal:
                 dictVal = abbrevDict.get(self.journal, [b''])[0]
                 if dictVal:
-                    self._isjourn = dictVal
+                    return dictVal
                 else:
-                    self._isjourn = False
+                    return False
             else:
-                self._isjourn = False
-        return self._isjourn
+                return False
 
     def FullJournalName(self):
         """Returns the full name of the Citation's journal field. Requires the [j9Abbreviations](#journalAbbreviations.getj9dict) database file.

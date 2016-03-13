@@ -124,12 +124,12 @@ class MyTestCase(unittest.TestCase):
 
                 m.calledVals = ['4']
                 G = metaknowledge.bin.metaknowledgeCLI.getNetwork(None, self.RC)
-                self.assertEqual(metaknowledge.graphStats(G), 'The graph has 509 nodes, 815 edges, 1 isolates, 0 self loops, a density of 0.00315193 and a transitivity of 0.00601956')
+                self.assertEqual(metaknowledge.graphStats(G), 'The graph has 510 nodes, 816 edges, 1 isolates, 0 self loops, a density of 0.00314342 and a transitivity of 0.00600437')
                 self.assertEqual(len(m.calledVals), 0)
 
                 m.calledVals = ['5']
                 G = metaknowledge.bin.metaknowledgeCLI.getNetwork(None, self.RC)
-                self.assertEqual(metaknowledge.graphStats(G), 'The graph has 492 nodes, 12968 edges, 0 isolates, 23 self loops, a density of 0.107363 and a transitivity of 0.611433')
+                self.assertEqual(metaknowledge.graphStats(G), 'The graph has 493 nodes, 13011 edges, 0 isolates, 22 self loops, a density of 0.107282 and a transitivity of 0.611431')
                 self.assertEqual(len(m.calledVals), 0)
 
                 m.calledVals = ['6']
@@ -172,7 +172,7 @@ class MyTestCase(unittest.TestCase):
                 m.calledVals = ['6', 'y']
                 self.RC.dropBadEntries()
                 self.assertFalse(metaknowledge.bin.metaknowledgeCLI.getWhatToDo(named, self.RC))
-                self.assertEqual(os.path.getsize(fileName+ '.csv'), 36086)
+                self.assertEqual(os.path.getsize(fileName+ '.csv'), 35411)
                 os.remove(fileName + '.csv')
                 self.assertEqual(len(m.calledVals), 0)
 

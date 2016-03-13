@@ -60,4 +60,5 @@
 + pubs is the publication by an author
 + cites is everything citing them
 + using `'WC'` for classifying, maybe `'ID'`
-+ make a list and counts of `'WC'` tags from data set
++ **Done** make a list and counts of `'WC'` tags from data set
++ Make a citation/co-citation network of pubs and diffuse with cites

@@ -2,6 +2,7 @@ import copy
 import pickle
 import os
 import os.path
+import math
 try:
     import collections.abc
 except ImportError:
@@ -203,6 +204,34 @@ class Collection(collections.abc.MutableSet, collections.abc.Hashable):
             return self._collection.__iter__().__next__()
         else:
             return None
+
+    def chunk(self, maxSize):
+        chunks = []
+        currentSize = maxSize + 1
+        for i in self:
+            if currentSize >= maxSize:
+                currentSize = 0
+                chunks.append(type(self)({i}, name = 'Chunk-{}-of-{}'.format(len(chunks), self.name), quietStart = True))
+            else:
+                chunks[-1].add(i)
+            currentSize += 1
+        return chunks
+
+    def split(self, maxSize):
+        """destructive"""
+        chunks = []
+        currentSize = maxSize + 1
+        try:
+            while True:
+                if currentSize >= maxSize:
+                    currentSize = 0
+                    chunks.append(type(self)({self.pop()}, name = 'Chunk-{}-of-{}'.format(len(chunks), self.name), quietStart = True))
+                else:
+                    chunks[-1].add(self.pop())
+                currentSize += 1
+        except KeyError:
+            self.name = 'Emptied-{}'.format(self.name)
+        return chunks
 
     def _loadFromCache(self, cacheName, flist, name, extension):
         def loadCache(cacheFile, flist, rcName, fileExtensions):

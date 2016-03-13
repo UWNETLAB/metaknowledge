@@ -175,7 +175,7 @@ class ExtendedRecord(Record, metaclass = abc.ABCMeta):
 
         #Memoizing stuff
         self._computedFields = {}
-
+    #@profile
     def __getitem__(self, key):
         """Proccesses the tag requested with _key_ and memoize it.
 
@@ -205,7 +205,7 @@ class ExtendedRecord(Record, metaclass = abc.ABCMeta):
                 raise TypeError("Keys to Records must be strings they cannot be of the type '{}'.".format(type(key).__name__)) from BaseException
 
     #Extra options added to the defaults to make access to raw data easier
-
+    #@profile
     def get(self, tag, default = None, raw = False):
         """Allows access to the raw values or is wrapper to __getitem__.
 

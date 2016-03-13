@@ -35,3 +35,5 @@ def isInteractive():
         return False
 
 VERBOSE_MODE = isInteractive()
+
+FAST_CITES = False

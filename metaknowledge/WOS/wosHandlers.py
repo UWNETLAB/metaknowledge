@@ -80,6 +80,6 @@ def wosParser(isifile):
     except KeyboardInterrupt as e:
         error = e
     finally:
-        if isinstance(error,KeyboardInterrupt):
+        if isinstance(error, KeyboardInterrupt):
             raise error
         return plst, error

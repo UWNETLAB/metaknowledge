@@ -52,46 +52,45 @@ def readGraph(edgeList, nodeList = None, directed = False, idKey = 'ID', eSource
 
     > the graph described by the input files
     """
+    progArgs = (0, "Starting to reading graphs")
     if metaknowledge.VERBOSE_MODE:
-        PBar = _ProgressBar(0, "Starting to reading graphs")
+        progKwargs = {'dummy' : False}
     else:
-        PBar = None
-    if directed:
-        grph = nx.DiGraph()
-    else:
-        grph = nx.Graph()
-    if nodeList:
-        if PBar:
-            PBar.updateVal(0, "Reading " + nodeList)
-        f = open(os.path.expanduser(os.path.abspath(nodeList)))
-        nFile = csv.DictReader(f)
-        for line in nFile:
-            vals = line
-            ndID = vals[idKey]
-            del vals[idKey]
-            if len(vals) > 0:
-                grph.add_node(ndID, attr_dict=vals)
-            else:
-                grph.add_node(ndID)
-        f.close()
-    if PBar:
-        PBar.updateVal(.5, "Reading " + edgeList)
-    f = open(os.path.expanduser(os.path.abspath(edgeList)))
-    eFile = csv.DictReader(f)
-    for line in eFile:
-        vals = line
-        eFrom = vals[eSource]
-        eTo = vals[eDest]
-        del vals[eSource]
-        del vals[eDest]
-        if len(vals) > 0:
-            grph.add_edge(eFrom, eTo, attr_dict = vals)
+        progKwargs = {'dummy' : True}
+    with _ProgressBar(*progArgs, **progKwargs) as PBar:
+        if directed:
+            grph = nx.DiGraph()
         else:
-            grph.add_edge(eFrom, eTo)
-    if PBar:
-        PBar.finish(str(len(grph.nodes())) + " nodes and " + str(len(grph.edges())) + " edges found")
-    f.close()
-    return grph
+            grph = nx.Graph()
+        if nodeList:
+            PBar.updateVal(0, "Reading " + nodeList)
+            f = open(os.path.expanduser(os.path.abspath(nodeList)))
+            nFile = csv.DictReader(f)
+            for line in nFile:
+                vals = line
+                ndID = vals[idKey]
+                del vals[idKey]
+                if len(vals) > 0:
+                    grph.add_node(ndID, attr_dict=vals)
+                else:
+                    grph.add_node(ndID)
+            f.close()
+        PBar.updateVal(.25, "Reading " + edgeList)
+        f = open(os.path.expanduser(os.path.abspath(edgeList)))
+        eFile = csv.DictReader(f)
+        for line in eFile:
+            vals = line
+            eFrom = vals[eSource]
+            eTo = vals[eDest]
+            del vals[eSource]
+            del vals[eDest]
+            if len(vals) > 0:
+                grph.add_edge(eFrom, eTo, attr_dict = vals)
+            else:
+                grph.add_edge(eFrom, eTo)
+        PBar.finish("{} nodes and {} edges found".format(len(grph.nodes()), len(grph.edges())))
+        f.close()
+        return grph
 
 def writeGraph(grph, name, edgeInfo = True, typing = False, suffix = 'csv', overwrite = True):
     """Writes both the edge list and the node attribute list of _grph_ to files starting with _name_.

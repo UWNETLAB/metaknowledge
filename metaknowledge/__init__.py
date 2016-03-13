@@ -40,8 +40,8 @@ from .grantCollection import *
 from .mkCollection import *
 
 from .graphHelpers import writeEdgeList, writeNodeAttributeFile, writeGraph, readGraph, dropEdges, dropNodesByDegree, dropNodesByCount, mergeGraphs, graphStats
-from .constants import VERBOSE_MODE, __version__, specialRecordFields
-from .diffusion import diffusionGraph, diffusionCount, diffusionAddCounts
+from .constants import VERBOSE_MODE, __version__, specialRecordFields, FAST_CITES
+from .diffusion import diffusionGraph, diffusionCount, diffusionAddCountsFromSource
 
 from .WOS.tagProcessing.funcDicts import tagToFull, isTagOrName, normalizeToTag, normalizeToName
 from .WOS.wosHandlers import wosParser

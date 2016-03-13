@@ -123,6 +123,7 @@ class RecordCollection(CollectionWithIDs):
                         if fullF.endswith(extension) and not fullF.endswith('mkRecordDirCache') and os.path.isfile(fullF):
                             flist.append(fullF)
                     if cached:
+                        PBar.updateVal(0, "Trying to load from cache")
                         cacheName = os.path.join(inCollection, '{}.[{}].mkRecordDirCache'.format(os.path.basename(os.path.abspath(inCollection)), extension))
                         if self._loadFromCache(cacheName, flist, name, extension):
                             try:
@@ -509,7 +510,7 @@ class RecordCollection(CollectionWithIDs):
                         elif count:
                             grph.node[auth1]['count'] += 1
             if PBar:
-                PBar.finish("Done making a co-authorship network")
+                PBar.finish("Done making a co-authorship network from {}".format(self))
         return grph
 
     def coCiteNetwork(self, dropAnon = True, nodeType = "full", nodeInfo = True, fullInfo = False, weighted = True, dropNonJournals = False, count = True, keyWords = None, detailedCore = None, coreOnly = False, expandedCore = False):
@@ -613,7 +614,7 @@ class RecordCollection(CollectionWithIDs):
                     PBar.updateVal(.98, "Expanding core Records")
                 expandRecs(tmpgrph, self, nodeType, weighted)
             if PBar:
-                PBar.finish("Done making a co-citation network of " + repr(self))
+                PBar.finish("Done making a co-citation network from {}".format(self))
         return tmpgrph
 
 
@@ -731,7 +732,7 @@ class RecordCollection(CollectionWithIDs):
                     PBar.updateVal(.98, "Expanding core Records")
                 expandRecs(tmpgrph, self, nodeType, weighted)
             if PBar:
-                PBar.finish("Done making a citation network of " + repr(self))
+                PBar.finish("Done making a citation network from {}".format(self))
         return tmpgrph
 
     def _extractTagged(self, taglist):

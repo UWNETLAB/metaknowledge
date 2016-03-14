@@ -213,7 +213,10 @@ def diffusionCount(source, target, sourceType = "raw", extraValue = None, pandas
         if RsVal:
             sourceDict[Rs.createCitation()] = RsVal
     if extraValue is not None:
-        sourceCounts = {s : {targetCountString : 0} for s in sourceDict.values()}
+        if listIds:
+            sourceCounts = {s : {targetCountString : 0} for s in itertools.chain.from_iterable(sourceDict.values())}
+        else:
+            sourceCounts = {s : {targetCountString : 0} for s in sourceDict.values()}
     else:
         if listIds:
             sourceCounts = {s : 0 for s in itertools.chain.from_iterable(sourceDict.values())}
@@ -359,8 +362,10 @@ def makeNodeID(Rec, ndType, extras = None):
                 extraDict['Tag'] = Rec.get(tag)
     return recID, extraDict
 
-def diffusionAddCountsFromSource(grph, source, target, nodeType = 'citations', extraType = None, diffusionLabel = 'DiffusionCount', countsDict = None):
+def diffusionAddCountsFromSource(grph, source, target, nodeType = 'citations', extraType = None, diffusionLabel = 'DiffusionCount', extraFilter = None, extraKeys = None, countsDict = None):
     progArgs = (0, "Starting to add counts to graph")
+    if extraFilter is None:
+        extraFilter = lambda x: x
     if metaknowledge.VERBOSE_MODE:
         progKwargs = {'dummy' : False}
     else:
@@ -386,12 +391,18 @@ def diffusionAddCountsFromSource(grph, source, target, nodeType = 'citations', e
         for n in grph.nodes_iter():
             PBar.updateVal(.5 + .5 * (count / len(grph)), "Adding count for '{}'".format(n))
             if extraType is not None:
+                if extraKeys:
+                    for key in extraKeys:
+                        grph.node[n][key] = 0
+                grph.node[n][diffusionLabel] = 0
                 try:
                     for k, v in countsDict[n].items():
                         if k == 'TargetCount':
                             grph.node[n][diffusionLabel] = v
                         else:
-                            grph.node[n][k] = v
+                            k = extraFilter(k)
+                            if k:
+                                grph.node[n][k] = v
                 except KeyError:
                     grph.node[n][diffusionLabel] = 0
             else:

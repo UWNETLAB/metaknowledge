@@ -54,6 +54,8 @@ class Citation(object):
     """
     #citeRegex = re.compile(r"(([^,]+), )((DOI (.+))?|.+?)")
     citeRegex = re.compile(r"([^0-9,][^,]+)?(, )?(-?[0-9]{1,5})?(, )?([^,]+)?(, (V[^,]+))?(, (P[^,]+))?($|, DOI (.+)|((.+?)(, DOI (.+))?))")
+    #citeRegex = re.compile(r"([^0-9,].+?)?(, )?(-?[0-9]{1,5})?(, )?(.+?)?(, (V.+?))?(, (P.+?))?($|, DOI (.+)|((.+?)(, DOI (.+))?))")
+
     #@profile
     def __init__(self, cite):
         #save original
@@ -80,68 +82,53 @@ class Citation(object):
             self.DOI = regex.group(15)
             self.bad = True
             self.error = BadCitation("The citation did not fully match the expected pattern")
+            atrLst = []
+            if self.author:
+                atrLst.append(self.author)
+            if self.year:
+                atrLst.append(str(self.year))
+            if self.journal:
+                atrLst.append(self.journal)
+            self._id =  ', '.join(atrLst)
         elif self.author is None or self.year is None or self.journal is None:
             self.bad = True
             self.misc = None
             self.error = BadCitation("Not a complete set of author, year and journal")
+            atrLst = []
+            if self.author:
+                atrLst.append(self.author)
+            if self.year:
+                atrLst.append(str(self.year))
+            if self.journal:
+                atrLst.append(self.journal)
+            self._id =  ', '.join(atrLst)
         else:
             self.bad = False
             self.error = None
             self.misc = None
-
+            self._id =  "{0}, {1}, {2}".format(self.author, self.year, self.journal)
         if not metaknowledge.FAST_CITES:
             self.original = cite
         else:
-            self.original = self.ID()
-
-        """
-
-        self.bad = False
-        self._isjourn = None
-        self._hash = None
-        self.author = None
-        self.year = None
-        self.P = None
-        self.V = None
-        self.journal = None
-        self.DOI = None
-        self.misc = []
-        #split by citation seperator
-        c = ' '.join(cite.upper().split()).split(', ')
-        if 'DOI' in c[-1][:3]:
-            self.DOI = c.pop().split(' ')[-1]
-        else:
-            self.DOI = None
-        if len(c) < 2:
-            self.bad = True
-            self.error = BadCitation("Too few elements")
-        for field in c:
-            if field.isnumeric() and self.year is None:
-                self.year = int(field)
-            elif self.author is None:
-                self.author = field.replace('.','').title()
-            elif self.journal is None:
-                self.journal = field
-            elif field[0] == 'V' and field[1:].isnumeric():
-                self.V = field
-            elif 'P' == field[0] and field[1:].isnumeric():
-                self.P = field
-            else:
-                self.misc.append(field)
-        """
-
+            self = self._id
 
     def __str__(self):
         """
         returns the original string
         """
-        return self.original
+        if metaknowledge.FAST_CITES:
+            return self.ID()
+        else:
+            return self.original
 
     def __repr__(self):
         """
         the representation of the Citation is its original form
         """
-        return "<metaknowledge.{} object {}>".format(type(self).__name__, self.original)
+        if metaknowledge.FAST_CITES:
+            return "<metaknowledge.{} object {}>".format(type(self).__name__, self.ID())
+        else:
+            return "<metaknowledge.{} object {}>".format(type(self).__name__, self.original)
     #@profile
     def __hash__(self):
         """
@@ -186,21 +173,7 @@ class Citation(object):
 
         > A string to use as the ID of a node.
         """
-        try:
-            return self._id
-        except AttributeError:
-            if self.bad:
-                atrLst = []
-                if self.author:
-                    atrLst.append(self.author)
-                if self.year:
-                    atrLst.append(str(self.year))
-                if self.journal:
-                    atrLst.append(self.journal)
-                self._id =  ', '.join(atrLst)
-            else:
-                self._id =  "{0}, {1}, {2}".format(self.author, self.year, self.journal)
-            return self._id
+        return self._id
 
     def allButDOI(self):
         """

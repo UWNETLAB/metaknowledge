@@ -16,7 +16,7 @@ class TestHelpers(unittest.TestCase):
 
     def test_multiGraph(self):
         G = metaknowledge.diffusionGraph(self.RC, self.RC, labelEdgesBy = 'PY')
-        self.assertEqual(metaknowledge.graphStats(G, stats = ('nodes', 'edges', 'isolates', 'loops', 'density')), 'The graph has 42 nodes, 30956 edges, 0 isolates, 914 self loops and a density of 17.9768')
+        self.assertEqual(metaknowledge.graphStats(G, stats = ('nodes', 'edges', 'isolates', 'loops', 'density')), 'The graph has 42 nodes, 30922 edges, 0 isolates, 913 self loops and a density of 17.957')
 
     def test_diffusionCounts(self):
         d = metaknowledge.diffusionCount(self.RC, self.RC)

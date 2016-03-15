@@ -312,10 +312,10 @@ class TestRecordCollection(unittest.TestCase):
             self.assertEqual(metaknowledge.graphStats(Gdetailed), 'The graph has 45 nodes, 46 edges, 9 isolates, 0 self loops, a density of 0.0464646 and a transitivity of 0.822581')
 
     def test_cite(self):
-        Gdefault = self.RC.citationNetwork(fullInfo = True, count = False)
+        Gdefault = self.RC.citationNetwork(fullInfo = True, count = False, dropAnon = True)
         Ganon = self.RC.citationNetwork(dropAnon = False)
-        Gauths = self.RC.citationNetwork(nodeType = "author", detailedCore = True)
-        GauthsNoExtra = self.RC.citationNetwork(nodeType = "author", nodeInfo = False)
+        Gauths = self.RC.citationNetwork(nodeType = "author", detailedCore = True, dropAnon = True)
+        GauthsNoExtra = self.RC.citationNetwork(nodeType = "author", nodeInfo = False, dropAnon = True)
         Gunwei = self.RC.citationNetwork(nodeType = 'original', weighted = False)
         if not disableJournChecking:
             Gjour = self.RC.citationNetwork(nodeType = "author", dropNonJournals = True, nodeInfo = True, count = False)

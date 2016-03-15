@@ -124,7 +124,7 @@ class MyTestCase(unittest.TestCase):
 
                 m.calledVals = ['4']
                 G = metaknowledge.bin.metaknowledgeCLI.getNetwork(None, self.RC)
-                self.assertEqual(metaknowledge.graphStats(G), 'The graph has 510 nodes, 816 edges, 1 isolates, 0 self loops, a density of 0.00314342 and a transitivity of 0.00600437')
+                self.assertEqual(metaknowledge.graphStats(G), 'The graph has 511 nodes, 817 edges, 0 isolates, 0 self loops, a density of 0.00313495 and a transitivity of 0.00600437')
                 self.assertEqual(len(m.calledVals), 0)
 
                 m.calledVals = ['5']

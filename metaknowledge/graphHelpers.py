@@ -256,7 +256,7 @@ def writeEdgeList(grph, name, extraInfo = True, allSameAttribute = False, _progB
         if not isinstance(_progBar, _ProgressBar):
             PBar.finish("Done edge list {}, {} edges written.".format(name, count))
 
-def writeNodeAttributeFile(grph, name, allSameAttribute = False,_progBar = None):
+def writeNodeAttributeFile(grph, name, allSameAttribute = False, _progBar = None):
     """Writes a node attribute list of _grph_ to the file given by the path _name_.
 
     The node list has one column call `'ID'` with the node ids used by networkx and all other columns are the node attributes.

@@ -3,6 +3,7 @@ import unittest
 import metaknowledge
 import os
 import io
+import sys
 from metaknowledge.progressBar import _ProgressBar
 
 fileShortName = 'testNetworks'
@@ -41,8 +42,7 @@ class TestHelpers(unittest.TestCase):
         metaknowledge.writeEdgeList(self.G, fileEName, _progBar = P)
         tmpIO.seek(0)
         s = ''.join(tmpIO.readlines())
-        self.assertFalse("]100.0%" in s)
-        self.assertTrue("Done edge list" in s)
+        self.assertEqual(s[-14:], '[  0.0s]  0.0%')
         os.remove(fileEName)
         metaknowledge.VERBOSE_MODE = False
 

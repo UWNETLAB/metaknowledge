@@ -136,8 +136,8 @@ def diffusionGraph(source, target, weighted = True, sourceType = "raw", targetTy
         if PBar:
             PBar.finish("Done making a diffusion network of {} sources and {} targets".format(len(source), len(target)))
     return workingGraph
-#@profile
-def diffusionCount(source, target, sourceType = "raw", extraValue = None, pandasFriendly = False,  compareCounts = False, numAuthors = True, _ProgBar = None):
+
+def diffusionCount(source, target, sourceType = "raw", extraValue = None, pandasFriendly = False,  compareCounts = False, numAuthors = True, _ProgBar = None, extraMapping = None):
     """Takes in two [`RecordCollections`](#RecordCollection.RecordCollection) and produces a `dict` counting the citations of _source_ by the [`Records`](#Record.Record) of _target_. By default the `dict` uses `Record` objects as keys but this can be changed with the _sourceType_ keyword to any of the WOS tags.
 
     # Parameters
@@ -184,6 +184,8 @@ def diffusionCount(source, target, sourceType = "raw", extraValue = None, pandas
         raise RuntimeError("Source and target must be RecordCollections.")
     if extraValue is not None and not isinstance(extraValue, str):
         raise RuntimeError("{} is not a valid extraValue, only tags are allowed".format(extraValue))
+    if extraMapping is None:
+        extraMapping = lambda x : x
     if metaknowledge.VERBOSE_MODE or _ProgBar:
         if _ProgBar:
             PBar = _ProgBar
@@ -196,7 +198,6 @@ def diffusionCount(source, target, sourceType = "raw", extraValue = None, pandas
         PBar = _ProgressBar("Starting to analyse a diffusion network", dummy = True)
     count = 0
     maxCount = len(source)
-    PBar.updateVal(.25, "Done analyzing sources, starting on targets")
     sourceDict = {}
     #Tells the function if the IDs are made of lists or of str
     listIds = None
@@ -235,6 +236,7 @@ def diffusionCount(source, target, sourceType = "raw", extraValue = None, pandas
                 values = []
             elif not isinstance(values, list):
                 values = [values]
+            values = [extraMapping(val) for val in values]
         for c in  targetCites:
             try:
                 RsourceVals = sourceDict[c]
@@ -362,10 +364,8 @@ def makeNodeID(Rec, ndType, extras = None):
                 extraDict['Tag'] = Rec.get(tag)
     return recID, extraDict
 
-def diffusionAddCountsFromSource(grph, source, target, nodeType = 'citations', extraType = None, diffusionLabel = 'DiffusionCount', extraFilter = None, extraKeys = None, countsDict = None):
+def diffusionAddCountsFromSource(grph, source, target, nodeType = 'citations', extraType = None, diffusionLabel = 'DiffusionCount', extraKeys = None, countsDict = None, extraMapping = None):
     progArgs = (0, "Starting to add counts to graph")
-    if extraFilter is None:
-        extraFilter = lambda x: x
     if metaknowledge.VERBOSE_MODE:
         progKwargs = {'dummy' : False}
     else:
@@ -373,7 +373,7 @@ def diffusionAddCountsFromSource(grph, source, target, nodeType = 'citations', e
     with _ProgressBar(*progArgs, **progKwargs) as PBar:
         PBar.updateVal(0, 'Getting counts')
         if countsDict is None:
-            countsDict = diffusionCount(source, target, sourceType = nodeType, extraValue = extraType, _ProgBar = PBar)
+            countsDict = diffusionCount(source, target, sourceType = nodeType, extraValue = extraType, _ProgBar = PBar, extraMapping = extraMapping)
         try:
             if not isinstance(countsDict.keys().__iter__().__next__(), str):
                 PBar.updateVal(.5, "Prepping the counts")
@@ -400,7 +400,6 @@ def diffusionAddCountsFromSource(grph, source, target, nodeType = 'citations', e
                         if k == 'TargetCount':
                             grph.node[n][diffusionLabel] = v
                         else:
-                            k = extraFilter(k)
                             if k:
                                 grph.node[n][k] = v
                 except KeyError:

@@ -419,8 +419,8 @@ def dropEdges(grph, minWeight = - float('inf'), maxWeight = float('inf'), parame
     with _ProgressBar(*progArgs, **progKwargs) as PBar:
         if dropSelfLoops:
             slps = grph.selfloop_edges()
-            if PBar:
-                PBar.updateVal(0, "Dropping self {} loops".format(len(slps)))
+
+            PBar.updateVal(0, "Dropping self {} loops".format(len(slps)))
             for e in slps:
                 grph.remove_edge(e[0], e[1])
         if minWeight != - float('inf') or maxWeight != float('inf'):
@@ -433,14 +433,13 @@ def dropEdges(grph, minWeight = - float('inf'), maxWeight = float('inf'), parame
                     else:
                         pass
                 else:
-                    if PBar:
-                        count += 1
-                        if count % 100000 == 0:
-                            PBar.updateVal(count/ total, str(count) + " edges analysed and " + str(total -len(grph.edges())) + " edges dropped")
+
+                    count += 1
+                    if count % 100000 == 0:
+                        PBar.updateVal(count/ total, str(count) + " edges analysed and " + str(total -len(grph.edges())) + " edges dropped")
                     if val > maxWeight or  val < minWeight:
                         grph.remove_edge(e[0], e[1])
-        if PBar:
-            PBar.finish(str(total - len(grph.edges())) + " edges out of " + str(total) + " dropped, " + str(len(grph.edges())) + " returned")
+        PBar.finish(str(total - len(grph.edges())) + " edges out of " + str(total) + " dropped, " + str(len(grph.edges())) + " returned")
 
 def dropNodesByDegree(grph, minDegree = -float('inf'), maxDegree = float('inf'), useWeight = True, parameterName = 'weight', includeUnweighted = True):
     """Modifies _grph_ by dropping nodes that do not have a degree that is within inclusive bounds of _minDegree_ and _maxDegree_, i.e after running _grph_ will only have nodes whose degrees meet the following inequality: _minDegree_ <= node's degree <= _maxDegree_.

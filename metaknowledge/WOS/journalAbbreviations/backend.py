@@ -146,7 +146,7 @@ def getj9dict(dbname = abrevDBname, manualDB = manaulDBname, returnDict = 'both'
     if returnDict == 'both' or returnDict == 'WOS':
         with dbm.dumb.open(dbLoc + '/{}'.format(dbname)) as db:
             if len(db) == 0:
-                raise RuntimeError("J9 Database empty or missing, to regenerate it run metaknowledge.journalAbbreviations.updatej9DB().")
+                raise RuntimeError("J9 Database empty or missing, to regenerate it import and run metaknowledge.WOS.journalAbbreviations.updatej9DB().")
             for k, v in db.items():
                 retDict[k.decode('utf-8')] = v.decode('utf-8').split('|')
     if returnDict == 'both' or returnDict == 'manual':

@@ -41,9 +41,14 @@ class TestHelpers(unittest.TestCase):
         P = _ProgressBar(0, "testing", output = tmpIO)
         metaknowledge.writeEdgeList(self.G, fileEName, _progBar = P)
         tmpIO.seek(0)
-        s = ''.join(tmpIO.readlines())
-        self.assertEqual(s[-14:], '[  0.0s]  0.0%')
         os.remove(fileEName)
+        s = ''.join(tmpIO.readlines())
+        self.assertEqual(s[-14], '[')
+        self.assertEqual(s[-1], '%')
+        P.finish("done test")
+        tmpIO.seek(0)
+        s = ''.join(tmpIO.readlines())
+        self.assertEqual(s[-81:-3], 'done test                                                                   0.')
         metaknowledge.VERBOSE_MODE = False
 
     def test_dropEdges(self):

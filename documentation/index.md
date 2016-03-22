@@ -31,7 +31,7 @@ image:
 </ul>
 
 
-##<a name="Installing"></a>Installation
+## <a name="Installing"></a>Installation
 
 _metaknowledge_ has two distributions. The simplest is found under the release branch of the [git repo](https://github.com/networks-lab/metaknowledge/tree/release), which can be installed the usual way with pip:
 
@@ -43,13 +43,13 @@ The second version is at the master branch on [_Github_](https://github.com/netw
 
 The [download](https://github.com/networks-lab/metaknowledge/archive/master.zip) from _Github_ includes a customized [_Vagrant_](https://www.vagrantup.com) file that installs _metaknowledge_ and other useful _Python_ libraries into a virtual machine. It is the easiest way of getting _metaknowledge_ working if you are not familiar with _Python_.
 
-##Install with Vagrant
+## Install with Vagrant
 
 The _Vagrant_ method is intended for students and anyone not familiar with _Python_ it creates a [virtual machine](https://en.wikipedia.org/wiki/Virtual_machine) with _metaknowledge_ installed, as well as the _Python_ scientific stack _numpy_, _scipy_ and _matplotlib_ and a series of iPython notebooks for teaching _metaknowledge_ and _Python_. Some notebooks are more complete than others.
 
 The instructions for those familiar with the command line use the advanced instructions. Otherwise, it is probably best to use the student install.
 
-###<a name="Students">Student Install
+### <a name="Students">Student Install
 
 First, you need to install [_Vagrant_](https://www.vagrantup.com/downloads.html) and [_VirtualBox_](https://www.virtualbox.org/wiki/Downloads). You need to do this before you can install _metaknowledge_.
 
@@ -78,7 +78,7 @@ You have installed everything successfully.
 
 To open the page again just double click on which ever of `win_run`, `mac_run`, or `linux_run` you used. It should take less than a minute the second time.
 
-###Advanced Instructions
+### Advanced Instructions
 0. Install [Vagrant](https://www.vagrantup.com/downloads.html) and [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
 1. Clone the [git repo](https://github.com/networks-lab/metaknowledge.git)
 2. Make sure you are on the master branch

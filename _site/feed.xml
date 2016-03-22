@@ -4,7 +4,7 @@
 <generator uri="https://github.com/jekyll/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="http://networkslab.org/feed.xml" />
 <link rel="alternate" type="text/html" href="http://networkslab.org" />
-<updated>2016-03-22T15:00:46+07:00</updated>
+<updated>2016-03-22T15:11:59+07:00</updated>
 <id>http://networkslab.org/</id>
 <author>
   <name>John McLevey and Reid McIlroy-Young</name>
@@ -12,8 +12,6 @@
   <email>john.mclevey@uwaterloo.ca</email>
 </author>
 
-
-  
 
 <entry>
   <title type="html"><![CDATA[tagProcessing]]></title>
@@ -311,7 +309,7 @@
 
 &lt;p&gt;&lt;a name=&quot;pubType&quot;&gt;&lt;/a&gt;&lt;small&gt;tagProcessing.&lt;/small&gt;&lt;strong&gt;&lt;a href=&quot;/metaknowledge/docs/tagProcessing#pubType&quot;&gt;&lt;ins&gt;pubType&lt;/ins&gt;&lt;/a&gt;&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h6 id=&quot;the-pt-tag&quot;&gt;The PT Tag&lt;/h6&gt;
+&lt;p&gt;######The PT Tag&lt;/p&gt;
 
 &lt;p&gt;extracts the type of publication as a character: conference, book, journal, book in series, or patent&lt;/p&gt;
 
@@ -331,7 +329,7 @@
 
 &lt;p&gt;&lt;a name=&quot;authorsFull&quot;&gt;&lt;/a&gt;&lt;small&gt;tagProcessing.&lt;/small&gt;&lt;strong&gt;&lt;a href=&quot;/metaknowledge/docs/tagProcessing#authorsFull&quot;&gt;&lt;ins&gt;authorsFull&lt;/ins&gt;&lt;/a&gt;&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h6 id=&quot;the-af-tag&quot;&gt;The AF Tag&lt;/h6&gt;
+&lt;p&gt;######The AF Tag&lt;/p&gt;
 
 &lt;p&gt;extracts a list of authors full names&lt;/p&gt;
 
@@ -351,7 +349,7 @@
 
 &lt;p&gt;&lt;a name=&quot;group&quot;&gt;&lt;/a&gt;&lt;small&gt;tagProcessing.&lt;/small&gt;&lt;strong&gt;&lt;a href=&quot;/metaknowledge/docs/tagProcessing#group&quot;&gt;&lt;ins&gt;group&lt;/ins&gt;&lt;/a&gt;&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h6 id=&quot;the-gp-tag&quot;&gt;The GP Tag&lt;/h6&gt;
+&lt;p&gt;######The GP Tag&lt;/p&gt;
 
 &lt;p&gt;extracts the group associated with the Record&lt;/p&gt;
 
@@ -371,7 +369,7 @@
 
 &lt;p&gt;&lt;a name=&quot;editedBy&quot;&gt;&lt;/a&gt;&lt;small&gt;tagProcessing.&lt;/small&gt;&lt;strong&gt;&lt;a href=&quot;/metaknowledge/docs/tagProcessing#editedBy&quot;&gt;&lt;ins&gt;editedBy&lt;/ins&gt;&lt;/a&gt;&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h6 id=&quot;the-be-tag&quot;&gt;The BE Tag&lt;/h6&gt;
+&lt;p&gt;######The BE Tag&lt;/p&gt;
 
 &lt;p&gt;extracts a list of the editors of the Record&lt;/p&gt;
 
@@ -391,7 +389,7 @@
 
 &lt;p&gt;&lt;a name=&quot;authorsShort&quot;&gt;&lt;/a&gt;&lt;small&gt;tagProcessing.&lt;/small&gt;&lt;strong&gt;&lt;a href=&quot;/metaknowledge/docs/tagProcessing#authorsShort&quot;&gt;&lt;ins&gt;authorsShort&lt;/ins&gt;&lt;/a&gt;&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h6 id=&quot;the-au-tag&quot;&gt;The AU Tag&lt;/h6&gt;
+&lt;p&gt;######The AU Tag&lt;/p&gt;
 
 &lt;p&gt;extracts a list of authors shortened names&lt;/p&gt;
 
@@ -411,7 +409,7 @@
 
 &lt;p&gt;&lt;a name=&quot;bookAuthor&quot;&gt;&lt;/a&gt;&lt;small&gt;tagProcessing.&lt;/small&gt;&lt;strong&gt;&lt;a href=&quot;/metaknowledge/docs/tagProcessing#bookAuthor&quot;&gt;&lt;ins&gt;bookAuthor&lt;/ins&gt;&lt;/a&gt;&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h6 id=&quot;the-ba-tag&quot;&gt;The BA Tag&lt;/h6&gt;
+&lt;p&gt;######The BA Tag&lt;/p&gt;
 
 &lt;p&gt;extracts a list of the short names of the authors of a book Record&lt;/p&gt;
 
@@ -431,7 +429,7 @@
 
 &lt;p&gt;&lt;a name=&quot;bookAuthorFull&quot;&gt;&lt;/a&gt;&lt;small&gt;tagProcessing.&lt;/small&gt;&lt;strong&gt;&lt;a href=&quot;/metaknowledge/docs/tagProcessing#bookAuthorFull&quot;&gt;&lt;ins&gt;bookAuthorFull&lt;/ins&gt;&lt;/a&gt;&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h6 id=&quot;the-bf-tag&quot;&gt;The BF Tag&lt;/h6&gt;
+&lt;p&gt;######The BF Tag&lt;/p&gt;
 
 &lt;p&gt;extracts a list of the long names of the authors of a book Record&lt;/p&gt;
 
@@ -451,7 +449,7 @@
 
 &lt;p&gt;&lt;a name=&quot;groupName&quot;&gt;&lt;/a&gt;&lt;small&gt;tagProcessing.&lt;/small&gt;&lt;strong&gt;&lt;a href=&quot;/metaknowledge/docs/tagProcessing#groupName&quot;&gt;&lt;ins&gt;groupName&lt;/ins&gt;&lt;/a&gt;&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h6 id=&quot;the-ca-tag&quot;&gt;The CA Tag&lt;/h6&gt;
+&lt;p&gt;######The CA Tag&lt;/p&gt;
 
 &lt;p&gt;extracts the name of the group associated with the Record&lt;/p&gt;
 
@@ -479,7 +477,7 @@
 
 &lt;p&gt;&lt;a name=&quot;title&quot;&gt;&lt;/a&gt;&lt;small&gt;tagProcessing.&lt;/small&gt;&lt;strong&gt;&lt;a href=&quot;/metaknowledge/docs/tagProcessing#title&quot;&gt;&lt;ins&gt;title&lt;/ins&gt;&lt;/a&gt;&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h6 id=&quot;the-ti-tag&quot;&gt;The TI Tag&lt;/h6&gt;
+&lt;p&gt;######The TI Tag&lt;/p&gt;
 
 &lt;p&gt;extracts the title of the record&lt;/p&gt;
 
@@ -499,7 +497,7 @@
 
 &lt;p&gt;&lt;a name=&quot;journal&quot;&gt;&lt;/a&gt;&lt;small&gt;tagProcessing.&lt;/small&gt;&lt;strong&gt;&lt;a href=&quot;/metaknowledge/docs/tagProcessing#journal&quot;&gt;&lt;ins&gt;journal&lt;/ins&gt;&lt;/a&gt;&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h6 id=&quot;the-so-tag&quot;&gt;The SO Tag&lt;/h6&gt;
+&lt;p&gt;######The SO Tag&lt;/p&gt;
 
 &lt;p&gt;extracts the full name of the publication and normalizes it to uppercase&lt;/p&gt;
 
@@ -519,7 +517,7 @@
 
 &lt;p&gt;&lt;a name=&quot;seriesTitle&quot;&gt;&lt;/a&gt;&lt;small&gt;tagProcessing.&lt;/small&gt;&lt;strong&gt;&lt;a href=&quot;/metaknowledge/docs/tagProcessing#seriesTitle&quot;&gt;&lt;ins&gt;seriesTitle&lt;/ins&gt;&lt;/a&gt;&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h6 id=&quot;the-se-tag&quot;&gt;The SE Tag&lt;/h6&gt;
+&lt;p&gt;######The SE Tag&lt;/p&gt;
 
 &lt;p&gt;extracts the title of the series the Record is in&lt;/p&gt;
 
@@ -539,7 +537,7 @@
 
 &lt;p&gt;&lt;a name=&quot;seriesSubtitle&quot;&gt;&lt;/a&gt;&lt;small&gt;tagProcessing.&lt;/small&gt;&lt;strong&gt;&lt;a href=&quot;/metaknowledge/docs/tagProcessing#seriesSubtitle&quot;&gt;&lt;ins&gt;seriesSubtitle&lt;/ins&gt;&lt;/a&gt;&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h6 id=&quot;the-bs-tag&quot;&gt;The BS Tag&lt;/h6&gt;
+&lt;p&gt;######The BS Tag&lt;/p&gt;
 
 &lt;p&gt;extracts the title of the series the Record is in&lt;/p&gt;
 
@@ -559,7 +557,7 @@
 
 &lt;p&gt;&lt;a name=&quot;language&quot;&gt;&lt;/a&gt;&lt;small&gt;tagProcessing.&lt;/small&gt;&lt;strong&gt;&lt;a href=&quot;/metaknowledge/docs/tagProcessing#language&quot;&gt;&lt;ins&gt;language&lt;/ins&gt;&lt;/a&gt;&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h6 id=&quot;the-la-tag&quot;&gt;The LA Tag&lt;/h6&gt;
+&lt;p&gt;######The LA Tag&lt;/p&gt;
 
 &lt;p&gt;extracts the languages of the Record as a string with languages separated by ‘, ‘, usually there is only one language&lt;/p&gt;
 
@@ -579,7 +577,7 @@
 
 &lt;p&gt;&lt;a name=&quot;docType&quot;&gt;&lt;/a&gt;&lt;small&gt;tagProcessing.&lt;/small&gt;&lt;strong&gt;&lt;a href=&quot;/metaknowledge/docs/tagProcessing#docType&quot;&gt;&lt;ins&gt;docType&lt;/ins&gt;&lt;/a&gt;&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h6 id=&quot;the-dt-tag&quot;&gt;The DT Tag&lt;/h6&gt;
+&lt;p&gt;######The DT Tag&lt;/p&gt;
 
 &lt;p&gt;extracts the type of document the Record contains&lt;/p&gt;
 
@@ -599,7 +597,7 @@
 
 &lt;p&gt;&lt;a name=&quot;confTitle&quot;&gt;&lt;/a&gt;&lt;small&gt;tagProcessing.&lt;/small&gt;&lt;strong&gt;&lt;a href=&quot;/metaknowledge/docs/tagProcessing#confTitle&quot;&gt;&lt;ins&gt;confTitle&lt;/ins&gt;&lt;/a&gt;&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h6 id=&quot;the-ct-tag&quot;&gt;The CT Tag&lt;/h6&gt;
+&lt;p&gt;######The CT Tag&lt;/p&gt;
 
 &lt;p&gt;extracts the title of the conference associated with the Record&lt;/p&gt;
 
@@ -619,7 +617,7 @@
 
 &lt;p&gt;&lt;a name=&quot;confDate&quot;&gt;&lt;/a&gt;&lt;small&gt;tagProcessing.&lt;/small&gt;&lt;strong&gt;&lt;a href=&quot;/metaknowledge/docs/tagProcessing#confDate&quot;&gt;&lt;ins&gt;confDate&lt;/ins&gt;&lt;/a&gt;&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h6 id=&quot;the-cy-tag&quot;&gt;The CY Tag&lt;/h6&gt;
+&lt;p&gt;######The CY Tag&lt;/p&gt;
 
 &lt;p&gt;extracts the date string of the conference associated with the Record, the date is not normalized&lt;/p&gt;
 
@@ -639,7 +637,7 @@
 
 &lt;p&gt;&lt;a name=&quot;confHost&quot;&gt;&lt;/a&gt;&lt;small&gt;tagProcessing.&lt;/small&gt;&lt;strong&gt;&lt;a href=&quot;/metaknowledge/docs/tagProcessing#confHost&quot;&gt;&lt;ins&gt;confHost&lt;/ins&gt;&lt;/a&gt;&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h6 id=&quot;the-ho-tag&quot;&gt;The HO Tag&lt;/h6&gt;
+&lt;p&gt;######The HO Tag&lt;/p&gt;
 
 &lt;p&gt;extracts the host of the conference&lt;/p&gt;
 
@@ -659,7 +657,7 @@
 
 &lt;p&gt;&lt;a name=&quot;confLocation&quot;&gt;&lt;/a&gt;&lt;small&gt;tagProcessing.&lt;/small&gt;&lt;strong&gt;&lt;a href=&quot;/metaknowledge/docs/tagProcessing#confLocation&quot;&gt;&lt;ins&gt;confLocation&lt;/ins&gt;&lt;/a&gt;&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h6 id=&quot;the-cl-tag&quot;&gt;The CL Tag&lt;/h6&gt;
+&lt;p&gt;######The CL Tag&lt;/p&gt;
 
 &lt;p&gt;extracts the sting giving the conference’s location&lt;/p&gt;
 
@@ -679,7 +677,7 @@
 
 &lt;p&gt;&lt;a name=&quot;confSponsors&quot;&gt;&lt;/a&gt;&lt;small&gt;tagProcessing.&lt;/small&gt;&lt;strong&gt;&lt;a href=&quot;/metaknowledge/docs/tagProcessing#confSponsors&quot;&gt;&lt;ins&gt;confSponsors&lt;/ins&gt;&lt;/a&gt;&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h6 id=&quot;the-sp-tag&quot;&gt;The SP Tag&lt;/h6&gt;
+&lt;p&gt;######The SP Tag&lt;/p&gt;
 
 &lt;p&gt;extracts a list of sponsors for the conference associated with the record&lt;/p&gt;
 
@@ -699,7 +697,7 @@
 
 &lt;p&gt;&lt;a name=&quot;authKeyWords&quot;&gt;&lt;/a&gt;&lt;small&gt;tagProcessing.&lt;/small&gt;&lt;strong&gt;&lt;a href=&quot;/metaknowledge/docs/tagProcessing#authKeyWords&quot;&gt;&lt;ins&gt;authKeyWords&lt;/ins&gt;&lt;/a&gt;&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h6 id=&quot;the-de-tag&quot;&gt;The DE Tag&lt;/h6&gt;
+&lt;p&gt;######The DE Tag&lt;/p&gt;
 
 &lt;p&gt;extracts the keywords assigned by the author of the Record. The WOS description is:&lt;/p&gt;
 
@@ -722,7 +720,7 @@
 
 &lt;p&gt;&lt;a name=&quot;keyWords&quot;&gt;&lt;/a&gt;&lt;small&gt;tagProcessing.&lt;/small&gt;&lt;strong&gt;&lt;a href=&quot;/metaknowledge/docs/tagProcessing#keyWords&quot;&gt;&lt;ins&gt;keyWords&lt;/ins&gt;&lt;/a&gt;&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h6 id=&quot;the-id-tag&quot;&gt;The ID Tag&lt;/h6&gt;
+&lt;p&gt;######The ID Tag&lt;/p&gt;
 
 &lt;p&gt;extracts the WOS keywords of the Record. The WOS description is:&lt;/p&gt;
 
@@ -745,7 +743,7 @@
 
 &lt;p&gt;&lt;a name=&quot;abstract&quot;&gt;&lt;/a&gt;&lt;small&gt;tagProcessing.&lt;/small&gt;&lt;strong&gt;&lt;a href=&quot;/metaknowledge/docs/tagProcessing#abstract&quot;&gt;&lt;ins&gt;abstract&lt;/ins&gt;&lt;/a&gt;&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h6 id=&quot;the-ab-tag&quot;&gt;The AB Tag&lt;/h6&gt;
+&lt;p&gt;######The AB Tag&lt;/p&gt;
 
 &lt;p&gt;return abstract of the record, with newlines hopefully in the correct places&lt;/p&gt;
 
@@ -785,7 +783,7 @@
 
 &lt;p&gt;&lt;a name=&quot;reprintAddress&quot;&gt;&lt;/a&gt;&lt;small&gt;tagProcessing.&lt;/small&gt;&lt;strong&gt;&lt;a href=&quot;/metaknowledge/docs/tagProcessing#reprintAddress&quot;&gt;&lt;ins&gt;reprintAddress&lt;/ins&gt;&lt;/a&gt;&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h6 id=&quot;the-rp-tag&quot;&gt;The RP Tag&lt;/h6&gt;
+&lt;p&gt;######The RP Tag&lt;/p&gt;
 
 &lt;p&gt;extracts the reprint address string&lt;/p&gt;
 
@@ -805,7 +803,7 @@
 
 &lt;p&gt;&lt;a name=&quot;email&quot;&gt;&lt;/a&gt;&lt;small&gt;tagProcessing.&lt;/small&gt;&lt;strong&gt;&lt;a href=&quot;/metaknowledge/docs/tagProcessing#email&quot;&gt;&lt;ins&gt;email&lt;/ins&gt;&lt;/a&gt;&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h6 id=&quot;the-em-tag&quot;&gt;The EM Tag&lt;/h6&gt;
+&lt;p&gt;######The EM Tag&lt;/p&gt;
 
 &lt;p&gt;extracts a list of emails given by the authors of the Record&lt;/p&gt;
 
@@ -825,7 +823,7 @@
 
 &lt;p&gt;&lt;a name=&quot;ResearcherIDnumber&quot;&gt;&lt;/a&gt;&lt;small&gt;tagProcessing.&lt;/small&gt;&lt;strong&gt;&lt;a href=&quot;/metaknowledge/docs/tagProcessing#ResearcherIDnumber&quot;&gt;&lt;ins&gt;ResearcherIDnumber&lt;/ins&gt;&lt;/a&gt;&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h6 id=&quot;the-ri-tag&quot;&gt;The RI Tag&lt;/h6&gt;
+&lt;p&gt;######The RI Tag&lt;/p&gt;
 
 &lt;p&gt;extracts a list of the research IDs of the Record&lt;/p&gt;
 
@@ -845,7 +843,7 @@
 
 &lt;p&gt;&lt;a name=&quot;orcID&quot;&gt;&lt;/a&gt;&lt;small&gt;tagProcessing.&lt;/small&gt;&lt;strong&gt;&lt;a href=&quot;/metaknowledge/docs/tagProcessing#orcID&quot;&gt;&lt;ins&gt;orcID&lt;/ins&gt;&lt;/a&gt;&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h6 id=&quot;the-oi-tag&quot;&gt;The OI Tag&lt;/h6&gt;
+&lt;p&gt;######The OI Tag&lt;/p&gt;
 
 &lt;p&gt;extracts a list of orc IDs of the Record&lt;/p&gt;
 
@@ -865,7 +863,7 @@
 
 &lt;p&gt;&lt;a name=&quot;funding&quot;&gt;&lt;/a&gt;&lt;small&gt;tagProcessing.&lt;/small&gt;&lt;strong&gt;&lt;a href=&quot;/metaknowledge/docs/tagProcessing#funding&quot;&gt;&lt;ins&gt;funding&lt;/ins&gt;&lt;/a&gt;&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h6 id=&quot;the-fu-tag&quot;&gt;The FU Tag&lt;/h6&gt;
+&lt;p&gt;######The FU Tag&lt;/p&gt;
 
 &lt;p&gt;extracts a list of the groups funding the Record&lt;/p&gt;
 
@@ -885,7 +883,7 @@
 
 &lt;p&gt;&lt;a name=&quot;fundingText&quot;&gt;&lt;/a&gt;&lt;small&gt;tagProcessing.&lt;/small&gt;&lt;strong&gt;&lt;a href=&quot;/metaknowledge/docs/tagProcessing#fundingText&quot;&gt;&lt;ins&gt;fundingText&lt;/ins&gt;&lt;/a&gt;&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h6 id=&quot;the-fx-tag&quot;&gt;The FX Tag&lt;/h6&gt;
+&lt;p&gt;######The FX Tag&lt;/p&gt;
 
 &lt;p&gt;extracts a string of the funding thanks&lt;/p&gt;
 
@@ -905,7 +903,7 @@
 
 &lt;p&gt;&lt;a name=&quot;citations&quot;&gt;&lt;/a&gt;&lt;small&gt;tagProcessing.&lt;/small&gt;&lt;strong&gt;&lt;a href=&quot;/metaknowledge/docs/tagProcessing#citations&quot;&gt;&lt;ins&gt;citations&lt;/ins&gt;&lt;/a&gt;&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h6 id=&quot;the-cr-tag&quot;&gt;The CR Tag&lt;/h6&gt;
+&lt;p&gt;######The CR Tag&lt;/p&gt;
 
 &lt;p&gt;extracts a list of all the citations in the record, the citations are the &lt;a href=&quot;/metaknowledge/docs/tagProcessing#Citation&quot;&gt;metaknowledge.Citation&lt;/a&gt; class.&lt;/p&gt;
 
@@ -925,7 +923,7 @@
 
 &lt;p&gt;&lt;a name=&quot;citedRefsCount&quot;&gt;&lt;/a&gt;&lt;small&gt;tagProcessing.&lt;/small&gt;&lt;strong&gt;&lt;a href=&quot;/metaknowledge/docs/tagProcessing#citedRefsCount&quot;&gt;&lt;ins&gt;citedRefsCount&lt;/ins&gt;&lt;/a&gt;&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h6 id=&quot;the-nr-tag&quot;&gt;The NR Tag&lt;/h6&gt;
+&lt;p&gt;######The NR Tag&lt;/p&gt;
 
 &lt;p&gt;extracts the number citations, length of CR list&lt;/p&gt;
 
@@ -945,7 +943,7 @@
 
 &lt;p&gt;&lt;a name=&quot;wosTimesCited&quot;&gt;&lt;/a&gt;&lt;small&gt;tagProcessing.&lt;/small&gt;&lt;strong&gt;&lt;a href=&quot;/metaknowledge/docs/tagProcessing#wosTimesCited&quot;&gt;&lt;ins&gt;wosTimesCited&lt;/ins&gt;&lt;/a&gt;&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h6 id=&quot;the-tc-tag&quot;&gt;The TC Tag&lt;/h6&gt;
+&lt;p&gt;######The TC Tag&lt;/p&gt;
 
 &lt;p&gt;extracts the number of times the Record has been cited by records in WOS&lt;/p&gt;
 
@@ -965,7 +963,7 @@
 
 &lt;p&gt;&lt;a name=&quot;totalTimesCited&quot;&gt;&lt;/a&gt;&lt;small&gt;tagProcessing.&lt;/small&gt;&lt;strong&gt;&lt;a href=&quot;/metaknowledge/docs/tagProcessing#totalTimesCited&quot;&gt;&lt;ins&gt;totalTimesCited&lt;/ins&gt;&lt;/a&gt;&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h6 id=&quot;the-z9-tag&quot;&gt;The Z9 Tag&lt;/h6&gt;
+&lt;p&gt;######The Z9 Tag&lt;/p&gt;
 
 &lt;p&gt;extracts the total number of citations of the record&lt;/p&gt;
 
@@ -985,7 +983,7 @@
 
 &lt;p&gt;&lt;a name=&quot;publisher&quot;&gt;&lt;/a&gt;&lt;small&gt;tagProcessing.&lt;/small&gt;&lt;strong&gt;&lt;a href=&quot;/metaknowledge/docs/tagProcessing#publisher&quot;&gt;&lt;ins&gt;publisher&lt;/ins&gt;&lt;/a&gt;&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h6 id=&quot;the-pu-tag&quot;&gt;The PU Tag&lt;/h6&gt;
+&lt;p&gt;######The PU Tag&lt;/p&gt;
 
 &lt;p&gt;extracts the publisher of the Record&lt;/p&gt;
 
@@ -1005,7 +1003,7 @@
 
 &lt;p&gt;&lt;a name=&quot;publisherCity&quot;&gt;&lt;/a&gt;&lt;small&gt;tagProcessing.&lt;/small&gt;&lt;strong&gt;&lt;a href=&quot;/metaknowledge/docs/tagProcessing#publisherCity&quot;&gt;&lt;ins&gt;publisherCity&lt;/ins&gt;&lt;/a&gt;&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h6 id=&quot;the-pi-tag&quot;&gt;The PI Tag&lt;/h6&gt;
+&lt;p&gt;######The PI Tag&lt;/p&gt;
 
 &lt;p&gt;extracts the city the publisher is in&lt;/p&gt;
 
@@ -1025,7 +1023,7 @@
 
 &lt;p&gt;&lt;a name=&quot;publisherAddress&quot;&gt;&lt;/a&gt;&lt;small&gt;tagProcessing.&lt;/small&gt;&lt;strong&gt;&lt;a href=&quot;/metaknowledge/docs/tagProcessing#publisherAddress&quot;&gt;&lt;ins&gt;publisherAddress&lt;/ins&gt;&lt;/a&gt;&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h6 id=&quot;the-pa-tag&quot;&gt;The PA Tag&lt;/h6&gt;
+&lt;p&gt;######The PA Tag&lt;/p&gt;
 
 &lt;p&gt;extracts the publishers address&lt;/p&gt;
 
@@ -1045,7 +1043,7 @@
 
 &lt;p&gt;&lt;a name=&quot;subjectCategory&quot;&gt;&lt;/a&gt;&lt;small&gt;tagProcessing.&lt;/small&gt;&lt;strong&gt;&lt;a href=&quot;/metaknowledge/docs/tagProcessing#subjectCategory&quot;&gt;&lt;ins&gt;subjectCategory&lt;/ins&gt;&lt;/a&gt;&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h6 id=&quot;the-sc-tag&quot;&gt;The SC Tag&lt;/h6&gt;
+&lt;p&gt;######The SC Tag&lt;/p&gt;
 
 &lt;p&gt;extracts a list of the subjects associated with the Record&lt;/p&gt;
 
@@ -1065,7 +1063,7 @@
 
 &lt;p&gt;&lt;a name=&quot;ISSN&quot;&gt;&lt;/a&gt;&lt;small&gt;tagProcessing.&lt;/small&gt;&lt;strong&gt;&lt;a href=&quot;/metaknowledge/docs/tagProcessing#ISSN&quot;&gt;&lt;ins&gt;ISSN&lt;/ins&gt;&lt;/a&gt;&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h6 id=&quot;the-sn-tag&quot;&gt;The SN Tag&lt;/h6&gt;
+&lt;p&gt;######The SN Tag&lt;/p&gt;
 
 &lt;p&gt;extracts the ISSN of the Record&lt;/p&gt;
 
@@ -1085,7 +1083,7 @@
 
 &lt;p&gt;&lt;a name=&quot;eISSN&quot;&gt;&lt;/a&gt;&lt;small&gt;tagProcessing.&lt;/small&gt;&lt;strong&gt;&lt;a href=&quot;/metaknowledge/docs/tagProcessing#eISSN&quot;&gt;&lt;ins&gt;eISSN&lt;/ins&gt;&lt;/a&gt;&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h6 id=&quot;the-ei-tag&quot;&gt;The EI Tag&lt;/h6&gt;
+&lt;p&gt;######The EI Tag&lt;/p&gt;
 
 &lt;p&gt;extracts the EISSN of the Record&lt;/p&gt;
 
@@ -1105,7 +1103,7 @@
 
 &lt;p&gt;&lt;a name=&quot;ISBN&quot;&gt;&lt;/a&gt;&lt;small&gt;tagProcessing.&lt;/small&gt;&lt;strong&gt;&lt;a href=&quot;/metaknowledge/docs/tagProcessing#ISBN&quot;&gt;&lt;ins&gt;ISBN&lt;/ins&gt;&lt;/a&gt;&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h6 id=&quot;the-bn-tag&quot;&gt;The BN Tag&lt;/h6&gt;
+&lt;p&gt;######The BN Tag&lt;/p&gt;
 
 &lt;p&gt;extracts a list of ISBNs associated with the Record&lt;/p&gt;
 
@@ -1125,7 +1123,7 @@
 
 &lt;p&gt;&lt;a name=&quot;j9&quot;&gt;&lt;/a&gt;&lt;small&gt;tagProcessing.&lt;/small&gt;&lt;strong&gt;&lt;a href=&quot;/metaknowledge/docs/tagProcessing#j9&quot;&gt;&lt;ins&gt;j9&lt;/ins&gt;&lt;/a&gt;&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h6 id=&quot;the-j9-tag&quot;&gt;The J9 Tag&lt;/h6&gt;
+&lt;p&gt;######The J9 Tag&lt;/p&gt;
 
 &lt;p&gt;extracts the J9 (29-Character Source Abbreviation) of the publication&lt;/p&gt;
 
@@ -1145,7 +1143,7 @@
 
 &lt;p&gt;&lt;a name=&quot;isoAbbreviation&quot;&gt;&lt;/a&gt;&lt;small&gt;tagProcessing.&lt;/small&gt;&lt;strong&gt;&lt;a href=&quot;/metaknowledge/docs/tagProcessing#isoAbbreviation&quot;&gt;&lt;ins&gt;isoAbbreviation&lt;/ins&gt;&lt;/a&gt;&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h6 id=&quot;the-ji-tag&quot;&gt;The JI Tag&lt;/h6&gt;
+&lt;p&gt;######The JI Tag&lt;/p&gt;
 
 &lt;p&gt;extracts the iso abbreviation of the journal&lt;/p&gt;
 
@@ -1165,7 +1163,7 @@
 
 &lt;p&gt;&lt;a name=&quot;month&quot;&gt;&lt;/a&gt;&lt;small&gt;tagProcessing.&lt;/small&gt;&lt;strong&gt;&lt;a href=&quot;/metaknowledge/docs/tagProcessing#month&quot;&gt;&lt;ins&gt;month&lt;/ins&gt;&lt;/a&gt;&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h6 id=&quot;the-pd-tag&quot;&gt;The PD Tag&lt;/h6&gt;
+&lt;p&gt;######The PD Tag&lt;/p&gt;
 
 &lt;p&gt;extracts the month the record was published in as an int with January as 1, February 2, …&lt;/p&gt;
 
@@ -1185,7 +1183,7 @@
 
 &lt;p&gt;&lt;a name=&quot;year&quot;&gt;&lt;/a&gt;&lt;small&gt;tagProcessing.&lt;/small&gt;&lt;strong&gt;&lt;a href=&quot;/metaknowledge/docs/tagProcessing#year&quot;&gt;&lt;ins&gt;year&lt;/ins&gt;&lt;/a&gt;&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h6 id=&quot;the-py-tag&quot;&gt;The PY Tag&lt;/h6&gt;
+&lt;p&gt;######The PY Tag&lt;/p&gt;
 
 &lt;p&gt;extracts the year the record was published in as an int&lt;/p&gt;
 
@@ -1205,7 +1203,7 @@
 
 &lt;p&gt;&lt;a name=&quot;volume&quot;&gt;&lt;/a&gt;&lt;small&gt;tagProcessing.&lt;/small&gt;&lt;strong&gt;&lt;a href=&quot;/metaknowledge/docs/tagProcessing#volume&quot;&gt;&lt;ins&gt;volume&lt;/ins&gt;&lt;/a&gt;&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h6 id=&quot;the-vl-tag&quot;&gt;The VL Tag&lt;/h6&gt;
+&lt;p&gt;######The VL Tag&lt;/p&gt;
 
 &lt;p&gt;return the volume the record is in as a string, not all are integers&lt;/p&gt;
 
@@ -1225,7 +1223,7 @@
 
 &lt;p&gt;&lt;a name=&quot;issue&quot;&gt;&lt;/a&gt;&lt;small&gt;tagProcessing.&lt;/small&gt;&lt;strong&gt;&lt;a href=&quot;/metaknowledge/docs/tagProcessing#issue&quot;&gt;&lt;ins&gt;issue&lt;/ins&gt;&lt;/a&gt;&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h6 id=&quot;the-is-tag&quot;&gt;The IS Tag&lt;/h6&gt;
+&lt;p&gt;######The IS Tag&lt;/p&gt;
 
 &lt;p&gt;extracts a string giving the issue or range of issues the Record was in, not all are integers&lt;/p&gt;
 
@@ -1245,7 +1243,7 @@
 
 &lt;p&gt;&lt;a name=&quot;partNumber&quot;&gt;&lt;/a&gt;&lt;small&gt;tagProcessing.&lt;/small&gt;&lt;strong&gt;&lt;a href=&quot;/metaknowledge/docs/tagProcessing#partNumber&quot;&gt;&lt;ins&gt;partNumber&lt;/ins&gt;&lt;/a&gt;&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h6 id=&quot;the-pn-tag&quot;&gt;The PN Tag&lt;/h6&gt;
+&lt;p&gt;######The PN Tag&lt;/p&gt;
 
 &lt;p&gt;return an integer giving the part of the issue the Record is in&lt;/p&gt;
 
@@ -1265,7 +1263,7 @@
 
 &lt;p&gt;&lt;a name=&quot;supplement&quot;&gt;&lt;/a&gt;&lt;small&gt;tagProcessing.&lt;/small&gt;&lt;strong&gt;&lt;a href=&quot;/metaknowledge/docs/tagProcessing#supplement&quot;&gt;&lt;ins&gt;supplement&lt;/ins&gt;&lt;/a&gt;&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h6 id=&quot;the-su-tag&quot;&gt;The SU Tag&lt;/h6&gt;
+&lt;p&gt;######The SU Tag&lt;/p&gt;
 
 &lt;p&gt;extracts the supplement number&lt;/p&gt;
 
@@ -1285,7 +1283,7 @@
 
 &lt;p&gt;&lt;a name=&quot;specialIssue&quot;&gt;&lt;/a&gt;&lt;small&gt;tagProcessing.&lt;/small&gt;&lt;strong&gt;&lt;a href=&quot;/metaknowledge/docs/tagProcessing#specialIssue&quot;&gt;&lt;ins&gt;specialIssue&lt;/ins&gt;&lt;/a&gt;&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h6 id=&quot;the-si-tag&quot;&gt;The SI Tag&lt;/h6&gt;
+&lt;p&gt;######The SI Tag&lt;/p&gt;
 
 &lt;p&gt;extracts the special issue value&lt;/p&gt;
 
@@ -1305,7 +1303,7 @@
 
 &lt;p&gt;&lt;a name=&quot;meetingAbstract&quot;&gt;&lt;/a&gt;&lt;small&gt;tagProcessing.&lt;/small&gt;&lt;strong&gt;&lt;a href=&quot;/metaknowledge/docs/tagProcessing#meetingAbstract&quot;&gt;&lt;ins&gt;meetingAbstract&lt;/ins&gt;&lt;/a&gt;&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h6 id=&quot;the-ma-tag&quot;&gt;The MA Tag&lt;/h6&gt;
+&lt;p&gt;######The MA Tag&lt;/p&gt;
 
 &lt;p&gt;extracts the ID of the meeting abstract prefixed by ‘EPA-‘&lt;/p&gt;
 
@@ -1325,7 +1323,7 @@
 
 &lt;p&gt;&lt;a name=&quot;beginningPage&quot;&gt;&lt;/a&gt;&lt;small&gt;tagProcessing.&lt;/small&gt;&lt;strong&gt;&lt;a href=&quot;/metaknowledge/docs/tagProcessing#beginningPage&quot;&gt;&lt;ins&gt;beginningPage&lt;/ins&gt;&lt;/a&gt;&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h6 id=&quot;the-bp-tag&quot;&gt;The BP Tag&lt;/h6&gt;
+&lt;p&gt;######The BP Tag&lt;/p&gt;
 
 &lt;p&gt;extracts the first page the record occurs on, not all are integers&lt;/p&gt;
 
@@ -1345,7 +1343,7 @@
 
 &lt;p&gt;&lt;a name=&quot;endingPage&quot;&gt;&lt;/a&gt;&lt;small&gt;tagProcessing.&lt;/small&gt;&lt;strong&gt;&lt;a href=&quot;/metaknowledge/docs/tagProcessing#endingPage&quot;&gt;&lt;ins&gt;endingPage&lt;/ins&gt;&lt;/a&gt;&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h6 id=&quot;the-ep-tag&quot;&gt;The EP Tag&lt;/h6&gt;
+&lt;p&gt;######The EP Tag&lt;/p&gt;
 
 &lt;p&gt;return the last page the record occurs on as a string, not aall are intergers&lt;/p&gt;
 
@@ -1365,7 +1363,7 @@
 
 &lt;p&gt;&lt;a name=&quot;articleNumber&quot;&gt;&lt;/a&gt;&lt;small&gt;tagProcessing.&lt;/small&gt;&lt;strong&gt;&lt;a href=&quot;/metaknowledge/docs/tagProcessing#articleNumber&quot;&gt;&lt;ins&gt;articleNumber&lt;/ins&gt;&lt;/a&gt;&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h6 id=&quot;the-ar-tag&quot;&gt;The AR Tag&lt;/h6&gt;
+&lt;p&gt;######The AR Tag&lt;/p&gt;
 
 &lt;p&gt;extracts a string giving the article number, not all are integers&lt;/p&gt;
 
@@ -1385,7 +1383,7 @@
 
 &lt;p&gt;&lt;a name=&quot;pageCount&quot;&gt;&lt;/a&gt;&lt;small&gt;tagProcessing.&lt;/small&gt;&lt;strong&gt;&lt;a href=&quot;/metaknowledge/docs/tagProcessing#pageCount&quot;&gt;&lt;ins&gt;pageCount&lt;/ins&gt;&lt;/a&gt;&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h6 id=&quot;the-pg-tag&quot;&gt;The PG Tag&lt;/h6&gt;
+&lt;p&gt;######The PG Tag&lt;/p&gt;
 
 &lt;p&gt;returns an integer giving the number of pages of the Record&lt;/p&gt;
 
@@ -1405,7 +1403,7 @@
 
 &lt;p&gt;&lt;a name=&quot;subjects&quot;&gt;&lt;/a&gt;&lt;small&gt;tagProcessing.&lt;/small&gt;&lt;strong&gt;&lt;a href=&quot;/metaknowledge/docs/tagProcessing#subjects&quot;&gt;&lt;ins&gt;subjects&lt;/ins&gt;&lt;/a&gt;&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h6 id=&quot;the-wc-tag&quot;&gt;The WC Tag&lt;/h6&gt;
+&lt;p&gt;######The WC Tag&lt;/p&gt;
 
 &lt;p&gt;extracts a list of subjects as assigned by WOS&lt;/p&gt;
 
@@ -1425,7 +1423,7 @@
 
 &lt;p&gt;&lt;a name=&quot;DOI&quot;&gt;&lt;/a&gt;&lt;small&gt;tagProcessing.&lt;/small&gt;&lt;strong&gt;&lt;a href=&quot;/metaknowledge/docs/tagProcessing#DOI&quot;&gt;&lt;ins&gt;DOI&lt;/ins&gt;&lt;/a&gt;&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h6 id=&quot;the-di-tag&quot;&gt;The DI Tag&lt;/h6&gt;
+&lt;p&gt;######The DI Tag&lt;/p&gt;
 
 &lt;p&gt;return the DOI number of the record&lt;/p&gt;
 
@@ -1445,7 +1443,7 @@
 
 &lt;p&gt;&lt;a name=&quot;bookDOI&quot;&gt;&lt;/a&gt;&lt;small&gt;tagProcessing.&lt;/small&gt;&lt;strong&gt;&lt;a href=&quot;/metaknowledge/docs/tagProcessing#bookDOI&quot;&gt;&lt;ins&gt;bookDOI&lt;/ins&gt;&lt;/a&gt;&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h6 id=&quot;the-d2-tag&quot;&gt;The D2 Tag&lt;/h6&gt;
+&lt;p&gt;######The D2 Tag&lt;/p&gt;
 
 &lt;p&gt;extracts the book DOI of the Record&lt;/p&gt;
 
@@ -1465,7 +1463,7 @@
 
 &lt;p&gt;&lt;a name=&quot;documentDeliveryNumber&quot;&gt;&lt;/a&gt;&lt;small&gt;tagProcessing.&lt;/small&gt;&lt;strong&gt;&lt;a href=&quot;/metaknowledge/docs/tagProcessing#documentDeliveryNumber&quot;&gt;&lt;ins&gt;documentDeliveryNumber&lt;/ins&gt;&lt;/a&gt;&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h6 id=&quot;the-ga-tag&quot;&gt;The GA Tag&lt;/h6&gt;
+&lt;p&gt;######The GA Tag&lt;/p&gt;
 
 &lt;p&gt;extracts the document delivery number of the Record&lt;/p&gt;
 
@@ -1485,7 +1483,7 @@
 
 &lt;p&gt;&lt;a name=&quot;wosString&quot;&gt;&lt;/a&gt;&lt;small&gt;tagProcessing.&lt;/small&gt;&lt;strong&gt;&lt;a href=&quot;/metaknowledge/docs/tagProcessing#wosString&quot;&gt;&lt;ins&gt;wosString&lt;/ins&gt;&lt;/a&gt;&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h6 id=&quot;the-ut-tag&quot;&gt;The UT Tag&lt;/h6&gt;
+&lt;p&gt;######The UT Tag&lt;/p&gt;
 
 &lt;p&gt;extracts the WOS number of the record as a string preceded by “WOS:”&lt;/p&gt;
 
@@ -1505,7 +1503,7 @@
 
 &lt;p&gt;&lt;a name=&quot;pubMedID&quot;&gt;&lt;/a&gt;&lt;small&gt;tagProcessing.&lt;/small&gt;&lt;strong&gt;&lt;a href=&quot;/metaknowledge/docs/tagProcessing#pubMedID&quot;&gt;&lt;ins&gt;pubMedID&lt;/ins&gt;&lt;/a&gt;&lt;/strong&gt;(&lt;em&gt;val&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h6 id=&quot;the-pm-tag&quot;&gt;The PM Tag&lt;/h6&gt;
+&lt;p&gt;######The PM Tag&lt;/p&gt;
 
 &lt;p&gt;extracts the pubmed ID of the record&lt;/p&gt;
 
@@ -1541,8 +1539,6 @@
   </content>
 </entry>
 
-
-  
 
 <entry>
   <title type="html"><![CDATA[Overview]]></title>
@@ -1608,8 +1604,6 @@ Done making a co-citation network of files-from-records                 1.1s
   </content>
 </entry>
 
-
-  
 
 <entry>
   <title type="html"><![CDATA[Base Functions]]></title>
@@ -2230,8 +2224,6 @@ The functions provided by metaknowledge are:&lt;/p&gt;
 </entry>
 
 
-  
-
 <entry>
   <title type="html"><![CDATA[journalAbbreviations]]></title>
   <link rel="alternate" type="text/html" href="http://networkslab.org/docs/journalAbbreviations" />
@@ -2351,8 +2343,6 @@ The functions provided by metaknowledge are:&lt;/p&gt;
 </entry>
 
 
-  
-
 <entry>
   <title type="html"><![CDATA[contour]]></title>
   <link rel="alternate" type="text/html" href="http://networkslab.org/docs/contour" />
@@ -2461,8 +2451,6 @@ The functions provided by metaknowledge are:&lt;/p&gt;
   </content>
 </entry>
 
-
-  
 
 <entry>
   <title type="html"><![CDATA[RecordCollection]]></title>
@@ -3201,8 +3189,6 @@ The other options are:&lt;/p&gt;
 </entry>
 
 
-  
-
 <entry>
   <title type="html"><![CDATA[Record]]></title>
   <link rel="alternate" type="text/html" href="http://networkslab.org/docs/Record" />
@@ -3455,8 +3441,6 @@ The other options are:&lt;/p&gt;
   </content>
 </entry>
 
-
-  
 
 <entry>
   <title type="html"><![CDATA[Citation]]></title>

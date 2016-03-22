@@ -9,7 +9,6 @@
 
 
 
-  
 
 <!-- Twitter Cards -->
 <meta name="twitter:title" content="Full Documentation">
@@ -25,7 +24,7 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="Full Documentation">
 
-<meta property="og:url" content="/metaknowledge/documentation/metaknowledgeFull.html">
+<meta property="og:url" content="/metaknowledge/documentation/metaknowledgeFull">
 <meta property="og:site_name" content="metaknowledge">
 
 
@@ -33,7 +32,7 @@
 
 
 
-<link rel="canonical" href="/metaknowledge/documentation/metaknowledgeFull.html">
+<link rel="canonical" href="/metaknowledge/documentation/metaknowledgeFull">
 <link href="/metaknowledge/feed.xml" type="application/atom+xml" rel="alternate" title="metaknowledge Feed">
 
 <!-- https://t.co/dKP3o1e -->
@@ -85,42 +84,26 @@
 	    <ul>
       
 		    
-		        
-		    
 		    <li><a href="/metaknowledge/" >Home</a></li>
 		  
-		    
-		        
 		    
 		    <li><a href="/metaknowledge/documentation/#Installing" >install</a></li>
 		  
 		    
-		        
-		    
 		    <li><a href="/metaknowledge/documentation" >Documentation</a></li>
 		  
-		    
-		        
 		    
 		    <li><a href="/metaknowledge/examples" >Examples</a></li>
 		  
 		    
-		        
-		    
 		    <li><a href="/metaknowledge/cli" >CLI</a></li>
 		  
 		    
-		        
-		        
 		    <li><a href="https://github.com/networks-lab/metaknowledge" target="_blank">GitHub</a></li>
 		  
 		    
-		        
-		        
 		    <li><a href="http://www.networkslab.org" target="_blank">NetworksLab</a></li>
 		  
-		    
-		        
 		    
 		    <li><a href="/metaknowledge/search" >Search</a></li>
 		  
@@ -136,7 +119,7 @@
   		<a href="/metaknowledge/" class="site-logo" rel="home" title="metaknowledge"><img src="/metaknowledge/images/site-logo.png" width="200" height="200" alt="metaknowledge logo" class="animated fadeInDown"></a>
       
       <h1 class="site-title animated fadeIn"><a href="/metaknowledge/">metaknowledge</a></h1>
-		<h2 class="site-description animated fadeIn" itemprop="description">A Python3 Library for Bibliometric and Sociology of Knowledge Research.</h2>
+		<h2 class="site-description animated fadeIn" itemprop="description">A Python3 package for social networks and bibliometric research on knowledge</h2>
 	</div>
 </header><!-- /.masthead -->
 
@@ -349,7 +332,7 @@ The functions provided by metaknowledge are:</p>
 </ul>
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="filterNonJournals"></a><small></small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#filterNonJournals"><ins>filterNonJournals</ins></a></strong>(<em>citesLst, invert=False</em>):</p>
+<p><a name="filterNonJournals"></a><small></small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#filterNonJournals"><ins>filterNonJournals</ins></a></strong>(<em>citesLst, invert=False</em>):</p>
 
 <p>Removes the <code>Citations</code> from <em>citesLst</em> that are not journals</p>
 
@@ -371,9 +354,9 @@ The functions provided by metaknowledge are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="diffusionGraph"></a><small></small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#diffusionGraph"><ins>diffusionGraph</ins></a></strong>(<em>source, target, weighted=True, sourceType=’raw’, targetType=’raw’, labelEdgesBy=None</em>):</p>
+<p><a name="diffusionGraph"></a><small></small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#diffusionGraph"><ins>diffusionGraph</ins></a></strong>(<em>source, target, weighted=True, sourceType=’raw’, targetType=’raw’, labelEdgesBy=None</em>):</p>
 
-<p>Takes in two <a href="/metaknowledge/documentation/metaknowledgeFull.html#RecordCollection"><code>RecordCollections</code></a> and produces a graph of the citations of <em>source</em> by the <a href="/metaknowledge/documentation/metaknowledgeFull.html#Record"><code>Records</code></a> in <em>target</em>. By default the nodes in the are <code>Record</code> objects but this can be changed with the <em>sourceType</em> and <em>targetType</em> keywords. The edges of the graph go from the target to the source.</p>
+<p>Takes in two <a href="/metaknowledge/documentation/metaknowledgeFull#RecordCollection"><code>RecordCollections</code></a> and produces a graph of the citations of <em>source</em> by the <a href="/metaknowledge/documentation/metaknowledgeFull#Record"><code>Records</code></a> in <em>target</em>. By default the nodes in the are <code>Record</code> objects but this can be changed with the <em>sourceType</em> and <em>targetType</em> keywords. The edges of the graph go from the target to the source.</p>
 
 <p>Each node on the output graph has two boolean attributes, <code>"source"</code> and <code>"target"</code> indicating if they are targets or sources. Note, if the types of the sources and targets are different the attributes will not be checked for overlap of the other type. e.g. if the source type is <code>'TI'</code> (title) and the target type is <code>'UT'</code> (WOS number), and there is some overlap of the targets and sources. Then the Record corresponding to a source node will not be checked for being one of the titles of the targets, only its WOS number will be considered.</p>
 
@@ -417,9 +400,9 @@ The functions provided by metaknowledge are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="diffusionCount"></a><small></small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#diffusionCount"><ins>diffusionCount</ins></a></strong>(<em>source, target, sourceType=’raw’, pandasFriendly=False, compareCounts=False, numAuthors=True, byYear=False</em>):</p>
+<p><a name="diffusionCount"></a><small></small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#diffusionCount"><ins>diffusionCount</ins></a></strong>(<em>source, target, sourceType=’raw’, pandasFriendly=False, compareCounts=False, numAuthors=True, byYear=False</em>):</p>
 
-<p>Takes in two <a href="/metaknowledge/documentation/metaknowledgeFull.html#RecordCollection"><code>RecordCollections</code></a> and produces a <code>dict</code> counting the citations of <em>source</em> by the <a href="/metaknowledge/documentation/metaknowledgeFull.html#Record"><code>Records</code></a> of <em>target</em>. By default the <code>dict</code> uses <code>Record</code> objects as keys but this can be changed with the <em>sourceType</em> keyword to any of the WOS tags.</p>
+<p>Takes in two <a href="/metaknowledge/documentation/metaknowledgeFull#RecordCollection"><code>RecordCollections</code></a> and produces a <code>dict</code> counting the citations of <em>source</em> by the <a href="/metaknowledge/documentation/metaknowledgeFull#Record"><code>Records</code></a> of <em>target</em>. By default the <code>dict</code> uses <code>Record</code> objects as keys but this can be changed with the <em>sourceType</em> keyword to any of the WOS tags.</p>
 
 <h6 id="parameters-2">Parameters</h6>
 
@@ -459,11 +442,11 @@ The functions provided by metaknowledge are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="readGraph"></a><small></small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#readGraph"><ins>readGraph</ins></a></strong>(<em>edgeList, nodeList=None, directed=False, idKey=’ID’, eSource=’From’, eDest=’To’</em>):</p>
+<p><a name="readGraph"></a><small></small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#readGraph"><ins>readGraph</ins></a></strong>(<em>edgeList, nodeList=None, directed=False, idKey=’ID’, eSource=’From’, eDest=’To’</em>):</p>
 
 <p>Reads the files given by <em>edgeList</em> and <em>nodeList</em> and creates a networkx graph for the files.</p>
 
-<p>This is designed only for the files produced by metaknowledge and is meant to be the reverse of <a href="/metaknowledge/documentation/metaknowledgeFull.html#writeGraph">writeGraph()</a>, if this does not produce the desired results the networkx builtin <a href="https://networkx.github.io/documentation/networkx-1.10/reference/generated/networkx.readwrite.edgelist.read_edgelist.html">networkx.read_edgelist()</a> could be tried as it is aimed at a more general usage.</p>
+<p>This is designed only for the files produced by metaknowledge and is meant to be the reverse of <a href="/metaknowledge/documentation/metaknowledgeFull#writeGraph">writeGraph()</a>, if this does not produce the desired results the networkx builtin <a href="https://networkx.github.io/documentation/networkx-1.10/reference/generated/networkx.readwrite.edgelist.read_edgelist.html">networkx.read_edgelist()</a> could be tried as it is aimed at a more general usage.</p>
 
 <p>The read edge list format assumes the column named <em>eSource</em> (default <code>'From'</code>) is the source node, then the column <em>eDest</em> (default <code>'To'</code>) givens the destination and all other columns are attributes of the edges, e.g. weight.</p>
 
@@ -507,7 +490,7 @@ The functions provided by metaknowledge are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="writeEdgeList"></a><small></small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#writeEdgeList"><ins>writeEdgeList</ins></a></strong>(<em>grph, name, extraInfo=True, allSameAttribute=False</em>):</p>
+<p><a name="writeEdgeList"></a><small></small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#writeEdgeList"><ins>writeEdgeList</ins></a></strong>(<em>grph, name, extraInfo=True, allSameAttribute=False</em>):</p>
 
 <p>Writes an edge list of <em>grph</em> at the destination <em>name</em>.</p>
 
@@ -535,7 +518,7 @@ The functions provided by metaknowledge are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="writeNodeAttributeFile"></a><small></small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#writeNodeAttributeFile"><ins>writeNodeAttributeFile</ins></a></strong>(<em>grph, name, allSameAttribute=False</em>):</p>
+<p><a name="writeNodeAttributeFile"></a><small></small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#writeNodeAttributeFile"><ins>writeNodeAttributeFile</ins></a></strong>(<em>grph, name, allSameAttribute=False</em>):</p>
 
 <p>Writes a node attribute list of <em>grph</em> to the file given by the path <em>name</em>.</p>
 
@@ -559,7 +542,7 @@ The functions provided by metaknowledge are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="dropEdges"></a><small></small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#dropEdges"><ins>dropEdges</ins></a></strong>(<em>grph, minWeight=-inf, maxWeight=inf, parameterName=’weight’, ignoreUnweighted=False, dropSelfLoops=False</em>):</p>
+<p><a name="dropEdges"></a><small></small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#dropEdges"><ins>dropEdges</ins></a></strong>(<em>grph, minWeight=-inf, maxWeight=inf, parameterName=’weight’, ignoreUnweighted=False, dropSelfLoops=False</em>):</p>
 
 <p>Modifies <em>grph</em> by dropping edges whose weight is not within the inclusive bounds of <em>minWeight</em> and <em>maxWeight</em>, i.e after running <em>grph</em> will only have edges whose weights meet the following inequality: <em>minWeight</em> &lt;= edge’s weight &lt;= <em>maxWeight</em>. A <code>Keyerror</code> will be raised if the graph is unweighted unless <em>ignoreUnweighted</em> is <code>True</code>, the weight is determined by examining the attribute <em>parameterName</em>.</p>
 
@@ -593,7 +576,7 @@ The functions provided by metaknowledge are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="dropNodesByDegree"></a><small></small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#dropNodesByDegree"><ins>dropNodesByDegree</ins></a></strong>(<em>grph, minDegree=-inf, maxDegree=inf, useWeight=True, parameterName=’weight’, includeUnweighted=True</em>):</p>
+<p><a name="dropNodesByDegree"></a><small></small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#dropNodesByDegree"><ins>dropNodesByDegree</ins></a></strong>(<em>grph, minDegree=-inf, maxDegree=inf, useWeight=True, parameterName=’weight’, includeUnweighted=True</em>):</p>
 
 <p>Modifies <em>grph</em> by dropping nodes that do not have a degree that is within inclusive bounds of <em>minDegree</em> and <em>maxDegree</em>, i.e after running <em>grph</em> will only have nodes whose degrees meet the following inequality: <em>minDegree</em> &lt;= node’s degree &lt;= <em>maxDegree</em>.</p>
 
@@ -627,7 +610,7 @@ The functions provided by metaknowledge are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="dropNodesByCount"></a><small></small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#dropNodesByCount"><ins>dropNodesByCount</ins></a></strong>(<em>grph, minCount=-inf, maxCount=inf, parameterName=’count’, ignoreMissing=False</em>):</p>
+<p><a name="dropNodesByCount"></a><small></small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#dropNodesByCount"><ins>dropNodesByCount</ins></a></strong>(<em>grph, minCount=-inf, maxCount=inf, parameterName=’count’, ignoreMissing=False</em>):</p>
 
 <p>Modifies <em>grph</em> by dropping nodes that do not have a count that is within inclusive bounds of <em>minCount</em> and <em>maxCount</em>, i.e after running <em>grph</em> will only have nodes whose degrees meet the following inequality: <em>minCount</em> &lt;= node’s degree &lt;= <em>maxCount</em>.</p>
 
@@ -659,7 +642,7 @@ The functions provided by metaknowledge are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="mergeGraphs"></a><small></small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#mergeGraphs"><ins>mergeGraphs</ins></a></strong>(<em>targetGraph, addedGraph, incrementedNodeVal=’count’, incrementedEdgeVal=’weight’</em>):</p>
+<p><a name="mergeGraphs"></a><small></small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#mergeGraphs"><ins>mergeGraphs</ins></a></strong>(<em>targetGraph, addedGraph, incrementedNodeVal=’count’, incrementedEdgeVal=’weight’</em>):</p>
 
 <p>A quick way of merging graphs, this is meant to be quick and is only intended for graphs generated by metaknowledge. This does not check anything and as such may cause unexpected results if the source and target were not generated by the same method.</p>
 
@@ -685,7 +668,7 @@ The functions provided by metaknowledge are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="graphStats"></a><small></small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#graphStats"><ins>graphStats</ins></a></strong>(<em>G, stats=(‘nodes’, ‘edges’, ‘isolates’, ‘loops’, ‘density’, ‘transitivity’), makeString=True</em>):</p>
+<p><a name="graphStats"></a><small></small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#graphStats"><ins>graphStats</ins></a></strong>(<em>G, stats=(‘nodes’, ‘edges’, ‘isolates’, ‘loops’, ‘density’, ‘transitivity’), makeString=True</em>):</p>
 
 <p>Returns a string or list containing statistics about the graph <em>G</em>.</p>
 
@@ -721,7 +704,7 @@ The functions provided by metaknowledge are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="writeGraph"></a><small></small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#writeGraph"><ins>writeGraph</ins></a></strong>(<em>grph, name, edgeInfo=True, typing=False, suffix=’csv’, overwrite=True</em>):</p>
+<p><a name="writeGraph"></a><small></small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#writeGraph"><ins>writeGraph</ins></a></strong>(<em>grph, name, edgeInfo=True, typing=False, suffix=’csv’, overwrite=True</em>):</p>
 
 <p>Writes both the edge list and the node attribute list of <em>grph</em> to files starting with <em>name</em>.</p>
 
@@ -733,7 +716,7 @@ The functions provided by metaknowledge are:</p>
 
 <p>Both files are csv’s with comma delimiters and double quote quoting characters. The edge list has two columns for the source and destination of the edge, <code>'From'</code> and <code>'To'</code> respectively, then, if <em>edgeInfo</em> is <code>True</code>, for each attribute of the node another column is created. The node list has one column call “ID” with the node ids used by networkx and all other columns are the node attributes.</p>
 
-<p>To read back these files use <a href="/metaknowledge/documentation/metaknowledgeFull.html#readGraph">readGraph()</a> and to write only one type of lsit use <a href="/metaknowledge/documentation/metaknowledgeFull.html#writeEdgeList">writeEdgeList()</a> or <a href="/metaknowledge/documentation/metaknowledgeFull.html#writeNodeAttributeFile">writeNodeAttributeFile()</a>.</p>
+<p>To read back these files use <a href="/metaknowledge/documentation/metaknowledgeFull#readGraph">readGraph()</a> and to write only one type of lsit use <a href="/metaknowledge/documentation/metaknowledgeFull#writeEdgeList">writeEdgeList()</a> or <a href="/metaknowledge/documentation/metaknowledgeFull#writeNodeAttributeFile">writeNodeAttributeFile()</a>.</p>
 
 <p><strong>Warning</strong>: this function will overwrite files, if they are in the way of the output, to prevent this set <em>overwrite</em> to <code>False</code></p>
 
@@ -767,9 +750,9 @@ The functions provided by metaknowledge are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="recordParser"></a><small></small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#recordParser"><ins>recordParser</ins></a></strong>(<em>paper</em>):</p>
+<p><a name="recordParser"></a><small></small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#recordParser"><ins>recordParser</ins></a></strong>(<em>paper</em>):</p>
 
-<p>This is function that is used to create <a href="/metaknowledge/documentation/metaknowledgeFull.html#Record"><code>Records</code></a> from files.</p>
+<p>This is function that is used to create <a href="/metaknowledge/documentation/metaknowledgeFull#Record"><code>Records</code></a> from files.</p>
 
 <p><strong>recordParser</strong>() reads the file <em>paper</em> until it reaches ‘ER’. For each field tag it adds an entry to the returned dict with the tag as the key and a list of the entries as the value, the list has each line separately, so for the following two lines in a record:</p>
 
@@ -795,11 +778,11 @@ The functions provided by metaknowledge are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="wosParser"></a><small></small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#wosParser"><ins>wosParser</ins></a></strong>(<em>isifile</em>):</p>
+<p><a name="wosParser"></a><small></small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#wosParser"><ins>wosParser</ins></a></strong>(<em>isifile</em>):</p>
 
-<p>This is function that is used to create <a href="/metaknowledge/documentation/metaknowledgeFull.html#RecordCollection"><code>RecordCollections</code></a> from files.</p>
+<p>This is function that is used to create <a href="/metaknowledge/documentation/metaknowledgeFull#RecordCollection"><code>RecordCollections</code></a> from files.</p>
 
-<p><strong>wosParser</strong>() reads the file given by the path isifile, checks that the header is correct then reads until it reaches EF. All WOS records it encounters are parsed with <a href="/metaknowledge/documentation/metaknowledgeFull.html#recordParser"><strong>recordParser</strong>()</a> and converted into <a href="/metaknowledge/documentation/metaknowledgeFull.html#Record"><code>Records</code></a>. A list of these <code>Records</code> is returned.</p>
+<p><strong>wosParser</strong>() reads the file given by the path isifile, checks that the header is correct then reads until it reaches EF. All WOS records it encounters are parsed with <a href="/metaknowledge/documentation/metaknowledgeFull#recordParser"><strong>recordParser</strong>()</a> and converted into <a href="/metaknowledge/documentation/metaknowledgeFull#Record"><code>Records</code></a>. A list of these <code>Records</code> is returned.</p>
 
 <p><code>BadWOSFile</code> is raised if an issue is found with the file.</p>
 
@@ -817,9 +800,9 @@ The functions provided by metaknowledge are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="tagToFull"></a><small></small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#tagToFull"><ins>tagToFull</ins></a></strong>(<em>tag</em>):</p>
+<p><a name="tagToFull"></a><small></small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#tagToFull"><ins>tagToFull</ins></a></strong>(<em>tag</em>):</p>
 
-<p>A wrapper for <a href="/metaknowledge/documentation/metaknowledgeFull.html#tagProcessing"><code>tagToFullDict</code></a> it maps 2 character tags to their full names.</p>
+<p>A wrapper for <a href="/metaknowledge/documentation/metaknowledgeFull#tagProcessing"><code>tagToFullDict</code></a> it maps 2 character tags to their full names.</p>
 
 <h6 id="parameters-14">Parameters</h6>
 
@@ -835,7 +818,7 @@ The functions provided by metaknowledge are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="normalizeToTag"></a><small></small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#normalizeToTag"><ins>normalizeToTag</ins></a></strong>(<em>val</em>):</p>
+<p><a name="normalizeToTag"></a><small></small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#normalizeToTag"><ins>normalizeToTag</ins></a></strong>(<em>val</em>):</p>
 
 <p>Converts tags or full names to 2 character tags, case insensitive</p>
 
@@ -853,7 +836,7 @@ The functions provided by metaknowledge are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="normalizeToName"></a><small></small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#normalizeToName"><ins>normalizeToName</ins></a></strong>(<em>val</em>):</p>
+<p><a name="normalizeToName"></a><small></small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#normalizeToName"><ins>normalizeToName</ins></a></strong>(<em>val</em>):</p>
 
 <p>Converts tags or full names to full names, case sensitive</p>
 
@@ -871,7 +854,7 @@ The functions provided by metaknowledge are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="isTagOrName"></a><small></small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#isTagOrName"><ins>isTagOrName</ins></a></strong>(<em>val</em>):</p>
+<p><a name="isTagOrName"></a><small></small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#isTagOrName"><ins>isTagOrName</ins></a></strong>(<em>val</em>):</p>
 
 <p>Checks if <em>val</em> is a tag or full name of tag if so returns <code>True</code></p>
 
@@ -889,13 +872,13 @@ The functions provided by metaknowledge are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="BadCitation"></a><small></small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#BadCitation"><ins>BadCitation</ins></a></strong>(<em>Warning</em>):</p>
+<p><a name="BadCitation"></a><small></small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#BadCitation"><ins>BadCitation</ins></a></strong>(<em>Warning</em>):</p>
 
 <p>Exception thrown by Citation</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="BadWOSRecord"></a><small></small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#BadWOSRecord"><ins>BadWOSRecord</ins></a></strong>(<em>Warning</em>):</p>
+<p><a name="BadWOSRecord"></a><small></small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#BadWOSRecord"><ins>BadWOSRecord</ins></a></strong>(<em>Warning</em>):</p>
 
 <p>Exception thrown by the <a href="#metaknowledge.recordParser">record parser</a> to indicate a mis-formated record. This occurs when some component of the record does not parse. The messages will be any of:</p>
 
@@ -975,7 +958,7 @@ Combined they look like:</p>
 </ul>
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="isAnonymous"></a><small>Citation.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#isAnonymous"><ins>isAnonymous</ins></a></strong>():</p>
+<p><a name="isAnonymous"></a><small>Citation.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#isAnonymous"><ins>isAnonymous</ins></a></strong>():</p>
 
 <p>Checks if the author is given as <code>'[ANONYMOUS]'</code> and returns <code>True</code> if so.</p>
 
@@ -987,9 +970,9 @@ Combined they look like:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="ID"></a><small>Citation.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#ID"><ins>ID</ins></a></strong>():</p>
+<p><a name="ID"></a><small>Citation.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#ID"><ins>ID</ins></a></strong>():</p>
 
-<p>Returns all of <code>author</code>, <code>year</code> and <code>journal</code> available separated by <code>' ,'</code>. It is for shortening labels when creating networks as the resultant strings are often unique. <a href="/metaknowledge/documentation/metaknowledgeFull.html#Extra"><strong>Extra</strong>()</a> gets everything not returned by <strong>ID</strong>().</p>
+<p>Returns all of <code>author</code>, <code>year</code> and <code>journal</code> available separated by <code>' ,'</code>. It is for shortening labels when creating networks as the resultant strings are often unique. <a href="/metaknowledge/documentation/metaknowledgeFull#Extra"><strong>Extra</strong>()</a> gets everything not returned by <strong>ID</strong>().</p>
 
 <p>This is also used for hashing and equality checking.</p>
 
@@ -1001,9 +984,9 @@ Combined they look like:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="allButDOI"></a><small>Citation.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#allButDOI"><ins>allButDOI</ins></a></strong>():</p>
+<p><a name="allButDOI"></a><small>Citation.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#allButDOI"><ins>allButDOI</ins></a></strong>():</p>
 
-<p>Returns a string of the normalized values from the Citation excluding the DOI number. Equivalent to getting the ID with <a href="/metaknowledge/documentation/metaknowledgeFull.html#ID"><strong>ID</strong>()</a> then appending the extra values from <a href="/metaknowledge/documentation/metaknowledgeFull.html#Extra"><strong>Extra</strong>()</a> and then removing the substring containing the DOI number.</p>
+<p>Returns a string of the normalized values from the Citation excluding the DOI number. Equivalent to getting the ID with <a href="/metaknowledge/documentation/metaknowledgeFull#ID"><strong>ID</strong>()</a> then appending the extra values from <a href="/metaknowledge/documentation/metaknowledgeFull#Extra"><strong>Extra</strong>()</a> and then removing the substring containing the DOI number.</p>
 
 <h6 id="returns-13">Returns</h6>
 
@@ -1013,9 +996,9 @@ Combined they look like:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="Extra"></a><small>Citation.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#Extra"><ins>Extra</ins></a></strong>():</p>
+<p><a name="Extra"></a><small>Citation.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#Extra"><ins>Extra</ins></a></strong>():</p>
 
-<p>Returns any <code>V</code>, <code>P</code>, <code>DOI</code> or <code>misc</code> values as a string. These are all the values not returned by <a href="/metaknowledge/documentation/metaknowledgeFull.html#ID"><strong>ID</strong>()</a>, they are separated by <code>' ,'</code>.</p>
+<p>Returns any <code>V</code>, <code>P</code>, <code>DOI</code> or <code>misc</code> values as a string. These are all the values not returned by <a href="/metaknowledge/documentation/metaknowledgeFull#ID"><strong>ID</strong>()</a>, they are separated by <code>' ,'</code>.</p>
 
 <h6 id="returns-14">Returns</h6>
 
@@ -1025,13 +1008,13 @@ Combined they look like:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="isJournal"></a><small>Citation.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#isJournal"><ins>isJournal</ins></a></strong>(<em>dbname=’j9Abbreviations’, manaulDB=’manualj9Abbreviations’, returnDict=’both’, checkIfExcluded=False</em>):</p>
+<p><a name="isJournal"></a><small>Citation.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#isJournal"><ins>isJournal</ins></a></strong>(<em>dbname=’j9Abbreviations’, manaulDB=’manualj9Abbreviations’, returnDict=’both’, checkIfExcluded=False</em>):</p>
 
 <p>Returns <code>True</code> if the <code>Citation</code>’s <code>journal</code> field is a journal abbreviation from the WOS listing found at <a href="http://images.webofknowledge.com/WOK46/help/WOS/A_abrvjt.html">http://images.webofknowledge.com/WOK46/help/WOS/A_abrvjt.html</a>, i.e. checks if the citation is citing a journal.</p>
 
-<p><strong>Note</strong>: Requires the <a href="/metaknowledge/documentation/metaknowledgeFull.html#getj9dict">j9Abbreviations</a> database file and will raise an error if it cannot be found.</p>
+<p><strong>Note</strong>: Requires the <a href="/metaknowledge/documentation/metaknowledgeFull#getj9dict">j9Abbreviations</a> database file and will raise an error if it cannot be found.</p>
 
-<p><strong>Note</strong>: All parameters are used for getting the data base with  <a href="/metaknowledge/documentation/metaknowledgeFull.html#getj9dict"><strong>getj9dict</strong>()</a>.</p>
+<p><strong>Note</strong>: All parameters are used for getting the data base with  <a href="/metaknowledge/documentation/metaknowledgeFull#getj9dict"><strong>getj9dict</strong>()</a>.</p>
 
 <h6 id="parameters-19">Parameters</h6>
 
@@ -1055,11 +1038,11 @@ Combined they look like:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="FullJournalName"></a><small>Citation.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#FullJournalName"><ins>FullJournalName</ins></a></strong>():</p>
+<p><a name="FullJournalName"></a><small>Citation.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#FullJournalName"><ins>FullJournalName</ins></a></strong>():</p>
 
-<p>Returns the full name of the Citation’s journal field. Requires the <a href="/metaknowledge/documentation/metaknowledgeFull.html#getj9dict">j9Abbreviations</a> database file.</p>
+<p>Returns the full name of the Citation’s journal field. Requires the <a href="/metaknowledge/documentation/metaknowledgeFull#getj9dict">j9Abbreviations</a> database file.</p>
 
-<p><strong>Note</strong>: Requires the <a href="/metaknowledge/documentation/metaknowledgeFull.html#getj9dict">j9Abbreviations</a> database file and will raise an error if it cannot be found.</p>
+<p><strong>Note</strong>: Requires the <a href="/metaknowledge/documentation/metaknowledgeFull#getj9dict">j9Abbreviations</a> database file and will raise an error if it cannot be found.</p>
 
 <h6 id="returns-16">Returns</h6>
 
@@ -1069,11 +1052,11 @@ Combined they look like:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="addToDB"></a><small>Citation.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#addToDB"><ins>addToDB</ins></a></strong>(<em>manualName=None, manaulDB=’manualj9Abbreviations’, invert=False</em>):</p>
+<p><a name="addToDB"></a><small>Citation.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#addToDB"><ins>addToDB</ins></a></strong>(<em>manualName=None, manaulDB=’manualj9Abbreviations’, invert=False</em>):</p>
 
-<p>Adds the journal of this Citation to the user created database of journals. This will cause <a href="/metaknowledge/documentation/metaknowledgeFull.html#isJournal">isJournal()</a> to return <code>True</code> for this Citation and all others with its <code>journal</code>.</p>
+<p>Adds the journal of this Citation to the user created database of journals. This will cause <a href="/metaknowledge/documentation/metaknowledgeFull#isJournal">isJournal()</a> to return <code>True</code> for this Citation and all others with its <code>journal</code>.</p>
 
-<p><strong>Note</strong>: Requires the <a href="/metaknowledge/documentation/metaknowledgeFull.html#getj9dict">j9Abbreviations</a> database file and will raise an error if it cannot be found.</p>
+<p><strong>Note</strong>: Requires the <a href="/metaknowledge/documentation/metaknowledgeFull#getj9dict">j9Abbreviations</a> database file and will raise an error if it cannot be found.</p>
 
 <h6 id="parameters-20">Parameters</h6>
 
@@ -1156,7 +1139,7 @@ Combined they look like:</p>
 </ul>
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="numAuthors"></a><small>Record.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#numAuthors"><ins>numAuthors</ins></a></strong>():</p>
+<p><a name="numAuthors"></a><small>Record.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#numAuthors"><ins>numAuthors</ins></a></strong>():</p>
 
 <p>Returns the number of authors of the records, i.e. <code>len(self.authors)</code></p>
 
@@ -1168,7 +1151,7 @@ Combined they look like:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="Tag"></a><small>Record.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#Tag"><ins>Tag</ins></a></strong>(<em>tag, clean=False</em>):</p>
+<p><a name="Tag"></a><small>Record.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#Tag"><ins>Tag</ins></a></strong>(<em>tag, clean=False</em>):</p>
 
 <p>Returns a list containing the raw data of the record associated with <em>tag</em>. Each line of the record is one string in the list.</p>
 
@@ -1176,7 +1159,7 @@ Combined they look like:</p>
 
 <p><em>tag</em> : <code>str</code></p>
 
-<p><em>tag</em> can be a two character string corresponding to a WOS tag e.g. ‘J9’, the matching is case insensitive so ‘j9’ is the same as ‘J9’. Or it can be one of the full names for a tag with the mappings in <a href="/metaknowledge/documentation/metaknowledgeFull.html#tagProcessing">fullToTag</a>. If the string is not found in the original record or after being translated through <a href="/metaknowledge/documentation/metaknowledgeFull.html#tagProcessing">fullToTag</a>, <code>None</code> is returned.</p>
+<p><em>tag</em> can be a two character string corresponding to a WOS tag e.g. ‘J9’, the matching is case insensitive so ‘j9’ is the same as ‘J9’. Or it can be one of the full names for a tag with the mappings in <a href="/metaknowledge/documentation/metaknowledgeFull#tagProcessing">fullToTag</a>. If the string is not found in the original record or after being translated through <a href="/metaknowledge/documentation/metaknowledgeFull#tagProcessing">fullToTag</a>, <code>None</code> is returned.</p>
 
 <p><em>clean</em> : <code>optional [bool]</code></p>
 
@@ -1190,9 +1173,9 @@ Combined they look like:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="createCitation"></a><small>Record.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#createCitation"><ins>createCitation</ins></a></strong>(<em>multiCite=False</em>):</p>
+<p><a name="createCitation"></a><small>Record.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#createCitation"><ins>createCitation</ins></a></strong>(<em>multiCite=False</em>):</p>
 
-<p>Creates a citation string, using the same format as other WOS citations, for the <a href="/metaknowledge/documentation/metaknowledgeFull.html#Record">Record</a> by reading the relevant tags (<code>year</code>, <code>J9</code>, <code>volume</code>, <code>beginningPage</code>, <code>DOI</code>) and using it to create a <a href="/metaknowledge/documentation/metaknowledgeFull.html#Citation"><code>Citation</code></a> object.</p>
+<p>Creates a citation string, using the same format as other WOS citations, for the <a href="/metaknowledge/documentation/metaknowledgeFull#Record">Record</a> by reading the relevant tags (<code>year</code>, <code>J9</code>, <code>volume</code>, <code>beginningPage</code>, <code>DOI</code>) and using it to create a <a href="/metaknowledge/documentation/metaknowledgeFull#Citation"><code>Citation</code></a> object.</p>
 
 <h6 id="parameters-23">Parameters</h6>
 
@@ -1204,18 +1187,18 @@ Combined they look like:</p>
 
 <p><code>Citation</code></p>
 
-<p>A <a href="/metaknowledge/documentation/metaknowledgeFull.html#Citation"><code>Citation</code></a> object containing a citation for the Record.</p>
+<p>A <a href="/metaknowledge/documentation/metaknowledgeFull#Citation"><code>Citation</code></a> object containing a citation for the Record.</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="TagsList"></a><small>Record.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#TagsList"><ins>TagsList</ins></a></strong>(<em>taglst, cleaned=False</em>):</p>
+<p><a name="TagsList"></a><small>Record.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#TagsList"><ins>TagsList</ins></a></strong>(<em>taglst, cleaned=False</em>):</p>
 
-<p>Returns a list of the results of <a href="/metaknowledge/documentation/metaknowledgeFull.html#Tag"><strong>Tag</strong>()</a> for each tag in <em>taglist</em>, the return has the same order as the original.</p>
+<p>Returns a list of the results of <a href="/metaknowledge/documentation/metaknowledgeFull#Tag"><strong>Tag</strong>()</a> for each tag in <em>taglist</em>, the return has the same order as the original.</p>
 
 <h6 id="parameters-24">Parameters</h6>
 <p><em>taglst</em> : <code>List[str]</code></p>
 
-<p>Each string in <em>taglst</em> can be a two character string corresponding to a WOS tag e.g. ‘J9’, the matching is case insensitive so ‘j9’ is the same as ‘J9’,  or it can be one of the full names for a tag with the mappings in <a href="/metaknowledge/documentation/metaknowledgeFull.html#tagProcessing">fullToTag</a>. If the string is not found in the original record before or after being translated through <a href="/metaknowledge/documentation/metaknowledgeFull.html#tagProcessing">fullToTag</a>, <code>None</code> is used instead. Same as in <a href="/metaknowledge/documentation/metaknowledgeFull.html#Tag"><strong>Tag()</strong></a></p>
+<p>Each string in <em>taglst</em> can be a two character string corresponding to a WOS tag e.g. ‘J9’, the matching is case insensitive so ‘j9’ is the same as ‘J9’,  or it can be one of the full names for a tag with the mappings in <a href="/metaknowledge/documentation/metaknowledgeFull#tagProcessing">fullToTag</a>. If the string is not found in the original record before or after being translated through <a href="/metaknowledge/documentation/metaknowledgeFull#tagProcessing">fullToTag</a>, <code>None</code> is used instead. Same as in <a href="/metaknowledge/documentation/metaknowledgeFull#Tag"><strong>Tag()</strong></a></p>
 
 <p>Then they are compiled into a list in the same order as <em>taglst</em></p>
 
@@ -1227,14 +1210,14 @@ Combined they look like:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="TagsDict"></a><small>Record.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#TagsDict"><ins>TagsDict</ins></a></strong>(<em>taglst, cleaned=False</em>):</p>
+<p><a name="TagsDict"></a><small>Record.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#TagsDict"><ins>TagsDict</ins></a></strong>(<em>taglst, cleaned=False</em>):</p>
 
 <p>returns a dict of the results of Tag, with the elements of <em>taglst</em> as the keys and the results as the values.</p>
 
 <h6 id="parameters-25">Parameters</h6>
 <p><em>taglst</em> : <code>List[str]</code></p>
 
-<p>Each string in <em>taglst</em> can be a two character string corresponding to a WOS tag e.g. ‘J9’, the matching is case insensitive so ‘j9’ is the same as ‘J9’. Or it can be one of the full names for a tag with the mappings in <a href="/metaknowledge/documentation/metaknowledgeFull.html#tagProcessing">fullToTag</a>. If the string is not found in the oriagnal record before or after being translated through <a href="/metaknowledge/documentation/metaknowledgeFull.html#tagProcessing">fullToTag</a>, <code>None</code> is used instead. Same as in <a href="/metaknowledge/documentation/metaknowledgeFull.html#Tag"><strong>Tag</strong>()</a></p>
+<p>Each string in <em>taglst</em> can be a two character string corresponding to a WOS tag e.g. ‘J9’, the matching is case insensitive so ‘j9’ is the same as ‘J9’. Or it can be one of the full names for a tag with the mappings in <a href="/metaknowledge/documentation/metaknowledgeFull#tagProcessing">fullToTag</a>. If the string is not found in the oriagnal record before or after being translated through <a href="/metaknowledge/documentation/metaknowledgeFull#tagProcessing">fullToTag</a>, <code>None</code> is used instead. Same as in <a href="/metaknowledge/documentation/metaknowledgeFull#Tag"><strong>Tag</strong>()</a></p>
 
 <h6 id="returns-21">Returns</h6>
 
@@ -1244,9 +1227,9 @@ Combined they look like:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="activeTags"></a><small>Record.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#activeTags"><ins>activeTags</ins></a></strong>():</p>
+<p><a name="activeTags"></a><small>Record.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#activeTags"><ins>activeTags</ins></a></strong>():</p>
 
-<p>Returns a list of all the tags the original WOS record had. These are all the tags that <a href="/metaknowledge/documentation/metaknowledgeFull.html#Tag"><strong>Tag</strong>()</a> will not return <code>None</code> for.</p>
+<p>Returns a list of all the tags the original WOS record had. These are all the tags that <a href="/metaknowledge/documentation/metaknowledgeFull#Tag"><strong>Tag</strong>()</a> will not return <code>None</code> for.</p>
 
 <h6 id="returns-22">Returns</h6>
 
@@ -1256,9 +1239,9 @@ Combined they look like:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="writeRecord"></a><small>Record.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#writeRecord"><ins>writeRecord</ins></a></strong>(<em>infile</em>):</p>
+<p><a name="writeRecord"></a><small>Record.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#writeRecord"><ins>writeRecord</ins></a></strong>(<em>infile</em>):</p>
 
-<p>Writes to <em>infile</em> the original contents of the Record. This is intended for use by <a href="/metaknowledge/documentation/metaknowledgeFull.html#RecordCollection">RecordCollections</a> to write to file. What is written to <em>infile</em> is bit for bit identical to the original record file (if utf-8 is used). No newline is inserted above the write but the last character is a newline.</p>
+<p>Writes to <em>infile</em> the original contents of the Record. This is intended for use by <a href="/metaknowledge/documentation/metaknowledgeFull#RecordCollection">RecordCollections</a> to write to file. What is written to <em>infile</em> is bit for bit identical to the original record file (if utf-8 is used). No newline is inserted above the write but the last character is a newline.</p>
 
 <h6 id="parameters-26">Parameters</h6>
 
@@ -1268,7 +1251,7 @@ Combined they look like:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="bibString"></a><small>Record.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#bibString"><ins>bibString</ins></a></strong>(<em>maxLength=1000, WOSMode=False, restrictedOutput=False, niceID=True</em>):</p>
+<p><a name="bibString"></a><small>Record.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#bibString"><ins>bibString</ins></a></strong>(<em>maxLength=1000, WOSMode=False, restrictedOutput=False, niceID=True</em>):</p>
 
 <p>Makes a string giving the Record as a bibTex entry. If the Record is of a journal article (<code>PT J</code>) the bibtext type is set to <code>'article'</code>, otherwise it is set to <code>'misc'</code>. The ID of the entry is the WOS number and all the Record’s fields are given as entries with their long names.</p>
 
@@ -1302,7 +1285,7 @@ Combined they look like:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="bibTexType"></a><small>Record.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#bibTexType"><ins>bibTexType</ins></a></strong>():</p>
+<p><a name="bibTexType"></a><small>Record.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#bibTexType"><ins>bibTexType</ins></a></strong>():</p>
 
 <p>Returns the bibTex type corresonding to the record</p>
 
@@ -1390,7 +1373,7 @@ Combined they look like:</p>
 </ul>
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="twoModeNetwork"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#twoModeNetwork"><ins>twoModeNetwork</ins></a></strong>(<em>tag1, tag2, directed=False, recordType=True, nodeCount=True, edgeWeight=True, stemmerTag1=None, stemmerTag2=None</em>):</p>
+<p><a name="twoModeNetwork"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#twoModeNetwork"><ins>twoModeNetwork</ins></a></strong>(<em>tag1, tag2, directed=False, recordType=True, nodeCount=True, edgeWeight=True, stemmerTag1=None, stemmerTag2=None</em>):</p>
 
 <p>Creates a network of the objects found by two WOS tags <em>tag1</em> and <em>tag2</em>, each node marked by which tag spawned it making the resultant graph bipartite.</p>
 
@@ -1440,7 +1423,7 @@ Combined they look like:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="nModeNetwork"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#nModeNetwork"><ins>nModeNetwork</ins></a></strong>(<em>tags, recordType=True, nodeCount=True, edgeWeight=True, stemmer=None</em>):</p>
+<p><a name="nModeNetwork"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#nModeNetwork"><ins>nModeNetwork</ins></a></strong>(<em>tags, recordType=True, nodeCount=True, edgeWeight=True, stemmer=None</em>):</p>
 
 <p>Creates a network of the objects found by all WOS tags in <em>tags</em>, each node is marked by which tag spawned it making the resultant graph n-partite.</p>
 
@@ -1478,7 +1461,7 @@ Combined they look like:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="localCiteStats"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#localCiteStats"><ins>localCiteStats</ins></a></strong>(<em>pandasFriendly=False, keyType=’citation’</em>):</p>
+<p><a name="localCiteStats"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#localCiteStats"><ins>localCiteStats</ins></a></strong>(<em>pandasFriendly=False, keyType=’citation’</em>):</p>
 
 <p>Returns a dict with all the citations in the CR field as keys and the number of times they occur as the values</p>
 
@@ -1500,7 +1483,7 @@ Combined they look like:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="localCitesOf"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#localCitesOf"><ins>localCitesOf</ins></a></strong>(<em>rec</em>):</p>
+<p><a name="localCitesOf"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#localCitesOf"><ins>localCitesOf</ins></a></strong>(<em>rec</em>):</p>
 
 <p>Takes in a Record, WOS string, citation string or Citation and returns a RecordCollection of all records that cite it.</p>
 
@@ -1518,7 +1501,7 @@ Combined they look like:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="citeFilter"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#citeFilter"><ins>citeFilter</ins></a></strong>(<em>keyString=’’, field=’all’, reverse=False, caseSensitive=False</em>):</p>
+<p><a name="citeFilter"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#citeFilter"><ins>citeFilter</ins></a></strong>(<em>keyString=’’, field=’all’, reverse=False, caseSensitive=False</em>):</p>
 
 <p>Filters <code>Records</code> by some string, <em>keyString</em>, in their citations and returns all <code>Records</code> with at least one citation possessing <em>keyString</em> in the field given by <em>field</em>.</p>
 
@@ -1554,9 +1537,9 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="pop"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#pop"><ins>pop</ins></a></strong>():</p>
+<p><a name="pop"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#pop"><ins>pop</ins></a></strong>():</p>
 
-<p>Returns a random <code>Record</code> from the <code>RecordCollection</code>, the <code>Record</code> is deleted from the collection, use <a href="/metaknowledge/documentation/metaknowledgeFull.html#peak"><strong>peak</strong>()</a> for nondestructive, but slower, access</p>
+<p>Returns a random <code>Record</code> from the <code>RecordCollection</code>, the <code>Record</code> is deleted from the collection, use <a href="/metaknowledge/documentation/metaknowledgeFull#peak"><strong>peak</strong>()</a> for nondestructive, but slower, access</p>
 
 <h6 id="returns-29">Returns</h6>
 
@@ -1566,9 +1549,9 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="peak"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#peak"><ins>peak</ins></a></strong>():</p>
+<p><a name="peak"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#peak"><ins>peak</ins></a></strong>():</p>
 
-<p>Returns a random <code>Record</code> from the <code>RecordCollection</code>, the <code>Record</code> is kept in the collection, use <a href="/metaknowledge/documentation/metaknowledgeFull.html#pop"><strong>pop</strong>()</a> for faster destructive access.</p>
+<p>Returns a random <code>Record</code> from the <code>RecordCollection</code>, the <code>Record</code> is kept in the collection, use <a href="/metaknowledge/documentation/metaknowledgeFull#pop"><strong>pop</strong>()</a> for faster destructive access.</p>
 
 <h6 id="returns-30">Returns</h6>
 
@@ -1578,7 +1561,7 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="dropWOS"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#dropWOS"><ins>dropWOS</ins></a></strong>(<em>wosNum</em>):</p>
+<p><a name="dropWOS"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#dropWOS"><ins>dropWOS</ins></a></strong>(<em>wosNum</em>):</p>
 
 <p>Removes the <code>Record</code> with WOS number (ID number) <em>wosNum</em> from the collection. If it cannot be found nothing happens.</p>
 
@@ -1590,7 +1573,7 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="addRec"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#addRec"><ins>addRec</ins></a></strong>(<em>Rec</em>):</p>
+<p><a name="addRec"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#addRec"><ins>addRec</ins></a></strong>(<em>Rec</em>):</p>
 
 <p>Adds a <code>Record</code> or <code>Records</code> to the collection.</p>
 
@@ -1602,7 +1585,7 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="WOS"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#WOS"><ins>WOS</ins></a></strong>(<em>wosNum, drop=False</em>):</p>
+<p><a name="WOS"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#WOS"><ins>WOS</ins></a></strong>(<em>wosNum, drop=False</em>):</p>
 
 <p>Gets the <code>Record</code> from the collection by its WOS number (ID number) <em>wosNum</em>.</p>
 
@@ -1614,7 +1597,7 @@ The other options are:</p>
 
 <p><em>drop</em> : <code>optional [bool]</code></p>
 
-<p>Default <code>False</code>. If <code>True</code> the Record is dropped from the collection after being extract, i.e. if <code>False</code> <a href="/metaknowledge/documentation/metaknowledgeFull.html#WOS"><strong>WOS</strong>()</a> acts like <a href="/metaknowledge/documentation/metaknowledgeFull.html#peak"><strong>peak</strong>()</a>, if <code>True</code> it acts like <a href="/metaknowledge/documentation/metaknowledgeFull.html#pop"><strong>pop</strong>()</a></p>
+<p>Default <code>False</code>. If <code>True</code> the Record is dropped from the collection after being extract, i.e. if <code>False</code> <a href="/metaknowledge/documentation/metaknowledgeFull#WOS"><strong>WOS</strong>()</a> acts like <a href="/metaknowledge/documentation/metaknowledgeFull#peak"><strong>peak</strong>()</a>, if <code>True</code> it acts like <a href="/metaknowledge/documentation/metaknowledgeFull#pop"><strong>pop</strong>()</a></p>
 
 <h6 id="returns-31">Returns</h6>
 
@@ -1624,9 +1607,9 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="BadRecords"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#BadRecords"><ins>BadRecords</ins></a></strong>():</p>
+<p><a name="BadRecords"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#BadRecords"><ins>BadRecords</ins></a></strong>():</p>
 
-<p>creates a <code>RecordCollection</code> containing all the <code>Record</code> which have their <code>bad</code> attribute set to <code>True</code>, i.e. all those removed by <a href="/metaknowledge/documentation/metaknowledgeFull.html#dropBadRecords"><strong>dropBadRecords</strong>()</a>.</p>
+<p>creates a <code>RecordCollection</code> containing all the <code>Record</code> which have their <code>bad</code> attribute set to <code>True</code>, i.e. all those removed by <a href="/metaknowledge/documentation/metaknowledgeFull#dropBadRecords"><strong>dropBadRecords</strong>()</a>.</p>
 
 <h6 id="returns-32">Returns</h6>
 
@@ -1636,13 +1619,13 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="dropBadRecords"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#dropBadRecords"><ins>dropBadRecords</ins></a></strong>():</p>
+<p><a name="dropBadRecords"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#dropBadRecords"><ins>dropBadRecords</ins></a></strong>():</p>
 
-<p>Removes all <code>Records</code> with <code>bad</code> attribute <code>True</code> from the collection, i.e. drop all those returned by <a href="/metaknowledge/documentation/metaknowledgeFull.html#BadRecords"><strong>BadRecords</strong>()</a>.</p>
+<p>Removes all <code>Records</code> with <code>bad</code> attribute <code>True</code> from the collection, i.e. drop all those returned by <a href="/metaknowledge/documentation/metaknowledgeFull#BadRecords"><strong>BadRecords</strong>()</a>.</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="dropNonJournals"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#dropNonJournals"><ins>dropNonJournals</ins></a></strong>(<em>ptVal=’J’, dropBad=True, invert=False</em>):</p>
+<p><a name="dropNonJournals"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#dropNonJournals"><ins>dropNonJournals</ins></a></strong>(<em>ptVal=’J’, dropBad=True, invert=False</em>):</p>
 
 <p>Drops the non journal type <code>Records</code> from the collection, this is done by checking <em>ptVal</em> against the PT tag</p>
 
@@ -1662,7 +1645,7 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="writeFile"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#writeFile"><ins>writeFile</ins></a></strong>(<em>fname=None</em>):</p>
+<p><a name="writeFile"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#writeFile"><ins>writeFile</ins></a></strong>(<em>fname=None</em>):</p>
 
 <p>Writes the <code>RecordCollection</code> to a file, the written file’s format is identical to those download from WOS. The order of <code>Records</code> written is random.</p>
 
@@ -1677,7 +1660,7 @@ The other options are:</p>
 <table>
   <tbody>
     <tr>
-      <td><a name="writeCSV"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#writeCSV"><ins>writeCSV</ins></a></strong>(_fname=None, onlyTheseTags=None, numAuthors=True, longNames=False, firstTags=None, csvDelimiter=’,’, csvQuote=’”’, listDelimiter=’</td>
+      <td><a name="writeCSV"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#writeCSV"><ins>writeCSV</ins></a></strong>(_fname=None, onlyTheseTags=None, numAuthors=True, longNames=False, firstTags=None, csvDelimiter=’,’, csvQuote=’”’, listDelimiter=’</td>
       <td>‘_):</td>
     </tr>
   </tbody>
@@ -1695,7 +1678,7 @@ The other options are:</p>
 
 <p>Default <code>None</code>, if an iterable (list, tuple, etc) only the tags in <em>onlyTheseTags</em> will be used, if not given then all tags in the records are given.</p>
 
-<p>If you want to use all known tags pass <a href="/metaknowledge/documentation/metaknowledgeFull.html#tagProcessing"><code>metaknowledge.knownTagsList</code></a>.</p>
+<p>If you want to use all known tags pass <a href="/metaknowledge/documentation/metaknowledgeFull#tagProcessing"><code>metaknowledge.knownTagsList</code></a>.</p>
 
 <p><em>numAuthors</em> : <code>optional [bool]</code></p>
 
@@ -1725,7 +1708,7 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="writeBib"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#writeBib"><ins>writeBib</ins></a></strong>(<em>fname=None, maxStringLength=1000, wosMode=False, reducedOutput=False, niceIDs=True</em>):</p>
+<p><a name="writeBib"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#writeBib"><ins>writeBib</ins></a></strong>(<em>fname=None, maxStringLength=1000, wosMode=False, reducedOutput=False, niceIDs=True</em>):</p>
 
 <p>Writes a bibTex entry to <em>fname</em> for each <code>Record</code> in the collection.</p>
 
@@ -1759,7 +1742,7 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="makeDict"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#makeDict"><ins>makeDict</ins></a></strong>(<em>onlyTheseTags=None, longNames=False, cleanedVal=True, numAuthors=True</em>):</p>
+<p><a name="makeDict"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#makeDict"><ins>makeDict</ins></a></strong>(<em>onlyTheseTags=None, longNames=False, cleanedVal=True, numAuthors=True</em>):</p>
 
 <p>Returns a dict with each key a tag and the values being lists of the values for each of the Records in the collection, <code>None</code> is given when there is no value and they are in the same order across each tag.</p>
 
@@ -1771,7 +1754,7 @@ The other options are:</p>
 
 <p>Default <code>None</code>, if an iterable (list, tuple, etc) only the tags in <em>onlyTheseTags</em> will be used, if not given then all tags in the records are given.</p>
 
-<p>If you want to use all known tags pass <a href="/metaknowledge/documentation/metaknowledgeFull.html#tagProcessing"><code>metaknowledge.knownTagsList</code></a>.</p>
+<p>If you want to use all known tags pass <a href="/metaknowledge/documentation/metaknowledgeFull#tagProcessing"><code>metaknowledge.knownTagsList</code></a>.</p>
 
 <p><em>longNames</em> : <code>optional [bool]</code></p>
 
@@ -1787,7 +1770,7 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="coAuthNetwork"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#coAuthNetwork"><ins>coAuthNetwork</ins></a></strong>(<em>detailedInfo=False, weighted=True, dropNonJournals=False, count=True</em>):</p>
+<p><a name="coAuthNetwork"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#coAuthNetwork"><ins>coAuthNetwork</ins></a></strong>(<em>detailedInfo=False, weighted=True, dropNonJournals=False, count=True</em>):</p>
 
 <p>Creates a coauthorship network for the RecordCollection.</p>
 
@@ -1801,7 +1784,7 @@ The other options are:</p>
 
 <p>For each of the selected tags an attribute will be added to the node using the values of those tags on the first <code>Record</code> encountered. <strong>Warning</strong> iterating over <code>RecordCollection</code> objects is not deterministic the first <code>Record</code> will not always be same between runs. The node will be given attributes with the names of the WOS tags for each of the selected tags. The attributes will contain strings of containing the values (with commas removed), if multiple values are encountered they will be comma separated.</p>
 
-<p>Note: <em>detailedInfo</em> is not identical to the <em>detailedCore</em> argument of <a href="/metaknowledge/documentation/metaknowledgeFull.html#coCiteNetwork"><code>Recordcollection.coCiteNetwork()</code></a> or <a href="/metaknowledge/documentation/metaknowledgeFull.html#citationNetwork"><code>Recordcollection.citationNetwork()</code></a></p>
+<p>Note: <em>detailedInfo</em> is not identical to the <em>detailedCore</em> argument of <a href="/metaknowledge/documentation/metaknowledgeFull#coCiteNetwork"><code>Recordcollection.coCiteNetwork()</code></a> or <a href="/metaknowledge/documentation/metaknowledgeFull#citationNetwork"><code>Recordcollection.citationNetwork()</code></a></p>
 
 <p><em>weighted</em> : <code>optional [bool]</code></p>
 
@@ -1823,7 +1806,7 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="coCiteNetwork"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#coCiteNetwork"><ins>coCiteNetwork</ins></a></strong>(<em>dropAnon=True, nodeType=’full’, nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, keyWords=None, detailedCore=None, coreOnly=False, expandedCore=False</em>):</p>
+<p><a name="coCiteNetwork"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#coCiteNetwork"><ins>coCiteNetwork</ins></a></strong>(<em>dropAnon=True, nodeType=’full’, nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, keyWords=None, detailedCore=None, coreOnly=False, expandedCore=False</em>):</p>
 
 <p>Creates a co-citation network for the RecordCollection.</p>
 
@@ -1831,7 +1814,7 @@ The other options are:</p>
 
 <p><em>nodeType</em> : <code>optional [str]</code></p>
 
-<p>One of <code>"full"</code>, <code>"original"</code>, <code>"author"</code>, <code>"journal"</code> or <code>"year"</code>. Specifies the value of the nodes in the graph. The default <code>"full"</code> causes the citations to be compared holistically using the <a href="/metaknowledge/documentation/metaknowledgeFull.html#Citation"><code>metaknowledge.Citation</code></a> builtin comparison operators. <code>"original"</code> uses the raw original strings of the citations. While <code>"author"</code>, <code>"journal"</code> and <code>"year"</code> each use the author, journal and year respectively.</p>
+<p>One of <code>"full"</code>, <code>"original"</code>, <code>"author"</code>, <code>"journal"</code> or <code>"year"</code>. Specifies the value of the nodes in the graph. The default <code>"full"</code> causes the citations to be compared holistically using the <a href="/metaknowledge/documentation/metaknowledgeFull#Citation"><code>metaknowledge.Citation</code></a> builtin comparison operators. <code>"original"</code> uses the raw original strings of the citations. While <code>"author"</code>, <code>"journal"</code> and <code>"year"</code> each use the author, journal and year respectively.</p>
 
 <p><em>dropAnon</em> : <code>optional [bool]</code></p>
 
@@ -1869,7 +1852,7 @@ The other options are:</p>
 
 <p>The resultant string is the values of each tag, with commas removed, seperated by <code>', '</code>, just like the info given by non-core Citations. Note that for tags like <code>'AF'</code> that return lists only the first entry in the list will be used. Also a second attribute is created for all nodes called inCore wich is a boolean describing if the node is in the core or not.</p>
 
-<p>Note: <em>detailedCore</em>  is not identical to the <em>detailedInfo</em> argument of <a href="/metaknowledge/documentation/metaknowledgeFull.html#coAuthNetwork"><code>Recordcollection.coAuthNetwork()</code></a></p>
+<p>Note: <em>detailedCore</em>  is not identical to the <em>detailedInfo</em> argument of <a href="/metaknowledge/documentation/metaknowledgeFull#coAuthNetwork"><code>Recordcollection.coAuthNetwork()</code></a></p>
 
 <p><em>coreOnly</em> : <code>optional [bool]</code></p>
 
@@ -1887,7 +1870,7 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="citationNetwork"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#citationNetwork"><ins>citationNetwork</ins></a></strong>(<em>dropAnon=True, nodeType=’full’, nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, directed=True, keyWords=None, detailedCore=None, coreOnly=False, expandedCore=False</em>):</p>
+<p><a name="citationNetwork"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#citationNetwork"><ins>citationNetwork</ins></a></strong>(<em>dropAnon=True, nodeType=’full’, nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, directed=True, keyWords=None, detailedCore=None, coreOnly=False, expandedCore=False</em>):</p>
 
 <p>Creates a citation network for the RecordCollection.</p>
 
@@ -1895,7 +1878,7 @@ The other options are:</p>
 
 <p><em>nodeType</em> : <code>optional [str]</code></p>
 
-<p>One of <code>"full"</code>, <code>"original"</code>, <code>"author"</code>, <code>"journal"</code> or <code>"year"</code>. Specifies the value of the nodes in the graph. The default <code>"full"</code> causes the citations to be compared holistically using the <a href="/metaknowledge/documentation/metaknowledgeFull.html#Citation"><code>metaknowledge.Citation</code></a> builtin comparison operators. <code>"original"</code> uses the raw original strings of the citations. While <code>"author"</code>, <code>"journal"</code> and <code>"year"</code> each use the author, journal and year respectively.</p>
+<p>One of <code>"full"</code>, <code>"original"</code>, <code>"author"</code>, <code>"journal"</code> or <code>"year"</code>. Specifies the value of the nodes in the graph. The default <code>"full"</code> causes the citations to be compared holistically using the <a href="/metaknowledge/documentation/metaknowledgeFull#Citation"><code>metaknowledge.Citation</code></a> builtin comparison operators. <code>"original"</code> uses the raw original strings of the citations. While <code>"author"</code>, <code>"journal"</code> and <code>"year"</code> each use the author, journal and year respectively.</p>
 
 <p><em>dropAnon</em> : <code>optional [bool]</code></p>
 
@@ -1937,7 +1920,7 @@ The other options are:</p>
 
 <p>The resultant string is the values of each tag, with commas removed, seperated by <code>', '</code>, just like the info given by non-core Citations. Note that for tags like <code>'AF'</code> that return lists only the first entry in the list will be used. Also a second attribute is created for all nodes called inCore wich is a boolean describing if the node is in the core or not.</p>
 
-<p>Note: <em>detailedCore</em>  is not identical to the <em>detailedInfo</em> argument of <a href="/metaknowledge/documentation/metaknowledgeFull.html#coAuthNetwork"><code>Recordcollection.coAuthNetwork()</code></a></p>
+<p>Note: <em>detailedCore</em>  is not identical to the <em>detailedInfo</em> argument of <a href="/metaknowledge/documentation/metaknowledgeFull#coAuthNetwork"><code>Recordcollection.coAuthNetwork()</code></a></p>
 
 <p><em>coreOnly</em> : <code>optional [bool]</code></p>
 
@@ -1957,7 +1940,7 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="yearSplit"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#yearSplit"><ins>yearSplit</ins></a></strong>(<em>startYear, endYear, dropMissingYears=True</em>):</p>
+<p><a name="yearSplit"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#yearSplit"><ins>yearSplit</ins></a></strong>(<em>startYear, endYear, dropMissingYears=True</em>):</p>
 
 <p>Creates a RecordCollection of Records from the years between <em>startYear</em> and <em>endYear</em> inclusive.</p>
 
@@ -1983,7 +1966,7 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="oneModeNetwork"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#oneModeNetwork"><ins>oneModeNetwork</ins></a></strong>(<em>mode, nodeCount=True, edgeWeight=True, stemmer=None</em>):</p>
+<p><a name="oneModeNetwork"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#oneModeNetwork"><ins>oneModeNetwork</ins></a></strong>(<em>mode, nodeCount=True, edgeWeight=True, stemmer=None</em>):</p>
 
 <p>Creates a network of the objects found by one WOS tag <em>mode</em>.</p>
 
@@ -1991,7 +1974,7 @@ The other options are:</p>
 
 <p>The number of times each object occurs is count if <em>nodeCount</em> is <code>True</code> and the edges count the number of co-occurrences if <em>edgeWeight</em> is <code>True</code>. Both are<code>True</code> by default.</p>
 
-<p><strong>Note</strong> Do not use this for the construction of co-citation networks use <a href="/metaknowledge/documentation/metaknowledgeFull.html#coCiteNetwork">Recordcollection.coCiteNetwork()</a> it is more accurate and has more options.</p>
+<p><strong>Note</strong> Do not use this for the construction of co-citation networks use <a href="/metaknowledge/documentation/metaknowledgeFull#coCiteNetwork">Recordcollection.coCiteNetwork()</a> it is more accurate and has more options.</p>
 
 <h6 id="parameters-46">Parameters</h6>
 
@@ -2022,7 +2005,7 @@ The other options are:</p>
 <hr />
 <p><a name="contour"></a></p>
 
-<h1 id="contourmetaknowledgedocumentationmetaknowledgefullhtmlcontour"><a href="/metaknowledge/documentation/metaknowledgeFull.html#contour">contour</a></h1>
+<h1 id="contourmetaknowledgedocumentationmetaknowledgefullcontour"><a href="/metaknowledge/documentation/metaknowledgeFull#contour">contour</a></h1>
 
 <p>Two functions based on <em>matplotlib</em> for generating nicer looking graphs</p>
 
@@ -2036,7 +2019,7 @@ The other options are:</p>
 </ul>
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="graphDensityContourPlot"></a><small>contour.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#graphDensityContourPlot"><ins>graphDensityContourPlot</ins></a></strong>(<em>G, iters=50, layout=None, layoutScaleFactor=1, overlay=False, nodeSize=10, axisSamples=100, blurringFactor=0.1, contours=15, graphType=’coloured’</em>):</p>
+<p><a name="graphDensityContourPlot"></a><small>contour.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#graphDensityContourPlot"><ins>graphDensityContourPlot</ins></a></strong>(<em>G, iters=50, layout=None, layoutScaleFactor=1, overlay=False, nodeSize=10, axisSamples=100, blurringFactor=0.1, contours=15, graphType=’coloured’</em>):</p>
 
 <p>Creates a 3D plot giving the density of nodes on a 2D layout as a surface in 3 dimensions.</p>
 
@@ -2086,7 +2069,7 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="quickVisual"></a><small>contour.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#quickVisual"><ins>quickVisual</ins></a></strong>(<em>G, showLabel=False</em>):</p>
+<p><a name="quickVisual"></a><small>contour.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#quickVisual"><ins>quickVisual</ins></a></strong>(<em>G, showLabel=False</em>):</p>
 
 <p>just makes a simple matplotlib figure and displays it, with each node coloured by its type. You can add labels with <em>showLabel</em>.</p>
 
@@ -2099,7 +2082,7 @@ The other options are:</p>
 <hr />
 <p><a name="journalAbbreviations"></a></p>
 
-<h1 id="journalabbreviationsmetaknowledgedocumentationmetaknowledgefullhtmljournalabbreviations"><a href="/metaknowledge/documentation/metaknowledgeFull.html#journalAbbreviations">journalAbbreviations</a></h1>
+<h1 id="journalabbreviationsmetaknowledgedocumentationmetaknowledgefulljournalabbreviations"><a href="/metaknowledge/documentation/metaknowledgeFull#journalAbbreviations">journalAbbreviations</a></h1>
 
 <p>This module handles the abbreviations, known as J29 abbreviations and given by the J9 tag in records, for journal titles that WOS employs in citations.</p>
 
@@ -2117,7 +2100,7 @@ The other options are:</p>
 </ul>
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="getj9dict"></a><small>journalAbbreviations.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#getj9dict"><ins>getj9dict</ins></a></strong>(<em>dbname=’j9Abbreviations’, manualDB=’manualj9Abbreviations’, returnDict=’both’</em>):</p>
+<p><a name="getj9dict"></a><small>journalAbbreviations.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#getj9dict"><ins>getj9dict</ins></a></strong>(<em>dbname=’j9Abbreviations’, manualDB=’manualj9Abbreviations’, returnDict=’both’</em>):</p>
 
 <p>Returns the dictionary of journal abbreviations mapping to a list of the associated journal names. By default the local database is used. The database is in the file <em>dbname</em> in the same directory as this source file</p>
 
@@ -2137,7 +2120,7 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="addToDB"></a><small>journalAbbreviations.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#addToDB"><ins>addToDB</ins></a></strong>(<em>abbr=None, dbname=’manualj9Abbreviations’</em>):</p>
+<p><a name="addToDB"></a><small>journalAbbreviations.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#addToDB"><ins>addToDB</ins></a></strong>(<em>abbr=None, dbname=’manualj9Abbreviations’</em>):</p>
 
 <p>Adds <em>abbr</em> to the database of journals. The database is kept separate from the one scraped from WOS, this supersedes it. The database by default is stored with the WOS one and the name is given by <code>metaknowledge.journalAbbreviations.manaulDBname</code>. To create an empty database run <strong>addToDB</strong> without an <em>abbr</em> argument.</p>
 
@@ -2153,9 +2136,9 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="excludeFromDB"></a><small>journalAbbreviations.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#excludeFromDB"><ins>excludeFromDB</ins></a></strong>(<em>abbr=None, dbname=’manualj9Abbreviations’</em>):</p>
+<p><a name="excludeFromDB"></a><small>journalAbbreviations.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#excludeFromDB"><ins>excludeFromDB</ins></a></strong>(<em>abbr=None, dbname=’manualj9Abbreviations’</em>):</p>
 
-<p>Marks <em>abbr</em> to be excluded the database of journals. The database is kept separate from the one scraped from WOS, this supersedes it. The database by default is stored with the WOS one and the name is given by <code>metaknowledge.journalAbbreviations.manaulDBname</code>. To create an empty database run <a href="/metaknowledge/documentation/metaknowledgeFull.html#addToDB"><strong>addToDB</strong>()</a> without an <em>abbr</em> argument.</p>
+<p>Marks <em>abbr</em> to be excluded the database of journals. The database is kept separate from the one scraped from WOS, this supersedes it. The database by default is stored with the WOS one and the name is given by <code>metaknowledge.journalAbbreviations.manaulDBname</code>. To create an empty database run <a href="/metaknowledge/documentation/metaknowledgeFull#addToDB"><strong>addToDB</strong>()</a> without an <em>abbr</em> argument.</p>
 
 <h6 id="parameters-51">Parameters</h6>
 
@@ -2169,7 +2152,7 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="updatej9DB"></a><small>journalAbbreviations.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#updatej9DB"><ins>updatej9DB</ins></a></strong>(<em>dbname=’j9Abbreviations’, saveRawHTML=False</em>):</p>
+<p><a name="updatej9DB"></a><small>journalAbbreviations.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#updatej9DB"><ins>updatej9DB</ins></a></strong>(<em>dbname=’j9Abbreviations’, saveRawHTML=False</em>):</p>
 
 <p>Updates the database of Journal Title Abbreviations. Requires an internet connection. The data base is saved relative to the source file not the working directory.</p>
 
@@ -2186,7 +2169,7 @@ The other options are:</p>
 <hr />
 <p><a name="tagProcessing"></a></p>
 
-<h1 id="tagprocessingmetaknowledgedocumentationmetaknowledgefullhtmltagprocessing"><a href="/metaknowledge/documentation/metaknowledgeFull.html#tagProcessing">tagProcessing</a></h1>
+<h1 id="tagprocessingmetaknowledgedocumentationmetaknowledgefulltagprocessing"><a href="/metaknowledge/documentation/metaknowledgeFull#tagProcessing">tagProcessing</a></h1>
 
 <p>The functions used by metaknowledge to handle WOS tags</p>
 
@@ -2218,257 +2201,257 @@ The other options are:</p>
   </thead>
   <tbody>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#pubType"><code>'PT'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#pubType">pubType</a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#pubType"><code>'PT'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#pubType">pubType</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#authorsFull"><code>'AF'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#authorsFull">authorsFull</a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#authorsFull"><code>'AF'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#authorsFull">authorsFull</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#group"><code>'GP'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#group">group</a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#group"><code>'GP'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#group">group</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#editedBy"><code>'BE'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#editedBy">editedBy</a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#editedBy"><code>'BE'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#editedBy">editedBy</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#authorsShort"><code>'AU'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#authorsShort">authorsShort</a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#authorsShort"><code>'AU'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#authorsShort">authorsShort</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#bookAuthor"><code>'BA'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#bookAuthor">bookAuthor</a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#bookAuthor"><code>'BA'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#bookAuthor">bookAuthor</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#bookAuthorFull"><code>'BF'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#bookAuthorFull">bookAuthorFull</a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#bookAuthorFull"><code>'BF'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#bookAuthorFull">bookAuthorFull</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#groupName"><code>'CA'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#groupName">groupName</a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#groupName"><code>'CA'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#groupName">groupName</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#editors"><code>'ED'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#editors">editors</a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#editors"><code>'ED'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#editors">editors</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#title"><code>'TI'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#title">title</a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#title"><code>'TI'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#title">title</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#journal"><code>'SO'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#journal">journal</a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#journal"><code>'SO'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#journal">journal</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#seriesTitle"><code>'SE'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#seriesTitle">seriesTitle</a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#seriesTitle"><code>'SE'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#seriesTitle">seriesTitle</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#seriesSubtitle"><code>'BS'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#seriesSubtitle">seriesSubtitle</a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#seriesSubtitle"><code>'BS'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#seriesSubtitle">seriesSubtitle</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#language"><code>'LA'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#language">language</a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#language"><code>'LA'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#language">language</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#docType"><code>'DT'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#docType">docType</a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#docType"><code>'DT'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#docType">docType</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#confTitle"><code>'CT'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#confTitle">confTitle</a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#confTitle"><code>'CT'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#confTitle">confTitle</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#confDate"><code>'CY'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#confDate">confDate</a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#confDate"><code>'CY'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#confDate">confDate</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#confHost"><code>'HO'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#confHost">confHost</a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#confHost"><code>'HO'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#confHost">confHost</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#confLocation"><code>'CL'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#confLocation">confLocation</a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#confLocation"><code>'CL'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#confLocation">confLocation</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#confSponsors"><code>'SP'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#confSponsors">confSponsors</a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#confSponsors"><code>'SP'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#confSponsors">confSponsors</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#authKeyWords"><code>'DE'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#authKeyWords">authKeyWords</a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#authKeyWords"><code>'DE'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#authKeyWords">authKeyWords</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#keyWords"><code>'ID'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#keyWords">keyWords</a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#keyWords"><code>'ID'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#keyWords">keyWords</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#abstract"><code>'AB'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#abstract">abstract</a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#abstract"><code>'AB'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#abstract">abstract</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#authAddress"><code>'C1'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#authAddress">authAddress</a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#authAddress"><code>'C1'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#authAddress">authAddress</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#reprintAddress"><code>'RP'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#reprintAddress">reprintAddress</a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#reprintAddress"><code>'RP'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#reprintAddress">reprintAddress</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#email"><code>'EM'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#email">email</a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#email"><code>'EM'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#email">email</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#ResearcherIDnumber"><code>'RI'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#ResearcherIDnumber">ResearcherIDnumber</a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#ResearcherIDnumber"><code>'RI'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#ResearcherIDnumber">ResearcherIDnumber</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#orcID"><code>'OI'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#orcID">orcID</a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#orcID"><code>'OI'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#orcID">orcID</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#funding"><code>'FU'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#funding">funding</a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#funding"><code>'FU'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#funding">funding</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#fundingText"><code>'FX'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#fundingText">fundingText</a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#fundingText"><code>'FX'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#fundingText">fundingText</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#citations"><code>'CR'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#citations">citations</a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#citations"><code>'CR'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#citations">citations</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#citedRefsCount"><code>'NR'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#citedRefsCount">citedRefsCount</a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#citedRefsCount"><code>'NR'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#citedRefsCount">citedRefsCount</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#wosTimesCited"><code>'TC'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#wosTimesCited">wosTimesCited</a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#wosTimesCited"><code>'TC'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#wosTimesCited">wosTimesCited</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#totalTimesCited"><code>'Z9'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#totalTimesCited">totalTimesCited</a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#totalTimesCited"><code>'Z9'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#totalTimesCited">totalTimesCited</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#publisher"><code>'PU'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#publisher">publisher</a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#publisher"><code>'PU'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#publisher">publisher</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#publisherCity"><code>'PI'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#publisherCity">publisherCity</a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#publisherCity"><code>'PI'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#publisherCity">publisherCity</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#publisherAddress"><code>'PA'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#publisherAddress">publisherAddress</a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#publisherAddress"><code>'PA'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#publisherAddress">publisherAddress</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#subjectCategory"><code>'SC'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#subjectCategory">subjectCategory</a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#subjectCategory"><code>'SC'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#subjectCategory">subjectCategory</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#ISSN"><code>'SN'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#ISSN">ISSN</a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#ISSN"><code>'SN'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#ISSN">ISSN</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#eISSN"><code>'EI'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#eISSN">eISSN</a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#eISSN"><code>'EI'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#eISSN">eISSN</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#ISBN"><code>'BN'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#ISBN">ISBN</a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#ISBN"><code>'BN'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#ISBN">ISBN</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#j9"><code>'J9'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#j9">j9</a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#j9"><code>'J9'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#j9">j9</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#isoAbbreviation"><code>'JI'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#isoAbbreviation">isoAbbreviation</a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#isoAbbreviation"><code>'JI'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#isoAbbreviation">isoAbbreviation</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#month"><code>'PD'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#month">month</a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#month"><code>'PD'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#month">month</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#year"><code>'PY'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#year">year</a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#year"><code>'PY'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#year">year</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#volume"><code>'VL'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#volume">volume</a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#volume"><code>'VL'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#volume">volume</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#issue"><code>'IS'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#issue">issue</a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#issue"><code>'IS'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#issue">issue</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#partNumber"><code>'PN'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#partNumber">partNumber</a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#partNumber"><code>'PN'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#partNumber">partNumber</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#supplement"><code>'SU'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#supplement">supplement</a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#supplement"><code>'SU'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#supplement">supplement</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#specialIssue"><code>'SI'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#specialIssue">specialIssue</a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#specialIssue"><code>'SI'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#specialIssue">specialIssue</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#meetingAbstract"><code>'MA'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#meetingAbstract">meetingAbstract</a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#meetingAbstract"><code>'MA'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#meetingAbstract">meetingAbstract</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#beginningPage"><code>'BP'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#beginningPage">beginningPage</a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#beginningPage"><code>'BP'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#beginningPage">beginningPage</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#endingPage"><code>'EP'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#endingPage">endingPage</a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#endingPage"><code>'EP'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#endingPage">endingPage</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#articleNumber"><code>'AR'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#articleNumber">articleNumber</a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#articleNumber"><code>'AR'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#articleNumber">articleNumber</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#pageCount"><code>'PG'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#pageCount">pageCount</a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#pageCount"><code>'PG'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#pageCount">pageCount</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#subjects"><code>'WC'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#subjects">subjects</a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#subjects"><code>'WC'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#subjects">subjects</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#DOI"><code>'DI'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#DOI">DOI</a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#DOI"><code>'DI'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#DOI">DOI</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#bookDOI"><code>'D2'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#bookDOI">bookDOI</a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#bookDOI"><code>'D2'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#bookDOI">bookDOI</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#documentDeliveryNumber"><code>'GA'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#documentDeliveryNumber">documentDeliveryNumber</a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#documentDeliveryNumber"><code>'GA'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#documentDeliveryNumber">documentDeliveryNumber</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#wosString"><code>'UT'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#wosString">wosString</a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#wosString"><code>'UT'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#wosString">wosString</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#pubMedID"><code>'PM'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull.html#pubMedID">pubMedID</a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#pubMedID"><code>'PM'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#pubMedID">pubMedID</a></td>
     </tr>
   </tbody>
 </table>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="pubType"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#pubType"><ins>pubType</ins></a></strong>(<em>val</em>):</p>
+<p><a name="pubType"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#pubType"><ins>pubType</ins></a></strong>(<em>val</em>):</p>
 
-<h6 id="the-pt-tag">The PT Tag</h6>
+<p>######The PT Tag</p>
 
 <p>extracts the type of publication as a character: conference, book, journal, book in series, or patent</p>
 
@@ -2486,9 +2469,9 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="authorsFull"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#authorsFull"><ins>authorsFull</ins></a></strong>(<em>val</em>):</p>
+<p><a name="authorsFull"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#authorsFull"><ins>authorsFull</ins></a></strong>(<em>val</em>):</p>
 
-<h6 id="the-af-tag">The AF Tag</h6>
+<p>######The AF Tag</p>
 
 <p>extracts a list of authors full names</p>
 
@@ -2506,9 +2489,9 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="group"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#group"><ins>group</ins></a></strong>(<em>val</em>):</p>
+<p><a name="group"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#group"><ins>group</ins></a></strong>(<em>val</em>):</p>
 
-<h6 id="the-gp-tag">The GP Tag</h6>
+<p>######The GP Tag</p>
 
 <p>extracts the group associated with the Record</p>
 
@@ -2526,9 +2509,9 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="editedBy"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#editedBy"><ins>editedBy</ins></a></strong>(<em>val</em>):</p>
+<p><a name="editedBy"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#editedBy"><ins>editedBy</ins></a></strong>(<em>val</em>):</p>
 
-<h6 id="the-be-tag">The BE Tag</h6>
+<p>######The BE Tag</p>
 
 <p>extracts a list of the editors of the Record</p>
 
@@ -2546,9 +2529,9 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="authorsShort"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#authorsShort"><ins>authorsShort</ins></a></strong>(<em>val</em>):</p>
+<p><a name="authorsShort"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#authorsShort"><ins>authorsShort</ins></a></strong>(<em>val</em>):</p>
 
-<h6 id="the-au-tag">The AU Tag</h6>
+<p>######The AU Tag</p>
 
 <p>extracts a list of authors shortened names</p>
 
@@ -2566,9 +2549,9 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="bookAuthor"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#bookAuthor"><ins>bookAuthor</ins></a></strong>(<em>val</em>):</p>
+<p><a name="bookAuthor"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#bookAuthor"><ins>bookAuthor</ins></a></strong>(<em>val</em>):</p>
 
-<h6 id="the-ba-tag">The BA Tag</h6>
+<p>######The BA Tag</p>
 
 <p>extracts a list of the short names of the authors of a book Record</p>
 
@@ -2586,9 +2569,9 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="bookAuthorFull"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#bookAuthorFull"><ins>bookAuthorFull</ins></a></strong>(<em>val</em>):</p>
+<p><a name="bookAuthorFull"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#bookAuthorFull"><ins>bookAuthorFull</ins></a></strong>(<em>val</em>):</p>
 
-<h6 id="the-bf-tag">The BF Tag</h6>
+<p>######The BF Tag</p>
 
 <p>extracts a list of the long names of the authors of a book Record</p>
 
@@ -2606,9 +2589,9 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="groupName"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#groupName"><ins>groupName</ins></a></strong>(<em>val</em>):</p>
+<p><a name="groupName"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#groupName"><ins>groupName</ins></a></strong>(<em>val</em>):</p>
 
-<h6 id="the-ca-tag">The CA Tag</h6>
+<p>######The CA Tag</p>
 
 <p>extracts the name of the group associated with the Record</p>
 
@@ -2626,7 +2609,7 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="editors"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#editors"><ins>editors</ins></a></strong>(<em>val</em>):</p>
+<p><a name="editors"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#editors"><ins>editors</ins></a></strong>(<em>val</em>):</p>
 
 <h6 id="needs-work">Needs Work</h6>
 
@@ -2634,9 +2617,9 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="title"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#title"><ins>title</ins></a></strong>(<em>val</em>):</p>
+<p><a name="title"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#title"><ins>title</ins></a></strong>(<em>val</em>):</p>
 
-<h6 id="the-ti-tag">The TI Tag</h6>
+<p>######The TI Tag</p>
 
 <p>extracts the title of the record</p>
 
@@ -2654,9 +2637,9 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="journal"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#journal"><ins>journal</ins></a></strong>(<em>val</em>):</p>
+<p><a name="journal"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#journal"><ins>journal</ins></a></strong>(<em>val</em>):</p>
 
-<h6 id="the-so-tag">The SO Tag</h6>
+<p>######The SO Tag</p>
 
 <p>extracts the full name of the publication and normalizes it to uppercase</p>
 
@@ -2674,9 +2657,9 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="seriesTitle"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#seriesTitle"><ins>seriesTitle</ins></a></strong>(<em>val</em>):</p>
+<p><a name="seriesTitle"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#seriesTitle"><ins>seriesTitle</ins></a></strong>(<em>val</em>):</p>
 
-<h6 id="the-se-tag">The SE Tag</h6>
+<p>######The SE Tag</p>
 
 <p>extracts the title of the series the Record is in</p>
 
@@ -2694,9 +2677,9 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="seriesSubtitle"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#seriesSubtitle"><ins>seriesSubtitle</ins></a></strong>(<em>val</em>):</p>
+<p><a name="seriesSubtitle"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#seriesSubtitle"><ins>seriesSubtitle</ins></a></strong>(<em>val</em>):</p>
 
-<h6 id="the-bs-tag">The BS Tag</h6>
+<p>######The BS Tag</p>
 
 <p>extracts the title of the series the Record is in</p>
 
@@ -2714,9 +2697,9 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="language"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#language"><ins>language</ins></a></strong>(<em>val</em>):</p>
+<p><a name="language"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#language"><ins>language</ins></a></strong>(<em>val</em>):</p>
 
-<h6 id="the-la-tag">The LA Tag</h6>
+<p>######The LA Tag</p>
 
 <p>extracts the languages of the Record as a string with languages separated by ‘, ‘, usually there is only one language</p>
 
@@ -2734,9 +2717,9 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="docType"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#docType"><ins>docType</ins></a></strong>(<em>val</em>):</p>
+<p><a name="docType"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#docType"><ins>docType</ins></a></strong>(<em>val</em>):</p>
 
-<h6 id="the-dt-tag">The DT Tag</h6>
+<p>######The DT Tag</p>
 
 <p>extracts the type of document the Record contains</p>
 
@@ -2754,9 +2737,9 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="confTitle"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#confTitle"><ins>confTitle</ins></a></strong>(<em>val</em>):</p>
+<p><a name="confTitle"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#confTitle"><ins>confTitle</ins></a></strong>(<em>val</em>):</p>
 
-<h6 id="the-ct-tag">The CT Tag</h6>
+<p>######The CT Tag</p>
 
 <p>extracts the title of the conference associated with the Record</p>
 
@@ -2774,9 +2757,9 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="confDate"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#confDate"><ins>confDate</ins></a></strong>(<em>val</em>):</p>
+<p><a name="confDate"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#confDate"><ins>confDate</ins></a></strong>(<em>val</em>):</p>
 
-<h6 id="the-cy-tag">The CY Tag</h6>
+<p>######The CY Tag</p>
 
 <p>extracts the date string of the conference associated with the Record, the date is not normalized</p>
 
@@ -2794,9 +2777,9 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="confHost"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#confHost"><ins>confHost</ins></a></strong>(<em>val</em>):</p>
+<p><a name="confHost"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#confHost"><ins>confHost</ins></a></strong>(<em>val</em>):</p>
 
-<h6 id="the-ho-tag">The HO Tag</h6>
+<p>######The HO Tag</p>
 
 <p>extracts the host of the conference</p>
 
@@ -2814,9 +2797,9 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="confLocation"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#confLocation"><ins>confLocation</ins></a></strong>(<em>val</em>):</p>
+<p><a name="confLocation"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#confLocation"><ins>confLocation</ins></a></strong>(<em>val</em>):</p>
 
-<h6 id="the-cl-tag">The CL Tag</h6>
+<p>######The CL Tag</p>
 
 <p>extracts the sting giving the conference’s location</p>
 
@@ -2834,9 +2817,9 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="confSponsors"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#confSponsors"><ins>confSponsors</ins></a></strong>(<em>val</em>):</p>
+<p><a name="confSponsors"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#confSponsors"><ins>confSponsors</ins></a></strong>(<em>val</em>):</p>
 
-<h6 id="the-sp-tag">The SP Tag</h6>
+<p>######The SP Tag</p>
 
 <p>extracts a list of sponsors for the conference associated with the record</p>
 
@@ -2854,9 +2837,9 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="authKeyWords"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#authKeyWords"><ins>authKeyWords</ins></a></strong>(<em>val</em>):</p>
+<p><a name="authKeyWords"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#authKeyWords"><ins>authKeyWords</ins></a></strong>(<em>val</em>):</p>
 
-<h6 id="the-de-tag">The DE Tag</h6>
+<p>######The DE Tag</p>
 
 <p>extracts the keywords assigned by the author of the Record. The WOS description is:</p>
 
@@ -2877,9 +2860,9 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="keyWords"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#keyWords"><ins>keyWords</ins></a></strong>(<em>val</em>):</p>
+<p><a name="keyWords"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#keyWords"><ins>keyWords</ins></a></strong>(<em>val</em>):</p>
 
-<h6 id="the-id-tag">The ID Tag</h6>
+<p>######The ID Tag</p>
 
 <p>extracts the WOS keywords of the Record. The WOS description is:</p>
 
@@ -2900,9 +2883,9 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="abstract"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#abstract"><ins>abstract</ins></a></strong>(<em>val</em>):</p>
+<p><a name="abstract"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#abstract"><ins>abstract</ins></a></strong>(<em>val</em>):</p>
 
-<h6 id="the-ab-tag">The AB Tag</h6>
+<p>######The AB Tag</p>
 
 <p>return abstract of the record, with newlines hopefully in the correct places</p>
 
@@ -2920,7 +2903,7 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="authAddress"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#authAddress"><ins>authAddress</ins></a></strong>(<em>val</em>):</p>
+<p><a name="authAddress"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#authAddress"><ins>authAddress</ins></a></strong>(<em>val</em>):</p>
 
 <h6 id="the-c1-tag">The C1 Tag</h6>
 
@@ -2940,9 +2923,9 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="reprintAddress"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#reprintAddress"><ins>reprintAddress</ins></a></strong>(<em>val</em>):</p>
+<p><a name="reprintAddress"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#reprintAddress"><ins>reprintAddress</ins></a></strong>(<em>val</em>):</p>
 
-<h6 id="the-rp-tag">The RP Tag</h6>
+<p>######The RP Tag</p>
 
 <p>extracts the reprint address string</p>
 
@@ -2960,9 +2943,9 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="email"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#email"><ins>email</ins></a></strong>(<em>val</em>):</p>
+<p><a name="email"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#email"><ins>email</ins></a></strong>(<em>val</em>):</p>
 
-<h6 id="the-em-tag">The EM Tag</h6>
+<p>######The EM Tag</p>
 
 <p>extracts a list of emails given by the authors of the Record</p>
 
@@ -2980,9 +2963,9 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="ResearcherIDnumber"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#ResearcherIDnumber"><ins>ResearcherIDnumber</ins></a></strong>(<em>val</em>):</p>
+<p><a name="ResearcherIDnumber"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#ResearcherIDnumber"><ins>ResearcherIDnumber</ins></a></strong>(<em>val</em>):</p>
 
-<h6 id="the-ri-tag">The RI Tag</h6>
+<p>######The RI Tag</p>
 
 <p>extracts a list of the research IDs of the Record</p>
 
@@ -3000,9 +2983,9 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="orcID"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#orcID"><ins>orcID</ins></a></strong>(<em>val</em>):</p>
+<p><a name="orcID"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#orcID"><ins>orcID</ins></a></strong>(<em>val</em>):</p>
 
-<h6 id="the-oi-tag">The OI Tag</h6>
+<p>######The OI Tag</p>
 
 <p>extracts a list of orc IDs of the Record</p>
 
@@ -3020,9 +3003,9 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="funding"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#funding"><ins>funding</ins></a></strong>(<em>val</em>):</p>
+<p><a name="funding"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#funding"><ins>funding</ins></a></strong>(<em>val</em>):</p>
 
-<h6 id="the-fu-tag">The FU Tag</h6>
+<p>######The FU Tag</p>
 
 <p>extracts a list of the groups funding the Record</p>
 
@@ -3040,9 +3023,9 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="fundingText"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#fundingText"><ins>fundingText</ins></a></strong>(<em>val</em>):</p>
+<p><a name="fundingText"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#fundingText"><ins>fundingText</ins></a></strong>(<em>val</em>):</p>
 
-<h6 id="the-fx-tag">The FX Tag</h6>
+<p>######The FX Tag</p>
 
 <p>extracts a string of the funding thanks</p>
 
@@ -3060,11 +3043,11 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="citations"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#citations"><ins>citations</ins></a></strong>(<em>val</em>):</p>
+<p><a name="citations"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#citations"><ins>citations</ins></a></strong>(<em>val</em>):</p>
 
-<h6 id="the-cr-tag">The CR Tag</h6>
+<p>######The CR Tag</p>
 
-<p>extracts a list of all the citations in the record, the citations are the <a href="/metaknowledge/documentation/metaknowledgeFull.html#Citation">metaknowledge.Citation</a> class.</p>
+<p>extracts a list of all the citations in the record, the citations are the <a href="/metaknowledge/documentation/metaknowledgeFull#Citation">metaknowledge.Citation</a> class.</p>
 
 <h6 id="parameters-82">Parameters</h6>
 
@@ -3080,9 +3063,9 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="citedRefsCount"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#citedRefsCount"><ins>citedRefsCount</ins></a></strong>(<em>val</em>):</p>
+<p><a name="citedRefsCount"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#citedRefsCount"><ins>citedRefsCount</ins></a></strong>(<em>val</em>):</p>
 
-<h6 id="the-nr-tag">The NR Tag</h6>
+<p>######The NR Tag</p>
 
 <p>extracts the number citations, length of CR list</p>
 
@@ -3100,9 +3083,9 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="wosTimesCited"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#wosTimesCited"><ins>wosTimesCited</ins></a></strong>(<em>val</em>):</p>
+<p><a name="wosTimesCited"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#wosTimesCited"><ins>wosTimesCited</ins></a></strong>(<em>val</em>):</p>
 
-<h6 id="the-tc-tag">The TC Tag</h6>
+<p>######The TC Tag</p>
 
 <p>extracts the number of times the Record has been cited by records in WOS</p>
 
@@ -3120,9 +3103,9 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="totalTimesCited"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#totalTimesCited"><ins>totalTimesCited</ins></a></strong>(<em>val</em>):</p>
+<p><a name="totalTimesCited"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#totalTimesCited"><ins>totalTimesCited</ins></a></strong>(<em>val</em>):</p>
 
-<h6 id="the-z9-tag">The Z9 Tag</h6>
+<p>######The Z9 Tag</p>
 
 <p>extracts the total number of citations of the record</p>
 
@@ -3140,9 +3123,9 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="publisher"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#publisher"><ins>publisher</ins></a></strong>(<em>val</em>):</p>
+<p><a name="publisher"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#publisher"><ins>publisher</ins></a></strong>(<em>val</em>):</p>
 
-<h6 id="the-pu-tag">The PU Tag</h6>
+<p>######The PU Tag</p>
 
 <p>extracts the publisher of the Record</p>
 
@@ -3160,9 +3143,9 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="publisherCity"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#publisherCity"><ins>publisherCity</ins></a></strong>(<em>val</em>):</p>
+<p><a name="publisherCity"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#publisherCity"><ins>publisherCity</ins></a></strong>(<em>val</em>):</p>
 
-<h6 id="the-pi-tag">The PI Tag</h6>
+<p>######The PI Tag</p>
 
 <p>extracts the city the publisher is in</p>
 
@@ -3180,9 +3163,9 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="publisherAddress"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#publisherAddress"><ins>publisherAddress</ins></a></strong>(<em>val</em>):</p>
+<p><a name="publisherAddress"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#publisherAddress"><ins>publisherAddress</ins></a></strong>(<em>val</em>):</p>
 
-<h6 id="the-pa-tag">The PA Tag</h6>
+<p>######The PA Tag</p>
 
 <p>extracts the publishers address</p>
 
@@ -3200,9 +3183,9 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="subjectCategory"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#subjectCategory"><ins>subjectCategory</ins></a></strong>(<em>val</em>):</p>
+<p><a name="subjectCategory"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#subjectCategory"><ins>subjectCategory</ins></a></strong>(<em>val</em>):</p>
 
-<h6 id="the-sc-tag">The SC Tag</h6>
+<p>######The SC Tag</p>
 
 <p>extracts a list of the subjects associated with the Record</p>
 
@@ -3220,9 +3203,9 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="ISSN"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#ISSN"><ins>ISSN</ins></a></strong>(<em>val</em>):</p>
+<p><a name="ISSN"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#ISSN"><ins>ISSN</ins></a></strong>(<em>val</em>):</p>
 
-<h6 id="the-sn-tag">The SN Tag</h6>
+<p>######The SN Tag</p>
 
 <p>extracts the ISSN of the Record</p>
 
@@ -3240,9 +3223,9 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="eISSN"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#eISSN"><ins>eISSN</ins></a></strong>(<em>val</em>):</p>
+<p><a name="eISSN"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#eISSN"><ins>eISSN</ins></a></strong>(<em>val</em>):</p>
 
-<h6 id="the-ei-tag">The EI Tag</h6>
+<p>######The EI Tag</p>
 
 <p>extracts the EISSN of the Record</p>
 
@@ -3260,9 +3243,9 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="ISBN"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#ISBN"><ins>ISBN</ins></a></strong>(<em>val</em>):</p>
+<p><a name="ISBN"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#ISBN"><ins>ISBN</ins></a></strong>(<em>val</em>):</p>
 
-<h6 id="the-bn-tag">The BN Tag</h6>
+<p>######The BN Tag</p>
 
 <p>extracts a list of ISBNs associated with the Record</p>
 
@@ -3280,9 +3263,9 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="j9"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#j9"><ins>j9</ins></a></strong>(<em>val</em>):</p>
+<p><a name="j9"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#j9"><ins>j9</ins></a></strong>(<em>val</em>):</p>
 
-<h6 id="the-j9-tag">The J9 Tag</h6>
+<p>######The J9 Tag</p>
 
 <p>extracts the J9 (29-Character Source Abbreviation) of the publication</p>
 
@@ -3300,9 +3283,9 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="isoAbbreviation"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#isoAbbreviation"><ins>isoAbbreviation</ins></a></strong>(<em>val</em>):</p>
+<p><a name="isoAbbreviation"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#isoAbbreviation"><ins>isoAbbreviation</ins></a></strong>(<em>val</em>):</p>
 
-<h6 id="the-ji-tag">The JI Tag</h6>
+<p>######The JI Tag</p>
 
 <p>extracts the iso abbreviation of the journal</p>
 
@@ -3320,9 +3303,9 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="month"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#month"><ins>month</ins></a></strong>(<em>val</em>):</p>
+<p><a name="month"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#month"><ins>month</ins></a></strong>(<em>val</em>):</p>
 
-<h6 id="the-pd-tag">The PD Tag</h6>
+<p>######The PD Tag</p>
 
 <p>extracts the month the record was published in as an int with January as 1, February 2, …</p>
 
@@ -3340,9 +3323,9 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="year"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#year"><ins>year</ins></a></strong>(<em>val</em>):</p>
+<p><a name="year"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#year"><ins>year</ins></a></strong>(<em>val</em>):</p>
 
-<h6 id="the-py-tag">The PY Tag</h6>
+<p>######The PY Tag</p>
 
 <p>extracts the year the record was published in as an int</p>
 
@@ -3360,9 +3343,9 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="volume"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#volume"><ins>volume</ins></a></strong>(<em>val</em>):</p>
+<p><a name="volume"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#volume"><ins>volume</ins></a></strong>(<em>val</em>):</p>
 
-<h6 id="the-vl-tag">The VL Tag</h6>
+<p>######The VL Tag</p>
 
 <p>return the volume the record is in as a string, not all are integers</p>
 
@@ -3380,9 +3363,9 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="issue"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#issue"><ins>issue</ins></a></strong>(<em>val</em>):</p>
+<p><a name="issue"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#issue"><ins>issue</ins></a></strong>(<em>val</em>):</p>
 
-<h6 id="the-is-tag">The IS Tag</h6>
+<p>######The IS Tag</p>
 
 <p>extracts a string giving the issue or range of issues the Record was in, not all are integers</p>
 
@@ -3400,9 +3383,9 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="partNumber"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#partNumber"><ins>partNumber</ins></a></strong>(<em>val</em>):</p>
+<p><a name="partNumber"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#partNumber"><ins>partNumber</ins></a></strong>(<em>val</em>):</p>
 
-<h6 id="the-pn-tag">The PN Tag</h6>
+<p>######The PN Tag</p>
 
 <p>return an integer giving the part of the issue the Record is in</p>
 
@@ -3420,9 +3403,9 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="supplement"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#supplement"><ins>supplement</ins></a></strong>(<em>val</em>):</p>
+<p><a name="supplement"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#supplement"><ins>supplement</ins></a></strong>(<em>val</em>):</p>
 
-<h6 id="the-su-tag">The SU Tag</h6>
+<p>######The SU Tag</p>
 
 <p>extracts the supplement number</p>
 
@@ -3440,9 +3423,9 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="specialIssue"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#specialIssue"><ins>specialIssue</ins></a></strong>(<em>val</em>):</p>
+<p><a name="specialIssue"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#specialIssue"><ins>specialIssue</ins></a></strong>(<em>val</em>):</p>
 
-<h6 id="the-si-tag">The SI Tag</h6>
+<p>######The SI Tag</p>
 
 <p>extracts the special issue value</p>
 
@@ -3460,9 +3443,9 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="meetingAbstract"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#meetingAbstract"><ins>meetingAbstract</ins></a></strong>(<em>val</em>):</p>
+<p><a name="meetingAbstract"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#meetingAbstract"><ins>meetingAbstract</ins></a></strong>(<em>val</em>):</p>
 
-<h6 id="the-ma-tag">The MA Tag</h6>
+<p>######The MA Tag</p>
 
 <p>extracts the ID of the meeting abstract prefixed by ‘EPA-‘</p>
 
@@ -3480,9 +3463,9 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="beginningPage"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#beginningPage"><ins>beginningPage</ins></a></strong>(<em>val</em>):</p>
+<p><a name="beginningPage"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#beginningPage"><ins>beginningPage</ins></a></strong>(<em>val</em>):</p>
 
-<h6 id="the-bp-tag">The BP Tag</h6>
+<p>######The BP Tag</p>
 
 <p>extracts the first page the record occurs on, not all are integers</p>
 
@@ -3500,9 +3483,9 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="endingPage"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#endingPage"><ins>endingPage</ins></a></strong>(<em>val</em>):</p>
+<p><a name="endingPage"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#endingPage"><ins>endingPage</ins></a></strong>(<em>val</em>):</p>
 
-<h6 id="the-ep-tag">The EP Tag</h6>
+<p>######The EP Tag</p>
 
 <p>return the last page the record occurs on as a string, not aall are intergers</p>
 
@@ -3520,9 +3503,9 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="articleNumber"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#articleNumber"><ins>articleNumber</ins></a></strong>(<em>val</em>):</p>
+<p><a name="articleNumber"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#articleNumber"><ins>articleNumber</ins></a></strong>(<em>val</em>):</p>
 
-<h6 id="the-ar-tag">The AR Tag</h6>
+<p>######The AR Tag</p>
 
 <p>extracts a string giving the article number, not all are integers</p>
 
@@ -3540,9 +3523,9 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="pageCount"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#pageCount"><ins>pageCount</ins></a></strong>(<em>val</em>):</p>
+<p><a name="pageCount"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#pageCount"><ins>pageCount</ins></a></strong>(<em>val</em>):</p>
 
-<h6 id="the-pg-tag">The PG Tag</h6>
+<p>######The PG Tag</p>
 
 <p>returns an integer giving the number of pages of the Record</p>
 
@@ -3560,9 +3543,9 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="subjects"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#subjects"><ins>subjects</ins></a></strong>(<em>val</em>):</p>
+<p><a name="subjects"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#subjects"><ins>subjects</ins></a></strong>(<em>val</em>):</p>
 
-<h6 id="the-wc-tag">The WC Tag</h6>
+<p>######The WC Tag</p>
 
 <p>extracts a list of subjects as assigned by WOS</p>
 
@@ -3580,9 +3563,9 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="DOI"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#DOI"><ins>DOI</ins></a></strong>(<em>val</em>):</p>
+<p><a name="DOI"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#DOI"><ins>DOI</ins></a></strong>(<em>val</em>):</p>
 
-<h6 id="the-di-tag">The DI Tag</h6>
+<p>######The DI Tag</p>
 
 <p>return the DOI number of the record</p>
 
@@ -3600,9 +3583,9 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="bookDOI"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#bookDOI"><ins>bookDOI</ins></a></strong>(<em>val</em>):</p>
+<p><a name="bookDOI"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#bookDOI"><ins>bookDOI</ins></a></strong>(<em>val</em>):</p>
 
-<h6 id="the-d2-tag">The D2 Tag</h6>
+<p>######The D2 Tag</p>
 
 <p>extracts the book DOI of the Record</p>
 
@@ -3620,9 +3603,9 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="documentDeliveryNumber"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#documentDeliveryNumber"><ins>documentDeliveryNumber</ins></a></strong>(<em>val</em>):</p>
+<p><a name="documentDeliveryNumber"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#documentDeliveryNumber"><ins>documentDeliveryNumber</ins></a></strong>(<em>val</em>):</p>
 
-<h6 id="the-ga-tag">The GA Tag</h6>
+<p>######The GA Tag</p>
 
 <p>extracts the document delivery number of the Record</p>
 
@@ -3640,9 +3623,9 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="wosString"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#wosString"><ins>wosString</ins></a></strong>(<em>val</em>):</p>
+<p><a name="wosString"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#wosString"><ins>wosString</ins></a></strong>(<em>val</em>):</p>
 
-<h6 id="the-ut-tag">The UT Tag</h6>
+<p>######The UT Tag</p>
 
 <p>extracts the WOS number of the record as a string preceded by “WOS:”</p>
 
@@ -3660,9 +3643,9 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="pubMedID"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull.html#pubMedID"><ins>pubMedID</ins></a></strong>(<em>val</em>):</p>
+<p><a name="pubMedID"></a><small>tagProcessing.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#pubMedID"><ins>pubMedID</ins></a></strong>(<em>val</em>):</p>
 
-<h6 id="the-pm-tag">The PM Tag</h6>
+<p>######The PM Tag</p>
 
 <p>extracts the pubmed ID of the record</p>
 

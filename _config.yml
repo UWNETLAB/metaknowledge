@@ -11,7 +11,7 @@ baseurl: /metaknowledge
 # Jekyll configuration
 
 permalink: /:categories/:title
-relative_permalinks: true
+#relative_permalinks: true
 
 markdown:    kramdown
 highlighter: pygments
@@ -26,7 +26,7 @@ kramdown:
   footnote_nr: 1
   entity_output: as_char
   toc_levels: 1..2
-  use_coderay: false
+  enable_coderay: false
 
 mathjax: true
 

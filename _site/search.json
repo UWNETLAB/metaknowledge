@@ -78,6 +78,14 @@
 
   
     ,{
+      "title"			: "About the Jekyll Theme",
+      "link"			: "http://networkslab.org/about/",
+      "excerpt"		: "So Simple is a responsive Jekyll theme for your words and images."
+    }
+  
+
+  
+    ,{
       "title"			: "Documentation",
       "link"			: "http://networkslab.org/documentation/",
       "excerpt"		: "Instructions on how to install and use metaknowledge."
@@ -86,24 +94,16 @@
 
   
     ,{
-      "title"			: "About the Jekyll Theme",
-      "link"			: "http://networkslab.org/about/",
-      "excerpt"		: "So Simple is a responsive Jekyll theme for your words and images."
-    }
-  
-
-  
-
-  
-
-  
-
-  
-    ,{
       "title"			: "Command Line Tool",
       "link"			: "http://networkslab.org/cli/",
       "excerpt"		: "How to use the metaknowledge command line tool."
     }
+  
+
+  
+
+  
+
   
 
   

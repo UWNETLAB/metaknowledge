@@ -143,17 +143,17 @@
 
 <h5 id="customizations">Customizations</h5>
 
-<p>The <code>Record</code>’s hashing and equality testing are based on the WOS number (the tag is ‘UT’, and also called the accession number). They are strings starting with <code>'WOS:'</code> and followed by 15 or so numbers and letters, although both the length and character set are known to vary. The numbers are unique to each record so are used for comparisons. If a record is <code>bad</code>  all equality checks return <code>False</code>.</p>
+<p>The <code class="highlighter-rouge">Record</code>’s hashing and equality testing are based on the WOS number (the tag is ‘UT’, and also called the accession number). They are strings starting with <code class="highlighter-rouge">'WOS:'</code> and followed by 15 or so numbers and letters, although both the length and character set are known to vary. The numbers are unique to each record so are used for comparisons. If a record is <code class="highlighter-rouge">bad</code>  all equality checks return <code class="highlighter-rouge">False</code>.</p>
 
-<p>When converted to a string the records title is used so for a record <code>R</code>, <code>R.TI == R.title == str(R)</code> and its representation uses the WOS number instead of memory location.</p>
+<p>When converted to a string the records title is used so for a record <code class="highlighter-rouge">R</code>, <code class="highlighter-rouge">R.TI == R.title == str(R)</code> and its representation uses the WOS number instead of memory location.</p>
 
 <h5 id="attributes">Attributes</h5>
 
-<p>When a record is created if the parsing of the WOS file failed it is marked as <code>bad</code>. The <code>bad</code> attribute is set to True and the <code>error</code> attribute is created to contain the exception object.</p>
+<p>When a record is created if the parsing of the WOS file failed it is marked as <code class="highlighter-rouge">bad</code>. The <code class="highlighter-rouge">bad</code> attribute is set to True and the <code class="highlighter-rouge">error</code> attribute is created to contain the exception object.</p>
 
-<p>Generally, to get the information from a Record its attributes should be used. For a Record <code>R</code>, calling <code>R.CR</code> causes <a href="/metaknowledge/docs/Record#citations"><strong>citations</strong>()</a> from the the <a href="/metaknowledge/docs/Record#tagProcessing">tagProcessing</a> module to be called on the contents of the raw ‘CR’ field. Then the result is saved and returned. In this case, a list of Citation objects is returned. You can also call <code>R.citations</code> to get the same effect, as each known field tag has a longer name (currently there are 61 field tags). These names are meant to make accessing tags more readable and mapping from tag to name can be found in the tagToFull dict. If a tag is known (in <a href="/metaknowledge/docs/Record#metaknowledge">tagToFull</a>) but not in the raw data <code>None</code> is returned instead. Most tags when cleaned return a string or list of strings, the exact results can be found in the help for the particular function.</p>
+<p>Generally, to get the information from a Record its attributes should be used. For a Record <code class="highlighter-rouge">R</code>, calling <code class="highlighter-rouge">R.CR</code> causes <a href="/metaknowledge/docs/Record#citations"><strong>citations</strong>()</a> from the the <a href="/metaknowledge/docs/Record#tagProcessing">tagProcessing</a> module to be called on the contents of the raw ‘CR’ field. Then the result is saved and returned. In this case, a list of Citation objects is returned. You can also call <code class="highlighter-rouge">R.citations</code> to get the same effect, as each known field tag has a longer name (currently there are 61 field tags). These names are meant to make accessing tags more readable and mapping from tag to name can be found in the tagToFull dict. If a tag is known (in <a href="/metaknowledge/docs/Record#metaknowledge">tagToFull</a>) but not in the raw data <code class="highlighter-rouge">None</code> is returned instead. Most tags when cleaned return a string or list of strings, the exact results can be found in the help for the particular function.</p>
 
-<p>The attribute <code>authors</code> is also defined as a connivence and returns the same as ‘AF’ or if that is not found ‘AU’.</p>
+<p>The attribute <code class="highlighter-rouge">authors</code> is also defined as a connivence and returns the same as ‘AF’ or if that is not found ‘AU’.</p>
 
 <h5 id="init">__Init__</h5>
 
@@ -161,21 +161,21 @@
 
 <h5 id="parameters">Parameters</h5>
 
-<p><em>inRecord</em>: <code>files stream, dict, str or itertools.chain</code></p>
+<p><em>inRecord</em>: <code class="highlighter-rouge">files stream, dict, str or itertools.chain</code></p>
 
 <p>If it is a file stream the file must be open at the location of the first tag in the record, usually ‘PT’, and the file will be read until ‘ER’ is found, which indicates the end of the record in the file.</p>
 
 <p>If a dict is passed the dictionary is used as the database of fields and tags, so each key is considered a WOS tag and each value a list of the lines of the original associated with the tag. This is the same form of dict that <a href="/metaknowledge/docs/Record#recordParser">recordParser</a> returns.</p>
 
-<p>For a string the input must be the raw textual data of a single record in the WOS style, like the file stream it must start at the first tag and end in <code>'ER'</code>.</p>
+<p>For a string the input must be the raw textual data of a single record in the WOS style, like the file stream it must start at the first tag and end in <code class="highlighter-rouge">'ER'</code>.</p>
 
 <p>itertools.chain is treated identically to a file stream and is used by <a href="/metaknowledge/docs/Record#RecordCollection">RecordCollections</a>.</p>
 
-<p><em>sFile</em> : <code>optional [str]</code></p>
+<p><em>sFile</em> : <code class="highlighter-rouge">optional [str]</code></p>
 
 <p>Is the name of the file the raw data was in, by default it is blank. It is mostly used to make error messages more informative.</p>
 
-<p><em>sLine</em> : <code>optional [int]</code></p>
+<p><em>sLine</em> : <code class="highlighter-rouge">optional [int]</code></p>
 
 <p>Is the line the record starts on in the raw data file. It is mostly used to make error messages more informative.</p>
 
@@ -196,11 +196,11 @@
 
 <p><a name="numAuthors"></a><small>Record.</small><strong><a href="/metaknowledge/docs/Record#numAuthors"><ins>numAuthors</ins></a></strong>():</p>
 
-<p>Returns the number of authors of the records, i.e. <code>len(self.authors)</code></p>
+<p>Returns the number of authors of the records, i.e. <code class="highlighter-rouge">len(self.authors)</code></p>
 
 <h6 id="returns">Returns</h6>
 
-<p><code>int</code></p>
+<p><code class="highlighter-rouge">int</code></p>
 
 <p>The number of authors</p>
 
@@ -212,37 +212,37 @@
 
 <h6 id="parameters-1">Parameters</h6>
 
-<p><em>tag</em> : <code>str</code></p>
+<p><em>tag</em> : <code class="highlighter-rouge">str</code></p>
 
-<p><em>tag</em> can be a two character string corresponding to a WOS tag e.g. ‘J9’, the matching is case insensitive so ‘j9’ is the same as ‘J9’. Or it can be one of the full names for a tag with the mappings in <a href="/metaknowledge/docs/Record#tagProcessing">fullToTag</a>. If the string is not found in the original record or after being translated through <a href="/metaknowledge/docs/Record#tagProcessing">fullToTag</a>, <code>None</code> is returned.</p>
+<p><em>tag</em> can be a two character string corresponding to a WOS tag e.g. ‘J9’, the matching is case insensitive so ‘j9’ is the same as ‘J9’. Or it can be one of the full names for a tag with the mappings in <a href="/metaknowledge/docs/Record#tagProcessing">fullToTag</a>. If the string is not found in the original record or after being translated through <a href="/metaknowledge/docs/Record#tagProcessing">fullToTag</a>, <code class="highlighter-rouge">None</code> is returned.</p>
 
-<p><em>clean</em> : <code>optional [bool]</code></p>
+<p><em>clean</em> : <code class="highlighter-rouge">optional [bool]</code></p>
 
-<p>Default <code>False</code>, if <code>True</code> the processed data will be returned instead of the raw data.</p>
+<p>Default <code class="highlighter-rouge">False</code>, if <code class="highlighter-rouge">True</code> the processed data will be returned instead of the raw data.</p>
 
 <h6 id="returns-1">Returns</h6>
 
-<p><code>List [str]</code></p>
+<p><code class="highlighter-rouge">List [str]</code></p>
 
-<p>Each string in the list is a line from the record associated with <em>tag</em> or <code>None</code> if not found.</p>
+<p>Each string in the list is a line from the record associated with <em>tag</em> or <code class="highlighter-rouge">None</code> if not found.</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="createCitation"></a><small>Record.</small><strong><a href="/metaknowledge/docs/Record#createCitation"><ins>createCitation</ins></a></strong>(<em>multiCite=False</em>):</p>
 
-<p>Creates a citation string, using the same format as other WOS citations, for the <a href="/metaknowledge/docs/Record#Record">Record</a> by reading the relevant tags (<code>year</code>, <code>J9</code>, <code>volume</code>, <code>beginningPage</code>, <code>DOI</code>) and using it to create a <a href="/metaknowledge/docs/Record#Citation"><code>Citation</code></a> object.</p>
+<p>Creates a citation string, using the same format as other WOS citations, for the <a href="/metaknowledge/docs/Record#Record">Record</a> by reading the relevant tags (<code class="highlighter-rouge">year</code>, <code class="highlighter-rouge">J9</code>, <code class="highlighter-rouge">volume</code>, <code class="highlighter-rouge">beginningPage</code>, <code class="highlighter-rouge">DOI</code>) and using it to create a <a href="/metaknowledge/docs/Record#Citation"><code class="highlighter-rouge">Citation</code></a> object.</p>
 
 <h6 id="parameters-2">Parameters</h6>
 
-<p><em>multiCite</em> : <code>optional [bool]</code></p>
+<p><em>multiCite</em> : <code class="highlighter-rouge">optional [bool]</code></p>
 
-<p>Default <code>False</code>, if <code>True</code> a tuple of Citations is returned with each having a different one of the records authors as the author</p>
+<p>Default <code class="highlighter-rouge">False</code>, if <code class="highlighter-rouge">True</code> a tuple of Citations is returned with each having a different one of the records authors as the author</p>
 
 <h6 id="returns-2">Returns</h6>
 
-<p><code>Citation</code></p>
+<p><code class="highlighter-rouge">Citation</code></p>
 
-<p>A <a href="/metaknowledge/docs/Record#Citation"><code>Citation</code></a> object containing a citation for the Record.</p>
+<p>A <a href="/metaknowledge/docs/Record#Citation"><code class="highlighter-rouge">Citation</code></a> object containing a citation for the Record.</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
@@ -251,15 +251,15 @@
 <p>Returns a list of the results of <a href="/metaknowledge/docs/Record#Tag"><strong>Tag</strong>()</a> for each tag in <em>taglist</em>, the return has the same order as the original.</p>
 
 <h6 id="parameters-3">Parameters</h6>
-<p><em>taglst</em> : <code>List[str]</code></p>
+<p><em>taglst</em> : <code class="highlighter-rouge">List[str]</code></p>
 
-<p>Each string in <em>taglst</em> can be a two character string corresponding to a WOS tag e.g. ‘J9’, the matching is case insensitive so ‘j9’ is the same as ‘J9’,  or it can be one of the full names for a tag with the mappings in <a href="/metaknowledge/docs/Record#tagProcessing">fullToTag</a>. If the string is not found in the original record before or after being translated through <a href="/metaknowledge/docs/Record#tagProcessing">fullToTag</a>, <code>None</code> is used instead. Same as in <a href="/metaknowledge/docs/Record#Tag"><strong>Tag()</strong></a></p>
+<p>Each string in <em>taglst</em> can be a two character string corresponding to a WOS tag e.g. ‘J9’, the matching is case insensitive so ‘j9’ is the same as ‘J9’,  or it can be one of the full names for a tag with the mappings in <a href="/metaknowledge/docs/Record#tagProcessing">fullToTag</a>. If the string is not found in the original record before or after being translated through <a href="/metaknowledge/docs/Record#tagProcessing">fullToTag</a>, <code class="highlighter-rouge">None</code> is used instead. Same as in <a href="/metaknowledge/docs/Record#Tag"><strong>Tag()</strong></a></p>
 
 <p>Then they are compiled into a list in the same order as <em>taglst</em></p>
 
 <h6 id="returns-3">Returns</h6>
 
-<p><code>List[str]</code></p>
+<p><code class="highlighter-rouge">List[str]</code></p>
 
 <p>a list of the values for each tag in <em>taglst</em>, in the same order</p>
 
@@ -270,13 +270,13 @@
 <p>returns a dict of the results of Tag, with the elements of <em>taglst</em> as the keys and the results as the values.</p>
 
 <h6 id="parameters-4">Parameters</h6>
-<p><em>taglst</em> : <code>List[str]</code></p>
+<p><em>taglst</em> : <code class="highlighter-rouge">List[str]</code></p>
 
-<p>Each string in <em>taglst</em> can be a two character string corresponding to a WOS tag e.g. ‘J9’, the matching is case insensitive so ‘j9’ is the same as ‘J9’. Or it can be one of the full names for a tag with the mappings in <a href="/metaknowledge/docs/Record#tagProcessing">fullToTag</a>. If the string is not found in the oriagnal record before or after being translated through <a href="/metaknowledge/docs/Record#tagProcessing">fullToTag</a>, <code>None</code> is used instead. Same as in <a href="/metaknowledge/docs/Record#Tag"><strong>Tag</strong>()</a></p>
+<p>Each string in <em>taglst</em> can be a two character string corresponding to a WOS tag e.g. ‘J9’, the matching is case insensitive so ‘j9’ is the same as ‘J9’. Or it can be one of the full names for a tag with the mappings in <a href="/metaknowledge/docs/Record#tagProcessing">fullToTag</a>. If the string is not found in the oriagnal record before or after being translated through <a href="/metaknowledge/docs/Record#tagProcessing">fullToTag</a>, <code class="highlighter-rouge">None</code> is used instead. Same as in <a href="/metaknowledge/docs/Record#Tag"><strong>Tag</strong>()</a></p>
 
 <h6 id="returns-4">Returns</h6>
 
-<p><code>dict[str : List [str]]</code></p>
+<p><code class="highlighter-rouge">dict[str : List [str]]</code></p>
 
 <p>a dictionary with keys as the original tags in <em>taglst</em> and the values as the results</p>
 
@@ -284,11 +284,11 @@
 
 <p><a name="activeTags"></a><small>Record.</small><strong><a href="/metaknowledge/docs/Record#activeTags"><ins>activeTags</ins></a></strong>():</p>
 
-<p>Returns a list of all the tags the original WOS record had. These are all the tags that <a href="/metaknowledge/docs/Record#Tag"><strong>Tag</strong>()</a> will not return <code>None</code> for.</p>
+<p>Returns a list of all the tags the original WOS record had. These are all the tags that <a href="/metaknowledge/docs/Record#Tag"><strong>Tag</strong>()</a> will not return <code class="highlighter-rouge">None</code> for.</p>
 
 <h6 id="returns-5">Returns</h6>
 
-<p><code>List[str]</code></p>
+<p><code class="highlighter-rouge">List[str]</code></p>
 
 <p>a list of WOS tags in the Record</p>
 
@@ -300,7 +300,7 @@
 
 <h6 id="parameters-5">Parameters</h6>
 
-<p><em>infile</em> : <code>file stream</code></p>
+<p><em>infile</em> : <code class="highlighter-rouge">file stream</code></p>
 
 <p>An open utf-8 encoded file</p>
 
@@ -308,33 +308,33 @@
 
 <p><a name="bibString"></a><small>Record.</small><strong><a href="/metaknowledge/docs/Record#bibString"><ins>bibString</ins></a></strong>(<em>maxLength=1000, WOSMode=False, restrictedOutput=False, niceID=True</em>):</p>
 
-<p>Makes a string giving the Record as a bibTex entry. If the Record is of a journal article (<code>PT J</code>) the bibtext type is set to <code>'article'</code>, otherwise it is set to <code>'misc'</code>. The ID of the entry is the WOS number and all the Record’s fields are given as entries with their long names.</p>
+<p>Makes a string giving the Record as a bibTex entry. If the Record is of a journal article (<code class="highlighter-rouge">PT J</code>) the bibtext type is set to <code class="highlighter-rouge">'article'</code>, otherwise it is set to <code class="highlighter-rouge">'misc'</code>. The ID of the entry is the WOS number and all the Record’s fields are given as entries with their long names.</p>
 
 <p><strong>Note</strong> This is not meant to be used directly with LaTeX none of the special characters have been escaped and there are a large number of unnecessary fields provided. <em>niceID</em> and <em>maxLength</em> have been provided to make conversions easier.</p>
 
-<p><strong>Note</strong> Record entries that are lists have their values seperated with the string <code>' and '</code></p>
+<p><strong>Note</strong> Record entries that are lists have their values seperated with the string <code class="highlighter-rouge">' and '</code></p>
 
 <h6 id="parameters-6">Parameters</h6>
 
-<p><em>maxLength</em> : <code>optional [int]</code></p>
+<p><em>maxLength</em> : <code class="highlighter-rouge">optional [int]</code></p>
 
-<p>default 1000, The max length for a continuous string. Most bibTex implementation only allow string to be up to 1000 characters (<a href="https://www.cs.arizona.edu/~collberg/Teaching/07.231/BibTeX/bibtex.html">source</a>), this splits them up into substrings then uses the native string concatenation (the <code>'#'</code> character) to allow for longer strings</p>
+<p>default 1000, The max length for a continuous string. Most bibTex implementation only allow string to be up to 1000 characters (<a href="https://www.cs.arizona.edu/~collberg/Teaching/07.231/BibTeX/bibtex.html">source</a>), this splits them up into substrings then uses the native string concatenation (the <code class="highlighter-rouge">'#'</code> character) to allow for longer strings</p>
 
-<p><em>WOSMode</em> : <code>optional [bool]</code></p>
+<p><em>WOSMode</em> : <code class="highlighter-rouge">optional [bool]</code></p>
 
-<p>default <code>False</code>, if <code>True</code> the data produced will be unprocessed and use double curly braces. This is the style WOS produces bib files in and mostly macthes that.</p>
+<p>default <code class="highlighter-rouge">False</code>, if <code class="highlighter-rouge">True</code> the data produced will be unprocessed and use double curly braces. This is the style WOS produces bib files in and mostly macthes that.</p>
 
-<p><em>restrictedOutput</em> : <code>optional [bool]</code></p>
+<p><em>restrictedOutput</em> : <code class="highlighter-rouge">optional [bool]</code></p>
 
-<p>default <code>False</code>, if <code>True</code> the tags output will be limited to: <code>'AF'</code>, <code>'BF'</code>, <code>'ED'</code>, <code>'TI'</code>, <code>'SO'</code>, <code>'LA'</code>, <code>'NR'</code>, <code>'TC'</code>, <code>'Z9'</code>, <code>'PU'</code>, <code>'J9'</code>, <code>'PY'</code>, <code>'PD'</code>, <code>'VL'</code>, <code>'IS'</code>, <code>'SU'</code>, <code>'PG'</code>, <code>'DI'</code>, <code>'D2'</code>, and <code>'UT'</code></p>
+<p>default <code class="highlighter-rouge">False</code>, if <code class="highlighter-rouge">True</code> the tags output will be limited to: <code class="highlighter-rouge">'AF'</code>, <code class="highlighter-rouge">'BF'</code>, <code class="highlighter-rouge">'ED'</code>, <code class="highlighter-rouge">'TI'</code>, <code class="highlighter-rouge">'SO'</code>, <code class="highlighter-rouge">'LA'</code>, <code class="highlighter-rouge">'NR'</code>, <code class="highlighter-rouge">'TC'</code>, <code class="highlighter-rouge">'Z9'</code>, <code class="highlighter-rouge">'PU'</code>, <code class="highlighter-rouge">'J9'</code>, <code class="highlighter-rouge">'PY'</code>, <code class="highlighter-rouge">'PD'</code>, <code class="highlighter-rouge">'VL'</code>, <code class="highlighter-rouge">'IS'</code>, <code class="highlighter-rouge">'SU'</code>, <code class="highlighter-rouge">'PG'</code>, <code class="highlighter-rouge">'DI'</code>, <code class="highlighter-rouge">'D2'</code>, and <code class="highlighter-rouge">'UT'</code></p>
 
-<p><em>niceID</em> : <code>optional [bool]</code></p>
+<p><em>niceID</em> : <code class="highlighter-rouge">optional [bool]</code></p>
 
-<p>default <code>True</code>, if <code>True</code> the ID used will be derived from the authors, publishing date and title, if <code>False</code> it will be the UT tag</p>
+<p>default <code class="highlighter-rouge">True</code>, if <code class="highlighter-rouge">True</code> the ID used will be derived from the authors, publishing date and title, if <code class="highlighter-rouge">False</code> it will be the UT tag</p>
 
 <h6 id="returns-6">Returns</h6>
 
-<p><code>str</code></p>
+<p><code class="highlighter-rouge">str</code></p>
 
 <p>The bibTex string of the Record</p>
 
@@ -346,7 +346,7 @@
 
 <h6 id="returns-7">Returns</h6>
 
-<p><code>str</code></p>
+<p><code class="highlighter-rouge">str</code></p>
 
 <p>The bibTex type string</p>
 

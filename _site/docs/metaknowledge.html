@@ -157,21 +157,21 @@ The functions provided by metaknowledge are:</p>
 
 <p><a name="filterNonJournals"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#filterNonJournals"><ins>filterNonJournals</ins></a></strong>(<em>citesLst, invert=False</em>):</p>
 
-<p>Removes the <code>Citations</code> from <em>citesLst</em> that are not journals</p>
+<p>Removes the <code class="highlighter-rouge">Citations</code> from <em>citesLst</em> that are not journals</p>
 
 <h6 id="parameters">Parameters</h6>
 
-<p><em>citesLst</em> : <code>list [Citation]</code></p>
+<p><em>citesLst</em> : <code class="highlighter-rouge">list [Citation]</code></p>
 
 <p>A list of citations to be filtered</p>
 
-<p><em>invert</em> : <code>optional [bool]</code></p>
+<p><em>invert</em> : <code class="highlighter-rouge">optional [bool]</code></p>
 
-<p>Default <code>False</code>, if <code>True</code> non-journals will be kept instead of journals</p>
+<p>Default <code class="highlighter-rouge">False</code>, if <code class="highlighter-rouge">True</code> non-journals will be kept instead of journals</p>
 
 <h6 id="returns">Returns</h6>
 
-<p><code>list [Citation]</code></p>
+<p><code class="highlighter-rouge">list [Citation]</code></p>
 
 <p>A filtered list of Citations from <em>citesLst</em></p>
 
@@ -179,45 +179,45 @@ The functions provided by metaknowledge are:</p>
 
 <p><a name="diffusionGraph"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#diffusionGraph"><ins>diffusionGraph</ins></a></strong>(<em>source, target, weighted=True, sourceType=’raw’, targetType=’raw’, labelEdgesBy=None</em>):</p>
 
-<p>Takes in two <a href="/metaknowledge/docs/metaknowledge#RecordCollection"><code>RecordCollections</code></a> and produces a graph of the citations of <em>source</em> by the <a href="/metaknowledge/docs/metaknowledge#Record"><code>Records</code></a> in <em>target</em>. By default the nodes in the are <code>Record</code> objects but this can be changed with the <em>sourceType</em> and <em>targetType</em> keywords. The edges of the graph go from the target to the source.</p>
+<p>Takes in two <a href="/metaknowledge/docs/metaknowledge#RecordCollection"><code class="highlighter-rouge">RecordCollections</code></a> and produces a graph of the citations of <em>source</em> by the <a href="/metaknowledge/docs/metaknowledge#Record"><code class="highlighter-rouge">Records</code></a> in <em>target</em>. By default the nodes in the are <code class="highlighter-rouge">Record</code> objects but this can be changed with the <em>sourceType</em> and <em>targetType</em> keywords. The edges of the graph go from the target to the source.</p>
 
-<p>Each node on the output graph has two boolean attributes, <code>"source"</code> and <code>"target"</code> indicating if they are targets or sources. Note, if the types of the sources and targets are different the attributes will not be checked for overlap of the other type. e.g. if the source type is <code>'TI'</code> (title) and the target type is <code>'UT'</code> (WOS number), and there is some overlap of the targets and sources. Then the Record corresponding to a source node will not be checked for being one of the titles of the targets, only its WOS number will be considered.</p>
+<p>Each node on the output graph has two boolean attributes, <code class="highlighter-rouge">"source"</code> and <code class="highlighter-rouge">"target"</code> indicating if they are targets or sources. Note, if the types of the sources and targets are different the attributes will not be checked for overlap of the other type. e.g. if the source type is <code class="highlighter-rouge">'TI'</code> (title) and the target type is <code class="highlighter-rouge">'UT'</code> (WOS number), and there is some overlap of the targets and sources. Then the Record corresponding to a source node will not be checked for being one of the titles of the targets, only its WOS number will be considered.</p>
 
 <h6 id="parameters-1">Parameters</h6>
 
-<p><em>source</em> : <code>RecordCollection</code></p>
+<p><em>source</em> : <code class="highlighter-rouge">RecordCollection</code></p>
 
-<p>A metaknowledge <code>RecordCollection</code> containing the <code>Records</code> being cited</p>
+<p>A metaknowledge <code class="highlighter-rouge">RecordCollection</code> containing the <code class="highlighter-rouge">Records</code> being cited</p>
 
-<p><em>target</em> : <code>RecordCollection</code></p>
+<p><em>target</em> : <code class="highlighter-rouge">RecordCollection</code></p>
 
-<p>A metaknowledge <code>RecordCollection</code> containing the <code>Records</code> citing those in <em>source</em></p>
+<p>A metaknowledge <code class="highlighter-rouge">RecordCollection</code> containing the <code class="highlighter-rouge">Records</code> citing those in <em>source</em></p>
 
-<p><em>weighted</em> : <code>optional [bool]</code></p>
+<p><em>weighted</em> : <code class="highlighter-rouge">optional [bool]</code></p>
 
-<p>Default <code>True</code>, if <code>True</code> each edge will have an attribute <code>'weight'</code> giving the number of times the source has referenced the target.</p>
+<p>Default <code class="highlighter-rouge">True</code>, if <code class="highlighter-rouge">True</code> each edge will have an attribute <code class="highlighter-rouge">'weight'</code> giving the number of times the source has referenced the target.</p>
 
-<p><em>sourceType</em> : <code>optional [str]</code></p>
+<p><em>sourceType</em> : <code class="highlighter-rouge">optional [str]</code></p>
 
-<p>Default <code>'raw'</code>, if <code>'raw'</code> the returned graph will contain <code>Records</code> as source nodes.</p>
+<p>Default <code class="highlighter-rouge">'raw'</code>, if <code class="highlighter-rouge">'raw'</code> the returned graph will contain <code class="highlighter-rouge">Records</code> as source nodes.</p>
 
-<p>If Records are not wanted then it can be set to a WOS tag, such as <code>'SO'</code> (for journals ), to make the nodes into the type of object returned by that tag from Records.</p>
+<p>If Records are not wanted then it can be set to a WOS tag, such as <code class="highlighter-rouge">'SO'</code> (for journals ), to make the nodes into the type of object returned by that tag from Records.</p>
 
-<p><em>targetType</em> : <code>optional [str]</code></p>
+<p><em>targetType</em> : <code class="highlighter-rouge">optional [str]</code></p>
 
-<p>Default <code>'raw'</code>, if <code>'raw'</code> the returned graph will contain <code>Records</code> as target nodes.</p>
+<p>Default <code class="highlighter-rouge">'raw'</code>, if <code class="highlighter-rouge">'raw'</code> the returned graph will contain <code class="highlighter-rouge">Records</code> as target nodes.</p>
 
-<p>If Records are not wanted then it can be set to a WOS tag, such as <code>'SO'</code> (for journals ), to make the nodes into the type of object returned by that tag from Records.</p>
+<p>If Records are not wanted then it can be set to a WOS tag, such as <code class="highlighter-rouge">'SO'</code> (for journals ), to make the nodes into the type of object returned by that tag from Records.</p>
 
-<p><em>labelEdgesBy</em> : <code>optional [str]</code></p>
+<p><em>labelEdgesBy</em> : <code class="highlighter-rouge">optional [str]</code></p>
 
-<p>Default <code>None</code>, if a WOS tag (or long name of WOS tag) then the edges of the output graph will have a attribute <code>'key'</code> that is the value of the referenced tag, of source <code>Record</code>, i.e. if <code>'PY'</code> is given then each edge will have a <code>'key'</code> value equal to the publication year of the source.</p>
+<p>Default <code class="highlighter-rouge">None</code>, if a WOS tag (or long name of WOS tag) then the edges of the output graph will have a attribute <code class="highlighter-rouge">'key'</code> that is the value of the referenced tag, of source <code class="highlighter-rouge">Record</code>, i.e. if <code class="highlighter-rouge">'PY'</code> is given then each edge will have a <code class="highlighter-rouge">'key'</code> value equal to the publication year of the source.</p>
 
-<p>This option will cause the output graph to be an <code>MultiDiGraph</code> and is likely to result in parallel edges. If a <code>Record</code> has multiple values for at tag (e.g. <code>'AF'</code>) the each tag will create its own edge.</p>
+<p>This option will cause the output graph to be an <code class="highlighter-rouge">MultiDiGraph</code> and is likely to result in parallel edges. If a <code class="highlighter-rouge">Record</code> has multiple values for at tag (e.g. <code class="highlighter-rouge">'AF'</code>) the each tag will create its own edge.</p>
 
 <h6 id="returns-1">Returns</h6>
 
-<p><code>networkx Directed Graph or networkx multi Directed Graph</code></p>
+<p><code class="highlighter-rouge">networkx Directed Graph or networkx multi Directed Graph</code></p>
 
 <p>A directed graph of the diffusion network, <em>labelEdgesBy</em> is used the graph will allow parallel edges.</p>
 
@@ -225,43 +225,43 @@ The functions provided by metaknowledge are:</p>
 
 <p><a name="diffusionCount"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#diffusionCount"><ins>diffusionCount</ins></a></strong>(<em>source, target, sourceType=’raw’, pandasFriendly=False, compareCounts=False, numAuthors=True, byYear=False</em>):</p>
 
-<p>Takes in two <a href="/metaknowledge/docs/metaknowledge#RecordCollection"><code>RecordCollections</code></a> and produces a <code>dict</code> counting the citations of <em>source</em> by the <a href="/metaknowledge/docs/metaknowledge#Record"><code>Records</code></a> of <em>target</em>. By default the <code>dict</code> uses <code>Record</code> objects as keys but this can be changed with the <em>sourceType</em> keyword to any of the WOS tags.</p>
+<p>Takes in two <a href="/metaknowledge/docs/metaknowledge#RecordCollection"><code class="highlighter-rouge">RecordCollections</code></a> and produces a <code class="highlighter-rouge">dict</code> counting the citations of <em>source</em> by the <a href="/metaknowledge/docs/metaknowledge#Record"><code class="highlighter-rouge">Records</code></a> of <em>target</em>. By default the <code class="highlighter-rouge">dict</code> uses <code class="highlighter-rouge">Record</code> objects as keys but this can be changed with the <em>sourceType</em> keyword to any of the WOS tags.</p>
 
 <h6 id="parameters-2">Parameters</h6>
 
-<p><em>source</em> : <code>RecordCollection</code></p>
+<p><em>source</em> : <code class="highlighter-rouge">RecordCollection</code></p>
 
-<p>A metaknowledge <code>RecordCollection</code> containing the <code>Records</code> being cited</p>
+<p>A metaknowledge <code class="highlighter-rouge">RecordCollection</code> containing the <code class="highlighter-rouge">Records</code> being cited</p>
 
-<p><em>target</em> : <code>RecordCollection</code></p>
+<p><em>target</em> : <code class="highlighter-rouge">RecordCollection</code></p>
 
-<p>A metaknowledge <code>RecordCollection</code> containing the <code>Records</code> citing those in <em>source</em></p>
+<p>A metaknowledge <code class="highlighter-rouge">RecordCollection</code> containing the <code class="highlighter-rouge">Records</code> citing those in <em>source</em></p>
 
-<p><em>sourceType</em> : <code>optional [str]</code></p>
+<p><em>sourceType</em> : <code class="highlighter-rouge">optional [str]</code></p>
 
-<p>default <code>'raw'</code>, if <code>'raw'</code> the returned <code>dict</code> will contain <code>Records</code> as keys. If it is a WOS tag the keys will be of that type.</p>
+<p>default <code class="highlighter-rouge">'raw'</code>, if <code class="highlighter-rouge">'raw'</code> the returned <code class="highlighter-rouge">dict</code> will contain <code class="highlighter-rouge">Records</code> as keys. If it is a WOS tag the keys will be of that type.</p>
 
-<p><em>pandasFriendly</em> : <code>optional [bool]</code></p>
+<p><em>pandasFriendly</em> : <code class="highlighter-rouge">optional [bool]</code></p>
 
-<p>default <code>False</code>, makes the output be a dict with two keys one <code>"Record"</code> is the list of Records ( or data type requested by <em>sourceType</em>) the other is their occurrence counts as <code>"Counts"</code>. The lists are the same length.</p>
+<p>default <code class="highlighter-rouge">False</code>, makes the output be a dict with two keys one <code class="highlighter-rouge">"Record"</code> is the list of Records ( or data type requested by <em>sourceType</em>) the other is their occurrence counts as <code class="highlighter-rouge">"Counts"</code>. The lists are the same length.</p>
 
-<p><em>compareCounts</em> : <code>optional [bool]</code></p>
+<p><em>compareCounts</em> : <code class="highlighter-rouge">optional [bool]</code></p>
 
-<p>default <code>False</code>, if <code>True</code> the diffusion analysis will be run twice, first with source and target setup like the default (global scope) then using only the source <code>RecordCollection</code> (local scope).</p>
+<p>default <code class="highlighter-rouge">False</code>, if <code class="highlighter-rouge">True</code> the diffusion analysis will be run twice, first with source and target setup like the default (global scope) then using only the source <code class="highlighter-rouge">RecordCollection</code> (local scope).</p>
 
-<p><em>byYear</em> : <code>optional [bool]</code></p>
+<p><em>byYear</em> : <code class="highlighter-rouge">optional [bool]</code></p>
 
-<p>default <code>False</code>, if <code>True</code> the returned dictionary will have Records mapped to maps, these maps will map years (‘ints’) to counts. If <em>pandasFriendly</em> is also <code>True</code> the resultant dictionary will have an additional column called <code>'year'</code>. This column will contain the year the citations occurred, in addition the Records entries will be duplicated for each year they occur in.</p>
+<p>default <code class="highlighter-rouge">False</code>, if <code class="highlighter-rouge">True</code> the returned dictionary will have Records mapped to maps, these maps will map years (‘ints’) to counts. If <em>pandasFriendly</em> is also <code class="highlighter-rouge">True</code> the resultant dictionary will have an additional column called <code class="highlighter-rouge">'year'</code>. This column will contain the year the citations occurred, in addition the Records entries will be duplicated for each year they occur in.</p>
 
 <h6 id="returns-2">Returns</h6>
 
-<p><code>dict[:int]</code></p>
+<p><code class="highlighter-rouge">dict[:int]</code></p>
 
 <p>A dictionary with the type given by <em>sourceType</em> as keys and integers as values.</p>
 
-<p>If <em>compareCounts</em> is <code>True</code> the values are tuples with the first integer being the diffusion in the target and the second the diffusion in the source.</p>
+<p>If <em>compareCounts</em> is <code class="highlighter-rouge">True</code> the values are tuples with the first integer being the diffusion in the target and the second the diffusion in the source.</p>
 
-<p>If <em>pandasFriendly</em> is <code>True</code> the returned dict has keys with the names of the WOS tags and lists with their values, i.e. a table with labeled columns. The counts are in the column named <code>"TargetCount"</code> and if <em>compareCounts</em> the local count is in a column called <code>"SourceCount"</code>.</p>
+<p>If <em>pandasFriendly</em> is <code class="highlighter-rouge">True</code> the returned dict has keys with the names of the WOS tags and lists with their values, i.e. a table with labeled columns. The counts are in the column named <code class="highlighter-rouge">"TargetCount"</code> and if <em>compareCounts</em> the local count is in a column called <code class="highlighter-rouge">"SourceCount"</code>.</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
@@ -271,43 +271,43 @@ The functions provided by metaknowledge are:</p>
 
 <p>This is designed only for the files produced by metaknowledge and is meant to be the reverse of <a href="/metaknowledge/docs/metaknowledge#writeGraph">writeGraph()</a>, if this does not produce the desired results the networkx builtin <a href="https://networkx.github.io/documentation/networkx-1.10/reference/generated/networkx.readwrite.edgelist.read_edgelist.html">networkx.read_edgelist()</a> could be tried as it is aimed at a more general usage.</p>
 
-<p>The read edge list format assumes the column named <em>eSource</em> (default <code>'From'</code>) is the source node, then the column <em>eDest</em> (default <code>'To'</code>) givens the destination and all other columns are attributes of the edges, e.g. weight.</p>
+<p>The read edge list format assumes the column named <em>eSource</em> (default <code class="highlighter-rouge">'From'</code>) is the source node, then the column <em>eDest</em> (default <code class="highlighter-rouge">'To'</code>) givens the destination and all other columns are attributes of the edges, e.g. weight.</p>
 
-<p>The read node list format assumes the column <em>idKey</em> (default <code>'ID'</code>) is the ID of the node for the edge list and the resulting network. All other columns are considered attributes of the node, e.g. count.</p>
+<p>The read node list format assumes the column <em>idKey</em> (default <code class="highlighter-rouge">'ID'</code>) is the ID of the node for the edge list and the resulting network. All other columns are considered attributes of the node, e.g. count.</p>
 
-<p><strong>Note</strong>: If the names of the columns do not match those given to <strong>readGraph()</strong> a <code>KeyError</code> exception will be raised.</p>
+<p><strong>Note</strong>: If the names of the columns do not match those given to <strong>readGraph()</strong> a <code class="highlighter-rouge">KeyError</code> exception will be raised.</p>
 
 <p><strong>Note</strong>: If nodes appear in the edgelist but not the nodeList they will be created silently with no attributes.</p>
 
 <h6 id="parameters-3">Parameters</h6>
 
-<p><em>edgeList</em> : <code>str</code></p>
+<p><em>edgeList</em> : <code class="highlighter-rouge">str</code></p>
 
 <p>a string giving the path to the edge list file</p>
 
-<p><em>nodeList</em> : <code>optional [str]</code></p>
+<p><em>nodeList</em> : <code class="highlighter-rouge">optional [str]</code></p>
 
-<p>default <code>None</code>, a string giving the path to the node list file</p>
+<p>default <code class="highlighter-rouge">None</code>, a string giving the path to the node list file</p>
 
-<p><em>directed</em> : <code>optional [bool]</code></p>
+<p><em>directed</em> : <code class="highlighter-rouge">optional [bool]</code></p>
 
-<p>default <code>False</code>, if <code>True</code> the produced network is directed from <em>eSource</em> to <em>eDest</em></p>
+<p>default <code class="highlighter-rouge">False</code>, if <code class="highlighter-rouge">True</code> the produced network is directed from <em>eSource</em> to <em>eDest</em></p>
 
-<p><em>idKey</em> : <code>optional [str]</code></p>
+<p><em>idKey</em> : <code class="highlighter-rouge">optional [str]</code></p>
 
-<p>default <code>'ID'</code>, the name of the ID column in the node list</p>
+<p>default <code class="highlighter-rouge">'ID'</code>, the name of the ID column in the node list</p>
 
-<p><em>eSource</em> : <code>optional [str]</code></p>
+<p><em>eSource</em> : <code class="highlighter-rouge">optional [str]</code></p>
 
-<p>default <code>'From'</code>, the name of the source column in the edge list</p>
+<p>default <code class="highlighter-rouge">'From'</code>, the name of the source column in the edge list</p>
 
-<p><em>eDest</em> : <code>optional [str]</code></p>
+<p><em>eDest</em> : <code class="highlighter-rouge">optional [str]</code></p>
 
-<p>default <code>'To'</code>, the name of the destination column in the edge list</p>
+<p>default <code class="highlighter-rouge">'To'</code>, the name of the destination column in the edge list</p>
 
 <h6 id="returns-3">Returns</h6>
 
-<p><code>networkx Graph</code></p>
+<p><code class="highlighter-rouge">networkx Graph</code></p>
 
 <p>the graph described by the input files</p>
 
@@ -317,27 +317,27 @@ The functions provided by metaknowledge are:</p>
 
 <p>Writes an edge list of <em>grph</em> at the destination <em>name</em>.</p>
 
-<p>The edge list has two columns for the source and destination of the edge, <code>'From'</code> and <code>'To'</code> respectively, then, if <em>edgeInfo</em> is <code>True</code>, for each attribute of the node another column is created.</p>
+<p>The edge list has two columns for the source and destination of the edge, <code class="highlighter-rouge">'From'</code> and <code class="highlighter-rouge">'To'</code> respectively, then, if <em>edgeInfo</em> is <code class="highlighter-rouge">True</code>, for each attribute of the node another column is created.</p>
 
-<p><strong>Note</strong>: If any edges are missing an attribute it will be left blank by default, enable <em>allSameAttribute</em> to cause a <code>KeyError</code> to be raised.</p>
+<p><strong>Note</strong>: If any edges are missing an attribute it will be left blank by default, enable <em>allSameAttribute</em> to cause a <code class="highlighter-rouge">KeyError</code> to be raised.</p>
 
 <h6 id="parameters-4">Parameters</h6>
 
-<p><em>grph</em> : <code>networkx Graph</code></p>
+<p><em>grph</em> : <code class="highlighter-rouge">networkx Graph</code></p>
 
 <p>The graph to be written to <em>name</em></p>
 
-<p><em>name</em> : <code>str</code></p>
+<p><em>name</em> : <code class="highlighter-rouge">str</code></p>
 
 <p>The name of the file to be written</p>
 
-<p><em>edgeInfo</em> : <code>optional [bool]</code></p>
+<p><em>edgeInfo</em> : <code class="highlighter-rouge">optional [bool]</code></p>
 
-<p>Default <code>True</code>, if <code>True</code> the attributes of each edge will be written</p>
+<p>Default <code class="highlighter-rouge">True</code>, if <code class="highlighter-rouge">True</code> the attributes of each edge will be written</p>
 
-<p><em>allSameAttribute</em> : <code>optional [bool]</code></p>
+<p><em>allSameAttribute</em> : <code class="highlighter-rouge">optional [bool]</code></p>
 
-<p>Default <code>False</code>, if <code>True</code> all the edges must have the same attributes or an exception will be raised. If <code>False</code> the missing attributes will be left blank.</p>
+<p>Default <code class="highlighter-rouge">False</code>, if <code class="highlighter-rouge">True</code> all the edges must have the same attributes or an exception will be raised. If <code class="highlighter-rouge">False</code> the missing attributes will be left blank.</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
@@ -345,57 +345,57 @@ The functions provided by metaknowledge are:</p>
 
 <p>Writes a node attribute list of <em>grph</em> to the file given by the path <em>name</em>.</p>
 
-<p>The node list has one column call <code>'ID'</code> with the node ids used by networkx and all other columns are the node attributes.</p>
+<p>The node list has one column call <code class="highlighter-rouge">'ID'</code> with the node ids used by networkx and all other columns are the node attributes.</p>
 
-<p><strong>Note</strong>: If any nodes are missing an attribute it will be left blank by default, enable <em>allSameAttribute</em> to cause a <code>KeyError</code> to be raised.</p>
+<p><strong>Note</strong>: If any nodes are missing an attribute it will be left blank by default, enable <em>allSameAttribute</em> to cause a <code class="highlighter-rouge">KeyError</code> to be raised.</p>
 
 <h6 id="parameters-5">Parameters</h6>
 
-<p><em>grph</em> : <code>networkx Graph</code></p>
+<p><em>grph</em> : <code class="highlighter-rouge">networkx Graph</code></p>
 
 <p>The graph to be written to <em>name</em></p>
 
-<p><em>name</em> : <code>str</code></p>
+<p><em>name</em> : <code class="highlighter-rouge">str</code></p>
 
 <p>The name of the file to be written</p>
 
-<p><em>allSameAttribute</em> : <code>optional [bool]</code></p>
+<p><em>allSameAttribute</em> : <code class="highlighter-rouge">optional [bool]</code></p>
 
-<p>Default <code>False</code>, if <code>True</code> all the nodes must have the same attributes or an exception will be raised. If <code>False</code> the missing attributes will be left blank.</p>
+<p>Default <code class="highlighter-rouge">False</code>, if <code class="highlighter-rouge">True</code> all the nodes must have the same attributes or an exception will be raised. If <code class="highlighter-rouge">False</code> the missing attributes will be left blank.</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="dropEdges"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#dropEdges"><ins>dropEdges</ins></a></strong>(<em>grph, minWeight=-inf, maxWeight=inf, parameterName=’weight’, ignoreUnweighted=False, dropSelfLoops=False</em>):</p>
 
-<p>Modifies <em>grph</em> by dropping edges whose weight is not within the inclusive bounds of <em>minWeight</em> and <em>maxWeight</em>, i.e after running <em>grph</em> will only have edges whose weights meet the following inequality: <em>minWeight</em> &lt;= edge’s weight &lt;= <em>maxWeight</em>. A <code>Keyerror</code> will be raised if the graph is unweighted unless <em>ignoreUnweighted</em> is <code>True</code>, the weight is determined by examining the attribute <em>parameterName</em>.</p>
+<p>Modifies <em>grph</em> by dropping edges whose weight is not within the inclusive bounds of <em>minWeight</em> and <em>maxWeight</em>, i.e after running <em>grph</em> will only have edges whose weights meet the following inequality: <em>minWeight</em> &lt;= edge’s weight &lt;= <em>maxWeight</em>. A <code class="highlighter-rouge">Keyerror</code> will be raised if the graph is unweighted unless <em>ignoreUnweighted</em> is <code class="highlighter-rouge">True</code>, the weight is determined by examining the attribute <em>parameterName</em>.</p>
 
-<p><strong>Note</strong>: none of the default options will result in <em>grph</em> being modified so only specify the relevant ones, e.g. <code>dropEdges(G, dropSelfLoops = True)</code> will remove only the self loops from <code>G</code>.</p>
+<p><strong>Note</strong>: none of the default options will result in <em>grph</em> being modified so only specify the relevant ones, e.g. <code class="highlighter-rouge">dropEdges(G, dropSelfLoops = True)</code> will remove only the self loops from <code class="highlighter-rouge">G</code>.</p>
 
 <h6 id="parameters-6">Parameters</h6>
 
-<p><em>grph</em> : <code>networkx Graph</code></p>
+<p><em>grph</em> : <code class="highlighter-rouge">networkx Graph</code></p>
 
 <p>The graph to be modified.</p>
 
-<p><em>minWeight</em> : <code>optional [int or double]</code></p>
+<p><em>minWeight</em> : <code class="highlighter-rouge">optional [int or double]</code></p>
 
-<p>default <code>-inf</code>, the minimum weight for an edge to be kept in the graph.</p>
+<p>default <code class="highlighter-rouge">-inf</code>, the minimum weight for an edge to be kept in the graph.</p>
 
-<p><em>maxWeight</em> : <code>optional [int or double]</code></p>
+<p><em>maxWeight</em> : <code class="highlighter-rouge">optional [int or double]</code></p>
 
-<p>default <code>inf</code>, the maximum weight for an edge to be kept in the graph.</p>
+<p>default <code class="highlighter-rouge">inf</code>, the maximum weight for an edge to be kept in the graph.</p>
 
-<p><em>parameterName</em> : <code>optional [str]</code></p>
+<p><em>parameterName</em> : <code class="highlighter-rouge">optional [str]</code></p>
 
-<p>default <code>'weight'</code>, key to weight field in the edge’s attribute dictionary, the default is the same as networkx and metaknowledge so is likely to be correct</p>
+<p>default <code class="highlighter-rouge">'weight'</code>, key to weight field in the edge’s attribute dictionary, the default is the same as networkx and metaknowledge so is likely to be correct</p>
 
-<p><em>ignoreUnweighted</em> : <code>optional [bool]</code></p>
+<p><em>ignoreUnweighted</em> : <code class="highlighter-rouge">optional [bool]</code></p>
 
-<p>default <code>False</code>, if <code>True</code> unweighted edges will kept</p>
+<p>default <code class="highlighter-rouge">False</code>, if <code class="highlighter-rouge">True</code> unweighted edges will kept</p>
 
-<p><em>dropSelfLoops</em> : <code>optional [bool]</code></p>
+<p><em>dropSelfLoops</em> : <code class="highlighter-rouge">optional [bool]</code></p>
 
-<p>default <code>False</code>, if <code>True</code> self loops will be removed regardless of their weight</p>
+<p>default <code class="highlighter-rouge">False</code>, if <code class="highlighter-rouge">True</code> self loops will be removed regardless of their weight</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
@@ -403,33 +403,33 @@ The functions provided by metaknowledge are:</p>
 
 <p>Modifies <em>grph</em> by dropping nodes that do not have a degree that is within inclusive bounds of <em>minDegree</em> and <em>maxDegree</em>, i.e after running <em>grph</em> will only have nodes whose degrees meet the following inequality: <em>minDegree</em> &lt;= node’s degree &lt;= <em>maxDegree</em>.</p>
 
-<p>Degree is determined in two ways, the default <em>useWeight</em> is the weight attribute of the edges to a node will be summed, the attribute’s name is <em>parameterName</em> otherwise the number of edges touching the node is used. If <em>includeUnweighted</em> is <code>True</code> then <em>useWeight</em> will assign a degree of 1 to unweighted edges.</p>
+<p>Degree is determined in two ways, the default <em>useWeight</em> is the weight attribute of the edges to a node will be summed, the attribute’s name is <em>parameterName</em> otherwise the number of edges touching the node is used. If <em>includeUnweighted</em> is <code class="highlighter-rouge">True</code> then <em>useWeight</em> will assign a degree of 1 to unweighted edges.</p>
 
 <h6 id="parameters-7">Parameters</h6>
 
-<p><em>grph</em> : <code>networkx Graph</code></p>
+<p><em>grph</em> : <code class="highlighter-rouge">networkx Graph</code></p>
 
 <p>The graph to be modified.</p>
 
-<p><em>minDegree</em> : <code>optional [int or double]</code></p>
+<p><em>minDegree</em> : <code class="highlighter-rouge">optional [int or double]</code></p>
 
-<p>default <code>-inf</code>, the minimum degree for an node to be kept in the graph.</p>
+<p>default <code class="highlighter-rouge">-inf</code>, the minimum degree for an node to be kept in the graph.</p>
 
-<p><em>maxDegree</em> : <code>optional [int or double]</code></p>
+<p><em>maxDegree</em> : <code class="highlighter-rouge">optional [int or double]</code></p>
 
-<p>default <code>inf</code>, the maximum degree for an node to be kept in the graph.</p>
+<p>default <code class="highlighter-rouge">inf</code>, the maximum degree for an node to be kept in the graph.</p>
 
-<p><em>useWeight</em> : <code>optional [bool]</code></p>
+<p><em>useWeight</em> : <code class="highlighter-rouge">optional [bool]</code></p>
 
-<p>default <code>True</code>, if <code>True</code> the the edge weights will be summed to get the degree, if <code>False</code> the number of edges will be used to determine the degree.</p>
+<p>default <code class="highlighter-rouge">True</code>, if <code class="highlighter-rouge">True</code> the the edge weights will be summed to get the degree, if <code class="highlighter-rouge">False</code> the number of edges will be used to determine the degree.</p>
 
-<p><em>parameterName</em> : <code>optional [str]</code></p>
+<p><em>parameterName</em> : <code class="highlighter-rouge">optional [str]</code></p>
 
-<p>default <code>'weight'</code>, key to weight field in the edge’s attribute dictionary, the default is the same as networkx and metaknowledge so is likely to be correct.</p>
+<p>default <code class="highlighter-rouge">'weight'</code>, key to weight field in the edge’s attribute dictionary, the default is the same as networkx and metaknowledge so is likely to be correct.</p>
 
-<p><em>includeUnweighted</em> : <code>optional [bool]</code></p>
+<p><em>includeUnweighted</em> : <code class="highlighter-rouge">optional [bool]</code></p>
 
-<p>default <code>True</code>, if <code>True</code> edges with no weight will be considered to have a weight of 1, if <code>False</code> they will cause a <code>KeyError</code> to be raised.</p>
+<p>default <code class="highlighter-rouge">True</code>, if <code class="highlighter-rouge">True</code> edges with no weight will be considered to have a weight of 1, if <code class="highlighter-rouge">False</code> they will cause a <code class="highlighter-rouge">KeyError</code> to be raised.</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
@@ -437,31 +437,31 @@ The functions provided by metaknowledge are:</p>
 
 <p>Modifies <em>grph</em> by dropping nodes that do not have a count that is within inclusive bounds of <em>minCount</em> and <em>maxCount</em>, i.e after running <em>grph</em> will only have nodes whose degrees meet the following inequality: <em>minCount</em> &lt;= node’s degree &lt;= <em>maxCount</em>.</p>
 
-<p>Count is determined by the count attribute, <em>parameterName</em>, and if missing will result in a <code>KeyError</code> being raised. <em>ignoreMissing</em> can be set to <code>True</code> to suppress the error.</p>
+<p>Count is determined by the count attribute, <em>parameterName</em>, and if missing will result in a <code class="highlighter-rouge">KeyError</code> being raised. <em>ignoreMissing</em> can be set to <code class="highlighter-rouge">True</code> to suppress the error.</p>
 
 <p>minCount and maxCount default to negative and positive infinity respectively so without specifying either the output should be the input</p>
 
 <h6 id="parameters-8">Parameters</h6>
 
-<p><em>grph</em> : <code>networkx Graph</code></p>
+<p><em>grph</em> : <code class="highlighter-rouge">networkx Graph</code></p>
 
 <p>The graph to be modified.</p>
 
-<p><em>minCount</em> : <code>optional [int or double]</code></p>
+<p><em>minCount</em> : <code class="highlighter-rouge">optional [int or double]</code></p>
 
-<p>default <code>-inf</code>, the minimum Count for an node to be kept in the graph.</p>
+<p>default <code class="highlighter-rouge">-inf</code>, the minimum Count for an node to be kept in the graph.</p>
 
-<p><em>maxCount</em> : <code>optional [int or double]</code></p>
+<p><em>maxCount</em> : <code class="highlighter-rouge">optional [int or double]</code></p>
 
-<p>default <code>inf</code>, the maximum Count for an node to be kept in the graph.</p>
+<p>default <code class="highlighter-rouge">inf</code>, the maximum Count for an node to be kept in the graph.</p>
 
-<p><em>parameterName</em> : <code>optional [str]</code></p>
+<p><em>parameterName</em> : <code class="highlighter-rouge">optional [str]</code></p>
 
-<p>default <code>'count'</code>, key to count field in the nodes’s attribute dictionary, the default is the same thoughout metaknowledge so is likely to be correct.</p>
+<p>default <code class="highlighter-rouge">'count'</code>, key to count field in the nodes’s attribute dictionary, the default is the same thoughout metaknowledge so is likely to be correct.</p>
 
-<p><em>ignoreMissing</em> : <code>optional [bool]</code></p>
+<p><em>ignoreMissing</em> : <code class="highlighter-rouge">optional [bool]</code></p>
 
-<p>default <code>False</code>, if <code>True</code> nodes missing a count will be kept in the graph instead of raising an exception</p>
+<p>default <code class="highlighter-rouge">False</code>, if <code class="highlighter-rouge">True</code> nodes missing a count will be kept in the graph instead of raising an exception</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
@@ -473,21 +473,21 @@ The functions provided by metaknowledge are:</p>
 
 <h6 id="parameters-9">Parameters</h6>
 
-<p><em>targetGraph</em> : <code>networkx Graph</code></p>
+<p><em>targetGraph</em> : <code class="highlighter-rouge">networkx Graph</code></p>
 
 <p>the graph to be modified, it has precedence.</p>
 
-<p><em>addedGraph</em> : <code>networkx Graph</code></p>
+<p><em>addedGraph</em> : <code class="highlighter-rouge">networkx Graph</code></p>
 
 <p>the graph that is unmodified, it is added and does <strong>not</strong> have precedence.</p>
 
-<p><em>incrementedNodeVal</em> : <code>optional [str]</code></p>
+<p><em>incrementedNodeVal</em> : <code class="highlighter-rouge">optional [str]</code></p>
 
-<p>default <code>'count'</code>, the name of the count attribute for the graph’s nodes. When merging this attribute will be the sum of the values in the input graphs, instead of <em>targetGraph</em>’s value.</p>
+<p>default <code class="highlighter-rouge">'count'</code>, the name of the count attribute for the graph’s nodes. When merging this attribute will be the sum of the values in the input graphs, instead of <em>targetGraph</em>’s value.</p>
 
-<p><em>incrementedEdgeVal</em> : <code>optional [str]</code></p>
+<p><em>incrementedEdgeVal</em> : <code class="highlighter-rouge">optional [str]</code></p>
 
-<p>default <code>'weight'</code>, the name of the weight attribute for the graph’s edges. When merging this attribute will be the sum of the values in the input graphs, instead of <em>targetGraph</em>’s value.</p>
+<p>default <code class="highlighter-rouge">'weight'</code>, the name of the weight attribute for the graph’s edges. When merging this attribute will be the sum of the values in the input graphs, instead of <em>targetGraph</em>’s value.</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
@@ -495,33 +495,33 @@ The functions provided by metaknowledge are:</p>
 
 <p>Returns a string or list containing statistics about the graph <em>G</em>.</p>
 
-<p><strong>graphStats()</strong> gives 6 different statistics: number of nodes, number of edges, number of isolates, number of loops, density and transitivity. The ones wanted can be given to <em>stats</em>. By default a string giving a sentence containing all the requested statistics is returned but the raw values can be accessed instead by setting <em>makeString</em> to <code>False</code>.</p>
+<p><strong>graphStats()</strong> gives 6 different statistics: number of nodes, number of edges, number of isolates, number of loops, density and transitivity. The ones wanted can be given to <em>stats</em>. By default a string giving a sentence containing all the requested statistics is returned but the raw values can be accessed instead by setting <em>makeString</em> to <code class="highlighter-rouge">False</code>.</p>
 
 <h6 id="parameters-10">Parameters</h6>
 
-<p><em>G</em> : <code>networkx Graph</code></p>
+<p><em>G</em> : <code class="highlighter-rouge">networkx Graph</code></p>
 
 <p>The graph for the statistics to be determined of</p>
 
-<p><em>stats</em> : <code>optional [list or tuple [str]]</code></p>
+<p><em>stats</em> : <code class="highlighter-rouge">optional [list or tuple [str]]</code></p>
 
-<p>Default <code>('nodes', 'edges', 'isolates', 'loops', 'density', 'transitivity')</code>, a list or tuple containing any number or combination of the strings:</p>
+<p>Default <code class="highlighter-rouge">('nodes', 'edges', 'isolates', 'loops', 'density', 'transitivity')</code>, a list or tuple containing any number or combination of the strings:</p>
 
-<p><code>"nodes"</code>, <code>"edges"</code>, <code>"isolates"</code>, <code>"loops"</code>, <code>"density"</code> and <code>"transitivity"</code>`</p>
+<p><code class="highlighter-rouge">"nodes"</code>, <code class="highlighter-rouge">"edges"</code>, <code class="highlighter-rouge">"isolates"</code>, <code class="highlighter-rouge">"loops"</code>, <code class="highlighter-rouge">"density"</code> and <code class="highlighter-rouge">"transitivity"</code>`</p>
 
 <p>At least one occurrence of the corresponding string causes the statistics to be provided in the string output. For the non-string (tuple) output the returned tuple has the same length as the input and each output is at the same index as the string that requested it, e.g.</p>
 
-<p><code>_stats_ = ("edges", "loops", "edges")</code></p>
+<p><code class="highlighter-rouge">_stats_ = ("edges", "loops", "edges")</code></p>
 
 <p>The return is a tuple with 2 elements the first and last of which are the number of edges and the second is the number of loops</p>
 
-<p><em>makeString</em> : <code>optional [bool]</code></p>
+<p><em>makeString</em> : <code class="highlighter-rouge">optional [bool]</code></p>
 
-<p>Default <code>True</code>, if <code>True</code> a string is returned if <code>False</code> a tuple</p>
+<p>Default <code class="highlighter-rouge">True</code>, if <code class="highlighter-rouge">True</code> a string is returned if <code class="highlighter-rouge">False</code> a tuple</p>
 
 <h6 id="returns-4">Returns</h6>
 
-<p><code>str or tuple [float and int]</code></p>
+<p><code class="highlighter-rouge">str or tuple [float and int]</code></p>
 
 <p>The type is determined by <em>makeString</em> and the layout by <em>stats</em></p>
 
@@ -537,65 +537,66 @@ The functions provided by metaknowledge are:</p>
   <p>name_fileType.suffix</p>
 </blockquote>
 
-<p>Both files are csv’s with comma delimiters and double quote quoting characters. The edge list has two columns for the source and destination of the edge, <code>'From'</code> and <code>'To'</code> respectively, then, if <em>edgeInfo</em> is <code>True</code>, for each attribute of the node another column is created. The node list has one column call “ID” with the node ids used by networkx and all other columns are the node attributes.</p>
+<p>Both files are csv’s with comma delimiters and double quote quoting characters. The edge list has two columns for the source and destination of the edge, <code class="highlighter-rouge">'From'</code> and <code class="highlighter-rouge">'To'</code> respectively, then, if <em>edgeInfo</em> is <code class="highlighter-rouge">True</code>, for each attribute of the node another column is created. The node list has one column call “ID” with the node ids used by networkx and all other columns are the node attributes.</p>
 
 <p>To read back these files use <a href="/metaknowledge/docs/metaknowledge#readGraph">readGraph()</a> and to write only one type of lsit use <a href="/metaknowledge/docs/metaknowledge#writeEdgeList">writeEdgeList()</a> or <a href="/metaknowledge/docs/metaknowledge#writeNodeAttributeFile">writeNodeAttributeFile()</a>.</p>
 
-<p><strong>Warning</strong>: this function will overwrite files, if they are in the way of the output, to prevent this set <em>overwrite</em> to <code>False</code></p>
+<p><strong>Warning</strong>: this function will overwrite files, if they are in the way of the output, to prevent this set <em>overwrite</em> to <code class="highlighter-rouge">False</code></p>
 
-<p><strong>Note</strong>: If any nodes or edges are missing an attribute a <code>KeyError</code> will be raised.</p>
+<p><strong>Note</strong>: If any nodes or edges are missing an attribute a <code class="highlighter-rouge">KeyError</code> will be raised.</p>
 
 <h6 id="parameters-11">Parameters</h6>
 
-<p><em>grph</em> : <code>networkx Graph</code></p>
+<p><em>grph</em> : <code class="highlighter-rouge">networkx Graph</code></p>
 
 <p>A networkx graph of the network to be written.</p>
 
-<p><em>name</em> : <code>str</code></p>
+<p><em>name</em> : <code class="highlighter-rouge">str</code></p>
 
 <p>The start of the file name to be written, can include a path.</p>
 
-<p><em>edgeInfo</em> : <code>optional [bool]</code></p>
+<p><em>edgeInfo</em> : <code class="highlighter-rouge">optional [bool]</code></p>
 
-<p>Default <code>True</code>, if <code>True</code> the the attributes of each edge are written to the edge list.</p>
+<p>Default <code class="highlighter-rouge">True</code>, if <code class="highlighter-rouge">True</code> the the attributes of each edge are written to the edge list.</p>
 
-<p><em>typing</em> : <code>optional [bool]</code></p>
+<p><em>typing</em> : <code class="highlighter-rouge">optional [bool]</code></p>
 
-<p>Default <code>False</code>, if <code>True</code> the directed ness of the graph will be added to the file names.</p>
+<p>Default <code class="highlighter-rouge">False</code>, if <code class="highlighter-rouge">True</code> the directed ness of the graph will be added to the file names.</p>
 
-<p><em>suffix</em> : <code>optional [str]</code></p>
+<p><em>suffix</em> : <code class="highlighter-rouge">optional [str]</code></p>
 
-<p>Default <code>"csv"</code>, the suffix of the file.</p>
+<p>Default <code class="highlighter-rouge">"csv"</code>, the suffix of the file.</p>
 
-<p><em>overwrite</em> : <code>optional [bool]</code></p>
+<p><em>overwrite</em> : <code class="highlighter-rouge">optional [bool]</code></p>
 
-<p>Default <code>True</code>, if <code>True</code> files will be overwritten silently, otherwise an <code>OSError</code> exception will be raised.</p>
+<p>Default <code class="highlighter-rouge">True</code>, if <code class="highlighter-rouge">True</code> files will be overwritten silently, otherwise an <code class="highlighter-rouge">OSError</code> exception will be raised.</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="recordParser"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#recordParser"><ins>recordParser</ins></a></strong>(<em>paper</em>):</p>
 
-<p>This is function that is used to create <a href="/metaknowledge/docs/metaknowledge#Record"><code>Records</code></a> from files.</p>
+<p>This is function that is used to create <a href="/metaknowledge/docs/metaknowledge#Record"><code class="highlighter-rouge">Records</code></a> from files.</p>
 
 <p><strong>recordParser</strong>() reads the file <em>paper</em> until it reaches ‘ER’. For each field tag it adds an entry to the returned dict with the tag as the key and a list of the entries as the value, the list has each line separately, so for the following two lines in a record:</p>
 
-<pre><code>AF BREVIK, I
+<div class="highlighter-rouge"><pre class="highlight"><code>AF BREVIK, I
    ANICIN, B
 </code></pre>
+</div>
 
-<p>The entry in the returned dict would be <code>{'AF' : ["BREVIK, I", "ANICIN, B"]}</code></p>
+<p>The entry in the returned dict would be <code class="highlighter-rouge"><span class="p">{</span><span class="err">'AF'</span><span class="w"> </span><span class="err">:</span><span class="w"> </span><span class="err">[</span><span class="nt">"BREVIK, I"</span><span class="err">,</span><span class="w"> </span><span class="nt">"ANICIN, B"</span><span class="err">]}</span></code></p>
 
-<p><code>Record</code> objects can be created with these dictionaries as the initializer.</p>
+<p><code class="highlighter-rouge">Record</code> objects can be created with these dictionaries as the initializer.</p>
 
 <h6 id="parameters-12">Parameters</h6>
 
-<p><em>paper</em> : <code>file stream</code></p>
+<p><em>paper</em> : <code class="highlighter-rouge">file stream</code></p>
 
 <p>An open file, with the current line at the beginning of the WOS record.</p>
 
 <h6 id="returns-5">Returns</h6>
 
-<p><code>OrderedDict[str : List[str]]</code></p>
+<p><code class="highlighter-rouge">OrderedDict[str : List[str]]</code></p>
 
 <p>A dictionary mapping WOS tags to lists, the lists are of strings, each string is a line of the record associated with the tag.</p>
 
@@ -603,39 +604,39 @@ The functions provided by metaknowledge are:</p>
 
 <p><a name="wosParser"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#wosParser"><ins>wosParser</ins></a></strong>(<em>isifile</em>):</p>
 
-<p>This is function that is used to create <a href="/metaknowledge/docs/metaknowledge#RecordCollection"><code>RecordCollections</code></a> from files.</p>
+<p>This is function that is used to create <a href="/metaknowledge/docs/metaknowledge#RecordCollection"><code class="highlighter-rouge">RecordCollections</code></a> from files.</p>
 
-<p><strong>wosParser</strong>() reads the file given by the path isifile, checks that the header is correct then reads until it reaches EF. All WOS records it encounters are parsed with <a href="/metaknowledge/docs/metaknowledge#recordParser"><strong>recordParser</strong>()</a> and converted into <a href="/metaknowledge/docs/metaknowledge#Record"><code>Records</code></a>. A list of these <code>Records</code> is returned.</p>
+<p><strong>wosParser</strong>() reads the file given by the path isifile, checks that the header is correct then reads until it reaches EF. All WOS records it encounters are parsed with <a href="/metaknowledge/docs/metaknowledge#recordParser"><strong>recordParser</strong>()</a> and converted into <a href="/metaknowledge/docs/metaknowledge#Record"><code class="highlighter-rouge">Records</code></a>. A list of these <code class="highlighter-rouge">Records</code> is returned.</p>
 
-<p><code>BadWOSFile</code> is raised if an issue is found with the file.</p>
+<p><code class="highlighter-rouge">BadWOSFile</code> is raised if an issue is found with the file.</p>
 
 <h6 id="parameters-13">Parameters</h6>
 
-<p><em>isifile</em> : <code>str</code></p>
+<p><em>isifile</em> : <code class="highlighter-rouge">str</code></p>
 
 <p>The path to the target file</p>
 
 <h6 id="returns-6">Returns</h6>
 
-<p><code>List[Record]</code></p>
+<p><code class="highlighter-rouge">List[Record]</code></p>
 
-<p>All the <code>Records</code> found in <em>isifile</em></p>
+<p>All the <code class="highlighter-rouge">Records</code> found in <em>isifile</em></p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="tagToFull"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#tagToFull"><ins>tagToFull</ins></a></strong>(<em>tag</em>):</p>
 
-<p>A wrapper for <a href="/metaknowledge/docs/metaknowledge#tagProcessing"><code>tagToFullDict</code></a> it maps 2 character tags to their full names.</p>
+<p>A wrapper for <a href="/metaknowledge/docs/metaknowledge#tagProcessing"><code class="highlighter-rouge">tagToFullDict</code></a> it maps 2 character tags to their full names.</p>
 
 <h6 id="parameters-14">Parameters</h6>
 
-<p><em>tag</em>: <code>str</code></p>
+<p><em>tag</em>: <code class="highlighter-rouge">str</code></p>
 
 <p>A two character string giving the tag</p>
 
 <h6 id="returns-7">Returns</h6>
 
-<p><code>str</code></p>
+<p><code class="highlighter-rouge">str</code></p>
 
 <p>The full name of <em>tag</em></p>
 
@@ -647,13 +648,13 @@ The functions provided by metaknowledge are:</p>
 
 <h6 id="parameters-15">Parameters</h6>
 
-<p><em>val</em>: <code>str</code></p>
+<p><em>val</em>: <code class="highlighter-rouge">str</code></p>
 
 <p>A two character string giving the tag or its full name</p>
 
 <h6 id="returns-8">Returns</h6>
 
-<p><code>str</code></p>
+<p><code class="highlighter-rouge">str</code></p>
 
 <p>The short name of <em>val</em></p>
 
@@ -665,13 +666,13 @@ The functions provided by metaknowledge are:</p>
 
 <h6 id="parameters-16">Parameters</h6>
 
-<p><em>val</em>: <code>str</code></p>
+<p><em>val</em>: <code class="highlighter-rouge">str</code></p>
 
 <p>A two character string giving the tag or its full name</p>
 
 <h6 id="returns-9">Returns</h6>
 
-<p><code>str</code></p>
+<p><code class="highlighter-rouge">str</code></p>
 
 <p>The full name of <em>val</em></p>
 
@@ -679,19 +680,19 @@ The functions provided by metaknowledge are:</p>
 
 <p><a name="isTagOrName"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#isTagOrName"><ins>isTagOrName</ins></a></strong>(<em>val</em>):</p>
 
-<p>Checks if <em>val</em> is a tag or full name of tag if so returns <code>True</code></p>
+<p>Checks if <em>val</em> is a tag or full name of tag if so returns <code class="highlighter-rouge">True</code></p>
 
 <h6 id="parameters-17">Parameters</h6>
 
-<p><em>val</em>: <code>str</code></p>
+<p><em>val</em>: <code class="highlighter-rouge">str</code></p>
 
 <p>A string possible forming a tag or name</p>
 
 <h6 id="returns-10">Returns</h6>
 
-<p><code>bool</code></p>
+<p><code class="highlighter-rouge">bool</code></p>
 
-<p><code>True</code> if <em>val</em> is a tag or name, otherwise <code>False</code></p>
+<p><code class="highlighter-rouge">True</code> if <em>val</em> is a tag or name, otherwise <code class="highlighter-rouge">False</code></p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
@@ -705,7 +706,7 @@ The functions provided by metaknowledge are:</p>
 
 <p>Exception thrown by the <a href="#metaknowledge.recordParser">record parser</a> to indicate a mis-formated record. This occurs when some component of the record does not parse. The messages will be any of:</p>
 
-<pre><code>* _Missing field on line (line Number):(line)_, which indicates a line was to short, there should have been a tag followed by information
+<div class="highlighter-rouge"><pre class="highlight"><code>* _Missing field on line (line Number):(line)_, which indicates a line was to short, there should have been a tag followed by information
 
 * _End of file reached before ER_, which indicates the file ended before the 'ER' indicator appeared, 'ER' indicates the end of a record. This is often due to a copy and paste error.
 
@@ -713,6 +714,7 @@ The functions provided by metaknowledge are:</p>
 
 * _Missing WOS number_, which indicates the record did not have a 'UT' tag.
 </code></pre>
+</div>
 
 <p>Records with a BadWOSRecord error are likely incomplete or the combination of two or more single records.</p>
 

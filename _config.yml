@@ -14,7 +14,7 @@ permalink: /:categories/:title
 #relative_permalinks: true
 
 markdown:    kramdown
-highlighter: pygments
+highlighter: rouge
 sass:
   sass_dir: _sass
   style: compressed

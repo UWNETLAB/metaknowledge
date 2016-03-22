@@ -138,7 +138,7 @@
 
 <p>The citations provided by WOS used abbreviated journal titles instead of the full names. The full list of abbreviations can be found at a series pages divided by letter starting at <a href="http://images.webofknowledge.com/WOK46/help/WOS/A_abrvjt.html">images.webofknowledge.com/WOK46/help/WOS/A_abrvjt.html</a>. The function <a href="/metaknowledge/docs/journalAbbreviations#getj9dict"><strong>updatej9DB</strong>()</a> is used to scape and parse the pages, it must be run without error before the other features can be used. <em>metaknowledge</em> will try running it once during the installation but it could easily have been canceled or failed so it is best to it manually. <strong>updatej9DB</strong>() creates a database in the <em>metaknowledge</em> install directory that gives each abbreviation and the titles it corresponds to, note there can be many titles for one abbreviation. The database can be accessed as a dictionary with <a href="/metaknowledge/docs/journalAbbreviations#getj9dict"><strong>getj9dict</strong>()</a>.</p>
 
-<p>The other functions of the module are for manually adding and removing abbreviations from the database. It is recommended that this be done with the command-line tool <code>metaknowledge</code>, unless you know what you are doing.</p>
+<p>The other functions of the module are for manually adding and removing abbreviations from the database. It is recommended that this be done with the command-line tool <code class="highlighter-rouge">metaknowledge</code>, unless you know what you are doing.</p>
 
 <p>The journalAbbreviations module provides the following functions:</p>
 
@@ -156,49 +156,49 @@
 
 <h6 id="parameters">Parameters</h6>
 
-<p><em>dbname</em> : <code>optional [str]</code></p>
+<p><em>dbname</em> : <code class="highlighter-rouge">optional [str]</code></p>
 
 <p>The name of the downloaded database file, the default is determined at run time. It is recommended that this remain untouched.</p>
 
-<p><em>manaulDB</em> : <code>optional [str]</code></p>
+<p><em>manaulDB</em> : <code class="highlighter-rouge">optional [str]</code></p>
 
 <p>The name of the manually created database file, the default is determined at run time. It is recommended that this remain untouched.</p>
 
-<p><em>returnDict</em> : <code>optional [str]</code></p>
+<p><em>returnDict</em> : <code class="highlighter-rouge">optional [str]</code></p>
 
-<p>default <code>'both'</code>, can be used to get both databases or only one  with <code>'WOS'</code> or <code>'manual'</code>.</p>
+<p>default <code class="highlighter-rouge">'both'</code>, can be used to get both databases or only one  with <code class="highlighter-rouge">'WOS'</code> or <code class="highlighter-rouge">'manual'</code>.</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="addToDB"></a><small>journalAbbreviations.</small><strong><a href="/metaknowledge/docs/journalAbbreviations#addToDB"><ins>addToDB</ins></a></strong>(<em>abbr=None, dbname=’manualj9Abbreviations’</em>):</p>
 
-<p>Adds <em>abbr</em> to the database of journals. The database is kept separate from the one scraped from WOS, this supersedes it. The database by default is stored with the WOS one and the name is given by <code>metaknowledge.journalAbbreviations.manaulDBname</code>. To create an empty database run <strong>addToDB</strong> without an <em>abbr</em> argument.</p>
+<p>Adds <em>abbr</em> to the database of journals. The database is kept separate from the one scraped from WOS, this supersedes it. The database by default is stored with the WOS one and the name is given by <code class="highlighter-rouge">metaknowledge.journalAbbreviations.manaulDBname</code>. To create an empty database run <strong>addToDB</strong> without an <em>abbr</em> argument.</p>
 
 <h6 id="parameters-1">Parameters</h6>
 
-<p><em>abbr</em> : <code>optional [str or dict[str : str]]</code></p>
+<p><em>abbr</em> : <code class="highlighter-rouge">optional [str or dict[str : str]]</code></p>
 
-<p>The journal abbreviation to be added to the database, it can either be a single string in which case that string will be added with its self as the full name, or a dict can be given with the abbreviations as keys and their names as strings, use pipes (<code>'|'</code>) to separate multiple names. Note, if the empty string is given as a name the abbreviation will be considered manually <strong>excluded</strong>, i.e. having excludeFromDB() run on it.</p>
+<p>The journal abbreviation to be added to the database, it can either be a single string in which case that string will be added with its self as the full name, or a dict can be given with the abbreviations as keys and their names as strings, use pipes (<code class="highlighter-rouge">'|'</code>) to separate multiple names. Note, if the empty string is given as a name the abbreviation will be considered manually <strong>excluded</strong>, i.e. having excludeFromDB() run on it.</p>
 
-<p><em>dbname</em> : <code>optional [str]</code></p>
+<p><em>dbname</em> : <code class="highlighter-rouge">optional [str]</code></p>
 
-<p>The name of the database file, default is <code>metaknowledge.journalAbbreviations.manaulDBname</code>.</p>
+<p>The name of the database file, default is <code class="highlighter-rouge">metaknowledge.journalAbbreviations.manaulDBname</code>.</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="excludeFromDB"></a><small>journalAbbreviations.</small><strong><a href="/metaknowledge/docs/journalAbbreviations#excludeFromDB"><ins>excludeFromDB</ins></a></strong>(<em>abbr=None, dbname=’manualj9Abbreviations’</em>):</p>
 
-<p>Marks <em>abbr</em> to be excluded the database of journals. The database is kept separate from the one scraped from WOS, this supersedes it. The database by default is stored with the WOS one and the name is given by <code>metaknowledge.journalAbbreviations.manaulDBname</code>. To create an empty database run <a href="/metaknowledge/docs/journalAbbreviations#addToDB"><strong>addToDB</strong>()</a> without an <em>abbr</em> argument.</p>
+<p>Marks <em>abbr</em> to be excluded the database of journals. The database is kept separate from the one scraped from WOS, this supersedes it. The database by default is stored with the WOS one and the name is given by <code class="highlighter-rouge">metaknowledge.journalAbbreviations.manaulDBname</code>. To create an empty database run <a href="/metaknowledge/docs/journalAbbreviations#addToDB"><strong>addToDB</strong>()</a> without an <em>abbr</em> argument.</p>
 
 <h6 id="parameters-2">Parameters</h6>
 
-<p><em>abbr</em> : <code>optional [str or tuple[str] or list[str]</code></p>
+<p><em>abbr</em> : <code class="highlighter-rouge">optional [str or tuple[str] or list[str]</code></p>
 
 <p>The journal abbreviation to be excluded from the database, it can either be a single string in which case that string will be exclude or a list/tuple of strings can be given with the abbreviations.</p>
 
-<p><em>dbname</em> : <code>optional [str]</code></p>
+<p><em>dbname</em> : <code class="highlighter-rouge">optional [str]</code></p>
 
-<p>The name of the database file, default is <code>metaknowledge.journalAbbreviations.manaulDBname</code>.</p>
+<p>The name of the database file, default is <code class="highlighter-rouge">metaknowledge.journalAbbreviations.manaulDBname</code>.</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
@@ -208,13 +208,13 @@
 
 <h6 id="parameters-3">Parameters</h6>
 
-<p><em>dbname</em> : <code>optional [str]</code></p>
+<p><em>dbname</em> : <code class="highlighter-rouge">optional [str]</code></p>
 
 <p>The name of the database file, default is “j9Abbreviations.db”</p>
 
-<p><em>saveRawHTML</em> : <code>optional [bool]</code></p>
+<p><em>saveRawHTML</em> : <code class="highlighter-rouge">optional [bool]</code></p>
 
-<p>Determines if the original HTML of the pages is stored, default <code>False</code>. If <code>True</code> they are saved in a directory inside j9Raws begining with todays date.</p>
+<p>Determines if the original HTML of the pages is stored, default <code class="highlighter-rouge">False</code>. If <code class="highlighter-rouge">True</code> they are saved in a directory inside j9Raws begining with todays date.</p>
 
 <hr />
 

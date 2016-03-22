@@ -154,45 +154,45 @@
 
 <h6 id="parameters">Parameters</h6>
 
-<p><em>G</em> : <code>networkx Graph</code></p>
+<p><em>G</em> : <code class="highlighter-rouge">networkx Graph</code></p>
 
 <p>The graph to be plotted</p>
 
-<p><em>iters</em> : <code>optional [int]</code></p>
+<p><em>iters</em> : <code class="highlighter-rouge">optional [int]</code></p>
 
-<p>Default <code>50</code>, the number of iterations for the spring layout if <em>layout</em> is not provided.</p>
+<p>Default <code class="highlighter-rouge">50</code>, the number of iterations for the spring layout if <em>layout</em> is not provided.</p>
 
-<p><em>layout</em> : <code>optional [networkx layout dictionary]</code></p>
+<p><em>layout</em> : <code class="highlighter-rouge">optional [networkx layout dictionary]</code></p>
 
-<p>Default <code>None</code>, if provided will be used as a layout of the graph, the maximum distance from the origin along any axis must also given as <em>layoutScaleFactor</em>, which is by default <code>1</code>.</p>
+<p>Default <code class="highlighter-rouge">None</code>, if provided will be used as a layout of the graph, the maximum distance from the origin along any axis must also given as <em>layoutScaleFactor</em>, which is by default <code class="highlighter-rouge">1</code>.</p>
 
-<p><em>layoutScaleFactor</em> : <code>optional [double]</code></p>
+<p><em>layoutScaleFactor</em> : <code class="highlighter-rouge">optional [double]</code></p>
 
-<p>Default <code>1</code>, The maximum distance from the origin allowed along any axis given by <em>layout</em>, i.e. the layout must fit in a square centered at the origin with side lengths 2 * <em>layoutScaleFactor</em></p>
+<p>Default <code class="highlighter-rouge">1</code>, The maximum distance from the origin allowed along any axis given by <em>layout</em>, i.e. the layout must fit in a square centered at the origin with side lengths 2 * <em>layoutScaleFactor</em></p>
 
-<p><em>overlay</em> : <code>optional [bool]</code></p>
+<p><em>overlay</em> : <code class="highlighter-rouge">optional [bool]</code></p>
 
-<p>Default <code>False</code>, if <code>True</code> the graph will be plotted on the X-Y plane at Z = 0.</p>
+<p>Default <code class="highlighter-rouge">False</code>, if <code class="highlighter-rouge">True</code> the graph will be plotted on the X-Y plane at Z = 0.</p>
 
-<p><em>nodeSize</em> : <code>optional [double]</code></p>
+<p><em>nodeSize</em> : <code class="highlighter-rouge">optional [double]</code></p>
 
-<p>Default <code>10</code>, the size of the nodes dawn in the overlay</p>
+<p>Default <code class="highlighter-rouge">10</code>, the size of the nodes dawn in the overlay</p>
 
-<p><em>axisSamples</em> : <code>optional [int]</code></p>
+<p><em>axisSamples</em> : <code class="highlighter-rouge">optional [int]</code></p>
 
 <p>Default 100, the number of cells used along each axis for sampling. A larger number will mean a lower average density.</p>
 
-<p><em>blurringFactor</em> : <code>optional [double]</code></p>
+<p><em>blurringFactor</em> : <code class="highlighter-rouge">optional [double]</code></p>
 
-<p>Default <code>0.1</code>, the sigma value used for smoothing the surface density. The higher this number the smoother the surface.</p>
+<p>Default <code class="highlighter-rouge">0.1</code>, the sigma value used for smoothing the surface density. The higher this number the smoother the surface.</p>
 
-<p><em>contours</em> : <code>optional [int]</code></p>
+<p><em>contours</em> : <code class="highlighter-rouge">optional [int]</code></p>
 
-<p>Default 15, the number of different heights drawn. If this number is low the resultant image will look very banded. It is recommended this be raised above <code>50</code> if you want your images to look good, <strong>Warning</strong> this will make them much slower to generate and interact with.</p>
+<p>Default 15, the number of different heights drawn. If this number is low the resultant image will look very banded. It is recommended this be raised above <code class="highlighter-rouge">50</code> if you want your images to look good, <strong>Warning</strong> this will make them much slower to generate and interact with.</p>
 
-<p><em>graphType</em> : <code>optional [str]</code></p>
+<p><em>graphType</em> : <code class="highlighter-rouge">optional [str]</code></p>
 
-<p>Default <code>'coloured'</code>, if <code>'coloured'</code> the image will have a destiny based colourization applied, the only other option is <code>'solid'</code> which removes the colourization.</p>
+<p>Default <code class="highlighter-rouge">'coloured'</code>, if <code class="highlighter-rouge">'coloured'</code> the image will have a destiny based colourization applied, the only other option is <code class="highlighter-rouge">'solid'</code> which removes the colourization.</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
@@ -202,9 +202,9 @@
 
 <h6 id="parameters-1">Parameters</h6>
 
-<p><em>showLabel</em> : <code>optional [bool]</code></p>
+<p><em>showLabel</em> : <code class="highlighter-rouge">optional [bool]</code></p>
 
-<p>Default <code>False</code>, if <code>True</code> labels will be added to the nodes giving their IDs.</p>
+<p>Default <code class="highlighter-rouge">False</code>, if <code class="highlighter-rouge">True</code> labels will be added to the nodes giving their IDs.</p>
 
 <hr />
 

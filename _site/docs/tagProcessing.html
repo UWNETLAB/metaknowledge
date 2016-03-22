@@ -138,20 +138,22 @@
 
 <p>Each of the functions in tagProcessing is named after the long name of its tag and is responsible for taking the raw data from a WOS file and returning usable information. The raw data is a list containing each line associated with the tag as a string. So the section of a record:</p>
 
-<pre><code>TI The Motion Behind the Symbols: A Vital Role for Dynamism in the
+<div class="highlighter-rouge"><pre class="highlight"><code>TI The Motion Behind the Symbols: A Vital Role for Dynamism in the
   Conceptualization of Limits and Continuity in Expert Mathematics
 </code></pre>
+</div>
 
 <p>would be the list:</p>
 
-<pre><code>["The Motion Behind the Symbols: A Vital Role for Dynamism in the",
+<div class="highlighter-rouge"><pre class="highlight"><code>["The Motion Behind the Symbols: A Vital Role for Dynamism in the",
 "Conceptualization of Limits and Continuity in Expert Mathematics"
 ]
 </code></pre>
+</div>
 
-<p>The function to process it is called <a href="/metaknowledge/docs/tagProcessing#title"><strong>title</strong>()</a> which is determined by looking up the tag in the <code>tagProcessing.tagToFunc</code> dictionary. Which is a dictionary mapping WOS tag strings to their functions. For a simple mapping of tags to their long strings use <a href="/metaknowledge/docs/tagProcessing#metaknowledge"><code>metaknowledge.tagToFull</code></a>.</p>
+<p>The function to process it is called <a href="/metaknowledge/docs/tagProcessing#title"><strong>title</strong>()</a> which is determined by looking up the tag in the <code class="highlighter-rouge">tagProcessing.tagToFunc</code> dictionary. Which is a dictionary mapping WOS tag strings to their functions. For a simple mapping of tags to their long strings use <a href="/metaknowledge/docs/tagProcessing#metaknowledge"><code class="highlighter-rouge">metaknowledge.tagToFull</code></a>.</p>
 
-<p>The objects <code>tagToFullDict</code>, <code>fullToTagDict</code>, <code>tagNameConverterDict</code>, <code>tagsAndNameSet</code> and <code>knownTagsList</code> are also provided. They are the objects used by <em>metaknowledge</em> to keep track of tag names. <code>tagToFullDict</code> and <code>fullToTagDict</code> are dictionaries that convert from tags to full names and vice versa, respectively, while <code>tagNameConverterDict</code> goes both ways. <code>tagsAndNameSet</code> is a set of all full names and tags, while <code>knownTagsList</code> contains only tags and is a list. For a less raw interface look the functions provided by the base <em>metaknowledge</em> module, e.g. <a href="/metaknowledge/docs/tagProcessing#tagToFull"><strong>tagToFull</strong>()</a>.</p>
+<p>The objects <code class="highlighter-rouge">tagToFullDict</code>, <code class="highlighter-rouge">fullToTagDict</code>, <code class="highlighter-rouge">tagNameConverterDict</code>, <code class="highlighter-rouge">tagsAndNameSet</code> and <code class="highlighter-rouge">knownTagsList</code> are also provided. They are the objects used by <em>metaknowledge</em> to keep track of tag names. <code class="highlighter-rouge">tagToFullDict</code> and <code class="highlighter-rouge">fullToTagDict</code> are dictionaries that convert from tags to full names and vice versa, respectively, while <code class="highlighter-rouge">tagNameConverterDict</code> goes both ways. <code class="highlighter-rouge">tagsAndNameSet</code> is a set of all full names and tags, while <code class="highlighter-rouge">knownTagsList</code> contains only tags and is a list. For a less raw interface look the functions provided by the base <em>metaknowledge</em> module, e.g. <a href="/metaknowledge/docs/tagProcessing#tagToFull"><strong>tagToFull</strong>()</a>.</p>
 
 <p>The full list of tags and their long names is provided below followed by the descriptions of the functions, they are ordered by their occurrence in WOS records:</p>
 
@@ -164,247 +166,247 @@
   </thead>
   <tbody>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#pubType"><code>'PT'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#pubType"><code class="highlighter-rouge">'PT'</code></a></td>
       <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#pubType">pubType</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#authorsFull"><code>'AF'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#authorsFull"><code class="highlighter-rouge">'AF'</code></a></td>
       <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#authorsFull">authorsFull</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#group"><code>'GP'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#group"><code class="highlighter-rouge">'GP'</code></a></td>
       <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#group">group</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#editedBy"><code>'BE'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#editedBy"><code class="highlighter-rouge">'BE'</code></a></td>
       <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#editedBy">editedBy</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#authorsShort"><code>'AU'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#authorsShort"><code class="highlighter-rouge">'AU'</code></a></td>
       <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#authorsShort">authorsShort</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#bookAuthor"><code>'BA'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#bookAuthor"><code class="highlighter-rouge">'BA'</code></a></td>
       <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#bookAuthor">bookAuthor</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#bookAuthorFull"><code>'BF'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#bookAuthorFull"><code class="highlighter-rouge">'BF'</code></a></td>
       <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#bookAuthorFull">bookAuthorFull</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#groupName"><code>'CA'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#groupName"><code class="highlighter-rouge">'CA'</code></a></td>
       <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#groupName">groupName</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#editors"><code>'ED'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#editors"><code class="highlighter-rouge">'ED'</code></a></td>
       <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#editors">editors</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#title"><code>'TI'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#title"><code class="highlighter-rouge">'TI'</code></a></td>
       <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#title">title</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#journal"><code>'SO'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#journal"><code class="highlighter-rouge">'SO'</code></a></td>
       <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#journal">journal</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#seriesTitle"><code>'SE'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#seriesTitle"><code class="highlighter-rouge">'SE'</code></a></td>
       <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#seriesTitle">seriesTitle</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#seriesSubtitle"><code>'BS'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#seriesSubtitle"><code class="highlighter-rouge">'BS'</code></a></td>
       <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#seriesSubtitle">seriesSubtitle</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#language"><code>'LA'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#language"><code class="highlighter-rouge">'LA'</code></a></td>
       <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#language">language</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#docType"><code>'DT'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#docType"><code class="highlighter-rouge">'DT'</code></a></td>
       <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#docType">docType</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#confTitle"><code>'CT'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#confTitle"><code class="highlighter-rouge">'CT'</code></a></td>
       <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#confTitle">confTitle</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#confDate"><code>'CY'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#confDate"><code class="highlighter-rouge">'CY'</code></a></td>
       <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#confDate">confDate</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#confHost"><code>'HO'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#confHost"><code class="highlighter-rouge">'HO'</code></a></td>
       <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#confHost">confHost</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#confLocation"><code>'CL'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#confLocation"><code class="highlighter-rouge">'CL'</code></a></td>
       <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#confLocation">confLocation</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#confSponsors"><code>'SP'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#confSponsors"><code class="highlighter-rouge">'SP'</code></a></td>
       <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#confSponsors">confSponsors</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#authKeyWords"><code>'DE'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#authKeyWords"><code class="highlighter-rouge">'DE'</code></a></td>
       <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#authKeyWords">authKeyWords</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#keyWords"><code>'ID'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#keyWords"><code class="highlighter-rouge">'ID'</code></a></td>
       <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#keyWords">keyWords</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#abstract"><code>'AB'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#abstract"><code class="highlighter-rouge">'AB'</code></a></td>
       <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#abstract">abstract</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#authAddress"><code>'C1'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#authAddress"><code class="highlighter-rouge">'C1'</code></a></td>
       <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#authAddress">authAddress</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#reprintAddress"><code>'RP'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#reprintAddress"><code class="highlighter-rouge">'RP'</code></a></td>
       <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#reprintAddress">reprintAddress</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#email"><code>'EM'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#email"><code class="highlighter-rouge">'EM'</code></a></td>
       <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#email">email</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#ResearcherIDnumber"><code>'RI'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#ResearcherIDnumber"><code class="highlighter-rouge">'RI'</code></a></td>
       <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#ResearcherIDnumber">ResearcherIDnumber</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#orcID"><code>'OI'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#orcID"><code class="highlighter-rouge">'OI'</code></a></td>
       <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#orcID">orcID</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#funding"><code>'FU'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#funding"><code class="highlighter-rouge">'FU'</code></a></td>
       <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#funding">funding</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#fundingText"><code>'FX'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#fundingText"><code class="highlighter-rouge">'FX'</code></a></td>
       <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#fundingText">fundingText</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#citations"><code>'CR'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#citations"><code class="highlighter-rouge">'CR'</code></a></td>
       <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#citations">citations</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#citedRefsCount"><code>'NR'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#citedRefsCount"><code class="highlighter-rouge">'NR'</code></a></td>
       <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#citedRefsCount">citedRefsCount</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#wosTimesCited"><code>'TC'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#wosTimesCited"><code class="highlighter-rouge">'TC'</code></a></td>
       <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#wosTimesCited">wosTimesCited</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#totalTimesCited"><code>'Z9'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#totalTimesCited"><code class="highlighter-rouge">'Z9'</code></a></td>
       <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#totalTimesCited">totalTimesCited</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#publisher"><code>'PU'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#publisher"><code class="highlighter-rouge">'PU'</code></a></td>
       <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#publisher">publisher</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#publisherCity"><code>'PI'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#publisherCity"><code class="highlighter-rouge">'PI'</code></a></td>
       <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#publisherCity">publisherCity</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#publisherAddress"><code>'PA'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#publisherAddress"><code class="highlighter-rouge">'PA'</code></a></td>
       <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#publisherAddress">publisherAddress</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#subjectCategory"><code>'SC'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#subjectCategory"><code class="highlighter-rouge">'SC'</code></a></td>
       <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#subjectCategory">subjectCategory</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#ISSN"><code>'SN'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#ISSN"><code class="highlighter-rouge">'SN'</code></a></td>
       <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#ISSN">ISSN</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#eISSN"><code>'EI'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#eISSN"><code class="highlighter-rouge">'EI'</code></a></td>
       <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#eISSN">eISSN</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#ISBN"><code>'BN'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#ISBN"><code class="highlighter-rouge">'BN'</code></a></td>
       <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#ISBN">ISBN</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#j9"><code>'J9'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#j9"><code class="highlighter-rouge">'J9'</code></a></td>
       <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#j9">j9</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#isoAbbreviation"><code>'JI'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#isoAbbreviation"><code class="highlighter-rouge">'JI'</code></a></td>
       <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#isoAbbreviation">isoAbbreviation</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#month"><code>'PD'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#month"><code class="highlighter-rouge">'PD'</code></a></td>
       <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#month">month</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#year"><code>'PY'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#year"><code class="highlighter-rouge">'PY'</code></a></td>
       <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#year">year</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#volume"><code>'VL'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#volume"><code class="highlighter-rouge">'VL'</code></a></td>
       <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#volume">volume</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#issue"><code>'IS'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#issue"><code class="highlighter-rouge">'IS'</code></a></td>
       <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#issue">issue</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#partNumber"><code>'PN'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#partNumber"><code class="highlighter-rouge">'PN'</code></a></td>
       <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#partNumber">partNumber</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#supplement"><code>'SU'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#supplement"><code class="highlighter-rouge">'SU'</code></a></td>
       <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#supplement">supplement</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#specialIssue"><code>'SI'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#specialIssue"><code class="highlighter-rouge">'SI'</code></a></td>
       <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#specialIssue">specialIssue</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#meetingAbstract"><code>'MA'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#meetingAbstract"><code class="highlighter-rouge">'MA'</code></a></td>
       <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#meetingAbstract">meetingAbstract</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#beginningPage"><code>'BP'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#beginningPage"><code class="highlighter-rouge">'BP'</code></a></td>
       <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#beginningPage">beginningPage</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#endingPage"><code>'EP'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#endingPage"><code class="highlighter-rouge">'EP'</code></a></td>
       <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#endingPage">endingPage</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#articleNumber"><code>'AR'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#articleNumber"><code class="highlighter-rouge">'AR'</code></a></td>
       <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#articleNumber">articleNumber</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#pageCount"><code>'PG'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#pageCount"><code class="highlighter-rouge">'PG'</code></a></td>
       <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#pageCount">pageCount</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#subjects"><code>'WC'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#subjects"><code class="highlighter-rouge">'WC'</code></a></td>
       <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#subjects">subjects</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#DOI"><code>'DI'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#DOI"><code class="highlighter-rouge">'DI'</code></a></td>
       <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#DOI">DOI</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#bookDOI"><code>'D2'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#bookDOI"><code class="highlighter-rouge">'D2'</code></a></td>
       <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#bookDOI">bookDOI</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#documentDeliveryNumber"><code>'GA'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#documentDeliveryNumber"><code class="highlighter-rouge">'GA'</code></a></td>
       <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#documentDeliveryNumber">documentDeliveryNumber</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#wosString"><code>'UT'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#wosString"><code class="highlighter-rouge">'UT'</code></a></td>
       <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#wosString">wosString</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#pubMedID"><code>'PM'</code></a></td>
+      <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#pubMedID"><code class="highlighter-rouge">'PM'</code></a></td>
       <td style="text-align: left"><a href="/metaknowledge/docs/tagProcessing#pubMedID">pubMedID</a></td>
     </tr>
   </tbody>
@@ -420,13 +422,13 @@
 
 <h6 id="parameters">Parameters</h6>
 
-<p><em>val</em>: <code>list[str]</code></p>
+<p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
 <h6 id="returns">Returns</h6>
 
-<p><code>str</code></p>
+<p><code class="highlighter-rouge">str</code></p>
 
 <p>A string</p>
 
@@ -440,13 +442,13 @@
 
 <h6 id="parameters-1">Parameters</h6>
 
-<p><em>val</em>: <code>list[str]</code></p>
+<p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
 <h6 id="returns-1">Returns</h6>
 
-<p><code>list[str]</code></p>
+<p><code class="highlighter-rouge">list[str]</code></p>
 
 <p>A list of author’s names</p>
 
@@ -460,13 +462,13 @@
 
 <h6 id="parameters-2">Parameters</h6>
 
-<p><em>val</em>: <code>list[str]</code></p>
+<p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
 <h6 id="returns-2">Returns</h6>
 
-<p><code>str</code></p>
+<p><code class="highlighter-rouge">str</code></p>
 
 <p>A the name of the group</p>
 
@@ -480,13 +482,13 @@
 
 <h6 id="parameters-3">Parameters</h6>
 
-<p><em>val</em>: <code>list[str]</code></p>
+<p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
 <h6 id="returns-3">Returns</h6>
 
-<p><code>list[str]</code></p>
+<p><code class="highlighter-rouge">list[str]</code></p>
 
 <p>A list of editors</p>
 
@@ -500,13 +502,13 @@
 
 <h6 id="parameters-4">Parameters</h6>
 
-<p><em>val</em>: <code>list[str]</code></p>
+<p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
 <h6 id="returns-4">Returns</h6>
 
-<p><code>list[str]</code></p>
+<p><code class="highlighter-rouge">list[str]</code></p>
 
 <p>A list of shortened author’s names</p>
 
@@ -520,13 +522,13 @@
 
 <h6 id="parameters-5">Parameters</h6>
 
-<p><em>val</em>: <code>list[str]</code></p>
+<p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
 <h6 id="returns-5">Returns</h6>
 
-<p><code>list[str]</code></p>
+<p><code class="highlighter-rouge">list[str]</code></p>
 
 <p>A list of shortened author’s names</p>
 
@@ -540,13 +542,13 @@
 
 <h6 id="parameters-6">Parameters</h6>
 
-<p><em>val</em>: <code>list[str]</code></p>
+<p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
 <h6 id="returns-6">Returns</h6>
 
-<p><code>list[str]</code></p>
+<p><code class="highlighter-rouge">list[str]</code></p>
 
 <p>A list of author’s names</p>
 
@@ -560,13 +562,13 @@
 
 <h6 id="parameters-7">Parameters</h6>
 
-<p><em>val</em>: <code>list[str]</code></p>
+<p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
 <h6 id="returns-7">Returns</h6>
 
-<p><code>str</code></p>
+<p><code class="highlighter-rouge">str</code></p>
 
 <p>The group’s name</p>
 
@@ -588,13 +590,13 @@
 
 <h6 id="parameters-8">Parameters</h6>
 
-<p><em>val</em>: <code>list[str]</code></p>
+<p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
 <h6 id="returns-8">Returns</h6>
 
-<p><code>str</code></p>
+<p><code class="highlighter-rouge">str</code></p>
 
 <p>The title of the record</p>
 
@@ -608,13 +610,13 @@
 
 <h6 id="parameters-9">Parameters</h6>
 
-<p><em>val</em>: <code>list[str]</code></p>
+<p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
 <h6 id="returns-9">Returns</h6>
 
-<p><code>str</code></p>
+<p><code class="highlighter-rouge">str</code></p>
 
 <p>The name of the journal</p>
 
@@ -628,13 +630,13 @@
 
 <h6 id="parameters-10">Parameters</h6>
 
-<p><em>val</em>: <code>list[str]</code></p>
+<p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
 <h6 id="returns-10">Returns</h6>
 
-<p><code>str</code></p>
+<p><code class="highlighter-rouge">str</code></p>
 
 <p>The title of the series</p>
 
@@ -648,13 +650,13 @@
 
 <h6 id="parameters-11">Parameters</h6>
 
-<p><em>val</em>: <code>list[str]</code></p>
+<p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
 <h6 id="returns-11">Returns</h6>
 
-<p><code>str</code></p>
+<p><code class="highlighter-rouge">str</code></p>
 
 <p>The subtitle of the series</p>
 
@@ -668,13 +670,13 @@
 
 <h6 id="parameters-12">Parameters</h6>
 
-<p><em>val</em>: <code>list[str]</code></p>
+<p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
 <h6 id="returns-12">Returns</h6>
 
-<p><code>str</code></p>
+<p><code class="highlighter-rouge">str</code></p>
 
 <p>The language(s) of the record</p>
 
@@ -688,13 +690,13 @@
 
 <h6 id="parameters-13">Parameters</h6>
 
-<p><em>val</em>: <code>list[str]</code></p>
+<p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
 <h6 id="returns-13">Returns</h6>
 
-<p><code>str</code></p>
+<p><code class="highlighter-rouge">str</code></p>
 
 <p>The type of the Record</p>
 
@@ -708,13 +710,13 @@
 
 <h6 id="parameters-14">Parameters</h6>
 
-<p><em>val</em>: <code>list[str]</code></p>
+<p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
 <h6 id="returns-14">Returns</h6>
 
-<p><code>str</code></p>
+<p><code class="highlighter-rouge">str</code></p>
 
 <p>The title of the conference</p>
 
@@ -728,13 +730,13 @@
 
 <h6 id="parameters-15">Parameters</h6>
 
-<p><em>val</em>: <code>list[str]</code></p>
+<p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
 <h6 id="returns-15">Returns</h6>
 
-<p><code>str</code></p>
+<p><code class="highlighter-rouge">str</code></p>
 
 <p>The data of the conference</p>
 
@@ -748,13 +750,13 @@
 
 <h6 id="parameters-16">Parameters</h6>
 
-<p><em>val</em>: <code>list[str]</code></p>
+<p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
 <h6 id="returns-16">Returns</h6>
 
-<p><code>str</code></p>
+<p><code class="highlighter-rouge">str</code></p>
 
 <p>The host</p>
 
@@ -768,13 +770,13 @@
 
 <h6 id="parameters-17">Parameters</h6>
 
-<p><em>val</em>: <code>list[str]</code></p>
+<p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
 <h6 id="returns-17">Returns</h6>
 
-<p><code>str</code></p>
+<p><code class="highlighter-rouge">str</code></p>
 
 <p>The conferences address</p>
 
@@ -788,13 +790,13 @@
 
 <h6 id="parameters-18">Parameters</h6>
 
-<p><em>val</em>: <code>list[str]</code></p>
+<p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
 <h6 id="returns-18">Returns</h6>
 
-<p><code>str</code></p>
+<p><code class="highlighter-rouge">str</code></p>
 
 <p>A the list of of sponsors</p>
 
@@ -806,18 +808,19 @@
 
 <p>extracts the keywords assigned by the author of the Record. The WOS description is:</p>
 
-<pre><code>Author keywords are included in records of articles from 1991 forward. They are also include in conference proceedings records.
+<div class="highlighter-rouge"><pre class="highlight"><code>Author keywords are included in records of articles from 1991 forward. They are also include in conference proceedings records.
 </code></pre>
+</div>
 
 <h6 id="parameters-19">Parameters</h6>
 
-<p><em>val</em>: <code>list[str]</code></p>
+<p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
 <h6 id="returns-19">Returns</h6>
 
-<p><code>list[str]</code></p>
+<p><code class="highlighter-rouge">list[str]</code></p>
 
 <p>The list of keywords</p>
 
@@ -829,18 +832,19 @@
 
 <p>extracts the WOS keywords of the Record. The WOS description is:</p>
 
-<pre><code>KeyWords Plus are index terms created by Thomson Reuters from significant, frequently occurring words in the titles of an article's cited references.
+<div class="highlighter-rouge"><pre class="highlight"><code>KeyWords Plus are index terms created by Thomson Reuters from significant, frequently occurring words in the titles of an article's cited references.
 </code></pre>
+</div>
 
 <h6 id="parameters-20">Parameters</h6>
 
-<p><em>val</em>: <code>list[str]</code></p>
+<p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
 <h6 id="returns-20">Returns</h6>
 
-<p><code>list[str]</code></p>
+<p><code class="highlighter-rouge">list[str]</code></p>
 
 <p>The keyWords list</p>
 
@@ -854,13 +858,13 @@
 
 <h6 id="parameters-21">Parameters</h6>
 
-<p><em>val</em>: <code>list[str]</code></p>
+<p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
 <h6 id="returns-21">Returns</h6>
 
-<p><code>str</code></p>
+<p><code class="highlighter-rouge">str</code></p>
 
 <p>The abstract</p>
 
@@ -874,13 +878,13 @@
 
 <h6 id="parameters-22">Parameters</h6>
 
-<p><em>val</em>: <code>list[str]</code></p>
+<p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
 <h6 id="returns-22">Returns</h6>
 
-<p><code>list[str]</code></p>
+<p><code class="highlighter-rouge">list[str]</code></p>
 
 <p>A list of addresses</p>
 
@@ -894,13 +898,13 @@
 
 <h6 id="parameters-23">Parameters</h6>
 
-<p><em>val</em>: <code>list[str]</code></p>
+<p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
 <h6 id="returns-23">Returns</h6>
 
-<p><code>str</code></p>
+<p><code class="highlighter-rouge">str</code></p>
 
 <p>The reprint address</p>
 
@@ -914,13 +918,13 @@
 
 <h6 id="parameters-24">Parameters</h6>
 
-<p><em>val</em>: <code>list[str]</code></p>
+<p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
 <h6 id="returns-24">Returns</h6>
 
-<p><code>list[str]</code></p>
+<p><code class="highlighter-rouge">list[str]</code></p>
 
 <p>A list of emails</p>
 
@@ -934,13 +938,13 @@
 
 <h6 id="parameters-25">Parameters</h6>
 
-<p><em>val</em>: <code>list[str]</code></p>
+<p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
 <h6 id="returns-25">Returns</h6>
 
-<p><code>list[str]</code></p>
+<p><code class="highlighter-rouge">list[str]</code></p>
 
 <p>The list of the research IDs</p>
 
@@ -954,13 +958,13 @@
 
 <h6 id="parameters-26">Parameters</h6>
 
-<p><em>val</em>: <code>list[str]</code></p>
+<p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
 <h6 id="returns-26">Returns</h6>
 
-<p><code>str</code></p>
+<p><code class="highlighter-rouge">str</code></p>
 
 <p>The orc ID</p>
 
@@ -974,13 +978,13 @@
 
 <h6 id="parameters-27">Parameters</h6>
 
-<p><em>val</em>: <code>list[str]</code></p>
+<p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
 <h6 id="returns-27">Returns</h6>
 
-<p><code>list[str]</code></p>
+<p><code class="highlighter-rouge">list[str]</code></p>
 
 <p>A list of funding groups</p>
 
@@ -994,13 +998,13 @@
 
 <h6 id="parameters-28">Parameters</h6>
 
-<p><em>val</em>: <code>list[str]</code></p>
+<p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
 <h6 id="returns-28">Returns</h6>
 
-<p><code>str</code></p>
+<p><code class="highlighter-rouge">str</code></p>
 
 <p>The funding thank-you</p>
 
@@ -1014,13 +1018,13 @@
 
 <h6 id="parameters-29">Parameters</h6>
 
-<p><em>val</em>: <code>list[str]</code></p>
+<p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
 <h6 id="returns-29">Returns</h6>
 
-<p><code> list[metaknowledge.Citation]</code></p>
+<p><code class="highlighter-rouge"> list[metaknowledge.Citation]</code></p>
 
 <p>A list of Citations</p>
 
@@ -1034,13 +1038,13 @@
 
 <h6 id="parameters-30">Parameters</h6>
 
-<p><em>val</em>: <code>list[str]</code></p>
+<p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
 <h6 id="returns-30">Returns</h6>
 
-<p><code>int</code></p>
+<p><code class="highlighter-rouge">int</code></p>
 
 <p>The number of CRs</p>
 
@@ -1054,13 +1058,13 @@
 
 <h6 id="parameters-31">Parameters</h6>
 
-<p><em>val</em>: <code>list[str]</code></p>
+<p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
 <h6 id="returns-31">Returns</h6>
 
-<p><code>int</code></p>
+<p><code class="highlighter-rouge">int</code></p>
 
 <p>The number of time the Record has been cited</p>
 
@@ -1074,13 +1078,13 @@
 
 <h6 id="parameters-32">Parameters</h6>
 
-<p><em>val</em>: <code>list[str]</code></p>
+<p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
 <h6 id="returns-32">Returns</h6>
 
-<p><code>int</code></p>
+<p><code class="highlighter-rouge">int</code></p>
 
 <p>The total number of citations</p>
 
@@ -1094,13 +1098,13 @@
 
 <h6 id="parameters-33">Parameters</h6>
 
-<p><em>val</em>: <code>list[str]</code></p>
+<p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
 <h6 id="returns-33">Returns</h6>
 
-<p><code>str</code></p>
+<p><code class="highlighter-rouge">str</code></p>
 
 <p>The publisher</p>
 
@@ -1114,13 +1118,13 @@
 
 <h6 id="parameters-34">Parameters</h6>
 
-<p><em>val</em>: <code>list[str]</code></p>
+<p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
 <h6 id="returns-34">Returns</h6>
 
-<p><code>str</code></p>
+<p><code class="highlighter-rouge">str</code></p>
 
 <p>The city of the publisher</p>
 
@@ -1134,13 +1138,13 @@
 
 <h6 id="parameters-35">Parameters</h6>
 
-<p><em>val</em>: <code>list[str]</code></p>
+<p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
 <h6 id="returns-35">Returns</h6>
 
-<p><code>str</code></p>
+<p><code class="highlighter-rouge">str</code></p>
 
 <p>The publisher address</p>
 
@@ -1154,13 +1158,13 @@
 
 <h6 id="parameters-36">Parameters</h6>
 
-<p><em>val</em>: <code>list[str]</code></p>
+<p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
 <h6 id="returns-36">Returns</h6>
 
-<p><code>list[str]</code></p>
+<p><code class="highlighter-rouge">list[str]</code></p>
 
 <p>A list of the subjects associated with the Record</p>
 
@@ -1174,13 +1178,13 @@
 
 <h6 id="parameters-37">Parameters</h6>
 
-<p><em>val</em>: <code>list[str]</code></p>
+<p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
 <h6 id="returns-37">Returns</h6>
 
-<p><code>str</code></p>
+<p><code class="highlighter-rouge">str</code></p>
 
 <p>The ISSN string</p>
 
@@ -1194,13 +1198,13 @@
 
 <h6 id="parameters-38">Parameters</h6>
 
-<p><em>val</em>: <code>list[str]</code></p>
+<p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
 <h6 id="returns-38">Returns</h6>
 
-<p><code>str</code></p>
+<p><code class="highlighter-rouge">str</code></p>
 
 <p>The EISSN string</p>
 
@@ -1214,13 +1218,13 @@
 
 <h6 id="parameters-39">Parameters</h6>
 
-<p><em>val</em>: <code>list[str]</code></p>
+<p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
 <h6 id="returns-39">Returns</h6>
 
-<p><code>list</code></p>
+<p><code class="highlighter-rouge">list</code></p>
 
 <p>The ISBNs</p>
 
@@ -1234,13 +1238,13 @@
 
 <h6 id="parameters-40">Parameters</h6>
 
-<p><em>val</em>: <code>list[str]</code></p>
+<p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
 <h6 id="returns-40">Returns</h6>
 
-<p><code>str</code></p>
+<p><code class="highlighter-rouge">str</code></p>
 
 <p>The 29-Character Source Abbreviation</p>
 
@@ -1254,13 +1258,13 @@
 
 <h6 id="parameters-41">Parameters</h6>
 
-<p><em>val</em>: <code>list[str]</code></p>
+<p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
 <h6 id="returns-41">Returns</h6>
 
-<p><code>str</code></p>
+<p><code class="highlighter-rouge">str</code></p>
 
 <p>The iso abbreviation of the journal</p>
 
@@ -1274,13 +1278,13 @@
 
 <h6 id="parameters-42">Parameters</h6>
 
-<p><em>val</em>: <code>list[str]</code></p>
+<p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
 <h6 id="returns-42">Returns</h6>
 
-<p><code>int</code></p>
+<p><code class="highlighter-rouge">int</code></p>
 
 <p>A integer giving the month</p>
 
@@ -1294,13 +1298,13 @@
 
 <h6 id="parameters-43">Parameters</h6>
 
-<p><em>val</em>: <code>list[str]</code></p>
+<p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
 <h6 id="returns-43">Returns</h6>
 
-<p><code>int</code></p>
+<p><code class="highlighter-rouge">int</code></p>
 
 <p>The year</p>
 
@@ -1314,13 +1318,13 @@
 
 <h6 id="parameters-44">Parameters</h6>
 
-<p><em>val</em>: <code>list[str]</code></p>
+<p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
 <h6 id="returns-44">Returns</h6>
 
-<p><code>str</code></p>
+<p><code class="highlighter-rouge">str</code></p>
 
 <p>The volume number</p>
 
@@ -1334,13 +1338,13 @@
 
 <h6 id="parameters-45">Parameters</h6>
 
-<p><em>val</em>: <code>list[str]</code></p>
+<p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
 <h6 id="returns-45">Returns</h6>
 
-<p><code>str</code></p>
+<p><code class="highlighter-rouge">str</code></p>
 
 <p>The issue number/range</p>
 
@@ -1354,13 +1358,13 @@
 
 <h6 id="parameters-46">Parameters</h6>
 
-<p><em>val</em>: <code>list[str]</code></p>
+<p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
 <h6 id="returns-46">Returns</h6>
 
-<p><code>int</code></p>
+<p><code class="highlighter-rouge">int</code></p>
 
 <p>The part of the issue of the Record</p>
 
@@ -1374,13 +1378,13 @@
 
 <h6 id="parameters-47">Parameters</h6>
 
-<p><em>val</em>: <code>list[str]</code></p>
+<p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
 <h6 id="returns-47">Returns</h6>
 
-<p><code>str</code></p>
+<p><code class="highlighter-rouge">str</code></p>
 
 <p>The supplement number</p>
 
@@ -1394,13 +1398,13 @@
 
 <h6 id="parameters-48">Parameters</h6>
 
-<p><em>val</em>: <code>list[str]</code></p>
+<p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
 <h6 id="returns-48">Returns</h6>
 
-<p><code>str</code></p>
+<p><code class="highlighter-rouge">str</code></p>
 
 <p>The special issue value</p>
 
@@ -1414,13 +1418,13 @@
 
 <h6 id="parameters-49">Parameters</h6>
 
-<p><em>val</em>: <code>list[str]</code></p>
+<p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
 <h6 id="returns-49">Returns</h6>
 
-<p><code>str</code></p>
+<p><code class="highlighter-rouge">str</code></p>
 
 <p>The meeting abstract prefixed</p>
 
@@ -1434,13 +1438,13 @@
 
 <h6 id="parameters-50">Parameters</h6>
 
-<p><em>val</em>: <code>list[str]</code></p>
+<p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
 <h6 id="returns-50">Returns</h6>
 
-<p><code>str</code></p>
+<p><code class="highlighter-rouge">str</code></p>
 
 <p>The first page number</p>
 
@@ -1454,13 +1458,13 @@
 
 <h6 id="parameters-51">Parameters</h6>
 
-<p><em>val</em>: <code>list[str]</code></p>
+<p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
 <h6 id="returns-51">Returns</h6>
 
-<p><code>str</code></p>
+<p><code class="highlighter-rouge">str</code></p>
 
 <p>The final page number</p>
 
@@ -1474,13 +1478,13 @@
 
 <h6 id="parameters-52">Parameters</h6>
 
-<p><em>val</em>: <code>list[str]</code></p>
+<p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
 <h6 id="returns-52">Returns</h6>
 
-<p><code>str</code></p>
+<p><code class="highlighter-rouge">str</code></p>
 
 <p>The article number</p>
 
@@ -1494,13 +1498,13 @@
 
 <h6 id="parameters-53">Parameters</h6>
 
-<p><em>val</em>: <code>list[str]</code></p>
+<p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
 <h6 id="returns-53">Returns</h6>
 
-<p><code>int</code></p>
+<p><code class="highlighter-rouge">int</code></p>
 
 <p>The page count</p>
 
@@ -1514,13 +1518,13 @@
 
 <h6 id="parameters-54">Parameters</h6>
 
-<p><em>val</em>: <code>list[str]</code></p>
+<p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
 <h6 id="returns-54">Returns</h6>
 
-<p><code>list[str]</code></p>
+<p><code class="highlighter-rouge">list[str]</code></p>
 
 <p>The subjects list</p>
 
@@ -1534,13 +1538,13 @@
 
 <h6 id="parameters-55">Parameters</h6>
 
-<p><em>val</em>: <code>list[str]</code></p>
+<p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
 <h6 id="returns-55">Returns</h6>
 
-<p><code>str</code></p>
+<p><code class="highlighter-rouge">str</code></p>
 
 <p>The DOI number string</p>
 
@@ -1554,13 +1558,13 @@
 
 <h6 id="parameters-56">Parameters</h6>
 
-<p><em>val</em>: <code>list[str]</code></p>
+<p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
 <h6 id="returns-56">Returns</h6>
 
-<p><code>str</code></p>
+<p><code class="highlighter-rouge">str</code></p>
 
 <p>The DOI number</p>
 
@@ -1574,13 +1578,13 @@
 
 <h6 id="parameters-57">Parameters</h6>
 
-<p><em>val</em>: <code>list[str]</code></p>
+<p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
 <h6 id="returns-57">Returns</h6>
 
-<p><code>str</code></p>
+<p><code class="highlighter-rouge">str</code></p>
 
 <p>The document delivery number</p>
 
@@ -1594,13 +1598,13 @@
 
 <h6 id="parameters-58">Parameters</h6>
 
-<p><em>val</em>: <code>list[str]</code></p>
+<p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
 <h6 id="returns-58">Returns</h6>
 
-<p><code>str</code></p>
+<p><code class="highlighter-rouge">str</code></p>
 
 <p>The WOS number</p>
 
@@ -1614,13 +1618,13 @@
 
 <h6 id="parameters-59">Parameters</h6>
 
-<p><em>val</em>: <code>list[str]</code></p>
+<p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
 <h6 id="returns-59">Returns</h6>
 
-<p><code>str</code></p>
+<p><code class="highlighter-rouge">str</code></p>
 
 <p>The pubmed ID</p>
 

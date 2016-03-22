@@ -191,30 +191,32 @@
 
 <p>Once <em>Vagrant</em> and <em>VirtualBox</em> are installed, download <a href="https://github.com/networks-lab/metaknowledge/archive/master.zip"><em>metaknowledge</em></a>. Unzip the file. If you are unable to unzip the file, download <a href="http://www.7-zip.org/"><em>7-Zip</em></a>.</p>
 
-<p>Open the directory <em>metaknowledge</em> and go to the vagrant subdirectory. Depending on your operating system, double click either: <code>win_run</code>, <code>mac_run</code>, or <code>linux_run</code>.</p>
+<p>Open the directory <em>metaknowledge</em> and go to the vagrant subdirectory. Depending on your operating system, double click either: <code class="highlighter-rouge">win_run</code>, <code class="highlighter-rouge">mac_run</code>, or <code class="highlighter-rouge">linux_run</code>.</p>
 
 <p>A window should pop up and say something like:</p>
 
-<pre><code>Bringing machine 'default' up with 'virtualbox' provider...
+<div class="highlighter-rouge"><pre class="highlight"><code>Bringing machine 'default' up with 'virtualbox' provider...
 ==&gt; default: Box 'ubuntu/trusty64' could not be found. Attempting to find and in
 stall...
 default: Box Provider: virtualbox
 default: Box Version: &gt;= 0
 </code></pre>
+</div>
 
-<p>You will also see an estimate of how long the download and installation process will take (typically 20 minutes). All you have to do it wait for it to finish. When it is done, a browser window will appear at the showing the notebooks. If a browser window opens and it is showing <code>No data received</code> hit refresh a couple times.</p>
+<p>You will also see an estimate of how long the download and installation process will take (typically 20 minutes). All you have to do it wait for it to finish. When it is done, a browser window will appear at the showing the notebooks. If a browser window opens and it is showing <code class="highlighter-rouge">No data received</code> hit refresh a couple times.</p>
 
 <p>When you see a page with:</p>
 
-<pre><code>Lesson-1-Getting-Started
+<div class="highlighter-rouge"><pre class="highlight"><code>Lesson-1-Getting-Started
 Lesson-2-Reading-Files
 Lesson-3-Objects
 ...
 </code></pre>
+</div>
 
 <p>You have installed everything successfully.</p>
 
-<p>To open the page again just double click on which ever of <code>win_run</code>, <code>mac_run</code>, or <code>linux_run</code> you used. It should take less than a minute the second time.</p>
+<p>To open the page again just double click on which ever of <code class="highlighter-rouge">win_run</code>, <code class="highlighter-rouge">mac_run</code>, or <code class="highlighter-rouge">linux_run</code> you used. It should take less than a minute the second time.</p>
 
 <h3 id="advanced-instructions">Advanced Instructions</h3>
 <ol>
@@ -222,31 +224,32 @@ Lesson-3-Objects
   <li>Clone the <a href="https://github.com/networks-lab/metaknowledge.git">git repo</a></li>
   <li>Make sure you are on the master branch</li>
   <li>Go to the vagrant directory</li>
-  <li>Run <code>vagrant up</code></li>
+  <li>Run <code class="highlighter-rouge">vagrant up</code></li>
   <li>Once vagrant has finished go to <a href="http://localhost:1159/">http://localhost:1159/</a></li>
 </ol>
 
-<p>What you are doing by running <code>vagrant up</code> is creating an Ubuntu VM and provisioning it with the script <code>bootstrap</code>, which is also in the vagrant directory. If you run<code>vagrant up</code> again it only starts the VM. To access the VM’s notebook once it is created:</p>
+<p>What you are doing by running <code class="highlighter-rouge">vagrant up</code> is creating an Ubuntu VM and provisioning it with the script <code class="highlighter-rouge">bootstrap</code>, which is also in the vagrant directory. If you run<code class="highlighter-rouge">vagrant up</code> again it only starts the VM. To access the VM’s notebook once it is created:</p>
 
 <ol>
   <li>Go to the vagrant directory</li>
-  <li>Run <code>vagrant up</code></li>
+  <li>Run <code class="highlighter-rouge">vagrant up</code></li>
   <li>Once vagrant has finished go to <a href="http://localhost:1159/">http://localhost:1159/</a></li>
 </ol>
 
-<p>You can also use <code>vagrant ssh</code> to ssh into the VM or <code>vagrant provision</code> to rerun bootstrap. If <code>vagrant ssh</code> does not work on your machine, you should be able to ssh into it at:</p>
+<p>You can also use <code class="highlighter-rouge">vagrant ssh</code> to ssh into the VM or <code class="highlighter-rouge">vagrant provision</code> to rerun bootstrap. If <code class="highlighter-rouge">vagrant ssh</code> does not work on your machine, you should be able to ssh into it at:</p>
 
-<pre><code>HostName: 127.0.0.1
+<div class="highlighter-rouge"><pre class="highlight"><code>HostName: 127.0.0.1
 Port: 2222
 Username: vagrant
 Password: vagrant
 </code></pre>
+</div>
 
 <p>On Windows <a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/"><em>PuTTY</em></a> has been tested and works well.</p>
 
 <h2 id="install-without-vagrant">Install without Vagrant</h2>
 
-<p>Installing without <em>Vagrant</em> is done with <a href="https://pypi.python.org/pypi/setuptools">setuptools</a>. Go to the metaknowledge directory and run <code>python3 setup.py install</code>. This is the same version that is installed via pip plus some extra development command line tools.</p>
+<p>Installing without <em>Vagrant</em> is done with <a href="https://pypi.python.org/pypi/setuptools">setuptools</a>. Go to the metaknowledge directory and run <code class="highlighter-rouge">python3 setup.py install</code>. This is the same version that is installed via pip plus some extra development command line tools.</p>
 
 <hr />
 

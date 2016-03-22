@@ -45,7 +45,7 @@ The [download](https://github.com/networks-lab/metaknowledge/archive/master.zip)
 
 ##Install with Vagrant
 
-The _Vagrant_ method is intended for students and anyone not familiar with _Python_ it creates a virtual machine with _metaknowledge_ installed, as well as the _Python_ scientific stack _numpy_, _scipy_ and _matplotlib_ and a series of iPython notebooks for teaching _metaknowledge_ and _Python_. Some notebooks are more complete than others.
+The _Vagrant_ method is intended for students and anyone not familiar with _Python_ it creates a [virtual machine](https://en.wikipedia.org/wiki/Virtual_machine) with _metaknowledge_ installed, as well as the _Python_ scientific stack _numpy_, _scipy_ and _matplotlib_ and a series of iPython notebooks for teaching _metaknowledge_ and _Python_. Some notebooks are more complete than others.
 
 The instructions for those familiar with the command line use the advanced instructions. Otherwise, it is probably best to use the student install.
 
@@ -55,7 +55,7 @@ First, you need to install [_Vagrant_](https://www.vagrantup.com/downloads.html)
 
 Once _Vagrant_ and _VirtualBox_ are installed, download [_metaknowledge_](https://github.com/networks-lab/metaknowledge/archive/master.zip). Unzip the file. If you are unable to unzip the file, download [_7-Zip_](http://www.7-zip.org/).
 
-Open the directory _metaknowledge_ and go to the vagrant subdirectory. Depending on your operating system, double click either: win\_run, mac\_run, or linux\_run.
+Open the directory _metaknowledge_ and go to the vagrant subdirectory. Depending on your operating system, double click either: `win_run`, `mac_run`, or `linux_run`.
 
 A window should pop up and say something like:
 
@@ -65,7 +65,7 @@ A window should pop up and say something like:
     default: Box Provider: virtualbox
     default: Box Version: >= 0
 
-You will also see an estimate of how long the download and installation process will take (typically ~ 20 minutes). All you have to do it wait for it to finish. When it is done, a browser window will appear at the showing the notebooks. If a browser window opens and it is showing `No data received` hit refresh a couple times.
+You will also see an estimate of how long the download and installation process will take (typically 20 minutes). All you have to do it wait for it to finish. When it is done, a browser window will appear at the showing the notebooks. If a browser window opens and it is showing `No data received` hit refresh a couple times.
 
 When you see a page with:
 
@@ -76,7 +76,7 @@ When you see a page with:
 
 You have installed everything successfully.
 
-To open the page again just double click on which ever of win\_run, mac\_run or linux\_run you used. It should take less than a minute the second time.
+To open the page again just double click on which ever of `win_run`, `mac_run`, or `linux_run` you used. It should take less than a minute the second time.
 
 ###Advanced Instructions
 0. Install [Vagrant](https://www.vagrantup.com/downloads.html) and [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
@@ -86,7 +86,7 @@ To open the page again just double click on which ever of win\_run, mac\_run or 
 4. Run `vagrant up`
 5. Once vagrant has finished go to [http://localhost:1159/](http://localhost:1159/)
 
-What you are doing by running `vagrant up` is creating an Ubuntu VM and provisioning it with the script `bootstrap,` which is also in vagrant. If you run`vagrant up` again it only starts the VM. To access the VM's notebook once it is created:
+What you are doing by running `vagrant up` is creating an Ubuntu VM and provisioning it with the script `bootstrap`, which is also in the vagrant directory. If you run`vagrant up` again it only starts the VM. To access the VM's notebook once it is created:
 
 1. Go to the vagrant directory
 2. Run `vagrant up`

@@ -198,7 +198,7 @@
 
 <h2 id="install-with-vagrant">Install with Vagrant</h2>
 
-<p>The <em>Vagrant</em> method is intended for students and anyone not familiar with <em>Python</em> it creates a virtual machine with <em>metaknowledge</em> installed, as well as the <em>Python</em> scientific stack <em>numpy</em>, <em>scipy</em> and <em>matplotlib</em> and a series of iPython notebooks for teaching <em>metaknowledge</em> and <em>Python</em>. Some notebooks are more complete than others.</p>
+<p>The <em>Vagrant</em> method is intended for students and anyone not familiar with <em>Python</em> it creates a <a href="https://en.wikipedia.org/wiki/Virtual_machine">virtual machine</a> with <em>metaknowledge</em> installed, as well as the <em>Python</em> scientific stack <em>numpy</em>, <em>scipy</em> and <em>matplotlib</em> and a series of iPython notebooks for teaching <em>metaknowledge</em> and <em>Python</em>. Some notebooks are more complete than others.</p>
 
 <p>The instructions for those familiar with the command line use the advanced instructions. Otherwise, it is probably best to use the student install.</p>
 
@@ -208,7 +208,7 @@
 
 <p>Once <em>Vagrant</em> and <em>VirtualBox</em> are installed, download <a href="https://github.com/networks-lab/metaknowledge/archive/master.zip"><em>metaknowledge</em></a>. Unzip the file. If you are unable to unzip the file, download <a href="http://www.7-zip.org/"><em>7-Zip</em></a>.</p>
 
-<p>Open the directory <em>metaknowledge</em> and go to the vagrant subdirectory. Depending on your operating system, double click either: win_run, mac_run, or linux_run.</p>
+<p>Open the directory <em>metaknowledge</em> and go to the vagrant subdirectory. Depending on your operating system, double click either: <code>win_run</code>, <code>mac_run</code>, or <code>linux_run</code>.</p>
 
 <p>A window should pop up and say something like:</p>
 
@@ -219,7 +219,7 @@ default: Box Provider: virtualbox
 default: Box Version: &gt;= 0
 </code></pre>
 
-<p>You will also see an estimate of how long the download and installation process will take (typically ~ 20 minutes). All you have to do it wait for it to finish. When it is done, a browser window will appear at the showing the notebooks. If a browser window opens and it is showing <code>No data received</code> hit refresh a couple times.</p>
+<p>You will also see an estimate of how long the download and installation process will take (typically 20 minutes). All you have to do it wait for it to finish. When it is done, a browser window will appear at the showing the notebooks. If a browser window opens and it is showing <code>No data received</code> hit refresh a couple times.</p>
 
 <p>When you see a page with:</p>
 
@@ -231,7 +231,7 @@ Lesson-3-Objects
 
 <p>You have installed everything successfully.</p>
 
-<p>To open the page again just double click on which ever of win_run, mac_run or linux_run you used. It should take less than a minute the second time.</p>
+<p>To open the page again just double click on which ever of <code>win_run</code>, <code>mac_run</code>, or <code>linux_run</code> you used. It should take less than a minute the second time.</p>
 
 <h3 id="advanced-instructions">Advanced Instructions</h3>
 <ol>
@@ -243,7 +243,7 @@ Lesson-3-Objects
   <li>Once vagrant has finished go to <a href="http://localhost:1159/">http://localhost:1159/</a></li>
 </ol>
 
-<p>What you are doing by running <code>vagrant up</code> is creating an Ubuntu VM and provisioning it with the script <code>bootstrap,</code> which is also in vagrant. If you run<code>vagrant up</code> again it only starts the VM. To access the VM’s notebook once it is created:</p>
+<p>What you are doing by running <code>vagrant up</code> is creating an Ubuntu VM and provisioning it with the script <code>bootstrap</code>, which is also in the vagrant directory. If you run<code>vagrant up</code> again it only starts the VM. To access the VM’s notebook once it is created:</p>
 
 <ol>
   <li>Go to the vagrant directory</li>

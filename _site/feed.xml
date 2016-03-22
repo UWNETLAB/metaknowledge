@@ -4,7 +4,7 @@
 <generator uri="https://github.com/jekyll/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="http://networkslab.org/feed.xml" />
 <link rel="alternate" type="text/html" href="http://networkslab.org" />
-<updated>2016-01-06T19:13:51+05:30</updated>
+<updated>2016-03-22T14:59:40+07:00</updated>
 <id>http://networkslab.org/</id>
 <author>
   <name>John McLevey and Reid McIlroy-Young</name>
@@ -19,8 +19,8 @@
   <title type="html"><![CDATA[tagProcessing]]></title>
   <link rel="alternate" type="text/html" href="http://networkslab.org/docs/tagProcessing" />
   <id>http://networkslab.org/docs/tagProcessing</id>
-  <published>2016-01-06T00:00:00+05:30</published>
-  <updated>2016-01-06T00:00:00+05:30</updated>
+  <published>2016-01-06T00:00:00+07:00</published>
+  <updated>2016-01-06T00:00:00+07:00</updated>
   <author>
     <name>John McLevey and Reid McIlroy-Young</name>
     <uri>http://networkslab.org</uri>
@@ -1548,8 +1548,8 @@
   <title type="html"><![CDATA[Overview]]></title>
   <link rel="alternate" type="text/html" href="http://networkslab.org/docs/overview" />
   <id>http://networkslab.org/docs/overview</id>
-  <published>2016-01-06T00:00:00+05:30</published>
-  <updated>2016-01-06T00:00:00+05:30</updated>
+  <published>2016-01-06T00:00:00+07:00</published>
+  <updated>2016-01-06T00:00:00+07:00</updated>
   <author>
     <name>John McLevey and Reid McIlroy-Young</name>
     <uri>http://networkslab.org</uri>
@@ -1615,8 +1615,8 @@ Done making a co-citation network of files-from-records                 1.1s
   <title type="html"><![CDATA[Base Functions]]></title>
   <link rel="alternate" type="text/html" href="http://networkslab.org/docs/metaknowledge" />
   <id>http://networkslab.org/docs/metaknowledge</id>
-  <published>2016-01-06T00:00:00+05:30</published>
-  <updated>2016-01-06T00:00:00+05:30</updated>
+  <published>2016-01-06T00:00:00+07:00</published>
+  <updated>2016-01-06T00:00:00+07:00</updated>
   <author>
     <name>John McLevey and Reid McIlroy-Young</name>
     <uri>http://networkslab.org</uri>
@@ -2236,8 +2236,8 @@ The functions provided by metaknowledge are:&lt;/p&gt;
   <title type="html"><![CDATA[journalAbbreviations]]></title>
   <link rel="alternate" type="text/html" href="http://networkslab.org/docs/journalAbbreviations" />
   <id>http://networkslab.org/docs/journalAbbreviations</id>
-  <published>2016-01-06T00:00:00+05:30</published>
-  <updated>2016-01-06T00:00:00+05:30</updated>
+  <published>2016-01-06T00:00:00+07:00</published>
+  <updated>2016-01-06T00:00:00+07:00</updated>
   <author>
     <name>John McLevey and Reid McIlroy-Young</name>
     <uri>http://networkslab.org</uri>
@@ -2357,8 +2357,8 @@ The functions provided by metaknowledge are:&lt;/p&gt;
   <title type="html"><![CDATA[contour]]></title>
   <link rel="alternate" type="text/html" href="http://networkslab.org/docs/contour" />
   <id>http://networkslab.org/docs/contour</id>
-  <published>2016-01-06T00:00:00+05:30</published>
-  <updated>2016-01-06T00:00:00+05:30</updated>
+  <published>2016-01-06T00:00:00+07:00</published>
+  <updated>2016-01-06T00:00:00+07:00</updated>
   <author>
     <name>John McLevey and Reid McIlroy-Young</name>
     <uri>http://networkslab.org</uri>
@@ -2468,8 +2468,8 @@ The functions provided by metaknowledge are:&lt;/p&gt;
   <title type="html"><![CDATA[RecordCollection]]></title>
   <link rel="alternate" type="text/html" href="http://networkslab.org/docs/RecordCollection" />
   <id>http://networkslab.org/docs/RecordCollection</id>
-  <published>2016-01-06T00:00:00+05:30</published>
-  <updated>2016-01-06T00:00:00+05:30</updated>
+  <published>2016-01-06T00:00:00+07:00</published>
+  <updated>2016-01-06T00:00:00+07:00</updated>
   <author>
     <name>John McLevey and Reid McIlroy-Young</name>
     <uri>http://networkslab.org</uri>
@@ -3207,8 +3207,8 @@ The other options are:&lt;/p&gt;
   <title type="html"><![CDATA[Record]]></title>
   <link rel="alternate" type="text/html" href="http://networkslab.org/docs/Record" />
   <id>http://networkslab.org/docs/Record</id>
-  <published>2016-01-06T00:00:00+05:30</published>
-  <updated>2016-01-06T00:00:00+05:30</updated>
+  <published>2016-01-06T00:00:00+07:00</published>
+  <updated>2016-01-06T00:00:00+07:00</updated>
   <author>
     <name>John McLevey and Reid McIlroy-Young</name>
     <uri>http://networkslab.org</uri>
@@ -3462,8 +3462,8 @@ The other options are:&lt;/p&gt;
   <title type="html"><![CDATA[Citation]]></title>
   <link rel="alternate" type="text/html" href="http://networkslab.org/docs/Citation" />
   <id>http://networkslab.org/docs/Citation</id>
-  <published>2016-01-06T00:00:00+05:30</published>
-  <updated>2016-01-06T00:00:00+05:30</updated>
+  <published>2016-01-06T00:00:00+07:00</published>
+  <updated>2016-01-06T00:00:00+07:00</updated>
   <author>
     <name>John McLevey and Reid McIlroy-Young</name>
     <uri>http://networkslab.org</uri>

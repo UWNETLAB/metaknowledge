@@ -5,7 +5,7 @@ excerpt: "How to use the metaknowledge command line tool."
 tags: CLI
 ---
 
-The metaknowledge comes with a command-line application named metaknowledge. This provides a simple interface to the python package an allows the generation of most of networks the package can along with ways to manage the WOS records themselves.
+The metaknowledge comes with a command-line application named `metaknowledge`. This provides a simple interface to the python package an allows the generation of most of networks along with ways to manage the records themselves.
 
 ## Overview
 
@@ -32,11 +32,11 @@ You will then be asked what to do with the records:
     q) quit
     What is your selection:
 
-Select the option you want by typing the corresponding number or character and pressing enter.
+Select the option you want by typing the corresponding number or character and pressing enter. The menus after this step are controlled this way as well.
 
-The second last option `i)` will start an interactive python session will all the objects you have created thus far accessible, their names will be given when it starts, Graphs are called `G` and RecordCollections `RC`.
+The second last option `i)` will start an interactive python session will all the objects you have created thus far accessible, their names will be given when it starts.
 
-The last option `q)` will cause the program to exit. You can also quit ar anytime by pressing `ctr-c`.
+The last option `q)` will cause the program to exit. You can also quit at any time by pressing `ctr-c`.
 
 
 {% include docsFooter.md %}

@@ -24,10 +24,10 @@ class MedlineRecord(ExtendedRecord):
             elif isinstance(inRecord, io.IOBase):
                 fieldDict = medlineRecordParser(enumerate(inRecord))
             elif isinstance(inRecord, str):
-                def addChartoEnd(lst):
+                def addCharToEnd(lst):
                     for s in lst:
                         yield s + '\n'
-                fieldDict = medlineRecordParser(enumerate(addChartoEnd(inRecord.split('\n')), start = 1))
+                fieldDict = medlineRecordParser(enumerate(addCharToEnd(inRecord.split('\n')), start = 1))
                 #string io
             else:
                 raise TypeError("Unsupported input type '{}', PubmedRecords cannot be created from '{}'".format(inRecord, type(inRecord)))

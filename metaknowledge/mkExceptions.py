@@ -22,6 +22,12 @@ class BadPubmedRecord(mkException):
 class BadPubmedFile(mkException):
     pass
 
+class BadProQuestRecord(mkException):
+    pass
+
+class BadProQuestFile(mkException):
+    pass
+
 class RecordsNotCompatible(mkException):
     pass
 

@@ -23,6 +23,7 @@ def medlineParser(pubFile):
     #assumes the file is MEDLINE
     recSet = set()
     error = None
+    lineNum = 0
     try:
         with open(pubFile, 'r', encoding = 'latin-1') as openfile:
             f = enumerate(openfile, start = 1)

@@ -175,7 +175,7 @@ class ExtendedRecord(Record, metaclass = abc.ABCMeta):
 
         #Memoizing stuff
         self._computedFields = {}
-    #@profile
+
     def __getitem__(self, key):
         """Proccesses the tag requested with _key_ and memoize it.
 

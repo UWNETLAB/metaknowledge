@@ -9,6 +9,9 @@ image:
   creditlink:
 ---
 
+This is the documentation for the current version of metaknowledge. A new version with many new features is currently being worked on. The current draft of its documentation can be found [here]({{ site.baseurl }}/documentation/metaknowledge2Draft.html).
+
+
 {% assign sortedDocs = site.categories.docs | sort:"weight"  %}
 <ul class="post-list">
    <li><article>

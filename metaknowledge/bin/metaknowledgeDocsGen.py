@@ -63,7 +63,7 @@ weight: {3}
     return s
 
 def argumentParser():
-    parser = argparse.ArgumentParser(description="A simple script to genrate docs for metaknowledge")
+    parser = argparse.ArgumentParser(description="A simple script to generate docs for metaknowledge")
     parser.add_argument("-dir", "-d", default = os.path.normpath('.') ,nargs='?', help = 'Directory to write files to')
     parser.add_argument("-single", "-s", action = 'store_true', default = False ,help = 'Write to only one file.')
     return parser.parse_args()
@@ -262,11 +262,13 @@ def main(args):
             print('Creating the directory {} failed'.format(wDir))
             return 1
     os.chdir(wDir)
+
     classes = []
     funcs = []
     vrs = []
     exceptions = []
     builtins = []
+
     for m in sorted(inspect.getmembers(metaknowledge), key = getLineNumber):
         if inspect.isbuiltin(m[1]) or m[0][0] == '_':
             builtins.append(m)
@@ -279,6 +281,7 @@ def main(args):
             funcs.append(m)
         else:
             vrs.append(m)
+
     if args.single:
         f = open("metaknowledgeFull.md",'w')
         f.write(singleFileYAML)
@@ -304,11 +307,15 @@ def main(args):
     else:
         single = False
         f = None
+
     writeMainBody(funcs, vrs, exceptions, targetFile = f, singleFile = single)
+
     for cls in classes:
         writeClassFile(*cls, targetFile = f, singleFile = single)
+
     for mod in documentedModules:
         writeModuleFile(mod, targetFile = f, singleFile = single)
+
     if args.single:
         f.write("\n{% include docsFooter.md %}")
         f.close

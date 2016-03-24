@@ -1,6 +1,6 @@
 #Written by Reid McIlroy-Young for Dr. John McLevey, University of Waterloo 2015
 import metaknowledge
-import metaknowledge.WOS.journalAbbreviations
+import metaknowledge.WOS
 import networkx as nx
 import argparse
 import os
@@ -180,10 +180,10 @@ def getWhatToDo(clargs, inRC):
             f.writelines(cites)
         return False
     else:
-        dbName = input("The default manual databse file is called {}, press Enter to use it or type the name of the database you wish to use:\n".format(metaknowledge.WOS.journalAbbreviations.manaulDBname))
+        dbName = input("The default manual databse file is called {}, press Enter to use it or type the name of the database you wish to use:\n".format(metaknowledge.WOS.manaulDBname))
         print("Starting to go over citations, to exit press ctr-C.")
         if dbName == '':
-            dbName = metaknowledge.WOS.journalAbbreviations.manaulDBname
+            dbName = metaknowledge.WOS.manaulDBname
         try:
             for R in inRC:
                 for c in R.get('citations', []):

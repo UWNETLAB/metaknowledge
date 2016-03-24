@@ -10,7 +10,7 @@ import metaknowledge.WOS.tagProcessing
 import importlib
 import re
 
-documentedModules = ['contour', 'journalAbbreviations', 'tagProcessing']
+documentedModules = ['contour', 'WOS', 'medline']#, 'journalAbbreviations', 'tagProcessing']
 
 docsPrefix = time.strftime("%Y-%m-%d-")
 
@@ -43,7 +43,8 @@ def makeBlurb(name):
     if name in blurbDict:
         return blurbDict[name]
     else:
-        raise RuntimeError("{} needs a blurb".format(name))
+        return 'BLURB NEEDED FOR: {}'.format(name)
+        #raise RuntimeError("{} needs a blurb".format(name))
 
 
 def makeHeader(title, excerpt, tags = (), weight = 10, layout = "doc", singleFile = False):
@@ -65,7 +66,7 @@ weight: {3}
 def argumentParser():
     parser = argparse.ArgumentParser(description="A simple script to generate docs for metaknowledge")
     parser.add_argument("-dir", "-d", default = os.path.normpath('.') ,nargs='?', help = 'Directory to write files to')
-    parser.add_argument("-single", "-s", action = 'store_true', default = False ,help = 'Write to only one file.')
+    parser.add_argument("-single", "-s", action = 'store_true', default = False, help = 'Write to only one file.')
     return parser.parse_args()
 
 def getLineNumber(objTuple):
@@ -97,6 +98,8 @@ def makeSingleFileUrls(s):
 
 def cleanedDoc(obj, lvl, singleFile = False):
     ds = inspect.getdoc(obj)
+    if not isinstance(ds, str):
+        raise RuntimeError("'{}' on line {} of '{}' is missing its docstring".format(obj, inspect.getsourcelines(obj)[1], inspect.getfile(obj)))
     lns = ds.split('\n')
     nds = ''
     for line in lns:
@@ -145,7 +148,7 @@ def makeTable(entries, header = '', prefix = '', withBlurbs = False, bigTable = 
         prefix = prefix + '.'
     for e in entries:
         if withBlurbs:
-            ents.append("""<li><article><a href="#{0}"><b>{0}</b><span class="excerpt">{1}</span></a></article></li>""".format(e, blurbDict[e]))
+            ents.append("""<li><article><a href="#{0}"><b>{0}</b><span class="excerpt">{1}</span></a></article></li>""".format(e, makeBlurb(e)))
         elif bigTable:
             if e[2] is None:
                 ents.append("""<li><article><a href="#{0}"><b>{0}</b>{1}</a></article></li>""".format(e[0], cleanargs(e[1], basic = True), prefix))
@@ -204,6 +207,7 @@ def writeClassFile(name, typ, targetFile = None, singleFile = False):
         f.close()
 
 def writeModuleFile(mod, targetFile = None, singleFile = False):
+    print("Starting {}".format(mod))
     fname = docsPrefix + "{}.md".format(mod)
     if targetFile is not None:
         f = targetFile
@@ -283,11 +287,16 @@ def main(args):
             vrs.append(m)
 
     if args.single:
-        f = open("metaknowledgeFull.md",'w')
-        f.write(singleFileYAML)
-        f.write(makeTable([c[0] for c in classes] + documentedModules, header = '<a name="objlist"></a>The classes and modules of metaknowledge are:', withBlurbs = True))
         single = True
+        f = open("metaknowledge2Draft.md",'w')
+        f.write(singleFileYAML)
+
+        f.write(makeTable([c[0] for c in classes], header = '<a name="objlist"></a>The classes of metaknowledge are:', withBlurbs = True))
+
+        f.write(makeTable(documentedModules, header = '<a name="objlist"></a>The modules of metaknowledge are:', withBlurbs = True))
+
         bigTableEntries = [(f[0], f[1], None) for f in funcs]
+
         for cls in classes:
             baseMems = inspect.getmembers(cls[1].__bases__[0])
             for m in sorted(inspect.getmembers(cls[1]), key = getLineNumber):
@@ -295,6 +304,7 @@ def main(args):
                     pass
                 elif inspect.isfunction(m[1]):
                     bigTableEntries.append((m[0], m[1], cls[0]))
+
         for mod in documentedModules:
             module = importlib.import_module('metaknowledge.{}'.format(mod))
             for m in sorted(inspect.getmembers(module, predicate = inspect.isfunction), key = getLineNumber):
@@ -302,8 +312,8 @@ def main(args):
                     pass
                 elif inspect.isfunction(m[1]):
                     bigTableEntries.append((m[0], m[1], mod))
-        print(len(bigTableEntries))
-        f.write(makeTable(bigTableEntries, header = '<a name="fulllist"></a>All the functions and methods of metaknowledge are as follows:', bigTable = True))
+
+        f.write(makeTable(bigTableEntries, header = '<a name="fulllist"></a>All the functions and methods of metaknowledge and its objects are as follows:', bigTable = True))
     else:
         single = False
         f = None

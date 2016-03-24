@@ -1,6 +1,6 @@
 #Written by Reid McIlroy-Young for Dr. John McLevey, University of Waterloo 2015
 from .helpFuncs import getMonth
-from ...citation import Citation
+from ..journalAbbreviations.wosCitations import WOSCitation
 
 import collections
 
@@ -523,7 +523,7 @@ def citations(val):
     """
     retCites = []
     for c in val:
-        retCites.append(Citation(c))
+        retCites.append(WOSCitation(c))
     return retCites
 
 def publisherCity(val):

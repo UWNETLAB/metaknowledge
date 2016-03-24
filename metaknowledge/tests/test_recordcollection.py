@@ -1,7 +1,7 @@
 #Written by Reid McIlroy-Young for Dr. John McLevey, University of Waterloo 2015
 import unittest
 import metaknowledge
-import metaknowledge.WOS.tagProcessing
+import metaknowledge.WOS
 import os
 import filecmp
 import networkx as nx
@@ -257,7 +257,7 @@ class TestRecordCollection(unittest.TestCase):
         os.remove(filename)
 
     def test_makeDict(self):
-        d = self.RC.makeDict(onlyTheseTags = list(metaknowledge.WOS.tagProcessing.tagsAndNameSet), longNames = True)
+        d = self.RC.makeDict(onlyTheseTags = list(metaknowledge.WOS.tagsAndNameSet), longNames = True)
         self.assertEqual(len(d), 62)
         self.assertEqual(len(d['wosString']), len(self.RC))
         if d['eISSN'][0] == '2155-3165':
@@ -383,8 +383,8 @@ class TestRecordCollection(unittest.TestCase):
         self.assertTrue('Optical properties of nanostructured thin filmss' in Gstemm)
 
     def test_nMode(self):
-        G = self.RC.nModeNetwork(metaknowledge.WOS.tagProcessing.tagToFullDict.keys())
-        Gstem = self.RC.nModeNetwork(metaknowledge.WOS.tagProcessing.tagToFullDict.keys(), stemmer = lambda x : x[0])
+        G = self.RC.nModeNetwork(metaknowledge.WOS.tagToFullDict.keys())
+        Gstem = self.RC.nModeNetwork(metaknowledge.WOS.tagToFullDict.keys(), stemmer = lambda x : x[0])
         self.assertEqual(metaknowledge.graphStats(G), 'The graph has 1186 nodes, 38592 edges, 0 isolates, 56 self loops, a density of 0.0549192 and a transitivity of 0.295384')
         self.assertEqual(metaknowledge.graphStats(Gstem), 'The graph has 50 nodes, 1015 edges, 0 isolates, 35 self loops, a density of 0.828571 and a transitivity of 0.855834')
 

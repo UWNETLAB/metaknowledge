@@ -30,28 +30,31 @@ Citations are handled by a special [Citation](#Citation.Citation) class. This cl
 Note for those reading the docstrings metaknowledge's docs are written in markdown and are processed to produce the documentation found at [networkslab.org/metaknowledge/documentation]({{ site.baseurl }}/documentation/), but you should have no problem reading them from the help function.
 """
 
-from .mkRecord import *
+from .mkRecord import Record, ExtendedRecord
 from .citation import Citation, filterNonJournals
-from .grants import *
+from .grants.baseGrant import Grant, DefaultGrant
+from .grants.medlineGrant import MedlineGrant
+from .grants.cihrGrant import CIHRGrant
+from .grants.nsercGrant import NSERCGrant
+
+
+
 from .recordCollection import RecordCollection
-from .mkExceptions import *
-from .progressBar import _ProgressBar
-from .grantCollection import *
-from .mkCollection import *
+from .mkExceptions import BadCitation, BadGrant, BadInputFile, BadProQuestFile, BadProQuestRecord, BadPubmedFile, BadPubmedRecord, BadRecord, BadWOSFile, BadWOSRecord, CollectionTypeError, GrantCollectionException, RCTypeError, RCValueError, RecordsNotCompatible, UnknownFile, cacheError, mkException
+#from .progressBar import _ProgressBar
+from .grantCollection import GrantCollection
+from .mkCollection import Collection, CollectionWithIDs
 
 from .graphHelpers import writeEdgeList, writeNodeAttributeFile, writeGraph, readGraph, dropEdges, dropNodesByDegree, dropNodesByCount, mergeGraphs, graphStats
 from .constants import VERBOSE_MODE, __version__, specialRecordFields, FAST_CITES
 from .diffusion import diffusionGraph, diffusionCount, diffusionAddCountsFromSource
 
-from .WOS.tagProcessing.funcDicts import tagToFull, isTagOrName, normalizeToTag, normalizeToName
-from .WOS.wosHandlers import wosParser
-from .WOS.recordWOS import recordParser, WOSRecord
+#from .WOS.tagProcessing.funcDicts import tagToFull, isTagOrName, normalizeToTag, normalizeToName
+#from .WOS.wosHandlers import wosParser
+from .WOS.recordWOS import WOSRecord#, recordParser
 
-from .medline import *
+from .medline import MedlineRecord
 
-from .ProQuest import *
+from .ProQuest import ProQuestRecord
 
 #from .blondel import blondel, modularity #Better implementations can be found on Pypi so this has been discontinued
-
-def testFunc():
-    return input("23456t543")

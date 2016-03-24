@@ -1,7 +1,7 @@
-from .nsercGrant import *
-from .medlineGrant import *
-from .baseGrant import *
-from .cihrGrant import *
+from .nsercGrant import NSERCGrant, isNSERCfile, parserNSERCfile
+from .medlineGrant import MedlineGrant
+from .baseGrant import Grant, DefaultGrant, isDefaultGrantFile, parserDefaultGrantFile
+from .cihrGrant import CIHRGrant, isCIHRfile, parserCIHRfile
 
 
 """#Creating new grants

@@ -22,7 +22,7 @@ import copy
 
 from .mkExceptions import BadRecord
 
-from .citation import Citation
+from .WOS.journalAbbreviations.wosCitations import WOSCitation
 
 class Record(collections.abc.Mapping, collections.abc.Hashable):
     def __init__(self, fieldDict, idValue, bad, error, sFile = "", sLine = 0):
@@ -334,8 +334,8 @@ class ExtendedRecord(Record, metaclass = abc.ABCMeta):
         if self.get("DOI", False):
             valsLst.append('DOI ' + self.get('DOI'))
         if multiCite and len(auths) > 0:
-            return(tuple((Citation(', '.join([a] + valsLst)) for a in auths)))
+            return(tuple((WOSCitation(', '.join([a] + valsLst)) for a in auths)))
         elif multiCite:
-            return Citation(', '.join(valsLst)),
+            return WOSCitation(', '.join(valsLst)),
         else:
-            return Citation(', '.join(valsLst))
+            return WOSCitation(', '.join(valsLst))

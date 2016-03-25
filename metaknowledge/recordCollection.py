@@ -513,7 +513,7 @@ class RecordCollection(CollectionWithIDs):
                 PBar.finish("Done making a co-authorship network from {}".format(self))
         return grph
 
-    def coCiteNetwork(self, dropAnon = True, nodeType = "full", nodeInfo = True, fullInfo = False, weighted = True, dropNonJournals = False, count = True, keyWords = None, detailedCore = None, coreOnly = False, expandedCore = False):
+    def coCiteNetwork(self, dropAnon = True, nodeType = "full", nodeInfo = True, fullInfo = False, weighted = True, dropNonJournals = False, count = True, keyWords = None, detailedCore = None, detailedCoreAttributes = False, coreOnly = False, expandedCore = False):
         """Creates a co-citation network for the RecordCollection.
 
         # Parameters
@@ -608,7 +608,7 @@ class RecordCollection(CollectionWithIDs):
                 Cites = R.get('citations')
                 if Cites:
                     filteredCites = filterCites(Cites, nodeType, dropAnon, dropNonJournals, keyWords, coreCites)
-                    addToNetwork(tmpgrph, filteredCites, count, weighted, nodeType, nodeInfo , fullInfo, coreCitesDict, coreValues, headNd = None)
+                    addToNetwork(tmpgrph, filteredCites, count, weighted, nodeType, nodeInfo , fullInfo, coreCitesDict, coreValues, detailedCoreAttributes, headNd = None)
             if expandedCore:
                 if PBar:
                     PBar.updateVal(.98, "Expanding core Records")
@@ -618,7 +618,7 @@ class RecordCollection(CollectionWithIDs):
         return tmpgrph
 
 
-    def citationNetwork(self, dropAnon = False, nodeType = "full", nodeInfo = True, fullInfo = False, weighted = True, dropNonJournals = False, count = True, directed = True, keyWords = None, detailedCore = None, coreOnly = False, expandedCore = False):
+    def citationNetwork(self, dropAnon = False, nodeType = "full", nodeInfo = True, fullInfo = False, weighted = True, dropNonJournals = False, count = True, directed = True, keyWords = None, detailedCore = None, detailedCoreAttributes = False, coreOnly = False, expandedCore = False):
 
         """Creates a citation network for the RecordCollection.
 
@@ -726,7 +726,7 @@ class RecordCollection(CollectionWithIDs):
                 rCites = R.get('citations')
                 if rCites:
                     filteredCites = filterCites(rCites, nodeType, dropAnon, dropNonJournals, keyWords, coreCites)
-                    addToNetwork(tmpgrph, filteredCites, count, weighted, nodeType, nodeInfo, fullInfo, coreCitesDict, coreValues, headNd = reRef)
+                    addToNetwork(tmpgrph, filteredCites, count, weighted, nodeType, nodeInfo, fullInfo, coreCitesDict, coreValues, detailedCoreAttributes, headNd = reRef)
             if expandedCore:
                 if PBar:
                     PBar.updateVal(.98, "Expanding core Records")
@@ -1045,7 +1045,7 @@ def edgeNodeReplacerGenerator(base, nodes, loc):
         yield tmpN
 
 
-def addToNetwork(grph, nds, count, weighted, nodeType, nodeInfo, fullInfo, coreCitesDict, coreValues, headNd = None):
+def addToNetwork(grph, nds, count, weighted, nodeType, nodeInfo, fullInfo, coreCitesDict, coreValues, detailedValues,headNd = None):
     """Addeds the citations _nds_ to _grph_, according to the rules give by _nodeType_, _fullInfo_, etc.
 
     _headNd_ is the citation of the Record
@@ -1053,14 +1053,14 @@ def addToNetwork(grph, nds, count, weighted, nodeType, nodeInfo, fullInfo, coreC
     if headNd is not None:
         hID = makeID(headNd, nodeType)
         if hID not in grph:
-            grph.add_node(*makeNodeTuple(headNd, hID, nodeInfo, fullInfo, nodeType, count, coreCitesDict, coreValues))
+            grph.add_node(*makeNodeTuple(headNd, hID, nodeInfo, fullInfo, nodeType, count, coreCitesDict, coreValues, detailedValues))
     else:
         hID = None
     idList = []
     for n in nds:
         nID = makeID(n, nodeType)
         if nID not in grph:
-            grph.add_node(*makeNodeTuple(n, nID, nodeInfo, fullInfo, nodeType, count, coreCitesDict, coreValues))
+            grph.add_node(*makeNodeTuple(n, nID, nodeInfo, fullInfo, nodeType, count, coreCitesDict, coreValues, detailedValues))
         elif count:
             grph.node[nID]['count'] += 1
         idList.append(nID)
@@ -1093,7 +1093,7 @@ def makeID(citation, nodeType):
     else:
         return citation.ID()
 
-def makeNodeTuple(citation, idVal, nodeInfo, fullInfo, nodeType, count, coreCitesDict, coreValues):
+def makeNodeTuple(citation, idVal, nodeInfo, fullInfo, nodeType, count, coreCitesDict, coreValues, detailedValues):
     """Makes a tuple of idVal and a dict of the selected attributes"""
     d = {}
     if nodeInfo:
@@ -1101,16 +1101,20 @@ def makeNodeTuple(citation, idVal, nodeInfo, fullInfo, nodeType, count, coreCite
             if coreValues:
                 if citation in coreCitesDict:
                     R = coreCitesDict[citation]
-                    infoVals = []
-                    for tag in coreValues:
-                        tagVal = R.get(tag)
-                        if isinstance(tagVal, str):
-                            infoVals.append(tagVal.replace(',',''))
-                        elif isinstance(tagVal, list):
-                            infoVals.append(tagVal[0].replace(',',''))
-                        else:
-                            pass
-                    d['info'] = ', '.join(infoVals)
+                    if not detailedValues:
+                        infoVals = []
+                        for tag in coreValues:
+                            tagVal = R.get(tag)
+                            if isinstance(tagVal, str):
+                                infoVals.append(tagVal.replace(',',''))
+                            elif isinstance(tagVal, list):
+                                infoVals.append(tagVal[0].replace(',',''))
+                            else:
+                                pass
+                        d['info'] = ', '.join(infoVals)
+                    else:
+                        for tag in coreValues:
+                            d[tag] = R.get(tag, None)
                     d['inCore'] = True
                 else:
                     d['info'] = citation.allButDOI()

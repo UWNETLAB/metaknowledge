@@ -99,7 +99,7 @@ def makeSingleFileUrls(s):
 def cleanedDoc(obj, lvl, singleFile = False):
     ds = inspect.getdoc(obj)
     if not isinstance(ds, str):
-        raise RuntimeError("'{}' on line {} of '{}' is missing its docstring".format(obj, inspect.getsourcelines(obj)[1], inspect.getfile(obj)))
+        raise AttributeError("'{}' on line {} of '{}' is missing its docstring".format(obj, inspect.getsourcelines(obj)[1], inspect.getfile(obj)))
     lns = ds.split('\n')
     nds = ''
     for line in lns:
@@ -156,7 +156,7 @@ def makeTable(entries, header = '', prefix = '', withBlurbs = False, bigTable = 
                 ents.append("""<li><article><a href="#{0}"><small>{2}</small>.<b>{0}</b>{1}</a></article></li>""".format(e[0], cleanargs(e[1], basic = True), e[2]))
         else:
             ents.append("""<li><article><a href="#{0}"><b>{0}</b>{1}</a></article></li>""".format(e[0], cleanargs(e[1], basic = True), prefix))
-    s = """{}\n\n<ul class="post-list">\n{}\n</ul>\n""".format(header,'\n'.join(ents))
+    s = """<h3>{}</h3>\n\n<ul class="post-list">\n{}\n</ul>\n""".format(header,'\n'.join(ents))
     return s
 
 def writeFunc(fn, f, prefix = '', level = 5, singleFile = False):
@@ -305,15 +305,19 @@ def main(args):
                 elif inspect.isfunction(m[1]):
                     bigTableEntries.append((m[0], m[1], cls[0]))
 
+        f.write(makeTable(bigTableEntries, header = '<a name="fulllist"></a>All the functions and methods of metaknowledge and its objects are as follows:', bigTable = True))
+
         for mod in documentedModules:
+            modTableEntries = []
             module = importlib.import_module('metaknowledge.{}'.format(mod))
             for m in sorted(inspect.getmembers(module, predicate = inspect.isfunction), key = getLineNumber):
                 if inspect.isbuiltin(m[1]) or m[0][0] == '_':
                     pass
                 elif inspect.isfunction(m[1]):
-                    bigTableEntries.append((m[0], m[1], mod))
+                    modTableEntries.append((m[0], m[1], mod))
+            f.write(makeTable(modTableEntries, header = '<a name="{0}"></a>All the functions of the {0} module are as follows:'.format(mod), bigTable = True))
 
-        f.write(makeTable(bigTableEntries, header = '<a name="fulllist"></a>All the functions and methods of metaknowledge and its objects are as follows:', bigTable = True))
+
     else:
         single = False
         f = None

@@ -618,7 +618,7 @@ class RecordCollection(CollectionWithIDs):
         return tmpgrph
 
 
-    def citationNetwork(self, dropAnon = False, nodeType = "full", nodeInfo = True, fullInfo = False, weighted = True, dropNonJournals = False, count = True, directed = True, keyWords = None, detailedCore = None, detailedCoreAttributes = False, coreOnly = False, expandedCore = False):
+    def citationNetwork(self, dropAnon = False, nodeType = "full", nodeInfo = True, fullInfo = False, weighted = True, dropNonJournals = False, count = True, directed = True, keyWords = None, detailedCore = None, detailedCoreAttributes = False, coreOnly = False, expandedCore = False, recordToCite = True):
 
         """Creates a citation network for the RecordCollection.
 
@@ -726,7 +726,7 @@ class RecordCollection(CollectionWithIDs):
                 rCites = R.get('citations')
                 if rCites:
                     filteredCites = filterCites(rCites, nodeType, dropAnon, dropNonJournals, keyWords, coreCites)
-                    addToNetwork(tmpgrph, filteredCites, count, weighted, nodeType, nodeInfo, fullInfo, coreCitesDict, coreValues, detailedCoreAttributes, headNd = reRef)
+                    addToNetwork(tmpgrph, filteredCites, count, weighted, nodeType, nodeInfo, fullInfo, coreCitesDict, coreValues, detailedCoreAttributes, recordToCite, headNd = reRef)
             if expandedCore:
                 if PBar:
                     PBar.updateVal(.98, "Expanding core Records")
@@ -1045,7 +1045,7 @@ def edgeNodeReplacerGenerator(base, nodes, loc):
         yield tmpN
 
 
-def addToNetwork(grph, nds, count, weighted, nodeType, nodeInfo, fullInfo, coreCitesDict, coreValues, detailedValues,headNd = None):
+def addToNetwork(grph, nds, count, weighted, nodeType, nodeInfo, fullInfo, coreCitesDict, coreValues, detailedValues, recordToCite = True, headNd = None):
     """Addeds the citations _nds_ to _grph_, according to the rules give by _nodeType_, _fullInfo_, etc.
 
     _headNd_ is the citation of the Record
@@ -1069,9 +1069,15 @@ def addToNetwork(grph, nds, count, weighted, nodeType, nodeInfo, fullInfo, coreC
         for nID in idList:
             if weighted:
                 try:
-                    grph[hID][nID]['weight'] += 1
+                    if recordToCite:
+                        grph[hID][nID]['weight'] += 1
+                    else:
+                        grph[nID][hID]['weight'] += 1
                 except KeyError:
-                    grph.add_edge(hID, nID, weight = 1)
+                    if recordToCite:
+                        grph.add_edge(hID, nID, weight = 1)
+                    else:
+                        grph.add_edge(nID, hID, weight = 1)
             elif nID not in grph[hID]:
                 addedEdges.append((hID, nID))
     elif len(idList) > 1:
@@ -1114,7 +1120,11 @@ def makeNodeTuple(citation, idVal, nodeInfo, fullInfo, nodeType, count, coreCite
                         d['info'] = ', '.join(infoVals)
                     else:
                         for tag in coreValues:
-                            d[tag] = R.get(tag, None)
+                            v = R.get(tag, None)
+                            if isinstance(v, list):
+                                d[tag] = '|'.join(sorted(v))
+                            else:
+                                d[tag] = v
                     d['inCore'] = True
                 else:
                     d['info'] = citation.allButDOI()

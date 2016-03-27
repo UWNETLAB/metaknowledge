@@ -137,7 +137,7 @@ def diffusionGraph(source, target, weighted = True, sourceType = "raw", targetTy
             PBar.finish("Done making a diffusion network of {} sources and {} targets".format(len(source), len(target)))
     return workingGraph
 
-def diffusionCount(source, target, sourceType = "raw", extraValue = None, pandasFriendly = False,  compareCounts = False, numAuthors = True, _ProgBar = None, extraMapping = None):
+def diffusionCount(source, target, sourceType = "raw", extraValue = None, pandasFriendly = False,  compareCounts = False, numAuthors = True, useAllAuthors = True, _ProgBar = None, extraMapping = None):
     """Takes in two [`RecordCollections`](#RecordCollection.RecordCollection) and produces a `dict` counting the citations of _source_ by the [`Records`](#Record.Record) of _target_. By default the `dict` uses `Record` objects as keys but this can be changed with the _sourceType_ keyword to any of the WOS tags.
 
     # Parameters
@@ -212,7 +212,11 @@ def diffusionCount(source, target, sourceType = "raw", extraValue = None, pandas
         PBar.updateVal(count / maxCount * .10, "Analyzing source: " + str(Rs))
         RsVal, RsExtras = makeNodeID(Rs, sourceType)
         if RsVal:
-            sourceDict[Rs.createCitation()] = RsVal
+            if useAllAuthors:
+                for c in Rs.createCitation(multiCite = True):
+                    sourceDict[c] = RsVal
+            else:
+                sourceDict[Rs.createCitation()] = RsVal
     if extraValue is not None:
         if listIds:
             sourceCounts = {s : {targetCountString : 0} for s in itertools.chain.from_iterable(sourceDict.values())}

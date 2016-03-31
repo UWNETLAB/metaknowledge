@@ -5,6 +5,8 @@ import os
 import datetime
 import dbm.dumb
 
+from ...mkExceptions import JournalDataBaseError
+
 abrevDBname = "j9Abbreviations"
 
 manaulDBname = "manualj9Abbreviations"
@@ -145,21 +147,28 @@ def getj9dict(dbname = abrevDBname, manualDB = manaulDBname, returnDict = 'both'
     dbLoc = os.path.normpath(os.path.dirname(__file__))
 
     retDict = {}
-
-    if returnDict == 'both' or returnDict == 'WOS':
-        with dbm.dumb.open(dbLoc + '/{}'.format(dbname)) as db:
-            if len(db) == 0:
-                raise RuntimeError("J9 Database empty or missing, to regenerate it import and run metaknowledge.WOS.journalAbbreviations.updatej9DB().")
-            for k, v in db.items():
-                retDict[k.decode('utf-8')] = v.decode('utf-8').split('|')
-    if returnDict == 'both' or returnDict == 'manual':
-        if os.path.isfile(dbLoc + '/{}.dat'.format(manualDB)):
-            with dbm.dumb.open(dbLoc + '/{}'.format(manualDB)) as db:
+    try:
+        if returnDict == 'both' or returnDict == 'WOS':
+            with dbm.dumb.open(dbLoc + '/{}'.format(dbname)) as db:
+                if len(db) == 0:
+                    raise JournalDataBaseError("J9 Database empty or missing, to regenerate it import and run metaknowledge.WOS.journalAbbreviations.updatej9DB().")
                 for k, v in db.items():
                     retDict[k.decode('utf-8')] = v.decode('utf-8').split('|')
-        else:
-            if returnDict == 'manual':
-                raise RuntimeError("Manual J9 Database ({0}) missing, to create it run addToDB(dbname = {0})".format(manualDB))
+    except JournalDataBaseError:
+        updatej9DB()
+        return getj9dict(dbname = dbname, manualDB = manualDB, returnDict = returnDict)
+    try:
+        if returnDict == 'both' or returnDict == 'manual':
+            if os.path.isfile(dbLoc + '/{}.dat'.format(manualDB)):
+                with dbm.dumb.open(dbLoc + '/{}'.format(manualDB)) as db:
+                    for k, v in db.items():
+                        retDict[k.decode('utf-8')] = v.decode('utf-8').split('|')
+            else:
+                if returnDict == 'manual':
+                    raise JournalDataBaseError("Manual J9 Database ({0}) missing, to create it run addToDB(dbname = {0})".format(manualDB))
+    except JournalDataBaseError:
+        updatej9DB(dbname = manualDB)
+        return getj9dict(dbname = dbname, manualDB = manualDB, returnDict = returnDict)
     return retDict
 
 def addToDB(abbr = None, dbname = manaulDBname):

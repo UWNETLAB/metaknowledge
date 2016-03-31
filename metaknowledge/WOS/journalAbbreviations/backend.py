@@ -110,7 +110,7 @@ def updatej9DB(dbname = abrevDBname, saveRawHTML = False):
         if not os.path.isdir(rawDir):
             os.mkdir(rawDir)
         _j9SaveCurrent(sDir = rawDir)
-    dbLoc = os.path.join(os.path.normpath(os.path.dirname(__file__), dbname))
+    dbLoc = os.path.join(os.path.normpath(os.path.dirname(__file__)), dbname)
     try:
         with dbm.dumb.open(dbLoc, flag = 'c') as db:
             try:

@@ -44,5 +44,5 @@ class TestHelpers(unittest.TestCase):
         self.assertEqual(dwc["TargetCount"], dwc["SourceCount"])
         self.assertEqual(len(dyear), len(d) + 1)
         self.assertNotEqual(dyear["TargetCount"], dwc["SourceCount"])
-        self.assertEqual(len([c for c in dyear["TargetCount"] if c > 1]), 7)
+        self.assertEqual(len([c for c in dyear["TargetCount"] if c > 1]), 9)
         self.assertTrue(1979 in dyear['year'])

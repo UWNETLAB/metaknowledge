@@ -108,19 +108,22 @@ def updatej9DB(dbname = abrevDBname, saveRawHTML = False):
         if not os.path.isdir(rawDir):
             os.mkdir(rawDir)
         _j9SaveCurrent(sDir = rawDir)
-    dbLoc = os.path.normpath(os.path.dirname(__file__) + '/{}'.format(dbname))
-    with dbm.dumb.open(dbLoc, flag = 'c') as db:
-        try:
-            j9Dict = _getCurrentj9Dict()
-        except urllib.error.URLError:
-            raise urllib.error.URLError("Unable to access server, check your connection")
-        for k, v in j9Dict.items():
-            if k in db:
-                for jName in v:
-                    if jName not in j9Dict[k]:
-                        j9Dict[k] += '|' + jName
-            else:
-                db[k] = '|'.join(v)
+    dbLoc = os.path.join(os.path.normpath(os.path.dirname(__file__), dbname))
+    try:
+        with dbm.dumb.open(dbLoc, flag = 'c') as db:
+            try:
+                j9Dict = _getCurrentj9Dict()
+            except urllib.error.URLError:
+                raise urllib.error.URLError("Unable to access server, check your connection")
+            for k, v in j9Dict.items():
+                if k in db:
+                    for jName in v:
+                        if jName not in j9Dict[k]:
+                            j9Dict[k] += '|' + jName
+                else:
+                    db[k] = '|'.join(v)
+    except dbm.dumb.error as e:
+        raise mkException("Something happened with the database of WOS journal names. To fix this you should delete the 1 to 3 files whose names start with {}. If this doesn't work (sorry), deleteing everything in '{}' and reinstalling metaknowledge should.\nThe error was '{}'".format(dbLoc, os.path.dirname(__file__), e))
 
 def getj9dict(dbname = abrevDBname, manualDB = manaulDBname, returnDict = 'both'):
     """Returns the dictionary of journal abbreviations mapping to a list of the associated journal names. By default the local database is used. The database is in the file _dbname_ in the same directory as this source file

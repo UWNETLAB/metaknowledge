@@ -10,7 +10,7 @@ import metaknowledge.WOS.tagProcessing
 import importlib
 import re
 
-documentedModules = ['contour', 'WOS', 'medline']#, 'journalAbbreviations', 'tagProcessing']
+documentedModules = ['contour', 'WOS', 'medline', 'proquest']#, 'journalAbbreviations', 'tagProcessing']
 
 docsPrefix = time.strftime("%Y-%m-%d-")
 
@@ -316,7 +316,6 @@ def main(args):
                 elif inspect.isfunction(m[1]):
                     modTableEntries.append((m[0], m[1], mod))
             f.write(makeTable(modTableEntries, header = '<a name="{0}"></a>All the functions of the {0} module are as follows:'.format(mod), bigTable = True))
-
 
     else:
         single = False

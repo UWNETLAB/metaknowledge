@@ -55,6 +55,6 @@ from .WOS.recordWOS import WOSRecord#, recordParser
 
 from .medline import MedlineRecord
 
-from .ProQuest import ProQuestRecord
+from .proquest import ProQuestRecord
 
 #from .blondel import blondel, modularity #Better implementations can be found on Pypi so this has been discontinued

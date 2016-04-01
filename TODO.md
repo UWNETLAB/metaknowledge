@@ -63,5 +63,3 @@
 + **Done** Update CLI
 + Update vagrant/notebooks
 + Update docs/website
-
-#Diffusion

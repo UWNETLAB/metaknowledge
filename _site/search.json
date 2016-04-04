@@ -85,6 +85,8 @@
   
 
   
+
+  
     ,{
       "title"			: "Documentation",
       "link"			: "http://networkslab.org/documentation/",
@@ -93,13 +95,13 @@
   
 
   
+
+  
     ,{
       "title"			: "Command Line Tool",
       "link"			: "http://networkslab.org/cli/",
       "excerpt"		: "How to use the metaknowledge command line tool."
     }
-  
-
   
 
   

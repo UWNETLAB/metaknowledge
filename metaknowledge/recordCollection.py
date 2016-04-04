@@ -34,7 +34,7 @@ class RecordCollection(CollectionWithIDs):
     """
     A container for a large number of indivual WOS records.
 
-    `RecordCollection` provides ways of creating `[Records`](#metaknowledge.Record) from an isi file, string, list of records or directory containing isi files.
+    `RecordCollection` provides ways of creating [`Records`](#Record.Record) from an isi file, string, list of records or directory containing isi files.
 
     When being created if there are issues the Record collection will be declared bad, `bad` wil be set to `False`, it will then mostly return `None` or False. The attribute `error` contains the exception that occurred.
 

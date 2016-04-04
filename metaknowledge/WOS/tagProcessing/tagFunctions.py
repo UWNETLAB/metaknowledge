@@ -6,7 +6,7 @@ import collections
 
 def pubType(val):
     """
-    #The PT Tag
+    # The PT Tag
 
     extracts the type of publication as a character: conference, book, journal, book in series, or patent
 
@@ -28,7 +28,7 @@ def pubType(val):
 
 def authorsFull(val):
     """
-    #The AF Tag
+    # The AF Tag
 
     extracts a list of authors full names
 
@@ -49,7 +49,7 @@ def authorsFull(val):
 
 def group(val):
     """
-    #The GP Tag
+    # The GP Tag
 
     extracts the group associated with the Record
 
@@ -70,7 +70,7 @@ def group(val):
 
 def editedBy(val):
     """
-    #The BE Tag
+    # The BE Tag
 
     extracts a list of the editors of the Record
 
@@ -91,7 +91,7 @@ def editedBy(val):
 
 def authorsShort(val):
     """
-    #The AU Tag
+    # The AU Tag
 
     extracts a list of authors shortened names
 
@@ -112,7 +112,7 @@ def authorsShort(val):
 
 def bookAuthor(val):
     """
-    #The BA Tag
+    # The BA Tag
 
     extracts a list of the short names of the authors of a book Record
 
@@ -133,7 +133,7 @@ def bookAuthor(val):
 
 def bookAuthorFull(val):
     """
-    #The BF Tag
+    # The BF Tag
 
     extracts a list of the long names of the authors of a book Record
 
@@ -154,7 +154,7 @@ def bookAuthorFull(val):
 
 def groupName(val):
     """
-    #The CA Tag
+    # The CA Tag
 
     extracts the name of the group associated with the Record
 
@@ -175,7 +175,7 @@ def groupName(val):
 
 def title(val):
     """
-    #The TI Tag
+    # The TI Tag
 
     extracts the title of the record
 
@@ -204,7 +204,7 @@ def editors(val):
 
 def journal(val):
     """
-    #The SO Tag
+    # The SO Tag
 
     extracts the full name of the publication and normalizes it to uppercase
 
@@ -225,7 +225,7 @@ def journal(val):
 
 def seriesTitle(val):
     """
-    #The SE Tag
+    # The SE Tag
 
     extracts the title of the series the Record is in
 
@@ -246,7 +246,7 @@ def seriesTitle(val):
 
 def seriesSubtitle(val):
     """
-    #The BS Tag
+    # The BS Tag
 
     extracts the title of the series the Record is in
 
@@ -267,7 +267,7 @@ def seriesSubtitle(val):
 
 def language(val):
     """
-    #The LA Tag
+    # The LA Tag
 
     extracts the languages of the Record as a string with languages separated by ', ', usually there is only one language
 
@@ -288,7 +288,7 @@ def language(val):
 
 def docType(val):
     """
-    #The DT Tag
+    # The DT Tag
 
     extracts the type of document the Record contains
 
@@ -309,7 +309,7 @@ def docType(val):
 
 def confTitle(val):
     """
-    #The CT Tag
+    # The CT Tag
 
     extracts the title of the conference associated with the Record
 
@@ -330,7 +330,7 @@ def confTitle(val):
 
 def confDate(val):
     """
-    #The CY Tag
+    # The CY Tag
 
     extracts the date string of the conference associated with the Record, the date is not normalized
 
@@ -351,7 +351,7 @@ def confDate(val):
 
 def confSponsors(val):
     """
-    #The SP Tag
+    # The SP Tag
 
     extracts a list of sponsors for the conference associated with the record
 
@@ -372,7 +372,7 @@ def confSponsors(val):
 
 def wosTimesCited(val):
     """
-    #The TC Tag
+    # The TC Tag
 
     extracts the number of times the Record has been cited by records in WOS
 
@@ -420,7 +420,7 @@ def authAddress(val):
 
 def confLocation(val):
     """
-    #The CL Tag
+    # The CL Tag
 
     extracts the sting giving the conference's location
 
@@ -441,7 +441,7 @@ def confLocation(val):
 
 def j9(val):
     """
-    #The J9 Tag
+    # The J9 Tag
 
     extracts the J9 (29-Character Source Abbreviation) of the publication
 
@@ -462,7 +462,7 @@ def j9(val):
 
 def funding(val):
     """
-    #The FU Tag
+    # The FU Tag
 
     extracts a list of the groups funding the Record
 
@@ -483,7 +483,7 @@ def funding(val):
 
 def subjectCategory(val):
     """
-    #The SC Tag
+    # The SC Tag
 
     extracts a list of the subjects associated with the Record
 
@@ -504,7 +504,7 @@ def subjectCategory(val):
 
 def citations(val):
     """
-    #The CR Tag
+    # The CR Tag
 
     extracts a list of all the citations in the record, the citations are the [metaknowledge.Citation](#Citation.Citation) class.
 
@@ -528,7 +528,7 @@ def citations(val):
 
 def publisherCity(val):
     """
-    #The PI Tag
+    # The PI Tag
 
     extracts the city the publisher is in
 
@@ -549,7 +549,7 @@ def publisherCity(val):
 
 def ISSN(val):
     """
-    #The SN Tag
+    # The SN Tag
 
     extracts the ISSN of the Record
 
@@ -570,7 +570,7 @@ def ISSN(val):
 
 def articleNumber(val):
     """
-    #The AR Tag
+    # The AR Tag
 
     extracts a string giving the article number, not all are integers
 
@@ -591,7 +591,7 @@ def articleNumber(val):
 
 def issue(val):
     """
-    #The IS Tag
+    # The IS Tag
 
     extracts a string giving the issue or range of issues the Record was in, not all are integers
 
@@ -612,7 +612,7 @@ def issue(val):
 
 def email(val):
     """
-    #The EM Tag
+    # The EM Tag
 
     extracts a list of emails given by the authors of the Record
 
@@ -633,7 +633,7 @@ def email(val):
 
 def eISSN(val):
     """
-    #The EI Tag
+    # The EI Tag
 
     extracts the EISSN of the Record
 
@@ -654,7 +654,7 @@ def eISSN(val):
 
 def DOI(val):
     """
-    #The DI Tag
+    # The DI Tag
 
     return the DOI number of the record
 
@@ -675,7 +675,7 @@ def DOI(val):
 
 def wosString(val):
     """
-    #The UT Tag
+    # The UT Tag
 
     extracts the WOS number of the record as a string preceded by "WOS:"
 
@@ -696,7 +696,7 @@ def wosString(val):
 
 def orcID(val):
     """
-    #The OI Tag
+    # The OI Tag
 
     extracts a list of orc IDs of the Record
 
@@ -717,7 +717,7 @@ def orcID(val):
 
 def meetingAbstract(val):
     """
-    #The MA Tag
+    # The MA Tag
 
     extracts the ID of the meeting abstract prefixed by 'EPA-'
 
@@ -738,7 +738,7 @@ def meetingAbstract(val):
 
 def isoAbbreviation(val):
     """
-    #The JI Tag
+    # The JI Tag
 
     extracts the iso abbreviation of the journal
 
@@ -759,7 +759,7 @@ def isoAbbreviation(val):
 
 def pageCount(val):
     """
-    #The PG Tag
+    # The PG Tag
 
     returns an integer giving the number of pages of the Record
 
@@ -780,7 +780,7 @@ def pageCount(val):
 
 def publisher(val):
     """
-    #The PU Tag
+    # The PU Tag
 
     extracts the publisher of the Record
 
@@ -801,7 +801,7 @@ def publisher(val):
 
 def ISBN(val):
     """
-    #The BN Tag
+    # The BN Tag
 
     extracts a list of ISBNs associated with the Record
 
@@ -822,7 +822,7 @@ def ISBN(val):
 
 def month(val):
     """
-    #The PD Tag
+    # The PD Tag
 
     extracts the month the record was published in as an int with January as 1, February 2, ...
 
@@ -843,7 +843,7 @@ def month(val):
 
 def fundingText(val):
     """
-    #The FX Tag
+    # The FX Tag
 
     extracts a string of the funding thanks
 
@@ -864,7 +864,7 @@ def fundingText(val):
 
 def bookDOI(val):
     """
-    #The D2 Tag
+    # The D2 Tag
 
     extracts the book DOI of the Record
 
@@ -885,7 +885,7 @@ def bookDOI(val):
 
 def volume(val):
     """
-    #The VL Tag
+    # The VL Tag
 
     return the volume the record is in as a string, not all are integers
 
@@ -906,7 +906,7 @@ def volume(val):
 
 def ResearcherIDnumber(val):
     """
-    #The RI Tag
+    # The RI Tag
 
     extracts a list of the research IDs of the Record
 
@@ -927,7 +927,7 @@ def ResearcherIDnumber(val):
 
 def citedRefsCount(val):
     """
-    #The NR Tag
+    # The NR Tag
 
     extracts the number citations, length of CR list
 
@@ -948,7 +948,7 @@ def citedRefsCount(val):
 
 def beginningPage(val):
     """
-    #The BP Tag
+    # The BP Tag
 
     extracts the first page the record occurs on, not all are integers
 
@@ -969,7 +969,7 @@ def beginningPage(val):
 
 def abstract(val):
     """
-    #The AB Tag
+    # The AB Tag
 
     return abstract of the record, with newlines hopefully in the correct places
 
@@ -990,7 +990,7 @@ def abstract(val):
 
 def supplement(val):
     """
-    #The SU Tag
+    # The SU Tag
 
     extracts the supplement number
 
@@ -1011,7 +1011,7 @@ def supplement(val):
 
 def confHost(val):
     """
-    #The HO Tag
+    # The HO Tag
 
     extracts the host of the conference
 
@@ -1032,7 +1032,7 @@ def confHost(val):
 
 def publisherAddress(val):
     """
-    #The PA Tag
+    # The PA Tag
 
     extracts the publishers address
 
@@ -1053,7 +1053,7 @@ def publisherAddress(val):
 
 def endingPage(val):
     """
-    #The EP Tag
+    # The EP Tag
 
     return the last page the record occurs on as a string, not aall are intergers
 
@@ -1074,7 +1074,7 @@ def endingPage(val):
 
 def year(val):
     """
-    #The PY Tag
+    # The PY Tag
 
     extracts the year the record was published in as an int
 
@@ -1099,7 +1099,7 @@ def year(val):
 
 def authKeywords(val):
     """
-    #The DE Tag
+    # The DE Tag
 
     extracts the keywords assigned by the author of the Record. The WOS description is:
 
@@ -1122,7 +1122,7 @@ def authKeywords(val):
 
 def reprintAddress(val):
     """
-    #The RP Tag
+    # The RP Tag
 
     extracts the reprint address string
 
@@ -1143,7 +1143,7 @@ def reprintAddress(val):
 
 def totalTimesCited(val):
     """
-    #The Z9 Tag
+    # The Z9 Tag
 
     extracts the total number of citations of the record
 
@@ -1164,7 +1164,7 @@ def totalTimesCited(val):
 
 def partNumber(val):
     """
-    #The PN Tag
+    # The PN Tag
 
     return an integer giving the part of the issue the Record is in
 
@@ -1185,7 +1185,7 @@ def partNumber(val):
 
 def specialIssue(val):
     """
-    #The SI Tag
+    # The SI Tag
 
     extracts the special issue value
 
@@ -1206,7 +1206,7 @@ def specialIssue(val):
 
 def subjects(val):
     """
-    #The WC Tag
+    # The WC Tag
 
     extracts a list of subjects as assigned by WOS
 
@@ -1227,7 +1227,7 @@ def subjects(val):
 
 def keywords(val):
     """
-    #The ID Tag
+    # The ID Tag
 
     extracts the WOS keywords of the Record. The WOS description is:
 
@@ -1250,7 +1250,7 @@ def keywords(val):
 
 def pubMedID(val):
     """
-    #The PM Tag
+    # The PM Tag
 
     extracts the pubmed ID of the record
 
@@ -1271,7 +1271,7 @@ def pubMedID(val):
 
 def documentDeliveryNumber(val):
     """
-    #The GA Tag
+    # The GA Tag
 
     extracts the document delivery number of the Record
 

@@ -52,6 +52,7 @@ from .diffusion import diffusionGraph, diffusionCount, diffusionAddCountsFromSou
 #from .WOS.tagProcessing.funcDicts import tagToFull, isTagOrName, normalizeToTag, normalizeToName
 #from .WOS.wosHandlers import wosParser
 from .WOS.recordWOS import WOSRecord#, recordParser
+from .WOS.journalAbbreviations.wosCitations import WOSCitation
 
 from .medline import MedlineRecord
 

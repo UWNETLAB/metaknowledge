@@ -25,6 +25,10 @@ from .mkExceptions import BadRecord
 from .WOS.journalAbbreviations.wosCitations import WOSCitation
 
 class Record(collections.abc.Mapping, collections.abc.Hashable):
+
+    #This is for the documentation generation, it doesn't do anything on its own
+    _documented = ['__hash__', '__getitem__', '__eq__', '__str__', '__repr__']
+
     def __init__(self, fieldDict, idValue, bad, error, sFile = "", sLine = 0):
         #File stuff for debug/error messages
         self._sourceFile = sFile
@@ -90,7 +94,6 @@ class Record(collections.abc.Mapping, collections.abc.Hashable):
         #This is instead of than redefining for the subclasses
         return "{}({})".format(type(self).__name__, self.get('title', self.id))
 
-
     def __repr__(self):
         if self.bad:
             return "<metaknowledge.{} object BAD>".format(type(self).__name__)
@@ -143,6 +146,10 @@ class Record(collections.abc.Mapping, collections.abc.Hashable):
         return self._sourceLine
 
 class ExtendedRecord(Record, metaclass = abc.ABCMeta):
+
+    #Overwriting the Record attribute
+    _documented = ['encoding', 'getAltName', 'specialFuncs', 'tagProccessingFunc', 'writeRecord']
+
     def __init__(self, fieldDict, idValue, bad, error, sFile = "", sLine = 0):
         """Base constructor for Records
 
@@ -205,7 +212,6 @@ class ExtendedRecord(Record, metaclass = abc.ABCMeta):
                 raise TypeError("Keys to Records must be strings they cannot be of the type '{}'.".format(type(key).__name__)) from BaseException
 
     #Extra options added to the defaults to make access to raw data easier
-    #@profile
     def get(self, tag, default = None, raw = False):
         """Allows access to the raw values or is wrapper to __getitem__.
 

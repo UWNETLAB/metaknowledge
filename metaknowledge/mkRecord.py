@@ -25,9 +25,51 @@ from .mkExceptions import BadRecord
 from .WOS.journalAbbreviations.wosCitations import WOSCitation
 
 class Record(collections.abc.Mapping, collections.abc.Hashable):
+    """A dictionary with error handling and an id string.
+
+    `Record` is the base class of the all objects in _metaknowledge_ that contain information as key-value pairs, these are the grants and the records from different sources.
+
+    The error handling of the `Record` is done with the `bad` attribute. If there is some issue with the data _bad_ should be `True` and _error_ given an `Exception` that was caused by or explains the error.
+
+    # Customizations
+
+    `Record` is a subclass of `abc.collections.Mapping` which means it has almost all the methods a dictionary does, the missing ones are those that modify entries. So to access the value of the key `'title'` from a `Record` `R`, you would use either the square brace notation `t = R['title']` or the `get()` function `t = R.get('title')` just like a dictionary. The other methods like `keys()` or `copy()` also work.
+
+    In addition to being a mapping `Records` are also hashable with their hashes being based on a unique id string they are given on creation, usually some kind of accession number the source gives them. The two optional arguments _sFile_ and _sLine_, which should be given the name of the file the records came from and the line it started on respectively, are used to make the errors more useful.
+
+    # \_\_Init\_\_
+
+    _fieldDict_ is the dictionary the `Record` will use and _idValue_ is the unique identifier of the `Record`.
+
+    # Parameters
+
+    _fieldDict_ : `dict[str:]`
+
+    > A dictionary that maps from strings to values
+
+    _idValue_ : `str`
+
+    > A unique identifier string for the `Record`
+
+    _bad_ : `bool`
+
+    > `True` if there are issues with the `Record`, otherwise `False`
+
+    _error_ : `Exception`
+
+    > The `Exception` that caused whatever error made the record be marked as bad or `None`
+
+    _sFile_ : `str`
+
+    > A string that gives the source file of the original records
+
+    _sLine_ : `int`
+
+    > The first line the original record is found on in the source file
+    """
 
     #This is for the documentation generation, it doesn't do anything on its own
-    _documented = ['__hash__', '__getitem__', '__eq__', '__str__', '__repr__']
+    _documented = ['__hash__', '__eq__', '__str__', '__repr__']
 
     def __init__(self, fieldDict, idValue, bad, error, sFile = "", sLine = 0):
         #File stuff for debug/error messages
@@ -45,13 +87,20 @@ class Record(collections.abc.Mapping, collections.abc.Hashable):
     #collections.abc.Hashable method
 
     def __hash__(self):
-        """returns a hash of the ID or if `bad` returns a hash of the fields combined with the error messages, either of these could be blank
+        """Gives a hash of the id or if `bad` returns a hash of the fields combined with the error messages, either of these could be blank
 
         `bad` Records are more likely to cause hash collisions due to their lack of entropy when created.
+
+        # Returns
+
+        `int`
+
+        > A hopefully unique random number
         """
         if self.bad:
             return hash(str(self._fieldDict.values()) + str(self.error))
-        return hash(self._id)
+        else:
+            return hash(self._id)
 
     #collections.abc.Mapping methods
 
@@ -76,10 +125,19 @@ class Record(collections.abc.Mapping, collections.abc.Hashable):
         return item in self._fieldDict
 
     def __eq__(self, other):
-        """
-        returns true if the hashes of both Records are identical.
+        """Compares `Records` using their hashes if their hashes are the same then `True` is returned.
 
-        if either is bad False is returned
+        # Parameters
+
+        _other_ : `Record`
+
+        > Another `Record` to be compared against
+
+        # Returns
+
+        `bool`
+
+        > If the `records` are the same then `True` is returned
         """
         if not isinstance(other, type(self)):
             return NotImplemented
@@ -89,12 +147,26 @@ class Record(collections.abc.Mapping, collections.abc.Hashable):
     #Other niceties
 
     def __str__(self):
-        """returns a string with the title of the file as given by self.title, if there is not one it returns "Untitled record"
+        """Makes a string with the title of the file as given by self.title, if there is not one it returns "Untitled record"
+
+        # Returns
+
+        `str`
+
+        > The title of the `Record`
         """
         #This is instead of than redefining for the subclasses
         return "{}({})".format(type(self).__name__, self.get('title', self.id))
 
     def __repr__(self):
+        """Makes a string with the id of the file and its type
+
+        # Returns
+
+        `str`
+
+        > The representation of the `Record`
+        """
         if self.bad:
             return "<metaknowledge.{} object BAD>".format(type(self).__name__)
         else:
@@ -127,9 +199,17 @@ class Record(collections.abc.Mapping, collections.abc.Hashable):
         self.__dict__ = state
 
     def copy(self):
-        #This is a method of dict and many other builtins
-        #So it seems reasonable to included
-        return copy.copy(self)
+        """Correctly copies the `Record`
+
+        # Returns
+
+        `Record`
+
+        > A completely decoupled copy of the original
+        """
+        c = copy.copy(self)
+        c._fieldDict = c._fieldDict.copy()
+        return c
 
     #Making these immutable
 

@@ -10,6 +10,10 @@ from ..mkRecord import Record
 from ..mkExceptions import BadGrant
 
 class Grant(Record, collections.abc.MutableMapping):
+
+    #Overwriting Record's attribute
+    _documented = ['__setitem__']
+
     def __init__(self, original, grantdDict, idValue, bad, error, sFile = "", sLine = 0):
         self.original = original
         Record.__init__(self, grantdDict, idValue, bad, error, sFile = sFile, sLine = sLine)
@@ -97,6 +101,6 @@ def parserDefaultGrantFile(fileName, encoding = 'latin-1', dialect = 'excel'):
     except KeyboardInterrupt as e:
         error = e
     finally:
-        if isinstance(error,KeyboardInterrupt):
+        if isinstance(error, KeyboardInterrupt):
             raise error
         return grantSet, error

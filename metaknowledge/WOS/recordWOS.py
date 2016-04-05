@@ -90,7 +90,6 @@ class WOSRecord(ExtendedRecord):
                 error = BadWOSRecord("Missing WOS number")
         ExtendedRecord.__init__(self, fieldDict, self._wosNum, bad, error, sFile = sFile, sLine = sLine)
 
-    @property
     def encoding(self):
         return 'utf-8'
 

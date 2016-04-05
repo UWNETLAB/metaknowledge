@@ -33,7 +33,6 @@ class ProQuestRecord(ExtendedRecord):
             fieldDict = collections.OrderedDict()
         ExtendedRecord.__init__(self, fieldDict, idValue, bad, error, sFile =sFile, sLine = sLine)
 
-    @property
     def encoding(self):
         return 'utf-8'
 

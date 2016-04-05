@@ -44,7 +44,6 @@ class MedlineRecord(ExtendedRecord):
                 error = BadPubmedRecord("Missing WOS number")
         ExtendedRecord.__init__(self, fieldDict, self._pubNum, bad, error, sFile = sFile, sLine = sLine)
 
-    @property
     def encoding(self):
         return 'latin-1'
 

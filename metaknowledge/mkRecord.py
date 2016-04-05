@@ -114,7 +114,7 @@ class Record(collections.abc.Mapping, collections.abc.Hashable):
                         strLst.append('   ')
                     strLst.append(value + '\n')
             strLst.append("ER\n")
-            return bytes(''.join(strLst), self.encoding)
+            return bytes(''.join(strLst), self.encoding())
 
     def __getstate__(self):
         #Makes a slightly smaller object than __dict__
@@ -260,7 +260,6 @@ class ExtendedRecord(Record, metaclass = abc.ABCMeta):
     def writeRecord(self, infile):
         pass
 
-    @property
     @abc.abstractmethod
     def encoding(self):
         return 'utf-8' #Most likely to be the encoding

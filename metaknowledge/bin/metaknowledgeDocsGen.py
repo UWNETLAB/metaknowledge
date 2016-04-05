@@ -72,7 +72,6 @@ def makeBlurb(name):
         return 'BLURB NEEDED FOR: {}'.format(name)
         #raise RuntimeError("{} needs a blurb".format(name))
 
-
 def makeHeader(title, excerpt, tags = (), weight = 10, layout = "doc", singleFile = False):
     if singleFile:
         s = """\n---\n<a name="{0}"></a>\n""".format(title)
@@ -208,7 +207,7 @@ def writeClass(cl, f, prefix = '', level = 4, singleFile = False, exceptMode = F
 
 def proccessClass(cls, f, singleFile = False, exceptMode = False):
     writeClass(cls, f, singleFile = singleFile, exceptMode = exceptMode)
-    baseMems = inspect.getmembers(cls[1].__bases__[0])
+    baseMems = [ i for c in cls[1].__bases__ for i in inspect.getmembers(c)]
     if singleFile:
         f.write(makeLine())
     try:
@@ -217,7 +216,7 @@ def proccessClass(cls, f, singleFile = False, exceptMode = False):
         documented = []
     funcs = []
     for m in sorted(inspect.getmembers(cls[1]), key = getLineNumber):
-        if m[0][0] == '_' or m[0] == 'with_traceback':
+        if m[0][0] == '_' or m in baseMems or m[0] == 'with_traceback':
             if m[0] in documented:
                 funcs.append(m)
         elif inspect.isfunction(m[1]):

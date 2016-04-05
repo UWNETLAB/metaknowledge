@@ -14,7 +14,7 @@ class TestRecord(unittest.TestCase):
     def test_base(self):
         metaknowledge.ExtendedRecord.__abstractmethods__ = frozenset()
         R = metaknowledge.ExtendedRecord(self.R._fieldDict, self.R.id, self.R.bad, self.R.error)
-        self.assertEqual(R.encoding, 'utf-8')
+        self.assertEqual(R.encoding(), 'utf-8')
         with self.assertRaises(KeyError):
             R.specialFuncs('TI')
         self.assertEqual(R.writeRecord('IF_YOU_SEE_THIS_A_TEST_HAS_GONE_VERY_WRONG_PLEASE_TELL_SOMEONE.mk_test_file_that_you_should_never_see'), None)

@@ -1,11 +1,17 @@
 #Written by Reid McIlroy-Young for Dr. John McLevey, University of Waterloo 2015
 from .mkExceptions import BadCitation
 
+import abc
+try:
+    import collections.abc
+except ImportError:
+    import collections
+    collections.abc = collections
 import re
 
 import metaknowledge
 
-class Citation(object):
+class Citation(collections.abc.Hashable):
     """A class to hold citation strings and allow for comparison between them.
 
     The initializer takes in a string representing a WOS citation in the form:

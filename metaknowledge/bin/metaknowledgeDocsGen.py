@@ -103,9 +103,18 @@ def getLineNumber(objTuple):
     else:
         return fl + ln
 
-def cleanargs(obj, basic = False):
-    argStr = inspect.formatargspec(*inspect.getfullargspec(obj))
-    argStr =  argStr.replace(", *args", '').replace(", **kwargs", '').replace('self, ', '').replace('self', '')[1:-1]
+def cleanargs(obj, basic = False, isClass = False):
+    if isClass:
+        argClasses = []
+        for c in obj.__bases__:
+            n = c.__name__
+            if n in blurbDict:
+                n = '<a href="#{0}"><u style="border-bottom: .5px dashed gray;">{0}</u></a>'.format(n)
+            argClasses.append(n)
+        argStr = ', '.join(argClasses)
+    else:
+        argStr = inspect.formatargspec(*inspect.getfullargspec(obj))
+        argStr =  argStr.replace(", *args", '').replace(", **kwargs", '').replace('self, ', '').replace('self', '')[1:-1]
     if len(argStr) > 0:
         argStr = ', '.join([a for a in argStr.split(', ') if a[0] != '_'])
         if basic:
@@ -167,22 +176,25 @@ def makeLine():
     ]
     return '<hr style="{}">'.format(''.join(style))
 
-def makeTable(entries, header = '', prefix = '', withBlurbs = False, bigTable = False, simple = False):
+def makeTable(entries, header = '', prefix = '', withBlurbs = False, bigTable = False, simple = False, areClasses = False):
     ents = []
     if prefix:
         prefix = prefix + '.'
     for e in entries:
         if withBlurbs:
-            ents.append("""<li><article><a href="#{0}"><b>{0}</b><span class="excerpt">{1}</span></a></article></li>""".format(e, makeBlurb(e)))
+            if areClasses:
+                ents.append("""<li><article><a href="#{0}"><b>{0}</b></a>{1}<span class="excerpt">{2}</span></article></li>""".format(e[0], cleanargs(e[1], basic = True, isClass = areClasses), makeBlurb(e[0])))
+            else:
+                ents.append("""<li><article><a href="#{0}"><b>{0}</b><span class="excerpt">{1}</span></a></article></li>""".format(e, makeBlurb(e)))
         elif bigTable:
             if e[2] is None:
-                ents.append("""<li><article><a href="#{0}"><b>{0}</b>{1}</a></article></li>""".format(e[0], cleanargs(e[1], basic = True), prefix))
+                ents.append("""<li><article><a href="#{0}"><b>{0}</b>{1}</a></article></li>""".format(e[0], cleanargs(e[1], basic = True, isClass = areClasses), prefix))
             else:
-                ents.append("""<li><article><a href="#{0}"><small>{2}</small>.<b>{0}</b>{1}</a></article></li>""".format(e[0], cleanargs(e[1], basic = True), e[2]))
+                ents.append("""<li><article><a href="#{0}"><small>{2}</small>.<b>{0}</b>{1}</a></article></li>""".format(e[0], cleanargs(e[1], basic = True, isClass = areClasses), e[2]))
         elif simple:
-            ents.append("""<li><article><b>{0}</b></article></li>""".format(e))
+            ents.append("""<li><article><b>{0}</b>{1}</article></li>""".format(e[0], cleanargs(e[1], isClass = areClasses, basic = True)))
         else:
-            ents.append("""<li><article><a href="#{0}"><b>{0}</b>{1}</a></article></li>""".format(e[0], cleanargs(e[1], basic = True), prefix))
+            ents.append("""<li><article><a href="#{0}"><b>{0}</b>{1}</a></article></li>""".format(e[0], cleanargs(e[1], basic = True, isClass = areClasses), prefix))
     s = """<h3>{}</h3>\n\n<ol class="post-list">\n{}\n</ol>\n""".format(header,'\n'.join(ents))
     return s
 
@@ -196,7 +208,7 @@ def writeFunc(fn, f, prefix = '', level = 5, singleFile = False):
         print("\033[93m{0}{1} had no docs\033[0m".format(prefix, fn[0]))
 
 def writeClass(cl, f, prefix = '', level = 4, singleFile = False, exceptMode = False):
-    f.write(makeTitle(prefix, cl[0], "(_{}_)".format(cl[1].__bases__[0].__name__), singleFile = singleFile))
+    f.write(makeTitle(prefix, cl[0], cleanargs(cl[1], isClass = True), singleFile = singleFile))
     if not exceptMode:
         f.write(makeTitle(prefix, "{}.__init__".format(cl[0]), cleanargs(cl[1].__init__), singleFile = singleFile))
     try:
@@ -280,7 +292,7 @@ def writeMainBody(funcs, vrs, exceptions, targetFile = None, singleFile = False)
         f = open(docsPrefix + "metaknowledge.md", 'w')
     f.write(makeHeader("Base Functions", "The <i>metaknowledge</i> functions, for filtering reading and writing graphs", tags = ["functions"], weight = 1, layout = "doc", singleFile = singleFile))
     f.write(makeTable(funcs, header = "The functions provided by <i>metaknowledge</i> are:"))
-    f.write(makeTable([e[0] for e in exceptions], header = "The Exceptions defined by <i>metaknowledge</i> are:", simple = True))
+    f.write(makeTable(exceptions, header = "The Exceptions defined by <i>metaknowledge</i> are:", simple = True, areClasses = True))
     for fnc in funcs:
         writeFunc(fnc, f)
     first = True
@@ -324,7 +336,7 @@ def main(args):
 
         f.write(makeTable(documentedModules, header = '<a name="objlist"></a>The modules of <i>metaknowledge</i> are:', withBlurbs = True))
 
-        f.write(makeTable([c[0] for c in classes], header = '<a name="objlist"></a>The classes of <i>metaknowledge</i> are:', withBlurbs = True))
+        f.write(makeTable(classes, header = '<a name="objlist"></a>The classes of <i>metaknowledge</i> are:', withBlurbs = True, areClasses = True))
 
         bigTableEntries = [(f[0], f[1], None) for f in funcs]
 

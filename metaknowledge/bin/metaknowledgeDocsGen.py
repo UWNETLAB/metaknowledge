@@ -14,6 +14,8 @@ documentedModules = ['contour', 'WOS', 'medline', 'proquest']#, 'journalAbbrevia
 
 docsPrefix = time.strftime("%Y-%m-%d-")
 
+funcCounter = 0
+
 blurbDict = {
     #modules
     'contour' : "A nicer matplotlib graph visualizer and contour plot",
@@ -199,6 +201,8 @@ def makeTable(entries, header = '', prefix = '', withBlurbs = False, bigTable = 
     return s
 
 def writeFunc(fn, f, prefix = '', level = 5, singleFile = False):
+    global funcCounter
+    funcCounter += 1
     f.write(makeLine() + "\n\n")
     f.write(makeTitle(prefix, fn[0], cleanargs(fn[1]), singleFile = singleFile))
     try:
@@ -379,6 +383,7 @@ def main(args):
 def mkDocs():
     args = argumentParser()
     main(args)
+    print(funcCounter)
 
 if __name__ == '__main__':
     mkDocs()

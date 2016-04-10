@@ -226,7 +226,59 @@ class Record(collections.abc.Mapping, collections.abc.Hashable):
         return self._sourceLine
 
 class ExtendedRecord(Record, metaclass = abc.ABCMeta):
+    """A subclass of `Record` that adds processing to the dictionary. It also cannot be use directly and must be subclassed.
 
+    The `ExtendedRecord` class is a extension of `Record` that is intended for use with the records on scientific papers provided by different organizations such as WOS or Pubmed. The 5 abstract (virtual) methods must be defined for each subclass and define how the data in the different fields is processed and how the record can be rewritten to a file.
+
+    # Processing fields
+
+    When an `ExtendedRecord` is created a dictionary, _fieldDict_, must be provided this contains the raw data from the file reader, usually as lists of strings. `tagProccessingFunc` is a `staticmethod` function that takes in a tag string an returns another function to process it.
+
+    Each tag may also be given a second name, as usually what the they are called in the raw data are not very easy to understand (e.g. `'SO'` is the journal name for WOs records). The mapping from the raw tag (`'SO'`) to the human friendly string (`'journal'`)  is done with the `getAltName` `staticmethod`. `getAltName` takes in a tag string and returns either `None` or the other name for that string. Note, `getAltName` must go both directions `WOSRecord.getAltName(WOSRecord.getAltName('SO')) == 'SO'`.
+
+    The last method for processing entries is `specialFuncs` The following are the special keys for `ExtendedRecords`. These must be the alternate names of tags or strings accepted by the `specialFuncs` method.
+
+    + `'authorsFull'`
+    + `'keywords'`
+    + `'grants'`
+    + `'j9'`
+    + `'authorsShort'`
+    + `'volume'`
+    + `'selfCitation'`
+    + `'citations'`
+    + `'address'`
+    + `'abstract'`
+    + `'title'`
+    + `'month'`
+    + `'year'`
+    + `'journal'`
+    + `'beginningPage'`
+    + `'DOI'`
+
+    `specialFuncs` when given one of these must raise a `KeyError` or return an object of the same type as that returned by the `MedlineRecord` or `WOSRecord`. e.g. `'title'` would return a string giving the title of the record.
+
+    For an example of how this works lets first look at the `'SO'` tag on a `WOSRecord` accessed with the alternate name `'journal'`.
+
+        t = R['journal']
+
+    First the private dictionary `_computedFields` is checked for the key `'title'`, which will fail if this is the first time `'journal'` or `'SO'` has been requested, after this the results will be added to the dictionary to speed up future requests.
+
+    Then the _fieldDict_ will be checked for the key and when that fails the key will go through `getAltName` and be checked again. If the record had a journal entry this will succeed and the raw data will be given to the `tagProccessingFunc` using the same key as _fieldDict_, in this case `SO`.
+
+    The results will then be written to `_computedFields` and returned.
+
+    If the requested key was instead `'grants'` (`g = R['grants']`)the both lookups to _fieldDict_ would have failed and the string `'grants'` would have been given to `specialFuncs` which would return a list of all the grants in the `WOSRecord` (this is always `[]` as WOS does not provided grant information).
+
+    What if the key were not present anywhere? Then the `specialFuncs` should raise a `KeyError` which will be caught then re-raised like a dictionary would with an invalid key look up.
+
+    # File Handling fields
+
+    The two other required methods `encoding` and `writeRecord` define how the records can be rewritten to a file. `encoding` is should return a string giving the encoding python would use, e.g. `'utf-8'` or `'latin-1'`. This is the same encoding that the files written by `writeRecord` should have, `writeRecord` when called should write the original record to the provided open file, _infile_. The opening, closing, header and footer of the file will be handled by `RecordCollection`'s `writeFile` function which should me modified accordingly. If the order of the fields in a record is important you can use a [`collections.OrderedDict`](https://docs.python.org/3/library/collections.html#collections.OrderedDict) for _fieldDict_.
+
+    # \_\_Init\_\_
+
+    The `__init__` of `ExtendedRecord` takes the same arguments as [`Record`](#Record.Record)
+    """
     #Overwriting the Record attribute
     _documented = ['encoding', 'getAltName', 'specialFuncs', 'tagProccessingFunc', 'writeRecord']
 
@@ -239,7 +291,7 @@ class ExtendedRecord(Record, metaclass = abc.ABCMeta):
 
         _titleKey_ : is the tag giving the title of the Record, e.g. the WOS tag is `'TI'`
 
-        _bad_ : is the bool tto flag the Record as having encountered an errror
+        _bad_ : is the bool to flag the Record as having encountered an errror
 
         _error_ : is the error that bad indicates
 
@@ -264,7 +316,7 @@ class ExtendedRecord(Record, metaclass = abc.ABCMeta):
         self._computedFields = {}
 
     def __getitem__(self, key):
-        """Proccesses the tag requested with _key_ and memoize it.
+        """Processes the tag requested with _key_ and memoize it.
 
         Allows long names, but will still raise a KeyError if the tag is missing, regardless of name used.
         """
@@ -293,9 +345,27 @@ class ExtendedRecord(Record, metaclass = abc.ABCMeta):
 
     #Extra options added to the defaults to make access to raw data easier
     def get(self, tag, default = None, raw = False):
-        """Allows access to the raw values or is wrapper to __getitem__.
+        """Allows access to the raw values or is an Exception safe wrapper to `__getitem__`.
 
-        Does not raise KeyError, will just return `None` if _tag_ cannot be found.
+        # Parameters
+
+        _tag_ : `str`
+
+        > The requested tag
+
+        _default_ : `optional [Object]`
+
+        > Default `None`, the object returned when _tag_ is not found
+
+        _raw_ : `optional [bool]`
+
+        > Default `False`, if `True` the unprocessed value of _tag_ is returned
+
+        # Returns
+
+        `Object`
+
+        > The processed value of _tag_ or _default_
         """
         if raw:
             if tag in self._fieldDict:
@@ -311,6 +381,20 @@ class ExtendedRecord(Record, metaclass = abc.ABCMeta):
                 return default
 
     def values(self, raw = False):
+        """Like `values` for dicts but with a `raw` option
+
+        # Parameters
+
+        _raw_ : `optional [bool]`
+
+        > Default `False`, if `True` the `ValuesView` contains the raw values
+
+        # Returns
+
+        `ValuesView`
+
+        > The values of the record
+        """
         if raw:
             return self._fieldDict.values()
         else:
@@ -319,6 +403,20 @@ class ExtendedRecord(Record, metaclass = abc.ABCMeta):
     #Keys given by the mixin
 
     def items(self, raw = False):
+        """Like `items` for dicts but with a `raw` option
+
+        # Parameters
+
+        _raw_ : `optional [bool]`
+
+        > Default `False`, if `True` the `KeysView` contains the raw values as the values
+
+        # Returns
+
+        `KeysView`
+
+        > The key-value pairs of the record
+        """
         if raw:
             return self._fieldDict.items()
         else:
@@ -338,26 +436,81 @@ class ExtendedRecord(Record, metaclass = abc.ABCMeta):
 
     @abc.abstractmethod
     def writeRecord(self, infile):
+        """An `abstractmethod`, writes the record in its original form to _infile_
+
+        # Parameters
+
+        _infile_ : `writable file`
+
+        > The file to be written to
+        """
         pass
 
     @abc.abstractmethod
     def encoding(self):
+        """An `abstractmethod`, gives the encoding string of the record.
+
+        # Returns
+
+        `str`
+
+        > The encoding
+        """
         return 'utf-8' #Most likely to be the encoding
 
     @staticmethod
     @abc.abstractmethod
     def getAltName(tag):
-        #Should not raise an exception
+        """An `abstractmethod`, gives the alternate name of _tag_ or `None`
+
+        # Parameters
+
+        _tag_ : `str`
+
+        > The requested tag
+
+        # Returns
+
+        `str`
+
+        > The alternate name of _tag_ or `None`
+        """
         return None #Default to Null case
 
     @staticmethod
     @abc.abstractmethod
     def tagProccessingFunc(tag):
+        """An `abstractmethod`, gives the function for processing _tag_
+
+        # Parameters
+
+        _tag_ : `optional [str]`
+
+        > The tag in need of processing
+
+        # Returns
+
+        `fucntion`
+
+        > The function to process the raw tag
+        """
         #Should not raise an exception
         return lambda x: x
 
     @abc.abstractmethod
     def specialFuncs(self, key):
+        """An `abstractmethod`, process the special tag, _key_ using the whole `Record`
+
+        # Parameters
+
+        _key_ : `str`
+
+        > One of the special tags: `'authorsFull'`, `'keywords'`, `'grants'`, `'j9'`, `'authorsShort'`, `'volume'`, `'selfCitation'`, `'citations'`, `'address'`, `'abstract'`, `'title'`, `'month'`, `'year'`, `'journal'`, `'beginningPage'` and `'DOI'`
+
+        # Returns
+
+        > The processed value of _key_
+        """
         raise KeyError("There are no special functions given by default.")
 
     @property
@@ -372,10 +525,24 @@ class ExtendedRecord(Record, metaclass = abc.ABCMeta):
         else:
             return auth
 
-    def subDict(self, tags, raw = True):
-        """returns a dict of values of _tags_ from the Record. The tags are the keys and the values are the values
+    def subDict(self, tags, raw = False):
+        """Creates a dict of values of _tags_ from the Record. The tags are the keys and the values are the values. If the tag is missing the value will be `None`.
 
-        _raw_ can be used to make the the retuned values  unproccesed
+        # Parameters
+
+        _tags_ : `list[str]`
+
+        > The list of tags requested
+
+        _raw_ : `optional [bool]`
+
+        >default `False` if `True` the retuned values of the dict will be unprocessed
+
+        # Returns
+
+        `dict`
+
+        > A dictionary with the keys _tags_ and the values from the record
         """
         retDict = {}
         for tag in tags:
@@ -383,7 +550,7 @@ class ExtendedRecord(Record, metaclass = abc.ABCMeta):
         return retDict
 
     def createCitation(self, multiCite = False):
-        """Creates a citation string, using the same format as other WOS citations, for the [Record](#Record.Record) by reading the relevant tags (`year`, `J9`, `volume`, `beginningPage`, `DOI`) and using it to create a [`Citation`](#Citation.Citation) object.
+        """Creates a citation string, using the same format as other WOS citations, for the [Record](#Record.Record) by reading the relevant special tags (`'year'`, `'J9'`, `'volume'`, `'beginningPage'`, `'DOI'`) and using it to create a [`Citation`](#Citation.Citation) object.
 
         # Parameters
 

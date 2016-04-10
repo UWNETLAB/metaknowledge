@@ -20,6 +20,54 @@ from .mkExceptions import CollectionTypeError, cacheError
 import metaknowledge
 
 class Collection(collections.abc.MutableSet, collections.abc.Hashable):
+    """A named hashable set with some error reporting.
+
+    `Collections` have all the methods of builtin `sets` as well as error reporting with _bad_ and _error_, and control over the contained items with _allowedTypes_ and _collectedTypes_.
+
+    # Customizations
+
+    When created _name_ should be a string that allows users to easily determine the source of the `Collection`
+
+    When created the you must provided a set of types, _allowedTypes_, when new items are added they will be checked and if they are not instances of any of the types an `CollectionTypeError` exception will be raised. The _collectedTypes_ set that is provided should be a set of only the types in the `Collection`.
+
+    If any of the elements in the `Collection` are bad then _bad_ should be set to `True` and the `dict` _errors_ should map the item to it's exception.
+
+    All of these customizations are managed when operations occur on the `Collection` and if 2 `Collections` are modified with one of the binary operators (`|`, `-`, etc) the `_collectedTypes` and `errors` attributes will be modified the same way. `name` will be updated to explain the operation(s) that occurred.
+
+    \_\_Init\_\_
+
+    As `Collection` is mostly meant to be base for other classes all but one of the arguments in the \_\_Init\_\_ are not optional and the optional one is not used.
+
+    # Parameters
+    
+    _inSet_ : `set`
+
+    > The objects to be contained
+
+    _allowedTypes_ : `set[type]`
+
+    > A set of types, `{object}` will allow virtually everything
+
+    _collectedTypes_ : `set[type]`
+
+    > The types (or supertypes) of the objects in _inSet_
+
+    _name_ : `str`
+
+    > The name of the `Collection`
+
+    _bad_ : `bool`
+
+    > If any of the elements are bad
+
+    _errors_ : `dict[:Exception]`
+
+    > A mapping from items to their errors
+
+    _quietStart_ : `optional [bool]`
+
+    > Default `False`, does nothing. This is here for use as a interface by subclasses
+    """
     def __init__(self, inSet, allowedTypes, collectedTypes, name, bad, errors, quietStart = False):
         """Basically a collections.abc.MutableSet wrapper for a set with a bunch of extra record keeping attached."""
         self._collection = inSet

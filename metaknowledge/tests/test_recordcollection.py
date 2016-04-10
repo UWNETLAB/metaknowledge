@@ -26,7 +26,7 @@ class TestRecordCollection(unittest.TestCase):
 
     def test_fullRead(self):
         RC = metaknowledge.RecordCollection("metaknowledge/tests/")
-        self.assertEqual(len(RC), 712)
+        self.assertEqual(len(RC), 812)
 
     def test_caching(self):
         RC = metaknowledge.RecordCollection("metaknowledge/tests/", cached = True, name = 'testingCache', extension = 'testFile.isi')
@@ -219,7 +219,7 @@ class TestRecordCollection(unittest.TestCase):
 
     def test_contentType(self):
         RC = metaknowledge.RecordCollection('metaknowledge/tests/')
-        self.assertEqual(RC._collectedTypes, {'MedlineRecord', 'WOSRecord'})
+        self.assertEqual(RC._collectedTypes, {'MedlineRecord', 'WOSRecord', 'ProQuestRecord'})
         self.assertEqual(self.RC._collectedTypes, {'WOSRecord'})
 
     def test_write(self):
@@ -238,11 +238,11 @@ class TestRecordCollection(unittest.TestCase):
             os.remove(filename)
         self.RC.writeCSV(filename, onlyTheseTags=['UT', 'PT', 'TI', 'AF','J9' ,'CR', 'pubMedID'], firstTags = ['CR', 'UT', 'J9', 'citations'], csvDelimiter = '∂', csvQuote='≠', listDelimiter= '«', longNames=True, numAuthors = False)
         self.assertTrue(os.path.isfile(filename))
-        self.assertEqual(os.path.getsize(filename), 106373)
+        self.assertEqual(os.path.getsize(filename), 114018)
         os.remove(filename)
         self.RC.writeCSV(filename)
         self.assertTrue(os.path.isfile(filename))
-        self.assertEqual(os.path.getsize(filename), 88346)
+        self.assertEqual(os.path.getsize(filename), 109193)
         os.remove(filename)
 
     def test_writeBib(self):

@@ -5,6 +5,8 @@ import itertools
 from ..mkExceptions import BadProQuestRecord
 from ..mkRecord import ExtendedRecord
 
+from .tagProcessing.specialFunctions import proQuestSpecialTagToFunc
+from .tagProcessing.tagFunctions import proQuestTagToFunc
 
 class ProQuestRecord(ExtendedRecord):
     def __init__(self, inRecord, recNum = None, sFile = "", sLine = 0):
@@ -16,10 +18,12 @@ class ProQuestRecord(ExtendedRecord):
                 fieldDict = collections.OrderedDict(inRecord)
             elif isinstance(inRecord, enumerate) or isinstance(inRecord, itertools.chain):
                 #Already enumerated
+                #itertools.chain is for the parser upstream to insert stuff into the stream
                 fieldDict = proQuestRecordParser(inRecord, recNum)
             elif isinstance(inRecord, io.IOBase):
                 fieldDict = proQuestRecordParser(enumerate(inRecord), recNum)
             elif isinstance(inRecord, str):
+                #Probaly a better way to do this but it isn't going to be used much, so no need to improve it
                 def addCharToEnd(lst):
                     for s in lst:
                         yield s + '\n'
@@ -31,7 +35,13 @@ class ProQuestRecord(ExtendedRecord):
             self.bad = True
             self.error = b
             fieldDict = collections.OrderedDict()
-        ExtendedRecord.__init__(self, fieldDict, idValue, bad, error, sFile =sFile, sLine = sLine)
+        try:
+            self._proID = "PROQUEST:{}".format(fieldDict["ProQuest document ID"])
+        except KeyError:
+            self._proID = "PROQUEST:MISSING"
+            bad = True
+            error = BadProQuestRecord("Missing ProQuest document ID")
+        ExtendedRecord.__init__(self, fieldDict, self._proID, bad, error, sFile =sFile, sLine = sLine)
 
     def encoding(self):
         return 'utf-8'
@@ -43,22 +53,36 @@ class ProQuestRecord(ExtendedRecord):
     @staticmethod
     def tagProccessingFunc(tag):
         #Should not raise an exception
-        return lambda x: x
+        #It might be faster to do this as a class attribute
+        return proQuestTagToFunc(tag)
 
     def specialFuncs(self, key):
-        raise KeyError("There are no special functions given by default.")
+        return proQuestSpecialTagToFunc[key](self)
+        #raise KeyError("There are no special functions given by default.")
 
     def writeRecord(self):
         raise RuntimeError("This needs to be written")
 
 
 
-def proQuestRecordParser(record, recNum):
+def proQuestRecordParser(enRecordFile, recNum):
     tagDict = collections.OrderedDict()
-    for lineNum, line in record:
-        print(line[:-1])
+    currentEntry = 'Name'
+    while True:
+        lineNum, line = next(enRecordFile)
         if line == '_' * 60 + '\n':
             break
-    print(next(record))
-    print(next(record))
+        elif line == '\n':
+            pass
+        elif currentEntry is 'Name' or currentEntry is 'url':
+            tagDict[currentEntry] = [line.rstrip()]
+            currentEntry = None
+        elif ':' in line and not line.startswith('http://'):
+            splitLine = line.split(': ')
+            currentEntry = splitLine[0]
+            tagDict[currentEntry] = [': '.join(splitLine[1:]).rstrip()]
+            if currentEntry == 'Author':
+                currentEntry = 'url'
+        else:
+            tagDict[currentEntry].append(line.rstrip())
     return tagDict

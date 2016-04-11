@@ -34,7 +34,7 @@
 + **Done** Add more methods for dealing with mk objects
 
 # General
-+ Correct the spelling of proccessing 
++ Correct the spelling of proccessing
 + **Done** Make installable
 + Add tests
 + **Done** Lint
@@ -54,3 +54,5 @@
 + proquest
 + Grants
 + Base
+
+Talk about journal rankings and stuff and Manchester algorithm

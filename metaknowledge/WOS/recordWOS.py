@@ -105,6 +105,8 @@ class WOSRecord(ExtendedRecord):
         if key == 'selfCitation':
             #this cannot be computed until after the Record is created
             return self.createCitation()
+        elif key == 'id':
+            return self.id
         elif key == 'grants':
             return []
         else:

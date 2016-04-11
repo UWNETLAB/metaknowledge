@@ -26,7 +26,7 @@ class TestHelpers(unittest.TestCase):
         dWC = metaknowledge.diffusionCount(self.RC, self.RC, sourceType = "WC")
         self.assertIsInstance(d.keys().__iter__().__next__(), metaknowledge.Record)
         self.assertTrue(-1 < d.values().__iter__().__next__() < 8)
-        self.assertIsInstance(dWC.keys().__iter__().__next__(), str)
+        self.assertIsInstance(list(dWC.keys())[0], str)
         self.assertTrue(-1 < dWC.values().__iter__().__next__() < 22)
         for t in dc.values():
             self.assertEqual(t[0], t[1])

@@ -238,11 +238,11 @@ class TestRecordCollection(unittest.TestCase):
             os.remove(filename)
         self.RC.writeCSV(filename, onlyTheseTags=['UT', 'PT', 'TI', 'AF','J9' ,'CR', 'pubMedID'], firstTags = ['CR', 'UT', 'J9', 'citations'], csvDelimiter = '∂', csvQuote='≠', listDelimiter= '«', longNames=True, numAuthors = False)
         self.assertTrue(os.path.isfile(filename))
-        self.assertEqual(os.path.getsize(filename), 114018)
+        self.assertEqual(os.path.getsize(filename), 106350)
         os.remove(filename)
         self.RC.writeCSV(filename)
         self.assertTrue(os.path.isfile(filename))
-        self.assertEqual(os.path.getsize(filename), 109193)
+        self.assertEqual(os.path.getsize(filename), 88837)
         os.remove(filename)
 
     def test_writeBib(self):

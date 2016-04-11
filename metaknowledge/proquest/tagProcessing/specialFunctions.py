@@ -15,4 +15,5 @@ proQuestSpecialTagToFunc = {
     #'j9' : '',
     #'journal' : '',
     'title' : lambda R : R['Title'],
+    'id' : lambda R : R.id,
 }

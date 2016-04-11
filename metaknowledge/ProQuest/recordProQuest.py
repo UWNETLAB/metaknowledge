@@ -2,7 +2,7 @@ import collections
 import io
 import itertools
 
-from ..mkExceptions import BadProQuestRecord
+from ..mkExceptions import BadProQuestRecord, RecordsNotCompatible
 from ..mkRecord import ExtendedRecord
 
 from .tagProcessing.specialFunctions import proQuestSpecialTagToFunc
@@ -36,7 +36,7 @@ class ProQuestRecord(ExtendedRecord):
             self.error = b
             fieldDict = collections.OrderedDict()
         try:
-            self._proID = "PROQUEST:{}".format(fieldDict["ProQuest document ID"])
+            self._proID = "PROQUEST:{}".format(fieldDict["ProQuest document ID"][0])
         except KeyError:
             self._proID = "PROQUEST:MISSING"
             bad = True
@@ -60,10 +60,8 @@ class ProQuestRecord(ExtendedRecord):
         return proQuestSpecialTagToFunc[key](self)
         #raise KeyError("There are no special functions given by default.")
 
-    def writeRecord(self):
-        raise RuntimeError("This needs to be written")
-
-
+    def writeRecord(self, infile):
+        raise RecordsNotCompatible("ProQuest's data format cannot be written back to file. You can still write out a csv with writeCSV().")
 
 def proQuestRecordParser(enRecordFile, recNum):
     tagDict = collections.OrderedDict()

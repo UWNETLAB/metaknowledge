@@ -55,4 +55,5 @@ medlineSpecialTagToFunc = {
     'journal' : lambda R : R['JT'], #just remaps to the correct name
     'keywords' : lambda R : R['OT'], #just remaps to the correct name
     'abstract' : lambda R : R['AB'], #just remaps to the correct name
+    'id' : lambda R : R.id, #just remaps to the correct name
 }

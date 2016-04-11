@@ -271,7 +271,7 @@ class RecordCollection(CollectionWithIDs):
         > Default `'|'`, the delimiter used between values of the same cell if the tag for that record has multiple outputs.
         """
         if firstTags is None:
-            firstTags = ['UT', 'PT', 'TI', 'AF', 'CR']
+            firstTags = ['id', 'title', 'authorsFull', 'citations', 'keywords', 'DOI']
         for i in range(len(firstTags)):
             if firstTags[i] in fullToTagDict:
                 firstTags[i] = fullToTagDict[firstTags[i]]
@@ -300,17 +300,19 @@ class RecordCollection(CollectionWithIDs):
             csvWriter = csv.DictWriter(f, retrievedFields, delimiter = csvDelimiter, quotechar = csvQuote, quoting=csv.QUOTE_ALL)
         csvWriter.writeheader()
         for R in self:
-            recDict = R.subDict(retrievedFields)
+            recDict = {}
+            for t in retrievedFields:
+                value = R.get(t)
+                if isinstance(value, str):
+                    recDict[t] = value
+                elif hasattr(value, '__iter__'):
+                    recDict[t] = listDelimiter.join([str(v) for v in value])
+                elif value is None:
+                    recDict[t] = ''
+                else:
+                    recDict[t] = str(value)
             if numAuthors:
                 recDict["numAuthors"] = len(R['authorsShort'])
-            for k in recDict.keys():
-                value = recDict[k]
-                if hasattr(value, '__iter__'):
-                    recDict[k] = listDelimiter.join([str(v) for v in value])
-                elif recDict[k] == None:
-                    recDict[k] = ''
-                else:
-                    recDict[k] = str(value)
             csvWriter.writerow(recDict)
         f.close()
 

@@ -122,7 +122,8 @@ class TestRecord(unittest.TestCase):
 
     def test_specials(self):
         for t in metaknowledge.specialRecordFields:
-            self.assertIsInstance(self.R.getAltName(t), str)
+            if t != 'id':
+                self.assertIsInstance(self.R.getAltName(t), str)
 
 simplePaperString = """PT J
 AU John, D

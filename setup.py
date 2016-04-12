@@ -39,7 +39,7 @@ setup(name='metaknowledge',
     ],
     install_requires= ['networkx'],
     extras_require={'contour' : ['matplotlib', 'scipy', 'numpy']},
-    packages = find_packages()
+    packages = find_packages(),
     entry_points={'console_scripts': [
               'metaknowledge = metaknowledge.bin:mkCLI',
               'metaknowledge-mdToNb = metaknowledge.bin:mkMdToNb',

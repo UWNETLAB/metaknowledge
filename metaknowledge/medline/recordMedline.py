@@ -52,7 +52,7 @@ class MedlineRecord(ExtendedRecord):
         return tagNameConverterDict.get(tag)
 
     @staticmethod
-    def tagProccessingFunc(tag):
+    def tagProcessingFunc(tag):
         return medlineTagToFunc[tag]
 
     def specialFuncs(self, key):

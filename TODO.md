@@ -34,7 +34,7 @@
 + **Done** Add more methods for dealing with mk objects
 
 # General
-+ Correct the spelling of proccessing
++ **Done** Correct the spelling of proccessing
 + **Done** Make installable
 + Add tests
 + **Done** Lint

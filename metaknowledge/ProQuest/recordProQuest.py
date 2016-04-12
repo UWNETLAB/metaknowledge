@@ -51,7 +51,7 @@ class ProQuestRecord(ExtendedRecord):
         return None
 
     @staticmethod
-    def tagProccessingFunc(tag):
+    def tagProcessingFunc(tag):
         #Should not raise an exception
         #It might be faster to do this as a class attribute
         return proQuestTagToFunc(tag)

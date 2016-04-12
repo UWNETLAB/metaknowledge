@@ -98,7 +98,7 @@ class WOSRecord(ExtendedRecord):
         return tagNameConverterDict.get(tag)
 
     @staticmethod
-    def tagProccessingFunc(tag):
+    def tagProcessingFunc(tag):
         return tagToFunc.get(tag, lambda x: x)
 
     def specialFuncs(self, key):

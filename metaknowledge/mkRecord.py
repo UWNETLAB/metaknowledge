@@ -232,7 +232,7 @@ class ExtendedRecord(Record, metaclass = abc.ABCMeta):
 
     # Processing fields
 
-    When an `ExtendedRecord` is created a dictionary, _fieldDict_, must be provided this contains the raw data from the file reader, usually as lists of strings. `tagProccessingFunc` is a `staticmethod` function that takes in a tag string an returns another function to process it.
+    When an `ExtendedRecord` is created a dictionary, _fieldDict_, must be provided this contains the raw data from the file reader, usually as lists of strings. `tagProcessingFunc` is a `staticmethod` function that takes in a tag string an returns another function to process it.
 
     Each tag may also be given a second name, as usually what the they are called in the raw data are not very easy to understand (e.g. `'SO'` is the journal name for WOs records). The mapping from the raw tag (`'SO'`) to the human friendly string (`'journal'`)  is done with the `getAltName` `staticmethod`. `getAltName` takes in a tag string and returns either `None` or the other name for that string. Note, `getAltName` must go both directions `WOSRecord.getAltName(WOSRecord.getAltName('SO')) == 'SO'`.
 
@@ -263,7 +263,7 @@ class ExtendedRecord(Record, metaclass = abc.ABCMeta):
 
     First the private dictionary `_computedFields` is checked for the key `'title'`, which will fail if this is the first time `'journal'` or `'SO'` has been requested, after this the results will be added to the dictionary to speed up future requests.
 
-    Then the _fieldDict_ will be checked for the key and when that fails the key will go through `getAltName` and be checked again. If the record had a journal entry this will succeed and the raw data will be given to the `tagProccessingFunc` using the same key as _fieldDict_, in this case `SO`.
+    Then the _fieldDict_ will be checked for the key and when that fails the key will go through `getAltName` and be checked again. If the record had a journal entry this will succeed and the raw data will be given to the `tagProcessingFunc` using the same key as _fieldDict_, in this case `SO`.
 
     The results will then be written to `_computedFields` and returned.
 
@@ -280,7 +280,7 @@ class ExtendedRecord(Record, metaclass = abc.ABCMeta):
     The `__init__` of `ExtendedRecord` takes the same arguments as [`Record`](#Record.Record)
     """
     #Overwriting the Record attribute
-    _documented = ['encoding', 'getAltName', 'specialFuncs', 'tagProccessingFunc', 'writeRecord']
+    _documented = ['encoding', 'getAltName', 'specialFuncs', 'tagProcessingFunc', 'writeRecord']
 
     def __init__(self, fieldDict, idValue, bad, error, sFile = "", sLine = 0):
         """Base constructor for Records
@@ -305,7 +305,7 @@ class ExtendedRecord(Record, metaclass = abc.ABCMeta):
 
         The Records inheting from this must implement, calling the implementations in Record with super() will not cause errors:
         + writeRecord
-        + tagProccessingFunc
+        + tagProcessingFunc
         + encoding
         + titleTag
         + getAltName
@@ -325,10 +325,10 @@ class ExtendedRecord(Record, metaclass = abc.ABCMeta):
         except KeyError:
             if isinstance(key, str):
                 if key in self._fieldDict:
-                    computedVal = self.tagProccessingFunc(key)(self._fieldDict[key])
+                    computedVal = self.tagProcessingFunc(key)(self._fieldDict[key])
                 elif self.getAltName(key) in self._fieldDict:
                     key = self.getAltName(key)
-                    computedVal = self.tagProccessingFunc(key)(self._fieldDict[key])
+                    computedVal = self.tagProcessingFunc(key)(self._fieldDict[key])
                 else:
                     try:
                         computedVal = self.specialFuncs(key)
@@ -479,7 +479,7 @@ class ExtendedRecord(Record, metaclass = abc.ABCMeta):
 
     @staticmethod
     @abc.abstractmethod
-    def tagProccessingFunc(tag):
+    def tagProcessingFunc(tag):
         """An `abstractmethod`, gives the function for processing _tag_
 
         # Parameters

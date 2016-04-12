@@ -19,7 +19,7 @@ class TestRecord(unittest.TestCase):
             R.specialFuncs('TI')
         self.assertEqual(R.writeRecord('IF_YOU_SEE_THIS_A_TEST_HAS_GONE_VERY_WRONG_PLEASE_TELL_SOMEONE.mk_test_file_that_you_should_never_see'), None)
         self.assertEqual(R.getAltName('TI'), None)
-        self.assertEqual(R.tagProccessingFunc('TI')('A'), 'A')
+        self.assertEqual(R.tagProcessingFunc('TI')('A'), 'A')
 
     def test_bad(self):
         self.assertTrue(self.Rbad.bad)

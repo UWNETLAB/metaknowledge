@@ -1,6 +1,10 @@
 #Written by Reid McIlroy-Young for Dr. John McLevey, University of Waterloo 2015
 import os.path
+import re
 from setuptools import setup, find_packages
+
+with open('metaknowledge/constants.py') as f:
+    versionString = re.search(r"__version__ = '(.+)'", f.read()).group(1)
 
 long_descriptionLOC = "README.rst"
 if os.path.isfile(long_descriptionLOC):
@@ -9,7 +13,7 @@ else:
     long_description = ''
 
 setup(name='metaknowledge',
-    version='2.0.b1',
+    version = versionString,
     description = "A library for handling Web of science files",
     long_description = long_description,
     author="Reid McIlroy-Young, John McLevey",

@@ -16,6 +16,7 @@ specialRecordFields = [
     'j9',
     'citations',
     'pubType',
+    'id',
 ]
 
 

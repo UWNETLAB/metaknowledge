@@ -20,8 +20,11 @@ profile_wosserver/
 metaknowledgeDocs.md
 j9Raws/
 /manualj9Abbreviations*
-/j9Abbreviations*
+metaknowledge/WOS/journalAbbreviations/j9Abbreviations.bak
+metaknowledge/WOS/journalAbbreviations/j9Abbreviations.dir
+metaknowledge/WOS/journalAbbreviations/j9Abbreviations.dat
 !savedrecs.txt
+*.bib
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

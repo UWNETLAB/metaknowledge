@@ -51,15 +51,15 @@ class TestCitation(unittest.TestCase):
         self.assertTrue(bool(hash(metaknowledge.Citation("John D., 2015"))))
 
     def test_citation_badLength(self):
-        c = metaknowledge.Citation("a, b")
+        c = metaknowledge.Citation("ab, c")
         self.assertTrue(c.bad)
         self.assertEqual(str(c.error), "Not a complete set of author, year and journal")
         self.assertEqual(c.Extra(),'')
-        self.assertEqual(c.author,'A')
-        self.assertEqual(c.ID(),'A, B')
+        self.assertEqual(c.author,'Ab')
+        self.assertEqual(c.ID(),'Ab, C')
 
     def test_citation_badNumbers(self):
-        c = metaknowledge.Citation("1 2, 2, 3, 4")
+        c = metaknowledge.Citation("1, 2, 3, 4")
         self.assertTrue(c.bad)
-        self.assertEqual(c.ID(), '1 2, 4')
-        self.assertEqual(str(c.error), "Not a complete set of author, year and journal")
+        self.assertEqual(c.ID(), '1, 2')
+        self.assertEqual(str(c.error), "The citation did not fully match the expected pattern")

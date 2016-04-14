@@ -1,17 +1,18 @@
 #Written by Reid McIlroy-Young for Dr. John McLevey, University of Waterloo 2015
-from .journalAbbreviations import getj9dict, abrevDBname, manaulDBname, addToDB
+from .mkExceptions import BadCitation
 
-abbrevDict = None
+import abc
+try:
+    import collections.abc
+except ImportError:
+    import collections
+    collections.abc = collections
+import re
 
-class BadCitation(Warning):
-    """
-    Exception thrown by Citation
-    """
-    pass
+import metaknowledge
 
-class Citation(object):
-    """
-    A class to hold citation strings and allow for comparison between them.
+class Citation(collections.abc.Hashable):
+    """A class to hold citation strings and allow for comparison between them.
 
     The initializer takes in a string representing a WOS citation in the form:
 
@@ -53,63 +54,94 @@ class Citation(object):
 
     > A str containing a WOS style citation.
     """
+    #citeRegex = re.compile(r"(([^,]+), )((DOI (.+))?|.+?)")
+    citeRegex = re.compile(r"([^0-9,][^,]+)?(, )?(-?[0-9]{1,5})?(, )?([^,]+)?(, (V[^,]+))?(, (P[^,]+))?($|, DOI (.+)|((.+?)(, DOI (.+))?))")
+    #citeRegex = re.compile(r"([^0-9,].+?)?(, )?(-?[0-9]{1,5})?(, )?(.+?)?(, (V.+?))?(, (P.+?))?($|, DOI (.+)|((.+?)(, DOI (.+))?))")
+
     def __init__(self, cite):
         #save original
-        self.original = cite
         #setup attributes
-        self.bad = False
-        self._isjourn = None
-        self._hash = None
-        self.author = None
-        self.year = None
-        self.P = None
-        self.V = None
-        self.journal = None
-        self.DOI = None
-        self.misc = []
-        #split by citation seperator
-        c = ' '.join(cite.upper().split()).split(', ')
-        if 'DOI' in c[-1][:3]:
-            self.DOI = c.pop().split(' ')[-1]
-        else:
-            self.DOI = None
-        if len(c) < 2:
+        #Nunez R., 1998, MATH COGNITION, V4, P85, DOI 10.1080/135467998387343
+        #Author, Year, Journal, Volume, Page, DOI
+        regex = re.match(self.citeRegex, cite.upper())
+        if regex is None:
             self.bad = True
-            self.error = BadCitation("Too few elements")
-        while len(c) > 0:
-            field = c.pop(0).upper()
-            if field.isnumeric():
-                self.year = int(field)
-            elif not self.author:
-                self.author = field.replace('.','').title()
-            elif not self.journal:
-                self.journal = field
-            elif field[0] == 'V' and field[1:].isnumeric():
-                self.V = field
-            elif 'P' == field[0] and field[1:].isnumeric():
-                self.P = field
-            else:
-                self.misc.append(field)
-        if not self.author or not self.year or not self.journal and not self.bad:
+            self.error = BadCitation("Regex parsing failed.")
+        try:
+            self.author = regex.group(1).replace('.', '').title()
+        except AttributeError:
+            self.author = None
+        try:
+            self.year = int(regex.group(3))
+        except TypeError:
+            self.year = None
+        self.journal = regex.group(5)
+        self.V = regex.group(7)
+        self.P = regex.group(9)
+        self.DOI = regex.group(11)
+        if regex.group(12) is not None:
+            self.misc = regex.group(12)
+            self.DOI = regex.group(15)
             self.bad = True
+            self.error = BadCitation("The citation did not fully match the expected pattern")
+            atrLst = []
+            if self.author:
+                atrLst.append(self.author)
+            if self.year:
+                atrLst.append(str(self.year))
+            if self.journal:
+                atrLst.append(self.journal)
+            self._id =  ', '.join(atrLst)
+        elif self.author is None or self.year is None or self.journal is None:
+            self.bad = True
+            self.misc = None
             self.error = BadCitation("Not a complete set of author, year and journal")
+            atrLst = []
+            if self.author:
+                atrLst.append(self.author)
+            if self.year:
+                atrLst.append(str(self.year))
+            if self.journal:
+                atrLst.append(self.journal)
+            self._id =  ', '.join(atrLst)
+        else:
+            self.bad = False
+            self.error = None
+            self.misc = None
+            self._id =  "{0}, {1}, {2}".format(self.author, self.year, self.journal)
+        if not metaknowledge.FAST_CITES:
+            self.original = cite
+        else:
+            self = self._id
 
     def __str__(self):
         """
         returns the original string
         """
-        return self.original
+        if metaknowledge.FAST_CITES:
+            return self.ID()
+        else:
+            return self.original
 
+    def __repr__(self):
+        """
+        the representation of the Citation is its original form
+        """
+        if metaknowledge.FAST_CITES:
+            return "<metaknowledge.{} object {}>".format(type(self).__name__, self.ID())
+        else:
+            return "<metaknowledge.{} object {}>".format(type(self).__name__, self.original)
+    #@profile
     def __hash__(self):
         """
         A hash for Citation that should be equal to the hash of other citations that are equal to it. Based on the values returned by [`ID()`](#Citation.ID).
         """
-        if self._hash:
+        try:
             return self._hash
-        else:
+        except AttributeError:
             self._hash = hash(self.ID())
             return self._hash
-
+    #@profile
     def __eq__(self, other):
         """
         First checks DOI for equality then checks each attribute if any are not equal False is returned
@@ -118,17 +150,6 @@ class Citation(object):
             return NotImplemented
         return hash(self) == hash(other)
 
-    def __ne__(self, other):
-        """
-        Returns the inverse of equality
-        """
-        return not self == other
-
-    def __repr__(self):
-        """
-        the representation of the Citation is its original form
-        """
-        return self.original
 
     def isAnonymous(self):
         """
@@ -141,7 +162,7 @@ class Citation(object):
         > `True` if the author is `'[ANONYMOUS]'` otherwise `False`.
         """
         return self.author == "[Anonymous]"
-
+    #@profile
     def ID(self):
         """
         Returns all of `author`, `year` and `journal` available separated by `' ,'`. It is for shortening labels when creating networks as the resultant strings are often unique. [**Extra**()](#Citation.Extra) gets everything not returned by **ID**().
@@ -154,17 +175,7 @@ class Citation(object):
 
         > A string to use as the ID of a node.
         """
-        if self.bad:
-            atrLst = []
-            if self.author:
-                atrLst.append(self.author)
-            if self.year:
-                atrLst.append(str(self.year))
-            if self.journal:
-                atrLst.append(self.journal)
-            return ', '.join(atrLst)
-        else:
-            return "{0}, {1}, {2}".format(self.author, self.year, self.journal)
+        return self._id
 
     def allButDOI(self):
         """
@@ -207,105 +218,6 @@ class Citation(object):
         else:
             return retVal
 
-    def isJournal(self, dbname = abrevDBname, manaulDB = manaulDBname, returnDict = 'both', checkIfExcluded = False):
-        """Returns `True` if the `Citation`'s `journal` field is a journal abbreviation from the WOS listing found at [http://images.webofknowledge.com/WOK46/help/WOS/A_abrvjt.html](http://images.webofknowledge.com/WOK46/help/WOS/A_abrvjt.html), i.e. checks if the citation is citing a journal.
-
-        **Note**: Requires the [j9Abbreviations](#journalAbbreviations.getj9dict) database file and will raise an error if it cannot be found.
-
-        **Note**: All parameters are used for getting the data base with  [**getj9dict**()](#journalAbbreviations.getj9dict).
-
-        # Parameters
-
-        _dbname_ : `optional [str]`
-
-        > The name of the downloaded database file, the default is determined at run time. It is recommended that this remain untouched.
-
-        _manaulDB_ : `optional [str]`
-
-        > The name of the manually created database file, the default is determined at run time. It is recommended that this remain untouched.
-
-        _returnDict_ : `optional [str]`
-
-        > default `'both'`, can be used to get both databases or only one  with `'WOS'` or `'manual'`.
-
-        # Returns
-
-        `bool`
-
-        > `True` if the `Citation` is for a journal
-        """
-        global abbrevDict
-        if abbrevDict is None:
-            abbrevDict = getj9dict(dbname = dbname, manualDB = manaulDB, returnDict = returnDict)
-        if checkIfExcluded and self.journal:
-            try:
-                if abbrevDict.get(self.journal, [True])[0]:
-                    return False
-                else:
-                    return True
-            except IndexError:
-                return False
-        elif self._isjourn is None:
-            if self.journal:
-                dictVal = abbrevDict.get(self.journal, [b''])[0]
-                if dictVal:
-                    self._isjourn = dictVal
-                else:
-                    self._isjourn = False
-            else:
-                self._isjourn = False
-        return self._isjourn
-
-    def FullJournalName(self):
-        """Returns the full name of the Citation's journal field. Requires the [j9Abbreviations](#journalAbbreviations.getj9dict) database file.
-
-        **Note**: Requires the [j9Abbreviations](#journalAbbreviations.getj9dict) database file and will raise an error if it cannot be found.
-
-        # Returns
-
-        `str`
-
-        > The first full name given for the journal of the Citation (or the first name in the WOS list if multiple names exist), if there is not one then `None` is returned
-        """
-        global abbrevDict
-        if abbrevDict is None:
-            abbrevDict = getj9dict()
-        if self.isJournal():
-            return abbrevDict[self.journal][0]
-        else:
-            return None
-
-    def addToDB(self, manualName = None, manaulDB = manaulDBname, invert = False):
-        """Adds the journal of this Citation to the user created database of journals. This will cause [isJournal()](#Citation.isJournal) to return `True` for this Citation and all others with its `journal`.
-
-        **Note**: Requires the [j9Abbreviations](#journalAbbreviations.getj9dict) database file and will raise an error if it cannot be found.
-
-        # Parameters
-
-        _manualName_ : `optional [str]`
-
-        > Default `None`, the full name of journal to use. If not provided the full name will be the same as the abbreviation.
-
-        _manaulDB_ : `optional [str]`
-
-        > The name of the manually created database file, the default is determined at run time. It is recommended that this remain untouched.
-
-        _invert_ : `optional [bool]`
-
-        > Default `False`, if `True` the journal will be removed instead of added
-        """
-        try:
-            if invert:
-                d = {self.journal : ''}
-            elif manualName is None:
-                d = {self.journal : self.journal}
-            else:
-                d = {self.journal : manualName}
-            addToDB(abbr = d, dbname = manaulDB)
-        except KeyError:
-            raise KeyError("This citation does not have a journal field.")
-        else:
-            abbrevDict.update(d)
 
 def filterNonJournals(citesLst, invert = False):
     """Removes the `Citations` from _citesLst_ that are not journals

@@ -6,7 +6,7 @@ import scipy.ndimage as ndi
 import math
 
 def quickVisual(G, showLabel = False):
-    """just makes a simple matplotlib figure and displays it, with each node coloured by its type. You can add labels with _showLabel_.
+    """Just makes a simple _matplotlib_ figure and displays it, with each node coloured by its type. You can add labels with _showLabel_. This looks a bit nicer than the one provided my _networkx_'s defaults.
 
     # Parameters
 
@@ -38,9 +38,11 @@ def quickVisual(G, showLabel = False):
     f.set_facecolor('w')
 
 def graphDensityContourPlot(G, iters = 50, layout = None, layoutScaleFactor = 1, overlay = False, nodeSize = 10, axisSamples = 100, blurringFactor = .1, contours = 15, graphType = 'coloured'):
-    """Creates a 3D plot giving the density of nodes on a 2D layout as a surface in 3 dimensions.
+    """Creates a 3D plot giving the density of nodes on a 2D plane, as a surface in 3D.
 
-    Most of the options are for tweaking the final appearance. _layout_ and _layoutScaleFactor_ allow a pre-layout graph to be provided. If a layout is not provided the [networkx.**spring_layout**()](https://networkx.github.io/documentation/latest/reference/generated/networkx.drawing.layout.spring_layout.html) is used after _iters_ iterations. Then, once the graph has been laid out a grid of _axisSamples_ cells by _axisSamples_ cells is overlaid and the number of nodes in each cell is determined. This then forms a surface in 3-space, gaussian blur is applied with a sigma of _blurringFactor_. The surface is then be plotted.
+    Most of the options are for tweaking the final appearance. _layout_ and _layoutScaleFactor_ allow a pre-layout graph to be provided. If a layout is not provided the [networkx.**spring_layout**()](https://networkx.github.io/documentation/latest/reference/generated/networkx.drawing.layout.spring_layout.html) is used after _iters_ iterations. Then, once the graph has been laid out a grid of _axisSamples_ cells by _axisSamples_ cells is overlaid and the number of nodes in each cell is determined, a gaussian blur is then applied with a sigma of _blurringFactor_. This then forms a surface in 3 dimensions, which is then plotted.
+
+    If you find the resultant image looks too banded raise the the _contours_ number to ~50.
 
     # Parameters
 
@@ -62,7 +64,7 @@ def graphDensityContourPlot(G, iters = 50, layout = None, layoutScaleFactor = 1,
 
     _overlay_ : `optional [bool]`
 
-    > Default `False`, if `True` the graph will be plotted on the X-Y plane at Z = 0.
+    > Default `False`, if `True` the 2D graph will be plotted on the X-Y plane at Z = 0.
 
     _nodeSize_ : `optional [double]`
 

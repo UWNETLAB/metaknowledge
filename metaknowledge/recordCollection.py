@@ -1,23 +1,39 @@
 #Written by Reid McIlroy-Young for Dr. John McLevey, University of Waterloo 2015
 import itertools
 import os
+import os.path
 import csv
 import pickle
+try:
+    import collections.abc
+except ImportError:
+    import collections
+    collections.abc = collections
+import copy
 
 import networkx as nx
 
-from .record import Record, BadWOSFile, BadWOSRecord
-from .graphHelpers import _ProgressBar
-from .tagProcessing.funcDicts import tagToFullDict, fullToTagDict, normalizeToTag
+from .constants import __version__
+from .mkRecord import Record
+from .progressBar import _ProgressBar
+from .WOS.tagProcessing.funcDicts import tagToFullDict, fullToTagDict, normalizeToTag
 from .citation import Citation
+from .fileHandlers import recordHandlers
+from .mkExceptions import cacheError, BadWOSFile, BadWOSRecord, RCTypeError, BadInputFile, BadRecord, RCValueError, RecordsNotCompatible, UnknownFile
+
+from .WOS.wosHandlers import wosParser, isWOSFile
+
+from .medline.medlineHandlers import medlineParser, isMedlineFile
+from .mkCollection import CollectionWithIDs
+
+
 
 import metaknowledge
 
-class RecordCollection(object):
-    """
-    A container for a large number of indivual WOS records.
+class RecordCollection(CollectionWithIDs):
+    """A container for a large number of indivual WOS records.
 
-    `RecordCollection` provides ways of creating `[Records`](#metaknowledge.Record) from an isi file, string, list of records or directory containing isi files.
+    `RecordCollection` provides ways of creating [`Records`](#Record.Record) from an isi file, string, list of records or directory containing isi files.
 
     When being created if there are issues the Record collection will be declared bad, `bad` wil be set to `False`, it will then mostly return `None` or False. The attribute `error` contains the exception that occurred.
 
@@ -58,313 +74,107 @@ class RecordCollection(object):
     > **Note** The pickle allows for arbitrary python code exicution so only use caches that you trust.
     """
 
-    def __init__(self, inCollection = None, name = '', extension = '', cached = False):
-        self.bad = False
-        self._repr = name
-        if not inCollection:
-            if not name:
-                self._repr = "empty"
-            self._Records = set()
-        elif isinstance(inCollection, str):
-            if os.path.isfile(inCollection):
-                try:
+    def __init__(self, inCollection = None, name = '', extension = '', cached = False, quietStart = False):
+        progArgs = (0, "Starting to make a RecordCollection")
+        if metaknowledge.VERBOSE_MODE and not quietStart:
+            progKwargs = {'dummy' : False}
+        else:
+            progKwargs = {'dummy' : True}
+        with _ProgressBar(*progArgs, **progKwargs) as PBar:
+            bad = False
+            errors = {}
+            name = name
+            recordTypes = set()
+            if inCollection is None:
+                PBar.updateVal(.5, "Empty RecordCollection created")
+                if not name:
+                    name = "Empty"
+                recordsSet = set()
+            elif isinstance(inCollection, str):
+                if os.path.isfile(inCollection):
+                    PBar.updateVal(.2, "RecordCollection from a file started")
                     if not inCollection.endswith(extension):
-                        raise TypeError("extension of input file does not match requested extension")
-                    self._repr = os.path.splitext(os.path.split(inCollection)[1])[0]
-                    self._Records = set(wosParser(inCollection))
-                except BadWOSFile as w:
-                    self.bad = True
-                    self.error = w
-            elif os.path.isdir(inCollection):
-                count = 0
-                if metaknowledge.VERBOSE_MODE:
-                    progArgs = (0, "Reading files from " + str(inCollection))
-                    progKwargs = {}
-                else:
-                    progArgs = (0, "Reading files from " + str(inCollection))
-                    progKwargs = {'dummy' : True}
-                with _ProgressBar(*progArgs, **progKwargs) as PBar:
+                        raise RCTypeError("extension of input file does not match requested extension")
+                    if not name:
+                        name = os.path.splitext(os.path.split(inCollection)[1])[0]
+                    try:
+                        for recordType, processor, detector in recordHandlers:
+                            if detector(inCollection):
+                                recordTypes.add(recordType)
+                                recordsSet, pError = processor(inCollection)
+                                if pError is not None:
+                                    bad = True
+                                    errors[inCollection] = pError
+                                break
+                    except UnknownFile:
+                        raise BadInputFile("'{}' does not match any known file type.\nIts header might be damaged or it could have been modified by another program.".format(inCollection))
+                elif os.path.isdir(inCollection):
+                    count = 0
+                    PBar.updateVal(0, "RecordCollection from files in {}".format(inCollection))
                     if extension and not name:
-                        if extension[0] == '.':
-                            self._repr = extension[1:] + "-files-from-" + os.path.dirname(inCollection)
-                        else:
-                            self._repr = extension + "-files-from-" + inCollection
+                        name = "{}-files-from-{}".format(extension, inCollection)
                     elif not name:
-                        self._repr = "files-from-" + inCollection
-                    self._Records = set()
+                        name = "files-from-{}".format(inCollection)
+                    recordsSet = set()
                     flist = []
                     for f in os.listdir(inCollection):
                         fullF = os.path.join(os.path.abspath(inCollection), f)
-                        if fullF.endswith(extension) and not fullF.endswith('mkDirCache') and os.path.isfile(fullF):
+                        if fullF.endswith(extension) and not fullF.endswith('mkRecordDirCache') and os.path.isfile(fullF):
                             flist.append(fullF)
                     if cached:
-                        cacheName = os.path.join(inCollection, '{}.[{}].mkDirCache'.format(os.path.basename(os.path.abspath(inCollection)), extension))
-                        if os.path.isfile(cacheName):
+                        PBar.updateVal(0, "Trying to load from cache")
+                        cacheName = os.path.join(inCollection, '{}.[{}].mkRecordDirCache'.format(os.path.basename(os.path.abspath(inCollection)), extension))
+                        if self._loadFromCache(cacheName, flist, name, extension):
                             try:
-                                self.__dict__ = loadCache(cacheName, flist, name, extension, PBar).__dict__
-                            except cacheError:
-                                PBar.updateVal(0, 'Cache error, rereading files')
-                                os.remove(cacheName)
-                            else:
-                                PBar.finish("Done reloading from cache")
-                                return
-                    for file in flist:
-                        if PBar:
-                            count += 1
-                            PBar.updateVal(count / len(flist), "Reading records from: " + file)
+                                PBar.finish("Done reloading {} Records from cache".format(len(self)))
+                            except AttributeError:
+                                PBar.finish("Done reloading from the cache {}. Warning an error occured.".format(cacheName))
+                            return
                         else:
-                            PBar = None
+                            PBar.updateVal(0, 'Cache error, rereading files')
+                    for fileName in flist:
+                        count += 1
+                        PBar.updateVal(count / len(flist), "Reading records from: {}".format(fileName))
                         try:
-                            self._Records |= set(wosParser(file))
-                        except BadWOSFile:
+                            for recordType, processor, detector in recordHandlers:
+                                if detector(fileName):
+                                    recordTypes.add(recordType)
+                                    recs, pError = processor(fileName)
+                                    if pError is not None:
+                                        bad = True
+                                        errors[fileName] = pError
+                                    recordsSet |= recs
+                                    break
+                        except UnknownFile:
                             if extension != '':
-                                raise
+                                raise BadInputFile("'{}' does not match any known file type, but has the requested extension '{}'. Its header might be damaged or it could have been modified by another program.".format(fileName, extension))
                             else:
                                 pass
-                        except UnicodeDecodeError:
-                            pass
-                    if cached:
-                        writeCache(self, cacheName, flist, name, extension, PBar)
-                    if PBar:
-                        PBar.finish("Done reading records from: " + str(inCollection))
+                else:
+                    raise RCTypeError("'{}' is not a path to a directory or file. Strings cannot be used to initialize RecordCollections".format(inCollection))
+            elif isinstance(inCollection, collections.abc.Iterable):
+                PBar.updateVal(.5, "RecordCollection from an iterable started")
+                for R in inCollection:
+                    if not isinstance(R, Record):
+                        raise RCTypeError("RecordCollections can only contain Records, '{}' is not a valid part of an input iterable.".format(R))
+                recordsSet = set(inCollection)
             else:
-                raise TypeError("inCollection is not a directory or a file")
-        elif isinstance(inCollection, list):
-            self._Records = set(inCollection)
-        elif isinstance(inCollection, set):
-            self._Records = inCollection
-        else:
-            raise TypeError
+                raise RCTypeError("A RecordCollection cannot be created from {}.".format(inCollection))
+            CollectionWithIDs.__init__(self, recordsSet, Record, recordTypes, name, bad, errors)
+            if cached:
+                PBar.updateVal(1, "Writing RecordCollection cache to {}".format(cacheName))
+                self._createCache(cacheName, flist, name, extension)
+            try:
+                PBar.finish("Done making a RecordCollection of {} Records".format(len(self)))
+            except AttributeError:
+                PBar.finish("Done making a RecordCollection. Warning an error occured.")
 
-    def __add__(self, other):
-        """
-        returns the union of the two RecordCollections
-        """
-        if self.bad and other.bad:
-            return RecordCollection(set(), '[BAD ' + repr(self) + ']'+ '_plus_' + '[BAD ' +  repr(other) + ']')
-        if self.bad:
-            return RecordCollection(other._Records, '[BAD ' + repr(self) + ']' + '_plus_' + repr(other))
-        elif other.bad:
-            return RecordCollection(self._Records,  repr(self) + '[BAD ' + repr(other) + ']')
-        else:
-            return RecordCollection(self._Records | other._Records, repr(self) + '_plus_' + repr(other))
-
-    def __and__(self, other):
-        """
-        returns the intersection of the two RecordCollections
-        """
-        if self.bad or other.bad:
-            raise Exception
-        else:
-            return RecordCollection(self._Records & other._Records, repr(self) + '_and_' + repr(other))
-
-    def __sub__(self, other):
-        """
-        returns the difference of the two RecordCollections
-        """
-        if self.bad or other.bad:
-            raise Exception
-        else:
-            return RecordCollection(self._Records - other._Records, repr(self) + '_diff_' + repr(other))
-
-    def __xor__(self, other):
-        """
-        returns the symmetric difference of the two RecordCollections
-        """
-        if self.bad or other.bad:
-            raise Exception
-        else:
-            return RecordCollection(self._Records ^ other._Records, repr(self) + '_symdiff_' + repr(other))
-
-    def __str__(self):
-        """
-        Returns a string giving the the number Records in a sentence:
-        "Collection of # records"
-        """
-        return "Collection of " + str(len(self._Records)) + " records"
-
-    def __repr__(self):
-        """
-        The name of the RecordCollection, this used to identify the Collection when it is written as a file by writeFile() or in some of CL scripts
-        It is updated when some modification of the RecordCollection occurs i.e.
-        >>> RC = metaknowledge.RecordCollection('.', extension = 'isi')
-        >>> repr(RC)
-        isi-files-from-.
-        >>> R = RC.pop()
-        >>> repr(RC)
-        pop-isi-files-from-.
-        """
-        return self._repr
-
-    def __lt__(self, other):
-        if self.bad or other.bad:
-            return False
-        else:
-            return len(self) < len(other)
-    def __le__(self, other):
-        if self.bad or other.bad:
-            return False
-        else:
-            return len(self) <= len(other)
-    def __gt__(self, other):
-        if self.bad or other.bad:
-            return False
-        else:
-            return len(self) > len(other)
-    def __ge__(self, other):
-        if self.bad or other.bad:
-            return False
-        else:
-            return len(self) >= len(other)
-
-    def __eq__(self, other):
-        if self.bad or other.bad:
-            return False
-        else:
-            return self._Records == other._Records
-
-    def __ne__(self, other):
-        return not self == other
-
-    def __len__(self):
-        """
-        returns the number or Records
-        """
-        return len(self._Records)
-
-    def __iter__(self):
-        """
-        iterates over the Records
-        """
-        for R in self._Records:
-            yield R
-
-    def __contains__(self, item):
-        """
-        Returns True if the item is a WOS string of one of the Records containing or if item is a Record checks if the record is in the RecordCollection, otherwise returns False
-        """
-        if isinstance(item, str):
-            for R in self:
-                if R.UT == item:
-                    return True
-            return False
-        elif isinstance(item, Record):
-            return item in self._Records
-        else:
-            return False
-
-    def pop(self):
-        """
-        Returns a random `Record` from the `RecordCollection`, the `Record` is deleted from the collection, use [**peak**()](#recordCollection.peak) for nondestructive, but slower, access
-
-        # Returns
-
-        `Record`
-
-        > A random `Record` that has been removed from the collection
-        """
-        if len(self._Records) > 0:
-            self._repr = "Pop-" + self._repr
-            return self._Records.pop()
-        else:
-            return None
-
-    def peak(self):
-        """
-        Returns a random `Record` from the `RecordCollection`, the `Record` is kept in the collection, use [**pop**()](#recordCollection.pop) for faster destructive access.
-
-        # Returns
-
-        `Record`
-
-        > A random `Record` in the collection
-        """
-        if len(self._Records) > 0:
-            return self._Records.__iter__().__next__()
-        else:
-            return None
-
-    def dropWOS(self, wosNum):
-        """Removes the `Record` with WOS number (ID number) _wosNum_ from the collection. If it cannot be found nothing happens.
-
-        # Parameters
-
-        _wosNum_ : `str`
-
-        > _wosNum_ is the WOS number of the Record to be dropped. _wosNum_ must begin with `'WOS:'` or a valueError is raise.
-        """
-        if wosNum[:4] != 'WOS:':
-            raise ValueError("{} is not a valid WOS number string, it does not start with 'WOS:'.".format(wosNum))
-        for R in self._Records:
-            if R.wosString == wosNum:
-                self._Records.remove(R)
-                break
-
-    def addRec(self, Rec):
-        """Adds a `Record` or `Records` to the collection.
-
-        # Parameters
-
-        _Rec_ : `Record or iterable[Record]`
-
-        > A Record or some iterable containing `Records` to add
-        """
-        if hasattr(Rec, '__iter__'):
-            self._Records |= set(Rec)
-        elif Rec not in self:
-            self._Records.add(Rec)
-
-    def WOS(self, wosNum, drop = False):
-        """Gets the `Record` from the collection by its WOS number (ID number) _wosNum_.
-
-        # Parameters
-
-        _wosNum_ : `str`
-
-        > _wosNum_ is the WOS number of the `Record` to be extracted. _wosNum_ must begin with `'WOS:'` or a valueError is raise.
-
-        _drop_ : `optional [bool]`
-
-        > Default `False`. If `True` the Record is dropped from the collection after being extract, i.e. if `False` [**WOS**()](#RecordCollection.WOS) acts like [**peak**()](#RecordCollection.peak), if `True` it acts like [**pop**()](#RecordCollection.pop)
-
-        # Returns
-
-        `metaknowledge.Record`
-
-        > The `Record` whose WOS number is _wosNum_
-        """
+    def __bytes__(self):
+        encoding = self.peak().encoding()
         try:
-            if wosNum[:4] != 'WOS:':
-                raise ValueError("{} is not a valid WOS number string, it does not start with 'WOS:'.".format(wosNum))
-        except (TypeError, IndexError):
-            raise ValueError("{} is not a valid WOS number string, it does not start with 'WOS:'.".format(wosNum))
-        for R in self:
-            if R.wosString == wosNum:
-                if drop:
-                    self._Records.remove(R)
-                return R
-        return None
-
-    def BadRecords(self):
-        """creates a `RecordCollection` containing all the `Record` which have their `bad` attribute set to `True`, i.e. all those removed by [**dropBadRecords**()](#RecordCollection.dropBadRecords).
-
-        # Returns
-
-        `RecordCollection`
-
-        > All the bad `Records` in one collection
-        """
-        badRecords = set()
-        for R in self._Records:
-            if R.bad:
-                badRecords.add(R)
-        return RecordCollection(badRecords, repr(self) + '_badRecords')
-
-    def dropBadRecords(self):
-        """Removes all `Records` with `bad` attribute `True` from the collection, i.e. drop all those returned by [**BadRecords**()](#RecordCollection.BadRecords).
-        """
-        self._Records = {r for r in self._Records if not r.bad}
-        self._repr = repr(self) + '_badRecordsDropped'
+            return bytes('\n', encoding = encoding).join((bytes(R) for R in self))
+        except BadRecord as e:
+            raise e from None
 
     def dropNonJournals(self, ptVal = 'J', dropBad = True, invert = False):
         """Drops the non journal type `Records` from the collection, this is done by checking _ptVal_ against the PT tag
@@ -384,13 +194,11 @@ class RecordCollection(object):
         > Default `False`, Set `True` to drop journals (or the PT tag given by _ptVal_) instead of keeping them. **Note**, it still drops bad Records if _dropBad_ is `True`
         """
         if dropBad:
-            self.dropBadRecords()
+            self.dropBadEntries()
         if invert:
-            self._Records = {r for r in self._Records if r.PT != ptVal.upper()}
-            self._repr = repr(self) + '_PT-{}-Dropped'.format(ptVal)
+            self._collection = {r for r in self._collection if r['pubType'] != ptVal.upper()}
         else:
-            self._Records = {r for r in self._Records if r.PT == ptVal.upper()}
-            self._repr = repr(self) + '_PT-{}-Only'.format(ptVal)
+            self._collection = {r for r in self._collection if r['pubType'] == ptVal.upper()}
 
     def writeFile(self, fname = None):
         """Writes the `RecordCollection` to a file, the written file's format is identical to those download from WOS. The order of `Records` written is random.
@@ -401,16 +209,24 @@ class RecordCollection(object):
 
         > Default `None`, if given the output file will written to _fanme_, if `None` the `RecordCollection`'s name's first 200 characters are used with the suffix .isi
         """
-        if fname:
-            f = open(fname, mode = 'w', encoding = 'utf-8')
+        if len(self._collectedTypes) < 2:
+            recEncoding = self.peak().encoding()
         else:
-            f = open(repr(self)[:200] + '.isi', mode = 'w', encoding = 'utf-8')
-        f.write("\ufeffFN Thomson Reuters Web of Science\u2122\n")
-        f.write("VR 1.0\n")
-        for R in self._Records:
+            recEncoding = 'utf-8'
+        if fname:
+            f = open(fname, mode = 'w', encoding = recEncoding)
+        else:
+            f = open(self.name[:200] + '.txt', mode = 'w', encoding = recEncoding)
+        if self._collectedTypes == {'WOSRecord'}:
+            f.write("\ufeffFN Thomson Reuters Web of Science\u2122\n")
+            f.write("VR 1.0\n")
+        elif self._collectedTypes == {'MedlineRecord'}:
+            f.write('\n')
+        for R in self._collection:
             R.writeRecord(f)
             f.write('\n')
-        f.write('EF')
+        if self._collectedTypes == {'WOSRecord'}:
+            f.write('EF')
         f.close()
 
     def writeCSV(self, fname = None, onlyTheseTags = None, numAuthors = True, longNames = False, firstTags = None, csvDelimiter = ',', csvQuote = '"', listDelimiter = '|'):
@@ -455,7 +271,7 @@ class RecordCollection(object):
         > Default `'|'`, the delimiter used between values of the same cell if the tag for that record has multiple outputs.
         """
         if firstTags is None:
-            firstTags = ['UT', 'PT', 'TI', 'AF', 'CR']
+            firstTags = ['id', 'title', 'authorsFull', 'citations', 'keywords', 'DOI']
         for i in range(len(firstTags)):
             if firstTags[i] in fullToTagDict:
                 firstTags[i] = fullToTagDict[firstTags[i]]
@@ -467,7 +283,7 @@ class RecordCollection(object):
         else:
             retrievedFields = firstTags
             for R in self:
-                tagsLst = [t for t in R.activeTags() if t not in retrievedFields]
+                tagsLst = [t for t in R.keys() if t not in retrievedFields]
                 retrievedFields += tagsLst
         if longNames:
             try:
@@ -477,24 +293,26 @@ class RecordCollection(object):
         if fname:
             f = open(fname, mode = 'w', encoding = 'utf-8')
         else:
-            f = open(repr(self)[:200] + '.csv', mode = 'w', encoding = 'utf-8')
+            f = open(self.name[:200] + '.csv', mode = 'w', encoding = 'utf-8')
         if numAuthors:
             csvWriter = csv.DictWriter(f, retrievedFields + ["numAuthors"], delimiter = csvDelimiter, quotechar = csvQuote, quoting=csv.QUOTE_ALL)
         else:
             csvWriter = csv.DictWriter(f, retrievedFields, delimiter = csvDelimiter, quotechar = csvQuote, quoting=csv.QUOTE_ALL)
         csvWriter.writeheader()
         for R in self:
-            recDict = R.TagsDict(retrievedFields)
-            if numAuthors:
-                recDict["numAuthors"] = str(R.numAuthors())
-            for k in recDict.keys():
-                value = recDict[k]
-                if hasattr(value, '__iter__'):
-                    recDict[k] = listDelimiter.join([str(v) for v in value])
-                elif recDict[k] == None:
-                    recDict[k] = ''
+            recDict = {}
+            for t in retrievedFields:
+                value = R.get(t)
+                if isinstance(value, str):
+                    recDict[t] = value
+                elif hasattr(value, '__iter__'):
+                    recDict[t] = listDelimiter.join([str(v) for v in value])
+                elif value is None:
+                    recDict[t] = ''
                 else:
-                    recDict[k] = str(value)
+                    recDict[t] = str(value)
+            if numAuthors:
+                recDict["numAuthors"] = len(R['authorsShort'])
             csvWriter.writerow(recDict)
         f.close()
 
@@ -532,7 +350,7 @@ class RecordCollection(object):
         if fname:
             f = open(fname, mode = 'w', encoding = 'utf-8')
         else:
-            f = open(repr(self)[:200] + '.bib', mode = 'w', encoding = 'utf-8')
+            f = open(self.name[:200] + '.bib', mode = 'w', encoding = 'utf-8')
         f.write("%This file was generated by the metaknowledge Python package.\n%The contents have been automatically generated and are likely to not work with\n%LaTeX without some human intervention. This file is meant for other automatic\n%systems and not to be used directly for making citations\n")
         #I figure this is worth mentioning, as someone will get annoyed at none of the special characters being escaped and how terrible some of the fields look to humans
         for R in self:
@@ -541,9 +359,11 @@ class RecordCollection(object):
                 f.write(R.bibString(maxLength =  maxStringLength, WOSMode = wosMode, restrictedOutput = reducedOutput, niceID = niceIDs))
             except BadWOSRecord:
                 pass
+            except AttributeError:
+                raise RecordsNotCompatible("The Record '{}', with ID '{}' does not support writing to bibtext files.".format(R, R.id))
         f.close()
 
-    def makeDict(self, onlyTheseTags = None, longNames = False, cleanedVal = True, numAuthors = True):
+    def makeDict(self, onlyTheseTags = None, longNames = False, raw = False, numAuthors = True):
         """Returns a dict with each key a tag and the values being lists of the values for each of the Records in the collection, `None` is given when there is no value and they are in the same order across each tag.
 
         When used with pandas: `pandas.DataFrame(RC.makeDict())` returns a data frame with each column a tag and each row a Record.
@@ -576,7 +396,7 @@ class RecordCollection(object):
         else:
             retrievedFields = []
             for R in self:
-                tagsLst = [t for t in R.activeTags() if t not in retrievedFields]
+                tagsLst = [t for t in R.keys() if t not in retrievedFields]
                 retrievedFields += tagsLst
         if longNames:
             try:
@@ -588,8 +408,8 @@ class RecordCollection(object):
             retDict["numAuthors"] = []
         for R in self:
             if numAuthors:
-                retDict["numAuthors"].append(R.numAuthors())
-            for k, v in R.TagsDict(retrievedFields, cleaned = cleanedVal).items():
+                retDict["numAuthors"].append(len(R.get('authorsShort')))
+            for k, v in R.subDict(retrievedFields, raw = raw).items():
                 retDict[k].append(v)
         return retDict
 
@@ -643,7 +463,7 @@ class RecordCollection(object):
             def attributeMaker(Rec):
                 attribsDict = {}
                 for val in infoVals:
-                    recVal = getattr(Rec, val)
+                    recVal = Rec.get(val)
                     if isinstance(recVal, list):
                         attribsDict[val] = ', '.join((str(v).replace(',', '') for v in recVal))
                     else:
@@ -663,7 +483,7 @@ class RecordCollection(object):
                     PBar.updateVal(pcount/ len(self), "Analyzing: " + str(R))
                 if dropNonJournals and not R.createCitation().isJournal():
                     continue
-                authsList = R.authorsFull
+                authsList = R.get('authorsFull')
                 if authsList:
                     authsList = list(authsList)
                     detailedInfo = attributeMaker(R)
@@ -691,10 +511,10 @@ class RecordCollection(object):
                         elif count:
                             grph.node[auth1]['count'] += 1
             if PBar:
-                PBar.finish("Done making a co-authorship network")
+                PBar.finish("Done making a co-authorship network from {}".format(self))
         return grph
 
-    def coCiteNetwork(self, dropAnon = True, nodeType = "full", nodeInfo = True, fullInfo = False, weighted = True, dropNonJournals = False, count = True, keyWords = None, detailedCore = None, coreOnly = False, expandedCore = False):
+    def coCiteNetwork(self, dropAnon = True, nodeType = "full", nodeInfo = True, fullInfo = False, weighted = True, dropNonJournals = False, count = True, keyWords = None, detailedCore = None, detailedCoreAttributes = False, coreOnly = False, expandedCore = False):
         """Creates a co-citation network for the RecordCollection.
 
         # Parameters
@@ -757,7 +577,7 @@ class RecordCollection(object):
         """
         allowedTypes = ["full", "original", "author", "journal", "year"]
         if nodeType not in allowedTypes:
-            raise ValueError("{} is not an allowed nodeType.".format(nodeType))
+            raise RCValueError("{} is not an allowed nodeType.".format(nodeType))
         coreValues = []
         if bool(detailedCore):
             try:
@@ -785,21 +605,21 @@ class RecordCollection(object):
             for R in self:
                 if PBar:
                     pcount += 1
-                    PBar.updateVal(pcount / len(self), "Analyzing: " + str(R))
-                Cites = R.citations
+                    PBar.updateVal(pcount / len(self), "Analyzing: {}".format(R))
+                Cites = R.get('citations')
                 if Cites:
                     filteredCites = filterCites(Cites, nodeType, dropAnon, dropNonJournals, keyWords, coreCites)
-                    addToNetwork(tmpgrph, filteredCites, count, weighted, nodeType, nodeInfo , fullInfo, coreCitesDict, coreValues, headNd = None)
+                    addToNetwork(tmpgrph, filteredCites, count, weighted, nodeType, nodeInfo , fullInfo, coreCitesDict, coreValues, detailedCoreAttributes, headNd = None)
             if expandedCore:
                 if PBar:
                     PBar.updateVal(.98, "Expanding core Records")
                 expandRecs(tmpgrph, self, nodeType, weighted)
             if PBar:
-                PBar.finish("Done making a co-citation network of " + repr(self))
+                PBar.finish("Done making a co-citation network from {}".format(self))
         return tmpgrph
 
 
-    def citationNetwork(self, dropAnon = True, nodeType = "full", nodeInfo = True, fullInfo = False, weighted = True, dropNonJournals = False, count = True, directed = True, keyWords = None, detailedCore = None, coreOnly = False, expandedCore = False):
+    def citationNetwork(self, dropAnon = False, nodeType = "full", nodeInfo = True, fullInfo = False, weighted = True, dropNonJournals = False, count = True, directed = True, keyWords = None, detailedCore = None, detailedCoreAttributes = False, coreOnly = False, expandedCore = False, recordToCite = True):
 
         """Creates a citation network for the RecordCollection.
 
@@ -869,7 +689,7 @@ class RecordCollection(object):
         """
         allowedTypes = ["full", "original", "author", "journal", "year"]
         if nodeType not in allowedTypes:
-            raise ValueError("{} is not an allowed nodeType.".format(nodeType))
+            raise RCValueError("{} is not an allowed nodeType.".format(nodeType))
         coreValues = []
         if bool(detailedCore):
             try:
@@ -904,16 +724,16 @@ class RecordCollection(object):
                 reRef = R.createCitation()
                 if len(filterCites([reRef], nodeType, dropAnon, dropNonJournals, keyWords, coreCites)) == 0:
                     continue
-                rCites = R.citations
+                rCites = R.get('citations')
                 if rCites:
                     filteredCites = filterCites(rCites, nodeType, dropAnon, dropNonJournals, keyWords, coreCites)
-                    addToNetwork(tmpgrph, filteredCites, count, weighted, nodeType, nodeInfo, fullInfo, coreCitesDict, coreValues, headNd = reRef)
+                    addToNetwork(tmpgrph, filteredCites, count, weighted, nodeType, nodeInfo, fullInfo, coreCitesDict, coreValues, detailedCoreAttributes, recordToCite, headNd = reRef)
             if expandedCore:
                 if PBar:
                     PBar.updateVal(.98, "Expanding core Records")
                 expandRecs(tmpgrph, self, nodeType, weighted)
             if PBar:
-                PBar.finish("Done making a citation network of " + repr(self))
+                PBar.finish("Done making a citation network from {}".format(self))
         return tmpgrph
 
     def _extractTagged(self, taglist):
@@ -926,7 +746,7 @@ class RecordCollection(object):
                     break
             if hasTags:
                 recordsWithTags.add(R)
-        return RecordCollection(recordsWithTags, repr(self) + "_tags(" + ','.join(taglist) + ')')
+        return RecordCollection(recordsWithTags, repr(self) + "_tags(" + ','.join(taglist) + ')', quietStart = True)
 
     def yearSplit(self, startYear, endYear, dropMissingYears = True):
         """Creates a RecordCollection of Records from the years between _startYear_ and _endYear_ inclusive.
@@ -951,398 +771,17 @@ class RecordCollection(object):
 
         > A RecordCollection of Records from _startYear_ to _endYear_
         """
-
         recordsInRange = set()
-        for R in self._Records:
+        for R in self:
             try:
-                if R.year >= startYear and R.year <= endYear:
+                if R.get('year') >= startYear and R.get('year') <= endYear:
                     recordsInRange.add(R)
             except TypeError:
                 if dropMissingYears:
                     pass
                 else:
                     raise
-        return RecordCollection(recordsInRange, repr(self) + "_(" + str(startYear) + " ," + str(endYear) + ")")
-
-    def oneModeNetwork(self, mode, nodeCount = True, edgeWeight = True, stemmer = None):
-        """Creates a network of the objects found by one WOS tag _mode_.
-
-        A **oneModeNetwork**() looks are each Record in the RecordCollection and extracts its values for the tag given by _mode_, e.g. the `'AF'` tag. Then if multiple are returned an edge is created between them. So in the case of the author tag `'AF'` a co-authorship network is created.
-
-        The number of times each object occurs is count if _nodeCount_ is `True` and the edges count the number of co-occurrences if _edgeWeight_ is `True`. Both are`True` by default.
-
-        **Note** Do not use this for the construction of co-citation networks use [Recordcollection.coCiteNetwork()](#RecordCollection.coCiteNetwork) it is more accurate and has more options.
-
-        # Parameters
-
-        _mode_ : `str`
-
-        > A two character WOS tag or one of the full names for a tag
-
-        _nodeCount_ : `optional [bool]`
-
-        > Default `True`, if `True` each node will have an attribute called "count" that contains an int giving the number of time the object occurred.
-
-        _edgeWeight_ : `optional [bool]`
-
-        > Default `True`, if `True` each edge will have an attribute called "weight" that contains an int giving the number of time the two objects co-occurrenced.
-
-        _stemmer_ : `optional [func]`
-
-        > Default `None`, If _stemmer_ is a callable object, basically a function or possibly a class, it will be called for the ID of every node in the graph, all IDs are strings. For example:
-
-        > The function ` f = lambda x: x[0]` if given as the stemmer will cause all IDs to be the first character of their unstemmed IDs. e.g. the title `'Goos-Hanchen and Imbert-Fedorov shifts for leaky guided modes'` will create the node `'G'`.
-
-        # Returns
-
-        `networkx Graph`
-
-        > A networkx Graph with the objects of the tag _mode_ as nodes and their co-occurrences as edges
-        """
-        try:
-            mode = normalizeToTag(mode)
-        except KeyError:
-            raise TypeError(str(mode) + " is not a known tag, or the name of a known tag.")
-        stemCheck = False
-        if stemmer is not None:
-            if hasattr(stemmer, '__call__'):
-                stemCheck = True
-            else:
-                raise TypeError("stemmer must be callable, e.g. a function or class with a __call__ method.")
-        count = 0
-        progArgs = (0, "Starting to make a one mode network with " + mode)
-        if metaknowledge.VERBOSE_MODE:
-            progKwargs = {'dummy' : False}
-        else:
-            progKwargs = {'dummy' : True}
-        with _ProgressBar(*progArgs, **progKwargs) as PBar:
-            grph = nx.Graph()
-            for R in self:
-                if PBar:
-                    count += 1
-                    PBar.updateVal(count / len(self), "Analyzing: " + str(R))
-                contents = getattr(R, mode, None)
-                if contents:
-                    if isinstance(contents, list):
-                        if stemCheck:
-                            tmplst = [stemmer(str(n)) for n in contents]
-                        else:
-                            tmplst = [str(n) for n in contents]
-                        if len(tmplst) > 1:
-                            for i, node1 in enumerate(tmplst):
-                                for node2 in tmplst[i + 1:]:
-                                    if edgeWeight:
-                                        try:
-                                            grph.edge[node1][node2]['weight'] += 1
-                                        except KeyError:
-                                            grph.add_edge(node1, node2, weight = 1)
-                                    else:
-                                        if not grph.has_edge(node1, node2):
-                                            grph.add_edge(node1, node2)
-                                if nodeCount:
-                                    try:
-                                        grph.node[node1]['count'] += 1
-                                    except KeyError:
-                                        grph.node[node1]['count'] = 1
-                                else:
-                                    if not grph.has_node(node1):
-                                        grph.add_node(node1)
-                        elif len(tmplst) == 1:
-                            if nodeCount:
-                                try:
-                                    grph.node[tmplst[0]]['count'] += 1
-                                except KeyError:
-                                    grph.add_node(tmplst[0], count = 1)
-                            else:
-                                if not grph.has_node(tmplst[0]):
-                                    grph.add_node(tmplst[0])
-                        else:
-                            pass
-                    else:
-                        if stemCheck:
-                            nodeVal = stemmer(str(contents))
-                        else:
-                            nodeVal = str(contents)
-                        if nodeCount:
-                            try:
-                                grph.node[nodeVal]['count'] += 1
-                            except KeyError:
-                                grph.add_node(nodeVal, count = 1)
-                        else:
-                            if not grph.has_node(nodeVal):
-                                grph.add_node(nodeVal)
-            if PBar:
-                PBar.finish("Done making a one mode network with " + mode)
-        return grph
-
-    def twoModeNetwork(self, tag1, tag2, directed = False, recordType = True, nodeCount = True, edgeWeight = True, stemmerTag1 = None, stemmerTag2 = None):
-        """Creates a network of the objects found by two WOS tags _tag1_ and _tag2_, each node marked by which tag spawned it making the resultant graph bipartite.
-
-        A **twoModeNetwork()** looks at each Record in the `RecordCollection` and extracts its values for the tags given by _tag1_ and _tag2_, e.g. the `'WC'` and `'LA'` tags. Then for each object returned by each tag and edge is created between it and every other object of the other tag. So the WOS defined subject tag `'WC'` and language tag `'LA'`, will give a two-mode network showing the connections between subjects and languages. Each node will have an attribute call `'type'` that gives the tag that created it or both if both created it, e.g. the node `'English'` would have the type attribute be `'LA'`.
-
-        The number of times each object occurs is count if _nodeCount_ is `True` and the edges count the number of co-occurrences if _edgeWeight_ is `True`. Both are`True` by default.
-
-        The _directed_ parameter if `True` will cause the network to be directed with the first tag as the source and the second as the destination.
-
-        # Parameters
-
-        _tag1_ : `str`
-
-        > A two character WOS tag or one of the full names for a tag, the source of edges on the graph
-
-        _tag1_ : `str`
-
-        > A two character WOS tag or one of the full names for a tag, the target of edges on the graph
-
-        _directed_ : `optional [bool]`
-
-        > Default `False`, if `True` the returned network is directed
-
-        _nodeCount_ : `optional [bool]`
-
-        > Default `True`, if `True` each node will have an attribute called "count" that contains an int giving the number of time the object occurred.
-
-        _edgeWeight_ : `optional [bool]`
-
-        > Default `True`, if `True` each edge will have an attribute called "weight" that contains an int giving the number of time the two objects co-occurrenced.
-
-        _stemmerTag1_ : `optional [func]`
-
-        > Default `None`, If _stemmerTag1_ is a callable object, basically a function or possibly a class, it will be called for the ID of every node given by _tag1_ in the graph, all IDs are strings.
-
-        > For example: the function `f = lambda x: x[0]` if given as the stemmer will cause all IDs to be the first character of their unstemmed IDs. e.g. the title `'Goos-Hanchen and Imbert-Fedorov shifts for leaky guided modes'` will create the node `'G'`.
-
-        _stemmerTag2_ : `optional [func]`
-
-        > Default `None`, see _stemmerTag1_ as it is the same but for _tag2_
-
-        # Returns
-
-        `networkx Graph or networkx DiGraph`
-
-        > A networkx Graph with the objects of the tags _tag1_ and _tag2_ as nodes and their co-occurrences as edges.
-        """
-        try:
-            tag1 = normalizeToTag(tag1)
-            tag2 = normalizeToTag(tag2)
-        except KeyError:
-            raise TypeError(str(tag1) + " or " + str(tag2) + " is not a known tag, or the name of a known tag.")
-        if stemmerTag1 is not None:
-            if hasattr(stemmerTag1, '__call__'):
-                stemCheck = True
-            else:
-                raise TypeError("stemmerTag1 must be callable, e.g. a function or class with a __call__ method.")
-        else:
-            stemmerTag1 = lambda x: x
-        if stemmerTag2 is not None:
-            if hasattr(stemmerTag2, '__call__'):
-                stemCheck = True
-            else:
-                raise TypeError("stemmerTag2 must be callable, e.g. a function or class with a __call__ method.")
-        else:
-            stemmerTag2 = lambda x: x
-        count = 0
-        progArgs = (0, "Starting to make a two mode network of " + tag1 + " and " + tag2)
-        if metaknowledge.VERBOSE_MODE:
-            progKwargs = {'dummy' : False}
-        else:
-            progKwargs = {'dummy' : True}
-        with _ProgressBar(*progArgs, **progKwargs) as PBar:
-            if directed:
-                grph = nx.DiGraph()
-            else:
-                grph = nx.Graph()
-            for R in self:
-                if PBar:
-                    count += 1
-                    PBar.updateVal(count / len(self), "Analyzing: " + str(R))
-                contents1 = getattr(R, tag1, None)
-                contents2 = getattr(R, tag2, None)
-                if isinstance(contents1, list):
-                    contents1 = [stemmerTag1(str(v)) for v in contents1]
-                elif contents1 == None:
-                    contents1 = []
-                else:
-                    contents1 = [stemmerTag1(str(contents1))]
-                if isinstance(contents2, list):
-                    contents2 = [stemmerTag2(str(v)) for v in contents2]
-                elif contents2 == None:
-                    contents2 = []
-                else:
-                    contents2 = [stemmerTag2(str(contents2))]
-                for node1 in contents1:
-                    for node2 in contents2:
-                        if edgeWeight:
-                            try:
-                                grph.edge[node1][node2]['weight'] += 1
-                            except KeyError:
-                                grph.add_edge(node1, node2, weight = 1)
-                        else:
-                            if not grph.has_edge(node1, node2):
-                                grph.add_edge(node1, node2)
-                    if nodeCount:
-                        try:
-                            grph.node[node1]['count'] += 1
-                        except KeyError:
-                            try:
-                                grph.node[node1]['count'] = 1
-                                if recordType:
-                                    grph.node[node1]['type'] = tag1
-                            except KeyError:
-                                if recordType:
-                                    grph.add_node(node1, type = tag1)
-                                else:
-                                    grph.add_node(node1)
-                    else:
-                        if not grph.has_node(node1):
-                            if recordType:
-                                grph.add_node(node1, type = tag1)
-                            else:
-                                grph.add_node(node1)
-                        elif recordType:
-                            if 'type' not in grph.node[node1]:
-                                grph.node[node1]['type'] = tag1
-
-                for node2 in contents2:
-                    if nodeCount:
-                        try:
-                            grph.node[node2]['count'] += 1
-                        except KeyError:
-                            try:
-                                grph.node[node2]['count'] = 1
-                                if recordType:
-                                    grph.node[node2]['type'] = tag2
-                            except KeyError:
-                                grph.add_node(node2, count = 1)
-                                if recordType:
-                                    grph.node[node2]['type'] = tag2
-                    else:
-                        if not grph.has_node(node2):
-                            if recordType:
-                                grph.add_node(node2, type = tag2)
-                            else:
-                                grph.add_node(node2)
-                        elif recordType:
-                            if 'type' not in grph.node[node2]:
-                                grph.node[node2]['type'] = tag2
-            if PBar:
-                PBar.finish("Done making a two mode network of " + tag1 + " and " + tag2)
-        return grph
-
-    def nModeNetwork(self, tags, recordType = True, nodeCount = True, edgeWeight = True, stemmer = None):
-        """Creates a network of the objects found by all WOS tags in _tags_, each node is marked by which tag spawned it making the resultant graph n-partite.
-
-        A **nModeNetwork()** looks are each Record in the RecordCollection and extracts its values for the tags given by _tags_. Then for all objects returned an edge is created between them, regardless of their type. Each node will have an attribute call `'type'` that gives the tag that created it or both if both created it, e.g. if `'LA'` were in _tags_ node `'English'` would have the type attribute be `'LA'`.
-
-        For example if _tags_ was set to `['CR', 'UT', 'LA']`, a three mode network would be created, composed of a co-citation network from the `'CR'` tag. Then each citation would also have edges to all the languages of Records that cited it and to the WOS number of the those Records.
-
-        The number of times each object occurs is count if _nodeCount_ is `True` and the edges count the number of co-occurrences if _edgeWeight_ is `True`. Both are`True` by default.
-
-        # Parameters
-
-        _mode_ : `str`
-
-        > A two character WOS tag or one of the full names for a tag
-
-        _nodeCount_ : `optional [bool]`
-
-        > Default `True`, if `True` each node will have an attribute called `'count'` that contains an int giving the number of time the object occurred.
-
-        _edgeWeight_ : `optional [bool]`
-
-        > Default `True`, if `True` each edge will have an attribute called `'weight'` that contains an int giving the number of time the two objects co-occurrenced.
-
-        _stemmer_ : `optional [func]`
-
-        > Default `None`, If _stemmer_ is a callable object, basically a function or possibly a class, it will be called for the ID of every node in the graph, note that all IDs are strings.
-
-        > For example: the function `f = lambda x: x[0]` if given as the stemmer will cause all IDs to be the first character of their unstemmed IDs. e.g. the title `'Goos-Hanchen and Imbert-Fedorov shifts for leaky guided modes'` will create the node `'G'`.
-
-        # Returns
-
-        `networkx Graph`
-
-        > A networkx Graph with the objects of the tags _tags_ as nodes and their co-occurrences as edges
-        """
-        nomalizedTags = []
-        for t in tags:
-            try:
-                nomalizedTags.append(normalizeToTag(t))
-            except KeyError:
-                raise TypeError(str(t) + " is not a known tag, or the name of a known tag.")
-        stemCheck = False
-        if stemmer is not None:
-            if hasattr(stemmer, '__call__'):
-                stemCheck = True
-            else:
-                raise TypeError("stemmer must be callable, e.g. a function or class with a __call__ method.")
-        tags = nomalizedTags
-        count = 0
-        progArgs = (0, "Starting to make a " + str(len(tags)) + "-mode network of: " + ', '.join(tags))
-        if metaknowledge.VERBOSE_MODE:
-            progKwargs = {'dummy' : False}
-        else:
-            progKwargs = {'dummy' : True}
-        with _ProgressBar(*progArgs, **progKwargs) as PBar:
-            grph = nx.Graph()
-            for R in self:
-                if PBar:
-                    count += 1
-                    PBar.updateVal(count / len(self), "Analyzing: " + str(R))
-                contents = []
-                for t in tags:
-                    tmpVal = getattr(R, t, None)
-                    if stemCheck:
-                        if tmpVal:
-                            if isinstance(tmpVal, list):
-                                contents.append((t, [stemmer(str(v)) for v in tmpVal]))
-                            else:
-                                contents.append((t, [stemmer(str(tmpVal))]))
-                    else:
-                        if tmpVal:
-                            if isinstance(tmpVal, list):
-                                contents.append((t, [str(v) for v in tmpVal]))
-                            else:
-                                contents.append((t, [str(tmpVal)]))
-                for i, vlst1 in enumerate(contents):
-                    for node1 in vlst1[1]:
-                        for vlst2 in contents[i + 1:]:
-                            for node2 in vlst2[1]:
-                                if edgeWeight:
-                                    try:
-                                        grph.edge[node1][node2]['weight'] += 1
-                                    except KeyError:
-                                        grph.add_edge(node1, node2, weight = 1)
-                                else:
-                                    if not grph.has_edge(node1, node2):
-                                        grph.add_edge(node1, node2)
-                        if nodeCount:
-                            try:
-                                grph.node[node1]['count'] += 1
-                            except KeyError:
-                                try:
-                                    grph.node[node1]['count'] = 1
-                                    if recordType:
-                                        grph.node[node1]['type'] = vlst1[0]
-                                except KeyError:
-                                    if recordType:
-                                        grph.add_node(node1, type = vlst1[0])
-                                    else:
-                                        grph.add_node(node1)
-                        else:
-                            if not grph.has_node(node1):
-                                if recordType:
-                                    grph.add_node(node1, type = vlst1[0])
-                                else:
-                                    grph.add_node(node1)
-                            elif recordType:
-                                try:
-                                    grph.node[node1]['type'] += vlst1[0]
-                                except KeyError:
-                                    grph.node[node1]['type'] = vlst1[0]
-            if PBar:
-                PBar.finish("Done making a " + str(len(tags)) + "-mode network of: " +  ', '.join(tags))
-        return grph
+        return RecordCollection(recordsInRange, name = "{}({}-{})".format(self.name, startYear, endYear), quietStart = True)
 
     def localCiteStats(self, pandasFriendly = False, keyType = "citation"):
         """Returns a dict with all the citations in the CR field as keys and the number of times they occur as the values
@@ -1376,7 +815,7 @@ class RecordCollection(object):
             if keyType not in keyTypesLst:
                 raise TypeError("{} is not a valid key type, only '{}' or '{}' are.".format(keyType, "', '".join(keyTypesLst[:-1]), keyTypesLst[-1]))
             for R in self:
-                rCites = R.CR
+                rCites = R.get('citations')
                 if PBar:
                     count += 1
                     PBar.updateVal(count / recCount, "Analysing: {}".format(R.UT))
@@ -1424,7 +863,7 @@ class RecordCollection(object):
             recCite = rec.createCitation()
         if isinstance(rec, str):
             try:
-                recCite = self.WOS(rec)
+                recCite = self.getID(rec)
             except ValueError:
                 try:
                     recCite = Citation(rec)
@@ -1432,7 +871,7 @@ class RecordCollection(object):
                     raise ValueError("{} is not a valid WOS string or a valid citation string".format(recCite))
             else:
                 if recCite is None:
-                    return RecordCollection(inCollection = localCites, name = "Records_citing_{}".format(rec))
+                    return RecordCollection(inCollection = localCites, name = "Records_citing_{}".format(rec), quietStart = True)
                 else:
                     recCite = recCite.createCitation()
         elif isinstance(rec, Citation):
@@ -1440,13 +879,13 @@ class RecordCollection(object):
         else:
             raise ValueError("{} is not a valid input, rec must be a Record, string or Citation object.".format(rec))
         for R in self:
-            rCites = R.CR
+            rCites = R.get('citations')
             if rCites:
                 for cite in rCites:
                     if recCite == cite:
                         localCites.append(R)
                         break
-        return RecordCollection(inCollection = localCites, name = "Records_citing_'{}'".format(rec))
+        return RecordCollection(inCollection = localCites, name = "Records_citing_'{}'".format(rec), quietStart = True)
 
     def citeFilter(self, keyString = '', field = 'all', reverse = False, caseSensitive = False):
         """Filters `Records` by some string, _keyString_, in their citations and returns all `Records` with at least one citation possessing _keyString_ in the field given by _field_.
@@ -1484,7 +923,7 @@ class RecordCollection(object):
         for R in self:
             try:
                 if field == 'all':
-                    for cite in R.citations:
+                    for cite in R.get('citations'):
                         if caseSensitive:
                             if keyString in cite.original:
                                 retRecs.append(R)
@@ -1494,7 +933,7 @@ class RecordCollection(object):
                                 retRecs.append(R)
                                 break
                 elif field == 'author':
-                    for cite in R.citations:
+                    for cite in R.get('citations'):
                         try:
                             if keyString.upper() in cite.author.upper():
                                 retRecs.append(R)
@@ -1502,7 +941,7 @@ class RecordCollection(object):
                         except AttributeError:
                             pass
                 elif field == 'journal':
-                    for cite in R.citations:
+                    for cite in R.get('citations'):
                         try:
                             if keyString.upper() in cite.journal:
                                 retRecs.append(R)
@@ -1510,7 +949,7 @@ class RecordCollection(object):
                         except AttributeError:
                             pass
                 elif field == 'year':
-                    for cite in R.citations:
+                    for cite in R.get('citations'):
                         try:
                             if int(keyString) == cite.year:
                                 retRecs.append(R)
@@ -1518,7 +957,7 @@ class RecordCollection(object):
                         except AttributeError:
                             pass
                 elif field == 'V':
-                    for cite in R.citations:
+                    for cite in R.get('citations'):
                         try:
                             if keyString.upper() in cite.V:
                                 retRecs.append(R)
@@ -1526,7 +965,7 @@ class RecordCollection(object):
                         except AttributeError:
                             pass
                 elif field == 'P':
-                    for cite in R.citations:
+                    for cite in R.get('citations'):
                         try:
                             if keyString.upper() in cite.P:
                                 retRecs.append(R)
@@ -1534,7 +973,7 @@ class RecordCollection(object):
                         except AttributeError:
                             pass
                 elif field == 'misc':
-                    for cite in R.citations:
+                    for cite in R.get('citations'):
                         try:
                             if keyString.upper() in cite.misc:
                                 retRecs.append(R)
@@ -1542,12 +981,12 @@ class RecordCollection(object):
                         except AttributeError:
                             pass
                 elif field == 'anonymous':
-                    for cite in R.citations:
+                    for cite in R.get('citations'):
                         if cite.isAnonymous():
                             retRecs.append(R)
                             break
                 elif field == 'bad':
-                    for cite in R.citations:
+                    for cite in R.get('citations'):
                         if cite.bad:
                             retRecs.append(R)
                             break
@@ -1558,81 +997,9 @@ class RecordCollection(object):
             for R in self:
                 if R not in retRecs:
                     excluded.append(R)
-            return RecordCollection(inCollection = excluded, name = self._repr + '_subsetByNotCite')
+            return RecordCollection(inCollection = excluded, name = self.name, quietStart = True)
         else:
-            return RecordCollection(inCollection = retRecs, name = self._repr + '_subsetByCite')
-
-def wosParser(isifile):
-    """This is function that is used to create [`RecordCollections`](#metaknowledge.RecordCollection) from files.
-
-    **wosParser**() reads the file given by the path isifile, checks that the header is correct then reads until it reaches EF. All WOS records it encounters are parsed with [**recordParser**()](#metaknowledge.recordParser) and converted into [`Records`](#metaknowledge.Record). A list of these `Records` is returned.
-
-    `BadWOSFile` is raised if an issue is found with the file.
-
-    # Parameters
-
-    _isifile_ : `str`
-
-    > The path to the target file
-
-    # Returns
-
-    `List[Record]`
-
-    > All the `Records` found in _isifile_
-    """
-    try:
-        openfile = open(isifile, 'r', encoding='utf-8-sig')
-    except UnicodeDecodeError as e:
-        openfile.close()
-        raise e
-    f = enumerate(openfile, start = 0)
-    try:
-        linesChecked = 3
-        for i in range(linesChecked):
-            if "VR 1.0" in f.__next__()[1]:
-                break
-            if i == linesChecked - 1:
-                openfile.close()
-                raise BadWOSFile(isifile + " Does not have a valid header, 'VR 1.0' not in first two lines")
-    except StopIteration as e:
-        openfile.close()
-        raise BadWOSFile("File ends before EF found")
-    except UnicodeDecodeError as e:
-        openfile.close()
-        raise e
-    notEnd = True
-    plst = []
-    while notEnd:
-        try:
-            line = f.__next__()
-        except StopIteration as e:
-            raise BadWOSFile("The file '{}' ends before EF was found".format(isifile))
-        if not line[1]:
-            raise BadWOSFile("No ER found in " + isifile)
-        elif line[1].isspace():
-            continue
-        elif 'EF' in line[1][:2]:
-            notEnd = False
-            continue
-        else:
-            try:
-                plst.append(Record(itertools.chain([line], f), sFile = isifile, sLine = line[0]))
-            except BadWOSFile as e:
-                try:
-                    s = f.__next__()[1]
-                    while s[:2] != 'ER':
-                        s = f.__next__()[1]
-                except:
-                    raise BadWOSFile("The file {} was not terminated corrrectly caused the following error:\n{}".format(isifile, str(e)))
-    try:
-        f.__next__()
-        raise BadWOSFile("EF not at end of " + isifile)
-    except StopIteration as e:
-        pass
-    finally:
-        openfile.close()
-    return plst
+            return RecordCollection(inCollection = retRecs, name = self.name, quietStart = True)
 
 def getCoCiteIDs(clst):
     """
@@ -1679,7 +1046,7 @@ def edgeNodeReplacerGenerator(base, nodes, loc):
         yield tmpN
 
 
-def addToNetwork(grph, nds, count, weighted, nodeType, nodeInfo, fullInfo, coreCitesDict, coreValues, headNd = None):
+def addToNetwork(grph, nds, count, weighted, nodeType, nodeInfo, fullInfo, coreCitesDict, coreValues, detailedValues, recordToCite = True, headNd = None):
     """Addeds the citations _nds_ to _grph_, according to the rules give by _nodeType_, _fullInfo_, etc.
 
     _headNd_ is the citation of the Record
@@ -1687,14 +1054,14 @@ def addToNetwork(grph, nds, count, weighted, nodeType, nodeInfo, fullInfo, coreC
     if headNd is not None:
         hID = makeID(headNd, nodeType)
         if hID not in grph:
-            grph.add_node(*makeNodeTuple(headNd, hID, nodeInfo, fullInfo, nodeType, count, coreCitesDict, coreValues))
+            grph.add_node(*makeNodeTuple(headNd, hID, nodeInfo, fullInfo, nodeType, count, coreCitesDict, coreValues, detailedValues))
     else:
         hID = None
     idList = []
     for n in nds:
         nID = makeID(n, nodeType)
         if nID not in grph:
-            grph.add_node(*makeNodeTuple(n, nID, nodeInfo, fullInfo, nodeType, count, coreCitesDict, coreValues))
+            grph.add_node(*makeNodeTuple(n, nID, nodeInfo, fullInfo, nodeType, count, coreCitesDict, coreValues, detailedValues))
         elif count:
             grph.node[nID]['count'] += 1
         idList.append(nID)
@@ -1703,9 +1070,15 @@ def addToNetwork(grph, nds, count, weighted, nodeType, nodeInfo, fullInfo, coreC
         for nID in idList:
             if weighted:
                 try:
-                    grph[hID][nID]['weight'] += 1
+                    if recordToCite:
+                        grph[hID][nID]['weight'] += 1
+                    else:
+                        grph[nID][hID]['weight'] += 1
                 except KeyError:
-                    grph.add_edge(hID, nID, weight = 1)
+                    if recordToCite:
+                        grph.add_edge(hID, nID, weight = 1)
+                    else:
+                        grph.add_edge(nID, hID, weight = 1)
             elif nID not in grph[hID]:
                 addedEdges.append((hID, nID))
     elif len(idList) > 1:
@@ -1727,7 +1100,7 @@ def makeID(citation, nodeType):
     else:
         return citation.ID()
 
-def makeNodeTuple(citation, idVal, nodeInfo, fullInfo, nodeType, count, coreCitesDict, coreValues):
+def makeNodeTuple(citation, idVal, nodeInfo, fullInfo, nodeType, count, coreCitesDict, coreValues, detailedValues):
     """Makes a tuple of idVal and a dict of the selected attributes"""
     d = {}
     if nodeInfo:
@@ -1735,16 +1108,24 @@ def makeNodeTuple(citation, idVal, nodeInfo, fullInfo, nodeType, count, coreCite
             if coreValues:
                 if citation in coreCitesDict:
                     R = coreCitesDict[citation]
-                    infoVals = []
-                    for tag in coreValues:
-                        tagVal = getattr(R, tag)
-                        if isinstance(tagVal, str):
-                            infoVals.append(tagVal.replace(',',''))
-                        elif isinstance(tagVal, list):
-                            infoVals.append(tagVal[0].replace(',',''))
-                        else:
-                            pass
-                    d['info'] = ', '.join(infoVals)
+                    if not detailedValues:
+                        infoVals = []
+                        for tag in coreValues:
+                            tagVal = R.get(tag)
+                            if isinstance(tagVal, str):
+                                infoVals.append(tagVal.replace(',',''))
+                            elif isinstance(tagVal, list):
+                                infoVals.append(tagVal[0].replace(',',''))
+                            else:
+                                pass
+                        d['info'] = ', '.join(infoVals)
+                    else:
+                        for tag in coreValues:
+                            v = R.get(tag, None)
+                            if isinstance(v, list):
+                                d[tag] = '|'.join(sorted(v))
+                            else:
+                                d[tag] = v
                     d['inCore'] = True
                 else:
                     d['info'] = citation.allButDOI()
@@ -1815,43 +1196,3 @@ def expandRecs(G, RecCollect, nodeType, weighted):
                                 G.add_edge(citeID1, citeID2, weight = 1)
                         for e1, e2, data in G.edges_iter(citeID1, data = True):
                             G.add_edge(citeID2, e2, attr_dict = data)
-
-class cacheError(Exception):
-    """Exception raised when loading a cached RecordCollection fails, should only be seen inside metaknowledge and always be caught."""
-    pass
-
-def loadCache(cacheFile, flist, rcName, fileExtensions, PBar):
-    if PBar:
-        PBar.updateVal(0, "Loading cached RecordCollection")
-    with open(cacheFile, 'rb') as f:
-        try:
-            dat, RC = pickle.load(f)
-        except pickle.PickleError as e:
-            raise cacheError("pickle Error: {}".format(e))
-    if dat["RecordCollection Name"] != rcName:
-        raise cacheError("Name mismatch")
-    if dat["File Extension"] != fileExtensions:
-        raise cacheError("Extension mismatch")
-    if len(flist) != len(dat["File dict"]):
-        raise cacheError("File number mismatch")
-    while len(flist) > 0:
-        workingFile = flist.pop()
-        try:
-            if os.stat(workingFile).st_mtime != dat["File dict"][workingFile]:
-                raise cacheError("File modification mismatch")
-        except KeyError:
-            raise cacheError("File modification mismatch")
-    return RC
-
-def writeCache(RC, cacheFile, flist, rcName, fileExtensions, PBar):
-    if PBar:
-        PBar.updateVal(1, "Writing RecordCollection cache to {}".format(cacheFile))
-    dat = {
-        "File dict" : {},
-        "RecordCollection Name" : rcName,
-        "File Extension" : fileExtensions,
-    }
-    for fileName in flist:
-        dat["File dict"][fileName] =  os.stat(fileName).st_mtime
-    with open(cacheFile, 'wb') as f:
-        pickle.dump((dat, RC), f)

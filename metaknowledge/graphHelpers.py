@@ -4,10 +4,8 @@ import metaknowledge
 import networkx as nx
 import csv
 import os
-import sys
-import time
-import math
-import threading
+
+from .progressBar import _ProgressBar
 
 def readGraph(edgeList, nodeList = None, directed = False, idKey = 'ID', eSource = 'From', eDest = 'To'):
     """Reads the files given by _edgeList_ and _nodeList_ and creates a networkx graph for the files.
@@ -54,48 +52,47 @@ def readGraph(edgeList, nodeList = None, directed = False, idKey = 'ID', eSource
 
     > the graph described by the input files
     """
+    progArgs = (0, "Starting to reading graphs")
     if metaknowledge.VERBOSE_MODE:
-        PBar = _ProgressBar(0, "Starting to reading graphs")
+        progKwargs = {'dummy' : False}
     else:
-        PBar = None
-    if directed:
-        grph = nx.DiGraph()
-    else:
-        grph = nx.Graph()
-    if nodeList:
-        if PBar:
-            PBar.updateVal(0, "Reading " + nodeList)
-        f = open(os.path.expanduser(os.path.abspath(nodeList)))
-        nFile = csv.DictReader(f)
-        for line in nFile:
-            vals = line
-            ndID = vals[idKey]
-            del vals[idKey]
-            if len(vals) > 0:
-                grph.add_node(ndID, attr_dict=vals)
-            else:
-                grph.add_node(ndID)
-        f.close()
-    if PBar:
-        PBar.updateVal(.5, "Reading " + edgeList)
-    f = open(os.path.expanduser(os.path.abspath(edgeList)))
-    eFile = csv.DictReader(f)
-    for line in eFile:
-        vals = line
-        eFrom = vals[eSource]
-        eTo = vals[eDest]
-        del vals[eSource]
-        del vals[eDest]
-        if len(vals) > 0:
-            grph.add_edge(eFrom, eTo, attr_dict = vals)
+        progKwargs = {'dummy' : True}
+    with _ProgressBar(*progArgs, **progKwargs) as PBar:
+        if directed:
+            grph = nx.DiGraph()
         else:
-            grph.add_edge(eFrom, eTo)
-    if PBar:
-        PBar.finish(str(len(grph.nodes())) + " nodes and " + str(len(grph.edges())) + " edges found")
-    f.close()
-    return grph
+            grph = nx.Graph()
+        if nodeList:
+            PBar.updateVal(0, "Reading " + nodeList)
+            f = open(os.path.expanduser(os.path.abspath(nodeList)))
+            nFile = csv.DictReader(f)
+            for line in nFile:
+                vals = line
+                ndID = vals[idKey]
+                del vals[idKey]
+                if len(vals) > 0:
+                    grph.add_node(ndID, attr_dict=vals)
+                else:
+                    grph.add_node(ndID)
+            f.close()
+        PBar.updateVal(.25, "Reading " + edgeList)
+        f = open(os.path.expanduser(os.path.abspath(edgeList)))
+        eFile = csv.DictReader(f)
+        for line in eFile:
+            vals = line
+            eFrom = vals[eSource]
+            eTo = vals[eDest]
+            del vals[eSource]
+            del vals[eDest]
+            if len(vals) > 0:
+                grph.add_edge(eFrom, eTo, attr_dict = vals)
+            else:
+                grph.add_edge(eFrom, eTo)
+        PBar.finish("{} nodes and {} edges found".format(len(grph.nodes()), len(grph.edges())))
+        f.close()
+        return grph
 
-def writeGraph(grph, name, edgeInfo = True, typing = False, suffix = 'csv', overwrite = True):
+def writeGraph(grph, name, edgeInfo = True, typing = False, suffix = 'csv', overwrite = True, allSameAttribute = False):
     """Writes both the edge list and the node attribute list of _grph_ to files starting with _name_.
 
     The output files start with _name_, the file type (edgeList, nodeAttributes) then if typing is True the type of graph (directed or undirected) then the suffix, the default is as follows:
@@ -136,41 +133,40 @@ def writeGraph(grph, name, edgeInfo = True, typing = False, suffix = 'csv', over
 
     > Default `True`, if `True` files will be overwritten silently, otherwise an `OSError` exception will be raised.
     """
+    progArgs = (0, "Writing the graph to files starting with: {}".format(name))
     if metaknowledge.VERBOSE_MODE:
-        PBar = _ProgressBar(0, "Writing the graph to two files starting with: " + name)
+        progKwargs = {'dummy' : False}
     else:
-        PBar = None
-    if typing:
-        if isinstance(grph, nx.classes.digraph.DiGraph) or isinstance(grph, nx.classes.multidigraph.MultiDiGraph):
-            grphType = "_directed"
+        progKwargs = {'dummy' : True}
+    with _ProgressBar(*progArgs, **progKwargs) as PBar:
+        if typing:
+            if isinstance(grph, nx.classes.digraph.DiGraph) or isinstance(grph, nx.classes.multidigraph.MultiDiGraph):
+                grphType = "_directed"
+            else:
+                grphType = "_undirected"
         else:
-            grphType = "_undirected"
-    else:
-        grphType = ''
-    nameCompts = os.path.split(os.path.expanduser(os.path.normpath(name)))
-    if nameCompts[0] == '' and nameCompts[1] == '':
-        edgeListName = "edgeList"+ grphType + '.' + suffix
-        nodesAtrName = "nodeAttributes"+ grphType + '.' + suffix
-    elif nameCompts[0] == '':
-        edgeListName = nameCompts[1] + "_edgeList"+ grphType + '.' + suffix
-        nodesAtrName = nameCompts[1] + "_nodeAttributes"+ grphType + '.' + suffix
-    elif nameCompts[1] == '':
-        edgeListName = os.path.join(nameCompts[0], "edgeList"+ grphType + '.' + suffix)
-        nodesAtrName = os.path.join(nameCompts[0], "nodeAttributes"+ grphType + '.' + suffix)
-    else:
-        edgeListName = os.path.join(nameCompts[0], nameCompts[1] + "_edgeList"+ grphType + '.' + suffix)
-        nodesAtrName = os.path.join(nameCompts[0], nameCompts[1] + "_nodeAttributes"+ grphType + '.' + suffix)
-    if not overwrite:
-        if os.path.isfile(edgeListName):
-            raise OSError(edgeListName+ " already exists")
-        if os.path.isfile(nodesAtrName):
-            raise OSError(nodesAtrName + " already exists")
-    writeEdgeList(grph, edgeListName, extraInfo = edgeInfo, _progBar = PBar)
-    if PBar:
-        PBar.jumpUp()
-    writeNodeAttributeFile(grph, nodesAtrName, _progBar = PBar)
-    if PBar:
-        PBar.finish(str(len(grph.nodes())) + " nodes and " + str(len(grph.edges())) + " edges written to file")
+            grphType = ''
+        nameCompts = os.path.split(os.path.expanduser(os.path.normpath(name)))
+        if nameCompts[0] == '' and nameCompts[1] == '':
+            edgeListName = "edgeList"+ grphType + '.' + suffix
+            nodesAtrName = "nodeAttributes"+ grphType + '.' + suffix
+        elif nameCompts[0] == '':
+            edgeListName = nameCompts[1] + "_edgeList"+ grphType + '.' + suffix
+            nodesAtrName = nameCompts[1] + "_nodeAttributes"+ grphType + '.' + suffix
+        elif nameCompts[1] == '':
+            edgeListName = os.path.join(nameCompts[0], "edgeList"+ grphType + '.' + suffix)
+            nodesAtrName = os.path.join(nameCompts[0], "nodeAttributes"+ grphType + '.' + suffix)
+        else:
+            edgeListName = os.path.join(nameCompts[0], nameCompts[1] + "_edgeList"+ grphType + '.' + suffix)
+            nodesAtrName = os.path.join(nameCompts[0], nameCompts[1] + "_nodeAttributes"+ grphType + '.' + suffix)
+        if not overwrite:
+            if os.path.isfile(edgeListName):
+                raise OSError(edgeListName+ " already exists")
+            if os.path.isfile(nodesAtrName):
+                raise OSError(nodesAtrName + " already exists")
+        writeEdgeList(grph, edgeListName, extraInfo = edgeInfo, allSameAttribute = allSameAttribute, _progBar = PBar)
+        writeNodeAttributeFile(grph, nodesAtrName, allSameAttribute = allSameAttribute, _progBar = PBar)
+        PBar.finish("{} nodes and {} edges written to file".format(len(grph.nodes()), len(grph.edges())))
 
 def writeEdgeList(grph, name, extraInfo = True, allSameAttribute = False, _progBar = None):
     """Writes an edge list of _grph_ at the destination _name_.
@@ -197,40 +193,49 @@ def writeEdgeList(grph, name, extraInfo = True, allSameAttribute = False, _progB
 
     > Default `False`, if `True` all the edges must have the same attributes or an exception will be raised. If `False` the missing attributes will be left blank.
     """
-    if _progBar:
-        count = 0
-        eMax = len(grph.edges(data = True))
+    count = 0
+    eMax = len(grph.edges(data = True))
+    if metaknowledge.VERBOSE_MODE or isinstance(_progBar, _ProgressBar):
         if isinstance(_progBar, _ProgressBar):
-            _progBar.updateVal(0, "Writing edge list " + name)
+            PBar = _progBar
+            PBar.updateVal(0, "Writing edge list {}".format(name))
         else:
-            _progBar = _ProgressBar(0, "Writing edge list " + name)
+            PBar = _ProgressBar(0, "Writing edge list {}".format(name))
+    else:
+        PBar = _ProgressBar(0, "Writing edge list {}".format(name), dummy = True)
     if len(grph.edges(data = True)) < 1:
         outFile = open(os.path.expanduser(os.path.abspath(name)), 'w')
         outFile.write('"From","To"\n')
         outFile.close()
-        if _progBar:
-            _progBar.updateVal(1, "Done edge list " + name + ", 0 edges written.")
+        PBar.updateVal(1, "Done edge list '{}', 0 edges written.".format(name))
     else:
         if extraInfo:
             csvHeader = []
             if allSameAttribute:
                 csvHeader = ['From'] +  ['To'] + list(grph.edges_iter(data = True).__next__()[2].keys())
             else:
-                for n1, n2, attribs in grph.edges_iter(data = True):
-                    for key in attribs.keys():
-                        if key not in csvHeader:
-                            csvHeader.append(key)
-                csvHeader += ['From', 'To']
+                extraAttribs = set()
+                for eTuple in grph.edges_iter(data = True):
+                    count += 1
+                    if count % 1000 == 0:
+                        PBar.updateVal(count / eMax * .10, "Checking over edge: '{}' to '{}'".format(eTuple[0], eTuple[1]))
+                    s = set(eTuple[2].keys()) - extraAttribs
+                    if len(s) > 0:
+                        for i in s:
+                            extraAttribs.add(i)
+                csvHeader = ['From', 'To'] + list(extraAttribs)
         else:
             csvHeader = ['From'] +  ['To']
+        count = 0
+        PBar.updateVal(.01, "Opening file {}".format(name))
         f = open(os.path.expanduser(os.path.abspath(name)), 'w')
         outFile = csv.DictWriter(f, csvHeader, delimiter = ',', quotechar = '"', quoting=csv.QUOTE_ALL)
         outFile.writeheader()
         if extraInfo:
             for e in grph.edges_iter(data = True):
-                if _progBar:
-                    count += 1
-                    _progBar.updateVal(count / eMax)
+                count += 1
+                if count % 1000 == 0:
+                    PBar.updateVal(count / eMax * .90 + .10, "Writing edge: '{}' to '{}'".format(e[0], e[1]))
                 eDict = e[2].copy()
                 eDict['From'] = e[0]
                 eDict['To'] = e[1]
@@ -240,18 +245,18 @@ def writeEdgeList(grph, name, extraInfo = True, allSameAttribute = False, _progB
                     raise ValueError("Some edges in The graph do not have the same attributes")
         else:
             for e in grph.edges_iter():
-                if _progBar:
-                    count += 1
-                    if count % 100 == 0:
-                        _progBar.updateVal(count / eMax)
+                count += 1
+                if count % 1000 == 0:
+                    PBar.updateVal(count / eMax * .90 + .10, "Writing edge: '{}' to '{}'".format(e[0], e[1]))
                 eDict['From'] = e[0]
                 eDict['To'] = e[1]
                 outFile.writerow(eDict)
-        if _progBar:
-            _progBar.finish("Done edge list " + name + ", " + str(count) + " edges written.")
+        PBar.updateVal(1, "Closing {}".format(name))
         f.close()
+        if not isinstance(_progBar, _ProgressBar):
+            PBar.finish("Done edge list {}, {} edges written.".format(name, count))
 
-def writeNodeAttributeFile(grph, name, allSameAttribute = False,_progBar = None):
+def writeNodeAttributeFile(grph, name, allSameAttribute = False, _progBar = None):
     """Writes a node attribute list of _grph_ to the file given by the path _name_.
 
     The node list has one column call `'ID'` with the node ids used by networkx and all other columns are the node attributes.
@@ -272,178 +277,55 @@ def writeNodeAttributeFile(grph, name, allSameAttribute = False,_progBar = None)
 
     > Default `False`, if `True` all the nodes must have the same attributes or an exception will be raised. If `False` the missing attributes will be left blank.
     """
-    if _progBar:
-        count = 0
-        nMax = len(grph.nodes())
+    count = 0
+    nMax = len(grph.nodes())
+    if metaknowledge.VERBOSE_MODE or isinstance(_progBar, _ProgressBar):
         if isinstance(_progBar, _ProgressBar):
-            _progBar.updateVal(0, "Writing edgelist " + name)
+            PBar = _progBar
+            PBar.updateVal(0, "Writing node list {}".format(name))
         else:
-            _progBar = _ProgressBar(0, "Writing edgelist " + name)
+            PBar = _ProgressBar(0, "Writing node list {}".format(name))
+    else:
+        PBar = _ProgressBar(0, "Writing node list {}".format(name), dummy = True)
     if len(grph.nodes(data = True)) < 1:
         outFile = open(os.path.expanduser(os.path.abspath(name)), 'w')
         outFile.write('ID\n')
         outFile.close()
-        if _progBar:
-            _progBar.updateVal(1, "Done node attribute list: " + name + ", 0 nodes written.")
+        PBar.updateVal(1, "Done node attribute list: {}, 0 nodes written.".format(name))
     else:
         csvHeader = []
         if allSameAttribute:
             csvHeader = ['ID'] + list(grph.nodes_iter(data = True).__next__()[1].keys())
         else:
+            extraAttribs = set()
             for n, attribs in grph.nodes_iter(data = True):
-                for key in attribs.keys():
-                    if key not in csvHeader:
-                        csvHeader.append(key)
-            csvHeader.append('ID')
+                count += 1
+                if count % 100 == 0:
+                    PBar.updateVal(count / nMax * .10, "Checking over node: '{}'".format(n))
+                s = set(attribs.keys()) - extraAttribs
+                if len(s) > 0:
+                    for i in s:
+                        extraAttribs.add(i)
+            csvHeader = ['ID'] + list(extraAttribs)
+        count = 0
+        PBar.updateVal(.10, "Opening '{}'".format(name))
         f = open(name, 'w')
         outFile = csv.DictWriter(f, csvHeader, delimiter = ',', quotechar = '"', quoting = csv.QUOTE_ALL)
         outFile.writeheader()
         for n in grph.nodes_iter(data = True):
-            if _progBar:
-                count += 1
-                _progBar.updateVal(count / nMax)
+            count += 1
+            if count % 100 == 0:
+                PBar.updateVal(count / nMax * .90 + .10, "Writing node: '{}'".format(n[0]))
             nDict = n[1].copy()
             nDict['ID'] = n[0]
             try:
                 outFile.writerow(nDict)
             except ValueError:
                 raise ValueError("Some nodes in the graph do not have the same attributes")
-        if _progBar:
-            _progBar.updateVal(1, "Done node attribute list: " + name + ", " + str(count) + " nodes written.")
+        PBar.updateVal(1, "Closing {}".format(name))
         f.close()
-
-class _ProgressBar(object):
-    difTermAndBar = 8 #the number of characters difference between the bar's length and the terminal's width
-    timeLength = 6 # width of elapse time display
-    percLength = 6 # width of percent display
-    def __init__(self, initPer, initString = ' ', output = sys.stdout, secondRow = False, dummy = False):
-        self.dummy = dummy
-        self.finished = False
-        self.big = secondRow
-        self.per = initPer
-        self.out = output
-        self.inputString = initString
-        if not dummy:
-            self.sTime = time.time()
-            try:
-                self.barMaxLength = os.get_terminal_size(self.out.fileno()).columns - self.difTermAndBar
-                if self.barMaxLength < 0:
-                    self.barMaxLength = 0
-            except OSError:
-                self.barMaxLength = 80 - self.difTermAndBar
-            except AttributeError:
-                #Pypy fallback
-                self.barMaxLength = 80 - self.difTermAndBar
-            self.ioThread = threading.Thread(target = self.threadedUpdate, kwargs = {"self" : self})
-            self.ioThread.daemon = True
-            self.ioThread.start()
-
-    def __bool__(self):
-        return not self.dummy
-
-    def __del__(self):
-        if not self.dummy and not self.finished:
-            self.finished = True
-            self.ioThread.join()
-            self.out.write('\n')
-            self.out.flush()
-
-    def __enter__(self):
-        return self
-
-    def __exit__(self, exc_type, exc_value, traceback):
-        self.__del__()
-
-    def updateVal(self, inputPer, inputString = None):
-        self.per = inputPer
-        if inputString is not None:
-            self.inputString = inputString
-
-    def finish(self, inputString):
-        if not self.dummy:
-            self.finished = True
-            self.inputString = str(inputString)
-            self.ioThread.join()
-            try:
-                self.barMaxLength = os.get_terminal_size(self.out.fileno()).columns - self.difTermAndBar
-                if self.barMaxLength < 0:
-                    self.barMaxLength = 0
-            except OSError:
-                self.barMaxLength = 80 - self.difTermAndBar
-            except AttributeError:
-                #Pypy fallback
-                self.barMaxLength = 80 - self.difTermAndBar
-            if self.big:
-                self.out.write('\n' + ' ' * (self.barMaxLength + self.difTermAndBar) + '\033[F')
-            else:
-                self.out.write('\r')
-            if len(self.inputString) < self.barMaxLength + self.difTermAndBar - self.timeLength:
-                tString = self.prepTime(time.time() - self.sTime, self.barMaxLength + self.difTermAndBar - len(self.inputString) - 1)
-                self.out.write(self.inputString + ' ' + tString)
-            else:
-                self.out.write(self.prepString(self.inputString, self.barMaxLength + self.difTermAndBar - self.timeLength) + self.prepTime(time.time() - self.sTime, self.timeLength))
-            self.out.write('\n')
-            self.out.flush()
-
-    def jumpUp(self):
-        self.out.write('\033[F')
-        self.out.flush()
-
-    @staticmethod
-    def prepString(s, maxLength):
-        maxLength = maxLength - 1
-        sString = str(s)
-        if len(sString) <= maxLength:
-            return sString.ljust(maxLength, ' ') + ' '
-        else:
-            if maxLength % 2 == 0:
-                return sString[:int(maxLength/2 - 3)] + '...' + sString[int(-maxLength/2):] + ' '
-            else:
-                return sString[:int(maxLength/2 - 2)] + '...' + sString[int(-maxLength/2):] + ' '
-
-    @staticmethod
-    def prepTime(t, maxLength):
-        try:
-            if math.log10(t) + 3.01 > maxLength:
-                return "{1:{0}.0E}s".format(maxLength - 1 ,t)
-            else:
-                return "{1:{0}.1f}s".format(maxLength - 1,t)
-        except ValueError:
-            return "{1:{0}.1f}s".format(maxLength - 1,t)
-
-    @staticmethod
-    def threadedUpdate(self = None):
-        while not self.finished:
-            try:
-                self.barMaxLength = os.get_terminal_size(self.out.fileno()).columns - self.difTermAndBar
-                if self.barMaxLength < 0:
-                    self.barMaxLength = 0
-            except OSError:
-                self.barMaxLength = 80 - self.difTermAndBar
-            except AttributeError:
-                #Pypy fallback
-                self.barMaxLength = 80 - self.difTermAndBar
-            self.out.write('\r')
-            percentString = '{:.1%}'.format(self.per).rjust(self.percLength, ' ')
-            barLength = int(self.per * self.barMaxLength)
-            if self.big and self.inputString:
-                self.dString = self.prepString(self.inputString, self.barMaxLength + self.difTermAndBar - self.timeLength) + self.prepTime(time.time() - self.sTime, self.timeLength)
-                if barLength >= self.barMaxLength:
-                    self.out.write('[' + '=' * barLength + ']' + percentString)
-                    self.out.write('\n' + self.dString + '\033[F')
-                else:
-                    self.out.write('[' + '=' * barLength + '>' + ' ' * (self.barMaxLength - barLength - 1) + ']' + percentString)
-                    self.out.write('\n' + self.dString + '\033[')
-            elif self.inputString:
-                self.dString = self.prepString(self.inputString, self.barMaxLength + self.difTermAndBar - self.timeLength - self.percLength - 2) + '[' + self.prepTime(time.time() - self.sTime, self.timeLength) +  ']' + percentString
-                self.out.write(self.dString)
-            else:
-                if barLength >= self.barMaxLength:
-                    self.out.write('[' + '=' * barLength + ']' + percentString + '\r')
-                else:
-                    self.out.write('[' + '=' * barLength + '>' + ' ' * (self.barMaxLength - barLength - 1) + ']' + percentString + '\r')
-            self.out.flush()
-            time.sleep(.1)
+        if not isinstance(_progBar, _ProgressBar):
+            PBar.finish("Done node attribute list: {}, {} nodes written.".format(name, count))
 
 def getWeight(grph, nd1, nd2, weightString = "weight", returnType = int):
     """
@@ -537,8 +419,8 @@ def dropEdges(grph, minWeight = - float('inf'), maxWeight = float('inf'), parame
     with _ProgressBar(*progArgs, **progKwargs) as PBar:
         if dropSelfLoops:
             slps = grph.selfloop_edges()
-            if PBar:
-                PBar.updateVal(0, "Dropping self {} loops".format(len(slps)))
+
+            PBar.updateVal(0, "Dropping self {} loops".format(len(slps)))
             for e in slps:
                 grph.remove_edge(e[0], e[1])
         if minWeight != - float('inf') or maxWeight != float('inf'):
@@ -551,14 +433,13 @@ def dropEdges(grph, minWeight = - float('inf'), maxWeight = float('inf'), parame
                     else:
                         pass
                 else:
-                    if PBar:
-                        count += 1
-                        if count % 100000 == 0:
-                            PBar.updateVal(count/ total, str(count) + " edges analysed and " + str(total -len(grph.edges())) + " edges dropped")
+
+                    count += 1
+                    if count % 100000 == 0:
+                        PBar.updateVal(count/ total, str(count) + " edges analysed and " + str(total -len(grph.edges())) + " edges dropped")
                     if val > maxWeight or  val < minWeight:
                         grph.remove_edge(e[0], e[1])
-        if PBar:
-            PBar.finish(str(total - len(grph.edges())) + " edges out of " + str(total) + " dropped, " + str(len(grph.edges())) + " returned")
+        PBar.finish(str(total - len(grph.edges())) + " edges out of " + str(total) + " dropped, " + str(len(grph.edges())) + " returned")
 
 def dropNodesByDegree(grph, minDegree = -float('inf'), maxDegree = float('inf'), useWeight = True, parameterName = 'weight', includeUnweighted = True):
     """Modifies _grph_ by dropping nodes that do not have a degree that is within inclusive bounds of _minDegree_ and _maxDegree_, i.e after running _grph_ will only have nodes whose degrees meet the following inequality: _minDegree_ <= node's degree <= _maxDegree_.
@@ -711,6 +592,7 @@ def mergeGraphs(targetGraph, addedGraph, incrementedNodeVal = 'count', increment
 
     > default `'weight'`, the name of the weight attribute for the graph's edges. When merging this attribute will be the sum of the values in the input graphs, instead of _targetGraph_'s value.
     """
+
     for addedNode, attribs in addedGraph.nodes_iter(data = True):
         if incrementedNodeVal:
             try:

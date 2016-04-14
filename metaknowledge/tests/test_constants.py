@@ -19,4 +19,5 @@ class TestHelpers(unittest.TestCase):
                     return importlib.__import__(*args, **kwargs)
         with unittest.mock.patch('builtins.__import__', new_callable = ImportMock):#, NoThreadingImport):
         #builtins.__import__ =
-            self.assertFalse(metaknowledge.constants.isInteractive())
+            self.assertFalse(metaknowledge.constants.isInteractive()) #This will fail for setup.py test
+            #Failure for setup.py is what is supposed to happen as that would be an interactive enviroment

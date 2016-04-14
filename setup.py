@@ -44,6 +44,6 @@ setup(name='metaknowledge',
               'metaknowledge = metaknowledge.bin:mkCLI',
               #'metaknowledge-mdToNb = metaknowledge.bin:mkMdToNb',
               #'metaknowledge-DocsGen = metaknowledge.bin:mkDocs',
-          ]},
+    ]},
     test_suite='metaknowledge.tests',
 )

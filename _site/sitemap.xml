@@ -92,30 +92,27 @@
     <loc>http://networkslab.org/metaknowledge/examples/exampleHeader</loc>
   </url>
   <url>
-    <loc>http://networkslab.org/metaknowledge/</loc>
+    <loc>http://networkslab.org/metaknowledge/examples/</loc>
   </url>
   <url>
-    <loc>http://networkslab.org/metaknowledge/examples/</loc>
+    <loc>http://networkslab.org/metaknowledge/</loc>
   </url>
   <url>
     <loc>http://networkslab.org/metaknowledge/about/</loc>
   </url>
   <url>
-    <loc>http://networkslab.org/metaknowledge/tags/</loc>
-  </url>
-  <url>
     <loc>http://networkslab.org/metaknowledge/documentation/</loc>
-  </url>
-  <url>
-    <loc>http://networkslab.org/metaknowledge/examples/</loc>
   </url>
   <url>
     <loc>http://networkslab.org/metaknowledge/cli/</loc>
   </url>
   <url>
-    <loc>http://networkslab.org/metaknowledge/documentation/metaknowledgeFull</loc>
+    <loc>http://networkslab.org/metaknowledge/tags/</loc>
   </url>
   <url>
-    <loc>http://networkslab.org/metaknowledge/documentation/metaknowledgeFullOld</loc>
+    <loc>http://networkslab.org/metaknowledge/examples/</loc>
+  </url>
+  <url>
+    <loc>http://networkslab.org/metaknowledge/documentation/metaknowledgeFull</loc>
   </url>
 </urlset>

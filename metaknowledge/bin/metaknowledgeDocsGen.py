@@ -335,7 +335,7 @@ def main(args):
 
     if args.single:
         single = True
-        f = open("metaknowledge2Draft.md",'w')
+        f = open("metaknowledgeFull.md",'w')
         f.write(singleFileYAML)
 
         f.write(makeTable(documentedModules, header = '<a name="objlist"></a>The modules of <i>metaknowledge</i> are:', withBlurbs = True))

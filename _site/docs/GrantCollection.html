@@ -5,14 +5,14 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
 <head>
 <meta charset="utf-8">
-<title>contour &#8211; metaknowledge</title>
-<meta name="description" content="A nicer matplotlib graph visualizer and contour plot">
-<meta name="keywords" content="module">
+<title>GrantCollection &#8211; metaknowledge</title>
+<meta name="description" content="A Collection of Grants, this is what does most of the stuff on Grants">
+<meta name="keywords" content="class">
 
 
 <!-- Twitter Cards -->
-<meta name="twitter:title" content="contour">
-<meta name="twitter:description" content="A nicer matplotlib graph visualizer and contour plot">
+<meta name="twitter:title" content="GrantCollection">
+<meta name="twitter:description" content="A Collection of Grants, this is what does most of the stuff on Grants">
 
 
 
@@ -22,9 +22,9 @@
 <!-- Open Graph -->
 <meta property="og:locale" content="en_US">
 <meta property="og:type" content="article">
-<meta property="og:title" content="contour">
-<meta property="og:description" content="A nicer matplotlib graph visualizer and contour plot">
-<meta property="og:url" content="/metaknowledge/docs/contour">
+<meta property="og:title" content="GrantCollection">
+<meta property="og:description" content="A Collection of Grants, this is what does most of the stuff on Grants">
+<meta property="og:url" content="/metaknowledge/docs/GrantCollection">
 <meta property="og:site_name" content="metaknowledge">
 
 
@@ -32,7 +32,7 @@
 
 
 
-<link rel="canonical" href="/metaknowledge/docs/contour">
+<link rel="canonical" href="/metaknowledge/docs/GrantCollection">
 <link href="/metaknowledge/feed.xml" type="application/atom+xml" rel="alternate" title="metaknowledge Feed">
 
 <!-- https://t.co/dKP3o1e -->
@@ -130,83 +130,12 @@
   <article class="entry">
     <div class="entry-wrapper">
       <div class="entry-content">
-        <p><a name="contour"></a></p>
+        <p><a name="GrantCollection"></a>
+<a name="GrantCollection"></a><small></small><strong><a href="/metaknowledge/docs/GrantCollection#GrantCollection"><ins>GrantCollection</ins></a></strong>(<em><a href="#CollectionWithIDs"><u style="border-bottom: .5px dashed gray;">CollectionWithIDs</u></a></em>):</p>
 
-<h1 id="contourmetaknowledgedocscontourcontour"><a href="/metaknowledge/docs/contour#contour">contour</a></h1>
+<p><a name="GrantCollection.__init__"></a><small></small><strong><a href="/metaknowledge/docs/GrantCollection#GrantCollection.__init__"><ins>GrantCollection.__init__</ins></a></strong>(<em>inGrants=None, name=’’, extension=’’, cached=False, quietStart=False</em>):</p>
 
-<p>Two functions based on <em>matplotlib</em> for generating nicer looking graphs</p>
-
-<p>This is the only module that depends on anything besides <em>networkx</em>, it depends on <a href="http://www.numpy.org/"><em>numpy</em></a>, <a href="https://www.scipy.org/"><em>scipy</em></a> and <a href="http://matplotlib.org/"><em>matplotlib</em></a>.</p>
-
-<h3><a name="contour">The <a href="#contour"><u>contour</u></a> module provides the following functions:</a></h3>
-
-<ol class="post-list">
-<li><article><a href="#graphDensityContourPlot"><b>graphDensityContourPlot</b>(<i>G, iters=50, layout=None, layoutScaleFactor=1, overlay=False, nodeSize=10, axisSamples=100, blurringFactor=0.1, contours=15, graphType='coloured'</i>)</a></article></li>
-<li><article><a href="#quickVisual"><b>quickVisual</b>(<i>G, showLabel=False</i>)</a></article></li>
-</ol>
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
-
-<p><a name="graphDensityContourPlot"></a><small>contour.</small><strong><a href="/metaknowledge/docs/contour#graphDensityContourPlot"><ins>graphDensityContourPlot</ins></a></strong>(<em>G, iters=50, layout=None, layoutScaleFactor=1, overlay=False, nodeSize=10, axisSamples=100, blurringFactor=0.1, contours=15, graphType=’coloured’</em>):</p>
-
-<p>Creates a 3D plot giving the density of nodes on a 2D plane, as a surface in 3D.</p>
-
-<p>Most of the options are for tweaking the final appearance. <em>layout</em> and <em>layoutScaleFactor</em> allow a pre-layout graph to be provided. If a layout is not provided the <a href="https://networkx.github.io/documentation/latest/reference/generated/networkx.drawing.layout.spring_layout.html">networkx.<strong>spring_layout</strong>()</a> is used after <em>iters</em> iterations. Then, once the graph has been laid out a grid of <em>axisSamples</em> cells by <em>axisSamples</em> cells is overlaid and the number of nodes in each cell is determined, a gaussian blur is then applied with a sigma of <em>blurringFactor</em>. This then forms a surface in 3 dimensions, which is then plotted.</p>
-
-<p>If you find the resultant image looks too banded raise the the <em>contours</em> number to ~50.</p>
-
-<h6 id="parameters">Parameters</h6>
-
-<p><em>G</em> : <code class="highlighter-rouge">networkx Graph</code></p>
-
-<p>The graph to be plotted</p>
-
-<p><em>iters</em> : <code class="highlighter-rouge">optional [int]</code></p>
-
-<p>Default <code class="highlighter-rouge">50</code>, the number of iterations for the spring layout if <em>layout</em> is not provided.</p>
-
-<p><em>layout</em> : <code class="highlighter-rouge">optional [networkx layout dictionary]</code></p>
-
-<p>Default <code class="highlighter-rouge">None</code>, if provided will be used as a layout of the graph, the maximum distance from the origin along any axis must also given as <em>layoutScaleFactor</em>, which is by default <code class="highlighter-rouge">1</code>.</p>
-
-<p><em>layoutScaleFactor</em> : <code class="highlighter-rouge">optional [double]</code></p>
-
-<p>Default <code class="highlighter-rouge">1</code>, The maximum distance from the origin allowed along any axis given by <em>layout</em>, i.e. the layout must fit in a square centered at the origin with side lengths 2 * <em>layoutScaleFactor</em></p>
-
-<p><em>overlay</em> : <code class="highlighter-rouge">optional [bool]</code></p>
-
-<p>Default <code class="highlighter-rouge">False</code>, if <code class="highlighter-rouge">True</code> the 2D graph will be plotted on the X-Y plane at Z = 0.</p>
-
-<p><em>nodeSize</em> : <code class="highlighter-rouge">optional [double]</code></p>
-
-<p>Default <code class="highlighter-rouge">10</code>, the size of the nodes dawn in the overlay</p>
-
-<p><em>axisSamples</em> : <code class="highlighter-rouge">optional [int]</code></p>
-
-<p>Default 100, the number of cells used along each axis for sampling. A larger number will mean a lower average density.</p>
-
-<p><em>blurringFactor</em> : <code class="highlighter-rouge">optional [double]</code></p>
-
-<p>Default <code class="highlighter-rouge">0.1</code>, the sigma value used for smoothing the surface density. The higher this number the smoother the surface.</p>
-
-<p><em>contours</em> : <code class="highlighter-rouge">optional [int]</code></p>
-
-<p>Default 15, the number of different heights drawn. If this number is low the resultant image will look very banded. It is recommended this be raised above <code class="highlighter-rouge">50</code> if you want your images to look good, <strong>Warning</strong> this will make them much slower to generate and interact with.</p>
-
-<p><em>graphType</em> : <code class="highlighter-rouge">optional [str]</code></p>
-
-<p>Default <code class="highlighter-rouge">'coloured'</code>, if <code class="highlighter-rouge">'coloured'</code> the image will have a destiny based colourization applied, the only other option is <code class="highlighter-rouge">'solid'</code> which removes the colourization.</p>
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
-
-<p><a name="quickVisual"></a><small>contour.</small><strong><a href="/metaknowledge/docs/contour#quickVisual"><ins>quickVisual</ins></a></strong>(<em>G, showLabel=False</em>):</p>
-
-<p>Just makes a simple <em>matplotlib</em> figure and displays it, with each node coloured by its type. You can add labels with <em>showLabel</em>. This looks a bit nicer than the one provided my <em>networkx</em>’s defaults.</p>
-
-<h6 id="parameters-1">Parameters</h6>
-
-<p><em>showLabel</em> : <code class="highlighter-rouge">optional [bool]</code></p>
-
-<p>Default <code class="highlighter-rouge">False</code>, if <code class="highlighter-rouge">True</code> labels will be added to the nodes giving their IDs.</p>
+<p>A Collection with a few extra methods that assume all the contained items have an id attribute and a bad attribute, e.g. Records or Grants</p>
 
 <hr />
 

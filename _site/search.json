@@ -2,9 +2,9 @@
 
   
     {
-      "title"			: "tagProcessing",
-      "link"			: "http://networkslab.org/docs/tagProcessing",
-      "excerpt"		: "All the tags and how they are handled"
+      "title"			: "proquest",
+      "link"			: "http://networkslab.org/docs/proquest",
+      "excerpt"		: "The functions and classes associated with ProQuest"
     }
   
 
@@ -12,7 +12,7 @@
     ,{
       "title"			: "Overview",
       "link"			: "http://networkslab.org/docs/overview",
-      "excerpt"		: "The metaknowledge Package, a quick tour"
+      "excerpt"		: "The <i>metaknowledge</i> Package, a quick tour"
     }
   
 
@@ -20,15 +20,15 @@
     ,{
       "title"			: "Base Functions",
       "link"			: "http://networkslab.org/docs/metaknowledge",
-      "excerpt"		: "The metaknowledge functions, for filtering reading and writing graphs"
+      "excerpt"		: "The <i>metaknowledge</i> functions, for filtering reading and writing graphs"
     }
   
 
   
     ,{
-      "title"			: "journalAbbreviations",
-      "link"			: "http://networkslab.org/docs/journalAbbreviations",
-      "excerpt"		: "Look here to get your J9 database"
+      "title"			: "medline",
+      "link"			: "http://networkslab.org/docs/medline",
+      "excerpt"		: "The functions and classes associated with Medline, the format used by Pubmed"
     }
   
 
@@ -42,9 +42,33 @@
 
   
     ,{
+      "title"			: "WOSRecord",
+      "link"			: "http://networkslab.org/docs/WOSRecord",
+      "excerpt"		: "The object for containing and processing WOS entries"
+    }
+  
+
+  
+    ,{
+      "title"			: "WOSCitation",
+      "link"			: "http://networkslab.org/docs/WOSCitation",
+      "excerpt"		: "A Citation that supports the WOS journal abbreviations"
+    }
+  
+
+  
+    ,{
+      "title"			: "WOS",
+      "link"			: "http://networkslab.org/docs/WOS",
+      "excerpt"		: "The functions and classes associated with the Web of Science"
+    }
+  
+
+  
+    ,{
       "title"			: "RecordCollection",
       "link"			: "http://networkslab.org/docs/RecordCollection",
-      "excerpt"		: "Where all the stuff happens, look here if you want to make things"
+      "excerpt"		: "A Collection of Records, this is what does most of the stuff on Records"
     }
   
 
@@ -52,7 +76,87 @@
     ,{
       "title"			: "Record",
       "link"			: "http://networkslab.org/docs/Record",
-      "excerpt"		: "What RecordCollections are made of"
+      "excerpt"		: "The base of all the other Records, basically a dict"
+    }
+  
+
+  
+    ,{
+      "title"			: "ProQuestRecord",
+      "link"			: "http://networkslab.org/docs/ProQuestRecord",
+      "excerpt"		: "The object for containing and processing ProQuest entries"
+    }
+  
+
+  
+    ,{
+      "title"			: "NSERCGrant",
+      "link"			: "http://networkslab.org/docs/NSERCGrant",
+      "excerpt"		: "The container for NSERC grant entries"
+    }
+  
+
+  
+    ,{
+      "title"			: "MedlineRecord",
+      "link"			: "http://networkslab.org/docs/MedlineRecord",
+      "excerpt"		: "The object for containing and processing Medline entries"
+    }
+  
+
+  
+    ,{
+      "title"			: "MedlineGrant",
+      "link"			: "http://networkslab.org/docs/MedlineGrant",
+      "excerpt"		: "The container for grants derived from Medline Records entries"
+    }
+  
+
+  
+    ,{
+      "title"			: "GrantCollection",
+      "link"			: "http://networkslab.org/docs/GrantCollection",
+      "excerpt"		: "A Collection of Grants, this is what does most of the stuff on Grants"
+    }
+  
+
+  
+    ,{
+      "title"			: "Grant",
+      "link"			: "http://networkslab.org/docs/Grant",
+      "excerpt"		: "The base for all the other Grants"
+    }
+  
+
+  
+    ,{
+      "title"			: "ExtendedRecord",
+      "link"			: "http://networkslab.org/docs/ExtendedRecord",
+      "excerpt"		: "A Record the processes its contents before returning them"
+    }
+  
+
+  
+    ,{
+      "title"			: "DefaultGrant",
+      "link"			: "http://networkslab.org/docs/DefaultGrant",
+      "excerpt"		: "The Grant used if a file was not identifiable"
+    }
+  
+
+  
+    ,{
+      "title"			: "CollectionWithIDs",
+      "link"			: "http://networkslab.org/docs/CollectionWithIDs",
+      "excerpt"		: "A Collection that only holds <i>metaknowledge</i> objects"
+    }
+  
+
+  
+    ,{
+      "title"			: "Collection",
+      "link"			: "http://networkslab.org/docs/Collection",
+      "excerpt"		: "The base of all other Collections, basically a set"
     }
   
 
@@ -61,6 +165,14 @@
       "title"			: "Citation",
       "link"			: "http://networkslab.org/docs/Citation",
       "excerpt"		: "Citation are special, here is how they are handled"
+    }
+  
+
+  
+    ,{
+      "title"			: "CIHRGrant",
+      "link"			: "http://networkslab.org/docs/CIHRGrant",
+      "excerpt"		: "The container for CIHR grant entries"
     }
   
 

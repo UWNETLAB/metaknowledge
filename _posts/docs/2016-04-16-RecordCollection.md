@@ -2,18 +2,18 @@
 layout: doc
 title: RecordCollection
 categories: docs
-excerpt: Where all the stuff happens, look here if you want to make things
+excerpt: A Collection of Records, this is what does most of the stuff on Records
 tags: [class]
 weight: 2
 ---
 <a name="RecordCollection"></a>
-<a name="RecordCollection"></a><small></small>**[<ins>RecordCollection</ins>]({{ site.baseurl }}{{ page.url }}#RecordCollection)**(_object_):
+<a name="RecordCollection"></a><small></small>**[<ins>RecordCollection</ins>]({{ site.baseurl }}{{ page.url }}#RecordCollection)**(_<a href="#CollectionWithIDs"><u style="border-bottom: .5px dashed gray;">CollectionWithIDs</u></a>_):
 
-<a name="RecordCollection.__init__"></a><small></small>**[<ins>RecordCollection.__init__</ins>]({{ site.baseurl }}{{ page.url }}#RecordCollection.__init__)**(_inCollection=None, name='', extension='', cached=False_):
+<a name="RecordCollection.__init__"></a><small></small>**[<ins>RecordCollection.__init__</ins>]({{ site.baseurl }}{{ page.url }}#RecordCollection.__init__)**(_inCollection=None, name='', extension='', cached=False, quietStart=False_):
 
 A container for a large number of indivual WOS records.
 
-`RecordCollection` provides ways of creating `[Records`]({{ site.baseurl }}{{ page.url }}#Record) from an isi file, string, list of records or directory containing isi files.
+`RecordCollection` provides ways of creating [`Records`]({{ site.baseurl }}{{ page.url }}#Record) from an isi file, string, list of records or directory containing isi files.
 
 When being created if there are issues the Record collection will be declared bad, `bad` wil be set to `False`, it will then mostly return `None` or False. The attribute `error` contains the exception that occurred.
 
@@ -54,296 +54,23 @@ _cached_ : `optional [bool]`
  **Note** The pickle allows for arbitrary python code exicution so only use caches that you trust.
 
 
+<h3>
+The RecordCollection class has the following methods:</h3>
 
-The RecordCollection class has the following methods:
-
-<ul class="post-list">
-<li><article><a href="#twoModeNetwork"><b>twoModeNetwork</b>(<i>tag1, tag2, directed=False, recordType=True, nodeCount=True, edgeWeight=True, stemmerTag1=None, stemmerTag2=None</i>)</a></article></li>
-<li><article><a href="#nModeNetwork"><b>nModeNetwork</b>(<i>tags, recordType=True, nodeCount=True, edgeWeight=True, stemmer=None</i>)</a></article></li>
-<li><article><a href="#localCiteStats"><b>localCiteStats</b>(<i>pandasFriendly=False, keyType='citation'</i>)</a></article></li>
-<li><article><a href="#localCitesOf"><b>localCitesOf</b>(<i>rec</i>)</a></article></li>
-<li><article><a href="#citeFilter"><b>citeFilter</b>(<i>keyString='', field='all', reverse=False, caseSensitive=False</i>)</a></article></li>
-<li><article><a href="#pop"><b>pop</b>()</a></article></li>
-<li><article><a href="#peak"><b>peak</b>()</a></article></li>
-<li><article><a href="#dropWOS"><b>dropWOS</b>(<i>wosNum</i>)</a></article></li>
-<li><article><a href="#addRec"><b>addRec</b>(<i>Rec</i>)</a></article></li>
-<li><article><a href="#WOS"><b>WOS</b>(<i>wosNum, drop=False</i>)</a></article></li>
-<li><article><a href="#BadRecords"><b>BadRecords</b>()</a></article></li>
-<li><article><a href="#dropBadRecords"><b>dropBadRecords</b>()</a></article></li>
+<ol class="post-list">
 <li><article><a href="#dropNonJournals"><b>dropNonJournals</b>(<i>ptVal='J', dropBad=True, invert=False</i>)</a></article></li>
 <li><article><a href="#writeFile"><b>writeFile</b>(<i>fname=None</i>)</a></article></li>
 <li><article><a href="#writeCSV"><b>writeCSV</b>(<i>fname=None, onlyTheseTags=None, numAuthors=True, longNames=False, firstTags=None, csvDelimiter=',', csvQuote='"', listDelimiter='|'</i>)</a></article></li>
 <li><article><a href="#writeBib"><b>writeBib</b>(<i>fname=None, maxStringLength=1000, wosMode=False, reducedOutput=False, niceIDs=True</i>)</a></article></li>
-<li><article><a href="#makeDict"><b>makeDict</b>(<i>onlyTheseTags=None, longNames=False, cleanedVal=True, numAuthors=True</i>)</a></article></li>
+<li><article><a href="#makeDict"><b>makeDict</b>(<i>onlyTheseTags=None, longNames=False, raw=False, numAuthors=True</i>)</a></article></li>
 <li><article><a href="#coAuthNetwork"><b>coAuthNetwork</b>(<i>detailedInfo=False, weighted=True, dropNonJournals=False, count=True</i>)</a></article></li>
-<li><article><a href="#coCiteNetwork"><b>coCiteNetwork</b>(<i>dropAnon=True, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, keyWords=None, detailedCore=None, coreOnly=False, expandedCore=False</i>)</a></article></li>
-<li><article><a href="#citationNetwork"><b>citationNetwork</b>(<i>dropAnon=True, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, directed=True, keyWords=None, detailedCore=None, coreOnly=False, expandedCore=False</i>)</a></article></li>
+<li><article><a href="#coCiteNetwork"><b>coCiteNetwork</b>(<i>dropAnon=True, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, keyWords=None, detailedCore=None, detailedCoreAttributes=False, coreOnly=False, expandedCore=False</i>)</a></article></li>
+<li><article><a href="#citationNetwork"><b>citationNetwork</b>(<i>dropAnon=False, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, directed=True, keyWords=None, detailedCore=None, detailedCoreAttributes=False, coreOnly=False, expandedCore=False, recordToCite=True</i>)</a></article></li>
 <li><article><a href="#yearSplit"><b>yearSplit</b>(<i>startYear, endYear, dropMissingYears=True</i>)</a></article></li>
-<li><article><a href="#oneModeNetwork"><b>oneModeNetwork</b>(<i>mode, nodeCount=True, edgeWeight=True, stemmer=None</i>)</a></article></li>
-</ul>
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="twoModeNetwork"></a><small>RecordCollection.</small>**[<ins>twoModeNetwork</ins>]({{ site.baseurl }}{{ page.url }}#twoModeNetwork)**(_tag1, tag2, directed=False, recordType=True, nodeCount=True, edgeWeight=True, stemmerTag1=None, stemmerTag2=None_):
-
-Creates a network of the objects found by two WOS tags _tag1_ and _tag2_, each node marked by which tag spawned it making the resultant graph bipartite.
-
-A **twoModeNetwork()** looks at each Record in the `RecordCollection` and extracts its values for the tags given by _tag1_ and _tag2_, e.g. the `'WC'` and `'LA'` tags. Then for each object returned by each tag and edge is created between it and every other object of the other tag. So the WOS defined subject tag `'WC'` and language tag `'LA'`, will give a two-mode network showing the connections between subjects and languages. Each node will have an attribute call `'type'` that gives the tag that created it or both if both created it, e.g. the node `'English'` would have the type attribute be `'LA'`.
-
-The number of times each object occurs is count if _nodeCount_ is `True` and the edges count the number of co-occurrences if _edgeWeight_ is `True`. Both are`True` by default.
-
-The _directed_ parameter if `True` will cause the network to be directed with the first tag as the source and the second as the destination.
-
-###### Parameters
-
-_tag1_ : `str`
-
- A two character WOS tag or one of the full names for a tag, the source of edges on the graph
-
-_tag1_ : `str`
-
- A two character WOS tag or one of the full names for a tag, the target of edges on the graph
-
-_directed_ : `optional [bool]`
-
- Default `False`, if `True` the returned network is directed
-
-_nodeCount_ : `optional [bool]`
-
- Default `True`, if `True` each node will have an attribute called "count" that contains an int giving the number of time the object occurred.
-
-_edgeWeight_ : `optional [bool]`
-
- Default `True`, if `True` each edge will have an attribute called "weight" that contains an int giving the number of time the two objects co-occurrenced.
-
-_stemmerTag1_ : `optional [func]`
-
- Default `None`, If _stemmerTag1_ is a callable object, basically a function or possibly a class, it will be called for the ID of every node given by _tag1_ in the graph, all IDs are strings.
-
- For example: the function `f = lambda x: x[0]` if given as the stemmer will cause all IDs to be the first character of their unstemmed IDs. e.g. the title `'Goos-Hanchen and Imbert-Fedorov shifts for leaky guided modes'` will create the node `'G'`.
-
-_stemmerTag2_ : `optional [func]`
-
- Default `None`, see _stemmerTag1_ as it is the same but for _tag2_
-
-###### Returns
-
-`networkx Graph or networkx DiGraph`
-
- A networkx Graph with the objects of the tags _tag1_ and _tag2_ as nodes and their co-occurrences as edges.
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="nModeNetwork"></a><small>RecordCollection.</small>**[<ins>nModeNetwork</ins>]({{ site.baseurl }}{{ page.url }}#nModeNetwork)**(_tags, recordType=True, nodeCount=True, edgeWeight=True, stemmer=None_):
-
-Creates a network of the objects found by all WOS tags in _tags_, each node is marked by which tag spawned it making the resultant graph n-partite.
-
-A **nModeNetwork()** looks are each Record in the RecordCollection and extracts its values for the tags given by _tags_. Then for all objects returned an edge is created between them, regardless of their type. Each node will have an attribute call `'type'` that gives the tag that created it or both if both created it, e.g. if `'LA'` were in _tags_ node `'English'` would have the type attribute be `'LA'`.
-
-For example if _tags_ was set to `['CR', 'UT', 'LA']`, a three mode network would be created, composed of a co-citation network from the `'CR'` tag. Then each citation would also have edges to all the languages of Records that cited it and to the WOS number of the those Records.
-
-The number of times each object occurs is count if _nodeCount_ is `True` and the edges count the number of co-occurrences if _edgeWeight_ is `True`. Both are`True` by default.
-
-###### Parameters
-
-_mode_ : `str`
-
- A two character WOS tag or one of the full names for a tag
-
-_nodeCount_ : `optional [bool]`
-
- Default `True`, if `True` each node will have an attribute called `'count'` that contains an int giving the number of time the object occurred.
-
-_edgeWeight_ : `optional [bool]`
-
- Default `True`, if `True` each edge will have an attribute called `'weight'` that contains an int giving the number of time the two objects co-occurrenced.
-
-_stemmer_ : `optional [func]`
-
- Default `None`, If _stemmer_ is a callable object, basically a function or possibly a class, it will be called for the ID of every node in the graph, note that all IDs are strings.
-
- For example: the function `f = lambda x: x[0]` if given as the stemmer will cause all IDs to be the first character of their unstemmed IDs. e.g. the title `'Goos-Hanchen and Imbert-Fedorov shifts for leaky guided modes'` will create the node `'G'`.
-
-###### Returns
-
-`networkx Graph`
-
- A networkx Graph with the objects of the tags _tags_ as nodes and their co-occurrences as edges
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="localCiteStats"></a><small>RecordCollection.</small>**[<ins>localCiteStats</ins>]({{ site.baseurl }}{{ page.url }}#localCiteStats)**(_pandasFriendly=False, keyType='citation'_):
-
-Returns a dict with all the citations in the CR field as keys and the number of times they occur as the values
-
-###### Parameters
-
-_pandasFriendly_ : `optional [bool]`
-
- default `False`, makes the output be a dict with two keys one `'Citations'` is the citations the other is their occurrence counts as `'Counts'`.
-
-_keyType_ : `optional [str]`
-
- default `'citation'`, the type of key to use for the dictionary, the valid strings are `'citation'`, `'journal'`, `'year'` or `'author'`. IF changed from `'citation'` all citations matching the requested option will be contracted and their counts added together.
-
-###### Returns
-
-`dict[str, int or Citation : int]`
-
- A dictionary with keys as given by _keyType_ and integers giving their rates of occurrence in the collection
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="localCitesOf"></a><small>RecordCollection.</small>**[<ins>localCitesOf</ins>]({{ site.baseurl }}{{ page.url }}#localCitesOf)**(_rec_):
-
-Takes in a Record, WOS string, citation string or Citation and returns a RecordCollection of all records that cite it.
-
-###### Parameters
-
-_rec_ : `Record, str or Citation`
-
- The object that is being cited
-
-###### Returns
-
-`RecordCollection`
-
- A `RecordCollection` containing only those `Records` that cite _rec_
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="citeFilter"></a><small>RecordCollection.</small>**[<ins>citeFilter</ins>]({{ site.baseurl }}{{ page.url }}#citeFilter)**(_keyString='', field='all', reverse=False, caseSensitive=False_):
-
-Filters `Records` by some string, _keyString_, in their citations and returns all `Records` with at least one citation possessing _keyString_ in the field given by _field_.
-
-###### Parameters
-
-_keyString_ : `optional [str]`
-
- Default `''`, gives the string to be searched for, if it is is blank then all citations with the specified field will be matched
-
-_field_ : `optional [str]`
-
- Default `'all'`, gives the component of the citation to be looked at, it can be one of a few strings. The default is `'all'` which will cause the entire original `Citation` to be searched. It can be used to search across fields, e.g. `'1970, V2'` is a valid keystring
-The other options are:
-
-+ `'author'`, searches the author field
-+ `'year'`, searches the year field
-+ `'journal'`, searches the journal field
-+ `'V'`, searches the volume field
-+ `'P'`, searches the page field
-+ `'misc'`, searches all the remaining uncategorized information
-+ `'anonymous'`, searches for anonymous `Citations`, _keyString_ is not ignored
-+ `'bad'`, searches for bad citations, keyString is not used
-
-_reverse_ : `optional [bool]`
-
- Default `False`, being set to `True` causes all `Records` not matching the query to be returned
-
-_caseSensitive_ : `optional [bool]`
-
- Default `False`, if `True` causes the search across the original to be case sensitive, **only** the `'all'` option can be case sensitive
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="pop"></a><small>RecordCollection.</small>**[<ins>pop</ins>]({{ site.baseurl }}{{ page.url }}#pop)**():
-
-Returns a random `Record` from the `RecordCollection`, the `Record` is deleted from the collection, use [**peak**()]({{ site.baseurl }}{{ page.url }}#peak) for nondestructive, but slower, access
-
-###### Returns
-
-`Record`
-
- A random `Record` that has been removed from the collection
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="peak"></a><small>RecordCollection.</small>**[<ins>peak</ins>]({{ site.baseurl }}{{ page.url }}#peak)**():
-
-Returns a random `Record` from the `RecordCollection`, the `Record` is kept in the collection, use [**pop**()]({{ site.baseurl }}{{ page.url }}#pop) for faster destructive access.
-
-###### Returns
-
-`Record`
-
- A random `Record` in the collection
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="dropWOS"></a><small>RecordCollection.</small>**[<ins>dropWOS</ins>]({{ site.baseurl }}{{ page.url }}#dropWOS)**(_wosNum_):
-
-Removes the `Record` with WOS number (ID number) _wosNum_ from the collection. If it cannot be found nothing happens.
-
-###### Parameters
-
-_wosNum_ : `str`
-
- _wosNum_ is the WOS number of the Record to be dropped. _wosNum_ must begin with `'WOS:'` or a valueError is raise.
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="addRec"></a><small>RecordCollection.</small>**[<ins>addRec</ins>]({{ site.baseurl }}{{ page.url }}#addRec)**(_Rec_):
-
-Adds a `Record` or `Records` to the collection.
-
-###### Parameters
-
-_Rec_ : `Record or iterable[Record]`
-
- A Record or some iterable containing `Records` to add
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="WOS"></a><small>RecordCollection.</small>**[<ins>WOS</ins>]({{ site.baseurl }}{{ page.url }}#WOS)**(_wosNum, drop=False_):
-
-Gets the `Record` from the collection by its WOS number (ID number) _wosNum_.
-
-###### Parameters
-
-_wosNum_ : `str`
-
- _wosNum_ is the WOS number of the `Record` to be extracted. _wosNum_ must begin with `'WOS:'` or a valueError is raise.
-
-_drop_ : `optional [bool]`
-
- Default `False`. If `True` the Record is dropped from the collection after being extract, i.e. if `False` [**WOS**()]({{ site.baseurl }}{{ page.url }}#WOS) acts like [**peak**()]({{ site.baseurl }}{{ page.url }}#peak), if `True` it acts like [**pop**()]({{ site.baseurl }}{{ page.url }}#pop)
-
-###### Returns
-
-`metaknowledge.Record`
-
- The `Record` whose WOS number is _wosNum_
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="BadRecords"></a><small>RecordCollection.</small>**[<ins>BadRecords</ins>]({{ site.baseurl }}{{ page.url }}#BadRecords)**():
-
-creates a `RecordCollection` containing all the `Record` which have their `bad` attribute set to `True`, i.e. all those removed by [**dropBadRecords**()]({{ site.baseurl }}{{ page.url }}#dropBadRecords).
-
-###### Returns
-
-`RecordCollection`
-
- All the bad `Records` in one collection
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="dropBadRecords"></a><small>RecordCollection.</small>**[<ins>dropBadRecords</ins>]({{ site.baseurl }}{{ page.url }}#dropBadRecords)**():
-
-Removes all `Records` with `bad` attribute `True` from the collection, i.e. drop all those returned by [**BadRecords**()]({{ site.baseurl }}{{ page.url }}#BadRecords).
-        
-
-
+<li><article><a href="#localCiteStats"><b>localCiteStats</b>(<i>pandasFriendly=False, keyType='citation'</i>)</a></article></li>
+<li><article><a href="#localCitesOf"><b>localCitesOf</b>(<i>rec</i>)</a></article></li>
+<li><article><a href="#citeFilter"><b>citeFilter</b>(<i>keyString='', field='all', reverse=False, caseSensitive=False</i>)</a></article></li>
+</ol>
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="dropNonJournals"></a><small>RecordCollection.</small>**[<ins>dropNonJournals</ins>]({{ site.baseurl }}{{ page.url }}#dropNonJournals)**(_ptVal='J', dropBad=True, invert=False_):
@@ -460,7 +187,7 @@ _niceID_ : `optional [bool]`
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="makeDict"></a><small>RecordCollection.</small>**[<ins>makeDict</ins>]({{ site.baseurl }}{{ page.url }}#makeDict)**(_onlyTheseTags=None, longNames=False, cleanedVal=True, numAuthors=True_):
+<a name="makeDict"></a><small>RecordCollection.</small>**[<ins>makeDict</ins>]({{ site.baseurl }}{{ page.url }}#makeDict)**(_onlyTheseTags=None, longNames=False, raw=False, numAuthors=True_):
 
 Returns a dict with each key a tag and the values being lists of the values for each of the Records in the collection, `None` is given when there is no value and they are in the same order across each tag.
 
@@ -526,7 +253,7 @@ _count_ : `optional [bool]`
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="coCiteNetwork"></a><small>RecordCollection.</small>**[<ins>coCiteNetwork</ins>]({{ site.baseurl }}{{ page.url }}#coCiteNetwork)**(_dropAnon=True, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, keyWords=None, detailedCore=None, coreOnly=False, expandedCore=False_):
+<a name="coCiteNetwork"></a><small>RecordCollection.</small>**[<ins>coCiteNetwork</ins>]({{ site.baseurl }}{{ page.url }}#coCiteNetwork)**(_dropAnon=True, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, keyWords=None, detailedCore=None, detailedCoreAttributes=False, coreOnly=False, expandedCore=False_):
 
 Creates a co-citation network for the RecordCollection.
 
@@ -591,7 +318,7 @@ _expandedCore_ : `optional [bool]`
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="citationNetwork"></a><small>RecordCollection.</small>**[<ins>citationNetwork</ins>]({{ site.baseurl }}{{ page.url }}#citationNetwork)**(_dropAnon=True, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, directed=True, keyWords=None, detailedCore=None, coreOnly=False, expandedCore=False_):
+<a name="citationNetwork"></a><small>RecordCollection.</small>**[<ins>citationNetwork</ins>]({{ site.baseurl }}{{ page.url }}#citationNetwork)**(_dropAnon=False, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, directed=True, keyWords=None, detailedCore=None, detailedCoreAttributes=False, coreOnly=False, expandedCore=False, recordToCite=True_):
 
 Creates a citation network for the RecordCollection.
 
@@ -689,41 +416,79 @@ _dropMissingYears_ : `optional [bool]`
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="oneModeNetwork"></a><small>RecordCollection.</small>**[<ins>oneModeNetwork</ins>]({{ site.baseurl }}{{ page.url }}#oneModeNetwork)**(_mode, nodeCount=True, edgeWeight=True, stemmer=None_):
+<a name="localCiteStats"></a><small>RecordCollection.</small>**[<ins>localCiteStats</ins>]({{ site.baseurl }}{{ page.url }}#localCiteStats)**(_pandasFriendly=False, keyType='citation'_):
 
-Creates a network of the objects found by one WOS tag _mode_.
-
-A **oneModeNetwork**() looks are each Record in the RecordCollection and extracts its values for the tag given by _mode_, e.g. the `'AF'` tag. Then if multiple are returned an edge is created between them. So in the case of the author tag `'AF'` a co-authorship network is created.
-
-The number of times each object occurs is count if _nodeCount_ is `True` and the edges count the number of co-occurrences if _edgeWeight_ is `True`. Both are`True` by default.
-
-**Note** Do not use this for the construction of co-citation networks use [Recordcollection.coCiteNetwork()]({{ site.baseurl }}{{ page.url }}#coCiteNetwork) it is more accurate and has more options.
+Returns a dict with all the citations in the CR field as keys and the number of times they occur as the values
 
 ###### Parameters
 
-_mode_ : `str`
+_pandasFriendly_ : `optional [bool]`
 
- A two character WOS tag or one of the full names for a tag
+ default `False`, makes the output be a dict with two keys one `'Citations'` is the citations the other is their occurrence counts as `'Counts'`.
 
-_nodeCount_ : `optional [bool]`
+_keyType_ : `optional [str]`
 
- Default `True`, if `True` each node will have an attribute called "count" that contains an int giving the number of time the object occurred.
-
-_edgeWeight_ : `optional [bool]`
-
- Default `True`, if `True` each edge will have an attribute called "weight" that contains an int giving the number of time the two objects co-occurrenced.
-
-_stemmer_ : `optional [func]`
-
- Default `None`, If _stemmer_ is a callable object, basically a function or possibly a class, it will be called for the ID of every node in the graph, all IDs are strings. For example:
-
- The function ` f = lambda x: x[0]` if given as the stemmer will cause all IDs to be the first character of their unstemmed IDs. e.g. the title `'Goos-Hanchen and Imbert-Fedorov shifts for leaky guided modes'` will create the node `'G'`.
+ default `'citation'`, the type of key to use for the dictionary, the valid strings are `'citation'`, `'journal'`, `'year'` or `'author'`. IF changed from `'citation'` all citations matching the requested option will be contracted and their counts added together.
 
 ###### Returns
 
-`networkx Graph`
+`dict[str, int or Citation : int]`
 
- A networkx Graph with the objects of the tag _mode_ as nodes and their co-occurrences as edges
+ A dictionary with keys as given by _keyType_ and integers giving their rates of occurrence in the collection
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="localCitesOf"></a><small>RecordCollection.</small>**[<ins>localCitesOf</ins>]({{ site.baseurl }}{{ page.url }}#localCitesOf)**(_rec_):
+
+Takes in a Record, WOS string, citation string or Citation and returns a RecordCollection of all records that cite it.
+
+###### Parameters
+
+_rec_ : `Record, str or Citation`
+
+ The object that is being cited
+
+###### Returns
+
+`RecordCollection`
+
+ A `RecordCollection` containing only those `Records` that cite _rec_
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="citeFilter"></a><small>RecordCollection.</small>**[<ins>citeFilter</ins>]({{ site.baseurl }}{{ page.url }}#citeFilter)**(_keyString='', field='all', reverse=False, caseSensitive=False_):
+
+Filters `Records` by some string, _keyString_, in their citations and returns all `Records` with at least one citation possessing _keyString_ in the field given by _field_.
+
+###### Parameters
+
+_keyString_ : `optional [str]`
+
+ Default `''`, gives the string to be searched for, if it is is blank then all citations with the specified field will be matched
+
+_field_ : `optional [str]`
+
+ Default `'all'`, gives the component of the citation to be looked at, it can be one of a few strings. The default is `'all'` which will cause the entire original `Citation` to be searched. It can be used to search across fields, e.g. `'1970, V2'` is a valid keystring
+The other options are:
+
++ `'author'`, searches the author field
++ `'year'`, searches the year field
++ `'journal'`, searches the journal field
++ `'V'`, searches the volume field
++ `'P'`, searches the page field
++ `'misc'`, searches all the remaining uncategorized information
++ `'anonymous'`, searches for anonymous `Citations`, _keyString_ is not ignored
++ `'bad'`, searches for bad citations, keyString is not used
+
+_reverse_ : `optional [bool]`
+
+ Default `False`, being set to `True` causes all `Records` not matching the query to be returned
+
+_caseSensitive_ : `optional [bool]`
+
+ Default `False`, if `True` causes the search across the original to be case sensitive, **only** the `'all'` option can be case sensitive
 
 
 

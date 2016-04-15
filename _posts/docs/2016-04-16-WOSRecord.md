@@ -1,15 +1,15 @@
 ---
 layout: doc
-title: Record
+title: WOSRecord
 categories: docs
-excerpt: What RecordCollections are made of
+excerpt: The object for containing and processing WOS entries
 tags: [class]
 weight: 2
 ---
-<a name="Record"></a>
-<a name="Record"></a><small></small>**[<ins>Record</ins>]({{ site.baseurl }}{{ page.url }}#Record)**(_object_):
+<a name="WOSRecord"></a>
+<a name="WOSRecord"></a><small></small>**[<ins>WOSRecord</ins>]({{ site.baseurl }}{{ page.url }}#WOSRecord)**(_<a href="#ExtendedRecord"><u style="border-bottom: .5px dashed gray;">ExtendedRecord</u></a>_):
 
-<a name="Record.__init__"></a><small></small>**[<ins>Record.__init__</ins>]({{ site.baseurl }}{{ page.url }}#Record.__init__)**(_inRecord, taglist=(), sFile='', sLine=0_):
+<a name="WOSRecord.__init__"></a><small></small>**[<ins>WOSRecord.__init__</ins>]({{ site.baseurl }}{{ page.url }}#WOSRecord.__init__)**(_inRecord, sFile='', sLine=0_):
 
 Class for full WOS records
 
@@ -56,129 +56,57 @@ _sLine_ : `optional [int]`
  Is the line the record starts on in the raw data file. It is mostly used to make error messages more informative.
 
 
+<h3>
+The WOSRecord class has the following methods:</h3>
 
-The Record class has the following methods:
-
-<ul class="post-list">
-<li><article><a href="#numAuthors"><b>numAuthors</b>()</a></article></li>
-<li><article><a href="#Tag"><b>Tag</b>(<i>tag, clean=False</i>)</a></article></li>
-<li><article><a href="#createCitation"><b>createCitation</b>(<i>multiCite=False</i>)</a></article></li>
-<li><article><a href="#TagsList"><b>TagsList</b>(<i>taglst, cleaned=False</i>)</a></article></li>
-<li><article><a href="#TagsDict"><b>TagsDict</b>(<i>taglst, cleaned=False</i>)</a></article></li>
-<li><article><a href="#activeTags"><b>activeTags</b>()</a></article></li>
+<ol class="post-list">
+<li><article><a href="#tagProcessingFunc"><b>tagProcessingFunc</b>(<i>tag</i>)</a></article></li>
+<li><article><a href="#specialFuncs"><b>specialFuncs</b>(<i>key</i>)</a></article></li>
 <li><article><a href="#writeRecord"><b>writeRecord</b>(<i>infile</i>)</a></article></li>
 <li><article><a href="#bibString"><b>bibString</b>(<i>maxLength=1000, WOSMode=False, restrictedOutput=False, niceID=True</i>)</a></article></li>
 <li><article><a href="#bibTexType"><b>bibTexType</b>()</a></article></li>
-</ul>
+<li><article><a href="#encoding"><b>encoding</b>()</a></article></li>
+<li><article><a href="#getAltName"><b>getAltName</b>(<i>tag</i>)</a></article></li>
+</ol>
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="numAuthors"></a><small>Record.</small>**[<ins>numAuthors</ins>]({{ site.baseurl }}{{ page.url }}#numAuthors)**():
+<a name="tagProcessingFunc"></a><small>WOSRecord.</small>**[<ins>tagProcessingFunc</ins>]({{ site.baseurl }}{{ page.url }}#tagProcessingFunc)**(_tag_):
 
-Returns the number of authors of the records, i.e. `len(self.authors)`
-
-###### Returns
-
-`int`
-
- The number of authors
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="Tag"></a><small>Record.</small>**[<ins>Tag</ins>]({{ site.baseurl }}{{ page.url }}#Tag)**(_tag, clean=False_):
-
-Returns a list containing the raw data of the record associated with _tag_. Each line of the record is one string in the list.
+An `abstractmethod`, gives the function for processing _tag_
 
 ###### Parameters
 
-_tag_ : `str`
+_tag_ : `optional [str]`
 
- _tag_ can be a two character string corresponding to a WOS tag e.g. 'J9', the matching is case insensitive so 'j9' is the same as 'J9'. Or it can be one of the full names for a tag with the mappings in [fullToTag]({{ site.baseurl }}{{ page.url }}#tagProcessing). If the string is not found in the original record or after being translated through [fullToTag]({{ site.baseurl }}{{ page.url }}#tagProcessing), `None` is returned.
-
-_clean_ : `optional [bool]`
-
- Default `False`, if `True` the processed data will be returned instead of the raw data.
+ The tag in need of processing
 
 ###### Returns
 
-`List [str]`
+`fucntion`
 
- Each string in the list is a line from the record associated with _tag_ or `None` if not found.
+ The function to process the raw tag
 
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="createCitation"></a><small>Record.</small>**[<ins>createCitation</ins>]({{ site.baseurl }}{{ page.url }}#createCitation)**(_multiCite=False_):
+<a name="specialFuncs"></a><small>WOSRecord.</small>**[<ins>specialFuncs</ins>]({{ site.baseurl }}{{ page.url }}#specialFuncs)**(_key_):
 
-Creates a citation string, using the same format as other WOS citations, for the [Record]({{ site.baseurl }}{{ page.url }}#Record) by reading the relevant tags (`year`, `J9`, `volume`, `beginningPage`, `DOI`) and using it to create a [`Citation`]({{ site.baseurl }}{{ page.url }}#Citation) object.
+An `abstractmethod`, process the special tag, _key_ using the whole `Record`
 
 ###### Parameters
 
-_multiCite_ : `optional [bool]`
+_key_ : `str`
 
- Default `False`, if `True` a tuple of Citations is returned with each having a different one of the records authors as the author
+ One of the special tags: `'authorsFull'`, `'keywords'`, `'grants'`, `'j9'`, `'authorsShort'`, `'volume'`, `'selfCitation'`, `'citations'`, `'address'`, `'abstract'`, `'title'`, `'month'`, `'year'`, `'journal'`, `'beginningPage'` and `'DOI'`
 
 ###### Returns
 
-`Citation`
-
- A [`Citation`]({{ site.baseurl }}{{ page.url }}#Citation) object containing a citation for the Record.
+ The processed value of _key_
 
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="TagsList"></a><small>Record.</small>**[<ins>TagsList</ins>]({{ site.baseurl }}{{ page.url }}#TagsList)**(_taglst, cleaned=False_):
-
-Returns a list of the results of [**Tag**()]({{ site.baseurl }}{{ page.url }}#Tag) for each tag in _taglist_, the return has the same order as the original.
-
-###### Parameters
-_taglst_ : `List[str]`
-
- Each string in _taglst_ can be a two character string corresponding to a WOS tag e.g. 'J9', the matching is case insensitive so 'j9' is the same as 'J9',  or it can be one of the full names for a tag with the mappings in [fullToTag]({{ site.baseurl }}{{ page.url }}#tagProcessing). If the string is not found in the original record before or after being translated through [fullToTag]({{ site.baseurl }}{{ page.url }}#tagProcessing), `None` is used instead. Same as in [**Tag()**]({{ site.baseurl }}{{ page.url }}#Tag)
-
- Then they are compiled into a list in the same order as _taglst_
-
-###### Returns
-
-`List[str]`
-
- a list of the values for each tag in _taglst_, in the same order
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="TagsDict"></a><small>Record.</small>**[<ins>TagsDict</ins>]({{ site.baseurl }}{{ page.url }}#TagsDict)**(_taglst, cleaned=False_):
-
-returns a dict of the results of Tag, with the elements of _taglst_ as the keys and the results as the values.
-
-###### Parameters
-_taglst_ : `List[str]`
-
- Each string in _taglst_ can be a two character string corresponding to a WOS tag e.g. 'J9', the matching is case insensitive so 'j9' is the same as 'J9'. Or it can be one of the full names for a tag with the mappings in [fullToTag]({{ site.baseurl }}{{ page.url }}#tagProcessing). If the string is not found in the oriagnal record before or after being translated through [fullToTag]({{ site.baseurl }}{{ page.url }}#tagProcessing), `None` is used instead. Same as in [**Tag**()]({{ site.baseurl }}{{ page.url }}#Tag)
-
-###### Returns
-
-`dict[str : List [str]]`
-
- a dictionary with keys as the original tags in _taglst_ and the values as the results
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="activeTags"></a><small>Record.</small>**[<ins>activeTags</ins>]({{ site.baseurl }}{{ page.url }}#activeTags)**():
-
-Returns a list of all the tags the original WOS record had. These are all the tags that [**Tag**()]({{ site.baseurl }}{{ page.url }}#Tag) will not return `None` for.
-
-###### Returns
-
-`List[str]`
-
- a list of WOS tags in the Record
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="writeRecord"></a><small>Record.</small>**[<ins>writeRecord</ins>]({{ site.baseurl }}{{ page.url }}#writeRecord)**(_infile_):
+<a name="writeRecord"></a><small>WOSRecord.</small>**[<ins>writeRecord</ins>]({{ site.baseurl }}{{ page.url }}#writeRecord)**(_infile_):
 
 Writes to _infile_ the original contents of the Record. This is intended for use by [RecordCollections]({{ site.baseurl }}{{ page.url }}#RecordCollection) to write to file. What is written to _infile_ is bit for bit identical to the original record file (if utf-8 is used). No newline is inserted above the write but the last character is a newline.
 
@@ -191,7 +119,7 @@ _infile_ : `file stream`
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="bibString"></a><small>Record.</small>**[<ins>bibString</ins>]({{ site.baseurl }}{{ page.url }}#bibString)**(_maxLength=1000, WOSMode=False, restrictedOutput=False, niceID=True_):
+<a name="bibString"></a><small>WOSRecord.</small>**[<ins>bibString</ins>]({{ site.baseurl }}{{ page.url }}#bibString)**(_maxLength=1000, WOSMode=False, restrictedOutput=False, niceID=True_):
 
 Makes a string giving the Record as a bibTex entry. If the Record is of a journal article (`PT J`) the bibtext type is set to `'article'`, otherwise it is set to `'misc'`. The ID of the entry is the WOS number and all the Record's fields are given as entries with their long names.
 
@@ -226,7 +154,7 @@ _niceID_ : `optional [bool]`
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="bibTexType"></a><small>Record.</small>**[<ins>bibTexType</ins>]({{ site.baseurl }}{{ page.url }}#bibTexType)**():
+<a name="bibTexType"></a><small>WOSRecord.</small>**[<ins>bibTexType</ins>]({{ site.baseurl }}{{ page.url }}#bibTexType)**():
 
 Returns the bibTex type corresonding to the record
 
@@ -235,6 +163,38 @@ Returns the bibTex type corresonding to the record
 `str`
 
  The bibTex type string
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="encoding"></a><small>WOSRecord.</small>**[<ins>encoding</ins>]({{ site.baseurl }}{{ page.url }}#encoding)**():
+
+An `abstractmethod`, gives the encoding string of the record.
+
+###### Returns
+
+`str`
+
+ The encoding
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="getAltName"></a><small>WOSRecord.</small>**[<ins>getAltName</ins>]({{ site.baseurl }}{{ page.url }}#getAltName)**(_tag_):
+
+An `abstractmethod`, gives the alternate name of _tag_ or `None`
+
+###### Parameters
+
+_tag_ : `str`
+
+ The requested tag
+
+###### Returns
+
+`str`
+
+ The alternate name of _tag_ or `None`
 
 
 

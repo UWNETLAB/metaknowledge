@@ -6,13 +6,13 @@
 <head>
 <meta charset="utf-8">
 <title>RecordCollection &#8211; metaknowledge</title>
-<meta name="description" content="Where all the stuff happens, look here if you want to make things">
+<meta name="description" content="A Collection of Records, this is what does most of the stuff on Records">
 <meta name="keywords" content="class">
 
 
 <!-- Twitter Cards -->
 <meta name="twitter:title" content="RecordCollection">
-<meta name="twitter:description" content="Where all the stuff happens, look here if you want to make things">
+<meta name="twitter:description" content="A Collection of Records, this is what does most of the stuff on Records">
 
 
 
@@ -23,7 +23,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:type" content="article">
 <meta property="og:title" content="RecordCollection">
-<meta property="og:description" content="Where all the stuff happens, look here if you want to make things">
+<meta property="og:description" content="A Collection of Records, this is what does most of the stuff on Records">
 <meta property="og:url" content="/metaknowledge/docs/RecordCollection">
 <meta property="og:site_name" content="metaknowledge">
 
@@ -131,13 +131,13 @@
     <div class="entry-wrapper">
       <div class="entry-content">
         <p><a name="RecordCollection"></a>
-<a name="RecordCollection"></a><small></small><strong><a href="/metaknowledge/docs/RecordCollection#RecordCollection"><ins>RecordCollection</ins></a></strong>(<em>object</em>):</p>
+<a name="RecordCollection"></a><small></small><strong><a href="/metaknowledge/docs/RecordCollection#RecordCollection"><ins>RecordCollection</ins></a></strong>(<em><a href="#CollectionWithIDs"><u style="border-bottom: .5px dashed gray;">CollectionWithIDs</u></a></em>):</p>
 
-<p><a name="RecordCollection.__init__"></a><small></small><strong><a href="/metaknowledge/docs/RecordCollection#RecordCollection.__init__"><ins>RecordCollection.__init__</ins></a></strong>(<em>inCollection=None, name=’’, extension=’’, cached=False</em>):</p>
+<p><a name="RecordCollection.__init__"></a><small></small><strong><a href="/metaknowledge/docs/RecordCollection#RecordCollection.__init__"><ins>RecordCollection.__init__</ins></a></strong>(<em>inCollection=None, name=’’, extension=’’, cached=False, quietStart=False</em>):</p>
 
 <p>A container for a large number of indivual WOS records.</p>
 
-<p><code class="highlighter-rouge">RecordCollection</code> provides ways of creating <code class="highlighter-rouge">[Records</code>](/metaknowledge/docs/RecordCollection#Record) from an isi file, string, list of records or directory containing isi files.</p>
+<p><code class="highlighter-rouge">RecordCollection</code> provides ways of creating <a href="/metaknowledge/docs/RecordCollection#Record"><code class="highlighter-rouge">Records</code></a> from an isi file, string, list of records or directory containing isi files.</p>
 
 <p>When being created if there are issues the Record collection will be declared bad, <code class="highlighter-rouge">bad</code> wil be set to <code class="highlighter-rouge">False</code>, it will then mostly return <code class="highlighter-rouge">None</code> or False. The attribute <code class="highlighter-rouge">error</code> contains the exception that occurred.</p>
 
@@ -177,291 +177,30 @@
 
 <p><strong>Note</strong> The pickle allows for arbitrary python code exicution so only use caches that you trust.</p>
 
-<p>The RecordCollection class has the following methods:</p>
+<h3>
+The RecordCollection class has the following methods:</h3>
 
-<ul class="post-list">
-<li><article><a href="#twoModeNetwork"><b>twoModeNetwork</b>(<i>tag1, tag2, directed=False, recordType=True, nodeCount=True, edgeWeight=True, stemmerTag1=None, stemmerTag2=None</i>)</a></article></li>
-<li><article><a href="#nModeNetwork"><b>nModeNetwork</b>(<i>tags, recordType=True, nodeCount=True, edgeWeight=True, stemmer=None</i>)</a></article></li>
-<li><article><a href="#localCiteStats"><b>localCiteStats</b>(<i>pandasFriendly=False, keyType='citation'</i>)</a></article></li>
-<li><article><a href="#localCitesOf"><b>localCitesOf</b>(<i>rec</i>)</a></article></li>
-<li><article><a href="#citeFilter"><b>citeFilter</b>(<i>keyString='', field='all', reverse=False, caseSensitive=False</i>)</a></article></li>
-<li><article><a href="#pop"><b>pop</b>()</a></article></li>
-<li><article><a href="#peak"><b>peak</b>()</a></article></li>
-<li><article><a href="#dropWOS"><b>dropWOS</b>(<i>wosNum</i>)</a></article></li>
-<li><article><a href="#addRec"><b>addRec</b>(<i>Rec</i>)</a></article></li>
-<li><article><a href="#WOS"><b>WOS</b>(<i>wosNum, drop=False</i>)</a></article></li>
-<li><article><a href="#BadRecords"><b>BadRecords</b>()</a></article></li>
-<li><article><a href="#dropBadRecords"><b>dropBadRecords</b>()</a></article></li>
+<ol class="post-list">
 <li><article><a href="#dropNonJournals"><b>dropNonJournals</b>(<i>ptVal='J', dropBad=True, invert=False</i>)</a></article></li>
 <li><article><a href="#writeFile"><b>writeFile</b>(<i>fname=None</i>)</a></article></li>
 <li><article><a href="#writeCSV"><b>writeCSV</b>(<i>fname=None, onlyTheseTags=None, numAuthors=True, longNames=False, firstTags=None, csvDelimiter=',', csvQuote='"', listDelimiter='|'</i>)</a></article></li>
 <li><article><a href="#writeBib"><b>writeBib</b>(<i>fname=None, maxStringLength=1000, wosMode=False, reducedOutput=False, niceIDs=True</i>)</a></article></li>
-<li><article><a href="#makeDict"><b>makeDict</b>(<i>onlyTheseTags=None, longNames=False, cleanedVal=True, numAuthors=True</i>)</a></article></li>
+<li><article><a href="#makeDict"><b>makeDict</b>(<i>onlyTheseTags=None, longNames=False, raw=False, numAuthors=True</i>)</a></article></li>
 <li><article><a href="#coAuthNetwork"><b>coAuthNetwork</b>(<i>detailedInfo=False, weighted=True, dropNonJournals=False, count=True</i>)</a></article></li>
-<li><article><a href="#coCiteNetwork"><b>coCiteNetwork</b>(<i>dropAnon=True, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, keyWords=None, detailedCore=None, coreOnly=False, expandedCore=False</i>)</a></article></li>
-<li><article><a href="#citationNetwork"><b>citationNetwork</b>(<i>dropAnon=True, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, directed=True, keyWords=None, detailedCore=None, coreOnly=False, expandedCore=False</i>)</a></article></li>
+<li><article><a href="#coCiteNetwork"><b>coCiteNetwork</b>(<i>dropAnon=True, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, keyWords=None, detailedCore=None, detailedCoreAttributes=False, coreOnly=False, expandedCore=False</i>)</a></article></li>
+<li><article><a href="#citationNetwork"><b>citationNetwork</b>(<i>dropAnon=False, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, directed=True, keyWords=None, detailedCore=None, detailedCoreAttributes=False, coreOnly=False, expandedCore=False, recordToCite=True</i>)</a></article></li>
 <li><article><a href="#yearSplit"><b>yearSplit</b>(<i>startYear, endYear, dropMissingYears=True</i>)</a></article></li>
-<li><article><a href="#oneModeNetwork"><b>oneModeNetwork</b>(<i>mode, nodeCount=True, edgeWeight=True, stemmer=None</i>)</a></article></li>
-</ul>
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
-
-<p><a name="twoModeNetwork"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/docs/RecordCollection#twoModeNetwork"><ins>twoModeNetwork</ins></a></strong>(<em>tag1, tag2, directed=False, recordType=True, nodeCount=True, edgeWeight=True, stemmerTag1=None, stemmerTag2=None</em>):</p>
-
-<p>Creates a network of the objects found by two WOS tags <em>tag1</em> and <em>tag2</em>, each node marked by which tag spawned it making the resultant graph bipartite.</p>
-
-<p>A <strong>twoModeNetwork()</strong> looks at each Record in the <code class="highlighter-rouge">RecordCollection</code> and extracts its values for the tags given by <em>tag1</em> and <em>tag2</em>, e.g. the <code class="highlighter-rouge">'WC'</code> and <code class="highlighter-rouge">'LA'</code> tags. Then for each object returned by each tag and edge is created between it and every other object of the other tag. So the WOS defined subject tag <code class="highlighter-rouge">'WC'</code> and language tag <code class="highlighter-rouge">'LA'</code>, will give a two-mode network showing the connections between subjects and languages. Each node will have an attribute call <code class="highlighter-rouge">'type'</code> that gives the tag that created it or both if both created it, e.g. the node <code class="highlighter-rouge">'English'</code> would have the type attribute be <code class="highlighter-rouge">'LA'</code>.</p>
-
-<p>The number of times each object occurs is count if <em>nodeCount</em> is <code class="highlighter-rouge">True</code> and the edges count the number of co-occurrences if <em>edgeWeight</em> is <code class="highlighter-rouge">True</code>. Both are<code class="highlighter-rouge">True</code> by default.</p>
-
-<p>The <em>directed</em> parameter if <code class="highlighter-rouge">True</code> will cause the network to be directed with the first tag as the source and the second as the destination.</p>
-
-<h6 id="parameters-1">Parameters</h6>
-
-<p><em>tag1</em> : <code class="highlighter-rouge">str</code></p>
-
-<p>A two character WOS tag or one of the full names for a tag, the source of edges on the graph</p>
-
-<p><em>tag1</em> : <code class="highlighter-rouge">str</code></p>
-
-<p>A two character WOS tag or one of the full names for a tag, the target of edges on the graph</p>
-
-<p><em>directed</em> : <code class="highlighter-rouge">optional [bool]</code></p>
-
-<p>Default <code class="highlighter-rouge">False</code>, if <code class="highlighter-rouge">True</code> the returned network is directed</p>
-
-<p><em>nodeCount</em> : <code class="highlighter-rouge">optional [bool]</code></p>
-
-<p>Default <code class="highlighter-rouge">True</code>, if <code class="highlighter-rouge">True</code> each node will have an attribute called “count” that contains an int giving the number of time the object occurred.</p>
-
-<p><em>edgeWeight</em> : <code class="highlighter-rouge">optional [bool]</code></p>
-
-<p>Default <code class="highlighter-rouge">True</code>, if <code class="highlighter-rouge">True</code> each edge will have an attribute called “weight” that contains an int giving the number of time the two objects co-occurrenced.</p>
-
-<p><em>stemmerTag1</em> : <code class="highlighter-rouge">optional [func]</code></p>
-
-<p>Default <code class="highlighter-rouge">None</code>, If <em>stemmerTag1</em> is a callable object, basically a function or possibly a class, it will be called for the ID of every node given by <em>tag1</em> in the graph, all IDs are strings.</p>
-
-<p>For example: the function <code class="highlighter-rouge">f = lambda x: x[0]</code> if given as the stemmer will cause all IDs to be the first character of their unstemmed IDs. e.g. the title <code class="highlighter-rouge">'Goos-Hanchen and Imbert-Fedorov shifts for leaky guided modes'</code> will create the node <code class="highlighter-rouge">'G'</code>.</p>
-
-<p><em>stemmerTag2</em> : <code class="highlighter-rouge">optional [func]</code></p>
-
-<p>Default <code class="highlighter-rouge">None</code>, see <em>stemmerTag1</em> as it is the same but for <em>tag2</em></p>
-
-<h6 id="returns">Returns</h6>
-
-<p><code class="highlighter-rouge">networkx Graph or networkx DiGraph</code></p>
-
-<p>A networkx Graph with the objects of the tags <em>tag1</em> and <em>tag2</em> as nodes and their co-occurrences as edges.</p>
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
-
-<p><a name="nModeNetwork"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/docs/RecordCollection#nModeNetwork"><ins>nModeNetwork</ins></a></strong>(<em>tags, recordType=True, nodeCount=True, edgeWeight=True, stemmer=None</em>):</p>
-
-<p>Creates a network of the objects found by all WOS tags in <em>tags</em>, each node is marked by which tag spawned it making the resultant graph n-partite.</p>
-
-<p>A <strong>nModeNetwork()</strong> looks are each Record in the RecordCollection and extracts its values for the tags given by <em>tags</em>. Then for all objects returned an edge is created between them, regardless of their type. Each node will have an attribute call <code class="highlighter-rouge">'type'</code> that gives the tag that created it or both if both created it, e.g. if <code class="highlighter-rouge">'LA'</code> were in <em>tags</em> node <code class="highlighter-rouge">'English'</code> would have the type attribute be <code class="highlighter-rouge">'LA'</code>.</p>
-
-<p>For example if <em>tags</em> was set to <code class="highlighter-rouge">['CR', 'UT', 'LA']</code>, a three mode network would be created, composed of a co-citation network from the <code class="highlighter-rouge">'CR'</code> tag. Then each citation would also have edges to all the languages of Records that cited it and to the WOS number of the those Records.</p>
-
-<p>The number of times each object occurs is count if <em>nodeCount</em> is <code class="highlighter-rouge">True</code> and the edges count the number of co-occurrences if <em>edgeWeight</em> is <code class="highlighter-rouge">True</code>. Both are<code class="highlighter-rouge">True</code> by default.</p>
-
-<h6 id="parameters-2">Parameters</h6>
-
-<p><em>mode</em> : <code class="highlighter-rouge">str</code></p>
-
-<p>A two character WOS tag or one of the full names for a tag</p>
-
-<p><em>nodeCount</em> : <code class="highlighter-rouge">optional [bool]</code></p>
-
-<p>Default <code class="highlighter-rouge">True</code>, if <code class="highlighter-rouge">True</code> each node will have an attribute called <code class="highlighter-rouge">'count'</code> that contains an int giving the number of time the object occurred.</p>
-
-<p><em>edgeWeight</em> : <code class="highlighter-rouge">optional [bool]</code></p>
-
-<p>Default <code class="highlighter-rouge">True</code>, if <code class="highlighter-rouge">True</code> each edge will have an attribute called <code class="highlighter-rouge">'weight'</code> that contains an int giving the number of time the two objects co-occurrenced.</p>
-
-<p><em>stemmer</em> : <code class="highlighter-rouge">optional [func]</code></p>
-
-<p>Default <code class="highlighter-rouge">None</code>, If <em>stemmer</em> is a callable object, basically a function or possibly a class, it will be called for the ID of every node in the graph, note that all IDs are strings.</p>
-
-<p>For example: the function <code class="highlighter-rouge">f = lambda x: x[0]</code> if given as the stemmer will cause all IDs to be the first character of their unstemmed IDs. e.g. the title <code class="highlighter-rouge">'Goos-Hanchen and Imbert-Fedorov shifts for leaky guided modes'</code> will create the node <code class="highlighter-rouge">'G'</code>.</p>
-
-<h6 id="returns-1">Returns</h6>
-
-<p><code class="highlighter-rouge">networkx Graph</code></p>
-
-<p>A networkx Graph with the objects of the tags <em>tags</em> as nodes and their co-occurrences as edges</p>
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
-
-<p><a name="localCiteStats"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/docs/RecordCollection#localCiteStats"><ins>localCiteStats</ins></a></strong>(<em>pandasFriendly=False, keyType=’citation’</em>):</p>
-
-<p>Returns a dict with all the citations in the CR field as keys and the number of times they occur as the values</p>
-
-<h6 id="parameters-3">Parameters</h6>
-
-<p><em>pandasFriendly</em> : <code class="highlighter-rouge">optional [bool]</code></p>
-
-<p>default <code class="highlighter-rouge">False</code>, makes the output be a dict with two keys one <code class="highlighter-rouge">'Citations'</code> is the citations the other is their occurrence counts as <code class="highlighter-rouge">'Counts'</code>.</p>
-
-<p><em>keyType</em> : <code class="highlighter-rouge">optional [str]</code></p>
-
-<p>default <code class="highlighter-rouge">'citation'</code>, the type of key to use for the dictionary, the valid strings are <code class="highlighter-rouge">'citation'</code>, <code class="highlighter-rouge">'journal'</code>, <code class="highlighter-rouge">'year'</code> or <code class="highlighter-rouge">'author'</code>. IF changed from <code class="highlighter-rouge">'citation'</code> all citations matching the requested option will be contracted and their counts added together.</p>
-
-<h6 id="returns-2">Returns</h6>
-
-<p><code class="highlighter-rouge">dict[str, int or Citation : int]</code></p>
-
-<p>A dictionary with keys as given by <em>keyType</em> and integers giving their rates of occurrence in the collection</p>
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
-
-<p><a name="localCitesOf"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/docs/RecordCollection#localCitesOf"><ins>localCitesOf</ins></a></strong>(<em>rec</em>):</p>
-
-<p>Takes in a Record, WOS string, citation string or Citation and returns a RecordCollection of all records that cite it.</p>
-
-<h6 id="parameters-4">Parameters</h6>
-
-<p><em>rec</em> : <code class="highlighter-rouge">Record, str or Citation</code></p>
-
-<p>The object that is being cited</p>
-
-<h6 id="returns-3">Returns</h6>
-
-<p><code class="highlighter-rouge">RecordCollection</code></p>
-
-<p>A <code class="highlighter-rouge">RecordCollection</code> containing only those <code class="highlighter-rouge">Records</code> that cite <em>rec</em></p>
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
-
-<p><a name="citeFilter"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/docs/RecordCollection#citeFilter"><ins>citeFilter</ins></a></strong>(<em>keyString=’’, field=’all’, reverse=False, caseSensitive=False</em>):</p>
-
-<p>Filters <code class="highlighter-rouge">Records</code> by some string, <em>keyString</em>, in their citations and returns all <code class="highlighter-rouge">Records</code> with at least one citation possessing <em>keyString</em> in the field given by <em>field</em>.</p>
-
-<h6 id="parameters-5">Parameters</h6>
-
-<p><em>keyString</em> : <code class="highlighter-rouge">optional [str]</code></p>
-
-<p>Default <code class="highlighter-rouge">''</code>, gives the string to be searched for, if it is is blank then all citations with the specified field will be matched</p>
-
-<p><em>field</em> : <code class="highlighter-rouge">optional [str]</code></p>
-
-<p>Default <code class="highlighter-rouge">'all'</code>, gives the component of the citation to be looked at, it can be one of a few strings. The default is <code class="highlighter-rouge">'all'</code> which will cause the entire original <code class="highlighter-rouge">Citation</code> to be searched. It can be used to search across fields, e.g. <code class="highlighter-rouge">'1970, V2'</code> is a valid keystring
-The other options are:</p>
-
-<ul>
-  <li><code class="highlighter-rouge">'author'</code>, searches the author field</li>
-  <li><code class="highlighter-rouge">'year'</code>, searches the year field</li>
-  <li><code class="highlighter-rouge">'journal'</code>, searches the journal field</li>
-  <li><code class="highlighter-rouge">'V'</code>, searches the volume field</li>
-  <li><code class="highlighter-rouge">'P'</code>, searches the page field</li>
-  <li><code class="highlighter-rouge">'misc'</code>, searches all the remaining uncategorized information</li>
-  <li><code class="highlighter-rouge">'anonymous'</code>, searches for anonymous <code class="highlighter-rouge">Citations</code>, <em>keyString</em> is not ignored</li>
-  <li><code class="highlighter-rouge">'bad'</code>, searches for bad citations, keyString is not used</li>
-</ul>
-
-<p><em>reverse</em> : <code class="highlighter-rouge">optional [bool]</code></p>
-
-<p>Default <code class="highlighter-rouge">False</code>, being set to <code class="highlighter-rouge">True</code> causes all <code class="highlighter-rouge">Records</code> not matching the query to be returned</p>
-
-<p><em>caseSensitive</em> : <code class="highlighter-rouge">optional [bool]</code></p>
-
-<p>Default <code class="highlighter-rouge">False</code>, if <code class="highlighter-rouge">True</code> causes the search across the original to be case sensitive, <strong>only</strong> the <code class="highlighter-rouge">'all'</code> option can be case sensitive</p>
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
-
-<p><a name="pop"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/docs/RecordCollection#pop"><ins>pop</ins></a></strong>():</p>
-
-<p>Returns a random <code class="highlighter-rouge">Record</code> from the <code class="highlighter-rouge">RecordCollection</code>, the <code class="highlighter-rouge">Record</code> is deleted from the collection, use <a href="/metaknowledge/docs/RecordCollection#peak"><strong>peak</strong>()</a> for nondestructive, but slower, access</p>
-
-<h6 id="returns-4">Returns</h6>
-
-<p><code class="highlighter-rouge">Record</code></p>
-
-<p>A random <code class="highlighter-rouge">Record</code> that has been removed from the collection</p>
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
-
-<p><a name="peak"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/docs/RecordCollection#peak"><ins>peak</ins></a></strong>():</p>
-
-<p>Returns a random <code class="highlighter-rouge">Record</code> from the <code class="highlighter-rouge">RecordCollection</code>, the <code class="highlighter-rouge">Record</code> is kept in the collection, use <a href="/metaknowledge/docs/RecordCollection#pop"><strong>pop</strong>()</a> for faster destructive access.</p>
-
-<h6 id="returns-5">Returns</h6>
-
-<p><code class="highlighter-rouge">Record</code></p>
-
-<p>A random <code class="highlighter-rouge">Record</code> in the collection</p>
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
-
-<p><a name="dropWOS"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/docs/RecordCollection#dropWOS"><ins>dropWOS</ins></a></strong>(<em>wosNum</em>):</p>
-
-<p>Removes the <code class="highlighter-rouge">Record</code> with WOS number (ID number) <em>wosNum</em> from the collection. If it cannot be found nothing happens.</p>
-
-<h6 id="parameters-6">Parameters</h6>
-
-<p><em>wosNum</em> : <code class="highlighter-rouge">str</code></p>
-
-<p><em>wosNum</em> is the WOS number of the Record to be dropped. <em>wosNum</em> must begin with <code class="highlighter-rouge">'WOS:'</code> or a valueError is raise.</p>
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
-
-<p><a name="addRec"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/docs/RecordCollection#addRec"><ins>addRec</ins></a></strong>(<em>Rec</em>):</p>
-
-<p>Adds a <code class="highlighter-rouge">Record</code> or <code class="highlighter-rouge">Records</code> to the collection.</p>
-
-<h6 id="parameters-7">Parameters</h6>
-
-<p><em>Rec</em> : <code class="highlighter-rouge">Record or iterable[Record]</code></p>
-
-<p>A Record or some iterable containing <code class="highlighter-rouge">Records</code> to add</p>
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
-
-<p><a name="WOS"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/docs/RecordCollection#WOS"><ins>WOS</ins></a></strong>(<em>wosNum, drop=False</em>):</p>
-
-<p>Gets the <code class="highlighter-rouge">Record</code> from the collection by its WOS number (ID number) <em>wosNum</em>.</p>
-
-<h6 id="parameters-8">Parameters</h6>
-
-<p><em>wosNum</em> : <code class="highlighter-rouge">str</code></p>
-
-<p><em>wosNum</em> is the WOS number of the <code class="highlighter-rouge">Record</code> to be extracted. <em>wosNum</em> must begin with <code class="highlighter-rouge">'WOS:'</code> or a valueError is raise.</p>
-
-<p><em>drop</em> : <code class="highlighter-rouge">optional [bool]</code></p>
-
-<p>Default <code class="highlighter-rouge">False</code>. If <code class="highlighter-rouge">True</code> the Record is dropped from the collection after being extract, i.e. if <code class="highlighter-rouge">False</code> <a href="/metaknowledge/docs/RecordCollection#WOS"><strong>WOS</strong>()</a> acts like <a href="/metaknowledge/docs/RecordCollection#peak"><strong>peak</strong>()</a>, if <code class="highlighter-rouge">True</code> it acts like <a href="/metaknowledge/docs/RecordCollection#pop"><strong>pop</strong>()</a></p>
-
-<h6 id="returns-6">Returns</h6>
-
-<p><code class="highlighter-rouge">metaknowledge.Record</code></p>
-
-<p>The <code class="highlighter-rouge">Record</code> whose WOS number is <em>wosNum</em></p>
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
-
-<p><a name="BadRecords"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/docs/RecordCollection#BadRecords"><ins>BadRecords</ins></a></strong>():</p>
-
-<p>creates a <code class="highlighter-rouge">RecordCollection</code> containing all the <code class="highlighter-rouge">Record</code> which have their <code class="highlighter-rouge">bad</code> attribute set to <code class="highlighter-rouge">True</code>, i.e. all those removed by <a href="/metaknowledge/docs/RecordCollection#dropBadRecords"><strong>dropBadRecords</strong>()</a>.</p>
-
-<h6 id="returns-7">Returns</h6>
-
-<p><code class="highlighter-rouge">RecordCollection</code></p>
-
-<p>All the bad <code class="highlighter-rouge">Records</code> in one collection</p>
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
-
-<p><a name="dropBadRecords"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/docs/RecordCollection#dropBadRecords"><ins>dropBadRecords</ins></a></strong>():</p>
-
-<p>Removes all <code class="highlighter-rouge">Records</code> with <code class="highlighter-rouge">bad</code> attribute <code class="highlighter-rouge">True</code> from the collection, i.e. drop all those returned by <a href="/metaknowledge/docs/RecordCollection#BadRecords"><strong>BadRecords</strong>()</a>.</p>
-
+<li><article><a href="#localCiteStats"><b>localCiteStats</b>(<i>pandasFriendly=False, keyType='citation'</i>)</a></article></li>
+<li><article><a href="#localCitesOf"><b>localCitesOf</b>(<i>rec</i>)</a></article></li>
+<li><article><a href="#citeFilter"><b>citeFilter</b>(<i>keyString='', field='all', reverse=False, caseSensitive=False</i>)</a></article></li>
+</ol>
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="dropNonJournals"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/docs/RecordCollection#dropNonJournals"><ins>dropNonJournals</ins></a></strong>(<em>ptVal=’J’, dropBad=True, invert=False</em>):</p>
 
 <p>Drops the non journal type <code class="highlighter-rouge">Records</code> from the collection, this is done by checking <em>ptVal</em> against the PT tag</p>
 
-<h6 id="parameters-9">Parameters</h6>
+<h6 id="parameters-1">Parameters</h6>
 
 <p><em>ptVal</em> : <code class="highlighter-rouge">optional [str]</code></p>
 
@@ -481,7 +220,7 @@ The other options are:</p>
 
 <p>Writes the <code class="highlighter-rouge">RecordCollection</code> to a file, the written file’s format is identical to those download from WOS. The order of <code class="highlighter-rouge">Records</code> written is random.</p>
 
-<h6 id="parameters-10">Parameters</h6>
+<h6 id="parameters-2">Parameters</h6>
 
 <p><em>fname</em> : <code class="highlighter-rouge">optional [str]</code></p>
 
@@ -500,7 +239,7 @@ The other options are:</p>
 
 <p>Writes all the <code class="highlighter-rouge">Records</code> from the collection into a csv file with each row a record and each column a tag.</p>
 
-<h6 id="parameters-11">Parameters</h6>
+<h6 id="parameters-3">Parameters</h6>
 
 <p><em>fname</em> : <code class="highlighter-rouge">optional [str]</code></p>
 
@@ -550,7 +289,7 @@ The other options are:</p>
 
 <p><strong>Note</strong> Record entries that are lists have their values separated with the string <code class="highlighter-rouge">' and '</code>, as this is the way bibTex understands</p>
 
-<h6 id="parameters-12">Parameters</h6>
+<h6 id="parameters-4">Parameters</h6>
 
 <p><em>fname</em> : <code class="highlighter-rouge">optional [str]</code></p>
 
@@ -574,13 +313,13 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="makeDict"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/docs/RecordCollection#makeDict"><ins>makeDict</ins></a></strong>(<em>onlyTheseTags=None, longNames=False, cleanedVal=True, numAuthors=True</em>):</p>
+<p><a name="makeDict"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/docs/RecordCollection#makeDict"><ins>makeDict</ins></a></strong>(<em>onlyTheseTags=None, longNames=False, raw=False, numAuthors=True</em>):</p>
 
 <p>Returns a dict with each key a tag and the values being lists of the values for each of the Records in the collection, <code class="highlighter-rouge">None</code> is given when there is no value and they are in the same order across each tag.</p>
 
 <p>When used with pandas: <code class="highlighter-rouge">pandas.DataFrame(RC.makeDict())</code> returns a data frame with each column a tag and each row a Record.</p>
 
-<h6 id="parameters-13">Parameters</h6>
+<h6 id="parameters-5">Parameters</h6>
 
 <p><em>onlyTheseTags</em> : <code class="highlighter-rouge">optional [iterable]</code></p>
 
@@ -606,7 +345,7 @@ The other options are:</p>
 
 <p>Creates a coauthorship network for the RecordCollection.</p>
 
-<h6 id="parameters-14">Parameters</h6>
+<h6 id="parameters-6">Parameters</h6>
 
 <p><em>detailedInfo</em> : <code class="highlighter-rouge">optional [bool or iterable[WOS tag Strings]]</code></p>
 
@@ -630,7 +369,7 @@ The other options are:</p>
 
 <p>Default <code class="highlighter-rouge">True</code>, causes the number of occurrences of a node to be counted</p>
 
-<h6 id="returns-8">Returns</h6>
+<h6 id="returns">Returns</h6>
 
 <p><code class="highlighter-rouge">Networkx Graph</code></p>
 
@@ -638,11 +377,11 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="coCiteNetwork"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/docs/RecordCollection#coCiteNetwork"><ins>coCiteNetwork</ins></a></strong>(<em>dropAnon=True, nodeType=’full’, nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, keyWords=None, detailedCore=None, coreOnly=False, expandedCore=False</em>):</p>
+<p><a name="coCiteNetwork"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/docs/RecordCollection#coCiteNetwork"><ins>coCiteNetwork</ins></a></strong>(<em>dropAnon=True, nodeType=’full’, nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, keyWords=None, detailedCore=None, detailedCoreAttributes=False, coreOnly=False, expandedCore=False</em>):</p>
 
 <p>Creates a co-citation network for the RecordCollection.</p>
 
-<h6 id="parameters-15">Parameters</h6>
+<h6 id="parameters-7">Parameters</h6>
 
 <p><em>nodeType</em> : <code class="highlighter-rouge">optional [str]</code></p>
 
@@ -694,7 +433,7 @@ The other options are:</p>
 
 <p>default <code class="highlighter-rouge">False</code>, if <code class="highlighter-rouge">True</code> all citations in the ouput graph that are records in the collection will be duplicated for each author. If the nodes are <code class="highlighter-rouge">"full"</code>, <code class="highlighter-rouge">"original"</code> or <code class="highlighter-rouge">"author"</code> this will result in new noded being created for the other options the results are <strong>not</strong> defined or tested. Edges will be created between each of the nodes for each record expanded, attributes will be copied from exiting nodes.</p>
 
-<h6 id="returns-9">Returns</h6>
+<h6 id="returns-1">Returns</h6>
 
 <p><code class="highlighter-rouge">Networkx Graph</code></p>
 
@@ -702,11 +441,11 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="citationNetwork"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/docs/RecordCollection#citationNetwork"><ins>citationNetwork</ins></a></strong>(<em>dropAnon=True, nodeType=’full’, nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, directed=True, keyWords=None, detailedCore=None, coreOnly=False, expandedCore=False</em>):</p>
+<p><a name="citationNetwork"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/docs/RecordCollection#citationNetwork"><ins>citationNetwork</ins></a></strong>(<em>dropAnon=False, nodeType=’full’, nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, directed=True, keyWords=None, detailedCore=None, detailedCoreAttributes=False, coreOnly=False, expandedCore=False, recordToCite=True</em>):</p>
 
 <p>Creates a citation network for the RecordCollection.</p>
 
-<h6 id="parameters-16">Parameters</h6>
+<h6 id="parameters-8">Parameters</h6>
 
 <p><em>nodeType</em> : <code class="highlighter-rouge">optional [str]</code></p>
 
@@ -762,7 +501,7 @@ The other options are:</p>
 
 <p>default <code class="highlighter-rouge">False</code>, if <code class="highlighter-rouge">True</code> all citations in the ouput graph that are records in the collection will be duplicated for each author. If the nodes are <code class="highlighter-rouge">"full"</code>, <code class="highlighter-rouge">"original"</code> or <code class="highlighter-rouge">"author"</code> this will result in new noded being created for the other options the results are <strong>not</strong> defined or tested. Edges will be created between each of the nodes for each record expanded, attributes will be copied from exiting nodes.</p>
 
-<h6 id="returns-10">Returns</h6>
+<h6 id="returns-2">Returns</h6>
 
 <p><code class="highlighter-rouge">Networkx DiGraph or Networkx Graph</code></p>
 
@@ -776,7 +515,7 @@ The other options are:</p>
 
 <p>Creates a RecordCollection of Records from the years between <em>startYear</em> and <em>endYear</em> inclusive.</p>
 
-<h6 id="parameters-17">Parameters</h6>
+<h6 id="parameters-9">Parameters</h6>
 
 <p><em>startYear</em> : <code class="highlighter-rouge">int</code></p>
 
@@ -790,7 +529,7 @@ The other options are:</p>
 
 <p>Default <code class="highlighter-rouge">True</code>, if <code class="highlighter-rouge">True</code> Records with missing years will be dropped. If <code class="highlighter-rouge">False</code> a <code class="highlighter-rouge">TypeError</code> exception will be raised</p>
 
-<h6 id="returns-11">Returns</h6>
+<h6 id="returns-3">Returns</h6>
 
 <p><code class="highlighter-rouge">RecordCollection</code></p>
 
@@ -798,41 +537,79 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="oneModeNetwork"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/docs/RecordCollection#oneModeNetwork"><ins>oneModeNetwork</ins></a></strong>(<em>mode, nodeCount=True, edgeWeight=True, stemmer=None</em>):</p>
+<p><a name="localCiteStats"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/docs/RecordCollection#localCiteStats"><ins>localCiteStats</ins></a></strong>(<em>pandasFriendly=False, keyType=’citation’</em>):</p>
 
-<p>Creates a network of the objects found by one WOS tag <em>mode</em>.</p>
+<p>Returns a dict with all the citations in the CR field as keys and the number of times they occur as the values</p>
 
-<p>A <strong>oneModeNetwork</strong>() looks are each Record in the RecordCollection and extracts its values for the tag given by <em>mode</em>, e.g. the <code class="highlighter-rouge">'AF'</code> tag. Then if multiple are returned an edge is created between them. So in the case of the author tag <code class="highlighter-rouge">'AF'</code> a co-authorship network is created.</p>
+<h6 id="parameters-10">Parameters</h6>
 
-<p>The number of times each object occurs is count if <em>nodeCount</em> is <code class="highlighter-rouge">True</code> and the edges count the number of co-occurrences if <em>edgeWeight</em> is <code class="highlighter-rouge">True</code>. Both are<code class="highlighter-rouge">True</code> by default.</p>
+<p><em>pandasFriendly</em> : <code class="highlighter-rouge">optional [bool]</code></p>
 
-<p><strong>Note</strong> Do not use this for the construction of co-citation networks use <a href="/metaknowledge/docs/RecordCollection#coCiteNetwork">Recordcollection.coCiteNetwork()</a> it is more accurate and has more options.</p>
+<p>default <code class="highlighter-rouge">False</code>, makes the output be a dict with two keys one <code class="highlighter-rouge">'Citations'</code> is the citations the other is their occurrence counts as <code class="highlighter-rouge">'Counts'</code>.</p>
 
-<h6 id="parameters-18">Parameters</h6>
+<p><em>keyType</em> : <code class="highlighter-rouge">optional [str]</code></p>
 
-<p><em>mode</em> : <code class="highlighter-rouge">str</code></p>
+<p>default <code class="highlighter-rouge">'citation'</code>, the type of key to use for the dictionary, the valid strings are <code class="highlighter-rouge">'citation'</code>, <code class="highlighter-rouge">'journal'</code>, <code class="highlighter-rouge">'year'</code> or <code class="highlighter-rouge">'author'</code>. IF changed from <code class="highlighter-rouge">'citation'</code> all citations matching the requested option will be contracted and their counts added together.</p>
 
-<p>A two character WOS tag or one of the full names for a tag</p>
+<h6 id="returns-4">Returns</h6>
 
-<p><em>nodeCount</em> : <code class="highlighter-rouge">optional [bool]</code></p>
+<p><code class="highlighter-rouge">dict[str, int or Citation : int]</code></p>
 
-<p>Default <code class="highlighter-rouge">True</code>, if <code class="highlighter-rouge">True</code> each node will have an attribute called “count” that contains an int giving the number of time the object occurred.</p>
+<p>A dictionary with keys as given by <em>keyType</em> and integers giving their rates of occurrence in the collection</p>
 
-<p><em>edgeWeight</em> : <code class="highlighter-rouge">optional [bool]</code></p>
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p>Default <code class="highlighter-rouge">True</code>, if <code class="highlighter-rouge">True</code> each edge will have an attribute called “weight” that contains an int giving the number of time the two objects co-occurrenced.</p>
+<p><a name="localCitesOf"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/docs/RecordCollection#localCitesOf"><ins>localCitesOf</ins></a></strong>(<em>rec</em>):</p>
 
-<p><em>stemmer</em> : <code class="highlighter-rouge">optional [func]</code></p>
+<p>Takes in a Record, WOS string, citation string or Citation and returns a RecordCollection of all records that cite it.</p>
 
-<p>Default <code class="highlighter-rouge">None</code>, If <em>stemmer</em> is a callable object, basically a function or possibly a class, it will be called for the ID of every node in the graph, all IDs are strings. For example:</p>
+<h6 id="parameters-11">Parameters</h6>
 
-<p>The function ` f = lambda x: x[0]<code class="highlighter-rouge"> if given as the stemmer will cause all IDs to be the first character of their unstemmed IDs. e.g. the title </code>‘Goos-Hanchen and Imbert-Fedorov shifts for leaky guided modes’<code class="highlighter-rouge"> will create the node </code>‘G’`.</p>
+<p><em>rec</em> : <code class="highlighter-rouge">Record, str or Citation</code></p>
 
-<h6 id="returns-12">Returns</h6>
+<p>The object that is being cited</p>
 
-<p><code class="highlighter-rouge">networkx Graph</code></p>
+<h6 id="returns-5">Returns</h6>
 
-<p>A networkx Graph with the objects of the tag <em>mode</em> as nodes and their co-occurrences as edges</p>
+<p><code class="highlighter-rouge">RecordCollection</code></p>
+
+<p>A <code class="highlighter-rouge">RecordCollection</code> containing only those <code class="highlighter-rouge">Records</code> that cite <em>rec</em></p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="citeFilter"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/docs/RecordCollection#citeFilter"><ins>citeFilter</ins></a></strong>(<em>keyString=’’, field=’all’, reverse=False, caseSensitive=False</em>):</p>
+
+<p>Filters <code class="highlighter-rouge">Records</code> by some string, <em>keyString</em>, in their citations and returns all <code class="highlighter-rouge">Records</code> with at least one citation possessing <em>keyString</em> in the field given by <em>field</em>.</p>
+
+<h6 id="parameters-12">Parameters</h6>
+
+<p><em>keyString</em> : <code class="highlighter-rouge">optional [str]</code></p>
+
+<p>Default <code class="highlighter-rouge">''</code>, gives the string to be searched for, if it is is blank then all citations with the specified field will be matched</p>
+
+<p><em>field</em> : <code class="highlighter-rouge">optional [str]</code></p>
+
+<p>Default <code class="highlighter-rouge">'all'</code>, gives the component of the citation to be looked at, it can be one of a few strings. The default is <code class="highlighter-rouge">'all'</code> which will cause the entire original <code class="highlighter-rouge">Citation</code> to be searched. It can be used to search across fields, e.g. <code class="highlighter-rouge">'1970, V2'</code> is a valid keystring
+The other options are:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">'author'</code>, searches the author field</li>
+  <li><code class="highlighter-rouge">'year'</code>, searches the year field</li>
+  <li><code class="highlighter-rouge">'journal'</code>, searches the journal field</li>
+  <li><code class="highlighter-rouge">'V'</code>, searches the volume field</li>
+  <li><code class="highlighter-rouge">'P'</code>, searches the page field</li>
+  <li><code class="highlighter-rouge">'misc'</code>, searches all the remaining uncategorized information</li>
+  <li><code class="highlighter-rouge">'anonymous'</code>, searches for anonymous <code class="highlighter-rouge">Citations</code>, <em>keyString</em> is not ignored</li>
+  <li><code class="highlighter-rouge">'bad'</code>, searches for bad citations, keyString is not used</li>
+</ul>
+
+<p><em>reverse</em> : <code class="highlighter-rouge">optional [bool]</code></p>
+
+<p>Default <code class="highlighter-rouge">False</code>, being set to <code class="highlighter-rouge">True</code> causes all <code class="highlighter-rouge">Records</code> not matching the query to be returned</p>
+
+<p><em>caseSensitive</em> : <code class="highlighter-rouge">optional [bool]</code></p>
+
+<p>Default <code class="highlighter-rouge">False</code>, if <code class="highlighter-rouge">True</code> causes the search across the original to be case sensitive, <strong>only</strong> the <code class="highlighter-rouge">'all'</code> option can be case sensitive</p>
 
 <hr />
 

@@ -9,7 +9,7 @@ image:
   creditlink:
 ---
 
-This is the documentation for the current version of metaknowledge. A new version with many new features is currently being worked on. The current draft of its documentation can be found [here]({{ site.baseurl }}/documentation/metaknowledge2Draft.html).
+This is the documentation for the current version of _metaknowledge_ which is not compatible with the old version. The old version's documentation can be found [here]({{ site.baseurl }}/documentation/metaknowledgeFullOld.html).
 
 
 {% assign sortedDocs = site.categories.docs | sort:"weight"  %}

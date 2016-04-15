@@ -5,14 +5,14 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
 <head>
 <meta charset="utf-8">
-<title>Record &#8211; metaknowledge</title>
-<meta name="description" content="The base of all the other Records, basically a dict">
+<title>Collection &#8211; metaknowledge</title>
+<meta name="description" content="The base of all other Collections, basically a set">
 <meta name="keywords" content="class">
 
 
 <!-- Twitter Cards -->
-<meta name="twitter:title" content="Record">
-<meta name="twitter:description" content="The base of all the other Records, basically a dict">
+<meta name="twitter:title" content="Collection">
+<meta name="twitter:description" content="The base of all other Collections, basically a set">
 
 
 
@@ -22,9 +22,9 @@
 <!-- Open Graph -->
 <meta property="og:locale" content="en_US">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Record">
-<meta property="og:description" content="The base of all the other Records, basically a dict">
-<meta property="og:url" content="/metaknowledge/docs/Record">
+<meta property="og:title" content="Collection">
+<meta property="og:description" content="The base of all other Collections, basically a set">
+<meta property="og:url" content="/metaknowledge/docs/Collection">
 <meta property="og:site_name" content="metaknowledge">
 
 
@@ -32,7 +32,7 @@
 
 
 
-<link rel="canonical" href="/metaknowledge/docs/Record">
+<link rel="canonical" href="/metaknowledge/docs/Collection">
 <link href="/metaknowledge/feed.xml" type="application/atom+xml" rel="alternate" title="metaknowledge Feed">
 
 <!-- https://t.co/dKP3o1e -->
@@ -130,130 +130,126 @@
   <article class="entry">
     <div class="entry-wrapper">
       <div class="entry-content">
-        <p><a name="Record"></a>
-<a name="Record"></a><small></small><strong><a href="/metaknowledge/docs/Record#Record"><ins>Record</ins></a></strong>(<em>Mapping, Hashable</em>):</p>
+        <p><a name="Collection"></a>
+<a name="Collection"></a><small></small><strong><a href="/metaknowledge/docs/Collection#Collection"><ins>Collection</ins></a></strong>(<em>MutableSet, Hashable</em>):</p>
 
-<p><a name="Record.__init__"></a><small></small><strong><a href="/metaknowledge/docs/Record#Record.__init__"><ins>Record.__init__</ins></a></strong>(<em>fieldDict, idValue, bad, error, sFile=’’, sLine=0</em>):</p>
+<p><a name="Collection.__init__"></a><small></small><strong><a href="/metaknowledge/docs/Collection#Collection.__init__"><ins>Collection.__init__</ins></a></strong>(<em>inSet, allowedTypes, collectedTypes, name, bad, errors, quietStart=False</em>):</p>
 
-<p>A dictionary with error handling and an id string.</p>
+<p>A named hashable set with some error reporting.</p>
 
-<p><code class="highlighter-rouge">Record</code> is the base class of the all objects in <em>metaknowledge</em> that contain information as key-value pairs, these are the grants and the records from different sources.</p>
-
-<p>The error handling of the <code class="highlighter-rouge">Record</code> is done with the <code class="highlighter-rouge">bad</code> attribute. If there is some issue with the data <em>bad</em> should be <code class="highlighter-rouge">True</code> and <em>error</em> given an <code class="highlighter-rouge">Exception</code> that was caused by or explains the error.</p>
+<p><code class="highlighter-rouge">Collections</code> have all the methods of builtin <code class="highlighter-rouge">sets</code> as well as error reporting with <em>bad</em> and <em>error</em>, and control over the contained items with <em>allowedTypes</em> and <em>collectedTypes</em>.</p>
 
 <h5 id="customizations">Customizations</h5>
 
-<p><code class="highlighter-rouge">Record</code> is a subclass of <code class="highlighter-rouge">abc.collections.Mapping</code> which means it has almost all the methods a dictionary does, the missing ones are those that modify entries. So to access the value of the key <code class="highlighter-rouge">'title'</code> from a <code class="highlighter-rouge">Record</code> <code class="highlighter-rouge">R</code>, you would use either the square brace notation <code class="highlighter-rouge">t = R['title']</code> or the <code class="highlighter-rouge">get()</code> function <code class="highlighter-rouge">t = R.get('title')</code> just like a dictionary. The other methods like <code class="highlighter-rouge">keys()</code> or <code class="highlighter-rouge">copy()</code> also work.</p>
+<p>When created <em>name</em> should be a string that allows users to easily determine the source of the <code class="highlighter-rouge">Collection</code></p>
 
-<p>In addition to being a mapping <code class="highlighter-rouge">Records</code> are also hashable with their hashes being based on a unique id string they are given on creation, usually some kind of accession number the source gives them. The two optional arguments <em>sFile</em> and <em>sLine</em>, which should be given the name of the file the records came from and the line it started on respectively, are used to make the errors more useful.</p>
+<p>When created the you must provided a set of types, <em>allowedTypes</em>, when new items are added they will be checked and if they are not instances of any of the types an <code class="highlighter-rouge">CollectionTypeError</code> exception will be raised. The <em>collectedTypes</em> set that is provided should be a set of only the types in the <code class="highlighter-rouge">Collection</code>.</p>
 
-<h5 id="init">__Init__</h5>
+<p>If any of the elements in the <code class="highlighter-rouge">Collection</code> are bad then <em>bad</em> should be set to <code class="highlighter-rouge">True</code> and the <code class="highlighter-rouge">dict</code> <em>errors</em> should map the item to it’s exception.</p>
 
-<p><em>fieldDict</em> is the dictionary the <code class="highlighter-rouge">Record</code> will use and <em>idValue</em> is the unique identifier of the <code class="highlighter-rouge">Record</code>.</p>
+<p>All of these customizations are managed when operations occur on the <code class="highlighter-rouge">Collection</code> and if 2 <code class="highlighter-rouge">Collections</code> are modified with one of the binary operators (<code class="highlighter-rouge">|</code>, <code class="highlighter-rouge">-</code>, etc) the <code class="highlighter-rouge">_collectedTypes</code> and <code class="highlighter-rouge">errors</code> attributes will be modified the same way. <code class="highlighter-rouge">name</code> will be updated to explain the operation(s) that occurred.</p>
+
+<p>__Init__</p>
+
+<p>As <code class="highlighter-rouge">Collection</code> is mostly meant to be base for other classes all but one of the arguments in the __Init__ are not optional and the optional one is not used.</p>
 
 <h5 id="parameters">Parameters</h5>
 
-<p><em>fieldDict</em> : <code class="highlighter-rouge">dict[str:]</code></p>
+<p><em>inSet</em> : <code class="highlighter-rouge">set</code></p>
 
-<p>A dictionary that maps from strings to values</p>
+<p>The objects to be contained</p>
 
-<p><em>idValue</em> : <code class="highlighter-rouge">str</code></p>
+<p><em>allowedTypes</em> : <code class="highlighter-rouge">set[type]</code></p>
 
-<p>A unique identifier string for the <code class="highlighter-rouge">Record</code></p>
+<p>A set of types, <code class="highlighter-rouge"><span class="p">{</span><span class="err">object</span><span class="p">}</span></code> will allow virtually everything</p>
+
+<p><em>collectedTypes</em> : <code class="highlighter-rouge">set[type]</code></p>
+
+<p>The types (or supertypes) of the objects in <em>inSet</em></p>
+
+<p><em>name</em> : <code class="highlighter-rouge">str</code></p>
+
+<p>The name of the <code class="highlighter-rouge">Collection</code></p>
 
 <p><em>bad</em> : <code class="highlighter-rouge">bool</code></p>
 
-<p><code class="highlighter-rouge">True</code> if there are issues with the <code class="highlighter-rouge">Record</code>, otherwise <code class="highlighter-rouge">False</code></p>
+<p>If any of the elements are bad</p>
 
-<p><em>error</em> : <code class="highlighter-rouge">Exception</code></p>
+<p><em>errors</em> : <code class="highlighter-rouge">dict[:Exception]</code></p>
 
-<p>The <code class="highlighter-rouge">Exception</code> that caused whatever error made the record be marked as bad or <code class="highlighter-rouge">None</code></p>
+<p>A mapping from items to their errors</p>
 
-<p><em>sFile</em> : <code class="highlighter-rouge">str</code></p>
+<p><em>quietStart</em> : <code class="highlighter-rouge">optional [bool]</code></p>
 
-<p>A string that gives the source file of the original records</p>
-
-<p><em>sLine</em> : <code class="highlighter-rouge">int</code></p>
-
-<p>The first line the original record is found on in the source file</p>
+<p>Default <code class="highlighter-rouge">False</code>, does nothing. This is here for use as a interface by subclasses</p>
 
 <h3>
-The Record class has the following methods:</h3>
+The Collection class has the following methods:</h3>
 
 <ol class="post-list">
-<li><article><a href="#__eq__"><b>__eq__</b>(<i>other</i>)</a></article></li>
-<li><article><a href="#__str__"><b>__str__</b>()</a></article></li>
-<li><article><a href="#__repr__"><b>__repr__</b>()</a></article></li>
+<li><article><a href="#add"><b>add</b>(<i>elem</i>)</a></article></li>
+<li><article><a href="#discard"><b>discard</b>(<i>elem</i>)</a></article></li>
+<li><article><a href="#remove"><b>remove</b>(<i>elem</i>)</a></article></li>
+<li><article><a href="#clear"><b>clear</b>()</a></article></li>
+<li><article><a href="#pop"><b>pop</b>()</a></article></li>
 <li><article><a href="#copy"><b>copy</b>()</a></article></li>
-<li><article><a href="#__hash__"><b>__hash__</b>()</a></article></li>
+<li><article><a href="#peak"><b>peak</b>()</a></article></li>
+<li><article><a href="#chunk"><b>chunk</b>(<i>maxSize</i>)</a></article></li>
+<li><article><a href="#split"><b>split</b>(<i>maxSize</i>)</a></article></li>
 </ol>
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="__eq__"></a><small>Record.</small><strong><a href="/metaknowledge/docs/Record#__eq__"><ins>__eq__</ins></a></strong>(<em>other</em>):</p>
+<p><a name="add"></a><small>Collection.</small><strong><a href="/metaknowledge/docs/Collection#add"><ins>add</ins></a></strong>(<em>elem</em>):</p>
 
-<p>Compares <code class="highlighter-rouge">Records</code> using their hashes if their hashes are the same then <code class="highlighter-rouge">True</code> is returned.</p>
-
-<h6 id="parameters-1">Parameters</h6>
-
-<p><em>other</em> : <code class="highlighter-rouge">Record</code></p>
-
-<p>Another <code class="highlighter-rouge">Record</code> to be compared against</p>
-
-<h6 id="returns">Returns</h6>
-
-<p><code class="highlighter-rouge">bool</code></p>
-
-<p>If the <code class="highlighter-rouge">records</code> are the same then <code class="highlighter-rouge">True</code> is returned</p>
+<p>Add an element.</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="__str__"></a><small>Record.</small><strong><a href="/metaknowledge/docs/Record#__str__"><ins>__str__</ins></a></strong>():</p>
+<p><a name="discard"></a><small>Collection.</small><strong><a href="/metaknowledge/docs/Collection#discard"><ins>discard</ins></a></strong>(<em>elem</em>):</p>
 
-<p>Makes a string with the title of the file as given by self.title, if there is not one it returns “Untitled record”</p>
-
-<h6 id="returns-1">Returns</h6>
-
-<p><code class="highlighter-rouge">str</code></p>
-
-<p>The title of the <code class="highlighter-rouge">Record</code></p>
+<p>Remove an element.  Do not raise an exception if absent.</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="__repr__"></a><small>Record.</small><strong><a href="/metaknowledge/docs/Record#__repr__"><ins>__repr__</ins></a></strong>():</p>
+<p><a name="remove"></a><small>Collection.</small><strong><a href="/metaknowledge/docs/Collection#remove"><ins>remove</ins></a></strong>(<em>elem</em>):</p>
 
-<p>Makes a string with the id of the file and its type</p>
-
-<h6 id="returns-2">Returns</h6>
-
-<p><code class="highlighter-rouge">str</code></p>
-
-<p>The representation of the <code class="highlighter-rouge">Record</code></p>
+<p>Remove an element. If not a member, raise a KeyError.</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="copy"></a><small>Record.</small><strong><a href="/metaknowledge/docs/Record#copy"><ins>copy</ins></a></strong>():</p>
+<p><a name="clear"></a><small>Collection.</small><strong><a href="/metaknowledge/docs/Collection#clear"><ins>clear</ins></a></strong>():</p>
 
-<p>Correctly copies the <code class="highlighter-rouge">Record</code></p>
-
-<h6 id="returns-3">Returns</h6>
-
-<p><code class="highlighter-rouge">Record</code></p>
-
-<p>A completely decoupled copy of the original</p>
+<p>This is slow (creates N new iterators!) but effective.</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="__hash__"></a><small>Record.</small><strong><a href="/metaknowledge/docs/Record#__hash__"><ins>__hash__</ins></a></strong>():</p>
+<p><a name="pop"></a><small>Collection.</small><strong><a href="/metaknowledge/docs/Collection#pop"><ins>pop</ins></a></strong>():</p>
 
-<p>Gives a hash of the id or if <code class="highlighter-rouge">bad</code> returns a hash of the fields combined with the error messages, either of these could be blank</p>
+<p>Return the popped value.  Raise KeyError if empty.</p>
 
-<p><code class="highlighter-rouge">bad</code> Records are more likely to cause hash collisions due to their lack of entropy when created.</p>
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<h6 id="returns-4">Returns</h6>
+<p><a name="copy"></a><small>Collection.</small><strong><a href="/metaknowledge/docs/Collection#copy"><ins>copy</ins></a></strong>():</p>
 
-<p><code class="highlighter-rouge">int</code></p>
+<h1 id="needs-to-be-written">Needs to be written</h1>
 
-<p>A hopefully unique random number</p>
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="peak"></a><small>Collection.</small><strong><a href="/metaknowledge/docs/Collection#peak"><ins>peak</ins></a></strong>():</p>
+
+<h1 id="needs-to-be-written-1">Needs to be written</h1>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="chunk"></a><small>Collection.</small><strong><a href="/metaknowledge/docs/Collection#chunk"><ins>chunk</ins></a></strong>(<em>maxSize</em>):</p>
+
+<h1 id="needs-to-be-written-2">Needs to be written</h1>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="split"></a><small>Collection.</small><strong><a href="/metaknowledge/docs/Collection#split"><ins>split</ins></a></strong>(<em>maxSize</em>):</p>
+
+<p>destructive</p>
 
 <hr />
 

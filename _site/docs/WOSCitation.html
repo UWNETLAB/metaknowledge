@@ -5,14 +5,14 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
 <head>
 <meta charset="utf-8">
-<title>Citation &#8211; metaknowledge</title>
-<meta name="description" content="Citation are special, here is how they are handled">
+<title>WOSCitation &#8211; metaknowledge</title>
+<meta name="description" content="A Citation that supports the WOS journal abbreviations">
 <meta name="keywords" content="class">
 
 
 <!-- Twitter Cards -->
-<meta name="twitter:title" content="Citation">
-<meta name="twitter:description" content="Citation are special, here is how they are handled">
+<meta name="twitter:title" content="WOSCitation">
+<meta name="twitter:description" content="A Citation that supports the WOS journal abbreviations">
 
 
 
@@ -22,9 +22,9 @@
 <!-- Open Graph -->
 <meta property="og:locale" content="en_US">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Citation">
-<meta property="og:description" content="Citation are special, here is how they are handled">
-<meta property="og:url" content="/metaknowledge/docs/Citation">
+<meta property="og:title" content="WOSCitation">
+<meta property="og:description" content="A Citation that supports the WOS journal abbreviations">
+<meta property="og:url" content="/metaknowledge/docs/WOSCitation">
 <meta property="og:site_name" content="metaknowledge">
 
 
@@ -32,7 +32,7 @@
 
 
 
-<link rel="canonical" href="/metaknowledge/docs/Citation">
+<link rel="canonical" href="/metaknowledge/docs/WOSCitation">
 <link href="/metaknowledge/feed.xml" type="application/atom+xml" rel="alternate" title="metaknowledge Feed">
 
 <!-- https://t.co/dKP3o1e -->
@@ -130,10 +130,10 @@
   <article class="entry">
     <div class="entry-wrapper">
       <div class="entry-content">
-        <p><a name="Citation"></a>
-<a name="Citation"></a><small></small><strong><a href="/metaknowledge/docs/Citation#Citation"><ins>Citation</ins></a></strong>(<em>Hashable</em>):</p>
+        <p><a name="WOSCitation"></a>
+<a name="WOSCitation"></a><small></small><strong><a href="/metaknowledge/docs/WOSCitation#WOSCitation"><ins>WOSCitation</ins></a></strong>(<em><a href="#Citation"><u style="border-bottom: .5px dashed gray;">Citation</u></a></em>):</p>
 
-<p><a name="Citation.__init__"></a><small></small><strong><a href="/metaknowledge/docs/Citation#Citation.__init__"><ins>Citation.__init__</ins></a></strong>(<em>cite</em>):</p>
+<p><a name="WOSCitation.__init__"></a><small></small><strong><a href="/metaknowledge/docs/WOSCitation#WOSCitation.__init__"><ins>WOSCitation.__init__</ins></a></strong>(<em>cite</em>):</p>
 
 <p>A class to hold citation strings and allow for comparison between them.</p>
 
@@ -159,7 +159,7 @@ Combined they look like:</p>
 
 <h5 id="customizations">Customizations</h5>
 
-<p>Citation’s hashing and equality checking are based on <a href="/metaknowledge/docs/Citation#ID"><code class="highlighter-rouge">ID()</code></a> and use the values of <code class="highlighter-rouge">author</code>, <code class="highlighter-rouge">year</code> and <code class="highlighter-rouge">journal</code>.</p>
+<p>Citation’s hashing and equality checking are based on <a href="/metaknowledge/docs/WOSCitation#ID"><code class="highlighter-rouge">ID()</code></a> and use the values of <code class="highlighter-rouge">author</code>, <code class="highlighter-rouge">year</code> and <code class="highlighter-rouge">journal</code>.</p>
 
 <p>When converted to a string a Citation will return the original string.</p>
 
@@ -167,13 +167,13 @@ Combined they look like:</p>
 
 <p>As noted above, citations are considered to be divided into six distinct fields (<code class="highlighter-rouge">Author</code>, <code class="highlighter-rouge">Year</code>, <code class="highlighter-rouge">Journal</code>, <code class="highlighter-rouge">Volume</code>, <code class="highlighter-rouge">Page</code> and <code class="highlighter-rouge">DOI</code>) with a seventh <code class="highlighter-rouge">misc</code> for anything not in those. Records thus have an attribute with a name corresponding to each <code class="highlighter-rouge">author</code>, <code class="highlighter-rouge">year</code>, <code class="highlighter-rouge">journal</code>, <code class="highlighter-rouge">V</code>, <code class="highlighter-rouge">P</code>, <code class="highlighter-rouge">DOI</code> and <code class="highlighter-rouge">misc</code> respectively. These are created if there is anything in the field. So a <code class="highlighter-rouge">Citation</code> created from the string: <code class="highlighter-rouge">'Nunez R., 1998, MATH COGNITION'</code> would have <code class="highlighter-rouge">author</code>, <code class="highlighter-rouge">year</code> and <code class="highlighter-rouge">journal</code> defined. While one from <code class="highlighter-rouge">'Nunez R.'</code> would have only the attribute <code class="highlighter-rouge">misc</code>.</p>
 
-<p>If the parsing of a citation string fails the attribute <code class="highlighter-rouge">bad</code> is set to <code class="highlighter-rouge">True</code> and the attribute <code class="highlighter-rouge">error</code> is created to contain said error, which is a <a href="/metaknowledge/docs/Citation#BadCitation">BadCitation</a> object. If no errors occur <code class="highlighter-rouge">bad</code> is <code class="highlighter-rouge">False</code>.</p>
+<p>If the parsing of a citation string fails the attribute <code class="highlighter-rouge">bad</code> is set to <code class="highlighter-rouge">True</code> and the attribute <code class="highlighter-rouge">error</code> is created to contain said error, which is a <a href="/metaknowledge/docs/WOSCitation#BadCitation">BadCitation</a> object. If no errors occur <code class="highlighter-rouge">bad</code> is <code class="highlighter-rouge">False</code>.</p>
 
 <p>The attribute <code class="highlighter-rouge">original</code> is the unmodified string (<em>cite</em>) given to create the Citation, it can also be accessed by converting to a string, e.g. with <code class="highlighter-rouge">str()</code>.</p>
 
 <h5 id="init">__Init__</h5>
 
-<p>Citations can be created by <a href="/metaknowledge/docs/Citation#Record">Records</a> or by giving the initializer a string containing a WOS style citation.</p>
+<p>Citations can be created by <a href="/metaknowledge/docs/WOSCitation#Record">Records</a> or by giving the initializer a string containing a WOS style citation.</p>
 
 <h5 id="parameters">Parameters</h5>
 
@@ -182,63 +182,78 @@ Combined they look like:</p>
 <p>A str containing a WOS style citation.</p>
 
 <h3>
-The Citation class has the following methods:</h3>
+The WOSCitation class has the following methods:</h3>
 
 <ol class="post-list">
-<li><article><a href="#isAnonymous"><b>isAnonymous</b>()</a></article></li>
-<li><article><a href="#ID"><b>ID</b>()</a></article></li>
-<li><article><a href="#allButDOI"><b>allButDOI</b>()</a></article></li>
-<li><article><a href="#Extra"><b>Extra</b>()</a></article></li>
+<li><article><a href="#FullJournalName"><b>FullJournalName</b>()</a></article></li>
+<li><article><a href="#addToDB"><b>addToDB</b>(<i>manualName=None, manaulDB='manualj9Abbreviations', invert=False</i>)</a></article></li>
+<li><article><a href="#isJournal"><b>isJournal</b>(<i>dbname='j9Abbreviations', manaulDB='manualj9Abbreviations', returnDict='both', checkIfExcluded=False</i>)</a></article></li>
 </ol>
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="isAnonymous"></a><small>Citation.</small><strong><a href="/metaknowledge/docs/Citation#isAnonymous"><ins>isAnonymous</ins></a></strong>():</p>
+<p><a name="FullJournalName"></a><small>WOSCitation.</small><strong><a href="/metaknowledge/docs/WOSCitation#FullJournalName"><ins>FullJournalName</ins></a></strong>():</p>
 
-<p>Checks if the author is given as <code class="highlighter-rouge">'[ANONYMOUS]'</code> and returns <code class="highlighter-rouge">True</code> if so.</p>
+<p>Returns the full name of the Citation’s journal field. Requires the <a href="/metaknowledge/docs/WOSCitation#getj9dict">j9Abbreviations</a> database file.</p>
+
+<p><strong>Note</strong>: Requires the <a href="/metaknowledge/docs/WOSCitation#getj9dict">j9Abbreviations</a> database file and will raise an error if it cannot be found.</p>
 
 <h6 id="returns">Returns</h6>
 
-<p><code class="highlighter-rouge">bool</code></p>
+<p><code class="highlighter-rouge">str</code></p>
 
-<p><code class="highlighter-rouge">True</code> if the author is <code class="highlighter-rouge">'[ANONYMOUS]'</code> otherwise <code class="highlighter-rouge">False</code>.</p>
+<p>The first full name given for the journal of the Citation (or the first name in the WOS list if multiple names exist), if there is not one then <code class="highlighter-rouge">None</code> is returned</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="ID"></a><small>Citation.</small><strong><a href="/metaknowledge/docs/Citation#ID"><ins>ID</ins></a></strong>():</p>
+<p><a name="addToDB"></a><small>WOSCitation.</small><strong><a href="/metaknowledge/docs/WOSCitation#addToDB"><ins>addToDB</ins></a></strong>(<em>manualName=None, manaulDB=’manualj9Abbreviations’, invert=False</em>):</p>
 
-<p>Returns all of <code class="highlighter-rouge">author</code>, <code class="highlighter-rouge">year</code> and <code class="highlighter-rouge">journal</code> available separated by <code class="highlighter-rouge">' ,'</code>. It is for shortening labels when creating networks as the resultant strings are often unique. <a href="/metaknowledge/docs/Citation#Extra"><strong>Extra</strong>()</a> gets everything not returned by <strong>ID</strong>().</p>
+<p>Adds the journal of this Citation to the user created database of journals. This will cause <a href="/metaknowledge/docs/WOSCitation#isJournal">isJournal()</a> to return <code class="highlighter-rouge">True</code> for this Citation and all others with its <code class="highlighter-rouge">journal</code>.</p>
 
-<p>This is also used for hashing and equality checking.</p>
+<p><strong>Note</strong>: Requires the <a href="/metaknowledge/docs/WOSCitation#getj9dict">j9Abbreviations</a> database file and will raise an error if it cannot be found.</p>
+
+<h6 id="parameters-1">Parameters</h6>
+
+<p><em>manualName</em> : <code class="highlighter-rouge">optional [str]</code></p>
+
+<p>Default <code class="highlighter-rouge">None</code>, the full name of journal to use. If not provided the full name will be the same as the abbreviation.</p>
+
+<p><em>manaulDB</em> : <code class="highlighter-rouge">optional [str]</code></p>
+
+<p>The name of the manually created database file, the default is determined at run time. It is recommended that this remain untouched.</p>
+
+<p><em>invert</em> : <code class="highlighter-rouge">optional [bool]</code></p>
+
+<p>Default <code class="highlighter-rouge">False</code>, if <code class="highlighter-rouge">True</code> the journal will be removed instead of added</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="isJournal"></a><small>WOSCitation.</small><strong><a href="/metaknowledge/docs/WOSCitation#isJournal"><ins>isJournal</ins></a></strong>(<em>dbname=’j9Abbreviations’, manaulDB=’manualj9Abbreviations’, returnDict=’both’, checkIfExcluded=False</em>):</p>
+
+<p>Returns <code class="highlighter-rouge">True</code> if the <code class="highlighter-rouge">Citation</code>’s <code class="highlighter-rouge">journal</code> field is a journal abbreviation from the WOS listing found at <a href="http://images.webofknowledge.com/WOK46/help/WOS/A_abrvjt.html">http://images.webofknowledge.com/WOK46/help/WOS/A_abrvjt.html</a>, i.e. checks if the citation is citing a journal.</p>
+
+<p><strong>Note</strong>: Requires the <a href="/metaknowledge/docs/WOSCitation#getj9dict">j9Abbreviations</a> database file and will raise an error if it cannot be found.</p>
+
+<p><strong>Note</strong>: All parameters are used for getting the data base with  <a href="/metaknowledge/docs/WOSCitation#getj9dict"><strong>getj9dict</strong>()</a>.</p>
+
+<h6 id="parameters-2">Parameters</h6>
+
+<p><em>dbname</em> : <code class="highlighter-rouge">optional [str]</code></p>
+
+<p>The name of the downloaded database file, the default is determined at run time. It is recommended that this remain untouched.</p>
+
+<p><em>manaulDB</em> : <code class="highlighter-rouge">optional [str]</code></p>
+
+<p>The name of the manually created database file, the default is determined at run time. It is recommended that this remain untouched.</p>
+
+<p><em>returnDict</em> : <code class="highlighter-rouge">optional [str]</code></p>
+
+<p>default <code class="highlighter-rouge">'both'</code>, can be used to get both databases or only one  with <code class="highlighter-rouge">'WOS'</code> or <code class="highlighter-rouge">'manual'</code>.</p>
 
 <h6 id="returns-1">Returns</h6>
 
-<p><code class="highlighter-rouge">str</code></p>
+<p><code class="highlighter-rouge">bool</code></p>
 
-<p>A string to use as the ID of a node.</p>
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
-
-<p><a name="allButDOI"></a><small>Citation.</small><strong><a href="/metaknowledge/docs/Citation#allButDOI"><ins>allButDOI</ins></a></strong>():</p>
-
-<p>Returns a string of the normalized values from the Citation excluding the DOI number. Equivalent to getting the ID with <a href="/metaknowledge/docs/Citation#ID"><strong>ID</strong>()</a> then appending the extra values from <a href="/metaknowledge/docs/Citation#Extra"><strong>Extra</strong>()</a> and then removing the substring containing the DOI number.</p>
-
-<h6 id="returns-2">Returns</h6>
-
-<p><code class="highlighter-rouge">str</code></p>
-
-<p>A string containing the data of the Citation.</p>
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
-
-<p><a name="Extra"></a><small>Citation.</small><strong><a href="/metaknowledge/docs/Citation#Extra"><ins>Extra</ins></a></strong>():</p>
-
-<p>Returns any <code class="highlighter-rouge">V</code>, <code class="highlighter-rouge">P</code>, <code class="highlighter-rouge">DOI</code> or <code class="highlighter-rouge">misc</code> values as a string. These are all the values not returned by <a href="/metaknowledge/docs/Citation#ID"><strong>ID</strong>()</a>, they are separated by <code class="highlighter-rouge">' ,'</code>.</p>
-
-<h6 id="returns-3">Returns</h6>
-
-<p><code class="highlighter-rouge">str</code></p>
-
-<p>A string containing the data not in the ID of the <code class="highlighter-rouge">Citation</code>.</p>
+<p><code class="highlighter-rouge">True</code> if the <code class="highlighter-rouge">Citation</code> is for a journal</p>
 
 <hr />
 

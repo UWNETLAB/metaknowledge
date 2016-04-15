@@ -2,17 +2,18 @@
 layout: doc
 title: Base Functions
 categories: docs
-excerpt: The metaknowledge functions, for filtering reading and writing graphs
+excerpt: The <i>metaknowledge</i> functions, for filtering reading and writing graphs
 tags: [functions]
 weight: 1
 ---
 <a name="Base Functions"></a>
-The functions provided by metaknowledge are:
+<h3>The functions provided by <i>metaknowledge</i> are:</h3>
 
-<ul class="post-list">
+<ol class="post-list">
 <li><article><a href="#filterNonJournals"><b>filterNonJournals</b>(<i>citesLst, invert=False</i>)</a></article></li>
 <li><article><a href="#diffusionGraph"><b>diffusionGraph</b>(<i>source, target, weighted=True, sourceType='raw', targetType='raw', labelEdgesBy=None</i>)</a></article></li>
-<li><article><a href="#diffusionCount"><b>diffusionCount</b>(<i>source, target, sourceType='raw', pandasFriendly=False, compareCounts=False, numAuthors=True, byYear=False</i>)</a></article></li>
+<li><article><a href="#diffusionCount"><b>diffusionCount</b>(<i>source, target, sourceType='raw', extraValue=None, pandasFriendly=False, compareCounts=False, numAuthors=True, useAllAuthors=True, extraMapping=None</i>)</a></article></li>
+<li><article><a href="#diffusionAddCountsFromSource"><b>diffusionAddCountsFromSource</b>(<i>grph, source, target, nodeType='citations', extraType=None, diffusionLabel='DiffusionCount', extraKeys=None, countsDict=None, extraMapping=None</i>)</a></article></li>
 <li><article><a href="#readGraph"><b>readGraph</b>(<i>edgeList, nodeList=None, directed=False, idKey='ID', eSource='From', eDest='To'</i>)</a></article></li>
 <li><article><a href="#writeEdgeList"><b>writeEdgeList</b>(<i>grph, name, extraInfo=True, allSameAttribute=False</i>)</a></article></li>
 <li><article><a href="#writeNodeAttributeFile"><b>writeNodeAttributeFile</b>(<i>grph, name, allSameAttribute=False</i>)</a></article></li>
@@ -21,14 +22,30 @@ The functions provided by metaknowledge are:
 <li><article><a href="#dropNodesByCount"><b>dropNodesByCount</b>(<i>grph, minCount=-inf, maxCount=inf, parameterName='count', ignoreMissing=False</i>)</a></article></li>
 <li><article><a href="#mergeGraphs"><b>mergeGraphs</b>(<i>targetGraph, addedGraph, incrementedNodeVal='count', incrementedEdgeVal='weight'</i>)</a></article></li>
 <li><article><a href="#graphStats"><b>graphStats</b>(<i>G, stats=('nodes', 'edges', 'isolates', 'loops', 'density', 'transitivity'), makeString=True</i>)</a></article></li>
-<li><article><a href="#writeGraph"><b>writeGraph</b>(<i>grph, name, edgeInfo=True, typing=False, suffix='csv', overwrite=True</i>)</a></article></li>
-<li><article><a href="#recordParser"><b>recordParser</b>(<i>paper</i>)</a></article></li>
-<li><article><a href="#wosParser"><b>wosParser</b>(<i>isifile</i>)</a></article></li>
-<li><article><a href="#tagToFull"><b>tagToFull</b>(<i>tag</i>)</a></article></li>
-<li><article><a href="#normalizeToTag"><b>normalizeToTag</b>(<i>val</i>)</a></article></li>
-<li><article><a href="#normalizeToName"><b>normalizeToName</b>(<i>val</i>)</a></article></li>
-<li><article><a href="#isTagOrName"><b>isTagOrName</b>(<i>val</i>)</a></article></li>
-</ul>
+<li><article><a href="#writeGraph"><b>writeGraph</b>(<i>grph, name, edgeInfo=True, typing=False, suffix='csv', overwrite=True, allSameAttribute=False</i>)</a></article></li>
+</ol>
+<h3>The Exceptions defined by <i>metaknowledge</i> are:</h3>
+
+<ol class="post-list">
+<li><article><b>mkException</b>(<i>Exception</i>)</article></li>
+<li><article><b>RCValueError</b>(<i>mkException</i>)</article></li>
+<li><article><b>BadInputFile</b>(<i>mkException</i>)</article></li>
+<li><article><b>BadRecord</b>(<i>mkException</i>)</article></li>
+<li><article><b>BadPubmedRecord</b>(<i>mkException</i>)</article></li>
+<li><article><b>BadPubmedFile</b>(<i>mkException</i>)</article></li>
+<li><article><b>BadProQuestRecord</b>(<i>mkException</i>)</article></li>
+<li><article><b>BadProQuestFile</b>(<i>mkException</i>)</article></li>
+<li><article><b>RecordsNotCompatible</b>(<i>mkException</i>)</article></li>
+<li><article><b>cacheError</b>(<i>mkException</i>)</article></li>
+<li><article><b>CollectionTypeError</b>(<i>mkException</i>)</article></li>
+<li><article><b>BadWOSRecord</b>(<i>BadRecord</i>)</article></li>
+<li><article><b>BadWOSFile</b>(<i>Warning</i>)</article></li>
+<li><article><b>BadCitation</b>(<i>Warning</i>)</article></li>
+<li><article><b>BadGrant</b>(<i>mkException</i>)</article></li>
+<li><article><b>RCTypeError</b>(<i>mkException</i>)</article></li>
+<li><article><b>GrantCollectionException</b>(<i>mkException</i>)</article></li>
+<li><article><b>UnknownFile</b>(<i>mkException</i>)</article></li>
+</ol>
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="filterNonJournals"></a><small></small>**[<ins>filterNonJournals</ins>]({{ site.baseurl }}{{ page.url }}#filterNonJournals)**(_citesLst, invert=False_):
@@ -101,7 +118,7 @@ _labelEdgesBy_ : `optional [str]`
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="diffusionCount"></a><small></small>**[<ins>diffusionCount</ins>]({{ site.baseurl }}{{ page.url }}#diffusionCount)**(_source, target, sourceType='raw', pandasFriendly=False, compareCounts=False, numAuthors=True, byYear=False_):
+<a name="diffusionCount"></a><small></small>**[<ins>diffusionCount</ins>]({{ site.baseurl }}{{ page.url }}#diffusionCount)**(_source, target, sourceType='raw', extraValue=None, pandasFriendly=False, compareCounts=False, numAuthors=True, useAllAuthors=True, extraMapping=None_):
 
 Takes in two [`RecordCollections`]({{ site.baseurl }}{{ page.url }}#RecordCollection) and produces a `dict` counting the citations of _source_ by the [`Records`]({{ site.baseurl }}{{ page.url }}#Record) of _target_. By default the `dict` uses `Record` objects as keys but this can be changed with the _sourceType_ keyword to any of the WOS tags.
 
@@ -141,6 +158,12 @@ default `False`, if `True` the returned dictionary will have Records mapped to m
 
  If _pandasFriendly_ is `True` the returned dict has keys with the names of the WOS tags and lists with their values, i.e. a table with labeled columns. The counts are in the column named `"TargetCount"` and if _compareCounts_ the local count is in a column called `"SourceCount"`.
 
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="diffusionAddCountsFromSource"></a><small></small>**[<ins>diffusionAddCountsFromSource</ins>]({{ site.baseurl }}{{ page.url }}#diffusionAddCountsFromSource)**(_grph, source, target, nodeType='citations', extraType=None, diffusionLabel='DiffusionCount', extraKeys=None, countsDict=None, extraMapping=None_):
+
+# Needs to be written
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
@@ -416,7 +439,7 @@ _makeString_ : `optional [bool]`
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="writeGraph"></a><small></small>**[<ins>writeGraph</ins>]({{ site.baseurl }}{{ page.url }}#writeGraph)**(_grph, name, edgeInfo=True, typing=False, suffix='csv', overwrite=True_):
+<a name="writeGraph"></a><small></small>**[<ins>writeGraph</ins>]({{ site.baseurl }}{{ page.url }}#writeGraph)**(_grph, name, edgeInfo=True, typing=False, suffix='csv', overwrite=True, allSameAttribute=False_):
 
 Writes both the edge list and the node attribute list of _grph_ to files starting with _name_.
 
@@ -457,157 +480,6 @@ _suffix_ : `optional [str]`
 _overwrite_ : `optional [bool]`
 
  Default `True`, if `True` files will be overwritten silently, otherwise an `OSError` exception will be raised.
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="recordParser"></a><small></small>**[<ins>recordParser</ins>]({{ site.baseurl }}{{ page.url }}#recordParser)**(_paper_):
-
-This is function that is used to create [`Records`]({{ site.baseurl }}{{ page.url }}#Record) from files.
-
-**recordParser**() reads the file _paper_ until it reaches 'ER'. For each field tag it adds an entry to the returned dict with the tag as the key and a list of the entries as the value, the list has each line separately, so for the following two lines in a record:
-
-    AF BREVIK, I
-       ANICIN, B
-
-The entry in the returned dict would be `{'AF' : ["BREVIK, I", "ANICIN, B"]}`
-
-`Record` objects can be created with these dictionaries as the initializer.
-
-###### Parameters
-
-_paper_ : `file stream`
-
- An open file, with the current line at the beginning of the WOS record.
-
-###### Returns
-
-`OrderedDict[str : List[str]]`
-
- A dictionary mapping WOS tags to lists, the lists are of strings, each string is a line of the record associated with the tag.
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="wosParser"></a><small></small>**[<ins>wosParser</ins>]({{ site.baseurl }}{{ page.url }}#wosParser)**(_isifile_):
-
-This is function that is used to create [`RecordCollections`]({{ site.baseurl }}{{ page.url }}#RecordCollection) from files.
-
-**wosParser**() reads the file given by the path isifile, checks that the header is correct then reads until it reaches EF. All WOS records it encounters are parsed with [**recordParser**()]({{ site.baseurl }}{{ page.url }}#recordParser) and converted into [`Records`]({{ site.baseurl }}{{ page.url }}#Record). A list of these `Records` is returned.
-
-`BadWOSFile` is raised if an issue is found with the file.
-
-###### Parameters
-
-_isifile_ : `str`
-
- The path to the target file
-
-###### Returns
-
-`List[Record]`
-
- All the `Records` found in _isifile_
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="tagToFull"></a><small></small>**[<ins>tagToFull</ins>]({{ site.baseurl }}{{ page.url }}#tagToFull)**(_tag_):
-
-A wrapper for [`tagToFullDict`]({{ site.baseurl }}{{ page.url }}#tagProcessing) it maps 2 character tags to their full names.
-
-###### Parameters
-
-_tag_: `str`
-
- A two character string giving the tag
-
-###### Returns
-
-`str`
-
- The full name of _tag_
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="normalizeToTag"></a><small></small>**[<ins>normalizeToTag</ins>]({{ site.baseurl }}{{ page.url }}#normalizeToTag)**(_val_):
-
-Converts tags or full names to 2 character tags, case insensitive
-
-###### Parameters
-
-_val_: `str`
-
- A two character string giving the tag or its full name
-
-###### Returns
-
-`str`
-
- The short name of _val_
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="normalizeToName"></a><small></small>**[<ins>normalizeToName</ins>]({{ site.baseurl }}{{ page.url }}#normalizeToName)**(_val_):
-
-Converts tags or full names to full names, case sensitive
-
-###### Parameters
-
-_val_: `str`
-
- A two character string giving the tag or its full name
-
-###### Returns
-
-`str`
-
- The full name of _val_
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="isTagOrName"></a><small></small>**[<ins>isTagOrName</ins>]({{ site.baseurl }}{{ page.url }}#isTagOrName)**(_val_):
-
-Checks if _val_ is a tag or full name of tag if so returns `True`
-
-###### Parameters
-
-_val_: `str`
-
- A string possible forming a tag or name
-
-###### Returns
-
-`bool`
-
- `True` if _val_ is a tag or name, otherwise `False`
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="BadCitation"></a><small></small>**[<ins>BadCitation</ins>]({{ site.baseurl }}{{ page.url }}#BadCitation)**(_Warning_):
-
-Exception thrown by Citation
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="BadWOSRecord"></a><small></small>**[<ins>BadWOSRecord</ins>]({{ site.baseurl }}{{ page.url }}#BadWOSRecord)**(_Warning_):
-
-Exception thrown by the [record parser](#metaknowledge.recordParser) to indicate a mis-formated record. This occurs when some component of the record does not parse. The messages will be any of:
-
-    * _Missing field on line (line Number):(line)_, which indicates a line was to short, there should have been a tag followed by information
-
-    * _End of file reached before ER_, which indicates the file ended before the 'ER' indicator appeared, 'ER' indicates the end of a record. This is often due to a copy and paste error.
-
-    * _Duplicate tags in record_, which indicates the record had 2 or more lines with the same tag.
-
-    * _Missing WOS number_, which indicates the record did not have a 'UT' tag.
-
-Records with a BadWOSRecord error are likely incomplete or the combination of two or more single records.
 
 
 

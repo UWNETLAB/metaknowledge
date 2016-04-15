@@ -5,14 +5,14 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
 <head>
 <meta charset="utf-8">
-<title>journalAbbreviations &#8211; metaknowledge</title>
-<meta name="description" content="Look here to get your J9 database">
+<title>proquest &#8211; metaknowledge</title>
+<meta name="description" content="The functions and classes associated with ProQuest">
 <meta name="keywords" content="module">
 
 
 <!-- Twitter Cards -->
-<meta name="twitter:title" content="journalAbbreviations">
-<meta name="twitter:description" content="Look here to get your J9 database">
+<meta name="twitter:title" content="proquest">
+<meta name="twitter:description" content="The functions and classes associated with ProQuest">
 
 
 
@@ -22,9 +22,9 @@
 <!-- Open Graph -->
 <meta property="og:locale" content="en_US">
 <meta property="og:type" content="article">
-<meta property="og:title" content="journalAbbreviations">
-<meta property="og:description" content="Look here to get your J9 database">
-<meta property="og:url" content="/metaknowledge/docs/journalAbbreviations">
+<meta property="og:title" content="proquest">
+<meta property="og:description" content="The functions and classes associated with ProQuest">
+<meta property="og:url" content="/metaknowledge/docs/proquest">
 <meta property="og:site_name" content="metaknowledge">
 
 
@@ -32,7 +32,7 @@
 
 
 
-<link rel="canonical" href="/metaknowledge/docs/journalAbbreviations">
+<link rel="canonical" href="/metaknowledge/docs/proquest">
 <link href="/metaknowledge/feed.xml" type="application/atom+xml" rel="alternate" title="metaknowledge Feed">
 
 <!-- https://t.co/dKP3o1e -->
@@ -130,91 +130,41 @@
   <article class="entry">
     <div class="entry-wrapper">
       <div class="entry-content">
-        <p><a name="journalAbbreviations"></a></p>
+        <p><a name="proquest"></a></p>
 
-<h1 id="journalabbreviationsmetaknowledgedocsjournalabbreviationsjournalabbreviations"><a href="/metaknowledge/docs/journalAbbreviations#journalAbbreviations">journalAbbreviations</a></h1>
+<h1 id="proquestmetaknowledgedocsproquestproquest"><a href="/metaknowledge/docs/proquest#proquest">proquest</a></h1>
 
-<p>This module handles the abbreviations, known as J29 abbreviations and given by the J9 tag in records, for journal titles that WOS employs in citations.</p>
+<h3><a name="proquest">The <a href="#proquest"><u>proquest</u></a> module provides the following functions:</a></h3>
 
-<p>The citations provided by WOS used abbreviated journal titles instead of the full names. The full list of abbreviations can be found at a series pages divided by letter starting at <a href="http://images.webofknowledge.com/WOK46/help/WOS/A_abrvjt.html">images.webofknowledge.com/WOK46/help/WOS/A_abrvjt.html</a>. The function <a href="/metaknowledge/docs/journalAbbreviations#getj9dict"><strong>updatej9DB</strong>()</a> is used to scape and parse the pages, it must be run without error before the other features can be used. <em>metaknowledge</em> will try running it once during the installation but it could easily have been canceled or failed so it is best to it manually. <strong>updatej9DB</strong>() creates a database in the <em>metaknowledge</em> install directory that gives each abbreviation and the titles it corresponds to, note there can be many titles for one abbreviation. The database can be accessed as a dictionary with <a href="/metaknowledge/docs/journalAbbreviations#getj9dict"><strong>getj9dict</strong>()</a>.</p>
-
-<p>The other functions of the module are for manually adding and removing abbreviations from the database. It is recommended that this be done with the command-line tool <code class="highlighter-rouge">metaknowledge</code>, unless you know what you are doing.</p>
-
-<p>The journalAbbreviations module provides the following functions:</p>
-
-<ul class="post-list">
-<li><article><a href="#getj9dict"><b>getj9dict</b>(<i>dbname='j9Abbreviations', manualDB='manualj9Abbreviations', returnDict='both'</i>)</a></article></li>
-<li><article><a href="#addToDB"><b>addToDB</b>(<i>abbr=None, dbname='manualj9Abbreviations'</i>)</a></article></li>
-<li><article><a href="#excludeFromDB"><b>excludeFromDB</b>(<i>abbr=None, dbname='manualj9Abbreviations'</i>)</a></article></li>
-<li><article><a href="#updatej9DB"><b>updatej9DB</b>(<i>dbname='j9Abbreviations', saveRawHTML=False</i>)</a></article></li>
-</ul>
+<ol class="post-list">
+<li><article><a href="#proQuestParser"><b>proQuestParser</b>(<i>proFile</i>)</a></article></li>
+<li><article><a href="#isProQuestFile"><b>isProQuestFile</b>(<i>infile, checkedLines=2</i>)</a></article></li>
+<li><article><a href="#proQuestRecordParser"><b>proQuestRecordParser</b>(<i>enRecordFile, recNum</i>)</a></article></li>
+<li><article><a href="#proQuestTagToFunc"><b>proQuestTagToFunc</b>(<i>tag</i>)</a></article></li>
+</ol>
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="getj9dict"></a><small>journalAbbreviations.</small><strong><a href="/metaknowledge/docs/journalAbbreviations#getj9dict"><ins>getj9dict</ins></a></strong>(<em>dbname=’j9Abbreviations’, manualDB=’manualj9Abbreviations’, returnDict=’both’</em>):</p>
+<p><a name="proQuestParser"></a><small>proquest.</small><strong><a href="/metaknowledge/docs/proquest#proQuestParser"><ins>proQuestParser</ins></a></strong>(<em>proFile</em>):</p>
 
-<p>Returns the dictionary of journal abbreviations mapping to a list of the associated journal names. By default the local database is used. The database is in the file <em>dbname</em> in the same directory as this source file</p>
-
-<h6 id="parameters">Parameters</h6>
-
-<p><em>dbname</em> : <code class="highlighter-rouge">optional [str]</code></p>
-
-<p>The name of the downloaded database file, the default is determined at run time. It is recommended that this remain untouched.</p>
-
-<p><em>manaulDB</em> : <code class="highlighter-rouge">optional [str]</code></p>
-
-<p>The name of the manually created database file, the default is determined at run time. It is recommended that this remain untouched.</p>
-
-<p><em>returnDict</em> : <code class="highlighter-rouge">optional [str]</code></p>
-
-<p>default <code class="highlighter-rouge">'both'</code>, can be used to get both databases or only one  with <code class="highlighter-rouge">'WOS'</code> or <code class="highlighter-rouge">'manual'</code>.</p>
+<h1 id="needs-to-be-written">Needs to be written</h1>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="addToDB"></a><small>journalAbbreviations.</small><strong><a href="/metaknowledge/docs/journalAbbreviations#addToDB"><ins>addToDB</ins></a></strong>(<em>abbr=None, dbname=’manualj9Abbreviations’</em>):</p>
+<p><a name="isProQuestFile"></a><small>proquest.</small><strong><a href="/metaknowledge/docs/proquest#isProQuestFile"><ins>isProQuestFile</ins></a></strong>(<em>infile, checkedLines=2</em>):</p>
 
-<p>Adds <em>abbr</em> to the database of journals. The database is kept separate from the one scraped from WOS, this supersedes it. The database by default is stored with the WOS one and the name is given by <code class="highlighter-rouge">metaknowledge.journalAbbreviations.manaulDBname</code>. To create an empty database run <strong>addToDB</strong> without an <em>abbr</em> argument.</p>
-
-<h6 id="parameters-1">Parameters</h6>
-
-<p><em>abbr</em> : <code class="highlighter-rouge">optional [str or dict[str : str]]</code></p>
-
-<p>The journal abbreviation to be added to the database, it can either be a single string in which case that string will be added with its self as the full name, or a dict can be given with the abbreviations as keys and their names as strings, use pipes (<code class="highlighter-rouge">'|'</code>) to separate multiple names. Note, if the empty string is given as a name the abbreviation will be considered manually <strong>excluded</strong>, i.e. having excludeFromDB() run on it.</p>
-
-<p><em>dbname</em> : <code class="highlighter-rouge">optional [str]</code></p>
-
-<p>The name of the database file, default is <code class="highlighter-rouge">metaknowledge.journalAbbreviations.manaulDBname</code>.</p>
+<h1 id="needs-to-be-written-1">Needs to be written</h1>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="excludeFromDB"></a><small>journalAbbreviations.</small><strong><a href="/metaknowledge/docs/journalAbbreviations#excludeFromDB"><ins>excludeFromDB</ins></a></strong>(<em>abbr=None, dbname=’manualj9Abbreviations’</em>):</p>
+<p><a name="proQuestRecordParser"></a><small>proquest.</small><strong><a href="/metaknowledge/docs/proquest#proQuestRecordParser"><ins>proQuestRecordParser</ins></a></strong>(<em>enRecordFile, recNum</em>):</p>
 
-<p>Marks <em>abbr</em> to be excluded the database of journals. The database is kept separate from the one scraped from WOS, this supersedes it. The database by default is stored with the WOS one and the name is given by <code class="highlighter-rouge">metaknowledge.journalAbbreviations.manaulDBname</code>. To create an empty database run <a href="/metaknowledge/docs/journalAbbreviations#addToDB"><strong>addToDB</strong>()</a> without an <em>abbr</em> argument.</p>
-
-<h6 id="parameters-2">Parameters</h6>
-
-<p><em>abbr</em> : <code class="highlighter-rouge">optional [str or tuple[str] or list[str]</code></p>
-
-<p>The journal abbreviation to be excluded from the database, it can either be a single string in which case that string will be exclude or a list/tuple of strings can be given with the abbreviations.</p>
-
-<p><em>dbname</em> : <code class="highlighter-rouge">optional [str]</code></p>
-
-<p>The name of the database file, default is <code class="highlighter-rouge">metaknowledge.journalAbbreviations.manaulDBname</code>.</p>
+<h1 id="needs-to-be-written-2">Needs to be written</h1>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="updatej9DB"></a><small>journalAbbreviations.</small><strong><a href="/metaknowledge/docs/journalAbbreviations#updatej9DB"><ins>updatej9DB</ins></a></strong>(<em>dbname=’j9Abbreviations’, saveRawHTML=False</em>):</p>
+<p><a name="proQuestTagToFunc"></a><small>proquest.</small><strong><a href="/metaknowledge/docs/proquest#proQuestTagToFunc"><ins>proQuestTagToFunc</ins></a></strong>(<em>tag</em>):</p>
 
-<p>Updates the database of Journal Title Abbreviations. Requires an internet connection. The data base is saved relative to the source file not the working directory.</p>
-
-<h6 id="parameters-3">Parameters</h6>
-
-<p><em>dbname</em> : <code class="highlighter-rouge">optional [str]</code></p>
-
-<p>The name of the database file, default is “j9Abbreviations.db”</p>
-
-<p><em>saveRawHTML</em> : <code class="highlighter-rouge">optional [bool]</code></p>
-
-<p>Determines if the original HTML of the pages is stored, default <code class="highlighter-rouge">False</code>. If <code class="highlighter-rouge">True</code> they are saved in a directory inside j9Raws begining with todays date.</p>
+<h1 id="needs-to-be-written-3">Needs to be written</h1>
 
 <hr />
 

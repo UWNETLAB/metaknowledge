@@ -1,36 +1,92 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>http://networkslab.org/metaknowledge/docs/tagProcessing</loc>
-    <lastmod>2016-03-23T00:00:00+07:00</lastmod>
+    <loc>http://networkslab.org/metaknowledge/docs/proquest</loc>
+    <lastmod>2016-04-16T00:00:00+07:00</lastmod>
   </url>
   <url>
     <loc>http://networkslab.org/metaknowledge/docs/overview</loc>
-    <lastmod>2016-03-23T00:00:00+07:00</lastmod>
+    <lastmod>2016-04-16T00:00:00+07:00</lastmod>
   </url>
   <url>
     <loc>http://networkslab.org/metaknowledge/docs/metaknowledge</loc>
-    <lastmod>2016-03-23T00:00:00+07:00</lastmod>
+    <lastmod>2016-04-16T00:00:00+07:00</lastmod>
   </url>
   <url>
-    <loc>http://networkslab.org/metaknowledge/docs/journalAbbreviations</loc>
-    <lastmod>2016-03-23T00:00:00+07:00</lastmod>
+    <loc>http://networkslab.org/metaknowledge/docs/medline</loc>
+    <lastmod>2016-04-16T00:00:00+07:00</lastmod>
   </url>
   <url>
     <loc>http://networkslab.org/metaknowledge/docs/contour</loc>
-    <lastmod>2016-03-23T00:00:00+07:00</lastmod>
+    <lastmod>2016-04-16T00:00:00+07:00</lastmod>
+  </url>
+  <url>
+    <loc>http://networkslab.org/metaknowledge/docs/WOSRecord</loc>
+    <lastmod>2016-04-16T00:00:00+07:00</lastmod>
+  </url>
+  <url>
+    <loc>http://networkslab.org/metaknowledge/docs/WOSCitation</loc>
+    <lastmod>2016-04-16T00:00:00+07:00</lastmod>
+  </url>
+  <url>
+    <loc>http://networkslab.org/metaknowledge/docs/WOS</loc>
+    <lastmod>2016-04-16T00:00:00+07:00</lastmod>
   </url>
   <url>
     <loc>http://networkslab.org/metaknowledge/docs/RecordCollection</loc>
-    <lastmod>2016-03-23T00:00:00+07:00</lastmod>
+    <lastmod>2016-04-16T00:00:00+07:00</lastmod>
   </url>
   <url>
     <loc>http://networkslab.org/metaknowledge/docs/Record</loc>
-    <lastmod>2016-03-23T00:00:00+07:00</lastmod>
+    <lastmod>2016-04-16T00:00:00+07:00</lastmod>
+  </url>
+  <url>
+    <loc>http://networkslab.org/metaknowledge/docs/ProQuestRecord</loc>
+    <lastmod>2016-04-16T00:00:00+07:00</lastmod>
+  </url>
+  <url>
+    <loc>http://networkslab.org/metaknowledge/docs/NSERCGrant</loc>
+    <lastmod>2016-04-16T00:00:00+07:00</lastmod>
+  </url>
+  <url>
+    <loc>http://networkslab.org/metaknowledge/docs/MedlineRecord</loc>
+    <lastmod>2016-04-16T00:00:00+07:00</lastmod>
+  </url>
+  <url>
+    <loc>http://networkslab.org/metaknowledge/docs/MedlineGrant</loc>
+    <lastmod>2016-04-16T00:00:00+07:00</lastmod>
+  </url>
+  <url>
+    <loc>http://networkslab.org/metaknowledge/docs/GrantCollection</loc>
+    <lastmod>2016-04-16T00:00:00+07:00</lastmod>
+  </url>
+  <url>
+    <loc>http://networkslab.org/metaknowledge/docs/Grant</loc>
+    <lastmod>2016-04-16T00:00:00+07:00</lastmod>
+  </url>
+  <url>
+    <loc>http://networkslab.org/metaknowledge/docs/ExtendedRecord</loc>
+    <lastmod>2016-04-16T00:00:00+07:00</lastmod>
+  </url>
+  <url>
+    <loc>http://networkslab.org/metaknowledge/docs/DefaultGrant</loc>
+    <lastmod>2016-04-16T00:00:00+07:00</lastmod>
+  </url>
+  <url>
+    <loc>http://networkslab.org/metaknowledge/docs/CollectionWithIDs</loc>
+    <lastmod>2016-04-16T00:00:00+07:00</lastmod>
+  </url>
+  <url>
+    <loc>http://networkslab.org/metaknowledge/docs/Collection</loc>
+    <lastmod>2016-04-16T00:00:00+07:00</lastmod>
   </url>
   <url>
     <loc>http://networkslab.org/metaknowledge/docs/Citation</loc>
-    <lastmod>2016-03-23T00:00:00+07:00</lastmod>
+    <lastmod>2016-04-16T00:00:00+07:00</lastmod>
+  </url>
+  <url>
+    <loc>http://networkslab.org/metaknowledge/docs/CIHRGrant</loc>
+    <lastmod>2016-04-16T00:00:00+07:00</lastmod>
   </url>
   <url>
     <loc>http://networkslab.org/metaknowledge/examples/exampleHeader</loc>
@@ -57,9 +113,9 @@
     <loc>http://networkslab.org/metaknowledge/cli/</loc>
   </url>
   <url>
-    <loc>http://networkslab.org/metaknowledge/documentation/metaknowledge2Draft</loc>
+    <loc>http://networkslab.org/metaknowledge/documentation/metaknowledgeFull</loc>
   </url>
   <url>
-    <loc>http://networkslab.org/metaknowledge/documentation/metaknowledgeFull</loc>
+    <loc>http://networkslab.org/metaknowledge/documentation/metaknowledgeFullOld</loc>
   </url>
 </urlset>

@@ -1,25 +1,229 @@
----
-sitemap: false
----
-
 [
-{% for post in site.posts %}
-  {% if post.title != null and post.title != empty and post.search_omit != true %}
-    {% if forloop.index > 1 %},{% endif %}{
-      "title"			: {{ post.title | jsonify }},
-      "link"			: "{{ site.url }}{{ post.url }}",
-      "excerpt"		: "{{ post.excerpt }}"
-    }
-  {% endif %}
-{% endfor %}
 
-{% for page in site.pages %}
-  {% if page.layout != 'none' and page.layout != 'none' and page.title != null and page.title != empty and page.search_omit != true %}
-    {% if forloop.index > 1 %},{% endif %}{
-      "title"			: {{ page.title | jsonify }},
-      "link"			: "{{ site.url }}{{ page.url | replace: 'index.html', '' }}",
-      "excerpt"		: "{{ page.excerpt }}"
+  
+    {
+      "title"			: "proquest",
+      "link"			: "http://networkslab.org/docs/proquest",
+      "excerpt"		: "The functions and classes associated with ProQuest"
     }
-  {%endif%}
-{% endfor %}
+  
+
+  
+    ,{
+      "title"			: "Overview",
+      "link"			: "http://networkslab.org/docs/overview",
+      "excerpt"		: "The <i>metaknowledge</i> Package, a quick tour"
+    }
+  
+
+  
+    ,{
+      "title"			: "Base Functions",
+      "link"			: "http://networkslab.org/docs/metaknowledge",
+      "excerpt"		: "The <i>metaknowledge</i> functions, for filtering reading and writing graphs"
+    }
+  
+
+  
+    ,{
+      "title"			: "medline",
+      "link"			: "http://networkslab.org/docs/medline",
+      "excerpt"		: "The functions and classes associated with Medline, the format used by Pubmed"
+    }
+  
+
+  
+    ,{
+      "title"			: "contour",
+      "link"			: "http://networkslab.org/docs/contour",
+      "excerpt"		: "A nicer matplotlib graph visualizer and contour plot"
+    }
+  
+
+  
+    ,{
+      "title"			: "WOSRecord",
+      "link"			: "http://networkslab.org/docs/WOSRecord",
+      "excerpt"		: "The object for containing and processing WOS entries"
+    }
+  
+
+  
+    ,{
+      "title"			: "WOSCitation",
+      "link"			: "http://networkslab.org/docs/WOSCitation",
+      "excerpt"		: "A Citation that supports the WOS journal abbreviations"
+    }
+  
+
+  
+    ,{
+      "title"			: "WOS",
+      "link"			: "http://networkslab.org/docs/WOS",
+      "excerpt"		: "The functions and classes associated with the Web of Science"
+    }
+  
+
+  
+    ,{
+      "title"			: "RecordCollection",
+      "link"			: "http://networkslab.org/docs/RecordCollection",
+      "excerpt"		: "A Collection of Records, this is what does most of the stuff on Records"
+    }
+  
+
+  
+    ,{
+      "title"			: "Record",
+      "link"			: "http://networkslab.org/docs/Record",
+      "excerpt"		: "The base of all the other Records, basically a dict"
+    }
+  
+
+  
+    ,{
+      "title"			: "ProQuestRecord",
+      "link"			: "http://networkslab.org/docs/ProQuestRecord",
+      "excerpt"		: "The object for containing and processing ProQuest entries"
+    }
+  
+
+  
+    ,{
+      "title"			: "NSERCGrant",
+      "link"			: "http://networkslab.org/docs/NSERCGrant",
+      "excerpt"		: "The container for NSERC grant entries"
+    }
+  
+
+  
+    ,{
+      "title"			: "MedlineRecord",
+      "link"			: "http://networkslab.org/docs/MedlineRecord",
+      "excerpt"		: "The object for containing and processing Medline entries"
+    }
+  
+
+  
+    ,{
+      "title"			: "MedlineGrant",
+      "link"			: "http://networkslab.org/docs/MedlineGrant",
+      "excerpt"		: "The container for grants derived from Medline Records entries"
+    }
+  
+
+  
+    ,{
+      "title"			: "GrantCollection",
+      "link"			: "http://networkslab.org/docs/GrantCollection",
+      "excerpt"		: "A Collection of Grants, this is what does most of the stuff on Grants"
+    }
+  
+
+  
+    ,{
+      "title"			: "Grant",
+      "link"			: "http://networkslab.org/docs/Grant",
+      "excerpt"		: "The base for all the other Grants"
+    }
+  
+
+  
+    ,{
+      "title"			: "ExtendedRecord",
+      "link"			: "http://networkslab.org/docs/ExtendedRecord",
+      "excerpt"		: "A Record the processes its contents before returning them"
+    }
+  
+
+  
+    ,{
+      "title"			: "DefaultGrant",
+      "link"			: "http://networkslab.org/docs/DefaultGrant",
+      "excerpt"		: "The Grant used if a file was not identifiable"
+    }
+  
+
+  
+    ,{
+      "title"			: "CollectionWithIDs",
+      "link"			: "http://networkslab.org/docs/CollectionWithIDs",
+      "excerpt"		: "A Collection that only holds <i>metaknowledge</i> objects"
+    }
+  
+
+  
+    ,{
+      "title"			: "Collection",
+      "link"			: "http://networkslab.org/docs/Collection",
+      "excerpt"		: "The base of all other Collections, basically a set"
+    }
+  
+
+  
+    ,{
+      "title"			: "Citation",
+      "link"			: "http://networkslab.org/docs/Citation",
+      "excerpt"		: "Citation are special, here is how they are handled"
+    }
+  
+
+  
+    ,{
+      "title"			: "CIHRGrant",
+      "link"			: "http://networkslab.org/docs/CIHRGrant",
+      "excerpt"		: "The container for CIHR grant entries"
+    }
+  
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    ,{
+      "title"			: "About the Jekyll Theme",
+      "link"			: "http://networkslab.org/about/",
+      "excerpt"		: "So Simple is a responsive Jekyll theme for your words and images."
+    }
+  
+
+  
+
+  
+    ,{
+      "title"			: "Documentation",
+      "link"			: "http://networkslab.org/documentation/",
+      "excerpt"		: "Instructions on how to install and use metaknowledge."
+    }
+  
+
+  
+
+  
+    ,{
+      "title"			: "Command Line Tool",
+      "link"			: "http://networkslab.org/cli/",
+      "excerpt"		: "How to use the metaknowledge command line tool."
+    }
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
 ]

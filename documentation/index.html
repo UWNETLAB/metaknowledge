@@ -1,0 +1,367 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>Documentation &#8211; metaknowledge</title>
+<meta name="description" content="Instructions on how to install and use metaknowledge.">
+
+
+
+<!-- Twitter Cards -->
+<meta name="twitter:title" content="Documentation">
+<meta name="twitter:description" content="Instructions on how to install and use metaknowledge.">
+
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="/metaknowledge/images/site-logo.png">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Documentation">
+<meta property="og:description" content="Instructions on how to install and use metaknowledge.">
+<meta property="og:url" content="/metaknowledge/documentation/">
+<meta property="og:site_name" content="metaknowledge">
+
+
+
+
+
+
+<link rel="canonical" href="/metaknowledge/documentation/">
+<link href="/metaknowledge/feed.xml" type="application/atom+xml" rel="alternate" title="metaknowledge Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/metaknowledge/assets/css/main.css">
+<!-- Webfonts -->
+<script src="https://use.edgefonts.net/source-sans-pro:n2,i2,n3,i3,n4,i4,n6,i6,n7,i7,n9,i9;source-code-pro:n4,n7;volkhov.js"></script>
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- HTML5 Shiv and Media Query Support -->
+<!--[if lt IE 9]>
+  <script src="/metaknowledge/assets/js/vendor/html5shiv.min.js"></script>
+  <script src="/metaknowledge/assets/js/vendor/respond.min.js"></script>
+<![endif]-->
+
+<!-- Modernizr -->
+<script src="/metaknowledge/assets/js/vendor/modernizr-2.7.1.custom.min.js"></script>
+
+
+<!-- MathJax -->
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="/metaknowledge/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="/metaknowledge/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="/metaknowledge/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="/metaknowledge/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="/metaknowledge/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/metaknowledge/images/apple-touch-icon-144x144-precomposed.png">
+
+</head>
+
+<body id="page">
+
+<div class="navigation-wrapper">
+	<nav role="navigation" id="site-nav" class="animated drop">
+	    <ul>
+      
+		    
+		    <li><a href="/metaknowledge/" >Home</a></li>
+		  
+		    
+		    <li><a href="/metaknowledge/documentation/#Installing" >install</a></li>
+		  
+		    
+		    <li><a href="/metaknowledge/documentation" >Documentation</a></li>
+		  
+		    
+		    <li><a href="/metaknowledge/examples" >Examples</a></li>
+		  
+		    
+		    <li><a href="/metaknowledge/cli" >CLI</a></li>
+		  
+		    
+		    <li><a href="https://github.com/networks-lab/metaknowledge" target="_blank">GitHub</a></li>
+		  
+		    
+		    <li><a href="http://www.networkslab.org" target="_blank">NetworksLab</a></li>
+		  
+		    
+		    <li><a href="/metaknowledge/search" >Search</a></li>
+		  
+	    </ul>
+	</nav>
+</div><!-- /.navigation-wrapper -->
+
+<!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
+
+<header class="masthead">
+	<div class="wrap">
+      
+  		<a href="/metaknowledge/" class="site-logo" rel="home" title="metaknowledge"><img src="/metaknowledge/images/site-logo.png" width="200" height="200" alt="metaknowledge logo" class="animated fadeInDown"></a>
+      
+      <h1 class="site-title animated fadeIn"><a href="/metaknowledge/">metaknowledge</a></h1>
+		<h2 class="site-description animated fadeIn" itemprop="description">A Python3 package for social networks and bibliometric research on knowledge</h2>
+	</div>
+</header><!-- /.masthead -->
+
+<div class="js-menu-screen menu-screen"></div>
+
+
+<div id="main" role="main">
+  <article class="entry">
+    
+    <div class="entry-wrapper">
+      <header class="entry-header">
+        <h1 class="entry-title">Documentation</h1>
+      </header>
+      <div class="entry-content">
+        <p>This is the documentation for the current version of <em>metaknowledge</em> which is not compatible with the old version. The old version’s documentation can be found <a href="/metaknowledge/documentation/metaknowledgeFullOld.html">here</a>.</p>
+
+<ul class="post-list">
+   <li><article>
+   <a href="#Installing">Installing<span class="excerpt">How to install metaknowledge</span></a>
+   </article></li>
+   <li><article>
+   <a href="#Students">Students Install<span class="excerpt">How to install metaknowledge for the class</span></a>
+   </article></li>
+   <li><article>
+   <a href="/metaknowledge/documentation/metaknowledgeFull.html#objlist">Classes and Modules<span class="excerpt">The list of major classes and modules provided by metaknowledge</span></a>
+   </article></li>
+   <li><article>
+   <a href="/metaknowledge/documentation/metaknowledgeFull.html#fulllist">Functions and Methods<span class="excerpt">The full list of functions and methods provided by metaknowledge</span></a>
+   </article></li>
+
+
+  <li><article><a href="/metaknowledge/documentation/metaknowledgeFull.html#Overview">Overview <span class="excerpt">The <i>metaknowledge</i> Package, a quick tour</span></a></article></li>
+
+  <li><article><a href="/metaknowledge/documentation/metaknowledgeFull.html#Base Functions">Base Functions <span class="excerpt">The <i>metaknowledge</i> functions, for filtering reading and writing graphs</span></a></article></li>
+
+  <li><article><a href="/metaknowledge/documentation/metaknowledgeFull.html#RecordCollection">RecordCollection <span class="excerpt">A Collection of Records, this is what does most of the stuff on Records</span></a></article></li>
+
+  <li><article><a href="/metaknowledge/documentation/metaknowledgeFull.html#Citation">Citation <span class="excerpt">Citation are special, here is how they are handled</span></a></article></li>
+
+  <li><article><a href="/metaknowledge/documentation/metaknowledgeFull.html#Collection">Collection <span class="excerpt">The base of all other Collections, basically a set</span></a></article></li>
+
+  <li><article><a href="/metaknowledge/documentation/metaknowledgeFull.html#WOSRecord">WOSRecord <span class="excerpt">The object for containing and processing WOS entries</span></a></article></li>
+
+  <li><article><a href="/metaknowledge/documentation/metaknowledgeFull.html#WOSCitation">WOSCitation <span class="excerpt">A Citation that supports the WOS journal abbreviations</span></a></article></li>
+
+  <li><article><a href="/metaknowledge/documentation/metaknowledgeFull.html#CollectionWithIDs">CollectionWithIDs <span class="excerpt">A Collection that only holds <i>metaknowledge</i> objects</span></a></article></li>
+
+  <li><article><a href="/metaknowledge/documentation/metaknowledgeFull.html#CIHRGrant">CIHRGrant <span class="excerpt">The container for CIHR grant entries</span></a></article></li>
+
+  <li><article><a href="/metaknowledge/documentation/metaknowledgeFull.html#Record">Record <span class="excerpt">The base of all the other Records, basically a dict</span></a></article></li>
+
+  <li><article><a href="/metaknowledge/documentation/metaknowledgeFull.html#ProQuestRecord">ProQuestRecord <span class="excerpt">The object for containing and processing ProQuest entries</span></a></article></li>
+
+  <li><article><a href="/metaknowledge/documentation/metaknowledgeFull.html#DefaultGrant">DefaultGrant <span class="excerpt">The Grant used if a file was not identifiable</span></a></article></li>
+
+  <li><article><a href="/metaknowledge/documentation/metaknowledgeFull.html#MedlineRecord">MedlineRecord <span class="excerpt">The object for containing and processing Medline entries</span></a></article></li>
+
+  <li><article><a href="/metaknowledge/documentation/metaknowledgeFull.html#MedlineGrant">MedlineGrant <span class="excerpt">The container for grants derived from Medline Records entries</span></a></article></li>
+
+  <li><article><a href="/metaknowledge/documentation/metaknowledgeFull.html#GrantCollection">GrantCollection <span class="excerpt">A Collection of Grants, this is what does most of the stuff on Grants</span></a></article></li>
+
+  <li><article><a href="/metaknowledge/documentation/metaknowledgeFull.html#Grant">Grant <span class="excerpt">The base for all the other Grants</span></a></article></li>
+
+  <li><article><a href="/metaknowledge/documentation/metaknowledgeFull.html#ExtendedRecord">ExtendedRecord <span class="excerpt">A Record the processes its contents before returning them</span></a></article></li>
+
+  <li><article><a href="/metaknowledge/documentation/metaknowledgeFull.html#NSERCGrant">NSERCGrant <span class="excerpt">The container for NSERC grant entries</span></a></article></li>
+
+  <li><article><a href="/metaknowledge/documentation/metaknowledgeFull.html#WOS">WOS <span class="excerpt">The functions and classes associated with the Web of Science</span></a></article></li>
+
+  <li><article><a href="/metaknowledge/documentation/metaknowledgeFull.html#contour">contour <span class="excerpt">A nicer matplotlib graph visualizer and contour plot</span></a></article></li>
+
+  <li><article><a href="/metaknowledge/documentation/metaknowledgeFull.html#medline">medline <span class="excerpt">The functions and classes associated with Medline, the format used by Pubmed</span></a></article></li>
+
+  <li><article><a href="/metaknowledge/documentation/metaknowledgeFull.html#proquest">proquest <span class="excerpt">The functions and classes associated with ProQuest</span></a></article></li>
+
+
+</ul>
+
+<h2 id="a-nameinstallingainstallation"><a name="Installing"></a>Installation</h2>
+
+<p><em>metaknowledge</em> has two distributions. The simplest is found under the release branch of the <a href="https://github.com/networks-lab/metaknowledge/tree/release">git repo</a>, which can be installed the usual way with pip:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">pip3 install metaknowledge</code></pre></figure>
+
+<p>The second version is at the master branch on <a href="https://github.com/networks-lab/metaknowledge"><em>Github</em></a>. It comes with extra documents and resources for teaching.</p>
+
+<p>The <a href="https://github.com/networks-lab/metaknowledge/archive/master.zip">download</a> from <em>Github</em> includes a customized <a href="https://www.vagrantup.com"><em>Vagrant</em></a> file that installs <em>metaknowledge</em> and other useful <em>Python</em> libraries into a virtual machine. It is the easiest way of getting <em>metaknowledge</em> working if you are not familiar with <em>Python</em>.</p>
+
+<h2 id="install-with-vagrant">Install with Vagrant</h2>
+
+<p>The <em>Vagrant</em> method is intended for students and anyone not familiar with <em>Python</em> it creates a <a href="https://en.wikipedia.org/wiki/Virtual_machine">virtual machine</a> with <em>metaknowledge</em> installed, as well as the <em>Python</em> scientific stack <em>numpy</em>, <em>scipy</em> and <em>matplotlib</em> and a series of iPython notebooks for teaching <em>metaknowledge</em> and <em>Python</em>. Some notebooks are more complete than others.</p>
+
+<p>The instructions for those familiar with the command line use the advanced instructions. Otherwise, it is probably best to use the student install.</p>
+
+<h3 id="a-namestudentsstudent-install"><a name="Students">Student Install</a></h3>
+
+<p>First, you need to install <a href="https://www.vagrantup.com/downloads.html"><em>Vagrant</em></a> and <a href="https://www.virtualbox.org/wiki/Downloads"><em>VirtualBox</em></a>. You need to do this before you can install <em>metaknowledge</em>.</p>
+
+<p>Once <em>Vagrant</em> and <em>VirtualBox</em> are installed, download <a href="https://github.com/networks-lab/metaknowledge/archive/master.zip"><em>metaknowledge</em></a>. Unzip the file. If you are unable to unzip the file, download <a href="http://www.7-zip.org/"><em>7-Zip</em></a>.</p>
+
+<p>Open the directory <em>metaknowledge</em> and go to the vagrant subdirectory. Depending on your operating system, double click either: <code class="highlighter-rouge">win_run</code>, <code class="highlighter-rouge">mac_run</code>, or <code class="highlighter-rouge">linux_run</code>.</p>
+
+<p>A window should pop up and say something like:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Bringing machine 'default' up with 'virtualbox' provider...
+==&gt; default: Box 'ubuntu/trusty64' could not be found. Attempting to find and in
+stall...
+default: Box Provider: virtualbox
+default: Box Version: &gt;= 0
+</code></pre>
+</div>
+
+<p>You will also see an estimate of how long the download and installation process will take (typically 20 minutes). All you have to do it wait for it to finish. When it is done, a browser window will appear at the showing the notebooks. If a browser window opens and it is showing <code class="highlighter-rouge">No data received</code> hit refresh a couple times.</p>
+
+<p>When you see a page with:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Lesson-1-Getting-Started
+Lesson-2-Reading-Files
+Lesson-3-Objects
+...
+</code></pre>
+</div>
+
+<p>You have installed everything successfully.</p>
+
+<p>To open the page again just double click on which ever of <code class="highlighter-rouge">win_run</code>, <code class="highlighter-rouge">mac_run</code>, or <code class="highlighter-rouge">linux_run</code> you used. It should take less than a minute the second time.</p>
+
+<h3 id="advanced-instructions">Advanced Instructions</h3>
+<ol>
+  <li>Install <a href="https://www.vagrantup.com/downloads.html">Vagrant</a> and <a href="https://www.virtualbox.org/wiki/Downloads">VirtualBox</a></li>
+  <li>Clone the <a href="https://github.com/networks-lab/metaknowledge.git">git repo</a></li>
+  <li>Make sure you are on the master branch</li>
+  <li>Go to the vagrant directory</li>
+  <li>Run <code class="highlighter-rouge">vagrant up</code></li>
+  <li>Once vagrant has finished go to <a href="http://localhost:1159/">http://localhost:1159/</a></li>
+</ol>
+
+<p>What you are doing by running <code class="highlighter-rouge">vagrant up</code> is creating an Ubuntu VM and provisioning it with the script <code class="highlighter-rouge">bootstrap</code>, which is also in the vagrant directory. If you run<code class="highlighter-rouge">vagrant up</code> again it only starts the VM. To access the VM’s notebook once it is created:</p>
+
+<ol>
+  <li>Go to the vagrant directory</li>
+  <li>Run <code class="highlighter-rouge">vagrant up</code></li>
+  <li>Once vagrant has finished go to <a href="http://localhost:1159/">http://localhost:1159/</a></li>
+</ol>
+
+<p>You can also use <code class="highlighter-rouge">vagrant ssh</code> to ssh into the VM or <code class="highlighter-rouge">vagrant provision</code> to rerun bootstrap. If <code class="highlighter-rouge">vagrant ssh</code> does not work on your machine, you should be able to ssh into it at:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>HostName: 127.0.0.1
+Port: 2222
+Username: vagrant
+Password: vagrant
+</code></pre>
+</div>
+
+<p>On Windows <a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/"><em>PuTTY</em></a> has been tested and works well.</p>
+
+<h2 id="install-without-vagrant">Install without Vagrant</h2>
+
+<p>Installing without <em>Vagrant</em> is done with <a href="https://pypi.python.org/pypi/setuptools">setuptools</a>. Go to the metaknowledge directory and run <code class="highlighter-rouge">python3 setup.py install</code>. This is the same version that is installed via pip plus some extra development command line tools.</p>
+
+<hr />
+
+<h2 id="questions">Questions?</h2>
+
+<p>If you find bugs, or have questions, please write to:</p>
+
+<p>Reid McIlroy-Young <a href="&#109;&#097;&#105;&#108;&#116;&#111;:&#114;&#101;&#105;&#100;&#064;&#114;&#101;&#105;&#100;&#109;&#099;&#121;&#046;&#099;&#111;&#109;">&#114;&#101;&#105;&#100;&#064;&#114;&#101;&#105;&#100;&#109;&#099;&#121;&#046;&#099;&#111;&#109;</a></p>
+
+<p>John McLevey <a href="&#109;&#097;&#105;&#108;&#116;&#111;:&#106;&#111;&#104;&#110;&#046;&#109;&#099;&#108;&#101;&#118;&#101;&#121;&#064;&#117;&#119;&#097;&#116;&#101;&#114;&#108;&#111;&#111;&#046;&#099;&#097;">&#106;&#111;&#104;&#110;&#046;&#109;&#099;&#108;&#101;&#118;&#101;&#121;&#064;&#117;&#119;&#097;&#116;&#101;&#114;&#108;&#111;&#111;&#046;&#099;&#097;</a></p>
+
+<hr />
+
+<h2 id="license">License</h2>
+
+<p><em>metaknowledge</em> is free and open source software, distributed under the GPL License.</p>
+
+
+      </div><!-- /.entry-content -->
+    </div><!-- /.entry-wrapper -->
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrapper">
+  <footer role="contentinfo" class="entry-wrapper">
+    
+
+<span>&copy; 2016 John McLevey and Reid McIlroy-Young. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> using the <a href="http://mademistakes.com/so-simple/" rel="nofollow">So Simple Theme</a>.</span>
+<div class="social-icons">
+	
+	
+	
+	
+	
+	
+	
+	
+	
+  
+	
+  
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-25394214-5', 'auto');
+  ga('send', 'pageview');
+
+</script>
+  
+</div><!-- /.social-icons -->
+
+  </footer>
+</div><!-- /.footer-wrapper -->
+
+<script type="text/javascript">
+  var BASE_URL = '/metaknowledge';
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/metaknowledge/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="/metaknowledge/assets/js/scripts.min.js"></script>
+
+
+<!-- Asynchronous Google Analytics snippet -->
+<script>
+  var _gaq = _gaq || [];
+  var pluginUrl =
+ 'https://www.google-analytics.com/plugins/ga/inpage_linkid.js';
+  _gaq.push(['_require', 'inpage_linkid', pluginUrl]);
+  _gaq.push(['_setAccount', 'UA-25394214-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = 'https://stats.g.doubleclick.net/dc.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+
+</body>
+</html>

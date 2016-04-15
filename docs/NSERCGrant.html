@@ -5,14 +5,14 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
 <head>
 <meta charset="utf-8">
-<title>metaknowledge</title>
-
-
+<title>NSERCGrant &#8211; metaknowledge</title>
+<meta name="description" content="The container for NSERC grant entries">
+<meta name="keywords" content="class">
 
 
 <!-- Twitter Cards -->
-<meta name="twitter:title" content="metaknowledge">
-
+<meta name="twitter:title" content="NSERCGrant">
+<meta name="twitter:description" content="The container for NSERC grant entries">
 
 
 
@@ -22,9 +22,9 @@
 <!-- Open Graph -->
 <meta property="og:locale" content="en_US">
 <meta property="og:type" content="article">
-<meta property="og:title" content="metaknowledge">
-
-<meta property="og:url" content="/metaknowledge/">
+<meta property="og:title" content="NSERCGrant">
+<meta property="og:description" content="The container for NSERC grant entries">
+<meta property="og:url" content="/metaknowledge/docs/NSERCGrant">
 <meta property="og:site_name" content="metaknowledge">
 
 
@@ -32,7 +32,7 @@
 
 
 
-<link rel="canonical" href="/metaknowledge/">
+<link rel="canonical" href="/metaknowledge/docs/NSERCGrant">
 <link href="/metaknowledge/feed.xml" type="application/atom+xml" rel="alternate" title="metaknowledge Feed">
 
 <!-- https://t.co/dKP3o1e -->
@@ -128,41 +128,82 @@
 
 <div id="main" role="main">
   <article class="entry">
-    
     <div class="entry-wrapper">
-      <header class="entry-header">
-        <h1 class="entry-title"></h1>
-      </header>
       <div class="entry-content">
-        <p>metaknowledge is a <a href="https://www.python.org">Python3</a> package for doing social networks and bibliometric research on knowledge. It is developed primarily for conducting research in science and health policy studies, for quantitative / computational sociology of knowledge, and for simplifying the process of doing systematic reviews in any disciplinary context. </p>
+        <p><a name="NSERCGrant"></a>
+<a name="NSERCGrant"></a><small></small><strong><a href="/metaknowledge/docs/NSERCGrant#NSERCGrant"><ins>NSERCGrant</ins></a></strong>(<em><a href="#Grant"><u style="border-bottom: .5px dashed gray;">Grant</u></a></em>):</p>
 
-<p>metaknowledge reads a directory of plain text files containing meta-data on publications and citations, and writes to a variety of data structures that are suitable for quantitative, network, and text analyses. It handles large datasets (e.g. several million records) efficiently. </p>
+<p><a name="NSERCGrant.__init__"></a><small></small><strong><a href="/metaknowledge/docs/NSERCGrant#NSERCGrant.__init__"><ins>NSERCGrant.__init__</ins></a></strong>(<em>original, grantdDict, sFile, sLine</em>):</p>
 
-<p>metaknowledge currently handles data from the Web of Science. However, we are preparing a new release that will handle data from PubMed, ProQuest Dissertations and Theses, selected open data repositories, and awards data from selected granting agencies. </p>
+<p>A dictionary with error handling and an id string.</p>
 
-<p>Among other things, metaknowledge currently has functions for:</p>
+<p><code class="highlighter-rouge">Record</code> is the base class of the all objects in <em>metaknowledge</em> that contain information as key-value pairs, these are the grants and the records from different sources.</p>
 
-<ul>
-  <li>cleaning and preprocessing Web of Science data (e.g. identifying and deleting duplicate records)</li>
-  <li>extracting co-author, citation, and co-citation networks for published papers, authors, and journals</li>
-  <li>extracting multi-mode networks using any of the meta-data fields available in the Web of Science database (e.g. papers and keywords)</li>
-  <li>extracting data for textual analysis (e.g. titles, abstracts)</li>
-</ul>
+<p>The error handling of the <code class="highlighter-rouge">Record</code> is done with the <code class="highlighter-rouge">bad</code> attribute. If there is some issue with the data <em>bad</em> should be <code class="highlighter-rouge">True</code> and <em>error</em> given an <code class="highlighter-rouge">Exception</code> that was caused by or explains the error.</p>
 
-<p>Datasets created with metaknowledge can be analyzed using <a href="https://networkx.github.io"> NetworkX</a> and the <a href="http://www.scipy.org/about.html">standard libraries</a> for data analysis in Python. It is also easy to write data to csv or graphml files for analysis and visualization in <a href="http://www.r-project.org">R</a>, <a href="http://www.stata.com">Stata</a>, <a href="http://visone.info">Visone</a>, <a href="http://gephi.github.io">Gephi</a>, or any other tools for data analysis.</p>
+<h5 id="customizations">Customizations</h5>
 
-<p>metaknowledge also has a simple command line tool for extracting quantitative datasets and network files from Web of Science files. This makes the library more accessible to researchers who do not know Python, and makes it easier to quickly explore new datasets.</p>
+<p><code class="highlighter-rouge">Record</code> is a subclass of <code class="highlighter-rouge">abc.collections.Mapping</code> which means it has almost all the methods a dictionary does, the missing ones are those that modify entries. So to access the value of the key <code class="highlighter-rouge">'title'</code> from a <code class="highlighter-rouge">Record</code> <code class="highlighter-rouge">R</code>, you would use either the square brace notation <code class="highlighter-rouge">t = R['title']</code> or the <code class="highlighter-rouge">get()</code> function <code class="highlighter-rouge">t = R.get('title')</code> just like a dictionary. The other methods like <code class="highlighter-rouge">keys()</code> or <code class="highlighter-rouge">copy()</code> also work.</p>
 
-<h1>Contact</h1>
-<p>Reid McIlroy-Young, <a href="mailto:rmcilroy@uwaterloo.ca">rmcilroy@uwaterloo.ca</a><br>John McLevey, <a href="mailto:john.mclevey@uwaterloo.ca">john.mclevey@uwaterloo.ca</a><br>University of Waterloo, Waterloo, ON, Canada</p>
+<p>In addition to being a mapping <code class="highlighter-rouge">Records</code> are also hashable with their hashes being based on a unique id string they are given on creation, usually some kind of accession number the source gives them. The two optional arguments <em>sFile</em> and <em>sLine</em>, which should be given the name of the file the records came from and the line it started on respectively, are used to make the errors more useful.</p>
 
-<h1>Citation</h1>
+<h5 id="init">__Init__</h5>
 
-<p>If you are using metaknowledge for research that will be published or publicly distributed, please acknowledge us with the following citation:<p>
+<p><em>fieldDict</em> is the dictionary the <code class="highlighter-rouge">Record</code> will use and <em>idValue</em> is the unique identifier of the <code class="highlighter-rouge">Record</code>.</p>
 
-<blockquote>Reid McIlroy-Young and John McLevey. 2015. metaknowledge: open source software for social networks, bibliometrics, and sociology of knowledge research. URL: http://www.networkslab.org/metaknowledge.</blockquote>
+<h5 id="parameters">Parameters</h5>
 
-<p><a href="http://networkslab.org/metaknowledge/citation.bib">Download .bib file:</a></p>
+<p><em>fieldDict</em> : <code class="highlighter-rouge">dict[str:]</code></p>
+
+<p>A dictionary that maps from strings to values</p>
+
+<p><em>idValue</em> : <code class="highlighter-rouge">str</code></p>
+
+<p>A unique identifier string for the <code class="highlighter-rouge">Record</code></p>
+
+<p><em>bad</em> : <code class="highlighter-rouge">bool</code></p>
+
+<p><code class="highlighter-rouge">True</code> if there are issues with the <code class="highlighter-rouge">Record</code>, otherwise <code class="highlighter-rouge">False</code></p>
+
+<p><em>error</em> : <code class="highlighter-rouge">Exception</code></p>
+
+<p>The <code class="highlighter-rouge">Exception</code> that caused whatever error made the record be marked as bad or <code class="highlighter-rouge">None</code></p>
+
+<p><em>sFile</em> : <code class="highlighter-rouge">str</code></p>
+
+<p>A string that gives the source file of the original records</p>
+
+<p><em>sLine</em> : <code class="highlighter-rouge">int</code></p>
+
+<p>The first line the original record is found on in the source file</p>
+
+<h3>
+The NSERCGrant class has the following methods:</h3>
+
+<ol class="post-list">
+<li><article><a href="#__setitem__"><b>__setitem__</b>(<i>key, value</i>)</a></article></li>
+</ol>
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="__setitem__"></a><small>NSERCGrant.</small><strong><a href="/metaknowledge/docs/NSERCGrant#__setitem__"><ins>__setitem__</ins></a></strong>(<em>key, value</em>):</p>
+
+<h1 id="needs-to-be-written">Needs to be written</h1>
+
+<hr />
+
+<h2 id="questions">Questions?</h2>
+
+<p>If you find bugs, or have questions, please write to:</p>
+
+<p>Reid McIlroy-Young <a href="&#109;&#097;&#105;&#108;&#116;&#111;:&#114;&#101;&#105;&#100;&#064;&#114;&#101;&#105;&#100;&#109;&#099;&#121;&#046;&#099;&#111;&#109;">&#114;&#101;&#105;&#100;&#064;&#114;&#101;&#105;&#100;&#109;&#099;&#121;&#046;&#099;&#111;&#109;</a></p>
+
+<p>John McLevey <a href="&#109;&#097;&#105;&#108;&#116;&#111;:&#106;&#111;&#104;&#110;&#046;&#109;&#099;&#108;&#101;&#118;&#101;&#121;&#064;&#117;&#119;&#097;&#116;&#101;&#114;&#108;&#111;&#111;&#046;&#099;&#097;">&#106;&#111;&#104;&#110;&#046;&#109;&#099;&#108;&#101;&#118;&#101;&#121;&#064;&#117;&#119;&#097;&#116;&#101;&#114;&#108;&#111;&#111;&#046;&#099;&#097;</a></p>
+
+<hr />
+
+<h2 id="license">License</h2>
+
+<p><em>metaknowledge</em> is free and open source software, distributed under the GPL License.</p>
 
       </div><!-- /.entry-content -->
     </div><!-- /.entry-wrapper -->

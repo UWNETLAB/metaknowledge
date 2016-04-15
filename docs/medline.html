@@ -1,0 +1,832 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>medline &#8211; metaknowledge</title>
+<meta name="description" content="The functions and classes associated with Medline, the format used by Pubmed">
+<meta name="keywords" content="module">
+
+
+<!-- Twitter Cards -->
+<meta name="twitter:title" content="medline">
+<meta name="twitter:description" content="The functions and classes associated with Medline, the format used by Pubmed">
+
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="/metaknowledge/images/site-logo.png">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="medline">
+<meta property="og:description" content="The functions and classes associated with Medline, the format used by Pubmed">
+<meta property="og:url" content="/metaknowledge/docs/medline">
+<meta property="og:site_name" content="metaknowledge">
+
+
+
+
+
+
+<link rel="canonical" href="/metaknowledge/docs/medline">
+<link href="/metaknowledge/feed.xml" type="application/atom+xml" rel="alternate" title="metaknowledge Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/metaknowledge/assets/css/main.css">
+<!-- Webfonts -->
+<script src="https://use.edgefonts.net/source-sans-pro:n2,i2,n3,i3,n4,i4,n6,i6,n7,i7,n9,i9;source-code-pro:n4,n7;volkhov.js"></script>
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- HTML5 Shiv and Media Query Support -->
+<!--[if lt IE 9]>
+  <script src="/metaknowledge/assets/js/vendor/html5shiv.min.js"></script>
+  <script src="/metaknowledge/assets/js/vendor/respond.min.js"></script>
+<![endif]-->
+
+<!-- Modernizr -->
+<script src="/metaknowledge/assets/js/vendor/modernizr-2.7.1.custom.min.js"></script>
+
+
+<!-- MathJax -->
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="/metaknowledge/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="/metaknowledge/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="/metaknowledge/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="/metaknowledge/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="/metaknowledge/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/metaknowledge/images/apple-touch-icon-144x144-precomposed.png">
+
+</head>
+
+<body id="page">
+
+<div class="navigation-wrapper">
+	<nav role="navigation" id="site-nav" class="animated drop">
+	    <ul>
+      
+		    
+		    <li><a href="/metaknowledge/" >Home</a></li>
+		  
+		    
+		    <li><a href="/metaknowledge/documentation/#Installing" >install</a></li>
+		  
+		    
+		    <li><a href="/metaknowledge/documentation" >Documentation</a></li>
+		  
+		    
+		    <li><a href="/metaknowledge/examples" >Examples</a></li>
+		  
+		    
+		    <li><a href="/metaknowledge/cli" >CLI</a></li>
+		  
+		    
+		    <li><a href="https://github.com/networks-lab/metaknowledge" target="_blank">GitHub</a></li>
+		  
+		    
+		    <li><a href="http://www.networkslab.org" target="_blank">NetworksLab</a></li>
+		  
+		    
+		    <li><a href="/metaknowledge/search" >Search</a></li>
+		  
+	    </ul>
+	</nav>
+</div><!-- /.navigation-wrapper -->
+
+<!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
+
+<header class="masthead">
+	<div class="wrap">
+      
+  		<a href="/metaknowledge/" class="site-logo" rel="home" title="metaknowledge"><img src="/metaknowledge/images/site-logo.png" width="200" height="200" alt="metaknowledge logo" class="animated fadeInDown"></a>
+      
+      <h1 class="site-title animated fadeIn"><a href="/metaknowledge/">metaknowledge</a></h1>
+		<h2 class="site-description animated fadeIn" itemprop="description">A Python3 package for social networks and bibliometric research on knowledge</h2>
+	</div>
+</header><!-- /.masthead -->
+
+<div class="js-menu-screen menu-screen"></div>
+
+
+<div id="main" role="main">
+  <article class="entry">
+    <div class="entry-wrapper">
+      <div class="entry-content">
+        <p><a name="medline"></a></p>
+
+<h1 id="medlinemetaknowledgedocsmedlinemedline"><a href="/metaknowledge/docs/medline#medline">medline</a></h1>
+
+<p>hdvfghjhg</p>
+
+<h3><a name="medline">The <a href="#medline"><u>medline</u></a> module provides the following functions:</a></h3>
+
+<ol class="post-list">
+<li><article><a href="#medlineParser"><b>medlineParser</b>(<i>pubFile</i>)</a></article></li>
+<li><article><a href="#isMedlineFile"><b>isMedlineFile</b>(<i>infile, checkedLines=2</i>)</a></article></li>
+<li><article><a href="#medlineRecordParser"><b>medlineRecordParser</b>(<i>record</i>)</a></article></li>
+<li><article><a href="#FPS"><b>FPS</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#TT"><b>TT</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#PROF"><b>PROF</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#PHST"><b>PHST</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#EFR"><b>EFR</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#PST"><b>PST</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#SPIN"><b>SPIN</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#AU"><b>AU</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#FED"><b>FED</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#NM"><b>NM</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#SO"><b>SO</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#IP"><b>IP</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#OABL"><b>OABL</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#PUBM"><b>PUBM</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#CRDT"><b>CRDT</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#DDIN"><b>DDIN</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#MH"><b>MH</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#DP"><b>DP</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#GN"><b>GN</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#CRF"><b>CRF</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#TI"><b>TI</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#CRI"><b>CRI</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#OT"><b>OT</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#ROF"><b>ROF</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#CN"><b>CN</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#OTO"><b>OTO</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#OID"><b>OID</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#PT"><b>PT</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#RPI"><b>RPI</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#AB"><b>AB</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#EN"><b>EN</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#AD"><b>AD</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#LA"><b>LA</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#MHDA"><b>MHDA</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#TA"><b>TA</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#JT"><b>JT</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#IRAD"><b>IRAD</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#PS"><b>PS</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#IS"><b>IS</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#PL"><b>PL</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#CTI"><b>CTI</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#FAU"><b>FAU</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#VTI"><b>VTI</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#DCOM"><b>DCOM</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#LID"><b>LID</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#BTI"><b>BTI</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#CI"><b>CI</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#STAT"><b>STAT</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#DRIN"><b>DRIN</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#RF"><b>RF</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#UIN"><b>UIN</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#LR"><b>LR</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#IR"><b>IR</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#SFM"><b>SFM</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#EIN"><b>EIN</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#AID"><b>AID</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#EDAT"><b>EDAT</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#PRIN"><b>PRIN</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#DEP"><b>DEP</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#AUID"><b>AUID</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#SI"><b>SI</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#ISBN"><b>ISBN</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#RN"><b>RN</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#JID"><b>JID</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#GR"><b>GR</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#OCI"><b>OCI</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#SB"><b>SB</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#DA"><b>DA</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#PMCR"><b>PMCR</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#PG"><b>PG</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#GS"><b>GS</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#VI"><b>VI</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#UOF"><b>UOF</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#FIR"><b>FIR</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#OWN"><b>OWN</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#ORI"><b>ORI</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#MID"><b>MID</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#PMID"><b>PMID</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#PMC"><b>PMC</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#RIN"><b>RIN</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#RPF"><b>RPF</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#CIN"><b>CIN</b>(<i>val</i>)</a></article></li>
+</ol>
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="medlineParser"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#medlineParser"><ins>medlineParser</ins></a></strong>(<em>pubFile</em>):</p>
+
+<h1 id="needs-to-be-written">Needs to be written</h1>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="isMedlineFile"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#isMedlineFile"><ins>isMedlineFile</ins></a></strong>(<em>infile, checkedLines=2</em>):</p>
+
+<p>Checks if <em>infile</em> has the right header in the first <em>checkedLines</em> lines</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="medlineRecordParser"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#medlineRecordParser"><ins>medlineRecordParser</ins></a></strong>(<em>record</em>):</p>
+
+<h1 id="needs-to-be-written-1">Needs to be written</h1>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="FPS"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#FPS"><ins>FPS</ins></a></strong>(<em>val</em>):</p>
+
+<p>FullPersonalNameSubject</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="TT"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#TT"><ins>TT</ins></a></strong>(<em>val</em>):</p>
+
+<p>TransliteratedTitle</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="PROF"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#PROF"><ins>PROF</ins></a></strong>(<em>val</em>):</p>
+
+<p>PartialRetractionOf</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="PHST"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#PHST"><ins>PHST</ins></a></strong>(<em>val</em>):</p>
+
+<p>PublicationHistoryStatus</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="EFR"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#EFR"><ins>EFR</ins></a></strong>(<em>val</em>):</p>
+
+<p>ErratumFor</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="PST"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#PST"><ins>PST</ins></a></strong>(<em>val</em>):</p>
+
+<p>PublicationStatus</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="SPIN"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#SPIN"><ins>SPIN</ins></a></strong>(<em>val</em>):</p>
+
+<p>SummaryForPatients</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="AU"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#AU"><ins>AU</ins></a></strong>(<em>val</em>):</p>
+
+<p>Author</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="FED"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#FED"><ins>FED</ins></a></strong>(<em>val</em>):</p>
+
+<p>Editor</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="NM"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#NM"><ins>NM</ins></a></strong>(<em>val</em>):</p>
+
+<p>SubstanceName</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="SO"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#SO"><ins>SO</ins></a></strong>(<em>val</em>):</p>
+
+<p>Source</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="IP"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#IP"><ins>IP</ins></a></strong>(<em>val</em>):</p>
+
+<p>Issue</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="OABL"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#OABL"><ins>OABL</ins></a></strong>(<em>val</em>):</p>
+
+<p>OtherAbstract</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="PUBM"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#PUBM"><ins>PUBM</ins></a></strong>(<em>val</em>):</p>
+
+<p>PublishingModel</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="CRDT"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#CRDT"><ins>CRDT</ins></a></strong>(<em>val</em>):</p>
+
+<p>CreateDate</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="DDIN"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#DDIN"><ins>DDIN</ins></a></strong>(<em>val</em>):</p>
+
+<p>DatasetIn</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="MH"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#MH"><ins>MH</ins></a></strong>(<em>val</em>):</p>
+
+<p>MeSHTerms</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="DP"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#DP"><ins>DP</ins></a></strong>(<em>val</em>):</p>
+
+<p>DatePublication</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="GN"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#GN"><ins>GN</ins></a></strong>(<em>val</em>):</p>
+
+<p>GeneralNote</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="CRF"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#CRF"><ins>CRF</ins></a></strong>(<em>val</em>):</p>
+
+<p>CorrectedRepublishedFrom</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="TI"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#TI"><ins>TI</ins></a></strong>(<em>val</em>):</p>
+
+<p>Title
+only one per record</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="CRI"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#CRI"><ins>CRI</ins></a></strong>(<em>val</em>):</p>
+
+<p>CorrectedRepublishedIn</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="OT"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#OT"><ins>OT</ins></a></strong>(<em>val</em>):</p>
+
+<p>OtherTerm
+Nothing needs to be done</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="ROF"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#ROF"><ins>ROF</ins></a></strong>(<em>val</em>):</p>
+
+<p>RetractionOf</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="CN"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#CN"><ins>CN</ins></a></strong>(<em>val</em>):</p>
+
+<p>CorporateAuthor</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="OTO"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#OTO"><ins>OTO</ins></a></strong>(<em>val</em>):</p>
+
+<p>OtherTermOwner
+one line field</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="OID"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#OID"><ins>OID</ins></a></strong>(<em>val</em>):</p>
+
+<p>OtherID</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="PT"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#PT"><ins>PT</ins></a></strong>(<em>val</em>):</p>
+
+<p>PublicationType</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="RPI"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#RPI"><ins>RPI</ins></a></strong>(<em>val</em>):</p>
+
+<p>RepublishedIn</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="AB"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#AB"><ins>AB</ins></a></strong>(<em>val</em>):</p>
+
+<p>Abstract
+basically a one liner after parsing</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="EN"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#EN"><ins>EN</ins></a></strong>(<em>val</em>):</p>
+
+<p>Edition</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="AD"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#AD"><ins>AD</ins></a></strong>(<em>val</em>):</p>
+
+<p>Affiliation
+Undoing what the parser does then splitting at the semicolons and dropping newlines extra fitlering is required beacuse some AD’s end with a semicolon</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="LA"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#LA"><ins>LA</ins></a></strong>(<em>val</em>):</p>
+
+<p>Language</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="MHDA"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#MHDA"><ins>MHDA</ins></a></strong>(<em>val</em>):</p>
+
+<p>MeSHDate</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="TA"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#TA"><ins>TA</ins></a></strong>(<em>val</em>):</p>
+
+<p>JournalTitleAbbreviation
+One line only</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="JT"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#JT"><ins>JT</ins></a></strong>(<em>val</em>):</p>
+
+<p>JournalTitle
+One line only</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="IRAD"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#IRAD"><ins>IRAD</ins></a></strong>(<em>val</em>):</p>
+
+<p>InvestigatorAffiliation</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="PS"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#PS"><ins>PS</ins></a></strong>(<em>val</em>):</p>
+
+<p>PersonalNameSubject</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="IS"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#IS"><ins>IS</ins></a></strong>(<em>val</em>):</p>
+
+<p>ISSN</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="PL"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#PL"><ins>PL</ins></a></strong>(<em>val</em>):</p>
+
+<p>PlacePublication</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="CTI"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#CTI"><ins>CTI</ins></a></strong>(<em>val</em>):</p>
+
+<p>CollectionTitle</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="FAU"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#FAU"><ins>FAU</ins></a></strong>(<em>val</em>):</p>
+
+<p>FullAuthor</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="VTI"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#VTI"><ins>VTI</ins></a></strong>(<em>val</em>):</p>
+
+<p>VolumeTitle</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="DCOM"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#DCOM"><ins>DCOM</ins></a></strong>(<em>val</em>):</p>
+
+<p>DateCompleted</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="LID"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#LID"><ins>LID</ins></a></strong>(<em>val</em>):</p>
+
+<p>LocationIdentifier</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="BTI"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#BTI"><ins>BTI</ins></a></strong>(<em>val</em>):</p>
+
+<p>BookTitle</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="CI"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#CI"><ins>CI</ins></a></strong>(<em>val</em>):</p>
+
+<p>CopyrightInformation</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="STAT"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#STAT"><ins>STAT</ins></a></strong>(<em>val</em>):</p>
+
+<p>Status</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="DRIN"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#DRIN"><ins>DRIN</ins></a></strong>(<em>val</em>):</p>
+
+<p>DatasetUseReportedIn</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="RF"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#RF"><ins>RF</ins></a></strong>(<em>val</em>):</p>
+
+<p>NumberReferences</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="UIN"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#UIN"><ins>UIN</ins></a></strong>(<em>val</em>):</p>
+
+<p>UpdateIn</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="LR"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#LR"><ins>LR</ins></a></strong>(<em>val</em>):</p>
+
+<p>DateLastRevised</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="IR"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#IR"><ins>IR</ins></a></strong>(<em>val</em>):</p>
+
+<p>Investigator</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="SFM"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#SFM"><ins>SFM</ins></a></strong>(<em>val</em>):</p>
+
+<p>SpaceFlightMission</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="EIN"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#EIN"><ins>EIN</ins></a></strong>(<em>val</em>):</p>
+
+<p>ErratumIn</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="AID"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#AID"><ins>AID</ins></a></strong>(<em>val</em>):</p>
+
+<p>ArticleIdentifier
+The given values do not require any work</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="EDAT"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#EDAT"><ins>EDAT</ins></a></strong>(<em>val</em>):</p>
+
+<p>EntrezDate</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="PRIN"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#PRIN"><ins>PRIN</ins></a></strong>(<em>val</em>):</p>
+
+<p>PartialRetractionIn</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="DEP"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#DEP"><ins>DEP</ins></a></strong>(<em>val</em>):</p>
+
+<p>DateElectronicPublication</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="AUID"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#AUID"><ins>AUID</ins></a></strong>(<em>val</em>):</p>
+
+<p>AuthorIdentifier
+one line only just need to undo the parser’s effects</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="SI"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#SI"><ins>SI</ins></a></strong>(<em>val</em>):</p>
+
+<p>SecondarySourceID</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="ISBN"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#ISBN"><ins>ISBN</ins></a></strong>(<em>val</em>):</p>
+
+<p>ISBN</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="RN"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#RN"><ins>RN</ins></a></strong>(<em>val</em>):</p>
+
+<p>RegistryNumber</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="JID"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#JID"><ins>JID</ins></a></strong>(<em>val</em>):</p>
+
+<p>NLMID</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="GR"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#GR"><ins>GR</ins></a></strong>(<em>val</em>):</p>
+
+<p>GrantNumber</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="OCI"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#OCI"><ins>OCI</ins></a></strong>(<em>val</em>):</p>
+
+<p>OtherCopyright</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="SB"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#SB"><ins>SB</ins></a></strong>(<em>val</em>):</p>
+
+<p>Subset</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="DA"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#DA"><ins>DA</ins></a></strong>(<em>val</em>):</p>
+
+<p>DateCreated</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="PMCR"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#PMCR"><ins>PMCR</ins></a></strong>(<em>val</em>):</p>
+
+<p>PubMedCentralRelease</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="PG"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#PG"><ins>PG</ins></a></strong>(<em>val</em>):</p>
+
+<p>Pagination
+all pagination seen so far seems to be only on one line</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="GS"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#GS"><ins>GS</ins></a></strong>(<em>val</em>):</p>
+
+<p>GeneSymbol</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="VI"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#VI"><ins>VI</ins></a></strong>(<em>val</em>):</p>
+
+<p>Volume
+The volumes as a string as volume is single line</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="UOF"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#UOF"><ins>UOF</ins></a></strong>(<em>val</em>):</p>
+
+<p>UpdateOf</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="FIR"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#FIR"><ins>FIR</ins></a></strong>(<em>val</em>):</p>
+
+<p>InvestigatorFull</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="OWN"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#OWN"><ins>OWN</ins></a></strong>(<em>val</em>):</p>
+
+<p>Owner</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="ORI"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#ORI"><ins>ORI</ins></a></strong>(<em>val</em>):</p>
+
+<p>OriginalReportIn</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="MID"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#MID"><ins>MID</ins></a></strong>(<em>val</em>):</p>
+
+<p>ManuscriptIdentifier</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="PMID"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#PMID"><ins>PMID</ins></a></strong>(<em>val</em>):</p>
+
+<p>PubMedUniqueIdentifier</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="PMC"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#PMC"><ins>PMC</ins></a></strong>(<em>val</em>):</p>
+
+<p>PubMedCentralIdentifier</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="RIN"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#RIN"><ins>RIN</ins></a></strong>(<em>val</em>):</p>
+
+<p>RetractionIn</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="RPF"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#RPF"><ins>RPF</ins></a></strong>(<em>val</em>):</p>
+
+<p>RepublishedFrom</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="CIN"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#CIN"><ins>CIN</ins></a></strong>(<em>val</em>):</p>
+
+<p>CommentIn</p>
+
+<hr />
+
+<h2 id="questions">Questions?</h2>
+
+<p>If you find bugs, or have questions, please write to:</p>
+
+<p>Reid McIlroy-Young <a href="&#109;&#097;&#105;&#108;&#116;&#111;:&#114;&#101;&#105;&#100;&#064;&#114;&#101;&#105;&#100;&#109;&#099;&#121;&#046;&#099;&#111;&#109;">&#114;&#101;&#105;&#100;&#064;&#114;&#101;&#105;&#100;&#109;&#099;&#121;&#046;&#099;&#111;&#109;</a></p>
+
+<p>John McLevey <a href="&#109;&#097;&#105;&#108;&#116;&#111;:&#106;&#111;&#104;&#110;&#046;&#109;&#099;&#108;&#101;&#118;&#101;&#121;&#064;&#117;&#119;&#097;&#116;&#101;&#114;&#108;&#111;&#111;&#046;&#099;&#097;">&#106;&#111;&#104;&#110;&#046;&#109;&#099;&#108;&#101;&#118;&#101;&#121;&#064;&#117;&#119;&#097;&#116;&#101;&#114;&#108;&#111;&#111;&#046;&#099;&#097;</a></p>
+
+<hr />
+
+<h2 id="license">License</h2>
+
+<p><em>metaknowledge</em> is free and open source software, distributed under the GPL License.</p>
+
+      </div><!-- /.entry-content -->
+    </div><!-- /.entry-wrapper -->
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrapper">
+  <footer role="contentinfo" class="entry-wrapper">
+    
+
+<span>&copy; 2016 John McLevey and Reid McIlroy-Young. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> using the <a href="http://mademistakes.com/so-simple/" rel="nofollow">So Simple Theme</a>.</span>
+<div class="social-icons">
+	
+	
+	
+	
+	
+	
+	
+	
+	
+  
+	
+  
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-25394214-5', 'auto');
+  ga('send', 'pageview');
+
+</script>
+  
+</div><!-- /.social-icons -->
+
+  </footer>
+</div><!-- /.footer-wrapper -->
+
+<script type="text/javascript">
+  var BASE_URL = '/metaknowledge';
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/metaknowledge/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="/metaknowledge/assets/js/scripts.min.js"></script>
+
+
+<!-- Asynchronous Google Analytics snippet -->
+<script>
+  var _gaq = _gaq || [];
+  var pluginUrl =
+ 'https://www.google-analytics.com/plugins/ga/inpage_linkid.js';
+  _gaq.push(['_require', 'inpage_linkid', pluginUrl]);
+  _gaq.push(['_setAccount', 'UA-25394214-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = 'https://stats.g.doubleclick.net/dc.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+
+</body>
+</html>

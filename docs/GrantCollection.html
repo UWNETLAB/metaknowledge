@@ -5,14 +5,14 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
 <head>
 <meta charset="utf-8">
-<title>metaknowledge</title>
-
-
+<title>GrantCollection &#8211; metaknowledge</title>
+<meta name="description" content="A Collection of Grants, this is what does most of the stuff on Grants">
+<meta name="keywords" content="class">
 
 
 <!-- Twitter Cards -->
-<meta name="twitter:title" content="metaknowledge">
-
+<meta name="twitter:title" content="GrantCollection">
+<meta name="twitter:description" content="A Collection of Grants, this is what does most of the stuff on Grants">
 
 
 
@@ -22,9 +22,9 @@
 <!-- Open Graph -->
 <meta property="og:locale" content="en_US">
 <meta property="og:type" content="article">
-<meta property="og:title" content="metaknowledge">
-
-<meta property="og:url" content="/metaknowledge/">
+<meta property="og:title" content="GrantCollection">
+<meta property="og:description" content="A Collection of Grants, this is what does most of the stuff on Grants">
+<meta property="og:url" content="/metaknowledge/docs/GrantCollection">
 <meta property="og:site_name" content="metaknowledge">
 
 
@@ -32,7 +32,7 @@
 
 
 
-<link rel="canonical" href="/metaknowledge/">
+<link rel="canonical" href="/metaknowledge/docs/GrantCollection">
 <link href="/metaknowledge/feed.xml" type="application/atom+xml" rel="alternate" title="metaknowledge Feed">
 
 <!-- https://t.co/dKP3o1e -->
@@ -128,41 +128,30 @@
 
 <div id="main" role="main">
   <article class="entry">
-    
     <div class="entry-wrapper">
-      <header class="entry-header">
-        <h1 class="entry-title"></h1>
-      </header>
       <div class="entry-content">
-        <p>metaknowledge is a <a href="https://www.python.org">Python3</a> package for doing social networks and bibliometric research on knowledge. It is developed primarily for conducting research in science and health policy studies, for quantitative / computational sociology of knowledge, and for simplifying the process of doing systematic reviews in any disciplinary context. </p>
+        <p><a name="GrantCollection"></a>
+<a name="GrantCollection"></a><small></small><strong><a href="/metaknowledge/docs/GrantCollection#GrantCollection"><ins>GrantCollection</ins></a></strong>(<em><a href="#CollectionWithIDs"><u style="border-bottom: .5px dashed gray;">CollectionWithIDs</u></a></em>):</p>
 
-<p>metaknowledge reads a directory of plain text files containing meta-data on publications and citations, and writes to a variety of data structures that are suitable for quantitative, network, and text analyses. It handles large datasets (e.g. several million records) efficiently. </p>
+<p><a name="GrantCollection.__init__"></a><small></small><strong><a href="/metaknowledge/docs/GrantCollection#GrantCollection.__init__"><ins>GrantCollection.__init__</ins></a></strong>(<em>inGrants=None, name=’’, extension=’’, cached=False, quietStart=False</em>):</p>
 
-<p>metaknowledge currently handles data from the Web of Science. However, we are preparing a new release that will handle data from PubMed, ProQuest Dissertations and Theses, selected open data repositories, and awards data from selected granting agencies. </p>
+<p>A Collection with a few extra methods that assume all the contained items have an id attribute and a bad attribute, e.g. Records or Grants</p>
 
-<p>Among other things, metaknowledge currently has functions for:</p>
+<hr />
 
-<ul>
-  <li>cleaning and preprocessing Web of Science data (e.g. identifying and deleting duplicate records)</li>
-  <li>extracting co-author, citation, and co-citation networks for published papers, authors, and journals</li>
-  <li>extracting multi-mode networks using any of the meta-data fields available in the Web of Science database (e.g. papers and keywords)</li>
-  <li>extracting data for textual analysis (e.g. titles, abstracts)</li>
-</ul>
+<h2 id="questions">Questions?</h2>
 
-<p>Datasets created with metaknowledge can be analyzed using <a href="https://networkx.github.io"> NetworkX</a> and the <a href="http://www.scipy.org/about.html">standard libraries</a> for data analysis in Python. It is also easy to write data to csv or graphml files for analysis and visualization in <a href="http://www.r-project.org">R</a>, <a href="http://www.stata.com">Stata</a>, <a href="http://visone.info">Visone</a>, <a href="http://gephi.github.io">Gephi</a>, or any other tools for data analysis.</p>
+<p>If you find bugs, or have questions, please write to:</p>
 
-<p>metaknowledge also has a simple command line tool for extracting quantitative datasets and network files from Web of Science files. This makes the library more accessible to researchers who do not know Python, and makes it easier to quickly explore new datasets.</p>
+<p>Reid McIlroy-Young <a href="&#109;&#097;&#105;&#108;&#116;&#111;:&#114;&#101;&#105;&#100;&#064;&#114;&#101;&#105;&#100;&#109;&#099;&#121;&#046;&#099;&#111;&#109;">&#114;&#101;&#105;&#100;&#064;&#114;&#101;&#105;&#100;&#109;&#099;&#121;&#046;&#099;&#111;&#109;</a></p>
 
-<h1>Contact</h1>
-<p>Reid McIlroy-Young, <a href="mailto:rmcilroy@uwaterloo.ca">rmcilroy@uwaterloo.ca</a><br>John McLevey, <a href="mailto:john.mclevey@uwaterloo.ca">john.mclevey@uwaterloo.ca</a><br>University of Waterloo, Waterloo, ON, Canada</p>
+<p>John McLevey <a href="&#109;&#097;&#105;&#108;&#116;&#111;:&#106;&#111;&#104;&#110;&#046;&#109;&#099;&#108;&#101;&#118;&#101;&#121;&#064;&#117;&#119;&#097;&#116;&#101;&#114;&#108;&#111;&#111;&#046;&#099;&#097;">&#106;&#111;&#104;&#110;&#046;&#109;&#099;&#108;&#101;&#118;&#101;&#121;&#064;&#117;&#119;&#097;&#116;&#101;&#114;&#108;&#111;&#111;&#046;&#099;&#097;</a></p>
 
-<h1>Citation</h1>
+<hr />
 
-<p>If you are using metaknowledge for research that will be published or publicly distributed, please acknowledge us with the following citation:<p>
+<h2 id="license">License</h2>
 
-<blockquote>Reid McIlroy-Young and John McLevey. 2015. metaknowledge: open source software for social networks, bibliometrics, and sociology of knowledge research. URL: http://www.networkslab.org/metaknowledge.</blockquote>
-
-<p><a href="http://networkslab.org/metaknowledge/citation.bib">Download .bib file:</a></p>
+<p><em>metaknowledge</em> is free and open source software, distributed under the GPL License.</p>
 
       </div><!-- /.entry-content -->
     </div><!-- /.entry-wrapper -->

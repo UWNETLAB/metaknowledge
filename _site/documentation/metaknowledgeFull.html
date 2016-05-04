@@ -193,7 +193,7 @@
 <li><article><a href="#allButDOI"><small>Citation</small>.<b>allButDOI</b>()</a></article></li>
 <li><article><a href="#Extra"><small>Citation</small>.<b>Extra</b>()</a></article></li>
 <li><article><a href="#update"><small>Grant</small>.<b>update</b>(<i>other</i>)</a></article></li>
-<li><article><a href="#pop"><small>Grant</small>.<b>pop</b>(<i>key, default=&lt;object object at 0x10edc8050&gt;</i>)</a></article></li>
+<li><article><a href="#pop"><small>Grant</small>.<b>pop</b>(<i>key, default=&lt;object object at 0x106fdd050&gt;</i>)</a></article></li>
 <li><article><a href="#popitem"><small>Grant</small>.<b>popitem</b>()</a></article></li>
 <li><article><a href="#clear"><small>Grant</small>.<b>clear</b>()</a></article></li>
 <li><article><a href="#setdefault"><small>Grant</small>.<b>setdefault</b>(<i>key, default=None</i>)</a></article></li>
@@ -587,6 +587,10 @@ Done making a co-citation network of files-from-records                 1.1s
 
 <p>default <code class="highlighter-rouge">'raw'</code>, if <code class="highlighter-rouge">'raw'</code> the returned <code class="highlighter-rouge">dict</code> will contain <code class="highlighter-rouge">Records</code> as keys. If it is a WOS tag the keys will be of that type.</p>
 
+<p><em>extraValue</em> : <code class="highlighter-rouge">optional [str]</code></p>
+
+<p>default <code class="highlighter-rouge">None</code>, a tag that will split the counts based on entries to it, meaning instead of a single integer a dictionary will be given.</p>
+
 <p><em>pandasFriendly</em> : <code class="highlighter-rouge">optional [bool]</code></p>
 
 <p>default <code class="highlighter-rouge">False</code>, makes the output be a dict with two keys one <code class="highlighter-rouge">"Record"</code> is the list of Records ( or data type requested by <em>sourceType</em>) the other is their occurrence counts as <code class="highlighter-rouge">"Counts"</code>. The lists are the same length.</p>
@@ -595,9 +599,15 @@ Done making a co-citation network of files-from-records                 1.1s
 
 <p>default <code class="highlighter-rouge">False</code>, if <code class="highlighter-rouge">True</code> the diffusion analysis will be run twice, first with source and target setup like the default (global scope) then using only the source <code class="highlighter-rouge">RecordCollection</code> (local scope).</p>
 
-<p><em>byYear</em> : <code class="highlighter-rouge">optional [bool]</code></p>
+<p><em>extraValue</em> : <code class="highlighter-rouge">optional [str]</code></p>
 
-<p>default <code class="highlighter-rouge">False</code>, if <code class="highlighter-rouge">True</code> the returned dictionary will have Records mapped to maps, these maps will map years (‘ints’) to counts. If <em>pandasFriendly</em> is also <code class="highlighter-rouge">True</code> the resultant dictionary will have an additional column called <code class="highlighter-rouge">'year'</code>. This column will contain the year the citations occurred, in addition the Records entries will be duplicated for each year they occur in.</p>
+<p>default <code class="highlighter-rouge">None</code>, if a tag the returned dictionary will have <code class="highlighter-rouge">Records</code> mapped to maps, these maps will map the entries for the tag to counts. If <em>pandasFriendly</em> is also <code class="highlighter-rouge">True</code> the resultant dictionary will have an additional column called <code class="highlighter-rouge">'year'</code>. This column will contain the year the citations occurred, in addition the Records entries will be duplicated for each year they occur in.</p>
+
+<p>For example if <code class="highlighter-rouge">'year'</code> was given then the count for a single <code class="highlighter-rouge">Record</code> could be <code class="highlighter-rouge"><span class="p">{</span><span class="err">1990</span><span class="w"> </span><span class="err">:</span><span class="w"> </span><span class="err">1,</span><span class="w"> </span><span class="err">2000</span><span class="w"> </span><span class="err">:</span><span class="w"> </span><span class="err">5</span><span class="p">}</span></code></p>
+
+<p><em>useAllAuthors</em> : <code class="highlighter-rouge">optional [bool]</code></p>
+
+<p>default <code class="highlighter-rouge">True</code>, if <code class="highlighter-rouge">False</code> only the first author will be used to generate the <code class="highlighter-rouge">Citations</code> for the <em>source</em> <code class="highlighter-rouge">Records</code></p>
 
 <h6 id="returns-2">Returns</h6>
 
@@ -613,7 +623,29 @@ Done making a co-citation network of files-from-records                 1.1s
 
 <p><a name="diffusionAddCountsFromSource"></a><small></small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#diffusionAddCountsFromSource"><ins>diffusionAddCountsFromSource</ins></a></strong>(<em>grph, source, target, nodeType=’citations’, extraType=None, diffusionLabel=’DiffusionCount’, extraKeys=None, countsDict=None, extraMapping=None</em>):</p>
 
-<h1 id="needs-to-be-written">Needs to be written</h1>
+<p>Does a diffusion using <a href="/metaknowledge/documentation/metaknowledgeFull#diffusionCount"><code class="highlighter-rouge">diffusionCount()</code></a> and updates <em>grph</em> with it, using the nodes in the graph as keys in the diffusion, i.e. the source. The name of the attribute the counts are added to is given by <em>diffusionLabel</em>. If the graph is not composed of citations from the source and instead is another entry the tag for the entry needs to be given to <em>nodeType</em>. You can also change</p>
+
+<h6 id="parameters-3">Parameters</h6>
+
+<p><em>grph</em> : <code class="highlighter-rouge">networkx Graph</code></p>
+
+<p>The graph to be updated</p>
+
+<p><em>source</em> : <code class="highlighter-rouge">RecordCollection</code></p>
+
+<p>The <code class="highlighter-rouge">RecordCollection</code> that created <em>grph</em></p>
+
+<p><em>target</em> : <code class="highlighter-rouge">RecordCollection</code></p>
+
+<p>The <code class="highlighter-rouge">RecordCollection</code> that will be counted</p>
+
+<p><em>nodeType</em> : <code class="highlighter-rouge">optional [str]</code></p>
+
+<p>The tag that constants the values used to create <em>grph</em></p>
+
+<p><em>extraType</em></p>
+
+<p>diffusion was not done with</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
@@ -631,7 +663,7 @@ Done making a co-citation network of files-from-records                 1.1s
 
 <p><strong>Note</strong>: If nodes appear in the edgelist but not the nodeList they will be created silently with no attributes.</p>
 
-<h6 id="parameters-3">Parameters</h6>
+<h6 id="parameters-4">Parameters</h6>
 
 <p><em>edgeList</em> : <code class="highlighter-rouge">str</code></p>
 
@@ -673,7 +705,7 @@ Done making a co-citation network of files-from-records                 1.1s
 
 <p><strong>Note</strong>: If any edges are missing an attribute it will be left blank by default, enable <em>allSameAttribute</em> to cause a <code class="highlighter-rouge">KeyError</code> to be raised.</p>
 
-<h6 id="parameters-4">Parameters</h6>
+<h6 id="parameters-5">Parameters</h6>
 
 <p><em>grph</em> : <code class="highlighter-rouge">networkx Graph</code></p>
 
@@ -701,7 +733,7 @@ Done making a co-citation network of files-from-records                 1.1s
 
 <p><strong>Note</strong>: If any nodes are missing an attribute it will be left blank by default, enable <em>allSameAttribute</em> to cause a <code class="highlighter-rouge">KeyError</code> to be raised.</p>
 
-<h6 id="parameters-5">Parameters</h6>
+<h6 id="parameters-6">Parameters</h6>
 
 <p><em>grph</em> : <code class="highlighter-rouge">networkx Graph</code></p>
 
@@ -723,7 +755,7 @@ Done making a co-citation network of files-from-records                 1.1s
 
 <p><strong>Note</strong>: none of the default options will result in <em>grph</em> being modified so only specify the relevant ones, e.g. <code class="highlighter-rouge">dropEdges(G, dropSelfLoops = True)</code> will remove only the self loops from <code class="highlighter-rouge">G</code>.</p>
 
-<h6 id="parameters-6">Parameters</h6>
+<h6 id="parameters-7">Parameters</h6>
 
 <p><em>grph</em> : <code class="highlighter-rouge">networkx Graph</code></p>
 
@@ -757,7 +789,7 @@ Done making a co-citation network of files-from-records                 1.1s
 
 <p>Degree is determined in two ways, the default <em>useWeight</em> is the weight attribute of the edges to a node will be summed, the attribute’s name is <em>parameterName</em> otherwise the number of edges touching the node is used. If <em>includeUnweighted</em> is <code class="highlighter-rouge">True</code> then <em>useWeight</em> will assign a degree of 1 to unweighted edges.</p>
 
-<h6 id="parameters-7">Parameters</h6>
+<h6 id="parameters-8">Parameters</h6>
 
 <p><em>grph</em> : <code class="highlighter-rouge">networkx Graph</code></p>
 
@@ -793,7 +825,7 @@ Done making a co-citation network of files-from-records                 1.1s
 
 <p>minCount and maxCount default to negative and positive infinity respectively so without specifying either the output should be the input</p>
 
-<h6 id="parameters-8">Parameters</h6>
+<h6 id="parameters-9">Parameters</h6>
 
 <p><em>grph</em> : <code class="highlighter-rouge">networkx Graph</code></p>
 
@@ -823,7 +855,7 @@ Done making a co-citation network of files-from-records                 1.1s
 
 <p><strong>mergeGraphs</strong>() will <strong>modify</strong> <em>targetGraph</em> in place by adding the nodes and edges found in the second, <em>addedGraph</em>. If a node or edge exists <em>targetGraph</em> is given precedence, but the edge and node attributes given by <em>incrementedNodeVal</em> and incrementedEdgeVal are added instead of being overwritten.</p>
 
-<h6 id="parameters-9">Parameters</h6>
+<h6 id="parameters-10">Parameters</h6>
 
 <p><em>targetGraph</em> : <code class="highlighter-rouge">networkx Graph</code></p>
 
@@ -849,7 +881,7 @@ Done making a co-citation network of files-from-records                 1.1s
 
 <p><strong>graphStats()</strong> gives 6 different statistics: number of nodes, number of edges, number of isolates, number of loops, density and transitivity. The ones wanted can be given to <em>stats</em>. By default a string giving a sentence containing all the requested statistics is returned but the raw values can be accessed instead by setting <em>makeString</em> to <code class="highlighter-rouge">False</code>.</p>
 
-<h6 id="parameters-10">Parameters</h6>
+<h6 id="parameters-11">Parameters</h6>
 
 <p><em>G</em> : <code class="highlighter-rouge">networkx Graph</code></p>
 
@@ -897,7 +929,7 @@ Done making a co-citation network of files-from-records                 1.1s
 
 <p><strong>Note</strong>: If any nodes or edges are missing an attribute a <code class="highlighter-rouge">KeyError</code> will be raised.</p>
 
-<h6 id="parameters-11">Parameters</h6>
+<h6 id="parameters-12">Parameters</h6>
 
 <p><em>grph</em> : <code class="highlighter-rouge">networkx Graph</code></p>
 
@@ -969,7 +1001,7 @@ Combined they look like:</p>
 
 <p>Citations can be created by <a href="#Record">Records</a> or by giving the initializer a string containing a WOS style citation.</p>
 
-<h5 id="parameters-12">Parameters</h5>
+<h5 id="parameters-13">Parameters</h5>
 
 <p><em>cite</em> : <code class="highlighter-rouge">str</code></p>
 
@@ -1006,7 +1038,7 @@ The WOSCitation class has the following methods:</h3>
 
 <p><strong>Note</strong>: Requires the <a href="/metaknowledge/documentation/metaknowledgeFull#getj9dict">j9Abbreviations</a> database file and will raise an error if it cannot be found.</p>
 
-<h6 id="parameters-13">Parameters</h6>
+<h6 id="parameters-14">Parameters</h6>
 
 <p><em>manualName</em> : <code class="highlighter-rouge">optional [str]</code></p>
 
@@ -1030,7 +1062,7 @@ The WOSCitation class has the following methods:</h3>
 
 <p><strong>Note</strong>: All parameters are used for getting the data base with  <a href="/metaknowledge/documentation/metaknowledgeFull#getj9dict"><strong>getj9dict</strong>()</a>.</p>
 
-<h6 id="parameters-14">Parameters</h6>
+<h6 id="parameters-15">Parameters</h6>
 
 <p><em>dbname</em> : <code class="highlighter-rouge">optional [str]</code></p>
 
@@ -1080,7 +1112,7 @@ The WOSCitation class has the following methods:</h3>
 
 <p>Records are generally create as collections in  <a href="#RecordCollection">Recordcollections</a>, and not as individual objects. If you wish to create one on its own it is possible, the arguments are as follows.</p>
 
-<h5 id="parameters-15">Parameters</h5>
+<h5 id="parameters-16">Parameters</h5>
 
 <p><em>inRecord</em>: <code class="highlighter-rouge">files stream, dict, str or itertools.chain</code></p>
 
@@ -1119,7 +1151,7 @@ The WOSRecord class has the following methods:</h3>
 
 <p>An <code class="highlighter-rouge">abstractmethod</code>, gives the function for processing <em>tag</em></p>
 
-<h6 id="parameters-16">Parameters</h6>
+<h6 id="parameters-17">Parameters</h6>
 
 <p><em>tag</em> : <code class="highlighter-rouge">optional [str]</code></p>
 
@@ -1137,7 +1169,7 @@ The WOSRecord class has the following methods:</h3>
 
 <p>An <code class="highlighter-rouge">abstractmethod</code>, process the special tag, <em>key</em> using the whole <code class="highlighter-rouge">Record</code></p>
 
-<h6 id="parameters-17">Parameters</h6>
+<h6 id="parameters-18">Parameters</h6>
 
 <p><em>key</em> : <code class="highlighter-rouge">str</code></p>
 
@@ -1153,7 +1185,7 @@ The WOSRecord class has the following methods:</h3>
 
 <p>Writes to <em>infile</em> the original contents of the Record. This is intended for use by <a href="/metaknowledge/documentation/metaknowledgeFull#RecordCollection">RecordCollections</a> to write to file. What is written to <em>infile</em> is bit for bit identical to the original record file (if utf-8 is used). No newline is inserted above the write but the last character is a newline.</p>
 
-<h6 id="parameters-18">Parameters</h6>
+<h6 id="parameters-19">Parameters</h6>
 
 <p><em>infile</em> : <code class="highlighter-rouge">file stream</code></p>
 
@@ -1169,7 +1201,7 @@ The WOSRecord class has the following methods:</h3>
 
 <p><strong>Note</strong> Record entries that are lists have their values seperated with the string <code class="highlighter-rouge">' and '</code></p>
 
-<h6 id="parameters-19">Parameters</h6>
+<h6 id="parameters-20">Parameters</h6>
 
 <p><em>maxLength</em> : <code class="highlighter-rouge">optional [int]</code></p>
 
@@ -1223,7 +1255,7 @@ The WOSRecord class has the following methods:</h3>
 
 <p>An <code class="highlighter-rouge">abstractmethod</code>, gives the alternate name of <em>tag</em> or <code class="highlighter-rouge">None</code></p>
 
-<h6 id="parameters-20">Parameters</h6>
+<h6 id="parameters-21">Parameters</h6>
 
 <p><em>tag</em> : <code class="highlighter-rouge">str</code></p>
 
@@ -1281,7 +1313,7 @@ Combined they look like:</p>
 
 <p>Citations can be created by <a href="#Record">Records</a> or by giving the initializer a string containing a WOS style citation.</p>
 
-<h5 id="parameters-21">Parameters</h5>
+<h5 id="parameters-22">Parameters</h5>
 
 <p><em>cite</em> : <code class="highlighter-rouge">str</code></p>
 
@@ -1383,7 +1415,7 @@ The Citation class has the following methods:</h3>
 
 <p><em>fieldDict</em> is the dictionary the <code class="highlighter-rouge">Record</code> will use and <em>idValue</em> is the unique identifier of the <code class="highlighter-rouge">Record</code>.</p>
 
-<h5 id="parameters-22">Parameters</h5>
+<h5 id="parameters-23">Parameters</h5>
 
 <p><em>fieldDict</em> : <code class="highlighter-rouge">dict[str:]</code></p>
 
@@ -1422,7 +1454,7 @@ The Grant class has the following methods:</h3>
 
 <p>Adds all the tag-entry pairs from <em>other</em> to the <code class="highlighter-rouge">Grant</code>. If there is a conflict <em>other</em> takes precedence.</p>
 
-<h6 id="parameters-23">Parameters</h6>
+<h6 id="parameters-24">Parameters</h6>
 
 <p><em>other</em> : <code class="highlighter-rouge">Grant</code></p>
 
@@ -1460,7 +1492,7 @@ The Grant class has the following methods:</h3>
 
 <p><em>fieldDict</em> is the dictionary the <code class="highlighter-rouge">Record</code> will use and <em>idValue</em> is the unique identifier of the <code class="highlighter-rouge">Record</code>.</p>
 
-<h5 id="parameters-24">Parameters</h5>
+<h5 id="parameters-25">Parameters</h5>
 
 <p><em>fieldDict</em> : <code class="highlighter-rouge">dict[str:]</code></p>
 
@@ -1510,7 +1542,7 @@ The Grant class has the following methods:</h3>
 
 <p><em>fieldDict</em> is the dictionary the <code class="highlighter-rouge">Record</code> will use and <em>idValue</em> is the unique identifier of the <code class="highlighter-rouge">Record</code>.</p>
 
-<h5 id="parameters-25">Parameters</h5>
+<h5 id="parameters-26">Parameters</h5>
 
 <p><em>fieldDict</em> : <code class="highlighter-rouge">dict[str:]</code></p>
 
@@ -1560,7 +1592,7 @@ The Grant class has the following methods:</h3>
 
 <p><em>fieldDict</em> is the dictionary the <code class="highlighter-rouge">Record</code> will use and <em>idValue</em> is the unique identifier of the <code class="highlighter-rouge">Record</code>.</p>
 
-<h5 id="parameters-26">Parameters</h5>
+<h5 id="parameters-27">Parameters</h5>
 
 <p><em>fieldDict</em> : <code class="highlighter-rouge">dict[str:]</code></p>
 
@@ -1680,7 +1712,7 @@ The MedlineRecord class has the following methods:</h3>
 
 <p>An <code class="highlighter-rouge">abstractmethod</code>, gives the alternate name of <em>tag</em> or <code class="highlighter-rouge">None</code></p>
 
-<h6 id="parameters-27">Parameters</h6>
+<h6 id="parameters-28">Parameters</h6>
 
 <p><em>tag</em> : <code class="highlighter-rouge">str</code></p>
 
@@ -1698,7 +1730,7 @@ The MedlineRecord class has the following methods:</h3>
 
 <p>An <code class="highlighter-rouge">abstractmethod</code>, gives the function for processing <em>tag</em></p>
 
-<h6 id="parameters-28">Parameters</h6>
+<h6 id="parameters-29">Parameters</h6>
 
 <p><em>tag</em> : <code class="highlighter-rouge">optional [str]</code></p>
 
@@ -1716,7 +1748,7 @@ The MedlineRecord class has the following methods:</h3>
 
 <p>An <code class="highlighter-rouge">abstractmethod</code>, process the special tag, <em>key</em> using the whole <code class="highlighter-rouge">Record</code></p>
 
-<h6 id="parameters-29">Parameters</h6>
+<h6 id="parameters-30">Parameters</h6>
 
 <p><em>key</em> : <code class="highlighter-rouge">str</code></p>
 
@@ -1756,7 +1788,7 @@ The MedlineRecord class has the following methods:</h3>
 
 <p>As <code class="highlighter-rouge">Collection</code> is mostly meant to be base for other classes all but one of the arguments in the __Init__ are not optional and the optional one is not used.</p>
 
-<h5 id="parameters-30">Parameters</h5>
+<h5 id="parameters-31">Parameters</h5>
 
 <p><em>inSet</em> : <code class="highlighter-rouge">set</code></p>
 
@@ -1807,7 +1839,7 @@ The Collection class has the following methods:</h3>
 
 <p>Adds <em>elem</em> to the collection.</p>
 
-<h6 id="parameters-31">Parameters</h6>
+<h6 id="parameters-32">Parameters</h6>
 
 <p><em>elem</em> : <code class="highlighter-rouge">object</code></p>
 
@@ -1819,7 +1851,7 @@ The Collection class has the following methods:</h3>
 
 <p>Removes <em>elem</em> from the collection, will not raise an Exception if <em>elem</em> is missing</p>
 
-<h6 id="parameters-32">Parameters</h6>
+<h6 id="parameters-33">Parameters</h6>
 
 <p><em>elem</em> : <code class="highlighter-rouge">object</code></p>
 
@@ -1831,7 +1863,7 @@ The Collection class has the following methods:</h3>
 
 <p>Removes <em>elem</em> from the collection, will raise a KeyError is <em>elem</em> is missing</p>
 
-<h6 id="parameters-33">Parameters</h6>
+<h6 id="parameters-34">Parameters</h6>
 
 <p><em>elem</em> : <code class="highlighter-rouge">object</code></p>
 
@@ -1885,7 +1917,7 @@ The Collection class has the following methods:</h3>
 
 <p>Splits the <code class="highlighter-rouge">Collection</code> into <em>maxSize</em> size or smaller <code class="highlighter-rouge">Collections</code></p>
 
-<h6 id="parameters-34">Parameters</h6>
+<h6 id="parameters-35">Parameters</h6>
 
 <p><em>maxSize</em> : <code class="highlighter-rouge">int</code></p>
 
@@ -1903,7 +1935,7 @@ The Collection class has the following methods:</h3>
 
 <p>Destructively, splits the <code class="highlighter-rouge">Collection</code> into <em>maxSize</em> size or smaller <code class="highlighter-rouge">Collections</code>. The source <code class="highlighter-rouge">Collection</code> will be empty after this operation</p>
 
-<h6 id="parameters-35">Parameters</h6>
+<h6 id="parameters-36">Parameters</h6>
 
 <p><em>maxSize</em> : <code class="highlighter-rouge">int</code></p>
 
@@ -1949,7 +1981,7 @@ The CollectionWithIDs class has the following methods:</h3>
 
 <p>Checks if the collected items contains the give <em>idVal</em></p>
 
-<h6 id="parameters-36">Parameters</h6>
+<h6 id="parameters-37">Parameters</h6>
 
 <p><em>idVal</em> : <code class="highlighter-rouge">str</code></p>
 
@@ -1967,7 +1999,7 @@ The CollectionWithIDs class has the following methods:</h3>
 
 <p>Checks if the collected items contains the give <em>idVal</em> and discards it if it is found, will not raise an exception if item is not found</p>
 
-<h6 id="parameters-37">Parameters</h6>
+<h6 id="parameters-38">Parameters</h6>
 
 <p><em>idVal</em> : <code class="highlighter-rouge">str</code></p>
 
@@ -1979,7 +2011,7 @@ The CollectionWithIDs class has the following methods:</h3>
 
 <p>Checks if the collected items contains the give <em>idVal</em> and removes it if it is found, will raise a <code class="highlighter-rouge">KeyError</code> if item is not found</p>
 
-<h6 id="parameters-38">Parameters</h6>
+<h6 id="parameters-39">Parameters</h6>
 
 <p><em>idVal</em> : <code class="highlighter-rouge">str</code></p>
 
@@ -1991,7 +2023,7 @@ The CollectionWithIDs class has the following methods:</h3>
 
 <p>Looks up an item with <em>idVal</em> and returns it if it is found, returns <code class="highlighter-rouge">None</code> if it does not find the item</p>
 
-<h6 id="parameters-39">Parameters</h6>
+<h6 id="parameters-40">Parameters</h6>
 
 <p><em>idVal</em> : <code class="highlighter-rouge">str</code></p>
 
@@ -2045,7 +2077,7 @@ The CollectionWithIDs class has the following methods:</h3>
 
 <p><strong>Note</strong> Do not use this for the construction of co-citation networks use <a href="/metaknowledge/documentation/metaknowledgeFull#coCiteNetwork">Recordcollection.coCiteNetwork()</a> it is more accurate and has more options.</p>
 
-<h6 id="parameters-40">Parameters</h6>
+<h6 id="parameters-41">Parameters</h6>
 
 <p><em>mode</em> : <code class="highlighter-rouge">str</code></p>
 
@@ -2083,7 +2115,7 @@ The CollectionWithIDs class has the following methods:</h3>
 
 <p>The <em>directed</em> parameter if <code class="highlighter-rouge">True</code> will cause the network to be directed with the first tag as the source and the second as the destination.</p>
 
-<h6 id="parameters-41">Parameters</h6>
+<h6 id="parameters-42">Parameters</h6>
 
 <p><em>tag1</em> : <code class="highlighter-rouge">str</code></p>
 
@@ -2133,7 +2165,7 @@ The CollectionWithIDs class has the following methods:</h3>
 
 <p>The number of times each object occurs is count if <em>nodeCount</em> is <code class="highlighter-rouge">True</code> and the edges count the number of co-occurrences if <em>edgeWeight</em> is <code class="highlighter-rouge">True</code>. Both are<code class="highlighter-rouge">True</code> by default.</p>
 
-<h6 id="parameters-42">Parameters</h6>
+<h6 id="parameters-43">Parameters</h6>
 
 <p><em>tags</em> : <code class="highlighter-rouge">str</code>, <code class="highlighter-rouge">str</code>, <code class="highlighter-rouge">str</code>, … or <code class="highlighter-rouge">list [str]</code></p>
 
@@ -2244,7 +2276,7 @@ The ExtendedRecord class has the following methods:</h3>
 
 <p>Allows access to the raw values or is an Exception safe wrapper to <code class="highlighter-rouge">__getitem__</code>.</p>
 
-<h6 id="parameters-43">Parameters</h6>
+<h6 id="parameters-44">Parameters</h6>
 
 <p><em>tag</em> : <code class="highlighter-rouge">str</code></p>
 
@@ -2270,7 +2302,7 @@ The ExtendedRecord class has the following methods:</h3>
 
 <p>Like <code class="highlighter-rouge">values</code> for dicts but with a <code class="highlighter-rouge">raw</code> option</p>
 
-<h6 id="parameters-44">Parameters</h6>
+<h6 id="parameters-45">Parameters</h6>
 
 <p><em>raw</em> : <code class="highlighter-rouge">optional [bool]</code></p>
 
@@ -2288,7 +2320,7 @@ The ExtendedRecord class has the following methods:</h3>
 
 <p>Like <code class="highlighter-rouge">items</code> for dicts but with a <code class="highlighter-rouge">raw</code> option</p>
 
-<h6 id="parameters-45">Parameters</h6>
+<h6 id="parameters-46">Parameters</h6>
 
 <p><em>raw</em> : <code class="highlighter-rouge">optional [bool]</code></p>
 
@@ -2306,7 +2338,7 @@ The ExtendedRecord class has the following methods:</h3>
 
 <p>An <code class="highlighter-rouge">abstractmethod</code>, writes the record in its original form to <em>infile</em></p>
 
-<h6 id="parameters-46">Parameters</h6>
+<h6 id="parameters-47">Parameters</h6>
 
 <p><em>infile</em> : <code class="highlighter-rouge">writable file</code></p>
 
@@ -2330,7 +2362,7 @@ The ExtendedRecord class has the following methods:</h3>
 
 <p>An <code class="highlighter-rouge">abstractmethod</code>, gives the alternate name of <em>tag</em> or <code class="highlighter-rouge">None</code></p>
 
-<h6 id="parameters-47">Parameters</h6>
+<h6 id="parameters-48">Parameters</h6>
 
 <p><em>tag</em> : <code class="highlighter-rouge">str</code></p>
 
@@ -2348,7 +2380,7 @@ The ExtendedRecord class has the following methods:</h3>
 
 <p>An <code class="highlighter-rouge">abstractmethod</code>, gives the function for processing <em>tag</em></p>
 
-<h6 id="parameters-48">Parameters</h6>
+<h6 id="parameters-49">Parameters</h6>
 
 <p><em>tag</em> : <code class="highlighter-rouge">optional [str]</code></p>
 
@@ -2366,7 +2398,7 @@ The ExtendedRecord class has the following methods:</h3>
 
 <p>An <code class="highlighter-rouge">abstractmethod</code>, process the special tag, <em>key</em> using the whole <code class="highlighter-rouge">Record</code></p>
 
-<h6 id="parameters-49">Parameters</h6>
+<h6 id="parameters-50">Parameters</h6>
 
 <p><em>key</em> : <code class="highlighter-rouge">str</code></p>
 
@@ -2382,7 +2414,7 @@ The ExtendedRecord class has the following methods:</h3>
 
 <p>Creates a dict of values of <em>tags</em> from the Record. The tags are the keys and the values are the values. If the tag is missing the value will be <code class="highlighter-rouge">None</code>.</p>
 
-<h6 id="parameters-50">Parameters</h6>
+<h6 id="parameters-51">Parameters</h6>
 
 <p><em>tags</em> : <code class="highlighter-rouge">list[str]</code></p>
 
@@ -2404,7 +2436,7 @@ The ExtendedRecord class has the following methods:</h3>
 
 <p>Creates a citation string, using the same format as other WOS citations, for the <a href="/metaknowledge/documentation/metaknowledgeFull#Record">Record</a> by reading the relevant special tags (<code class="highlighter-rouge">'year'</code>, <code class="highlighter-rouge">'J9'</code>, <code class="highlighter-rouge">'volume'</code>, <code class="highlighter-rouge">'beginningPage'</code>, <code class="highlighter-rouge">'DOI'</code>) and using it to create a <a href="/metaknowledge/documentation/metaknowledgeFull#Citation"><code class="highlighter-rouge">Citation</code></a> object.</p>
 
-<h6 id="parameters-51">Parameters</h6>
+<h6 id="parameters-52">Parameters</h6>
 
 <p><em>multiCite</em> : <code class="highlighter-rouge">optional [bool]</code></p>
 
@@ -2438,7 +2470,7 @@ The ExtendedRecord class has the following methods:</h3>
 
 <p><em>fieldDict</em> is the dictionary the <code class="highlighter-rouge">Record</code> will use and <em>idValue</em> is the unique identifier of the <code class="highlighter-rouge">Record</code>.</p>
 
-<h5 id="parameters-52">Parameters</h5>
+<h5 id="parameters-53">Parameters</h5>
 
 <p><em>fieldDict</em> : <code class="highlighter-rouge">dict[str:]</code></p>
 
@@ -2481,7 +2513,7 @@ The Record class has the following methods:</h3>
 
 <p>Compares <code class="highlighter-rouge">Records</code> using their hashes if their hashes are the same then <code class="highlighter-rouge">True</code> is returned.</p>
 
-<h6 id="parameters-53">Parameters</h6>
+<h6 id="parameters-54">Parameters</h6>
 
 <p><em>other</em> : <code class="highlighter-rouge">Record</code></p>
 
@@ -2635,7 +2667,7 @@ The ProQuestRecord class has the following methods:</h3>
 
 <p>An <code class="highlighter-rouge">abstractmethod</code>, gives the alternate name of <em>tag</em> or <code class="highlighter-rouge">None</code></p>
 
-<h6 id="parameters-54">Parameters</h6>
+<h6 id="parameters-55">Parameters</h6>
 
 <p><em>tag</em> : <code class="highlighter-rouge">str</code></p>
 
@@ -2653,7 +2685,7 @@ The ProQuestRecord class has the following methods:</h3>
 
 <p>An <code class="highlighter-rouge">abstractmethod</code>, gives the function for processing <em>tag</em></p>
 
-<h6 id="parameters-55">Parameters</h6>
+<h6 id="parameters-56">Parameters</h6>
 
 <p><em>tag</em> : <code class="highlighter-rouge">optional [str]</code></p>
 
@@ -2671,7 +2703,7 @@ The ProQuestRecord class has the following methods:</h3>
 
 <p>An <code class="highlighter-rouge">abstractmethod</code>, process the special tag, <em>key</em> using the whole <code class="highlighter-rouge">Record</code></p>
 
-<h6 id="parameters-56">Parameters</h6>
+<h6 id="parameters-57">Parameters</h6>
 
 <p><em>key</em> : <code class="highlighter-rouge">str</code></p>
 
@@ -2687,7 +2719,7 @@ The ProQuestRecord class has the following methods:</h3>
 
 <p>An <code class="highlighter-rouge">abstractmethod</code>, writes the record in its original form to <em>infile</em></p>
 
-<h6 id="parameters-57">Parameters</h6>
+<h6 id="parameters-58">Parameters</h6>
 
 <p><em>infile</em> : <code class="highlighter-rouge">writable file</code></p>
 
@@ -2715,7 +2747,7 @@ The ProQuestRecord class has the following methods:</h3>
 
 <p><em>inCollection</em> is the object containing the information about the Records to be constructed it can be an isi file, string, list of records or directory containing isi files</p>
 
-<h5 id="parameters-58">Parameters</h5>
+<h5 id="parameters-59">Parameters</h5>
 
 <p><em>inCollection</em> : <code class="highlighter-rouge">optional [str] or None</code></p>
 
@@ -2765,7 +2797,7 @@ The RecordCollection class has the following methods:</h3>
 
 <p>Drops the non journal type <code class="highlighter-rouge">Records</code> from the collection, this is done by checking <em>ptVal</em> against the PT tag</p>
 
-<h6 id="parameters-59">Parameters</h6>
+<h6 id="parameters-60">Parameters</h6>
 
 <p><em>ptVal</em> : <code class="highlighter-rouge">optional [str]</code></p>
 
@@ -2785,7 +2817,7 @@ The RecordCollection class has the following methods:</h3>
 
 <p>Writes the <code class="highlighter-rouge">RecordCollection</code> to a file, the written file’s format is identical to those download from WOS. The order of <code class="highlighter-rouge">Records</code> written is random.</p>
 
-<h6 id="parameters-60">Parameters</h6>
+<h6 id="parameters-61">Parameters</h6>
 
 <p><em>fname</em> : <code class="highlighter-rouge">optional [str]</code></p>
 
@@ -2804,7 +2836,7 @@ The RecordCollection class has the following methods:</h3>
 
 <p>Writes all the <code class="highlighter-rouge">Records</code> from the collection into a csv file with each row a record and each column a tag.</p>
 
-<h6 id="parameters-61">Parameters</h6>
+<h6 id="parameters-62">Parameters</h6>
 
 <p><em>fname</em> : <code class="highlighter-rouge">optional [str]</code></p>
 
@@ -2854,7 +2886,7 @@ The RecordCollection class has the following methods:</h3>
 
 <p><strong>Note</strong> Record entries that are lists have their values separated with the string <code class="highlighter-rouge">' and '</code>, as this is the way bibTex understands</p>
 
-<h6 id="parameters-62">Parameters</h6>
+<h6 id="parameters-63">Parameters</h6>
 
 <p><em>fname</em> : <code class="highlighter-rouge">optional [str]</code></p>
 
@@ -2884,7 +2916,7 @@ The RecordCollection class has the following methods:</h3>
 
 <p>When used with pandas: <code class="highlighter-rouge">pandas.DataFrame(RC.makeDict())</code> returns a data frame with each column a tag and each row a Record.</p>
 
-<h6 id="parameters-63">Parameters</h6>
+<h6 id="parameters-64">Parameters</h6>
 
 <p><em>onlyTheseTags</em> : <code class="highlighter-rouge">optional [iterable]</code></p>
 
@@ -2910,7 +2942,7 @@ The RecordCollection class has the following methods:</h3>
 
 <p>Creates a coauthorship network for the RecordCollection.</p>
 
-<h6 id="parameters-64">Parameters</h6>
+<h6 id="parameters-65">Parameters</h6>
 
 <p><em>detailedInfo</em> : <code class="highlighter-rouge">optional [bool or iterable[WOS tag Strings]]</code></p>
 
@@ -2946,7 +2978,7 @@ The RecordCollection class has the following methods:</h3>
 
 <p>Creates a co-citation network for the RecordCollection.</p>
 
-<h6 id="parameters-65">Parameters</h6>
+<h6 id="parameters-66">Parameters</h6>
 
 <p><em>nodeType</em> : <code class="highlighter-rouge">optional [str]</code></p>
 
@@ -3010,7 +3042,7 @@ The RecordCollection class has the following methods:</h3>
 
 <p>Creates a citation network for the RecordCollection.</p>
 
-<h6 id="parameters-66">Parameters</h6>
+<h6 id="parameters-67">Parameters</h6>
 
 <p><em>nodeType</em> : <code class="highlighter-rouge">optional [str]</code></p>
 
@@ -3080,7 +3112,7 @@ The RecordCollection class has the following methods:</h3>
 
 <p>Creates a RecordCollection of Records from the years between <em>startYear</em> and <em>endYear</em> inclusive.</p>
 
-<h6 id="parameters-67">Parameters</h6>
+<h6 id="parameters-68">Parameters</h6>
 
 <p><em>startYear</em> : <code class="highlighter-rouge">int</code></p>
 
@@ -3106,7 +3138,7 @@ The RecordCollection class has the following methods:</h3>
 
 <p>Returns a dict with all the citations in the CR field as keys and the number of times they occur as the values</p>
 
-<h6 id="parameters-68">Parameters</h6>
+<h6 id="parameters-69">Parameters</h6>
 
 <p><em>pandasFriendly</em> : <code class="highlighter-rouge">optional [bool]</code></p>
 
@@ -3128,7 +3160,7 @@ The RecordCollection class has the following methods:</h3>
 
 <p>Takes in a Record, WOS string, citation string or Citation and returns a RecordCollection of all records that cite it.</p>
 
-<h6 id="parameters-69">Parameters</h6>
+<h6 id="parameters-70">Parameters</h6>
 
 <p><em>rec</em> : <code class="highlighter-rouge">Record, str or Citation</code></p>
 
@@ -3146,7 +3178,7 @@ The RecordCollection class has the following methods:</h3>
 
 <p>Filters <code class="highlighter-rouge">Records</code> by some string, <em>keyString</em>, in their citations and returns all <code class="highlighter-rouge">Records</code> with at least one citation possessing <em>keyString</em> in the field given by <em>field</em>.</p>
 
-<h6 id="parameters-70">Parameters</h6>
+<h6 id="parameters-71">Parameters</h6>
 
 <p><em>keyString</em> : <code class="highlighter-rouge">optional [str]</code></p>
 
@@ -3201,7 +3233,7 @@ The other options are:</p>
 
 <p>If you find the resultant image looks too banded raise the the <em>contours</em> number to ~50.</p>
 
-<h6 id="parameters-71">Parameters</h6>
+<h6 id="parameters-72">Parameters</h6>
 
 <p><em>G</em> : <code class="highlighter-rouge">networkx Graph</code></p>
 
@@ -3249,7 +3281,7 @@ The other options are:</p>
 
 <p>Just makes a simple <em>matplotlib</em> figure and displays it, with each node coloured by its type. You can add labels with <em>showLabel</em>. This looks a bit nicer than the one provided my <em>networkx</em>’s defaults.</p>
 
-<h6 id="parameters-72">Parameters</h6>
+<h6 id="parameters-73">Parameters</h6>
 
 <p><em>showLabel</em> : <code class="highlighter-rouge">optional [bool]</code></p>
 
@@ -3614,7 +3646,7 @@ The other options are:</p>
 
 <p>Returns the dictionary of journal abbreviations mapping to a list of the associated journal names. By default the local database is used. The database is in the file <em>dbname</em> in the same directory as this source file</p>
 
-<h6 id="parameters-73">Parameters</h6>
+<h6 id="parameters-74">Parameters</h6>
 
 <p><em>dbname</em> : <code class="highlighter-rouge">optional [str]</code></p>
 
@@ -3634,7 +3666,7 @@ The other options are:</p>
 
 <p>Adds <em>abbr</em> to the database of journals. The database is kept separate from the one scraped from WOS, this supersedes it. The database by default is stored with the WOS one and the name is given by <code class="highlighter-rouge">metaknowledge.journalAbbreviations.manaulDBname</code>. To create an empty database run <strong>addToDB</strong> without an <em>abbr</em> argument.</p>
 
-<h6 id="parameters-74">Parameters</h6>
+<h6 id="parameters-75">Parameters</h6>
 
 <p><em>abbr</em> : <code class="highlighter-rouge">optional [str or dict[str : str]]</code></p>
 
@@ -3650,7 +3682,7 @@ The other options are:</p>
 
 <p>Marks <em>abbr</em> to be excluded the database of journals. The database is kept separate from the one scraped from WOS, this supersedes it. The database by default is stored with the WOS one and the name is given by <code class="highlighter-rouge">metaknowledge.journalAbbreviations.manaulDBname</code>. To create an empty database run <a href="/metaknowledge/documentation/metaknowledgeFull#addToDB"><strong>addToDB</strong>()</a> without an <em>abbr</em> argument.</p>
 
-<h6 id="parameters-75">Parameters</h6>
+<h6 id="parameters-76">Parameters</h6>
 
 <p><em>abbr</em> : <code class="highlighter-rouge">optional [str or tuple[str] or list[str]</code></p>
 
@@ -3666,7 +3698,7 @@ The other options are:</p>
 
 <p>Updates the database of Journal Title Abbreviations. Requires an internet connection. The data base is saved relative to the source file not the working directory.</p>
 
-<h6 id="parameters-76">Parameters</h6>
+<h6 id="parameters-77">Parameters</h6>
 
 <p><em>dbname</em> : <code class="highlighter-rouge">optional [str]</code></p>
 
@@ -3696,7 +3728,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the host of the conference</p>
 
-<h6 id="parameters-77">Parameters</h6>
+<h6 id="parameters-78">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
@@ -3716,7 +3748,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the publishers address</p>
 
-<h6 id="parameters-78">Parameters</h6>
+<h6 id="parameters-79">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
@@ -3736,7 +3768,7 @@ Month Year (“%b %Y”)</p>
 
 <p>return the last page the record occurs on as a string, not aall are intergers</p>
 
-<h6 id="parameters-79">Parameters</h6>
+<h6 id="parameters-80">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
@@ -3756,7 +3788,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the year the record was published in as an int</p>
 
-<h6 id="parameters-80">Parameters</h6>
+<h6 id="parameters-81">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
@@ -3780,7 +3812,7 @@ Month Year (“%b %Y”)</p>
 </code></pre>
 </div>
 
-<h6 id="parameters-81">Parameters</h6>
+<h6 id="parameters-82">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
@@ -3800,7 +3832,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the reprint address string</p>
 
-<h6 id="parameters-82">Parameters</h6>
+<h6 id="parameters-83">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
@@ -3820,7 +3852,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts a list of the short names of the authors of a book Record</p>
 
-<h6 id="parameters-83">Parameters</h6>
+<h6 id="parameters-84">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
@@ -3840,7 +3872,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the total number of citations of the record</p>
 
-<h6 id="parameters-84">Parameters</h6>
+<h6 id="parameters-85">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
@@ -3860,7 +3892,7 @@ Month Year (“%b %Y”)</p>
 
 <p>return an integer giving the part of the issue the Record is in</p>
 
-<h6 id="parameters-85">Parameters</h6>
+<h6 id="parameters-86">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
@@ -3880,7 +3912,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the special issue value</p>
 
-<h6 id="parameters-86">Parameters</h6>
+<h6 id="parameters-87">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
@@ -3900,7 +3932,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts a list of subjects as assigned by WOS</p>
 
-<h6 id="parameters-87">Parameters</h6>
+<h6 id="parameters-88">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
@@ -3924,7 +3956,7 @@ Month Year (“%b %Y”)</p>
 </code></pre>
 </div>
 
-<h6 id="parameters-88">Parameters</h6>
+<h6 id="parameters-89">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
@@ -3944,7 +3976,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the pubmed ID of the record</p>
 
-<h6 id="parameters-89">Parameters</h6>
+<h6 id="parameters-90">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
@@ -3964,7 +3996,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the document delivery number of the Record</p>
 
-<h6 id="parameters-90">Parameters</h6>
+<h6 id="parameters-91">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
@@ -3984,7 +4016,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts a list of the long names of the authors of a book Record</p>
 
-<h6 id="parameters-91">Parameters</h6>
+<h6 id="parameters-92">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
@@ -4004,7 +4036,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the name of the group associated with the Record</p>
 
-<h6 id="parameters-92">Parameters</h6>
+<h6 id="parameters-93">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
@@ -4024,7 +4056,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the title of the record</p>
 
-<h6 id="parameters-93">Parameters</h6>
+<h6 id="parameters-94">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
@@ -4052,7 +4084,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the full name of the publication and normalizes it to uppercase</p>
 
-<h6 id="parameters-94">Parameters</h6>
+<h6 id="parameters-95">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
@@ -4072,7 +4104,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the title of the series the Record is in</p>
 
-<h6 id="parameters-95">Parameters</h6>
+<h6 id="parameters-96">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
@@ -4092,7 +4124,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the title of the series the Record is in</p>
 
-<h6 id="parameters-96">Parameters</h6>
+<h6 id="parameters-97">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
@@ -4112,7 +4144,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the languages of the Record as a string with languages separated by ‘, ‘, usually there is only one language</p>
 
-<h6 id="parameters-97">Parameters</h6>
+<h6 id="parameters-98">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
@@ -4132,7 +4164,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the type of document the Record contains</p>
 
-<h6 id="parameters-98">Parameters</h6>
+<h6 id="parameters-99">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
@@ -4152,7 +4184,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts a list of authors full names</p>
 
-<h6 id="parameters-99">Parameters</h6>
+<h6 id="parameters-100">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
@@ -4172,7 +4204,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the title of the conference associated with the Record</p>
 
-<h6 id="parameters-100">Parameters</h6>
+<h6 id="parameters-101">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
@@ -4192,7 +4224,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the date string of the conference associated with the Record, the date is not normalized</p>
 
-<h6 id="parameters-101">Parameters</h6>
+<h6 id="parameters-102">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
@@ -4212,7 +4244,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts a list of sponsors for the conference associated with the record</p>
 
-<h6 id="parameters-102">Parameters</h6>
+<h6 id="parameters-103">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
@@ -4232,7 +4264,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the number of times the Record has been cited by records in WOS</p>
 
-<h6 id="parameters-103">Parameters</h6>
+<h6 id="parameters-104">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
@@ -4252,7 +4284,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the address of the authors as given by WOS. <strong>Warning</strong> the mapping of author to address is not very good and is given in multiple ways.</p>
 
-<h6 id="parameters-104">Parameters</h6>
+<h6 id="parameters-105">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
@@ -4272,7 +4304,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the sting giving the conference’s location</p>
 
-<h6 id="parameters-105">Parameters</h6>
+<h6 id="parameters-106">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
@@ -4292,7 +4324,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the J9 (29-Character Source Abbreviation) of the publication</p>
 
-<h6 id="parameters-106">Parameters</h6>
+<h6 id="parameters-107">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
@@ -4312,7 +4344,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts a list of the groups funding the Record</p>
 
-<h6 id="parameters-107">Parameters</h6>
+<h6 id="parameters-108">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
@@ -4332,7 +4364,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts a list of the subjects associated with the Record</p>
 
-<h6 id="parameters-108">Parameters</h6>
+<h6 id="parameters-109">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
@@ -4352,7 +4384,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the group associated with the Record</p>
 
-<h6 id="parameters-109">Parameters</h6>
+<h6 id="parameters-110">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
@@ -4372,7 +4404,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts a list of all the citations in the record, the citations are the <a href="/metaknowledge/documentation/metaknowledgeFull#Citation">metaknowledge.Citation</a> class.</p>
 
-<h6 id="parameters-110">Parameters</h6>
+<h6 id="parameters-111">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
@@ -4392,7 +4424,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the city the publisher is in</p>
 
-<h6 id="parameters-111">Parameters</h6>
+<h6 id="parameters-112">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
@@ -4412,7 +4444,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the ISSN of the Record</p>
 
-<h6 id="parameters-112">Parameters</h6>
+<h6 id="parameters-113">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
@@ -4432,7 +4464,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts a string giving the article number, not all are integers</p>
 
-<h6 id="parameters-113">Parameters</h6>
+<h6 id="parameters-114">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
@@ -4452,7 +4484,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts a string giving the issue or range of issues the Record was in, not all are integers</p>
 
-<h6 id="parameters-114">Parameters</h6>
+<h6 id="parameters-115">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
@@ -4472,7 +4504,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts a list of emails given by the authors of the Record</p>
 
-<h6 id="parameters-115">Parameters</h6>
+<h6 id="parameters-116">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
@@ -4492,7 +4524,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the EISSN of the Record</p>
 
-<h6 id="parameters-116">Parameters</h6>
+<h6 id="parameters-117">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
@@ -4512,7 +4544,7 @@ Month Year (“%b %Y”)</p>
 
 <p>return the DOI number of the record</p>
 
-<h6 id="parameters-117">Parameters</h6>
+<h6 id="parameters-118">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
@@ -4532,7 +4564,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the WOS number of the record as a string preceded by “WOS:”</p>
 
-<h6 id="parameters-118">Parameters</h6>
+<h6 id="parameters-119">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
@@ -4552,7 +4584,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts a list of orc IDs of the Record</p>
 
-<h6 id="parameters-119">Parameters</h6>
+<h6 id="parameters-120">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
@@ -4572,7 +4604,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the type of publication as a character: conference, book, journal, book in series, or patent</p>
 
-<h6 id="parameters-120">Parameters</h6>
+<h6 id="parameters-121">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
@@ -4592,7 +4624,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts a list of the editors of the Record</p>
 
-<h6 id="parameters-121">Parameters</h6>
+<h6 id="parameters-122">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
@@ -4612,7 +4644,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the ID of the meeting abstract prefixed by ‘EPA-‘</p>
 
-<h6 id="parameters-122">Parameters</h6>
+<h6 id="parameters-123">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
@@ -4632,7 +4664,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the iso abbreviation of the journal</p>
 
-<h6 id="parameters-123">Parameters</h6>
+<h6 id="parameters-124">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
@@ -4652,7 +4684,7 @@ Month Year (“%b %Y”)</p>
 
 <p>returns an integer giving the number of pages of the Record</p>
 
-<h6 id="parameters-124">Parameters</h6>
+<h6 id="parameters-125">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
@@ -4672,7 +4704,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the publisher of the Record</p>
 
-<h6 id="parameters-125">Parameters</h6>
+<h6 id="parameters-126">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
@@ -4692,7 +4724,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts a list of ISBNs associated with the Record</p>
 
-<h6 id="parameters-126">Parameters</h6>
+<h6 id="parameters-127">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
@@ -4712,7 +4744,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the month the record was published in as an int with January as 1, February 2, …</p>
 
-<h6 id="parameters-127">Parameters</h6>
+<h6 id="parameters-128">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
@@ -4732,7 +4764,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts a string of the funding thanks</p>
 
-<h6 id="parameters-128">Parameters</h6>
+<h6 id="parameters-129">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
@@ -4752,7 +4784,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the book DOI of the Record</p>
 
-<h6 id="parameters-129">Parameters</h6>
+<h6 id="parameters-130">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
@@ -4772,7 +4804,7 @@ Month Year (“%b %Y”)</p>
 
 <p>return the volume the record is in as a string, not all are integers</p>
 
-<h6 id="parameters-130">Parameters</h6>
+<h6 id="parameters-131">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
@@ -4792,7 +4824,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts a list of the research IDs of the Record</p>
 
-<h6 id="parameters-131">Parameters</h6>
+<h6 id="parameters-132">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
@@ -4812,7 +4844,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts a list of authors shortened names</p>
 
-<h6 id="parameters-132">Parameters</h6>
+<h6 id="parameters-133">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
@@ -4832,7 +4864,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the number citations, length of CR list</p>
 
-<h6 id="parameters-133">Parameters</h6>
+<h6 id="parameters-134">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
@@ -4852,7 +4884,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the first page the record occurs on, not all are integers</p>
 
-<h6 id="parameters-134">Parameters</h6>
+<h6 id="parameters-135">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
@@ -4872,7 +4904,7 @@ Month Year (“%b %Y”)</p>
 
 <p>return abstract of the record, with newlines hopefully in the correct places</p>
 
-<h6 id="parameters-135">Parameters</h6>
+<h6 id="parameters-136">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
@@ -4892,7 +4924,7 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the supplement number</p>
 
-<h6 id="parameters-136">Parameters</h6>
+<h6 id="parameters-137">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
@@ -5004,7 +5036,7 @@ Month Year (“%b %Y”)</p>
 
 <p><a name="medlineParser"></a><small>medline.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#medlineParser"><ins>medlineParser</ins></a></strong>(<em>pubFile</em>):</p>
 
-<h1 id="needs-to-be-written-1">Needs to be written</h1>
+<h1 id="needs-to-be-written">Needs to be written</h1>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
@@ -5016,7 +5048,7 @@ Month Year (“%b %Y”)</p>
 
 <p><a name="medlineRecordParser"></a><small>medline.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#medlineRecordParser"><ins>medlineRecordParser</ins></a></strong>(<em>record</em>):</p>
 
-<h1 id="needs-to-be-written-2">Needs to be written</h1>
+<h1 id="needs-to-be-written-1">Needs to be written</h1>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
@@ -5538,25 +5570,25 @@ The volumes as a string as volume is single line</p>
 
 <p><a name="proQuestParser"></a><small>proquest.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#proQuestParser"><ins>proQuestParser</ins></a></strong>(<em>proFile</em>):</p>
 
-<h1 id="needs-to-be-written-3">Needs to be written</h1>
+<h1 id="needs-to-be-written-2">Needs to be written</h1>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="isProQuestFile"></a><small>proquest.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#isProQuestFile"><ins>isProQuestFile</ins></a></strong>(<em>infile, checkedLines=2</em>):</p>
 
-<h1 id="needs-to-be-written-4">Needs to be written</h1>
+<h1 id="needs-to-be-written-3">Needs to be written</h1>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="proQuestRecordParser"></a><small>proquest.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#proQuestRecordParser"><ins>proQuestRecordParser</ins></a></strong>(<em>enRecordFile, recNum</em>):</p>
 
-<h1 id="needs-to-be-written-5">Needs to be written</h1>
+<h1 id="needs-to-be-written-4">Needs to be written</h1>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="proQuestTagToFunc"></a><small>proquest.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#proQuestTagToFunc"><ins>proQuestTagToFunc</ins></a></strong>(<em>tag</em>):</p>
 
-<h1 id="needs-to-be-written-6">Needs to be written</h1>
+<h1 id="needs-to-be-written-5">Needs to be written</h1>
 
 <hr />
 

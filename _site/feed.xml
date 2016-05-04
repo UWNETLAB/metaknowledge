@@ -4,7 +4,7 @@
 <generator uri="https://github.com/jekyll/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="http://networkslab.org/feed.xml" />
 <link rel="alternate" type="text/html" href="http://networkslab.org" />
-<updated>2016-05-04T18:31:15+07:00</updated>
+<updated>2016-05-04T20:38:21+07:00</updated>
 <id>http://networkslab.org/</id>
 <author>
   <name>John McLevey and Reid McIlroy-Young</name>
@@ -288,6 +288,10 @@ Done making a co-citation network of files-from-records                 1.1s
 
 &lt;p&gt;default &lt;code class=&quot;highlighter-rouge&quot;&gt;&#39;raw&#39;&lt;/code&gt;, if &lt;code class=&quot;highlighter-rouge&quot;&gt;&#39;raw&#39;&lt;/code&gt; the returned &lt;code class=&quot;highlighter-rouge&quot;&gt;dict&lt;/code&gt; will contain &lt;code class=&quot;highlighter-rouge&quot;&gt;Records&lt;/code&gt; as keys. If it is a WOS tag the keys will be of that type.&lt;/p&gt;
 
+&lt;p&gt;&lt;em&gt;extraValue&lt;/em&gt; : &lt;code class=&quot;highlighter-rouge&quot;&gt;optional [str]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;default &lt;code class=&quot;highlighter-rouge&quot;&gt;None&lt;/code&gt;, a tag that will split the counts based on entries to it, meaning instead of a single integer a dictionary will be given.&lt;/p&gt;
+
 &lt;p&gt;&lt;em&gt;pandasFriendly&lt;/em&gt; : &lt;code class=&quot;highlighter-rouge&quot;&gt;optional [bool]&lt;/code&gt;&lt;/p&gt;
 
 &lt;p&gt;default &lt;code class=&quot;highlighter-rouge&quot;&gt;False&lt;/code&gt;, makes the output be a dict with two keys one &lt;code class=&quot;highlighter-rouge&quot;&gt;&quot;Record&quot;&lt;/code&gt; is the list of Records ( or data type requested by &lt;em&gt;sourceType&lt;/em&gt;) the other is their occurrence counts as &lt;code class=&quot;highlighter-rouge&quot;&gt;&quot;Counts&quot;&lt;/code&gt;. The lists are the same length.&lt;/p&gt;
@@ -296,9 +300,15 @@ Done making a co-citation network of files-from-records                 1.1s
 
 &lt;p&gt;default &lt;code class=&quot;highlighter-rouge&quot;&gt;False&lt;/code&gt;, if &lt;code class=&quot;highlighter-rouge&quot;&gt;True&lt;/code&gt; the diffusion analysis will be run twice, first with source and target setup like the default (global scope) then using only the source &lt;code class=&quot;highlighter-rouge&quot;&gt;RecordCollection&lt;/code&gt; (local scope).&lt;/p&gt;
 
-&lt;p&gt;&lt;em&gt;byYear&lt;/em&gt; : &lt;code class=&quot;highlighter-rouge&quot;&gt;optional [bool]&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;extraValue&lt;/em&gt; : &lt;code class=&quot;highlighter-rouge&quot;&gt;optional [str]&lt;/code&gt;&lt;/p&gt;
 
-&lt;p&gt;default &lt;code class=&quot;highlighter-rouge&quot;&gt;False&lt;/code&gt;, if &lt;code class=&quot;highlighter-rouge&quot;&gt;True&lt;/code&gt; the returned dictionary will have Records mapped to maps, these maps will map years (‘ints’) to counts. If &lt;em&gt;pandasFriendly&lt;/em&gt; is also &lt;code class=&quot;highlighter-rouge&quot;&gt;True&lt;/code&gt; the resultant dictionary will have an additional column called &lt;code class=&quot;highlighter-rouge&quot;&gt;&#39;year&#39;&lt;/code&gt;. This column will contain the year the citations occurred, in addition the Records entries will be duplicated for each year they occur in.&lt;/p&gt;
+&lt;p&gt;default &lt;code class=&quot;highlighter-rouge&quot;&gt;None&lt;/code&gt;, if a tag the returned dictionary will have &lt;code class=&quot;highlighter-rouge&quot;&gt;Records&lt;/code&gt; mapped to maps, these maps will map the entries for the tag to counts. If &lt;em&gt;pandasFriendly&lt;/em&gt; is also &lt;code class=&quot;highlighter-rouge&quot;&gt;True&lt;/code&gt; the resultant dictionary will have an additional column called &lt;code class=&quot;highlighter-rouge&quot;&gt;&#39;year&#39;&lt;/code&gt;. This column will contain the year the citations occurred, in addition the Records entries will be duplicated for each year they occur in.&lt;/p&gt;
+
+&lt;p&gt;For example if &lt;code class=&quot;highlighter-rouge&quot;&gt;&#39;year&#39;&lt;/code&gt; was given then the count for a single &lt;code class=&quot;highlighter-rouge&quot;&gt;Record&lt;/code&gt; could be &lt;code class=&quot;highlighter-rouge&quot;&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;1990&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;1,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;2000&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;useAllAuthors&lt;/em&gt; : &lt;code class=&quot;highlighter-rouge&quot;&gt;optional [bool]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;default &lt;code class=&quot;highlighter-rouge&quot;&gt;True&lt;/code&gt;, if &lt;code class=&quot;highlighter-rouge&quot;&gt;False&lt;/code&gt; only the first author will be used to generate the &lt;code class=&quot;highlighter-rouge&quot;&gt;Citations&lt;/code&gt; for the &lt;em&gt;source&lt;/em&gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;Records&lt;/code&gt;&lt;/p&gt;
 
 &lt;h6 id=&quot;returns-2&quot;&gt;Returns&lt;/h6&gt;
 
@@ -314,7 +324,29 @@ Done making a co-citation network of files-from-records                 1.1s
 
 &lt;p&gt;&lt;a name=&quot;diffusionAddCountsFromSource&quot;&gt;&lt;/a&gt;&lt;small&gt;&lt;/small&gt;&lt;strong&gt;&lt;a href=&quot;/metaknowledge/docs/metaknowledge#diffusionAddCountsFromSource&quot;&gt;&lt;ins&gt;diffusionAddCountsFromSource&lt;/ins&gt;&lt;/a&gt;&lt;/strong&gt;(&lt;em&gt;grph, source, target, nodeType=’citations’, extraType=None, diffusionLabel=’DiffusionCount’, extraKeys=None, countsDict=None, extraMapping=None&lt;/em&gt;):&lt;/p&gt;
 
-&lt;h1 id=&quot;needs-to-be-written&quot;&gt;Needs to be written&lt;/h1&gt;
+&lt;p&gt;Does a diffusion using &lt;a href=&quot;/metaknowledge/docs/metaknowledge#diffusionCount&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;diffusionCount()&lt;/code&gt;&lt;/a&gt; and updates &lt;em&gt;grph&lt;/em&gt; with it, using the nodes in the graph as keys in the diffusion, i.e. the source. The name of the attribute the counts are added to is given by &lt;em&gt;diffusionLabel&lt;/em&gt;. If the graph is not composed of citations from the source and instead is another entry the tag for the entry needs to be given to &lt;em&gt;nodeType&lt;/em&gt;. You can also change&lt;/p&gt;
+
+&lt;h6 id=&quot;parameters-3&quot;&gt;Parameters&lt;/h6&gt;
+
+&lt;p&gt;&lt;em&gt;grph&lt;/em&gt; : &lt;code class=&quot;highlighter-rouge&quot;&gt;networkx Graph&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;The graph to be updated&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;source&lt;/em&gt; : &lt;code class=&quot;highlighter-rouge&quot;&gt;RecordCollection&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;RecordCollection&lt;/code&gt; that created &lt;em&gt;grph&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;target&lt;/em&gt; : &lt;code class=&quot;highlighter-rouge&quot;&gt;RecordCollection&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;RecordCollection&lt;/code&gt; that will be counted&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;nodeType&lt;/em&gt; : &lt;code class=&quot;highlighter-rouge&quot;&gt;optional [str]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;The tag that constants the values used to create &lt;em&gt;grph&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;extraType&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;diffusion was not done with&lt;/p&gt;
 
 &lt;hr style=&quot;padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;&quot; /&gt;
 
@@ -332,7 +364,7 @@ Done making a co-citation network of files-from-records                 1.1s
 
 &lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: If nodes appear in the edgelist but not the nodeList they will be created silently with no attributes.&lt;/p&gt;
 
-&lt;h6 id=&quot;parameters-3&quot;&gt;Parameters&lt;/h6&gt;
+&lt;h6 id=&quot;parameters-4&quot;&gt;Parameters&lt;/h6&gt;
 
 &lt;p&gt;&lt;em&gt;edgeList&lt;/em&gt; : &lt;code class=&quot;highlighter-rouge&quot;&gt;str&lt;/code&gt;&lt;/p&gt;
 
@@ -374,7 +406,7 @@ Done making a co-citation network of files-from-records                 1.1s
 
 &lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: If any edges are missing an attribute it will be left blank by default, enable &lt;em&gt;allSameAttribute&lt;/em&gt; to cause a &lt;code class=&quot;highlighter-rouge&quot;&gt;KeyError&lt;/code&gt; to be raised.&lt;/p&gt;
 
-&lt;h6 id=&quot;parameters-4&quot;&gt;Parameters&lt;/h6&gt;
+&lt;h6 id=&quot;parameters-5&quot;&gt;Parameters&lt;/h6&gt;
 
 &lt;p&gt;&lt;em&gt;grph&lt;/em&gt; : &lt;code class=&quot;highlighter-rouge&quot;&gt;networkx Graph&lt;/code&gt;&lt;/p&gt;
 
@@ -402,7 +434,7 @@ Done making a co-citation network of files-from-records                 1.1s
 
 &lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: If any nodes are missing an attribute it will be left blank by default, enable &lt;em&gt;allSameAttribute&lt;/em&gt; to cause a &lt;code class=&quot;highlighter-rouge&quot;&gt;KeyError&lt;/code&gt; to be raised.&lt;/p&gt;
 
-&lt;h6 id=&quot;parameters-5&quot;&gt;Parameters&lt;/h6&gt;
+&lt;h6 id=&quot;parameters-6&quot;&gt;Parameters&lt;/h6&gt;
 
 &lt;p&gt;&lt;em&gt;grph&lt;/em&gt; : &lt;code class=&quot;highlighter-rouge&quot;&gt;networkx Graph&lt;/code&gt;&lt;/p&gt;
 
@@ -424,7 +456,7 @@ Done making a co-citation network of files-from-records                 1.1s
 
 &lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: none of the default options will result in &lt;em&gt;grph&lt;/em&gt; being modified so only specify the relevant ones, e.g. &lt;code class=&quot;highlighter-rouge&quot;&gt;dropEdges(G, dropSelfLoops = True)&lt;/code&gt; will remove only the self loops from &lt;code class=&quot;highlighter-rouge&quot;&gt;G&lt;/code&gt;.&lt;/p&gt;
 
-&lt;h6 id=&quot;parameters-6&quot;&gt;Parameters&lt;/h6&gt;
+&lt;h6 id=&quot;parameters-7&quot;&gt;Parameters&lt;/h6&gt;
 
 &lt;p&gt;&lt;em&gt;grph&lt;/em&gt; : &lt;code class=&quot;highlighter-rouge&quot;&gt;networkx Graph&lt;/code&gt;&lt;/p&gt;
 
@@ -458,7 +490,7 @@ Done making a co-citation network of files-from-records                 1.1s
 
 &lt;p&gt;Degree is determined in two ways, the default &lt;em&gt;useWeight&lt;/em&gt; is the weight attribute of the edges to a node will be summed, the attribute’s name is &lt;em&gt;parameterName&lt;/em&gt; otherwise the number of edges touching the node is used. If &lt;em&gt;includeUnweighted&lt;/em&gt; is &lt;code class=&quot;highlighter-rouge&quot;&gt;True&lt;/code&gt; then &lt;em&gt;useWeight&lt;/em&gt; will assign a degree of 1 to unweighted edges.&lt;/p&gt;
 
-&lt;h6 id=&quot;parameters-7&quot;&gt;Parameters&lt;/h6&gt;
+&lt;h6 id=&quot;parameters-8&quot;&gt;Parameters&lt;/h6&gt;
 
 &lt;p&gt;&lt;em&gt;grph&lt;/em&gt; : &lt;code class=&quot;highlighter-rouge&quot;&gt;networkx Graph&lt;/code&gt;&lt;/p&gt;
 
@@ -494,7 +526,7 @@ Done making a co-citation network of files-from-records                 1.1s
 
 &lt;p&gt;minCount and maxCount default to negative and positive infinity respectively so without specifying either the output should be the input&lt;/p&gt;
 
-&lt;h6 id=&quot;parameters-8&quot;&gt;Parameters&lt;/h6&gt;
+&lt;h6 id=&quot;parameters-9&quot;&gt;Parameters&lt;/h6&gt;
 
 &lt;p&gt;&lt;em&gt;grph&lt;/em&gt; : &lt;code class=&quot;highlighter-rouge&quot;&gt;networkx Graph&lt;/code&gt;&lt;/p&gt;
 
@@ -524,7 +556,7 @@ Done making a co-citation network of files-from-records                 1.1s
 
 &lt;p&gt;&lt;strong&gt;mergeGraphs&lt;/strong&gt;() will &lt;strong&gt;modify&lt;/strong&gt; &lt;em&gt;targetGraph&lt;/em&gt; in place by adding the nodes and edges found in the second, &lt;em&gt;addedGraph&lt;/em&gt;. If a node or edge exists &lt;em&gt;targetGraph&lt;/em&gt; is given precedence, but the edge and node attributes given by &lt;em&gt;incrementedNodeVal&lt;/em&gt; and incrementedEdgeVal are added instead of being overwritten.&lt;/p&gt;
 
-&lt;h6 id=&quot;parameters-9&quot;&gt;Parameters&lt;/h6&gt;
+&lt;h6 id=&quot;parameters-10&quot;&gt;Parameters&lt;/h6&gt;
 
 &lt;p&gt;&lt;em&gt;targetGraph&lt;/em&gt; : &lt;code class=&quot;highlighter-rouge&quot;&gt;networkx Graph&lt;/code&gt;&lt;/p&gt;
 
@@ -550,7 +582,7 @@ Done making a co-citation network of files-from-records                 1.1s
 
 &lt;p&gt;&lt;strong&gt;graphStats()&lt;/strong&gt; gives 6 different statistics: number of nodes, number of edges, number of isolates, number of loops, density and transitivity. The ones wanted can be given to &lt;em&gt;stats&lt;/em&gt;. By default a string giving a sentence containing all the requested statistics is returned but the raw values can be accessed instead by setting &lt;em&gt;makeString&lt;/em&gt; to &lt;code class=&quot;highlighter-rouge&quot;&gt;False&lt;/code&gt;.&lt;/p&gt;
 
-&lt;h6 id=&quot;parameters-10&quot;&gt;Parameters&lt;/h6&gt;
+&lt;h6 id=&quot;parameters-11&quot;&gt;Parameters&lt;/h6&gt;
 
 &lt;p&gt;&lt;em&gt;G&lt;/em&gt; : &lt;code class=&quot;highlighter-rouge&quot;&gt;networkx Graph&lt;/code&gt;&lt;/p&gt;
 
@@ -598,7 +630,7 @@ Done making a co-citation network of files-from-records                 1.1s
 
 &lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: If any nodes or edges are missing an attribute a &lt;code class=&quot;highlighter-rouge&quot;&gt;KeyError&lt;/code&gt; will be raised.&lt;/p&gt;
 
-&lt;h6 id=&quot;parameters-11&quot;&gt;Parameters&lt;/h6&gt;
+&lt;h6 id=&quot;parameters-12&quot;&gt;Parameters&lt;/h6&gt;
 
 &lt;p&gt;&lt;em&gt;grph&lt;/em&gt; : &lt;code class=&quot;highlighter-rouge&quot;&gt;networkx Graph&lt;/code&gt;&lt;/p&gt;
 

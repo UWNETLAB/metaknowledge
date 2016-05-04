@@ -78,60 +78,125 @@ The Collection class has the following methods:</h3>
 
 <a name="add"></a><small>Collection.</small>**[<ins>add</ins>]({{ site.baseurl }}{{ page.url }}#add)**(_elem_):
 
-Add an element.
+Adds _elem_ to the collection.
+
+###### Parameters
+
+_elem_ : `object`
+
+ The object to be added
 
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="discard"></a><small>Collection.</small>**[<ins>discard</ins>]({{ site.baseurl }}{{ page.url }}#discard)**(_elem_):
 
-Remove an element.  Do not raise an exception if absent.
+Removes _elem_ from the collection, will not raise an Exception if _elem_ is missing
+
+###### Parameters
+
+_elem_ : `object`
+
+ The object to be removed
 
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="remove"></a><small>Collection.</small>**[<ins>remove</ins>]({{ site.baseurl }}{{ page.url }}#remove)**(_elem_):
 
-Remove an element. If not a member, raise a KeyError.
+Removes _elem_ from the collection, will raise a KeyError is _elem_ is missing
+
+###### Parameters
+
+_elem_ : `object`
+
+ The object to be removed
 
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="clear"></a><small>Collection.</small>**[<ins>clear</ins>]({{ site.baseurl }}{{ page.url }}#clear)**():
 
-This is slow (creates N new iterators!) but effective.
+"Removes all elements from the collection and resets the error handling
+        
 
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="pop"></a><small>Collection.</small>**[<ins>pop</ins>]({{ site.baseurl }}{{ page.url }}#pop)**():
 
-Return the popped value.  Raise KeyError if empty.
+Removes a random element from the collection and returns it
+
+###### Returns
+
+`object`
+
+ A random object from the collection
 
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="copy"></a><small>Collection.</small>**[<ins>copy</ins>]({{ site.baseurl }}{{ page.url }}#copy)**():
 
-# Needs to be written
+Creates a shallow copy of the collection
+
+###### Returns
+
+`Collection`
+
+ A copy of the `Collection`
+
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="peak"></a><small>Collection.</small>**[<ins>peak</ins>]({{ site.baseurl }}{{ page.url }}#peak)**():
 
-# Needs to be written
+returns a random element from the collection. If ran twice the same element will usually be returned
+
+###### Returns
+
+`object`
+
+ A random object from the collection
+
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="chunk"></a><small>Collection.</small>**[<ins>chunk</ins>]({{ site.baseurl }}{{ page.url }}#chunk)**(_maxSize_):
 
-# Needs to be written
+Splits the `Collection` into _maxSize_ size or smaller `Collections`
+
+###### Parameters
+
+_maxSize_ : `int`
+
+ The maximum number of elements in a retuned `Collection`
+
+
+###### Returns
+
+`list [Collection]`
+
+ A list of `Collections` that if all merged (`|` operator) would create the original
+
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="split"></a><small>Collection.</small>**[<ins>split</ins>]({{ site.baseurl }}{{ page.url }}#split)**(_maxSize_):
 
-destructive
+Destructively, splits the `Collection` into _maxSize_ size or smaller `Collections`. The source `Collection` will be empty after this operation
+
+###### Parameters
+
+_maxSize_ : `int`
+
+ The maximum number of elements in a retuned `Collection`
+
+###### Returns
+
+`list [Collection]`
+
+ A list of `Collections` that if all merged (`|` operator) would create the original
 
 
 

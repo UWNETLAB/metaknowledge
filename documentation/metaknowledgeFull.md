@@ -71,7 +71,7 @@ search_omit: true
 <li><article><a href="#allButDOI"><small>Citation</small>.<b>allButDOI</b>()</a></article></li>
 <li><article><a href="#Extra"><small>Citation</small>.<b>Extra</b>()</a></article></li>
 <li><article><a href="#update"><small>Grant</small>.<b>update</b>(<i>other</i>)</a></article></li>
-<li><article><a href="#pop"><small>Grant</small>.<b>pop</b>(<i>key, default=<object object at 0x10e2cf050></i>)</a></article></li>
+<li><article><a href="#pop"><small>Grant</small>.<b>pop</b>(<i>key, default=<object object at 0x106fdd050></i>)</a></article></li>
 <li><article><a href="#popitem"><small>Grant</small>.<b>popitem</b>()</a></article></li>
 <li><article><a href="#clear"><small>Grant</small>.<b>clear</b>()</a></article></li>
 <li><article><a href="#setdefault"><small>Grant</small>.<b>setdefault</b>(<i>key, default=None</i>)</a></article></li>
@@ -98,7 +98,7 @@ search_omit: true
 <li><article><a href="#tags"><small>CollectionWithIDs</small>.<b>tags</b>()</a></article></li>
 <li><article><a href="#oneModeNetwork"><small>CollectionWithIDs</small>.<b>oneModeNetwork</b>(<i>mode, nodeCount=True, edgeWeight=True, stemmer=None, edgeAttribute=None, nodeAttribute=None</i>)</a></article></li>
 <li><article><a href="#twoModeNetwork"><small>CollectionWithIDs</small>.<b>twoModeNetwork</b>(<i>tag1, tag2, directed=False, recordType=True, nodeCount=True, edgeWeight=True, stemmerTag1=None, stemmerTag2=None, edgeAttribute=None</i>)</a></article></li>
-<li><article><a href="#nModeNetwork"><small>CollectionWithIDs</small>.<b>nModeNetwork</b>(<i>tags, recordType=True, nodeCount=True, edgeWeight=True, stemmer=None, edgeAttribute=None</i>)</a></article></li>
+<li><article><a href="#nModeNetwork"><small>CollectionWithIDs</small>.<b>nModeNetwork</b>(<i>*tags, recordType=True, nodeCount=True, edgeWeight=True, stemmer=None, edgeAttribute=None</i>)</a></article></li>
 <li><article><a href="#get"><small>ExtendedRecord</small>.<b>get</b>(<i>tag, default=None, raw=False</i>)</a></article></li>
 <li><article><a href="#values"><small>ExtendedRecord</small>.<b>values</b>(<i>raw=False</i>)</a></article></li>
 <li><article><a href="#items"><small>ExtendedRecord</small>.<b>items</b>(<i>raw=False</i>)</a></article></li>
@@ -469,6 +469,10 @@ _sourceType_ : `optional [str]`
 
  default `'raw'`, if `'raw'` the returned `dict` will contain `Records` as keys. If it is a WOS tag the keys will be of that type.
 
+_extraValue_ : `optional [str]`
+
+ default `None`, a tag that will split the counts based on entries to it, meaning instead of a single integer a dictionary will be given.
+
 _pandasFriendly_ : `optional [bool]`
 
  default `False`, makes the output be a dict with two keys one `"Record"` is the list of Records ( or data type requested by _sourceType_) the other is their occurrence counts as `"Counts"`. The lists are the same length.
@@ -477,9 +481,15 @@ _compareCounts_ : `optional [bool]`
 
  default `False`, if `True` the diffusion analysis will be run twice, first with source and target setup like the default (global scope) then using only the source `RecordCollection` (local scope).
 
-_byYear_ : `optional [bool]`
+_extraValue_ : `optional [str]`
 
-default `False`, if `True` the returned dictionary will have Records mapped to maps, these maps will map years ('ints') to counts. If _pandasFriendly_ is also `True` the resultant dictionary will have an additional column called `'year'`. This column will contain the year the citations occurred, in addition the Records entries will be duplicated for each year they occur in.
+ default `None`, if a tag the returned dictionary will have `Records` mapped to maps, these maps will map the entries for the tag to counts. If _pandasFriendly_ is also `True` the resultant dictionary will have an additional column called `'year'`. This column will contain the year the citations occurred, in addition the Records entries will be duplicated for each year they occur in.
+
+ For example if `'year'` was given then the count for a single `Record` could be `{1990 : 1, 2000 : 5}`
+
+_useAllAuthors_ : `optional [bool]`
+
+ default `True`, if `False` only the first author will be used to generate the `Citations` for the _source_ `Records`
 
 ###### Returns
 
@@ -496,7 +506,30 @@ default `False`, if `True` the returned dictionary will have Records mapped to m
 
 <a name="diffusionAddCountsFromSource"></a><small></small>**[<ins>diffusionAddCountsFromSource</ins>]({{ site.baseurl }}{{ page.url }}#diffusionAddCountsFromSource)**(_grph, source, target, nodeType='citations', extraType=None, diffusionLabel='DiffusionCount', extraKeys=None, countsDict=None, extraMapping=None_):
 
-# Needs to be written
+Does a diffusion using [`diffusionCount()`]({{ site.baseurl }}{{ page.url }}#diffusionCount) and updates _grph_ with it, using the nodes in the graph as keys in the diffusion, i.e. the source. The name of the attribute the counts are added to is given by _diffusionLabel_. If the graph is not composed of citations from the source and instead is another entry the tag for the entry needs to be given to _nodeType_. You can also change
+
+###### Parameters
+
+_grph_ : `networkx Graph`
+
+ The graph to be updated
+
+_source_ : `RecordCollection`
+
+ The `RecordCollection` that created _grph_
+
+_target_ : `RecordCollection`
+
+ The `RecordCollection` that will be counted
+
+_nodeType_ : `optional [str]`
+
+ The tag that constants the values used to create _grph_
+
+_extraType_
+
+diffusion was not done with
+
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
@@ -1255,7 +1288,11 @@ Returns any `V`, `P`, `DOI` or `misc` values as a string. These are all the valu
 
 <a name="GrantCollection.__init__"></a><small></small>**[<ins>GrantCollection.__init__</ins>](#GrantCollection.__init__)**(_inGrants=None, name='', extension='', cached=False, quietStart=False_):
 
-A Collection with a few extra methods that assume all the contained items have an id attribute and a bad attribute, e.g. Records or Grants
+A [`Collection`](#Collection) with a few extra methods that assume all the contained items have an id attribute and a bad attribute, e.g. [`Records`](#Record) or [`Grants`](#Grant).
+
+\_\_Init\_\_
+
+As `CollectionWithIDs` is mostly meant to be base for other classes all but one of the arguments in the `__init__` are not optional and the optional one is not used. The `__init__()` function is the same as a [`Collection`](#Collection).
 
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
@@ -1312,23 +1349,19 @@ _sLine_ : `int`
 The Grant class has the following methods:</h3>
 
 <ol class="post-list">
-<li><article><a href="#__setitem__"><b>__setitem__</b>(<i>key, value</i>)</a></article></li>
 <li><article><a href="#update"><b>update</b>(<i>other</i>)</a></article></li>
 </ol>
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="__setitem__"></a><small>Grant.</small>**[<ins>__setitem__</ins>]({{ site.baseurl }}{{ page.url }}#__setitem__)**(_key, value_):
-
-# Needs to be written
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
 <a name="update"></a><small>Grant.</small>**[<ins>update</ins>]({{ site.baseurl }}{{ page.url }}#update)**(_other_):
 
-D.update([E, ]**F) -> None.  Update D from mapping/iterable E and F.
-If E present and has a .keys() method, does:     for k in E: D[k] = E[k]
-If E present and lacks .keys() method, does:     for (k, v) in E: D[k] = v
-In either case, this is followed by: for k, v in F.items(): D[k] = v
+Adds all the tag-entry pairs from _other_ to the `Grant`. If there is a conflict _other_ takes precedence.
+
+###### Parameters
+
+_other_ : `Grant`
+
+ Another `Grant` of the same type as _self_
 
 
 
@@ -1338,62 +1371,11 @@ In either case, this is followed by: for k, v in F.items(): D[k] = v
 
 <a name="DefaultGrant.__init__"></a><small></small>**[<ins>DefaultGrant.__init__</ins>](#DefaultGrant.__init__)**(_original, grantdDict, sFile='', sLine=0_):
 
-A dictionary with error handling and an id string.
-
-`Record` is the base class of the all objects in _metaknowledge_ that contain information as key-value pairs, these are the grants and the records from different sources.
-
-The error handling of the `Record` is done with the `bad` attribute. If there is some issue with the data _bad_ should be `True` and _error_ given an `Exception` that was caused by or explains the error.
-
-##### Customizations
-
-`Record` is a subclass of `abc.collections.Mapping` which means it has almost all the methods a dictionary does, the missing ones are those that modify entries. So to access the value of the key `'title'` from a `Record` `R`, you would use either the square brace notation `t = R['title']` or the `get()` function `t = R.get('title')` just like a dictionary. The other methods like `keys()` or `copy()` also work.
-
-In addition to being a mapping `Records` are also hashable with their hashes being based on a unique id string they are given on creation, usually some kind of accession number the source gives them. The two optional arguments _sFile_ and _sLine_, which should be given the name of the file the records came from and the line it started on respectively, are used to make the errors more useful.
-
-##### \_\_Init\_\_
-
-_fieldDict_ is the dictionary the `Record` will use and _idValue_ is the unique identifier of the `Record`.
-
-##### Parameters
-
-_fieldDict_ : `dict[str:]`
-
- A dictionary that maps from strings to values
-
-_idValue_ : `str`
-
- A unique identifier string for the `Record`
-
-_bad_ : `bool`
-
- `True` if there are issues with the `Record`, otherwise `False`
-
-_error_ : `Exception`
-
- The `Exception` that caused whatever error made the record be marked as bad or `None`
-
-_sFile_ : `str`
-
- A string that gives the source file of the original records
-
-_sLine_ : `int`
-
- The first line the original record is found on in the source file
+A subclass of [`Grant`](#grant), it has the same attributes and is returned from the default constructor for grants.
+    
 
 
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;"><h3>
-The DefaultGrant class has the following methods:</h3>
-
-<ol class="post-list">
-<li><article><a href="#__setitem__"><b>__setitem__</b>(<i>key, value</i>)</a></article></li>
-</ol>
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="__setitem__"></a><small>DefaultGrant.</small>**[<ins>__setitem__</ins>]({{ site.baseurl }}{{ page.url }}#__setitem__)**(_key, value_):
-
-# Needs to be written
-
-
 ---
 <a name="CIHRGrant"></a>
 <a name="CIHRGrant"></a><small></small>**[<ins>CIHRGrant</ins>](#CIHRGrant)**(_<a href="#Grant"><u style="border-bottom: .5px dashed gray;">Grant</u></a>_):
@@ -1443,19 +1425,7 @@ _sLine_ : `int`
  The first line the original record is found on in the source file
 
 
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;"><h3>
-The CIHRGrant class has the following methods:</h3>
-
-<ol class="post-list">
-<li><article><a href="#__setitem__"><b>__setitem__</b>(<i>key, value</i>)</a></article></li>
-</ol>
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="__setitem__"></a><small>CIHRGrant.</small>**[<ins>__setitem__</ins>]({{ site.baseurl }}{{ page.url }}#__setitem__)**(_key, value_):
-
-# Needs to be written
-
-
 ---
 <a name="MedlineGrant"></a>
 <a name="MedlineGrant"></a><small></small>**[<ins>MedlineGrant</ins>](#MedlineGrant)**(_<a href="#Grant"><u style="border-bottom: .5px dashed gray;">Grant</u></a>_):
@@ -1505,19 +1475,7 @@ _sLine_ : `int`
  The first line the original record is found on in the source file
 
 
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;"><h3>
-The MedlineGrant class has the following methods:</h3>
-
-<ol class="post-list">
-<li><article><a href="#__setitem__"><b>__setitem__</b>(<i>key, value</i>)</a></article></li>
-</ol>
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="__setitem__"></a><small>MedlineGrant.</small>**[<ins>__setitem__</ins>]({{ site.baseurl }}{{ page.url }}#__setitem__)**(_key, value_):
-
-# Needs to be written
-
-
 ---
 <a name="NSERCGrant"></a>
 <a name="NSERCGrant"></a><small></small>**[<ins>NSERCGrant</ins>](#NSERCGrant)**(_<a href="#Grant"><u style="border-bottom: .5px dashed gray;">Grant</u></a>_):
@@ -1567,19 +1525,7 @@ _sLine_ : `int`
  The first line the original record is found on in the source file
 
 
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;"><h3>
-The NSERCGrant class has the following methods:</h3>
-
-<ol class="post-list">
-<li><article><a href="#__setitem__"><b>__setitem__</b>(<i>key, value</i>)</a></article></li>
-</ol>
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="__setitem__"></a><small>NSERCGrant.</small>**[<ins>__setitem__</ins>]({{ site.baseurl }}{{ page.url }}#__setitem__)**(_key, value_):
-
-# Needs to be written
-
-
 ---
 <a name="MedlineRecord"></a>
 <a name="MedlineRecord"></a><small></small>**[<ins>MedlineRecord</ins>](#MedlineRecord)**(_<a href="#ExtendedRecord"><u style="border-bottom: .5px dashed gray;">ExtendedRecord</u></a>_):
@@ -1800,60 +1746,125 @@ The Collection class has the following methods:</h3>
 
 <a name="add"></a><small>Collection.</small>**[<ins>add</ins>]({{ site.baseurl }}{{ page.url }}#add)**(_elem_):
 
-Add an element.
+Adds _elem_ to the collection.
+
+###### Parameters
+
+_elem_ : `object`
+
+ The object to be added
 
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="discard"></a><small>Collection.</small>**[<ins>discard</ins>]({{ site.baseurl }}{{ page.url }}#discard)**(_elem_):
 
-Remove an element.  Do not raise an exception if absent.
+Removes _elem_ from the collection, will not raise an Exception if _elem_ is missing
+
+###### Parameters
+
+_elem_ : `object`
+
+ The object to be removed
 
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="remove"></a><small>Collection.</small>**[<ins>remove</ins>]({{ site.baseurl }}{{ page.url }}#remove)**(_elem_):
 
-Remove an element. If not a member, raise a KeyError.
+Removes _elem_ from the collection, will raise a KeyError is _elem_ is missing
+
+###### Parameters
+
+_elem_ : `object`
+
+ The object to be removed
 
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="clear"></a><small>Collection.</small>**[<ins>clear</ins>]({{ site.baseurl }}{{ page.url }}#clear)**():
 
-This is slow (creates N new iterators!) but effective.
+"Removes all elements from the collection and resets the error handling
+        
 
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="pop"></a><small>Collection.</small>**[<ins>pop</ins>]({{ site.baseurl }}{{ page.url }}#pop)**():
 
-Return the popped value.  Raise KeyError if empty.
+Removes a random element from the collection and returns it
+
+###### Returns
+
+`object`
+
+ A random object from the collection
 
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="copy"></a><small>Collection.</small>**[<ins>copy</ins>]({{ site.baseurl }}{{ page.url }}#copy)**():
 
-# Needs to be written
+Creates a shallow copy of the collection
+
+###### Returns
+
+`Collection`
+
+ A copy of the `Collection`
+
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="peak"></a><small>Collection.</small>**[<ins>peak</ins>]({{ site.baseurl }}{{ page.url }}#peak)**():
 
-# Needs to be written
+returns a random element from the collection. If ran twice the same element will usually be returned
+
+###### Returns
+
+`object`
+
+ A random object from the collection
+
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="chunk"></a><small>Collection.</small>**[<ins>chunk</ins>]({{ site.baseurl }}{{ page.url }}#chunk)**(_maxSize_):
 
-# Needs to be written
+Splits the `Collection` into _maxSize_ size or smaller `Collections`
+
+###### Parameters
+
+_maxSize_ : `int`
+
+ The maximum number of elements in a retuned `Collection`
+
+
+###### Returns
+
+`list [Collection]`
+
+ A list of `Collections` that if all merged (`|` operator) would create the original
+
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="split"></a><small>Collection.</small>**[<ins>split</ins>]({{ site.baseurl }}{{ page.url }}#split)**(_maxSize_):
 
-destructive
+Destructively, splits the `Collection` into _maxSize_ size or smaller `Collections`. The source `Collection` will be empty after this operation
+
+###### Parameters
+
+_maxSize_ : `int`
+
+ The maximum number of elements in a retuned `Collection`
+
+###### Returns
+
+`list [Collection]`
+
+ A list of `Collections` that if all merged (`|` operator) would create the original
 
 
 
@@ -1863,7 +1874,11 @@ destructive
 
 <a name="CollectionWithIDs.__init__"></a><small></small>**[<ins>CollectionWithIDs.__init__</ins>](#CollectionWithIDs.__init__)**(_inSet, allowedTypes, collectedTypes, name, bad, errors, quietStart=False_):
 
-A Collection with a few extra methods that assume all the contained items have an id attribute and a bad attribute, e.g. Records or Grants
+A [`Collection`](#Collection) with a few extra methods that assume all the contained items have an id attribute and a bad attribute, e.g. [`Records`](#Record) or [`Grants`](#Grant).
+
+\_\_Init\_\_
+
+As `CollectionWithIDs` is mostly meant to be base for other classes all but one of the arguments in the `__init__` are not optional and the optional one is not used. The `__init__()` function is the same as a [`Collection`](#Collection).
 
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;"><h3>
@@ -1879,57 +1894,113 @@ The CollectionWithIDs class has the following methods:</h3>
 <li><article><a href="#tags"><b>tags</b>()</a></article></li>
 <li><article><a href="#oneModeNetwork"><b>oneModeNetwork</b>(<i>mode, nodeCount=True, edgeWeight=True, stemmer=None, edgeAttribute=None, nodeAttribute=None</i>)</a></article></li>
 <li><article><a href="#twoModeNetwork"><b>twoModeNetwork</b>(<i>tag1, tag2, directed=False, recordType=True, nodeCount=True, edgeWeight=True, stemmerTag1=None, stemmerTag2=None, edgeAttribute=None</i>)</a></article></li>
-<li><article><a href="#nModeNetwork"><b>nModeNetwork</b>(<i>tags, recordType=True, nodeCount=True, edgeWeight=True, stemmer=None, edgeAttribute=None</i>)</a></article></li>
+<li><article><a href="#nModeNetwork"><b>nModeNetwork</b>(<i>*tags, recordType=True, nodeCount=True, edgeWeight=True, stemmer=None, edgeAttribute=None</i>)</a></article></li>
 </ol>
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="containsID"></a><small>CollectionWithIDs.</small>**[<ins>containsID</ins>]({{ site.baseurl }}{{ page.url }}#containsID)**(_idVal_):
 
-# Needs to be written
+Checks if the collected items contains the give _idVal_
+
+###### Parameters
+
+_idVal_ : `str`
+
+ The queried id string
+
+###### Returns
+
+`bool`
+
+ `True` if the item is in the collection
+
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="discardID"></a><small>CollectionWithIDs.</small>**[<ins>discardID</ins>]({{ site.baseurl }}{{ page.url }}#discardID)**(_idVal_):
 
-# Needs to be written
+Checks if the collected items contains the give _idVal_ and discards it if it is found, will not raise an exception if item is not found
+
+###### Parameters
+
+_idVal_ : `str`
+
+ The discarded id string
+
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="removeID"></a><small>CollectionWithIDs.</small>**[<ins>removeID</ins>]({{ site.baseurl }}{{ page.url }}#removeID)**(_idVal_):
 
-# Needs to be written
+Checks if the collected items contains the give _idVal_ and removes it if it is found, will raise a `KeyError` if item is not found
+
+###### Parameters
+
+_idVal_ : `str`
+
+ The removed id string
+
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="getID"></a><small>CollectionWithIDs.</small>**[<ins>getID</ins>]({{ site.baseurl }}{{ page.url }}#getID)**(_idVal_):
 
-# Needs to be written
+Looks up an item with _idVal_ and returns it if it is found, returns `None` if it does not find the item
+
+###### Parameters
+
+_idVal_ : `str`
+
+ The requested item's id string
+
+###### Returns
+
+`object`
+
+ The requested object or `None`
+
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="badEntries"></a><small>CollectionWithIDs.</small>**[<ins>badEntries</ins>]({{ site.baseurl }}{{ page.url }}#badEntries)**():
 
-# Needs to be written
+Creates a new collection of the same type with only the bad entries
+
+###### Returns
+
+`CollectionWithIDs`
+
+ A collection of only the bad entries
+
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="dropBadEntries"></a><small>CollectionWithIDs.</small>**[<ins>dropBadEntries</ins>]({{ site.baseurl }}{{ page.url }}#dropBadEntries)**():
 
-# Needs to be written
+Removes all the bad entries from the collection
+        
+
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="tags"></a><small>CollectionWithIDs.</small>**[<ins>tags</ins>]({{ site.baseurl }}{{ page.url }}#tags)**():
 
-# Needs to be written
+Creates a list of all the tags of the contained items
+
+###### Returns
+
+`list [str]`
+
+ A list of all the tags
+
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="oneModeNetwork"></a><small>CollectionWithIDs.</small>**[<ins>oneModeNetwork</ins>]({{ site.baseurl }}{{ page.url }}#oneModeNetwork)**(_mode, nodeCount=True, edgeWeight=True, stemmer=None, edgeAttribute=None, nodeAttribute=None_):
 
-Creates a network of the objects found by one WOS tag _mode_.
+Creates a network of the objects found by one tag _mode_.
 
-A **oneModeNetwork**() looks are each Record in the RecordCollection and extracts its values for the tag given by _mode_, e.g. the `'AF'` tag. Then if multiple are returned an edge is created between them. So in the case of the author tag `'AF'` a co-authorship network is created.
+A **oneModeNetwork**() looks are each entry in the collection and extracts its values for the tag given by _mode_, e.g. the `'authorsFull'` tag. Then if multiple are returned an edge is created between them. So in the case of the author tag `'authorsFull'` a co-authorship network is created.
 
 The number of times each object occurs is count if _nodeCount_ is `True` and the edges count the number of co-occurrences if _edgeWeight_ is `True`. Both are`True` by default.
 
@@ -2015,11 +2086,11 @@ _stemmerTag2_ : `optional [func]`
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="nModeNetwork"></a><small>CollectionWithIDs.</small>**[<ins>nModeNetwork</ins>]({{ site.baseurl }}{{ page.url }}#nModeNetwork)**(_tags, recordType=True, nodeCount=True, edgeWeight=True, stemmer=None, edgeAttribute=None_):
+<a name="nModeNetwork"></a><small>CollectionWithIDs.</small>**[<ins>nModeNetwork</ins>]({{ site.baseurl }}{{ page.url }}#nModeNetwork)**(_*tags, recordType=True, nodeCount=True, edgeWeight=True, stemmer=None, edgeAttribute=None_):
 
-Creates a network of the objects found by all WOS tags in _tags_, each node is marked by which tag spawned it making the resultant graph n-partite.
+Creates a network of the objects found by all tags in _tags_, each node is marked by which tag spawned it making the resultant graph n-partite.
 
-A **nModeNetwork()** looks are each Record in the RecordCollection and extracts its values for the tags given by _tags_. Then for all objects returned an edge is created between them, regardless of their type. Each node will have an attribute call `'type'` that gives the tag that created it or both if both created it, e.g. if `'LA'` were in _tags_ node `'English'` would have the type attribute be `'LA'`.
+A **nModeNetwork()** looks are each item in the collection and extracts its values for the tags given by _tags_. Then for all objects returned an edge is created between them, regardless of their type. Each node will have an attribute call `'type'` that gives the tag that created it or both if both created it, e.g. if `'LA'` were in _tags_ node `'English'` would have the type attribute be `'LA'`.
 
 For example if _tags_ was set to `['CR', 'UT', 'LA']`, a three mode network would be created, composed of a co-citation network from the `'CR'` tag. Then each citation would also have edges to all the languages of Records that cited it and to the WOS number of the those Records.
 
@@ -2027,9 +2098,9 @@ The number of times each object occurs is count if _nodeCount_ is `True` and the
 
 ###### Parameters
 
-_mode_ : `str`
+_tags_ : `str`, `str`, `str`, ... or `list [str]`
 
- A two character WOS tag or one of the full names for a tag
+ Any number of tags, or a list of tags
 
 _nodeCount_ : `optional [bool]`
 

@@ -201,55 +201,115 @@ The Collection class has the following methods:</h3>
 
 <p><a name="add"></a><small>Collection.</small><strong><a href="/metaknowledge/docs/Collection#add"><ins>add</ins></a></strong>(<em>elem</em>):</p>
 
-<p>Add an element.</p>
+<p>Adds <em>elem</em> to the collection.</p>
+
+<h6 id="parameters-1">Parameters</h6>
+
+<p><em>elem</em> : <code class="highlighter-rouge">object</code></p>
+
+<p>The object to be added</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="discard"></a><small>Collection.</small><strong><a href="/metaknowledge/docs/Collection#discard"><ins>discard</ins></a></strong>(<em>elem</em>):</p>
 
-<p>Remove an element.  Do not raise an exception if absent.</p>
+<p>Removes <em>elem</em> from the collection, will not raise an Exception if <em>elem</em> is missing</p>
+
+<h6 id="parameters-2">Parameters</h6>
+
+<p><em>elem</em> : <code class="highlighter-rouge">object</code></p>
+
+<p>The object to be removed</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="remove"></a><small>Collection.</small><strong><a href="/metaknowledge/docs/Collection#remove"><ins>remove</ins></a></strong>(<em>elem</em>):</p>
 
-<p>Remove an element. If not a member, raise a KeyError.</p>
+<p>Removes <em>elem</em> from the collection, will raise a KeyError is <em>elem</em> is missing</p>
+
+<h6 id="parameters-3">Parameters</h6>
+
+<p><em>elem</em> : <code class="highlighter-rouge">object</code></p>
+
+<p>The object to be removed</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="clear"></a><small>Collection.</small><strong><a href="/metaknowledge/docs/Collection#clear"><ins>clear</ins></a></strong>():</p>
 
-<p>This is slow (creates N new iterators!) but effective.</p>
+<p>“Removes all elements from the collection and resets the error handling</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="pop"></a><small>Collection.</small><strong><a href="/metaknowledge/docs/Collection#pop"><ins>pop</ins></a></strong>():</p>
 
-<p>Return the popped value.  Raise KeyError if empty.</p>
+<p>Removes a random element from the collection and returns it</p>
+
+<h6 id="returns">Returns</h6>
+
+<p><code class="highlighter-rouge">object</code></p>
+
+<p>A random object from the collection</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="copy"></a><small>Collection.</small><strong><a href="/metaknowledge/docs/Collection#copy"><ins>copy</ins></a></strong>():</p>
 
-<h1 id="needs-to-be-written">Needs to be written</h1>
+<p>Creates a shallow copy of the collection</p>
+
+<h6 id="returns-1">Returns</h6>
+
+<p><code class="highlighter-rouge">Collection</code></p>
+
+<p>A copy of the <code class="highlighter-rouge">Collection</code></p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="peak"></a><small>Collection.</small><strong><a href="/metaknowledge/docs/Collection#peak"><ins>peak</ins></a></strong>():</p>
 
-<h1 id="needs-to-be-written-1">Needs to be written</h1>
+<p>returns a random element from the collection. If ran twice the same element will usually be returned</p>
+
+<h6 id="returns-2">Returns</h6>
+
+<p><code class="highlighter-rouge">object</code></p>
+
+<p>A random object from the collection</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="chunk"></a><small>Collection.</small><strong><a href="/metaknowledge/docs/Collection#chunk"><ins>chunk</ins></a></strong>(<em>maxSize</em>):</p>
 
-<h1 id="needs-to-be-written-2">Needs to be written</h1>
+<p>Splits the <code class="highlighter-rouge">Collection</code> into <em>maxSize</em> size or smaller <code class="highlighter-rouge">Collections</code></p>
+
+<h6 id="parameters-4">Parameters</h6>
+
+<p><em>maxSize</em> : <code class="highlighter-rouge">int</code></p>
+
+<p>The maximum number of elements in a retuned <code class="highlighter-rouge">Collection</code></p>
+
+<h6 id="returns-3">Returns</h6>
+
+<p><code class="highlighter-rouge">list [Collection]</code></p>
+
+<p>A list of <code class="highlighter-rouge">Collections</code> that if all merged (<code class="highlighter-rouge">|</code> operator) would create the original</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="split"></a><small>Collection.</small><strong><a href="/metaknowledge/docs/Collection#split"><ins>split</ins></a></strong>(<em>maxSize</em>):</p>
 
-<p>destructive</p>
+<p>Destructively, splits the <code class="highlighter-rouge">Collection</code> into <em>maxSize</em> size or smaller <code class="highlighter-rouge">Collections</code>. The source <code class="highlighter-rouge">Collection</code> will be empty after this operation</p>
+
+<h6 id="parameters-5">Parameters</h6>
+
+<p><em>maxSize</em> : <code class="highlighter-rouge">int</code></p>
+
+<p>The maximum number of elements in a retuned <code class="highlighter-rouge">Collection</code></p>
+
+<h6 id="returns-4">Returns</h6>
+
+<p><code class="highlighter-rouge">list [Collection]</code></p>
+
+<p>A list of <code class="highlighter-rouge">Collections</code> that if all merged (<code class="highlighter-rouge">|</code> operator) would create the original</p>
 
 <hr />
 

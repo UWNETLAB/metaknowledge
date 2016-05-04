@@ -1,15 +1,15 @@
 ---
 layout: doc
-title: NSERCGrant
+title: CIHRGrant
 categories: docs
-excerpt: The container for NSERC grant entries
+excerpt: The container for CIHR grant entries
 tags: [class]
 weight: 2
 ---
-<a name="NSERCGrant"></a>
-<a name="NSERCGrant"></a><small></small>**[<ins>NSERCGrant</ins>]({{ site.baseurl }}{{ page.url }}#NSERCGrant)**(_<a href="#Grant"><u style="border-bottom: .5px dashed gray;">Grant</u></a>_):
+<a name="CIHRGrant"></a>
+<a name="CIHRGrant"></a><small></small>**[<ins>CIHRGrant</ins>]({{ site.baseurl }}{{ page.url }}#CIHRGrant)**(_<a href="#Grant"><u style="border-bottom: .5px dashed gray;">Grant</u></a>_):
 
-<a name="NSERCGrant.__init__"></a><small></small>**[<ins>NSERCGrant.__init__</ins>]({{ site.baseurl }}{{ page.url }}#NSERCGrant.__init__)**(_original, grantdDict, sFile, sLine_):
+<a name="CIHRGrant.__init__"></a><small></small>**[<ins>CIHRGrant.__init__</ins>]({{ site.baseurl }}{{ page.url }}#CIHRGrant.__init__)**(_original, grantdDict, sFile, sLine_):
 
 A dictionary with error handling and an id string.
 
@@ -53,18 +53,6 @@ _sLine_ : `int`
 
  The first line the original record is found on in the source file
 
-
-<h3>
-The NSERCGrant class has the following methods:</h3>
-
-<ol class="post-list">
-<li><article><a href="#__setitem__"><b>__setitem__</b>(<i>key, value</i>)</a></article></li>
-</ol>
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="__setitem__"></a><small>NSERCGrant.</small>**[<ins>__setitem__</ins>]({{ site.baseurl }}{{ page.url }}#__setitem__)**(_key, value_):
-
-# Needs to be written
 
 
 {% include docsFooter.md %}

@@ -135,7 +135,11 @@
 
 <p><a name="GrantCollection.__init__"></a><small></small><strong><a href="/metaknowledge/docs/GrantCollection#GrantCollection.__init__"><ins>GrantCollection.__init__</ins></a></strong>(<em>inGrants=None, name=’’, extension=’’, cached=False, quietStart=False</em>):</p>
 
-<p>A Collection with a few extra methods that assume all the contained items have an id attribute and a bad attribute, e.g. Records or Grants</p>
+<p>A <a href="/metaknowledge/docs/GrantCollection#Collection"><code class="highlighter-rouge">Collection</code></a> with a few extra methods that assume all the contained items have an id attribute and a bad attribute, e.g. <a href="/metaknowledge/docs/GrantCollection#Record"><code class="highlighter-rouge">Records</code></a> or <a href="/metaknowledge/docs/GrantCollection#Grant"><code class="highlighter-rouge">Grants</code></a>.</p>
+
+<p>__Init__</p>
+
+<p>As <code class="highlighter-rouge">CollectionWithIDs</code> is mostly meant to be base for other classes all but one of the arguments in the <code class="highlighter-rouge">__init__</code> are not optional and the optional one is not used. The <code class="highlighter-rouge">__init__()</code> function is the same as a <a href="/metaknowledge/docs/GrantCollection#Collection"><code class="highlighter-rouge">Collection</code></a>.</p>
 
 <hr />
 

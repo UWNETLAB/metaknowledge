@@ -258,6 +258,10 @@
 
 <p>default <code class="highlighter-rouge">'raw'</code>, if <code class="highlighter-rouge">'raw'</code> the returned <code class="highlighter-rouge">dict</code> will contain <code class="highlighter-rouge">Records</code> as keys. If it is a WOS tag the keys will be of that type.</p>
 
+<p><em>extraValue</em> : <code class="highlighter-rouge">optional [str]</code></p>
+
+<p>default <code class="highlighter-rouge">None</code>, a tag that will split the counts based on entries to it, meaning instead of a single integer a dictionary will be given.</p>
+
 <p><em>pandasFriendly</em> : <code class="highlighter-rouge">optional [bool]</code></p>
 
 <p>default <code class="highlighter-rouge">False</code>, makes the output be a dict with two keys one <code class="highlighter-rouge">"Record"</code> is the list of Records ( or data type requested by <em>sourceType</em>) the other is their occurrence counts as <code class="highlighter-rouge">"Counts"</code>. The lists are the same length.</p>
@@ -266,9 +270,15 @@
 
 <p>default <code class="highlighter-rouge">False</code>, if <code class="highlighter-rouge">True</code> the diffusion analysis will be run twice, first with source and target setup like the default (global scope) then using only the source <code class="highlighter-rouge">RecordCollection</code> (local scope).</p>
 
-<p><em>byYear</em> : <code class="highlighter-rouge">optional [bool]</code></p>
+<p><em>extraValue</em> : <code class="highlighter-rouge">optional [str]</code></p>
 
-<p>default <code class="highlighter-rouge">False</code>, if <code class="highlighter-rouge">True</code> the returned dictionary will have Records mapped to maps, these maps will map years (‘ints’) to counts. If <em>pandasFriendly</em> is also <code class="highlighter-rouge">True</code> the resultant dictionary will have an additional column called <code class="highlighter-rouge">'year'</code>. This column will contain the year the citations occurred, in addition the Records entries will be duplicated for each year they occur in.</p>
+<p>default <code class="highlighter-rouge">None</code>, if a tag the returned dictionary will have <code class="highlighter-rouge">Records</code> mapped to maps, these maps will map the entries for the tag to counts. If <em>pandasFriendly</em> is also <code class="highlighter-rouge">True</code> the resultant dictionary will have an additional column called <code class="highlighter-rouge">'year'</code>. This column will contain the year the citations occurred, in addition the Records entries will be duplicated for each year they occur in.</p>
+
+<p>For example if <code class="highlighter-rouge">'year'</code> was given then the count for a single <code class="highlighter-rouge">Record</code> could be <code class="highlighter-rouge"><span class="p">{</span><span class="err">1990</span><span class="w"> </span><span class="err">:</span><span class="w"> </span><span class="err">1,</span><span class="w"> </span><span class="err">2000</span><span class="w"> </span><span class="err">:</span><span class="w"> </span><span class="err">5</span><span class="p">}</span></code></p>
+
+<p><em>useAllAuthors</em> : <code class="highlighter-rouge">optional [bool]</code></p>
+
+<p>default <code class="highlighter-rouge">True</code>, if <code class="highlighter-rouge">False</code> only the first author will be used to generate the <code class="highlighter-rouge">Citations</code> for the <em>source</em> <code class="highlighter-rouge">Records</code></p>
 
 <h6 id="returns-2">Returns</h6>
 
@@ -284,7 +294,29 @@
 
 <p><a name="diffusionAddCountsFromSource"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#diffusionAddCountsFromSource"><ins>diffusionAddCountsFromSource</ins></a></strong>(<em>grph, source, target, nodeType=’citations’, extraType=None, diffusionLabel=’DiffusionCount’, extraKeys=None, countsDict=None, extraMapping=None</em>):</p>
 
-<h1 id="needs-to-be-written">Needs to be written</h1>
+<p>Does a diffusion using <a href="/metaknowledge/docs/metaknowledge#diffusionCount"><code class="highlighter-rouge">diffusionCount()</code></a> and updates <em>grph</em> with it, using the nodes in the graph as keys in the diffusion, i.e. the source. The name of the attribute the counts are added to is given by <em>diffusionLabel</em>. If the graph is not composed of citations from the source and instead is another entry the tag for the entry needs to be given to <em>nodeType</em>. You can also change</p>
+
+<h6 id="parameters-3">Parameters</h6>
+
+<p><em>grph</em> : <code class="highlighter-rouge">networkx Graph</code></p>
+
+<p>The graph to be updated</p>
+
+<p><em>source</em> : <code class="highlighter-rouge">RecordCollection</code></p>
+
+<p>The <code class="highlighter-rouge">RecordCollection</code> that created <em>grph</em></p>
+
+<p><em>target</em> : <code class="highlighter-rouge">RecordCollection</code></p>
+
+<p>The <code class="highlighter-rouge">RecordCollection</code> that will be counted</p>
+
+<p><em>nodeType</em> : <code class="highlighter-rouge">optional [str]</code></p>
+
+<p>The tag that constants the values used to create <em>grph</em></p>
+
+<p><em>extraType</em></p>
+
+<p>diffusion was not done with</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
@@ -302,7 +334,7 @@
 
 <p><strong>Note</strong>: If nodes appear in the edgelist but not the nodeList they will be created silently with no attributes.</p>
 
-<h6 id="parameters-3">Parameters</h6>
+<h6 id="parameters-4">Parameters</h6>
 
 <p><em>edgeList</em> : <code class="highlighter-rouge">str</code></p>
 
@@ -344,7 +376,7 @@
 
 <p><strong>Note</strong>: If any edges are missing an attribute it will be left blank by default, enable <em>allSameAttribute</em> to cause a <code class="highlighter-rouge">KeyError</code> to be raised.</p>
 
-<h6 id="parameters-4">Parameters</h6>
+<h6 id="parameters-5">Parameters</h6>
 
 <p><em>grph</em> : <code class="highlighter-rouge">networkx Graph</code></p>
 
@@ -372,7 +404,7 @@
 
 <p><strong>Note</strong>: If any nodes are missing an attribute it will be left blank by default, enable <em>allSameAttribute</em> to cause a <code class="highlighter-rouge">KeyError</code> to be raised.</p>
 
-<h6 id="parameters-5">Parameters</h6>
+<h6 id="parameters-6">Parameters</h6>
 
 <p><em>grph</em> : <code class="highlighter-rouge">networkx Graph</code></p>
 
@@ -394,7 +426,7 @@
 
 <p><strong>Note</strong>: none of the default options will result in <em>grph</em> being modified so only specify the relevant ones, e.g. <code class="highlighter-rouge">dropEdges(G, dropSelfLoops = True)</code> will remove only the self loops from <code class="highlighter-rouge">G</code>.</p>
 
-<h6 id="parameters-6">Parameters</h6>
+<h6 id="parameters-7">Parameters</h6>
 
 <p><em>grph</em> : <code class="highlighter-rouge">networkx Graph</code></p>
 
@@ -428,7 +460,7 @@
 
 <p>Degree is determined in two ways, the default <em>useWeight</em> is the weight attribute of the edges to a node will be summed, the attribute’s name is <em>parameterName</em> otherwise the number of edges touching the node is used. If <em>includeUnweighted</em> is <code class="highlighter-rouge">True</code> then <em>useWeight</em> will assign a degree of 1 to unweighted edges.</p>
 
-<h6 id="parameters-7">Parameters</h6>
+<h6 id="parameters-8">Parameters</h6>
 
 <p><em>grph</em> : <code class="highlighter-rouge">networkx Graph</code></p>
 
@@ -464,7 +496,7 @@
 
 <p>minCount and maxCount default to negative and positive infinity respectively so without specifying either the output should be the input</p>
 
-<h6 id="parameters-8">Parameters</h6>
+<h6 id="parameters-9">Parameters</h6>
 
 <p><em>grph</em> : <code class="highlighter-rouge">networkx Graph</code></p>
 
@@ -494,7 +526,7 @@
 
 <p><strong>mergeGraphs</strong>() will <strong>modify</strong> <em>targetGraph</em> in place by adding the nodes and edges found in the second, <em>addedGraph</em>. If a node or edge exists <em>targetGraph</em> is given precedence, but the edge and node attributes given by <em>incrementedNodeVal</em> and incrementedEdgeVal are added instead of being overwritten.</p>
 
-<h6 id="parameters-9">Parameters</h6>
+<h6 id="parameters-10">Parameters</h6>
 
 <p><em>targetGraph</em> : <code class="highlighter-rouge">networkx Graph</code></p>
 
@@ -520,7 +552,7 @@
 
 <p><strong>graphStats()</strong> gives 6 different statistics: number of nodes, number of edges, number of isolates, number of loops, density and transitivity. The ones wanted can be given to <em>stats</em>. By default a string giving a sentence containing all the requested statistics is returned but the raw values can be accessed instead by setting <em>makeString</em> to <code class="highlighter-rouge">False</code>.</p>
 
-<h6 id="parameters-10">Parameters</h6>
+<h6 id="parameters-11">Parameters</h6>
 
 <p><em>G</em> : <code class="highlighter-rouge">networkx Graph</code></p>
 
@@ -568,7 +600,7 @@
 
 <p><strong>Note</strong>: If any nodes or edges are missing an attribute a <code class="highlighter-rouge">KeyError</code> will be raised.</p>
 
-<h6 id="parameters-11">Parameters</h6>
+<h6 id="parameters-12">Parameters</h6>
 
 <p><em>grph</em> : <code class="highlighter-rouge">networkx Graph</code></p>
 

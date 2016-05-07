@@ -135,59 +135,7 @@
 
 <p><a name="DefaultGrant.__init__"></a><small></small><strong><a href="/metaknowledge/docs/DefaultGrant#DefaultGrant.__init__"><ins>DefaultGrant.__init__</ins></a></strong>(<em>original, grantdDict, sFile=’’, sLine=0</em>):</p>
 
-<p>A dictionary with error handling and an id string.</p>
-
-<p><code class="highlighter-rouge">Record</code> is the base class of the all objects in <em>metaknowledge</em> that contain information as key-value pairs, these are the grants and the records from different sources.</p>
-
-<p>The error handling of the <code class="highlighter-rouge">Record</code> is done with the <code class="highlighter-rouge">bad</code> attribute. If there is some issue with the data <em>bad</em> should be <code class="highlighter-rouge">True</code> and <em>error</em> given an <code class="highlighter-rouge">Exception</code> that was caused by or explains the error.</p>
-
-<h5 id="customizations">Customizations</h5>
-
-<p><code class="highlighter-rouge">Record</code> is a subclass of <code class="highlighter-rouge">abc.collections.Mapping</code> which means it has almost all the methods a dictionary does, the missing ones are those that modify entries. So to access the value of the key <code class="highlighter-rouge">'title'</code> from a <code class="highlighter-rouge">Record</code> <code class="highlighter-rouge">R</code>, you would use either the square brace notation <code class="highlighter-rouge">t = R['title']</code> or the <code class="highlighter-rouge">get()</code> function <code class="highlighter-rouge">t = R.get('title')</code> just like a dictionary. The other methods like <code class="highlighter-rouge">keys()</code> or <code class="highlighter-rouge">copy()</code> also work.</p>
-
-<p>In addition to being a mapping <code class="highlighter-rouge">Records</code> are also hashable with their hashes being based on a unique id string they are given on creation, usually some kind of accession number the source gives them. The two optional arguments <em>sFile</em> and <em>sLine</em>, which should be given the name of the file the records came from and the line it started on respectively, are used to make the errors more useful.</p>
-
-<h5 id="init">__Init__</h5>
-
-<p><em>fieldDict</em> is the dictionary the <code class="highlighter-rouge">Record</code> will use and <em>idValue</em> is the unique identifier of the <code class="highlighter-rouge">Record</code>.</p>
-
-<h5 id="parameters">Parameters</h5>
-
-<p><em>fieldDict</em> : <code class="highlighter-rouge">dict[str:]</code></p>
-
-<p>A dictionary that maps from strings to values</p>
-
-<p><em>idValue</em> : <code class="highlighter-rouge">str</code></p>
-
-<p>A unique identifier string for the <code class="highlighter-rouge">Record</code></p>
-
-<p><em>bad</em> : <code class="highlighter-rouge">bool</code></p>
-
-<p><code class="highlighter-rouge">True</code> if there are issues with the <code class="highlighter-rouge">Record</code>, otherwise <code class="highlighter-rouge">False</code></p>
-
-<p><em>error</em> : <code class="highlighter-rouge">Exception</code></p>
-
-<p>The <code class="highlighter-rouge">Exception</code> that caused whatever error made the record be marked as bad or <code class="highlighter-rouge">None</code></p>
-
-<p><em>sFile</em> : <code class="highlighter-rouge">str</code></p>
-
-<p>A string that gives the source file of the original records</p>
-
-<p><em>sLine</em> : <code class="highlighter-rouge">int</code></p>
-
-<p>The first line the original record is found on in the source file</p>
-
-<h3>
-The DefaultGrant class has the following methods:</h3>
-
-<ol class="post-list">
-<li><article><a href="#__setitem__"><b>__setitem__</b>(<i>key, value</i>)</a></article></li>
-</ol>
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
-
-<p><a name="__setitem__"></a><small>DefaultGrant.</small><strong><a href="/metaknowledge/docs/DefaultGrant#__setitem__"><ins>__setitem__</ins></a></strong>(<em>key, value</em>):</p>
-
-<h1 id="needs-to-be-written">Needs to be written</h1>
+<p>A subclass of <a href="/metaknowledge/docs/DefaultGrant#grant"><code class="highlighter-rouge">Grant</code></a>, it has the same attributes and is returned from the default constructor for grants.</p>
 
 <hr />
 

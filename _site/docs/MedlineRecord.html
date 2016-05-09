@@ -135,62 +135,9 @@
 
 <p><a name="MedlineRecord.__init__"></a><small></small><strong><a href="/metaknowledge/docs/MedlineRecord#MedlineRecord.__init__"><ins>MedlineRecord.__init__</ins></a></strong>(<em>inRecord, sFile=’’, sLine=0</em>):</p>
 
-<p>A subclass of <code class="highlighter-rouge">Record</code> that adds processing to the dictionary. It also cannot be use directly and must be subclassed.</p>
+<p>Class for full Medline(Pubmed) entries.</p>
 
-<p>The <code class="highlighter-rouge">ExtendedRecord</code> class is a extension of <code class="highlighter-rouge">Record</code> that is intended for use with the records on scientific papers provided by different organizations such as WOS or Pubmed. The 5 abstract (virtual) methods must be defined for each subclass and define how the data in the different fields is processed and how the record can be rewritten to a file.</p>
-
-<h5 id="processing-fields">Processing fields</h5>
-
-<p>When an <code class="highlighter-rouge">ExtendedRecord</code> is created a dictionary, <em>fieldDict</em>, must be provided this contains the raw data from the file reader, usually as lists of strings. <code class="highlighter-rouge">tagProcessingFunc</code> is a <code class="highlighter-rouge">staticmethod</code> function that takes in a tag string an returns another function to process it.</p>
-
-<p>Each tag may also be given a second name, as usually what the they are called in the raw data are not very easy to understand (e.g. <code class="highlighter-rouge">'SO'</code> is the journal name for WOs records). The mapping from the raw tag (<code class="highlighter-rouge">'SO'</code>) to the human friendly string (<code class="highlighter-rouge">'journal'</code>)  is done with the <code class="highlighter-rouge">getAltName</code> <code class="highlighter-rouge">staticmethod</code>. <code class="highlighter-rouge">getAltName</code> takes in a tag string and returns either <code class="highlighter-rouge">None</code> or the other name for that string. Note, <code class="highlighter-rouge">getAltName</code> must go both directions <code class="highlighter-rouge">WOSRecord.getAltName(WOSRecord.getAltName('SO')) == 'SO'</code>.</p>
-
-<p>The last method for processing entries is <code class="highlighter-rouge">specialFuncs</code> The following are the special keys for <code class="highlighter-rouge">ExtendedRecords</code>. These must be the alternate names of tags or strings accepted by the <code class="highlighter-rouge">specialFuncs</code> method.</p>
-
-<ul>
-  <li><code class="highlighter-rouge">'authorsFull'</code></li>
-  <li><code class="highlighter-rouge">'keywords'</code></li>
-  <li><code class="highlighter-rouge">'grants'</code></li>
-  <li><code class="highlighter-rouge">'j9'</code></li>
-  <li><code class="highlighter-rouge">'authorsShort'</code></li>
-  <li><code class="highlighter-rouge">'volume'</code></li>
-  <li><code class="highlighter-rouge">'selfCitation'</code></li>
-  <li><code class="highlighter-rouge">'citations'</code></li>
-  <li><code class="highlighter-rouge">'address'</code></li>
-  <li><code class="highlighter-rouge">'abstract'</code></li>
-  <li><code class="highlighter-rouge">'title'</code></li>
-  <li><code class="highlighter-rouge">'month'</code></li>
-  <li><code class="highlighter-rouge">'year'</code></li>
-  <li><code class="highlighter-rouge">'journal'</code></li>
-  <li><code class="highlighter-rouge">'beginningPage'</code></li>
-  <li><code class="highlighter-rouge">'DOI'</code></li>
-</ul>
-
-<p><code class="highlighter-rouge">specialFuncs</code> when given one of these must raise a <code class="highlighter-rouge">KeyError</code> or return an object of the same type as that returned by the <code class="highlighter-rouge">MedlineRecord</code> or <code class="highlighter-rouge">WOSRecord</code>. e.g. <code class="highlighter-rouge">'title'</code> would return a string giving the title of the record.</p>
-
-<p>For an example of how this works lets first look at the <code class="highlighter-rouge">'SO'</code> tag on a <code class="highlighter-rouge">WOSRecord</code> accessed with the alternate name <code class="highlighter-rouge">'journal'</code>.</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>t = R['journal']
-</code></pre>
-</div>
-
-<p>First the private dictionary <code class="highlighter-rouge">_computedFields</code> is checked for the key <code class="highlighter-rouge">'title'</code>, which will fail if this is the first time <code class="highlighter-rouge">'journal'</code> or <code class="highlighter-rouge">'SO'</code> has been requested, after this the results will be added to the dictionary to speed up future requests.</p>
-
-<p>Then the <em>fieldDict</em> will be checked for the key and when that fails the key will go through <code class="highlighter-rouge">getAltName</code> and be checked again. If the record had a journal entry this will succeed and the raw data will be given to the <code class="highlighter-rouge">tagProcessingFunc</code> using the same key as <em>fieldDict</em>, in this case <code class="highlighter-rouge">SO</code>.</p>
-
-<p>The results will then be written to <code class="highlighter-rouge">_computedFields</code> and returned.</p>
-
-<p>If the requested key was instead <code class="highlighter-rouge">'grants'</code> (<code class="highlighter-rouge">g = R['grants']</code>)the both lookups to <em>fieldDict</em> would have failed and the string <code class="highlighter-rouge">'grants'</code> would have been given to <code class="highlighter-rouge">specialFuncs</code> which would return a list of all the grants in the <code class="highlighter-rouge">WOSRecord</code> (this is always <code class="highlighter-rouge">[]</code> as WOS does not provided grant information).</p>
-
-<p>What if the key were not present anywhere? Then the <code class="highlighter-rouge">specialFuncs</code> should raise a <code class="highlighter-rouge">KeyError</code> which will be caught then re-raised like a dictionary would with an invalid key look up.</p>
-
-<h5 id="file-handling-fields">File Handling fields</h5>
-
-<p>The two other required methods <code class="highlighter-rouge">encoding</code> and <code class="highlighter-rouge">writeRecord</code> define how the records can be rewritten to a file. <code class="highlighter-rouge">encoding</code> is should return a string giving the encoding python would use, e.g. <code class="highlighter-rouge">'utf-8'</code> or <code class="highlighter-rouge">'latin-1'</code>. This is the same encoding that the files written by <code class="highlighter-rouge">writeRecord</code> should have, <code class="highlighter-rouge">writeRecord</code> when called should write the original record to the provided open file, <em>infile</em>. The opening, closing, header and footer of the file will be handled by <code class="highlighter-rouge">RecordCollection</code>’s <code class="highlighter-rouge">writeFile</code> function which should me modified accordingly. If the order of the fields in a record is important you can use a <a href="https://docs.python.org/3/library/collections.html#collections.OrderedDict"><code class="highlighter-rouge">collections.OrderedDict</code></a> for <em>fieldDict</em>.</p>
-
-<h5 id="init">__Init__</h5>
-
-<p>The <code class="highlighter-rouge">__init__</code> of <code class="highlighter-rouge">ExtendedRecord</code> takes the same arguments as <a href="/metaknowledge/docs/MedlineRecord#Record"><code class="highlighter-rouge">Record</code></a></p>
+<p>This class is an <a href="/metaknowledge/docs/MedlineRecord#ExtendedRecord"><code class="highlighter-rouge">ExtendedRecord</code></a> capable of generating its own id number. You should not create them directly, but instead use <a href="/metaknowledge/docs/MedlineRecord#medlineParser"><code class="highlighter-rouge">medlineParser()</code></a> on a medline file.</p>
 
 <h3>
 The MedlineRecord class has the following methods:</h3>

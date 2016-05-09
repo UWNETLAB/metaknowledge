@@ -146,25 +146,89 @@
 
 <p><a name="proQuestParser"></a><small>proquest.</small><strong><a href="/metaknowledge/docs/proquest#proQuestParser"><ins>proQuestParser</ins></a></strong>(<em>proFile</em>):</p>
 
-<h1 id="needs-to-be-written">Needs to be written</h1>
+<p>Parses a ProQuest file, <em>proFile</em>, to extract the individual entries.</p>
+
+<p>A ProQuest file has three sections, first a list of the contained entries, second the full metadata and finally a bibtex formatted entry for the record. This parser only uses the first two as the bibtex contains no information the second section does not. Also, the first section is only used to verify the second section. The returned <a href="/metaknowledge/docs/proquest#ProQuestRecord"><code class="highlighter-rouge">ProQuestRecords</code></a> contains the data from the second section, with the same key strings as ProQuest uses and the unlabeled sections are called in order, <code class="highlighter-rouge">'Name'</code>, <code class="highlighter-rouge">'Author'</code> and <code class="highlighter-rouge">'url'</code>.</p>
+
+<h6 id="parameters">Parameters</h6>
+
+<p><em>proFile</em> : <code class="highlighter-rouge">str</code></p>
+
+<p>A path to a valid ProQuest file, use <a href="/metaknowledge/docs/proquest#isProQuestFile"><code class="highlighter-rouge">isProQuestFile</code></a> to verify</p>
+
+<h6 id="returns">Returns</h6>
+
+<p><code class="highlighter-rouge">set[ProQuestRecord]</code></p>
+
+<p>Records for each of the entries</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="isProQuestFile"></a><small>proquest.</small><strong><a href="/metaknowledge/docs/proquest#isProQuestFile"><ins>isProQuestFile</ins></a></strong>(<em>infile, checkedLines=2</em>):</p>
 
-<h1 id="needs-to-be-written-1">Needs to be written</h1>
+<p>Determines if <em>infile</em> is the path to a ProQuest file. A file is considered to be a Proquest file if it has the correct encoding (<code class="highlighter-rouge">utf-8</code>) and within the first <em>checkedLines</em> the following starts.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>____________________________________________________________
+
+Report Information from ProQuest
+</code></pre>
+</div>
+
+<h6 id="parameters-1">Parameters</h6>
+
+<p><em>infile</em> : <code class="highlighter-rouge">str</code></p>
+
+<p>The path to the targets file</p>
+
+<p><em>checkedLines</em> : <code class="highlighter-rouge">optional [int]</code></p>
+
+<p>default 2, the number of lines to check for the header</p>
+
+<h6 id="returns-1">Returns</h6>
+
+<p><code class="highlighter-rouge">bool</code></p>
+
+<p><code class="highlighter-rouge">True</code> if the file is a ProQuest file</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="proQuestRecordParser"></a><small>proquest.</small><strong><a href="/metaknowledge/docs/proquest#proQuestRecordParser"><ins>proQuestRecordParser</ins></a></strong>(<em>enRecordFile, recNum</em>):</p>
 
-<h1 id="needs-to-be-written-2">Needs to be written</h1>
+<p>The parser <a href="/metaknowledge/docs/proquest#ProQuestRecord"><code class="highlighter-rouge">ProQuestRecords</code></a> use. This takes an entry from <a href="/metaknowledge/docs/proquest#proQuestParser"><code class="highlighter-rouge">proQuestParser()</code></a> and parses it a part of the creation of a <code class="highlighter-rouge">ProQuestRecord</code>.</p>
+
+<h6 id="parameters-2">Parameters</h6>
+
+<p><em>enRecordFile</em> : <code class="highlighter-rouge">enumerate object</code></p>
+
+<p>a file wrapped by <code class="highlighter-rouge">enumerate()</code></p>
+
+<p><em>recNum</em> : <code class="highlighter-rouge">int</code></p>
+
+<p>The number given to the entry in the first section of the ProQuest file</p>
+
+<h6 id="returns-2">Returns</h6>
+
+<p><code class="highlighter-rouge">collections.OrderedDict</code></p>
+
+<p>An ordered dictionary of the key-vaue pairs in the entry</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="proQuestTagToFunc"></a><small>proquest.</small><strong><a href="/metaknowledge/docs/proquest#proQuestTagToFunc"><ins>proQuestTagToFunc</ins></a></strong>(<em>tag</em>):</p>
 
-<h1 id="needs-to-be-written-3">Needs to be written</h1>
+<p>Takes a tag string, <em>tag</em>, and returns the processing function for its data. If their is not a predefined function returns the identity function (<code class="highlighter-rouge">lambda x : x</code>).</p>
+
+<h6 id="parameters-3">Parameters</h6>
+
+<p><em>tag</em> : <code class="highlighter-rouge">str</code></p>
+
+<p>The requested tag</p>
+
+<h6 id="returns-3">Returns</h6>
+
+<p><code class="highlighter-rouge">function</code></p>
+
+<p>A function to process the tag’s data</p>
 
 <hr />
 

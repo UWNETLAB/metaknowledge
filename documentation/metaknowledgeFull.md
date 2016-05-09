@@ -71,7 +71,7 @@ search_omit: true
 <li><article><a href="#allButDOI"><small>Citation</small>.<b>allButDOI</b>()</a></article></li>
 <li><article><a href="#Extra"><small>Citation</small>.<b>Extra</b>()</a></article></li>
 <li><article><a href="#update"><small>Grant</small>.<b>update</b>(<i>other</i>)</a></article></li>
-<li><article><a href="#pop"><small>Grant</small>.<b>pop</b>(<i>key, default=<object object at 0x106fdd050></i>)</a></article></li>
+<li><article><a href="#pop"><small>Grant</small>.<b>pop</b>(<i>key, default=<object object at 0x103cf3050></i>)</a></article></li>
 <li><article><a href="#popitem"><small>Grant</small>.<b>popitem</b>()</a></article></li>
 <li><article><a href="#clear"><small>Grant</small>.<b>clear</b>()</a></article></li>
 <li><article><a href="#setdefault"><small>Grant</small>.<b>setdefault</b>(<i>key, default=None</i>)</a></article></li>
@@ -1532,58 +1532,9 @@ _sLine_ : `int`
 
 <a name="MedlineRecord.__init__"></a><small></small>**[<ins>MedlineRecord.__init__</ins>](#MedlineRecord.__init__)**(_inRecord, sFile='', sLine=0_):
 
-A subclass of `Record` that adds processing to the dictionary. It also cannot be use directly and must be subclassed.
+Class for full Medline(Pubmed) entries.
 
-The `ExtendedRecord` class is a extension of `Record` that is intended for use with the records on scientific papers provided by different organizations such as WOS or Pubmed. The 5 abstract (virtual) methods must be defined for each subclass and define how the data in the different fields is processed and how the record can be rewritten to a file.
-
-##### Processing fields
-
-When an `ExtendedRecord` is created a dictionary, _fieldDict_, must be provided this contains the raw data from the file reader, usually as lists of strings. `tagProcessingFunc` is a `staticmethod` function that takes in a tag string an returns another function to process it.
-
-Each tag may also be given a second name, as usually what the they are called in the raw data are not very easy to understand (e.g. `'SO'` is the journal name for WOs records). The mapping from the raw tag (`'SO'`) to the human friendly string (`'journal'`)  is done with the `getAltName` `staticmethod`. `getAltName` takes in a tag string and returns either `None` or the other name for that string. Note, `getAltName` must go both directions `WOSRecord.getAltName(WOSRecord.getAltName('SO')) == 'SO'`.
-
-The last method for processing entries is `specialFuncs` The following are the special keys for `ExtendedRecords`. These must be the alternate names of tags or strings accepted by the `specialFuncs` method.
-
-+ `'authorsFull'`
-+ `'keywords'`
-+ `'grants'`
-+ `'j9'`
-+ `'authorsShort'`
-+ `'volume'`
-+ `'selfCitation'`
-+ `'citations'`
-+ `'address'`
-+ `'abstract'`
-+ `'title'`
-+ `'month'`
-+ `'year'`
-+ `'journal'`
-+ `'beginningPage'`
-+ `'DOI'`
-
-`specialFuncs` when given one of these must raise a `KeyError` or return an object of the same type as that returned by the `MedlineRecord` or `WOSRecord`. e.g. `'title'` would return a string giving the title of the record.
-
-For an example of how this works lets first look at the `'SO'` tag on a `WOSRecord` accessed with the alternate name `'journal'`.
-
-    t = R['journal']
-
-First the private dictionary `_computedFields` is checked for the key `'title'`, which will fail if this is the first time `'journal'` or `'SO'` has been requested, after this the results will be added to the dictionary to speed up future requests.
-
-Then the _fieldDict_ will be checked for the key and when that fails the key will go through `getAltName` and be checked again. If the record had a journal entry this will succeed and the raw data will be given to the `tagProcessingFunc` using the same key as _fieldDict_, in this case `SO`.
-
-The results will then be written to `_computedFields` and returned.
-
-If the requested key was instead `'grants'` (`g = R['grants']`)the both lookups to _fieldDict_ would have failed and the string `'grants'` would have been given to `specialFuncs` which would return a list of all the grants in the `WOSRecord` (this is always `[]` as WOS does not provided grant information).
-
-What if the key were not present anywhere? Then the `specialFuncs` should raise a `KeyError` which will be caught then re-raised like a dictionary would with an invalid key look up.
-
-##### File Handling fields
-
-The two other required methods `encoding` and `writeRecord` define how the records can be rewritten to a file. `encoding` is should return a string giving the encoding python would use, e.g. `'utf-8'` or `'latin-1'`. This is the same encoding that the files written by `writeRecord` should have, `writeRecord` when called should write the original record to the provided open file, _infile_. The opening, closing, header and footer of the file will be handled by `RecordCollection`'s `writeFile` function which should me modified accordingly. If the order of the fields in a record is important you can use a [`collections.OrderedDict`](https://docs.python.org/3/library/collections.html#collections.OrderedDict) for _fieldDict_.
-
-##### \_\_Init\_\_
-
-The `__init__` of `ExtendedRecord` takes the same arguments as [`Record`](#Record)
+This class is an [`ExtendedRecord`](#ExtendedRecord) capable of generating its own id number. You should not create them directly, but instead use [`medlineParser()`](#medlineParser) on a medline file.
 
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;"><h3>
@@ -2527,58 +2478,9 @@ Gives a hash of the id or if `bad` returns a hash of the fields combined with th
 
 <a name="ProQuestRecord.__init__"></a><small></small>**[<ins>ProQuestRecord.__init__</ins>](#ProQuestRecord.__init__)**(_inRecord, recNum=None, sFile='', sLine=0_):
 
-A subclass of `Record` that adds processing to the dictionary. It also cannot be use directly and must be subclassed.
+Class for full ProQuest entries.
 
-The `ExtendedRecord` class is a extension of `Record` that is intended for use with the records on scientific papers provided by different organizations such as WOS or Pubmed. The 5 abstract (virtual) methods must be defined for each subclass and define how the data in the different fields is processed and how the record can be rewritten to a file.
-
-##### Processing fields
-
-When an `ExtendedRecord` is created a dictionary, _fieldDict_, must be provided this contains the raw data from the file reader, usually as lists of strings. `tagProcessingFunc` is a `staticmethod` function that takes in a tag string an returns another function to process it.
-
-Each tag may also be given a second name, as usually what the they are called in the raw data are not very easy to understand (e.g. `'SO'` is the journal name for WOs records). The mapping from the raw tag (`'SO'`) to the human friendly string (`'journal'`)  is done with the `getAltName` `staticmethod`. `getAltName` takes in a tag string and returns either `None` or the other name for that string. Note, `getAltName` must go both directions `WOSRecord.getAltName(WOSRecord.getAltName('SO')) == 'SO'`.
-
-The last method for processing entries is `specialFuncs` The following are the special keys for `ExtendedRecords`. These must be the alternate names of tags or strings accepted by the `specialFuncs` method.
-
-+ `'authorsFull'`
-+ `'keywords'`
-+ `'grants'`
-+ `'j9'`
-+ `'authorsShort'`
-+ `'volume'`
-+ `'selfCitation'`
-+ `'citations'`
-+ `'address'`
-+ `'abstract'`
-+ `'title'`
-+ `'month'`
-+ `'year'`
-+ `'journal'`
-+ `'beginningPage'`
-+ `'DOI'`
-
-`specialFuncs` when given one of these must raise a `KeyError` or return an object of the same type as that returned by the `MedlineRecord` or `WOSRecord`. e.g. `'title'` would return a string giving the title of the record.
-
-For an example of how this works lets first look at the `'SO'` tag on a `WOSRecord` accessed with the alternate name `'journal'`.
-
-    t = R['journal']
-
-First the private dictionary `_computedFields` is checked for the key `'title'`, which will fail if this is the first time `'journal'` or `'SO'` has been requested, after this the results will be added to the dictionary to speed up future requests.
-
-Then the _fieldDict_ will be checked for the key and when that fails the key will go through `getAltName` and be checked again. If the record had a journal entry this will succeed and the raw data will be given to the `tagProcessingFunc` using the same key as _fieldDict_, in this case `SO`.
-
-The results will then be written to `_computedFields` and returned.
-
-If the requested key was instead `'grants'` (`g = R['grants']`)the both lookups to _fieldDict_ would have failed and the string `'grants'` would have been given to `specialFuncs` which would return a list of all the grants in the `WOSRecord` (this is always `[]` as WOS does not provided grant information).
-
-What if the key were not present anywhere? Then the `specialFuncs` should raise a `KeyError` which will be caught then re-raised like a dictionary would with an invalid key look up.
-
-##### File Handling fields
-
-The two other required methods `encoding` and `writeRecord` define how the records can be rewritten to a file. `encoding` is should return a string giving the encoding python would use, e.g. `'utf-8'` or `'latin-1'`. This is the same encoding that the files written by `writeRecord` should have, `writeRecord` when called should write the original record to the provided open file, _infile_. The opening, closing, header and footer of the file will be handled by `RecordCollection`'s `writeFile` function which should me modified accordingly. If the order of the fields in a record is important you can use a [`collections.OrderedDict`](https://docs.python.org/3/library/collections.html#collections.OrderedDict) for _fieldDict_.
-
-##### \_\_Init\_\_
-
-The `__init__` of `ExtendedRecord` takes the same arguments as [`Record`](#Record)
+This class is an [`ExtendedRecord`](#ExtendedRecord) capable of generating its own id number. You should not create them directly, but instead use [`proQuestParser()`](#proQuestParser) on a ProQuest file.
 
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;"><h3>
@@ -4868,21 +4770,64 @@ hdvfghjhg
 
 <a name="medlineParser"></a><small>medline.</small>**[<ins>medlineParser</ins>]({{ site.baseurl }}{{ page.url }}#medlineParser)**(_pubFile_):
 
-# Needs to be written
+Parses a medline file, _pubFile_, to extract the individual entries as [`MedlineRecords`]({{ site.baseurl }}{{ page.url }}#MedlineRecord).
+
+A medline file is a series of entries, each entry is a series of tags. A tag is a 2 to 4 character string each tag is padded with spaces on the left to make it 4 characters which is followed by a dash and a space (`'- '`). Everything after the tag and on all lines after it not starting with a tag is considered associated with the tag. Each entry's first tag is `PMID`, so a first line looks something like `PMID- 26524502`. Entries end with a single blank line.
+
+###### Parameters
+
+_pubFile_ : `str`
+
+ A path to a valid medline file, use [`isMedlineFile`]({{ site.baseurl }}{{ page.url }}#isMedlineFile) to verify
+
+###### Returns
+
+`set[MedlineRecord]`
+
+ Records for each of the entries
+
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="isMedlineFile"></a><small>medline.</small>**[<ins>isMedlineFile</ins>]({{ site.baseurl }}{{ page.url }}#isMedlineFile)**(_infile, checkedLines=2_):
 
-Checks if _infile_ has the right header in the first _checkedLines_ lines
-    
+Determines if _infile_ is the path to a Medline file. A file is considerd to be a Medline file if it has the correct encoding (`latin-1`) and within the first _checkedLines_ a line starts with `"PMID- "`.
+
+###### Parameters
+
+_infile_ : `str`
+
+ The path to the targets file
+
+_checkedLines_ : `optional [int]`
+
+ default 2, the number of lines to check for the header
+
+###### Returns
+
+`bool`
+
+ `True` if the file is a Medline file
 
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="medlineRecordParser"></a><small>medline.</small>**[<ins>medlineRecordParser</ins>]({{ site.baseurl }}{{ page.url }}#medlineRecordParser)**(_record_):
 
-# Needs to be written
+The parser [`MedlineRecord`]({{ site.baseurl }}{{ page.url }}#MedlineRecord) use. This takes an entry from [`medlineParser()`]({{ site.baseurl }}{{ page.url }}#medlineParser) and parses it a part of the creation of a `MedlineRecord`.
+
+###### Parameters
+
+_record_ : `enumerate object`
+
+ a file wrapped by `enumerate()`
+
+###### Returns
+
+`collections.OrderedDict`
+
+ An ordered dictionary of the key-vaue pairs in the entry
+
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
@@ -5492,25 +5437,91 @@ CommentIn
 
 <a name="proQuestParser"></a><small>proquest.</small>**[<ins>proQuestParser</ins>]({{ site.baseurl }}{{ page.url }}#proQuestParser)**(_proFile_):
 
-# Needs to be written
+Parses a ProQuest file, _proFile_, to extract the individual entries.
+
+A ProQuest file has three sections, first a list of the contained entries, second the full metadata and finally a bibtex formatted entry for the record. This parser only uses the first two as the bibtex contains no information the second section does not. Also, the first section is only used to verify the second section. The returned [`ProQuestRecords`]({{ site.baseurl }}{{ page.url }}#ProQuestRecord) contains the data from the second section, with the same key strings as ProQuest uses and the unlabeled sections are called in order, `'Name'`, `'Author'` and `'url'`.
+
+###### Parameters
+
+_proFile_ : `str`
+
+ A path to a valid ProQuest file, use [`isProQuestFile`]({{ site.baseurl }}{{ page.url }}#isProQuestFile) to verify
+
+###### Returns
+
+`set[ProQuestRecord]`
+
+ Records for each of the entries
+
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="isProQuestFile"></a><small>proquest.</small>**[<ins>isProQuestFile</ins>]({{ site.baseurl }}{{ page.url }}#isProQuestFile)**(_infile, checkedLines=2_):
 
-# Needs to be written
+Determines if _infile_ is the path to a ProQuest file. A file is considered to be a Proquest file if it has the correct encoding (`utf-8`) and within the first _checkedLines_ the following starts.
+
+    ____________________________________________________________
+
+    Report Information from ProQuest
+
+###### Parameters
+
+_infile_ : `str`
+
+ The path to the targets file
+
+_checkedLines_ : `optional [int]`
+
+ default 2, the number of lines to check for the header
+
+###### Returns
+
+`bool`
+
+ `True` if the file is a ProQuest file
+
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="proQuestRecordParser"></a><small>proquest.</small>**[<ins>proQuestRecordParser</ins>]({{ site.baseurl }}{{ page.url }}#proQuestRecordParser)**(_enRecordFile, recNum_):
 
-# Needs to be written
+The parser [`ProQuestRecords`]({{ site.baseurl }}{{ page.url }}#ProQuestRecord) use. This takes an entry from [`proQuestParser()`]({{ site.baseurl }}{{ page.url }}#proQuestParser) and parses it a part of the creation of a `ProQuestRecord`.
+
+###### Parameters
+
+_enRecordFile_ : `enumerate object`
+
+ a file wrapped by `enumerate()`
+
+_recNum_ : `int`
+
+ The number given to the entry in the first section of the ProQuest file
+
+###### Returns
+
+`collections.OrderedDict`
+
+ An ordered dictionary of the key-vaue pairs in the entry
+
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="proQuestTagToFunc"></a><small>proquest.</small>**[<ins>proQuestTagToFunc</ins>]({{ site.baseurl }}{{ page.url }}#proQuestTagToFunc)**(_tag_):
 
-# Needs to be written
+Takes a tag string, _tag_, and returns the processing function for its data. If their is not a predefined function returns the identity function (`lambda x : x`).
+
+###### Parameters
+
+_tag_ : `str`
+
+ The requested tag
+
+###### Returns
+
+`function`
+
+ A function to process the tag's data
+
 
 
 {% include docsFooter.md %}

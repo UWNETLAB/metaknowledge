@@ -193,7 +193,7 @@
 <li><article><a href="#allButDOI"><small>Citation</small>.<b>allButDOI</b>()</a></article></li>
 <li><article><a href="#Extra"><small>Citation</small>.<b>Extra</b>()</a></article></li>
 <li><article><a href="#update"><small>Grant</small>.<b>update</b>(<i>other</i>)</a></article></li>
-<li><article><a href="#pop"><small>Grant</small>.<b>pop</b>(<i>key, default=&lt;object object at 0x106fdd050&gt;</i>)</a></article></li>
+<li><article><a href="#pop"><small>Grant</small>.<b>pop</b>(<i>key, default=&lt;object object at 0x103cf3050&gt;</i>)</a></article></li>
 <li><article><a href="#popitem"><small>Grant</small>.<b>popitem</b>()</a></article></li>
 <li><article><a href="#clear"><small>Grant</small>.<b>clear</b>()</a></article></li>
 <li><article><a href="#setdefault"><small>Grant</small>.<b>setdefault</b>(<i>key, default=None</i>)</a></article></li>
@@ -1626,62 +1626,9 @@ The Grant class has the following methods:</h3>
 
 <p><a name="MedlineRecord.__init__"></a><small></small><strong><a href="#MedlineRecord.__init__"><ins>MedlineRecord.__init__</ins></a></strong>(<em>inRecord, sFile=’’, sLine=0</em>):</p>
 
-<p>A subclass of <code class="highlighter-rouge">Record</code> that adds processing to the dictionary. It also cannot be use directly and must be subclassed.</p>
+<p>Class for full Medline(Pubmed) entries.</p>
 
-<p>The <code class="highlighter-rouge">ExtendedRecord</code> class is a extension of <code class="highlighter-rouge">Record</code> that is intended for use with the records on scientific papers provided by different organizations such as WOS or Pubmed. The 5 abstract (virtual) methods must be defined for each subclass and define how the data in the different fields is processed and how the record can be rewritten to a file.</p>
-
-<h5 id="processing-fields">Processing fields</h5>
-
-<p>When an <code class="highlighter-rouge">ExtendedRecord</code> is created a dictionary, <em>fieldDict</em>, must be provided this contains the raw data from the file reader, usually as lists of strings. <code class="highlighter-rouge">tagProcessingFunc</code> is a <code class="highlighter-rouge">staticmethod</code> function that takes in a tag string an returns another function to process it.</p>
-
-<p>Each tag may also be given a second name, as usually what the they are called in the raw data are not very easy to understand (e.g. <code class="highlighter-rouge">'SO'</code> is the journal name for WOs records). The mapping from the raw tag (<code class="highlighter-rouge">'SO'</code>) to the human friendly string (<code class="highlighter-rouge">'journal'</code>)  is done with the <code class="highlighter-rouge">getAltName</code> <code class="highlighter-rouge">staticmethod</code>. <code class="highlighter-rouge">getAltName</code> takes in a tag string and returns either <code class="highlighter-rouge">None</code> or the other name for that string. Note, <code class="highlighter-rouge">getAltName</code> must go both directions <code class="highlighter-rouge">WOSRecord.getAltName(WOSRecord.getAltName('SO')) == 'SO'</code>.</p>
-
-<p>The last method for processing entries is <code class="highlighter-rouge">specialFuncs</code> The following are the special keys for <code class="highlighter-rouge">ExtendedRecords</code>. These must be the alternate names of tags or strings accepted by the <code class="highlighter-rouge">specialFuncs</code> method.</p>
-
-<ul>
-  <li><code class="highlighter-rouge">'authorsFull'</code></li>
-  <li><code class="highlighter-rouge">'keywords'</code></li>
-  <li><code class="highlighter-rouge">'grants'</code></li>
-  <li><code class="highlighter-rouge">'j9'</code></li>
-  <li><code class="highlighter-rouge">'authorsShort'</code></li>
-  <li><code class="highlighter-rouge">'volume'</code></li>
-  <li><code class="highlighter-rouge">'selfCitation'</code></li>
-  <li><code class="highlighter-rouge">'citations'</code></li>
-  <li><code class="highlighter-rouge">'address'</code></li>
-  <li><code class="highlighter-rouge">'abstract'</code></li>
-  <li><code class="highlighter-rouge">'title'</code></li>
-  <li><code class="highlighter-rouge">'month'</code></li>
-  <li><code class="highlighter-rouge">'year'</code></li>
-  <li><code class="highlighter-rouge">'journal'</code></li>
-  <li><code class="highlighter-rouge">'beginningPage'</code></li>
-  <li><code class="highlighter-rouge">'DOI'</code></li>
-</ul>
-
-<p><code class="highlighter-rouge">specialFuncs</code> when given one of these must raise a <code class="highlighter-rouge">KeyError</code> or return an object of the same type as that returned by the <code class="highlighter-rouge">MedlineRecord</code> or <code class="highlighter-rouge">WOSRecord</code>. e.g. <code class="highlighter-rouge">'title'</code> would return a string giving the title of the record.</p>
-
-<p>For an example of how this works lets first look at the <code class="highlighter-rouge">'SO'</code> tag on a <code class="highlighter-rouge">WOSRecord</code> accessed with the alternate name <code class="highlighter-rouge">'journal'</code>.</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>t = R['journal']
-</code></pre>
-</div>
-
-<p>First the private dictionary <code class="highlighter-rouge">_computedFields</code> is checked for the key <code class="highlighter-rouge">'title'</code>, which will fail if this is the first time <code class="highlighter-rouge">'journal'</code> or <code class="highlighter-rouge">'SO'</code> has been requested, after this the results will be added to the dictionary to speed up future requests.</p>
-
-<p>Then the <em>fieldDict</em> will be checked for the key and when that fails the key will go through <code class="highlighter-rouge">getAltName</code> and be checked again. If the record had a journal entry this will succeed and the raw data will be given to the <code class="highlighter-rouge">tagProcessingFunc</code> using the same key as <em>fieldDict</em>, in this case <code class="highlighter-rouge">SO</code>.</p>
-
-<p>The results will then be written to <code class="highlighter-rouge">_computedFields</code> and returned.</p>
-
-<p>If the requested key was instead <code class="highlighter-rouge">'grants'</code> (<code class="highlighter-rouge">g = R['grants']</code>)the both lookups to <em>fieldDict</em> would have failed and the string <code class="highlighter-rouge">'grants'</code> would have been given to <code class="highlighter-rouge">specialFuncs</code> which would return a list of all the grants in the <code class="highlighter-rouge">WOSRecord</code> (this is always <code class="highlighter-rouge">[]</code> as WOS does not provided grant information).</p>
-
-<p>What if the key were not present anywhere? Then the <code class="highlighter-rouge">specialFuncs</code> should raise a <code class="highlighter-rouge">KeyError</code> which will be caught then re-raised like a dictionary would with an invalid key look up.</p>
-
-<h5 id="file-handling-fields">File Handling fields</h5>
-
-<p>The two other required methods <code class="highlighter-rouge">encoding</code> and <code class="highlighter-rouge">writeRecord</code> define how the records can be rewritten to a file. <code class="highlighter-rouge">encoding</code> is should return a string giving the encoding python would use, e.g. <code class="highlighter-rouge">'utf-8'</code> or <code class="highlighter-rouge">'latin-1'</code>. This is the same encoding that the files written by <code class="highlighter-rouge">writeRecord</code> should have, <code class="highlighter-rouge">writeRecord</code> when called should write the original record to the provided open file, <em>infile</em>. The opening, closing, header and footer of the file will be handled by <code class="highlighter-rouge">RecordCollection</code>’s <code class="highlighter-rouge">writeFile</code> function which should me modified accordingly. If the order of the fields in a record is important you can use a <a href="https://docs.python.org/3/library/collections.html#collections.OrderedDict"><code class="highlighter-rouge">collections.OrderedDict</code></a> for <em>fieldDict</em>.</p>
-
-<h5 id="init-7">__Init__</h5>
-
-<p>The <code class="highlighter-rouge">__init__</code> of <code class="highlighter-rouge">ExtendedRecord</code> takes the same arguments as <a href="#Record"><code class="highlighter-rouge">Record</code></a></p>
+<p>This class is an <a href="#ExtendedRecord"><code class="highlighter-rouge">ExtendedRecord</code></a> capable of generating its own id number. You should not create them directly, but instead use <a href="#medlineParser"><code class="highlighter-rouge">medlineParser()</code></a> on a medline file.</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 <h3>
@@ -2201,7 +2148,7 @@ The CollectionWithIDs class has the following methods:</h3>
 
 <p>The <code class="highlighter-rouge">ExtendedRecord</code> class is a extension of <code class="highlighter-rouge">Record</code> that is intended for use with the records on scientific papers provided by different organizations such as WOS or Pubmed. The 5 abstract (virtual) methods must be defined for each subclass and define how the data in the different fields is processed and how the record can be rewritten to a file.</p>
 
-<h5 id="processing-fields-1">Processing fields</h5>
+<h5 id="processing-fields">Processing fields</h5>
 
 <p>When an <code class="highlighter-rouge">ExtendedRecord</code> is created a dictionary, <em>fieldDict</em>, must be provided this contains the raw data from the file reader, usually as lists of strings. <code class="highlighter-rouge">tagProcessingFunc</code> is a <code class="highlighter-rouge">staticmethod</code> function that takes in a tag string an returns another function to process it.</p>
 
@@ -2246,11 +2193,11 @@ The CollectionWithIDs class has the following methods:</h3>
 
 <p>What if the key were not present anywhere? Then the <code class="highlighter-rouge">specialFuncs</code> should raise a <code class="highlighter-rouge">KeyError</code> which will be caught then re-raised like a dictionary would with an invalid key look up.</p>
 
-<h5 id="file-handling-fields-1">File Handling fields</h5>
+<h5 id="file-handling-fields">File Handling fields</h5>
 
 <p>The two other required methods <code class="highlighter-rouge">encoding</code> and <code class="highlighter-rouge">writeRecord</code> define how the records can be rewritten to a file. <code class="highlighter-rouge">encoding</code> is should return a string giving the encoding python would use, e.g. <code class="highlighter-rouge">'utf-8'</code> or <code class="highlighter-rouge">'latin-1'</code>. This is the same encoding that the files written by <code class="highlighter-rouge">writeRecord</code> should have, <code class="highlighter-rouge">writeRecord</code> when called should write the original record to the provided open file, <em>infile</em>. The opening, closing, header and footer of the file will be handled by <code class="highlighter-rouge">RecordCollection</code>’s <code class="highlighter-rouge">writeFile</code> function which should me modified accordingly. If the order of the fields in a record is important you can use a <a href="https://docs.python.org/3/library/collections.html#collections.OrderedDict"><code class="highlighter-rouge">collections.OrderedDict</code></a> for <em>fieldDict</em>.</p>
 
-<h5 id="init-8">__Init__</h5>
+<h5 id="init-7">__Init__</h5>
 
 <p>The <code class="highlighter-rouge">__init__</code> of <code class="highlighter-rouge">ExtendedRecord</code> takes the same arguments as <a href="#Record"><code class="highlighter-rouge">Record</code></a></p>
 
@@ -2466,7 +2413,7 @@ The ExtendedRecord class has the following methods:</h3>
 
 <p>In addition to being a mapping <code class="highlighter-rouge">Records</code> are also hashable with their hashes being based on a unique id string they are given on creation, usually some kind of accession number the source gives them. The two optional arguments <em>sFile</em> and <em>sLine</em>, which should be given the name of the file the records came from and the line it started on respectively, are used to make the errors more useful.</p>
 
-<h5 id="init-9">__Init__</h5>
+<h5 id="init-8">__Init__</h5>
 
 <p><em>fieldDict</em> is the dictionary the <code class="highlighter-rouge">Record</code> will use and <em>idValue</em> is the unique identifier of the <code class="highlighter-rouge">Record</code>.</p>
 
@@ -2581,62 +2528,9 @@ The Record class has the following methods:</h3>
 
 <p><a name="ProQuestRecord.__init__"></a><small></small><strong><a href="#ProQuestRecord.__init__"><ins>ProQuestRecord.__init__</ins></a></strong>(<em>inRecord, recNum=None, sFile=’’, sLine=0</em>):</p>
 
-<p>A subclass of <code class="highlighter-rouge">Record</code> that adds processing to the dictionary. It also cannot be use directly and must be subclassed.</p>
+<p>Class for full ProQuest entries.</p>
 
-<p>The <code class="highlighter-rouge">ExtendedRecord</code> class is a extension of <code class="highlighter-rouge">Record</code> that is intended for use with the records on scientific papers provided by different organizations such as WOS or Pubmed. The 5 abstract (virtual) methods must be defined for each subclass and define how the data in the different fields is processed and how the record can be rewritten to a file.</p>
-
-<h5 id="processing-fields-2">Processing fields</h5>
-
-<p>When an <code class="highlighter-rouge">ExtendedRecord</code> is created a dictionary, <em>fieldDict</em>, must be provided this contains the raw data from the file reader, usually as lists of strings. <code class="highlighter-rouge">tagProcessingFunc</code> is a <code class="highlighter-rouge">staticmethod</code> function that takes in a tag string an returns another function to process it.</p>
-
-<p>Each tag may also be given a second name, as usually what the they are called in the raw data are not very easy to understand (e.g. <code class="highlighter-rouge">'SO'</code> is the journal name for WOs records). The mapping from the raw tag (<code class="highlighter-rouge">'SO'</code>) to the human friendly string (<code class="highlighter-rouge">'journal'</code>)  is done with the <code class="highlighter-rouge">getAltName</code> <code class="highlighter-rouge">staticmethod</code>. <code class="highlighter-rouge">getAltName</code> takes in a tag string and returns either <code class="highlighter-rouge">None</code> or the other name for that string. Note, <code class="highlighter-rouge">getAltName</code> must go both directions <code class="highlighter-rouge">WOSRecord.getAltName(WOSRecord.getAltName('SO')) == 'SO'</code>.</p>
-
-<p>The last method for processing entries is <code class="highlighter-rouge">specialFuncs</code> The following are the special keys for <code class="highlighter-rouge">ExtendedRecords</code>. These must be the alternate names of tags or strings accepted by the <code class="highlighter-rouge">specialFuncs</code> method.</p>
-
-<ul>
-  <li><code class="highlighter-rouge">'authorsFull'</code></li>
-  <li><code class="highlighter-rouge">'keywords'</code></li>
-  <li><code class="highlighter-rouge">'grants'</code></li>
-  <li><code class="highlighter-rouge">'j9'</code></li>
-  <li><code class="highlighter-rouge">'authorsShort'</code></li>
-  <li><code class="highlighter-rouge">'volume'</code></li>
-  <li><code class="highlighter-rouge">'selfCitation'</code></li>
-  <li><code class="highlighter-rouge">'citations'</code></li>
-  <li><code class="highlighter-rouge">'address'</code></li>
-  <li><code class="highlighter-rouge">'abstract'</code></li>
-  <li><code class="highlighter-rouge">'title'</code></li>
-  <li><code class="highlighter-rouge">'month'</code></li>
-  <li><code class="highlighter-rouge">'year'</code></li>
-  <li><code class="highlighter-rouge">'journal'</code></li>
-  <li><code class="highlighter-rouge">'beginningPage'</code></li>
-  <li><code class="highlighter-rouge">'DOI'</code></li>
-</ul>
-
-<p><code class="highlighter-rouge">specialFuncs</code> when given one of these must raise a <code class="highlighter-rouge">KeyError</code> or return an object of the same type as that returned by the <code class="highlighter-rouge">MedlineRecord</code> or <code class="highlighter-rouge">WOSRecord</code>. e.g. <code class="highlighter-rouge">'title'</code> would return a string giving the title of the record.</p>
-
-<p>For an example of how this works lets first look at the <code class="highlighter-rouge">'SO'</code> tag on a <code class="highlighter-rouge">WOSRecord</code> accessed with the alternate name <code class="highlighter-rouge">'journal'</code>.</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>t = R['journal']
-</code></pre>
-</div>
-
-<p>First the private dictionary <code class="highlighter-rouge">_computedFields</code> is checked for the key <code class="highlighter-rouge">'title'</code>, which will fail if this is the first time <code class="highlighter-rouge">'journal'</code> or <code class="highlighter-rouge">'SO'</code> has been requested, after this the results will be added to the dictionary to speed up future requests.</p>
-
-<p>Then the <em>fieldDict</em> will be checked for the key and when that fails the key will go through <code class="highlighter-rouge">getAltName</code> and be checked again. If the record had a journal entry this will succeed and the raw data will be given to the <code class="highlighter-rouge">tagProcessingFunc</code> using the same key as <em>fieldDict</em>, in this case <code class="highlighter-rouge">SO</code>.</p>
-
-<p>The results will then be written to <code class="highlighter-rouge">_computedFields</code> and returned.</p>
-
-<p>If the requested key was instead <code class="highlighter-rouge">'grants'</code> (<code class="highlighter-rouge">g = R['grants']</code>)the both lookups to <em>fieldDict</em> would have failed and the string <code class="highlighter-rouge">'grants'</code> would have been given to <code class="highlighter-rouge">specialFuncs</code> which would return a list of all the grants in the <code class="highlighter-rouge">WOSRecord</code> (this is always <code class="highlighter-rouge">[]</code> as WOS does not provided grant information).</p>
-
-<p>What if the key were not present anywhere? Then the <code class="highlighter-rouge">specialFuncs</code> should raise a <code class="highlighter-rouge">KeyError</code> which will be caught then re-raised like a dictionary would with an invalid key look up.</p>
-
-<h5 id="file-handling-fields-2">File Handling fields</h5>
-
-<p>The two other required methods <code class="highlighter-rouge">encoding</code> and <code class="highlighter-rouge">writeRecord</code> define how the records can be rewritten to a file. <code class="highlighter-rouge">encoding</code> is should return a string giving the encoding python would use, e.g. <code class="highlighter-rouge">'utf-8'</code> or <code class="highlighter-rouge">'latin-1'</code>. This is the same encoding that the files written by <code class="highlighter-rouge">writeRecord</code> should have, <code class="highlighter-rouge">writeRecord</code> when called should write the original record to the provided open file, <em>infile</em>. The opening, closing, header and footer of the file will be handled by <code class="highlighter-rouge">RecordCollection</code>’s <code class="highlighter-rouge">writeFile</code> function which should me modified accordingly. If the order of the fields in a record is important you can use a <a href="https://docs.python.org/3/library/collections.html#collections.OrderedDict"><code class="highlighter-rouge">collections.OrderedDict</code></a> for <em>fieldDict</em>.</p>
-
-<h5 id="init-10">__Init__</h5>
-
-<p>The <code class="highlighter-rouge">__init__</code> of <code class="highlighter-rouge">ExtendedRecord</code> takes the same arguments as <a href="#Record"><code class="highlighter-rouge">Record</code></a></p>
+<p>This class is an <a href="#ExtendedRecord"><code class="highlighter-rouge">ExtendedRecord</code></a> capable of generating its own id number. You should not create them directly, but instead use <a href="#proQuestParser"><code class="highlighter-rouge">proQuestParser()</code></a> on a ProQuest file.</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 <h3>
@@ -2743,7 +2637,7 @@ The ProQuestRecord class has the following methods:</h3>
 
 <p>The Records are containing within a set and as such many of the set operations are defined, pop, union, in … also records are hashed with their WOS string so no duplication can occur. The comparison operators <code class="highlighter-rouge">&lt;</code>, <code class="highlighter-rouge">&lt;=</code>, <code class="highlighter-rouge">&gt;</code>, <code class="highlighter-rouge">&gt;=</code> are based strictly on the number of Records within the collection, while equality looks for an exact match on the Records</p>
 
-<h5 id="init-11">__Init__</h5>
+<h5 id="init-9">__Init__</h5>
 
 <p><em>inCollection</em> is the object containing the information about the Records to be constructed it can be an isi file, string, list of records or directory containing isi files</p>
 
@@ -5036,19 +4930,61 @@ Month Year (“%b %Y”)</p>
 
 <p><a name="medlineParser"></a><small>medline.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#medlineParser"><ins>medlineParser</ins></a></strong>(<em>pubFile</em>):</p>
 
-<h1 id="needs-to-be-written">Needs to be written</h1>
+<p>Parses a medline file, <em>pubFile</em>, to extract the individual entries as <a href="/metaknowledge/documentation/metaknowledgeFull#MedlineRecord"><code class="highlighter-rouge">MedlineRecords</code></a>.</p>
+
+<p>A medline file is a series of entries, each entry is a series of tags. A tag is a 2 to 4 character string each tag is padded with spaces on the left to make it 4 characters which is followed by a dash and a space (<code class="highlighter-rouge">'- '</code>). Everything after the tag and on all lines after it not starting with a tag is considered associated with the tag. Each entry’s first tag is <code class="highlighter-rouge">PMID</code>, so a first line looks something like <code class="highlighter-rouge">PMID- 26524502</code>. Entries end with a single blank line.</p>
+
+<h6 id="parameters-138">Parameters</h6>
+
+<p><em>pubFile</em> : <code class="highlighter-rouge">str</code></p>
+
+<p>A path to a valid medline file, use <a href="/metaknowledge/documentation/metaknowledgeFull#isMedlineFile"><code class="highlighter-rouge">isMedlineFile</code></a> to verify</p>
+
+<h6 id="returns-117">Returns</h6>
+
+<p><code class="highlighter-rouge">set[MedlineRecord]</code></p>
+
+<p>Records for each of the entries</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="isMedlineFile"></a><small>medline.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#isMedlineFile"><ins>isMedlineFile</ins></a></strong>(<em>infile, checkedLines=2</em>):</p>
 
-<p>Checks if <em>infile</em> has the right header in the first <em>checkedLines</em> lines</p>
+<p>Determines if <em>infile</em> is the path to a Medline file. A file is considerd to be a Medline file if it has the correct encoding (<code class="highlighter-rouge">latin-1</code>) and within the first <em>checkedLines</em> a line starts with <code class="highlighter-rouge">"PMID- "</code>.</p>
+
+<h6 id="parameters-139">Parameters</h6>
+
+<p><em>infile</em> : <code class="highlighter-rouge">str</code></p>
+
+<p>The path to the targets file</p>
+
+<p><em>checkedLines</em> : <code class="highlighter-rouge">optional [int]</code></p>
+
+<p>default 2, the number of lines to check for the header</p>
+
+<h6 id="returns-118">Returns</h6>
+
+<p><code class="highlighter-rouge">bool</code></p>
+
+<p><code class="highlighter-rouge">True</code> if the file is a Medline file</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="medlineRecordParser"></a><small>medline.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#medlineRecordParser"><ins>medlineRecordParser</ins></a></strong>(<em>record</em>):</p>
 
-<h1 id="needs-to-be-written-1">Needs to be written</h1>
+<p>The parser <a href="/metaknowledge/documentation/metaknowledgeFull#MedlineRecord"><code class="highlighter-rouge">MedlineRecord</code></a> use. This takes an entry from <a href="/metaknowledge/documentation/metaknowledgeFull#medlineParser"><code class="highlighter-rouge">medlineParser()</code></a> and parses it a part of the creation of a <code class="highlighter-rouge">MedlineRecord</code>.</p>
+
+<h6 id="parameters-140">Parameters</h6>
+
+<p><em>record</em> : <code class="highlighter-rouge">enumerate object</code></p>
+
+<p>a file wrapped by <code class="highlighter-rouge">enumerate()</code></p>
+
+<h6 id="returns-119">Returns</h6>
+
+<p><code class="highlighter-rouge">collections.OrderedDict</code></p>
+
+<p>An ordered dictionary of the key-vaue pairs in the entry</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
@@ -5570,25 +5506,89 @@ The volumes as a string as volume is single line</p>
 
 <p><a name="proQuestParser"></a><small>proquest.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#proQuestParser"><ins>proQuestParser</ins></a></strong>(<em>proFile</em>):</p>
 
-<h1 id="needs-to-be-written-2">Needs to be written</h1>
+<p>Parses a ProQuest file, <em>proFile</em>, to extract the individual entries.</p>
+
+<p>A ProQuest file has three sections, first a list of the contained entries, second the full metadata and finally a bibtex formatted entry for the record. This parser only uses the first two as the bibtex contains no information the second section does not. Also, the first section is only used to verify the second section. The returned <a href="/metaknowledge/documentation/metaknowledgeFull#ProQuestRecord"><code class="highlighter-rouge">ProQuestRecords</code></a> contains the data from the second section, with the same key strings as ProQuest uses and the unlabeled sections are called in order, <code class="highlighter-rouge">'Name'</code>, <code class="highlighter-rouge">'Author'</code> and <code class="highlighter-rouge">'url'</code>.</p>
+
+<h6 id="parameters-141">Parameters</h6>
+
+<p><em>proFile</em> : <code class="highlighter-rouge">str</code></p>
+
+<p>A path to a valid ProQuest file, use <a href="/metaknowledge/documentation/metaknowledgeFull#isProQuestFile"><code class="highlighter-rouge">isProQuestFile</code></a> to verify</p>
+
+<h6 id="returns-120">Returns</h6>
+
+<p><code class="highlighter-rouge">set[ProQuestRecord]</code></p>
+
+<p>Records for each of the entries</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="isProQuestFile"></a><small>proquest.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#isProQuestFile"><ins>isProQuestFile</ins></a></strong>(<em>infile, checkedLines=2</em>):</p>
 
-<h1 id="needs-to-be-written-3">Needs to be written</h1>
+<p>Determines if <em>infile</em> is the path to a ProQuest file. A file is considered to be a Proquest file if it has the correct encoding (<code class="highlighter-rouge">utf-8</code>) and within the first <em>checkedLines</em> the following starts.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>____________________________________________________________
+
+Report Information from ProQuest
+</code></pre>
+</div>
+
+<h6 id="parameters-142">Parameters</h6>
+
+<p><em>infile</em> : <code class="highlighter-rouge">str</code></p>
+
+<p>The path to the targets file</p>
+
+<p><em>checkedLines</em> : <code class="highlighter-rouge">optional [int]</code></p>
+
+<p>default 2, the number of lines to check for the header</p>
+
+<h6 id="returns-121">Returns</h6>
+
+<p><code class="highlighter-rouge">bool</code></p>
+
+<p><code class="highlighter-rouge">True</code> if the file is a ProQuest file</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="proQuestRecordParser"></a><small>proquest.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#proQuestRecordParser"><ins>proQuestRecordParser</ins></a></strong>(<em>enRecordFile, recNum</em>):</p>
 
-<h1 id="needs-to-be-written-4">Needs to be written</h1>
+<p>The parser <a href="/metaknowledge/documentation/metaknowledgeFull#ProQuestRecord"><code class="highlighter-rouge">ProQuestRecords</code></a> use. This takes an entry from <a href="/metaknowledge/documentation/metaknowledgeFull#proQuestParser"><code class="highlighter-rouge">proQuestParser()</code></a> and parses it a part of the creation of a <code class="highlighter-rouge">ProQuestRecord</code>.</p>
+
+<h6 id="parameters-143">Parameters</h6>
+
+<p><em>enRecordFile</em> : <code class="highlighter-rouge">enumerate object</code></p>
+
+<p>a file wrapped by <code class="highlighter-rouge">enumerate()</code></p>
+
+<p><em>recNum</em> : <code class="highlighter-rouge">int</code></p>
+
+<p>The number given to the entry in the first section of the ProQuest file</p>
+
+<h6 id="returns-122">Returns</h6>
+
+<p><code class="highlighter-rouge">collections.OrderedDict</code></p>
+
+<p>An ordered dictionary of the key-vaue pairs in the entry</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="proQuestTagToFunc"></a><small>proquest.</small><strong><a href="/metaknowledge/documentation/metaknowledgeFull#proQuestTagToFunc"><ins>proQuestTagToFunc</ins></a></strong>(<em>tag</em>):</p>
 
-<h1 id="needs-to-be-written-5">Needs to be written</h1>
+<p>Takes a tag string, <em>tag</em>, and returns the processing function for its data. If their is not a predefined function returns the identity function (<code class="highlighter-rouge">lambda x : x</code>).</p>
+
+<h6 id="parameters-144">Parameters</h6>
+
+<p><em>tag</em> : <code class="highlighter-rouge">str</code></p>
+
+<p>The requested tag</p>
+
+<h6 id="returns-123">Returns</h6>
+
+<p><code class="highlighter-rouge">function</code></p>
+
+<p>A function to process the tag’s data</p>
 
 <hr />
 

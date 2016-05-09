@@ -229,19 +229,61 @@
 
 <p><a name="medlineParser"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#medlineParser"><ins>medlineParser</ins></a></strong>(<em>pubFile</em>):</p>
 
-<h1 id="needs-to-be-written">Needs to be written</h1>
+<p>Parses a medline file, <em>pubFile</em>, to extract the individual entries as <a href="/metaknowledge/docs/medline#MedlineRecord"><code class="highlighter-rouge">MedlineRecords</code></a>.</p>
+
+<p>A medline file is a series of entries, each entry is a series of tags. A tag is a 2 to 4 character string each tag is padded with spaces on the left to make it 4 characters which is followed by a dash and a space (<code class="highlighter-rouge">'- '</code>). Everything after the tag and on all lines after it not starting with a tag is considered associated with the tag. Each entry’s first tag is <code class="highlighter-rouge">PMID</code>, so a first line looks something like <code class="highlighter-rouge">PMID- 26524502</code>. Entries end with a single blank line.</p>
+
+<h6 id="parameters">Parameters</h6>
+
+<p><em>pubFile</em> : <code class="highlighter-rouge">str</code></p>
+
+<p>A path to a valid medline file, use <a href="/metaknowledge/docs/medline#isMedlineFile"><code class="highlighter-rouge">isMedlineFile</code></a> to verify</p>
+
+<h6 id="returns">Returns</h6>
+
+<p><code class="highlighter-rouge">set[MedlineRecord]</code></p>
+
+<p>Records for each of the entries</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="isMedlineFile"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#isMedlineFile"><ins>isMedlineFile</ins></a></strong>(<em>infile, checkedLines=2</em>):</p>
 
-<p>Checks if <em>infile</em> has the right header in the first <em>checkedLines</em> lines</p>
+<p>Determines if <em>infile</em> is the path to a Medline file. A file is considerd to be a Medline file if it has the correct encoding (<code class="highlighter-rouge">latin-1</code>) and within the first <em>checkedLines</em> a line starts with <code class="highlighter-rouge">"PMID- "</code>.</p>
+
+<h6 id="parameters-1">Parameters</h6>
+
+<p><em>infile</em> : <code class="highlighter-rouge">str</code></p>
+
+<p>The path to the targets file</p>
+
+<p><em>checkedLines</em> : <code class="highlighter-rouge">optional [int]</code></p>
+
+<p>default 2, the number of lines to check for the header</p>
+
+<h6 id="returns-1">Returns</h6>
+
+<p><code class="highlighter-rouge">bool</code></p>
+
+<p><code class="highlighter-rouge">True</code> if the file is a Medline file</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="medlineRecordParser"></a><small>medline.</small><strong><a href="/metaknowledge/docs/medline#medlineRecordParser"><ins>medlineRecordParser</ins></a></strong>(<em>record</em>):</p>
 
-<h1 id="needs-to-be-written-1">Needs to be written</h1>
+<p>The parser <a href="/metaknowledge/docs/medline#MedlineRecord"><code class="highlighter-rouge">MedlineRecord</code></a> use. This takes an entry from <a href="/metaknowledge/docs/medline#medlineParser"><code class="highlighter-rouge">medlineParser()</code></a> and parses it a part of the creation of a <code class="highlighter-rouge">MedlineRecord</code>.</p>
+
+<h6 id="parameters-2">Parameters</h6>
+
+<p><em>record</em> : <code class="highlighter-rouge">enumerate object</code></p>
+
+<p>a file wrapped by <code class="highlighter-rouge">enumerate()</code></p>
+
+<h6 id="returns-2">Returns</h6>
+
+<p><code class="highlighter-rouge">collections.OrderedDict</code></p>
+
+<p>An ordered dictionary of the key-vaue pairs in the entry</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 

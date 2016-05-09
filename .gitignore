@@ -1,6 +1,5 @@
 vagrant/
 notebooks/
-*.sh
 !MakeDocs.sh
 !MakeExamples.sh
 isilibDocs.md

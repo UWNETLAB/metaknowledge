@@ -15,6 +15,7 @@ documentedModules = ['contour', 'WOS', 'medline', 'proquest']#, 'journalAbbrevia
 docsPrefix = time.strftime("%Y-%m-%d-")
 
 funcCounter = 0
+undocumented = 0
 
 blurbDict = {
     #modules
@@ -209,6 +210,8 @@ def writeFunc(fn, f, prefix = '', level = 5, singleFile = False):
         f.write(cleanedDoc(fn[1], lvl = level, singleFile = singleFile))
     except AttributeError:
         f.write("# Needs to be written\n\n")
+        global undocumented
+        undocumented += 1
         print("\033[93m{0}{1} had no docs\033[0m".format(prefix, fn[0]))
 
 def writeClass(cl, f, prefix = '', level = 4, singleFile = False, exceptMode = False):
@@ -219,6 +222,8 @@ def writeClass(cl, f, prefix = '', level = 4, singleFile = False, exceptMode = F
         f.write(cleanedDoc(cl[1], lvl = level, singleFile = singleFile))
     except AttributeError:
         f.write("# Needs to be written\n\n")
+        global undocumented
+        undocumented += 1
         print("\033[93m{0}{1} had no docs\033[0m".format(prefix, cl[0]))
 
 def proccessClass(cls, f, singleFile = False, exceptMode = False):
@@ -383,7 +388,8 @@ def main(args):
 def mkDocs():
     args = argumentParser()
     main(args)
-    print(funcCounter)
+    print("{} total functions".format(funcCounter))
+    print("{} undocumented".format(undocumented))
 
 if __name__ == '__main__':
     mkDocs()

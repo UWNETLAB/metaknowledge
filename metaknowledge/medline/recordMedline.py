@@ -11,8 +11,11 @@ from .tagProcessing.tagFunctions import medlineTagToFunc
 from .tagProcessing.specialFunctions import medlineSpecialTagToFunc
 
 class MedlineRecord(ExtendedRecord):
+    """Class for full Medline(Pubmed) entries.
+
+    This class is an [`ExtendedRecord`](#metaknowledge.ExtendedRecord) capable of generating its own id number. You should not create them directly, but instead use [`medlineParser()`](#metaknowledge.medlineParser) on a medline file.
+    """
     def __init__(self, inRecord, sFile = "", sLine = 0):
-        """See help on [Record](#Record.Record) for details"""
         bad = False
         error = None
         fieldDict = None
@@ -85,6 +88,20 @@ class MedlineRecord(ExtendedRecord):
                                 f.write(authVal)
 
 def medlineRecordParser(record):
+    """The parser [`MedlineRecord`](#metaknowledge.MedlineRecord) use. This takes an entry from [`medlineParser()`](#metaknowledge.medlineParser) and parses it a part of the creation of a `MedlineRecord`.
+
+    # Parameters
+
+    _record_ : `enumerate object`
+
+    > a file wrapped by `enumerate()`
+
+    # Returns
+
+    `collections.OrderedDict`
+
+    > An ordered dictionary of the key-vaue pairs in the entry
+    """
     tagDict = collections.OrderedDict()
     tag = 'PMID'
     mostRecentAuthor = None

@@ -27,7 +27,7 @@ class TestHelpers(unittest.TestCase):
         self.assertIsInstance(d.keys().__iter__().__next__(), metaknowledge.Record)
         self.assertTrue(-1 < d.values().__iter__().__next__() < 8)
         self.assertIsInstance(list(dWC.keys())[0], str)
-        self.assertTrue(-1 < dWC.values().__iter__().__next__() < 22)
+        self.assertTrue(-1 < dWC.values().__iter__().__next__() < 24)
         for t in dc.values():
             self.assertEqual(t[0], t[1])
 

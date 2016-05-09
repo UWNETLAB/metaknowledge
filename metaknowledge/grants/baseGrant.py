@@ -12,7 +12,7 @@ from ..mkExceptions import BadGrant
 class Grant(Record, collections.abc.MutableMapping):
 
     #Overwriting Record's attribute
-    _documented = ['__setitem__']
+    _documented = []
 
     def __init__(self, original, grantdDict, idValue, bad, error, sFile = "", sLine = 0):
         self.original = original
@@ -28,6 +28,14 @@ class Grant(Record, collections.abc.MutableMapping):
         self._fieldDict.__delitem__(key)
 
     def update(self, other):
+        """Adds all the tag-entry pairs from _other_ to the `Grant`. If there is a conflict _other_ takes precedence.
+
+        # Parameters
+
+        _other_ : `Grant`
+
+        > Another `Grant` of the same type as _self_
+        """
         if type(self) != type(other):
             return NotImplemented
         else:
@@ -52,6 +60,8 @@ def csvAndLinesReader(enumeratedFile, *csvArgs, **csvKwargs):
         yield currentData['currentLineNum'], currentData['currentLineString'], row
 
 class DefaultGrant(Grant):
+    """A subclass of [`Grant`](#metaknowledge.grant), it has the same attributes and is returned from the default constructor for grants.
+    """
     #Making it a subclass so that Grant is never used raw
     #Also make interface simpler
     def __init__(self, original, grantdDict, sFile = "", sLine = 0):

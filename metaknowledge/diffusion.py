@@ -154,6 +154,10 @@ def diffusionCount(source, target, sourceType = "raw", extraValue = None, pandas
 
     > default `'raw'`, if `'raw'` the returned `dict` will contain `Records` as keys. If it is a WOS tag the keys will be of that type.
 
+    _extraValue_ : `optional [str]`
+
+    > default `None`, a tag that will split the counts based on entries to it, meaning instead of a single integer a dictionary will be given.
+
     _pandasFriendly_ : `optional [bool]`
 
     > default `False`, makes the output be a dict with two keys one `"Record"` is the list of Records ( or data type requested by _sourceType_) the other is their occurrence counts as `"Counts"`. The lists are the same length.
@@ -162,9 +166,15 @@ def diffusionCount(source, target, sourceType = "raw", extraValue = None, pandas
 
     > default `False`, if `True` the diffusion analysis will be run twice, first with source and target setup like the default (global scope) then using only the source `RecordCollection` (local scope).
 
-    _byYear_ : `optional [bool]`
+    _extraValue_ : `optional [str]`
 
-    default `False`, if `True` the returned dictionary will have Records mapped to maps, these maps will map years ('ints') to counts. If _pandasFriendly_ is also `True` the resultant dictionary will have an additional column called `'year'`. This column will contain the year the citations occurred, in addition the Records entries will be duplicated for each year they occur in.
+    > default `None`, if a tag the returned dictionary will have `Records` mapped to maps, these maps will map the entries for the tag to counts. If _pandasFriendly_ is also `True` the resultant dictionary will have an additional column called `'year'`. This column will contain the year the citations occurred, in addition the Records entries will be duplicated for each year they occur in.
+
+    > For example if `'year'` was given then the count for a single `Record` could be `{1990 : 1, 2000 : 5}`
+
+    _useAllAuthors_ : `optional [bool]`
+
+    > default `True`, if `False` only the first author will be used to generate the `Citations` for the _source_ `Records`
 
     # Returns
 
@@ -369,6 +379,30 @@ def makeNodeID(Rec, ndType, extras = None):
     return recID, extraDict
 
 def diffusionAddCountsFromSource(grph, source, target, nodeType = 'citations', extraType = None, diffusionLabel = 'DiffusionCount', extraKeys = None, countsDict = None, extraMapping = None):
+    """Does a diffusion using [`diffusionCount()`](#metaknowledge.diffusionCount) and updates _grph_ with it, using the nodes in the graph as keys in the diffusion, i.e. the source. The name of the attribute the counts are added to is given by _diffusionLabel_. If the graph is not composed of citations from the source and instead is another entry the tag for the entry needs to be given to _nodeType_. You can also change
+
+    # Parameters
+
+    _grph_ : `networkx Graph`
+
+    > The graph to be updated
+
+    _source_ : `RecordCollection`
+
+    > The `RecordCollection` that created _grph_
+
+    _target_ : `RecordCollection`
+
+    > The `RecordCollection` that will be counted
+
+    _nodeType_ : `optional [str]`
+
+    > The tag that constants the values used to create _grph_
+
+    _extraType_
+
+    diffusion was not done with
+    """
     progArgs = (0, "Starting to add counts to graph")
     if metaknowledge.VERBOSE_MODE:
         progKwargs = {'dummy' : False}

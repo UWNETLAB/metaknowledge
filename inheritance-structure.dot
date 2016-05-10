@@ -1,43 +1,66 @@
 /*
-Class diagram for metaknowledge
+Class diagrams for metaknowledge
 */
+
 digraph Records {
-    charset="utf-8"
-    rankdir=BT
-    Object [shape=record, label="{Object|builtin}"];
-    Mapping [shape=record, label="{Mapping|collections.abc}"]
-    Hashable [shape=record, label="{Hashable|collections.abc}"]
-    ABCMeta [shape=record, label="{ABCMeta|abc}"];
-    MutableMapping [shape=record, label="{MutableMapping|collections.abc}"]
+    charset="utf-8";
+    rankdir=BT;
+    node [shape=record, fontname="Source Code Pro"];
+    edge [arrowhead=empty, arrowsize=1];
+    /*
+    Object [label="{Object|builtin}"];
+    */
+    Mapping [label="{Mapping|collections.abc}"]
+    Hashable [label="{Hashable|collections.abc}"]
+    ABCMeta [label="{ABCMeta|abc}"];
+    MutableMapping [label="{MutableMapping|collections.abc}"]
 
-    Record [shape=record, label="{Record|metaknowledge}"];
-    ExtendedRecord [shape=record, label="{ExtendedRecord|metaknowledge}"];
-    Grant [shape=record, label="{Grant|metaknowledge}"];
+    Record [label="{Record|metaknowledge}"];
+    ExtendedRecord [label="{ExtendedRecord|metaknowledge}"];
+    Grant [label="{Grant|metaknowledge}"];
 
-    DefaultGrant [shape=record, label="{DefaultGrant|metaknowledge}"];
-    CIHRGrant [shape=record, label="{CIHRGrant|metaknowledge}"];
-    MedlineGrant [shape=record, label="{MedlineGrant|metaknowledge}"];
-    NSERCGrant [shape=record, label="{NSERCGrant|metaknowledge}"];
+    DefaultGrant [label="{DefaultGrant|metaknowledge}"];
+    CIHRGrant [label="{CIHRGrant|metaknowledge}"];
+    MedlineGrant [label="{MedlineGrant|metaknowledge}"];
+    NSERCGrant [label="{NSERCGrant|metaknowledge}"];
 
-    WOSRecord [shape=record, label="{WOSRecord|metaknowledge.WOS}"];
-    ProQuestRecord [shape=record, label="{ProQuestRecord|metaknowledge.proquest}"];
-    MedlineRecord [shape=record, label="{MedlineRecord|metaknowledge.medline}"];
+    WOSRecord [label="{WOSRecord|metaknowledge.WOS}"];
+    ProQuestRecord [label="{ProQuestRecord|metaknowledge.proquest}"];
+    MedlineRecord [label="{MedlineRecord|metaknowledge.medline}"];
 
+    MutableSet [label="{MutableSet|collections.abc}"];
+    Collection [label="{Collection|metaknowledge}"];
+    CollectionWithIDs [label="{CollectionWithIDs|metaknowledge}"];
+    RecordCollection [label="{RecordCollection|metaknowledge}"];
+    GrantCollection [label="{GrantCollection|metaknowledge}"];
+
+    /*
     Mapping -> Object;
     Hashable -> Object;
+    */
+
     Record -> Hashable;
     Record -> Mapping;
+
+    Collection -> MutableSet;
+    Collection -> Hashable;
+
     Grant -> Record;
     Grant -> MutableMapping;
+
     DefaultGrant -> Grant;
     CIHRGrant -> Grant;
     MedlineGrant -> Grant;
     NSERCGrant -> Grant;
-    ExtendedRecord -> ABCMeta [style=dotted];
+
+    ExtendedRecord -> ABCMeta [style=dashed];
     ExtendedRecord -> Record;
     WOSRecord -> ExtendedRecord;
     ProQuestRecord -> ExtendedRecord;
     MedlineRecord -> ExtendedRecord;
 
+    CollectionWithIDs -> Collection;
+    RecordCollection -> CollectionWithIDs;
+    GrantCollection -> CollectionWithIDs;
 
 }

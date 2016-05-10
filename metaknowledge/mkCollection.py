@@ -520,6 +520,24 @@ class CollectionWithIDs(Collection):
         return tags
 
     def cooccurrenceCounts(self, keyTag, *countedTags):
+        """Counts the number of times values from any of the _countedTags_ occurs with _keyTag_. The counts are retuned as a dictionary with the values of _keyTag_ mapping to dictionaries with each of the _countedTags_ values mapping to thier counts.
+
+        # Parameters
+
+        _keyTag_ : `str`
+
+        > The tag used as the key for the returned dictionary
+
+        _*countedTags_ : `str, str, str, ...`
+
+        > The tags used as the key for the returned dictionary's values
+
+        # Returns
+
+        `dict[str:dict[str:int]]`
+
+        > The dictionary of counts
+        """
         if not isinstance(keyTag, str):
             raise TagError("'{}' is not a string it cannot be used as a tag.".format(keyTag))
         if len(countedTags) < 1:

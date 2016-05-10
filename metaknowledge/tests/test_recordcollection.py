@@ -340,6 +340,9 @@ class TestRecordCollection(unittest.TestCase):
         self.assertEqual(Gcore.node['Gilles H, 2002, OPT LETT']['info'], 'Gilles H, Simple technique for measuring the Goos-Hanchen effect with polarization modulation and a position-sensitive detector, OPTICS LETTERS, 27, 1421')
         self.assertEqual(metaknowledge.graphStats(Gexplode), "The graph has 19 nodes, 29 edges, 0 isolates, 3 self loops, a density of 0.0847953 and a transitivity of 0.132075")
 
+    def test_coOccurnce(self):
+        self.assertEqual(sum(self.RC.cooccurrenceCounts('TI', *tuple(self.RC.tags()))['Longitudinal and transverse effects of nonspecular reflection'].values()), 104)
+
     def test_oneMode(self):
         Gcr  = self.RC.oneModeNetwork('CR')
         Gcite = self.RC.oneModeNetwork('citations', nodeCount = False, edgeWeight = False)
@@ -372,10 +375,10 @@ class TestRecordCollection(unittest.TestCase):
         self.assertIsInstance(Gafwc, nx.classes.graph.Graph)
         self.assertEqual(Gutti.edges('WOS:A1979GV55600001')[0][1][:31], "EXPERIMENTS IN PHENOMENOLOGICAL")
         self.assertEqual(len(Gutti.nodes()), 2 * len(self.RC) - 1)
-        with self.assertRaises(TypeError):
+        with self.assertRaises(metaknowledge.TagError):
             G = self.RC.twoModeNetwork('TI', b'not a tag')
             del G
-        with self.assertRaises(TypeError):
+        with self.assertRaises(metaknowledge.TagError):
             G = self.RC.twoModeNetwork(b'Not a Tag', 'TI')
             del G
         self.assertTrue(nx.is_isomorphic(Gd2em, Gemd2))

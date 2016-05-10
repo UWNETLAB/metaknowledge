@@ -40,7 +40,7 @@ from .grants.nsercGrant import NSERCGrant
 
 
 from .recordCollection import RecordCollection
-from .mkExceptions import BadCitation, BadGrant, BadInputFile, BadProQuestFile, BadProQuestRecord, BadPubmedFile, BadPubmedRecord, BadRecord, BadWOSFile, BadWOSRecord, CollectionTypeError, GrantCollectionException, RCTypeError, RCValueError, RecordsNotCompatible, UnknownFile, cacheError, mkException
+from .mkExceptions import BadCitation, BadGrant, BadInputFile, BadProQuestFile, BadProQuestRecord, BadPubmedFile, BadPubmedRecord, BadRecord, BadWOSFile, BadWOSRecord, CollectionTypeError, GrantCollectionException, RCTypeError, RCValueError, RecordsNotCompatible, UnknownFile, cacheError, mkException, TagError
 #from .progressBar import _ProgressBar
 from .grantCollection import GrantCollection
 from .mkCollection import Collection, CollectionWithIDs

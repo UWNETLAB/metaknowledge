@@ -1,0 +1,43 @@
+/*
+Class diagram for metaknowledge
+*/
+digraph Records {
+    charset="utf-8"
+    rankdir=BT
+    Object [shape=record, label="{Object|builtin}"];
+    Mapping [shape=record, label="{Mapping|collections.abc}"]
+    Hashable [shape=record, label="{Hashable|collections.abc}"]
+    ABCMeta [shape=record, label="{ABCMeta|abc}"];
+    MutableMapping [shape=record, label="{MutableMapping|collections.abc}"]
+
+    Record [shape=record, label="{Record|metaknowledge}"];
+    ExtendedRecord [shape=record, label="{ExtendedRecord|metaknowledge}"];
+    Grant [shape=record, label="{Grant|metaknowledge}"];
+
+    DefaultGrant [shape=record, label="{DefaultGrant|metaknowledge}"];
+    CIHRGrant [shape=record, label="{CIHRGrant|metaknowledge}"];
+    MedlineGrant [shape=record, label="{MedlineGrant|metaknowledge}"];
+    NSERCGrant [shape=record, label="{NSERCGrant|metaknowledge}"];
+
+    WOSRecord [shape=record, label="{WOSRecord|metaknowledge.WOS}"];
+    ProQuestRecord [shape=record, label="{ProQuestRecord|metaknowledge.proquest}"];
+    MedlineRecord [shape=record, label="{MedlineRecord|metaknowledge.medline}"];
+
+    Mapping -> Object;
+    Hashable -> Object;
+    Record -> Hashable;
+    Record -> Mapping;
+    Grant -> Record;
+    Grant -> MutableMapping;
+    DefaultGrant -> Grant;
+    CIHRGrant -> Grant;
+    MedlineGrant -> Grant;
+    NSERCGrant -> Grant;
+    ExtendedRecord -> ABCMeta [style=dotted];
+    ExtendedRecord -> Record;
+    WOSRecord -> ExtendedRecord;
+    ProQuestRecord -> ExtendedRecord;
+    MedlineRecord -> ExtendedRecord;
+
+
+}

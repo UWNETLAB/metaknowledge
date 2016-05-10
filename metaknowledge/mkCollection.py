@@ -15,7 +15,7 @@ from .progressBar import _ProgressBar
 
 from .constants import __version__
 
-from .mkExceptions import CollectionTypeError, cacheError
+from .mkExceptions import CollectionTypeError, cacheError, TagError
 
 import metaknowledge
 
@@ -519,6 +519,49 @@ class CollectionWithIDs(Collection):
             tags |= set(i.keys())
         return tags
 
+    def cooccurrenceCounts(self, keyTag, *countedTags):
+        if not isinstance(keyTag, str):
+            raise TagError("'{}' is not a string it cannot be used as a tag.".format(keyTag))
+        if len(countedTags) < 1:
+            TagError("You need to provide atleast one tag")
+        for tag in countedTags:
+            if not isinstance(tag, str):
+                raise TagError("'{}' is not a string it cannot be used as a tag.".format(tag))
+        occurenceDict = {}
+        progArgs = (0, "Starting to count the co-occurrences of '{}' and' {}'".format(keyTag, "','".join(countedTags)))
+        if metaknowledge.VERBOSE_MODE:
+            progKwargs = {'dummy' : False}
+        else:
+            progKwargs = {'dummy' : True}
+        with _ProgressBar(*progArgs, **progKwargs) as PBar:
+
+            for i, R in enumerate(self):
+                PBar.updateVal(i / len(self), "Analyzing {}".format(R))
+                keyVal = R.get(keyTag)
+                if keyVal is None:
+                    continue
+                if not isinstance(keyVal, list):
+                    keyVal = [keyVal]
+                for key in keyVal:
+                    if key not in occurenceDict:
+                        occurenceDict[key] = {}
+                for tag in countedTags:
+                    tagval = R.get(tag)
+                    if tagval is None:
+                        continue
+                    if not isinstance(tagval, list):
+                        tagval = [tagval]
+                    for val in tagval:
+                        for key in keyVal:
+                            try:
+                                occurenceDict[key][val] += 1
+                            except KeyError:
+                                occurenceDict[key][val] = 1
+            PBar.finish("Done extracting the co-occurrences of '{}' and '{}'".format(keyTag, "','".join(countedTags)))
+        return occurenceDict
+
+
+
     def oneModeNetwork(self, mode, nodeCount = True, edgeWeight = True, stemmer = None, edgeAttribute = None, nodeAttribute = None):
         """Creates a network of the objects found by one tag _mode_.
 
@@ -559,7 +602,7 @@ class CollectionWithIDs(Collection):
             if isinstance(stemmer, collections.abc.Callable):
                 stemCheck = True
             else:
-                raise TypeError("stemmer must be callable, e.g. a function or class with a __call__ method.")
+                raise TagError("stemmer must be callable, e.g. a function or class with a __call__ method.")
         count = 0
         progArgs = (0, "Starting to make a one mode network with {}".format(mode))
         if metaknowledge.VERBOSE_MODE:
@@ -727,21 +770,21 @@ class CollectionWithIDs(Collection):
         > A networkx Graph with the objects of the tags _tag1_ and _tag2_ as nodes and their co-occurrences as edges.
         """
         if not isinstance(tag1, str):
-            raise TypeError("{} is not a string it cannot be a tag.".format(tag1))
+            raise TagError("{} is not a string it cannot be a tag.".format(tag1))
         if not isinstance(tag2, str):
-            raise TypeError("{} is not a string it cannot be a tag.".format(tag2))
+            raise TagError("{} is not a string it cannot be a tag.".format(tag2))
         if stemmerTag1 is not None:
             if isinstance(stemmerTag1, collections.abc.Callable):
                 stemCheck = True
             else:
-                raise TypeError("stemmerTag1 must be callable, e.g. a function or class with a __call__ method.")
+                raise TagError("stemmerTag1 must be callable, e.g. a function or class with a __call__ method.")
         else:
             stemmerTag1 = lambda x: x
         if stemmerTag2 is not None:
             if isinstance(stemmerTag2, collections.abc.Callable):
                 stemCheck = True
             else:
-                raise TypeError("stemmerTag2 must be callable, e.g. a function or class with a __call__ method.")
+                raise TagError("stemmerTag2 must be callable, e.g. a function or class with a __call__ method.")
         else:
             stemmerTag2 = lambda x: x
         count = 0
@@ -894,15 +937,15 @@ class CollectionWithIDs(Collection):
                 try:
                     tags = list(tags[0])
                 except TypeError:
-                    raise TypeError("'{}' is not a string it cannot be a tag.".format(tags[0]))
+                    raise TagError("'{}' is not a string it cannot be a tag.".format(tags[0]))
         for t in (i for i in tags if not isinstance(i, str)):
-            raise TypeError("{} is not a string it cannot be a tag.".format(t))
+            raise TagError("{} is not a string it cannot be a tag.".format(t))
         stemCheck = False
         if stemmer is not None:
             if isinstance(stemmer, collections.abc.Callable):
                 stemCheck = True
             else:
-                raise TypeError("stemmer must be Callable, e.g. a function or class with a __call__ method.")
+                raise TagError("stemmer must be Callable, e.g. a function or class with a __call__ method.")
         count = 0
         progArgs = (0, "Starting to make a " + str(len(tags)) + "-mode network of: " + ', '.join(tags))
         if metaknowledge.VERBOSE_MODE:

@@ -1,10 +1,13 @@
 class mkException(Exception):
     pass
 
-class CollectionTypeError(mkException):
+class CollectionTypeError(mkException, TypeError):
     pass
 
-class RCTypeError(mkException):
+class RCTypeError(mkException, TypeError):
+    pass
+
+class TagError(mkException):
     pass
 
 class RCValueError(mkException):

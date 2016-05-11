@@ -12,7 +12,7 @@ digraph Records {
     */
     Mapping [label="{Mapping|collections.abc}"]
     Hashable [label="{Hashable|collections.abc}"]
-    ABCMeta [label="{ABCMeta|abc}"];
+    ABCMeta [label="{ABCMeta|abc}", style=dashed];
     MutableMapping [label="{MutableMapping|collections.abc}"]
 
     Record [label="{Record|metaknowledge}"];

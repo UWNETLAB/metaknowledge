@@ -23,7 +23,7 @@ def isProQuestFile(infile, checkedLines = 2):
 
     `bool`
 
-    > `True` if the file is a ProQuest file
+    > `True` if the file is a valid ProQuest file
     """
     try:
         with open(infile, 'r', encoding='utf-8') as openfile:

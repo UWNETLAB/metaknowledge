@@ -40,7 +40,7 @@ class TestGrantCollection(unittest.TestCase):
         self.assertIsInstance(self.GC, metaknowledge.GrantCollection)
         self.assertIsInstance(self.GC, metaknowledge.Collection)
         self.assertAlmostEqual(len(self.GC), 2811, delta = 4)
-        self.assertIsInstance(self.GC.peak(), metaknowledge.Record)
+        self.assertIsInstance(self.GC.peek(), metaknowledge.Record)
         self.assertEqual(metaknowledge.GrantCollection(self.GC), self.GC)
 
     def test_Caching(self):

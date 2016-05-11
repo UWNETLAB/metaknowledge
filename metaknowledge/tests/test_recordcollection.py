@@ -73,18 +73,18 @@ class TestRecordCollection(unittest.TestCase):
         self.assertEqual(hash(RC), hash(hash(R)))
 
     def test_contains(self):
-        R = self.RC.peak()
+        R = self.RC.peek()
         self.assertTrue(R in self.RC)
         R = self.RC.pop()
         self.assertFalse(R in self.RC)
 
     def test_conID(self):
-        R = self.RC.peak()
+        R = self.RC.peek()
         self.assertTrue(self.RC.containsID(R.id))
         self.assertFalse(self.RC.containsID('234567654'))
 
     def test_discard(self):
-        R = self.RC.peak()
+        R = self.RC.peek()
         l = len(self.RC)
         self.RC.discard(R)
         l2 = len(self.RC)
@@ -99,22 +99,22 @@ class TestRecordCollection(unittest.TestCase):
         with self.assertRaises(KeyError):
             R = self.RC.pop()
 
-    def test_peak(self):
-        R = self.RC.peak()
+    def test_peek(self):
+        R = self.RC.peek()
         self.assertTrue(R in self.RC)
         self.RC.clear()
-        R = self.RC.peak()
+        R = self.RC.peek()
         self.assertTrue(R is None)
 
     def test_clear(self):
-        R = self.RCbad.peak()
+        R = self.RCbad.peek()
         self.assertTrue(self.RCbad.bad)
         self.RCbad.clear()
         self.assertFalse(self.RCbad.bad)
         self.assertFalse(R in self.RCbad)
 
     def test_remove(self):
-        R = self.RC.peak()
+        R = self.RC.peek()
         l = len(self.RC)
         self.RC.remove(R)
         self.assertEqual(l, len(self.RC) + 1)
@@ -198,13 +198,13 @@ class TestRecordCollection(unittest.TestCase):
 
     def test_WOS(self):
         self.RC.dropBadEntries()
-        R = self.RC.peak()
+        R = self.RC.peek()
         l = len(self.RC)
         self.assertTrue(R, self.RC.getID(R.id))
         self.assertEqual(len(self.RC), l)
         self.RC.removeID(R.id)
         self.assertEqual(len(self.RC), l - 1)
-        self.RC.getID(self.RC.peak().id)
+        self.RC.getID(self.RC.peek().id)
         self.assertEqual(len(self.RC), l - 1)
         self.assertFalse(self.RC.getID(self.RC.pop().id))
         self.RC.discardID('sdfghjkjhgfdfghj')
@@ -402,9 +402,9 @@ class TestRecordCollection(unittest.TestCase):
 
     def test_localCitesOf(self):
         C = metaknowledge.Citation("COSTADEB.O, 1974, LETT NUOVO CIMENTO, V10, P852")
-        self.assertEqual("WOS:A1976CW02200002", self.RC.localCitesOf(C).peak().id)
-        self.assertEqual(self.RC.localCitesOf(self.RC.peak().id),
-         self.RC.localCitesOf(self.RC.peak().createCitation()))
+        self.assertEqual("WOS:A1976CW02200002", self.RC.localCitesOf(C).peek().id)
+        self.assertEqual(self.RC.localCitesOf(self.RC.peek().id),
+         self.RC.localCitesOf(self.RC.peek().createCitation()))
 
     def test_citeFilter(self):
         RCmin = self.RC.citeFilter('', reverse = True)

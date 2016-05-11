@@ -170,7 +170,7 @@ class RecordCollection(CollectionWithIDs):
                 PBar.finish("Done making a RecordCollection. Warning an error occured.")
 
     def __bytes__(self):
-        encoding = self.peak().encoding()
+        encoding = self.peek().encoding()
         try:
             return bytes('\n', encoding = encoding).join((bytes(R) for R in self))
         except BadRecord as e:
@@ -210,7 +210,7 @@ class RecordCollection(CollectionWithIDs):
         > Default `None`, if given the output file will written to _fanme_, if `None` the `RecordCollection`'s name's first 200 characters are used with the suffix .isi
         """
         if len(self._collectedTypes) < 2:
-            recEncoding = self.peak().encoding()
+            recEncoding = self.peek().encoding()
         else:
             recEncoding = 'utf-8'
         if fname:

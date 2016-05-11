@@ -290,7 +290,7 @@ class Collection(collections.abc.MutableSet, collections.abc.Hashable):
         collectedCopy.errors = copy.copy(collectedCopy.errors)
         return collectedCopy
 
-    def peak(self):
+    def peek(self):
         """returns a random element from the collection. If ran twice the same element will usually be returned
 
         # Returns

@@ -29,6 +29,7 @@ The CollectionWithIDs class has the following methods:</h3>
 <li><article><a href="#badEntries"><b>badEntries</b>()</a></article></li>
 <li><article><a href="#dropBadEntries"><b>dropBadEntries</b>()</a></article></li>
 <li><article><a href="#tags"><b>tags</b>()</a></article></li>
+<li><article><a href="#cooccurrenceCounts"><b>cooccurrenceCounts</b>(<i>keyTag, *countedTags</i>)</a></article></li>
 <li><article><a href="#oneModeNetwork"><b>oneModeNetwork</b>(<i>mode, nodeCount=True, edgeWeight=True, stemmer=None, edgeAttribute=None, nodeAttribute=None</i>)</a></article></li>
 <li><article><a href="#twoModeNetwork"><b>twoModeNetwork</b>(<i>tag1, tag2, directed=False, recordType=True, nodeCount=True, edgeWeight=True, stemmerTag1=None, stemmerTag2=None, edgeAttribute=None</i>)</a></article></li>
 <li><article><a href="#nModeNetwork"><b>nModeNetwork</b>(<i>*tags, recordType=True, nodeCount=True, edgeWeight=True, stemmer=None, edgeAttribute=None</i>)</a></article></li>
@@ -129,6 +130,29 @@ Creates a list of all the tags of the contained items
 `list [str]`
 
  A list of all the tags
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="cooccurrenceCounts"></a><small>CollectionWithIDs.</small>**[<ins>cooccurrenceCounts</ins>]({{ site.baseurl }}{{ page.url }}#cooccurrenceCounts)**(_keyTag, *countedTags_):
+
+Counts the number of times values from any of the _countedTags_ occurs with _keyTag_. The counts are retuned as a dictionary with the values of _keyTag_ mapping to dictionaries with each of the _countedTags_ values mapping to thier counts.
+
+###### Parameters
+
+_keyTag_ : `str`
+
+ The tag used as the key for the returned dictionary
+
+_*countedTags_ : `str, str, str, ...`
+
+ The tags used as the key for the returned dictionary's values
+
+###### Returns
+
+`dict[str:dict[str:int]]`
+
+ The dictionary of counts
 
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">

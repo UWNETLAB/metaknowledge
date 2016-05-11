@@ -152,6 +152,7 @@ The CollectionWithIDs class has the following methods:</h3>
 <li><article><a href="#badEntries"><b>badEntries</b>()</a></article></li>
 <li><article><a href="#dropBadEntries"><b>dropBadEntries</b>()</a></article></li>
 <li><article><a href="#tags"><b>tags</b>()</a></article></li>
+<li><article><a href="#cooccurrenceCounts"><b>cooccurrenceCounts</b>(<i>keyTag, *countedTags</i>)</a></article></li>
 <li><article><a href="#oneModeNetwork"><b>oneModeNetwork</b>(<i>mode, nodeCount=True, edgeWeight=True, stemmer=None, edgeAttribute=None, nodeAttribute=None</i>)</a></article></li>
 <li><article><a href="#twoModeNetwork"><b>twoModeNetwork</b>(<i>tag1, tag2, directed=False, recordType=True, nodeCount=True, edgeWeight=True, stemmerTag1=None, stemmerTag2=None, edgeAttribute=None</i>)</a></article></li>
 <li><article><a href="#nModeNetwork"><b>nModeNetwork</b>(<i>*tags, recordType=True, nodeCount=True, edgeWeight=True, stemmer=None, edgeAttribute=None</i>)</a></article></li>
@@ -248,6 +249,28 @@ The CollectionWithIDs class has the following methods:</h3>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
+<p><a name="cooccurrenceCounts"></a><small>CollectionWithIDs.</small><strong><a href="/metaknowledge/docs/CollectionWithIDs#cooccurrenceCounts"><ins>cooccurrenceCounts</ins></a></strong>(<em>keyTag, *countedTags</em>):</p>
+
+<p>Counts the number of times values from any of the <em>countedTags</em> occurs with <em>keyTag</em>. The counts are retuned as a dictionary with the values of <em>keyTag</em> mapping to dictionaries with each of the <em>countedTags</em> values mapping to thier counts.</p>
+
+<h6 id="parameters-4">Parameters</h6>
+
+<p><em>keyTag</em> : <code class="highlighter-rouge">str</code></p>
+
+<p>The tag used as the key for the returned dictionary</p>
+
+<p><em>*countedTags</em> : <code class="highlighter-rouge">str, str, str, ...</code></p>
+
+<p>The tags used as the key for the returned dictionary’s values</p>
+
+<h6 id="returns-4">Returns</h6>
+
+<p><code class="highlighter-rouge">dict[str:dict[str:int]]</code></p>
+
+<p>The dictionary of counts</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
 <p><a name="oneModeNetwork"></a><small>CollectionWithIDs.</small><strong><a href="/metaknowledge/docs/CollectionWithIDs#oneModeNetwork"><ins>oneModeNetwork</ins></a></strong>(<em>mode, nodeCount=True, edgeWeight=True, stemmer=None, edgeAttribute=None, nodeAttribute=None</em>):</p>
 
 <p>Creates a network of the objects found by one tag <em>mode</em>.</p>
@@ -258,7 +281,7 @@ The CollectionWithIDs class has the following methods:</h3>
 
 <p><strong>Note</strong> Do not use this for the construction of co-citation networks use <a href="/metaknowledge/docs/CollectionWithIDs#coCiteNetwork">Recordcollection.coCiteNetwork()</a> it is more accurate and has more options.</p>
 
-<h6 id="parameters-4">Parameters</h6>
+<h6 id="parameters-5">Parameters</h6>
 
 <p><em>mode</em> : <code class="highlighter-rouge">str</code></p>
 
@@ -278,7 +301,7 @@ The CollectionWithIDs class has the following methods:</h3>
 
 <p>The function ` f = lambda x: x[0]<code class="highlighter-rouge"> if given as the stemmer will cause all IDs to be the first character of their unstemmed IDs. e.g. the title </code>‘Goos-Hanchen and Imbert-Fedorov shifts for leaky guided modes’<code class="highlighter-rouge"> will create the node </code>‘G’`.</p>
 
-<h6 id="returns-4">Returns</h6>
+<h6 id="returns-5">Returns</h6>
 
 <p><code class="highlighter-rouge">networkx Graph</code></p>
 
@@ -296,7 +319,7 @@ The CollectionWithIDs class has the following methods:</h3>
 
 <p>The <em>directed</em> parameter if <code class="highlighter-rouge">True</code> will cause the network to be directed with the first tag as the source and the second as the destination.</p>
 
-<h6 id="parameters-5">Parameters</h6>
+<h6 id="parameters-6">Parameters</h6>
 
 <p><em>tag1</em> : <code class="highlighter-rouge">str</code></p>
 
@@ -328,7 +351,7 @@ The CollectionWithIDs class has the following methods:</h3>
 
 <p>Default <code class="highlighter-rouge">None</code>, see <em>stemmerTag1</em> as it is the same but for <em>tag2</em></p>
 
-<h6 id="returns-5">Returns</h6>
+<h6 id="returns-6">Returns</h6>
 
 <p><code class="highlighter-rouge">networkx Graph or networkx DiGraph</code></p>
 
@@ -346,7 +369,7 @@ The CollectionWithIDs class has the following methods:</h3>
 
 <p>The number of times each object occurs is count if <em>nodeCount</em> is <code class="highlighter-rouge">True</code> and the edges count the number of co-occurrences if <em>edgeWeight</em> is <code class="highlighter-rouge">True</code>. Both are<code class="highlighter-rouge">True</code> by default.</p>
 
-<h6 id="parameters-6">Parameters</h6>
+<h6 id="parameters-7">Parameters</h6>
 
 <p><em>tags</em> : <code class="highlighter-rouge">str</code>, <code class="highlighter-rouge">str</code>, <code class="highlighter-rouge">str</code>, … or <code class="highlighter-rouge">list [str]</code></p>
 
@@ -366,7 +389,7 @@ The CollectionWithIDs class has the following methods:</h3>
 
 <p>For example: the function <code class="highlighter-rouge">f = lambda x: x[0]</code> if given as the stemmer will cause all IDs to be the first character of their unstemmed IDs. e.g. the title <code class="highlighter-rouge">'Goos-Hanchen and Imbert-Fedorov shifts for leaky guided modes'</code> will create the node <code class="highlighter-rouge">'G'</code>.</p>
 
-<h6 id="returns-6">Returns</h6>
+<h6 id="returns-7">Returns</h6>
 
 <p><code class="highlighter-rouge">networkx Graph</code></p>
 

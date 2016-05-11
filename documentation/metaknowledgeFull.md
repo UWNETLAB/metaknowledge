@@ -71,7 +71,7 @@ search_omit: true
 <li><article><a href="#allButDOI"><small>Citation</small>.<b>allButDOI</b>()</a></article></li>
 <li><article><a href="#Extra"><small>Citation</small>.<b>Extra</b>()</a></article></li>
 <li><article><a href="#update"><small>Grant</small>.<b>update</b>(<i>other</i>)</a></article></li>
-<li><article><a href="#pop"><small>Grant</small>.<b>pop</b>(<i>key, default=<object object at 0x103cf3050></i>)</a></article></li>
+<li><article><a href="#pop"><small>Grant</small>.<b>pop</b>(<i>key, default=<object object at 0x10f08d050></i>)</a></article></li>
 <li><article><a href="#popitem"><small>Grant</small>.<b>popitem</b>()</a></article></li>
 <li><article><a href="#clear"><small>Grant</small>.<b>clear</b>()</a></article></li>
 <li><article><a href="#setdefault"><small>Grant</small>.<b>setdefault</b>(<i>key, default=None</i>)</a></article></li>
@@ -86,7 +86,7 @@ search_omit: true
 <li><article><a href="#clear"><small>Collection</small>.<b>clear</b>()</a></article></li>
 <li><article><a href="#pop"><small>Collection</small>.<b>pop</b>()</a></article></li>
 <li><article><a href="#copy"><small>Collection</small>.<b>copy</b>()</a></article></li>
-<li><article><a href="#peak"><small>Collection</small>.<b>peak</b>()</a></article></li>
+<li><article><a href="#peek"><small>Collection</small>.<b>peek</b>()</a></article></li>
 <li><article><a href="#chunk"><small>Collection</small>.<b>chunk</b>(<i>maxSize</i>)</a></article></li>
 <li><article><a href="#split"><small>Collection</small>.<b>split</b>(<i>maxSize</i>)</a></article></li>
 <li><article><a href="#containsID"><small>CollectionWithIDs</small>.<b>containsID</b>(<i>idVal</i>)</a></article></li>
@@ -96,6 +96,7 @@ search_omit: true
 <li><article><a href="#badEntries"><small>CollectionWithIDs</small>.<b>badEntries</b>()</a></article></li>
 <li><article><a href="#dropBadEntries"><small>CollectionWithIDs</small>.<b>dropBadEntries</b>()</a></article></li>
 <li><article><a href="#tags"><small>CollectionWithIDs</small>.<b>tags</b>()</a></article></li>
+<li><article><a href="#cooccurrenceCounts"><small>CollectionWithIDs</small>.<b>cooccurrenceCounts</b>(<i>keyTag, *countedTags</i>)</a></article></li>
 <li><article><a href="#oneModeNetwork"><small>CollectionWithIDs</small>.<b>oneModeNetwork</b>(<i>mode, nodeCount=True, edgeWeight=True, stemmer=None, edgeAttribute=None, nodeAttribute=None</i>)</a></article></li>
 <li><article><a href="#twoModeNetwork"><small>CollectionWithIDs</small>.<b>twoModeNetwork</b>(<i>tag1, tag2, directed=False, recordType=True, nodeCount=True, edgeWeight=True, stemmerTag1=None, stemmerTag2=None, edgeAttribute=None</i>)</a></article></li>
 <li><article><a href="#nModeNetwork"><small>CollectionWithIDs</small>.<b>nModeNetwork</b>(<i>*tags, recordType=True, nodeCount=True, edgeWeight=True, stemmer=None, edgeAttribute=None</i>)</a></article></li>
@@ -361,6 +362,7 @@ Note for those reading the docstrings metaknowledge's docs are written in markdo
 
 <ol class="post-list">
 <li><article><b>mkException</b>(<i>Exception</i>)</article></li>
+<li><article><b>TagError</b>(<i>mkException</i>)</article></li>
 <li><article><b>RCValueError</b>(<i>mkException</i>)</article></li>
 <li><article><b>BadInputFile</b>(<i>mkException</i>)</article></li>
 <li><article><b>BadRecord</b>(<i>mkException</i>)</article></li>
@@ -369,13 +371,13 @@ Note for those reading the docstrings metaknowledge's docs are written in markdo
 <li><article><b>BadProQuestRecord</b>(<i>mkException</i>)</article></li>
 <li><article><b>BadProQuestFile</b>(<i>mkException</i>)</article></li>
 <li><article><b>RecordsNotCompatible</b>(<i>mkException</i>)</article></li>
+<li><article><b>CollectionTypeError</b>(<i>mkException, TypeError</i>)</article></li>
 <li><article><b>cacheError</b>(<i>mkException</i>)</article></li>
-<li><article><b>CollectionTypeError</b>(<i>mkException</i>)</article></li>
 <li><article><b>BadWOSRecord</b>(<i>BadRecord</i>)</article></li>
 <li><article><b>BadWOSFile</b>(<i>Warning</i>)</article></li>
 <li><article><b>BadCitation</b>(<i>Warning</i>)</article></li>
+<li><article><b>RCTypeError</b>(<i>mkException, TypeError</i>)</article></li>
 <li><article><b>BadGrant</b>(<i>mkException</i>)</article></li>
-<li><article><b>RCTypeError</b>(<i>mkException</i>)</article></li>
 <li><article><b>GrantCollectionException</b>(<i>mkException</i>)</article></li>
 <li><article><b>UnknownFile</b>(<i>mkException</i>)</article></li>
 </ol>
@@ -1689,7 +1691,7 @@ The Collection class has the following methods:</h3>
 <li><article><a href="#clear"><b>clear</b>()</a></article></li>
 <li><article><a href="#pop"><b>pop</b>()</a></article></li>
 <li><article><a href="#copy"><b>copy</b>()</a></article></li>
-<li><article><a href="#peak"><b>peak</b>()</a></article></li>
+<li><article><a href="#peek"><b>peek</b>()</a></article></li>
 <li><article><a href="#chunk"><b>chunk</b>(<i>maxSize</i>)</a></article></li>
 <li><article><a href="#split"><b>split</b>(<i>maxSize</i>)</a></article></li>
 </ol>
@@ -1768,7 +1770,7 @@ Creates a shallow copy of the collection
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="peak"></a><small>Collection.</small>**[<ins>peak</ins>]({{ site.baseurl }}{{ page.url }}#peak)**():
+<a name="peek"></a><small>Collection.</small>**[<ins>peek</ins>]({{ site.baseurl }}{{ page.url }}#peek)**():
 
 returns a random element from the collection. If ran twice the same element will usually be returned
 
@@ -1843,6 +1845,7 @@ The CollectionWithIDs class has the following methods:</h3>
 <li><article><a href="#badEntries"><b>badEntries</b>()</a></article></li>
 <li><article><a href="#dropBadEntries"><b>dropBadEntries</b>()</a></article></li>
 <li><article><a href="#tags"><b>tags</b>()</a></article></li>
+<li><article><a href="#cooccurrenceCounts"><b>cooccurrenceCounts</b>(<i>keyTag, *countedTags</i>)</a></article></li>
 <li><article><a href="#oneModeNetwork"><b>oneModeNetwork</b>(<i>mode, nodeCount=True, edgeWeight=True, stemmer=None, edgeAttribute=None, nodeAttribute=None</i>)</a></article></li>
 <li><article><a href="#twoModeNetwork"><b>twoModeNetwork</b>(<i>tag1, tag2, directed=False, recordType=True, nodeCount=True, edgeWeight=True, stemmerTag1=None, stemmerTag2=None, edgeAttribute=None</i>)</a></article></li>
 <li><article><a href="#nModeNetwork"><b>nModeNetwork</b>(<i>*tags, recordType=True, nodeCount=True, edgeWeight=True, stemmer=None, edgeAttribute=None</i>)</a></article></li>
@@ -1943,6 +1946,29 @@ Creates a list of all the tags of the contained items
 `list [str]`
 
  A list of all the tags
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="cooccurrenceCounts"></a><small>CollectionWithIDs.</small>**[<ins>cooccurrenceCounts</ins>]({{ site.baseurl }}{{ page.url }}#cooccurrenceCounts)**(_keyTag, *countedTags_):
+
+Counts the number of times values from any of the _countedTags_ occurs with _keyTag_. The counts are retuned as a dictionary with the values of _keyTag_ mapping to dictionaries with each of the _countedTags_ values mapping to thier counts.
+
+###### Parameters
+
+_keyTag_ : `str`
+
+ The tag used as the key for the returned dictionary
+
+_*countedTags_ : `str, str, str, ...`
+
+ The tags used as the key for the returned dictionary's values
+
+###### Returns
+
+`dict[str:dict[str:int]]`
+
+ The dictionary of counts
 
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
@@ -5478,7 +5504,7 @@ _checkedLines_ : `optional [int]`
 
 `bool`
 
- `True` if the file is a ProQuest file
+ `True` if the file is a valid ProQuest file
 
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">

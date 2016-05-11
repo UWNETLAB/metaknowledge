@@ -28,6 +28,7 @@ weight: 1
 
 <ol class="post-list">
 <li><article><b>mkException</b>(<i>Exception</i>)</article></li>
+<li><article><b>TagError</b>(<i>mkException</i>)</article></li>
 <li><article><b>RCValueError</b>(<i>mkException</i>)</article></li>
 <li><article><b>BadInputFile</b>(<i>mkException</i>)</article></li>
 <li><article><b>BadRecord</b>(<i>mkException</i>)</article></li>
@@ -36,13 +37,13 @@ weight: 1
 <li><article><b>BadProQuestRecord</b>(<i>mkException</i>)</article></li>
 <li><article><b>BadProQuestFile</b>(<i>mkException</i>)</article></li>
 <li><article><b>RecordsNotCompatible</b>(<i>mkException</i>)</article></li>
+<li><article><b>CollectionTypeError</b>(<i>mkException, TypeError</i>)</article></li>
 <li><article><b>cacheError</b>(<i>mkException</i>)</article></li>
-<li><article><b>CollectionTypeError</b>(<i>mkException</i>)</article></li>
 <li><article><b>BadWOSRecord</b>(<i>BadRecord</i>)</article></li>
 <li><article><b>BadWOSFile</b>(<i>Warning</i>)</article></li>
 <li><article><b>BadCitation</b>(<i>Warning</i>)</article></li>
+<li><article><b>RCTypeError</b>(<i>mkException, TypeError</i>)</article></li>
 <li><article><b>BadGrant</b>(<i>mkException</i>)</article></li>
-<li><article><b>RCTypeError</b>(<i>mkException</i>)</article></li>
 <li><article><b>GrantCollectionException</b>(<i>mkException</i>)</article></li>
 <li><article><b>UnknownFile</b>(<i>mkException</i>)</article></li>
 </ol>

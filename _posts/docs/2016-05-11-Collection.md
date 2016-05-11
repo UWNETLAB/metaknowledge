@@ -70,7 +70,7 @@ The Collection class has the following methods:</h3>
 <li><article><a href="#clear"><b>clear</b>()</a></article></li>
 <li><article><a href="#pop"><b>pop</b>()</a></article></li>
 <li><article><a href="#copy"><b>copy</b>()</a></article></li>
-<li><article><a href="#peak"><b>peak</b>()</a></article></li>
+<li><article><a href="#peek"><b>peek</b>()</a></article></li>
 <li><article><a href="#chunk"><b>chunk</b>(<i>maxSize</i>)</a></article></li>
 <li><article><a href="#split"><b>split</b>(<i>maxSize</i>)</a></article></li>
 </ol>
@@ -149,7 +149,7 @@ Creates a shallow copy of the collection
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="peak"></a><small>Collection.</small>**[<ins>peak</ins>]({{ site.baseurl }}{{ page.url }}#peak)**():
+<a name="peek"></a><small>Collection.</small>**[<ins>peek</ins>]({{ site.baseurl }}{{ page.url }}#peek)**():
 
 returns a random element from the collection. If ran twice the same element will usually be returned
 

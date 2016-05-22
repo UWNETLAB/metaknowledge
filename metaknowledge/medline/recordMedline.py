@@ -4,7 +4,7 @@ import collections
 import itertools
 import io
 
-from ..mkExceptions import BadPubmedRecord
+from ..mkExceptions import BadPubmedRecord, RCTypeError
 from ..mkRecord import ExtendedRecord
 from .tagProcessing.tagNames import tagNameConverterDict, authorBasedTags
 from .tagProcessing.tagFunctions import medlineTagToFunc
@@ -33,7 +33,7 @@ class MedlineRecord(ExtendedRecord):
                 fieldDict = medlineRecordParser(enumerate(addCharToEnd(inRecord.split('\n')), start = 1))
                 #string io
             else:
-                raise TypeError("Unsupported input type '{}', PubmedRecords cannot be created from '{}'".format(inRecord, type(inRecord)))
+                raise RCTypeError("Unsupported input type '{}', PubmedRecords cannot be created from '{}'".format(inRecord, type(inRecord)))
         except BadPubmedRecord as b:
             self.bad = True
             self.error = b
@@ -44,7 +44,7 @@ class MedlineRecord(ExtendedRecord):
             else:
                 self._pubNum = None
                 bad = True
-                error = BadPubmedRecord("Missing WOS number")
+                error = BadPubmedRecord("Missing PMID")
         ExtendedRecord.__init__(self, fieldDict, self._pubNum, bad, error, sFile = sFile, sLine = sLine)
 
     def encoding(self):

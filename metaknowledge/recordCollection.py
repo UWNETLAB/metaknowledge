@@ -26,6 +26,7 @@ from .WOS.wosHandlers import wosParser, isWOSFile
 from .medline.medlineHandlers import medlineParser, isMedlineFile
 from .mkCollection import CollectionWithIDs
 
+from .scopus.scopusHandlers import scopusHeader
 
 
 import metaknowledge
@@ -222,6 +223,8 @@ class RecordCollection(CollectionWithIDs):
             f.write("VR 1.0\n")
         elif self._collectedTypes == {'MedlineRecord'}:
             f.write('\n')
+        elif self._collectedTypes == {'ScopusRecord'}:
+            f.write("\ufeff{}\n".format(','.join(scopusHeader)))
         for R in self._collection:
             R.writeRecord(f)
             f.write('\n')

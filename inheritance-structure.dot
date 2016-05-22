@@ -27,6 +27,7 @@ digraph Records {
     WOSRecord [label="{WOSRecord|metaknowledge.WOS}"];
     ProQuestRecord [label="{ProQuestRecord|metaknowledge.proquest}"];
     MedlineRecord [label="{MedlineRecord|metaknowledge.medline}"];
+    ScopusRecord [label="{ScopusRecord|metaknowledge.scopus}"];
 
     MutableSet [label="{MutableSet|collections.abc}"];
     Collection [label="{Collection|metaknowledge}"];
@@ -58,6 +59,7 @@ digraph Records {
     WOSRecord -> ExtendedRecord;
     ProQuestRecord -> ExtendedRecord;
     MedlineRecord -> ExtendedRecord;
+    ScopusRecord -> ExtendedRecord;
 
     CollectionWithIDs -> Collection;
     RecordCollection -> CollectionWithIDs;

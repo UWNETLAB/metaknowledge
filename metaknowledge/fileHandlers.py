@@ -9,6 +9,7 @@ from .grants.baseGrant import parserDefaultGrantFile, isDefaultGrantFile
 from .WOS.wosHandlers import isWOSFile, wosParser
 from .medline.medlineHandlers import isMedlineFile, medlineParser
 from .proquest.proQuestHandlers import isProQuestFile, proQuestParser
+from .scopus.scopusHandlers import isScopusFile, scopusParser
 
 ProccessorTuple = collections.namedtuple("ProccessorTuple", ("type", "processor", "detector"))
 
@@ -28,6 +29,7 @@ recordHandlers = [
     ProccessorTuple("WOSRecord", wosParser, isWOSFile),
     ProccessorTuple("MedlineRecord", medlineParser, isMedlineFile),
     ProccessorTuple("ProQuestRecord", proQuestParser, isProQuestFile),
+    ProccessorTuple("ScopusRecord", scopusParser, isScopusFile),
     #Raises exception if reached, to indicate the end of the list
     #This simplifes things at the other end
     ProccessorTuple("Invalid File", None, unrecognizedFileHandler),

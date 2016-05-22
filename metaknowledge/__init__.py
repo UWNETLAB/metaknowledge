@@ -58,4 +58,6 @@ from .medline import MedlineRecord
 
 from .proquest import ProQuestRecord
 
+from .scopus import *
+
 #from .blondel import blondel, modularity #Better implementations can be found on Pypi so this has been discontinued

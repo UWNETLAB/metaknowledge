@@ -2,12 +2,14 @@
 
 import collections
 import csv
+import re
+
+from .tagProcessing.tagFunctions import scopusTagToFunction
 
 from ..mkRecord import ExtendedRecord
 from ..mkExceptions import RCTypeError, BadScopusFile, BadScopusRecord
 
 scopusHeader = ['Authors', 'Title', 'Year', 'Source title', 'Volume', 'Issue', 'Art. No.', 'Page start', 'Page end', 'Page count', 'Cited by', 'DOI', 'Link', 'Affiliations', 'Authors with affiliations', 'Abstract', 'Author Keywords', 'Index Keywords', 'Molecular Sequence Numbers', 'Chemicals/CAS', 'Tradenames', 'Manufacturers', 'Funding Details', 'References', 'Correspondence Address', 'Editors', 'Sponsors', 'Publisher', 'Conference name', 'Conference date', 'Conference location', 'Conference code', 'ISSN', 'ISBN', 'CODEN', 'PubMed ID', 'Language of Original Document', 'Abbreviated Source Title', 'Document Type', 'Source', 'EID']
-
 
 class ScopusRecord(ExtendedRecord):
 
@@ -44,13 +46,15 @@ class ScopusRecord(ExtendedRecord):
 
     @staticmethod
     def tagProcessingFunc(tag):
-        return lambda x: x
+        return scopusTagToFunction[tag]
 
     def specialFuncs(self, key):
         raise KeyError
 
     def writeRecord(self, f):
         raise Exception
+firstQuotingRegex = re.compile(r'("")*"([^"]|"$)')
+innerQuotingRegex = re.compile(r'("")*"([^"|$])')
 
 def scopusRecordParser(record):
     splitRecord = record[:-1].split(',')
@@ -61,11 +65,17 @@ def scopusRecordParser(record):
         if currentVal == '':
             pass
         elif currentVal[-1] == '"':
-            if currentVal[0] != '"':
-                valString = currentVal[:-1]
+            if re.match(firstQuotingRegex, currentVal) is None:
+                valString = ',' + currentVal[:-1]
                 currentVal = splitRecord.pop()
-                while len(currentVal) == 0 or currentVal[0] != '"':
-                    valString = currentVal + valString
+                #double quotes (") are escaped by proceeding them with another double quote
+                #So an entry contatining:
+                #',"stuff,""quoted"",more stuff,""more quoted""",'
+                # whould be a single string belonging to 1 column that looks like:
+                #'stuff,"quoted",more stuff,"more quoted"'
+                #We are not going to unescape the quotation marks but we do have to deal with them
+                while re.match(innerQuotingRegex, currentVal) is None:
+                    valString = ',' + currentVal + valString
                     currentVal = splitRecord.pop()
                 valString = currentVal[1:] + valString
             else:

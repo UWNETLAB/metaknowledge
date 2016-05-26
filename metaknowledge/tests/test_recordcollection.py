@@ -244,6 +244,16 @@ class TestRecordCollection(unittest.TestCase):
         self.assertTrue(os.path.isfile(filename))
         self.assertEqual(os.path.getsize(filename), 88837)
         os.remove(filename)
+        self.RC.writeCSV(splitByTag = 'PY', onlyTheseTags = ['id', 'title', 'authorsFull', 'citations', 'keywords', 'DOI'])
+        yearsSt = set()
+        for R in self.RC:
+            yearsSt.add(str(R.get('PY', 2012)))
+        for year in yearsSt:
+            f = open("{}-testFile.csv".format(year))
+            self.assertEqual(f.readline(), '"id","TI","AF","CR","ID","DI","numAuthors"\n')
+            self.assertGreater(len(f.readline()), 1)
+            f.close()
+            os.remove("{}-testFile.csv".format(year))
 
     def test_writeBib(self):
         filename = 'testFile.bib'

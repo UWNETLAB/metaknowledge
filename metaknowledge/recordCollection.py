@@ -232,7 +232,7 @@ class RecordCollection(CollectionWithIDs):
             f.write('EF')
         f.close()
 
-    def writeCSV(self, fname = None, onlyTheseTags = None, numAuthors = True, longNames = False, firstTags = None, csvDelimiter = ',', csvQuote = '"', listDelimiter = '|'):
+    def writeCSV(self, fname = None, splitByTag = None, onlyTheseTags = None, numAuthors = True, longNames = False, firstTags = None, csvDelimiter = ',', csvQuote = '"', listDelimiter = '|'):
         """Writes all the `Records` from the collection into a csv file with each row a record and each column a tag.
 
         # Parameters
@@ -240,6 +240,12 @@ class RecordCollection(CollectionWithIDs):
         _fname_ : `optional [str]`
 
         > Default `None`, the name of the file to write to, if `None` it uses the collections name suffixed by .csv.
+
+        _splitByTag_ : `optional [str]`
+
+        > Default `None`, if a tag is given the output will be divided into different files according to the value of the tag, with only the records associated with that tag. For example if `'authorsFull'` is given then each file will only have the lines for `Records` that author is named in.
+
+        > The file names are the values of the tag followed by a dash then the normale name for the file as given by _fname_, e.g. for the year 2016 the file could be called `'2016-fname.csv'`.
 
         _onlyTheseTags_ : `optional [iterable]`
 
@@ -294,15 +300,28 @@ class RecordCollection(CollectionWithIDs):
             except KeyError:
                 raise KeyError("One of the tags could not be converted to a long name.")
         if fname:
-            f = open(fname, mode = 'w', encoding = 'utf-8')
+            baseFileName = fname
         else:
-            f = open(self.name[:200] + '.csv', mode = 'w', encoding = 'utf-8')
+            baseFileName = "{}.csv".format(self.name[:200])
         if numAuthors:
-            csvWriter = csv.DictWriter(f, retrievedFields + ["numAuthors"], delimiter = csvDelimiter, quotechar = csvQuote, quoting=csv.QUOTE_ALL)
+            csvWriterFields = retrievedFields + ["numAuthors"]
         else:
-            csvWriter = csv.DictWriter(f, retrievedFields, delimiter = csvDelimiter, quotechar = csvQuote, quoting=csv.QUOTE_ALL)
-        csvWriter.writeheader()
+            csvWriterFields = retrievedFields
+        if splitByTag is None:
+            f = open(baseFileName, mode = 'w', encoding = 'utf-8')
+            csvWriter = csv.DictWriter(f, csvWriterFields, delimiter = csvDelimiter, quotechar = csvQuote, quoting=csv.QUOTE_ALL)
+            csvWriter.writeheader()
+        else:
+            filesDict = {}
         for R in self:
+            if splitByTag:
+                try:
+                    splitVal = R[splitByTag]
+                except KeyError:
+                    continue
+                else:
+                    if not isinstance(splitVal, list):
+                        splitVal = [str(splitVal)]
             recDict = {}
             for t in retrievedFields:
                 value = R.get(t)
@@ -316,8 +335,23 @@ class RecordCollection(CollectionWithIDs):
                     recDict[t] = str(value)
             if numAuthors:
                 recDict["numAuthors"] = len(R['authorsShort'])
-            csvWriter.writerow(recDict)
-        f.close()
+            if splitByTag:
+                for sTag in splitVal:
+                    if sTag in filesDict:
+                        filesDict[sTag][1].writerow(recDict)
+                    else:
+                        fname = "{}-{}".format(sTag[:200], baseFileName)
+                        f = open(fname, mode = 'w', encoding = 'utf-8')
+                        csvWriter = csv.DictWriter(f, csvWriterFields, delimiter = csvDelimiter, quotechar = csvQuote, quoting=csv.QUOTE_ALL)
+                        csvWriter.writeheader()
+                        csvWriter.writerow(recDict)
+                        filesDict[sTag] = (f, csvWriter)
+            else:csvWriter.writerow(recDict)
+        if splitByTag:
+            for f, c in filesDict.values():
+                f.close()
+        else:
+            f.close()
 
     def writeBib(self, fname = None, maxStringLength = 1000, wosMode = False, reducedOutput = False, niceIDs = True):
         """Writes a bibTex entry to _fname_ for each `Record` in the collection.

@@ -23,6 +23,7 @@ digraph Records {
     CIHRGrant [label="{CIHRGrant|metaknowledge}"];
     MedlineGrant [label="{MedlineGrant|metaknowledge}"];
     NSERCGrant [label="{NSERCGrant|metaknowledge}"];
+    ScopusGrant [label="{ScopusGrant|metaknowledge}"];
 
     WOSRecord [label="{WOSRecord|metaknowledge.WOS}"];
     ProQuestRecord [label="{ProQuestRecord|metaknowledge.proquest}"];
@@ -53,6 +54,7 @@ digraph Records {
     CIHRGrant -> Grant;
     MedlineGrant -> Grant;
     NSERCGrant -> Grant;
+    ScopusGrant -> Grant
 
     ExtendedRecord -> ABCMeta [style=dashed];
     ExtendedRecord -> Record;

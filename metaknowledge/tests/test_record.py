@@ -122,7 +122,7 @@ class TestRecord(unittest.TestCase):
 
     def test_specials(self):
         for t in metaknowledge.specialRecordFields:
-            if t != 'id':
+            if t not in ['id', 'address', 'grants', 'selfCitation']:
                 self.assertIsInstance(self.R.getAltName(t), str)
 
 simplePaperString = """PT J

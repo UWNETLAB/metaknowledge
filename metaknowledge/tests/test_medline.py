@@ -30,6 +30,7 @@ class TestRecord(unittest.TestCase):
         self.assertTrue(R.bad)
         with self.assertRaises(metaknowledge.BadPubmedRecord):
             R.writeRecord('not a file')
+
     def test_isCollection(self):
         self.assertIsInstance(self.RC, metaknowledge.RecordCollection)
 

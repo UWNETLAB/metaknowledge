@@ -1,3 +1,5 @@
+from ...grants.scopusGrant import ScopusGrant
+
 def commaSpaceSeperated(val):
     return val.split(', ')
 
@@ -11,8 +13,10 @@ def stringValue(val):
     return val
 
 def integralValue(val):
-    print(val)
     return int(val)
+
+def grantValue(val):
+    return [ScopusGrant(s) for s in val.split('; ')]
 
 scopusTagToFunction = {
     'Authors' : commaSpaceSeperated,
@@ -37,7 +41,7 @@ scopusTagToFunction = {
     'Chemicals/CAS' : stringValue,
     'Tradenames' : semicolonSpaceSeperated,
     'Manufacturers' : semicolonSpaceSeperated,
-    'Funding Details' : semicolonSpaceSeperated,
+    'Funding Details' : grantValue,
     'References' : semicolonSpaceSeperated,
     'Correspondence Address' : semicolonSpaceSeperated,
     'Editors' : stringValue,

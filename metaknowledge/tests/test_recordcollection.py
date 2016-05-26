@@ -26,7 +26,7 @@ class TestRecordCollection(unittest.TestCase):
 
     def test_fullRead(self):
         RC = metaknowledge.RecordCollection("metaknowledge/tests/")
-        self.assertEqual(len(RC), 812)
+        self.assertEqual(len(RC), 1032)
 
     def test_caching(self):
         RC = metaknowledge.RecordCollection("metaknowledge/tests/", cached = True, name = 'testingCache', extension = 'testFile.isi')
@@ -219,7 +219,7 @@ class TestRecordCollection(unittest.TestCase):
 
     def test_contentType(self):
         RC = metaknowledge.RecordCollection('metaknowledge/tests/')
-        self.assertEqual(RC._collectedTypes, {'MedlineRecord', 'WOSRecord', 'ProQuestRecord'})
+        self.assertEqual(RC._collectedTypes, {'MedlineRecord', 'WOSRecord', 'ProQuestRecord', 'ScopusRecord'})
         self.assertEqual(self.RC._collectedTypes, {'WOSRecord'})
 
     def test_write(self):

@@ -9,6 +9,8 @@ import os
 from ..mkRecord import Record
 from ..mkExceptions import BadGrant
 
+
+
 class Grant(Record, collections.abc.MutableMapping):
 
     #Overwriting Record's attribute
@@ -76,6 +78,10 @@ def isDefaultGrantFile(fileName, useFileName = True, encoding = 'latin-1', diale
         with open(fileName, 'r', encoding = encoding) as openfile:
             #See if csv likes it
             reader = csv.DictReader(openfile, fieldnames = None, dialect = dialect)
+            
+            #Check that it is not a scopus file
+            if len(set(reader.fieldnames) & {'Conference location', 'Conference code', 'ISSN', 'ISBN', 'CODEN', 'PubMed ID', 'Language of Original Document', 'Abbreviated Source Title', 'Document Type', 'Source', 'EID'}) == 11:
+                return False
             #Check that every row can be read
             length = 0
             for row in reader:
@@ -87,7 +93,7 @@ def isDefaultGrantFile(fileName, useFileName = True, encoding = 'latin-1', diale
             #Check that there are rows to read
             if length < 1:
                 return False
-    except (StopIteration, UnicodeDecodeError, csv.Error):
+    except (StopIteration, UnicodeDecodeError, csv.Error, TypeError):
         #If any of theses exceptions are raised the nit is defintly not as csv file
         #We do not want to catch everything though as there could be an issue with the code
         return False

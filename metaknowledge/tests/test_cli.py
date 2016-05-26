@@ -82,7 +82,7 @@ class MyTestCase(unittest.TestCase):
                 f.close()
                 m.calledVals = ['1', '6', '0', '2', fileName[:-4], 'p','y']
                 self.assertEqual(metaknowledge.bin.mkCLI(), 1)
-                self.assertEqual(os.path.getsize(fileName), 1507929)
+                self.assertEqual(os.path.getsize(fileName), 4369044)
                 self.assertEqual(len(m.calledVals), 0)
                 os.remove(fileName)
 

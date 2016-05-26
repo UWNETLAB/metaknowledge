@@ -5,6 +5,7 @@ import csv
 import re
 
 from .tagProcessing.tagFunctions import scopusTagToFunction
+from .tagProcessing.specialFunctions import scopusSpecialTagToFunc
 
 from ..mkRecord import ExtendedRecord
 from ..mkExceptions import RCTypeError, BadScopusFile, BadScopusRecord
@@ -24,7 +25,7 @@ class ScopusRecord(ExtendedRecord):
                 fieldDict = scopusRecordParser(inRecord)
             else:
                 raise RCTypeError("Unsupported input type '{}', ScopusRecords cannot be created from '{}'".format(inRecord, type(inRecord)))
-        except BadScopusRecord as b:
+        except (BadScopusRecord, IndexError) as b:
             self.bad = True
             self.error = b
             fieldDict = collections.OrderedDict()
@@ -49,10 +50,14 @@ class ScopusRecord(ExtendedRecord):
         return scopusTagToFunction[tag]
 
     def specialFuncs(self, key):
-        raise KeyError
+        return scopusSpecialTagToFunc[key](self)
 
     def writeRecord(self, f):
-        raise Exception
+        if self.bad:
+            raise BadScopusRecord("This record cannot be converted to a file as the input was malformed.\nThe original line number (if any) is: {} and the original file is: '{}'".format(self._sourceLine, self._sourceFile))
+        else:
+            f.write(','.join(('"{}"'.format(self._fieldDict.get(k, '')) for k in scopusHeader)))
+
 firstQuotingRegex = re.compile(r'("")*"([^"]|"$)')
 innerQuotingRegex = re.compile(r'("")*"([^"|$])')
 
@@ -80,7 +85,7 @@ def scopusRecordParser(record):
                 valString = currentVal[1:] + valString
             else:
                 try:
-                    valString = int(currentVal[1:-1])
+                    valString = currentVal[1:-1]
                 except ValueError:
                     valString = currentVal[1:-1]
             tagDict[key] = valString

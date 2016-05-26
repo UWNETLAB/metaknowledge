@@ -5,17 +5,21 @@ import sys
 __version__ = '2.1.0'
 
 specialRecordFields = [
-    'authorsShort',
-    'authorsFull',
     'year',
-    'month',
-    'title',
-    'DOI',
     'volume',
     'beginningPage',
+    'DOI',
+    'address',
     'j9',
     'citations',
-    'pubType',
+    'grants',
+    'selfCitation',
+    'authorsShort',
+    'authorsFull',
+    'title',
+    'journal',
+    'keywords',
+    'abstract',
     'id',
 ]
 

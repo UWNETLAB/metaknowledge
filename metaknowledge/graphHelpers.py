@@ -327,6 +327,54 @@ def writeNodeAttributeFile(grph, name, allSameAttribute = False, _progBar = None
         if not isinstance(_progBar, _ProgressBar):
             PBar.finish("Done node attribute list: {}, {} nodes written.".format(name, count))
 
+def writeTnetFile(name, grph, modeName, weighted = False, nodeIndexString = "tnet-ID", weightString = 'weight'):
+    count = 0
+    eMax = len(grph.edges())
+    cMax = len(grph.nodes())
+    progArgs = (0, "Writing tnet edge list {}".format(name))
+    if metaknowledge.VERBOSE_MODE:
+        progKwargs = {'dummy' : False}
+    else:
+        progKwargs = {'dummy' : True}
+    with _ProgressBar(*progArgs, **progKwargs) as PBar:
+        modes = []
+        mode1Set = set()
+        PBar.updateVal(.1, "Indexing nodes for tnet")
+        for nodeIndex, node in enumerate(grph.nodes_iter(data = True), start = 1):
+            try:
+                nMode = node[1][modeName]
+            except KeyError:
+                #too many modes so will fail
+                modes = [1,2,3]
+                nMode = 4
+            if nMode not in modes:
+                if len(modes) < 2:
+                    modes.append(nMode)
+                else:
+                    raise RCValueError("Too many modes of '{}' found in the network or one of the nodes was missing its mode. There must be exactly 2 modes.".format(modeName))
+            if nMode == modes[0]:
+                mode1Set.add(node[0])
+            node[1][nodeIndexString] = nodeIndex
+        if len(modes) != 2:
+            raise RCValueError("Too few modes of '{}' found in the network. There must be exactly 2 modes.".format(modeName))
+        with open(name, 'w', encoding = 'utf-8') as f:
+            for n1, n2, eDict in grph.edges_iter(data = True):
+                count += 1
+                if count % 1000 == 1:
+                    PBar.updateVal(count/ eMax * .9 + .1, "writing edge: '{}'-'{}'".format(n1, n2))
+                if n1 in mode1Set:
+                    if n2 in mode1Set:
+                        raise RCValueError("The nodes '{}' and '{}' have an edge and the same type. The network must be purely 2-mode.".format(n1, n2))
+                elif n2 in mode1Set:
+                    n1, n2 = n2, n1
+                else:
+                    raise RCValueError("The nodes '{}' and '{}' have an edge and the same type. The network must be purely 2-mode.".format(n1, n2))
+                if weighted:
+                    f.write("{} {} {}\n".format(grph.node[n1][nodeIndexString], grph.node[n2][nodeIndexString], eDict[weightString]))
+                else:
+                    f.write("{} {}\n".format(grph.node[n1][nodeIndexString], grph.node[n2][nodeIndexString]))
+        PBar.finish("Done writing tnet file '{}'".format(name))
+
 def getWeight(grph, nd1, nd2, weightString = "weight", returnType = int):
     """
     A way of getting the weight of an edge with or without weight as a parameter

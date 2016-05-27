@@ -45,7 +45,7 @@ from .mkExceptions import BadCitation, BadGrant, BadInputFile, BadProQuestFile, 
 from .grantCollection import GrantCollection
 from .mkCollection import Collection, CollectionWithIDs
 
-from .graphHelpers import writeEdgeList, writeNodeAttributeFile, writeGraph, readGraph, dropEdges, dropNodesByDegree, dropNodesByCount, mergeGraphs, graphStats
+from .graphHelpers import writeEdgeList, writeNodeAttributeFile, writeGraph, readGraph, dropEdges, dropNodesByDegree, dropNodesByCount, mergeGraphs, graphStats, writeTnetFile
 from .constants import VERBOSE_MODE, __version__, specialRecordFields, FAST_CITES
 from .diffusion import diffusionGraph, diffusionCount, diffusionAddCountsFromSource
 

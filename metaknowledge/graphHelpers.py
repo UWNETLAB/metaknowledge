@@ -194,7 +194,7 @@ def writeEdgeList(grph, name, extraInfo = True, allSameAttribute = False, _progB
     > Default `False`, if `True` all the edges must have the same attributes or an exception will be raised. If `False` the missing attributes will be left blank.
     """
     count = 0
-    eMax = len(grph.edges(data = True))
+    eMax = len(grph.edges())
     if metaknowledge.VERBOSE_MODE or isinstance(_progBar, _ProgressBar):
         if isinstance(_progBar, _ProgressBar):
             PBar = _progBar
@@ -229,7 +229,7 @@ def writeEdgeList(grph, name, extraInfo = True, allSameAttribute = False, _progB
         count = 0
         PBar.updateVal(.01, "Opening file {}".format(name))
         f = open(os.path.expanduser(os.path.abspath(name)), 'w')
-        outFile = csv.DictWriter(f, csvHeader, delimiter = ',', quotechar = '"', quoting=csv.QUOTE_ALL)
+        outFile = csv.DictWriter(f, csvHeader, delimiter = ',', quotechar = '"', quoting=csv.QUOTE_NONNUMERIC)
         outFile.writeheader()
         if extraInfo:
             for e in grph.edges_iter(data = True):
@@ -310,7 +310,7 @@ def writeNodeAttributeFile(grph, name, allSameAttribute = False, _progBar = None
         count = 0
         PBar.updateVal(.10, "Opening '{}'".format(name))
         f = open(name, 'w')
-        outFile = csv.DictWriter(f, csvHeader, delimiter = ',', quotechar = '"', quoting = csv.QUOTE_ALL)
+        outFile = csv.DictWriter(f, csvHeader, delimiter = ',', quotechar = '"', quoting = csv.QUOTE_NONNUMERIC)
         outFile.writeheader()
         for n in grph.nodes_iter(data = True):
             count += 1
@@ -327,7 +327,7 @@ def writeNodeAttributeFile(grph, name, allSameAttribute = False, _progBar = None
         if not isinstance(_progBar, _ProgressBar):
             PBar.finish("Done node attribute list: {}, {} nodes written.".format(name, count))
 
-def writeTnetFile(name, grph, modeName, weighted = False, nodeIndexString = "tnet-ID", weightString = 'weight'):
+def writeTnetFile(grph, name, modeName, weighted = False, timeString = None, nodeIndexString = "tnet-ID", weightString = 'weight'):
     count = 0
     eMax = len(grph.edges())
     cMax = len(grph.nodes())
@@ -369,10 +369,14 @@ def writeTnetFile(name, grph, modeName, weighted = False, nodeIndexString = "tne
                     n1, n2 = n2, n1
                 else:
                     raise RCValueError("The nodes '{}' and '{}' have an edge and the same type. The network must be purely 2-mode.".format(n1, n2))
-                if weighted:
-                    f.write("{} {} {}\n".format(grph.node[n1][nodeIndexString], grph.node[n2][nodeIndexString], eDict[weightString]))
+                if timeString is not None:
+                    eTimeString = '"{}" '.format(eDict[timeString])
                 else:
-                    f.write("{} {}\n".format(grph.node[n1][nodeIndexString], grph.node[n2][nodeIndexString]))
+                    eTimeString = ''
+                if weighted:
+                    f.write("{}{} {} {}\n".format(eTimeString, grph.node[n1][nodeIndexString], grph.node[n2][nodeIndexString], eDict[weightString]))
+                else:
+                    f.write("{}{} {}\n".format(eTimeString, grph.node[n1][nodeIndexString], grph.node[n2][nodeIndexString]))
         PBar.finish("Done writing tnet file '{}'".format(name))
 
 def getWeight(grph, nd1, nd2, weightString = "weight", returnType = int):

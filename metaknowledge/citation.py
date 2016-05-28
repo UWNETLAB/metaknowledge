@@ -54,61 +54,64 @@ class Citation(collections.abc.Hashable):
 
     > A str containing a WOS style citation.
     """
-    #citeRegex = re.compile(r"(([^,]+), )((DOI (.+))?|.+?)")
-    citeRegex = re.compile(r"([^0-9,][^,]+)?(, )?(-?[0-9]{1,5})?(, )?([^,]+)?(, (V[^,]+))?(, (P[^,]+))?($|, DOI (.+)|((.+?)(, DOI (.+))?))")
-    #citeRegex = re.compile(r"([^0-9,].+?)?(, )?(-?[0-9]{1,5})?(, )?(.+?)?(, (V.+?))?(, (P.+?))?($|, DOI (.+)|((.+?)(, DOI (.+))?))")
+    wosCiteRegex = re.compile(r"([^0-9,][^,]+)?(, )?(-?[0-9]{1,5})?(, )?([^,]+)?(, (V[^,]+))?(, (P[^,]+))?($|, DOI (.+)|((.+?)(, DOI (.+))?))")
 
-    def __init__(self, cite):
+    scopusCiteRegex = re.compile(r"[^,]*\(\d{2,5}\)[^,]*(, ([^,]+?))?(, p?p\.[^\s]+), ")
+
+    def __init__(self, cite, scopusMode = False):
         #save original
         #setup attributes
         #Nunez R., 1998, MATH COGNITION, V4, P85, DOI 10.1080/135467998387343
         #Author, Year, Journal, Volume, Page, DOI
-        regex = re.match(self.citeRegex, cite.upper())
-        if regex is None:
-            self.bad = True
-            self.error = BadCitation("Regex parsing failed.")
-        try:
-            self.author = regex.group(1).replace('.', '').title()
-        except AttributeError:
-            self.author = None
-        try:
-            self.year = int(regex.group(3))
-        except TypeError:
-            self.year = None
-        self.journal = regex.group(5)
-        self.V = regex.group(7)
-        self.P = regex.group(9)
-        self.DOI = regex.group(11)
-        if regex.group(12) is not None:
-            self.misc = regex.group(12)
-            self.DOI = regex.group(15)
-            self.bad = True
-            self.error = BadCitation("The citation did not fully match the expected pattern")
-            atrLst = []
-            if self.author:
-                atrLst.append(self.author)
-            if self.year:
-                atrLst.append(str(self.year))
-            if self.journal:
-                atrLst.append(self.journal)
-            self._id =  ', '.join(atrLst)
-        elif self.author is None or self.year is None or self.journal is None:
-            self.bad = True
-            self.misc = None
-            self.error = BadCitation("Not a complete set of author, year and journal")
-            atrLst = []
-            if self.author:
-                atrLst.append(self.author)
-            if self.year:
-                atrLst.append(str(self.year))
-            if self.journal:
-                atrLst.append(self.journal)
-            self._id =  ', '.join(atrLst)
+        if scopusMode:
+            regex = re.match(self.scopusCiteRegex, cite.upper())
         else:
-            self.bad = False
-            self.error = None
-            self.misc = None
-            self._id =  "{0}, {1}, {2}".format(self.author, self.year, self.journal)
+            regex = re.match(self.wosCiteRegex, cite.upper())
+            if regex is None:
+                self.bad = True
+                self.error = BadCitation("Regex parsing failed.")
+            try:
+                self.author = regex.group(1).replace('.', '').title()
+            except AttributeError:
+                self.author = None
+            try:
+                self.year = int(regex.group(3))
+            except TypeError:
+                self.year = None
+            self.journal = regex.group(5)
+            self.V = regex.group(7)
+            self.P = regex.group(9)
+            self.DOI = regex.group(11)
+            if regex.group(12) is not None:
+                self.misc = regex.group(12)
+                self.DOI = regex.group(15)
+                self.bad = True
+                self.error = BadCitation("The citation did not fully match the expected pattern")
+                atrLst = []
+                if self.author:
+                    atrLst.append(self.author)
+                if self.year:
+                    atrLst.append(str(self.year))
+                if self.journal:
+                    atrLst.append(self.journal)
+                self._id =  ', '.join(atrLst)
+            elif self.author is None or self.year is None or self.journal is None:
+                self.bad = True
+                self.misc = None
+                self.error = BadCitation("Not a complete set of author, year and journal")
+                atrLst = []
+                if self.author:
+                    atrLst.append(self.author)
+                if self.year:
+                    atrLst.append(str(self.year))
+                if self.journal:
+                    atrLst.append(self.journal)
+                self._id =  ', '.join(atrLst)
+            else:
+                self.bad = False
+                self.error = None
+                self.misc = None
+                self._id =  "{0}, {1}, {2}".format(self.author, self.year, self.journal)
         if not metaknowledge.FAST_CITES:
             self.original = cite
         else:
@@ -162,7 +165,7 @@ class Citation(collections.abc.Hashable):
         > `True` if the author is `'[ANONYMOUS]'` otherwise `False`.
         """
         return self.author == "[Anonymous]"
-    #@profile
+
     def ID(self):
         """
         Returns all of `author`, `year` and `journal` available separated by `' ,'`. It is for shortening labels when creating networks as the resultant strings are often unique. [**Extra**()](#Citation.Extra) gets everything not returned by **ID**().

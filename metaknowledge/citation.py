@@ -56,7 +56,7 @@ class Citation(collections.abc.Hashable):
     """
     wosCiteRegex = re.compile(r"([^0-9,][^,]+)?(, )?(-?[0-9]{1,5})?(, )?([^,]+)?(, (V[^,]+))?(, (P[^,]+))?($|, DOI (.+)|((.+?)(, DOI (.+))?))")
 
-    scopusCiteRegex = re.compile(r"([\w\- ]+, [\w\.\-]+\.), (([\w\- ]+, [\w\-\.]+\., )+)?([^(]+? )?\((\d{2,5})\) ([^,]+)(, ([^,]*))?(, (p?p\. .*))?(.*)")
+    scopusCiteRegex = re.compile(r"([\w\- ]+, [\w\.\-]+\.), (([\w\- ]+, [\w\-\.]+\., )+)?([^(]+? )?\((\d{2,5})\) ([^,]+)(, ([\w-]+)( \(([\w-]*)\))?)?(, P?P\. ([\w-]*))?(.*)")
 
 
     #(.*?, )?[^,(]*\((\d{2,5}\))[^,]*(, [^,(]*( \(\d+\))?)?(, (p?p\. .*))?")
@@ -67,16 +67,36 @@ class Citation(collections.abc.Hashable):
         #Nunez R., 1998, MATH COGNITION, V4, P85, DOI 10.1080/135467998387343
         #Author, Year, Journal, Volume, Page, DOI
         if scopusMode:
-            self.bad = False
-            self.error = None
             regex = re.match(self.scopusCiteRegex, cite.upper())
             if regex is None:
                 self.bad = True
                 self.error = BadCitation("Regex parsing failed on a Scopus Citation this means the Citation is likely for a non-journal.")
                 self._id = cite
             else:
-                self.regex = regex
-
+                self.author = regex.group(1)
+                self.extraAuthors = regex.group(2)
+                self.name = regex.group(4)
+                self.year = int(regex.group(5))
+                self.journal = regex.group(6)
+                self.V = regex.group(8)
+                self.issue = regex.group(10)
+                self.P = regex.group(12)
+                self.misc = regex.group(13)
+                if self.author and self.journal and self.year:
+                    self.bad = False
+                    self.error = None
+                    self._id =  "{0}, {1}, {2}".format(self.author, self.year, self.journal)
+                else:
+                    self.bad = True
+                    self.error = BadCitation("Not a complete set of author, year and journal")
+                    atrLst = []
+                    if self.author:
+                        atrLst.append(self.author)
+                    if self.year:
+                        atrLst.append(str(self.year))
+                    if self.journal:
+                        atrLst.append(self.journal)
+                    self._id =  ', '.join(atrLst)
         else:
             regex = re.match(self.wosCiteRegex, cite.upper())
             if regex is None:

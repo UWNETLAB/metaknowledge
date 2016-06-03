@@ -196,7 +196,10 @@ class Citation(collections.abc.Hashable):
 
         > `True` if the author is `'[ANONYMOUS]'` otherwise `False`.
         """
-        return self.author == "[Anonymous]"
+        try:
+            return self.author == "[Anonymous]"
+        except AttributeError:
+            return True
 
     def ID(self):
         """
@@ -222,11 +225,11 @@ class Citation(collections.abc.Hashable):
 
         > A string containing the data of the Citation.
         """
-        extraTags = ['V', 'P', 'misc']
+        extraTags = ['extraAuthors', 'V', 'issue', 'P', 'misc']
         s = self.ID()
         extras = []
         for tag in extraTags:
-            if getattr(self, tag):
+            if getattr(self, tag, False):
                 extras.append(str(getattr(self, tag)))
         if len(extras) > 0:
             return "{0}, {1}".format(s, ', '.join(extras))

@@ -82,7 +82,7 @@ class MyTestCase(unittest.TestCase):
                 f.close()
                 m.calledVals = ['1', '6', '0', '2', fileName[:-4], 'p','y']
                 self.assertEqual(metaknowledge.bin.mkCLI(), 1)
-                self.assertEqual(os.path.getsize(fileName), 4369044)
+                self.assertEqual(os.path.getsize(fileName), 4110112)
                 self.assertEqual(len(m.calledVals), 0)
                 os.remove(fileName)
 
@@ -201,8 +201,8 @@ class MyTestCase(unittest.TestCase):
                 m.calledVals = ['1']
                 metaknowledge.bin.metaknowledgeCLI.outputNetwork(named, self.G)
                 #filesize is slightly non deteministic
-                self.assertAlmostEqual(os.path.getsize(fileName + '_edgeList.csv'), 1495, delta = 3)
-                self.assertAlmostEqual(os.path.getsize(fileName + '_nodeAttributes.csv'), 876, delta = 3)
+                self.assertAlmostEqual(os.path.getsize(fileName + '_edgeList.csv'), 1403, delta = 3)
+                self.assertAlmostEqual(os.path.getsize(fileName + '_nodeAttributes.csv'), 784, delta = 4)
                 os.remove(fileName + '_nodeAttributes.csv')
                 os.remove(fileName + '_edgeList.csv')
                 self.assertEqual(len(m.calledVals), 0)

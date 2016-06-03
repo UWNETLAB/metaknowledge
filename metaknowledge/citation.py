@@ -56,7 +56,10 @@ class Citation(collections.abc.Hashable):
     """
     wosCiteRegex = re.compile(r"([^0-9,][^,]+)?(, )?(-?[0-9]{1,5})?(, )?([^,]+)?(, (V[^,]+))?(, (P[^,]+))?($|, DOI (.+)|((.+?)(, DOI (.+))?))")
 
-    scopusCiteRegex = re.compile(r"[^,]*\(\d{2,5}\)[^,]*(, ([^,]+?))?(, p?p\.[^\s]+), ")
+    scopusCiteRegex = re.compile(r"([\w\- ]+, [\w\.\-]+\.), (([\w\- ]+, [\w\-\.]+\., )+)?([^(]+? )?\((\d{2,5})\) ([^,]+)(, ([^,]*))?(, (p?p\. .*))?(.*)")
+
+
+    #(.*?, )?[^,(]*\((\d{2,5}\))[^,]*(, [^,(]*( \(\d+\))?)?(, (p?p\. .*))?")
 
     def __init__(self, cite, scopusMode = False):
         #save original
@@ -64,7 +67,16 @@ class Citation(collections.abc.Hashable):
         #Nunez R., 1998, MATH COGNITION, V4, P85, DOI 10.1080/135467998387343
         #Author, Year, Journal, Volume, Page, DOI
         if scopusMode:
+            self.bad = False
+            self.error = None
             regex = re.match(self.scopusCiteRegex, cite.upper())
+            if regex is None:
+                self.bad = True
+                self.error = BadCitation("Regex parsing failed on a Scopus Citation this means the Citation is likely for a non-journal.")
+                self._id = cite
+            else:
+                self.regex = regex
+
         else:
             regex = re.match(self.wosCiteRegex, cite.upper())
             if regex is None:

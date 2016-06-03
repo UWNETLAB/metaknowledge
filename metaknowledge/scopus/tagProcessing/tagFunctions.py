@@ -1,4 +1,5 @@
 from ...grants.scopusGrant import ScopusGrant
+from ...citation import Citation
 
 def commaSpaceSeperated(val):
     return val.split(', ')
@@ -17,6 +18,9 @@ def integralValue(val):
 
 def grantValue(val):
     return [ScopusGrant(s) for s in val.split('; ')]
+
+def citeValue(val):
+    return [Citation(s, scopusMode = True) for s in val.split('; ')]
 
 scopusTagToFunction = {
     'Authors' : commaSpaceSeperated,
@@ -42,7 +46,7 @@ scopusTagToFunction = {
     'Tradenames' : semicolonSpaceSeperated,
     'Manufacturers' : semicolonSpaceSeperated,
     'Funding Details' : grantValue,
-    'References' : semicolonSpaceSeperated,
+    'References' : citeValue,
     'Correspondence Address' : semicolonSpaceSeperated,
     'Editors' : stringValue,
     'Sponsors' : semicolonSeperated,

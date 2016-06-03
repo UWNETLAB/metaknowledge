@@ -5,8 +5,8 @@ scopusSpecialTagToFunc = {
     #'DOI' : lambda R : R['DOI'], Causese recursion errors if not commented out
     #'address' : lambda R : R[''],
     'j9' : lambda R : R['Abbreviated Source Title'],
-    #'citations' : lambda R : R[''],
-    #'grants' : lambda R : R[''],
+    'citations' : lambda R : R['References'],
+    #'grants' : lambda R : R['References'],
     'selfCitation' : lambda R : R.createCitation(),
     'authorsShort' : lambda R : R['Authors'],
     'authorsFull' : lambda R : R['Authors'],

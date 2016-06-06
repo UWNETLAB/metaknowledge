@@ -4,6 +4,7 @@ from .mkExceptions import UnknownFile
 
 from .grants.cihrGrant import parserCIHRfile, isCIHRfile
 from .grants.nsercGrant import parserNSERCfile, isNSERCfile
+from .grants.nsfGrant import parserNSFfile, isNSFfile
 from .grants.baseGrant import parserDefaultGrantFile, isDefaultGrantFile
 
 from .WOS.wosHandlers import isWOSFile, wosParser
@@ -17,6 +18,7 @@ def unrecognizedFileHandler(fileName):
     raise UnknownFile("'{}' is not recognized my metaknowledge.".format(fileName))
 
 grantProcessors = [
+    ProccessorTuple("NSFGrant", parserNSFfile, isNSFfile),
     ProccessorTuple("CIHRGrant", parserCIHRfile, isCIHRfile),
     ProccessorTuple("NSERCGrant", parserNSERCfile, isNSERCfile),
     ProccessorTuple("DefaultGrant", parserDefaultGrantFile, isDefaultGrantFile),

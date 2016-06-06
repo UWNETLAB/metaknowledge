@@ -37,7 +37,7 @@ from .grants.medlineGrant import MedlineGrant
 from .grants.cihrGrant import CIHRGrant
 from .grants.nsercGrant import NSERCGrant
 
-
+from .grants.nsfGrant import *
 
 from .recordCollection import RecordCollection
 from .mkExceptions import BadCitation, BadGrant, BadInputFile, BadProQuestFile, BadProQuestRecord, BadPubmedFile, BadPubmedRecord, BadRecord, BadWOSFile, BadWOSRecord, CollectionTypeError, GrantCollectionException, RCTypeError, RCValueError, RecordsNotCompatible, UnknownFile, cacheError, mkException, TagError

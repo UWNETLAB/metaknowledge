@@ -3,7 +3,7 @@ import unittest
 import metaknowledge
 
 
-class TestHelpers(unittest.TestCase):
+class TestDiffusion(unittest.TestCase):
     def setUp(self):
         metaknowledge.VERBOSE_MODE = False
         self.RC = metaknowledge.RecordCollection("metaknowledge/tests/testFile.isi")
@@ -25,7 +25,7 @@ class TestHelpers(unittest.TestCase):
         dc = metaknowledge.diffusionCount(self.RC, self.RC, compareCounts = True)
         dWC = metaknowledge.diffusionCount(self.RC, self.RC, sourceType = "WC")
         self.assertIsInstance(d.keys().__iter__().__next__(), metaknowledge.Record)
-        self.assertTrue(-1 < d.values().__iter__().__next__() < 8)
+        self.assertTrue(-1 < d.values().__iter__().__next__() < 10)
         self.assertIsInstance(list(dWC.keys())[0], str)
         self.assertTrue(-1 < dWC.values().__iter__().__next__() < 24)
         for t in dc.values():

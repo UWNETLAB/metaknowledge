@@ -826,8 +826,10 @@ class CollectionWithIDs(Collection):
                 if PBar:
                     count += 1
                     PBar.updateVal(count / len(self), "Analyzing: {}".format(R))
-                if edgeAttribute:
-                    edgeVals = [str(v) for v in getattr(R, edgeAttribute, [])]
+                if edgeAttribute is not None:
+                    edgeVals = R.get(edgeAttribute, [])
+                    if not isinstance(edgeVals, list):
+                        edgeVals = [edgeVals]
                 contents1 = R.get(tag1)
                 contents2 = R.get(tag2)
                 if isinstance(contents1, list):

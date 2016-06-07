@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<rootTag>
+  <Award>
+    <AwardTitle>Development and Testing of a Global Quasi-3-D Multi-scale Modeling Framework</AwardTitle>
+    <AwardEffectiveDate>02/01/2016</AwardEffectiveDate>
+    <AwardExpirationDate>01/31/2019</AwardExpirationDate>
+    <AwardAmount>656746</AwardAmount>
+    <AwardInstrument>
+      <Value>Standard Grant</Value>
+    </AwardInstrument>
+    <Organization>
+      <Code>06020106</Code>
+      <Directorate>
+        <LongName>Directorate For Geosciences</LongName>
+      </Directorate>
+      <Division>
+        <LongName>Div Atmospheric &amp; Geospace Sciences</LongName>
+      </Division>
+    </Organization>
+    <ProgramOfficer>
+      <SignBlockName>Eric T. DeWeaver</SignBlockName>
+    </ProgramOfficer>
+    <AbstractNarration>Global atmospheric general circulation models (GCMs) used for weather prediction and climate modeling typically divide the atmosphere into a grid, with a single value for atmospheric variables like temperature and pressure in each grid box. As the grid boxes are typically tens of kilometers wide or more it is not possible to represent individual clouds, or even cloud systems, in such models. Instead the net effect of clouds and other small-scale processes on the larger scale atmospheric flow must be approximated through the use of parameterizations, and this representation is a key source of errors in weather forecasts and uncertainty in future climate change projections. Alternative methods of representing clouds and their interactions with large-scale atmospheric conditions are therefore desirable for forecasting the weather and providing decision support to stakeholders concerned with the impacts of climate variability and change.&lt;br/&gt;&lt;br/&gt;This award supports the development and testing of a novel atmospheric model, the global quasi-3D Multiscale Modeling Framework (Q3D MMF). The model is an extension of the Super-Parameterizaton (SP) scheme developed by the Center for Multiscale Modeling of Atmospheric Processes (CMMAP, see AGS-0425247), the Science and Technology Center (STC). The SP MMF consists of a global atmospheric general circulation model (GCM) in which the parameterizations for cloud processes and other subgrid-scale processes in each grid column are replaced by a high-resolution cloud resolving model (CRM). CMMAP has already produced an SP version of the Community Atmosphere Model (CAM, or SP-CAM for the SP version). But SP-CAM uses a two-dimensional (2D) CRM in which the domain is a vertical plane oriented in either the zonal (x-) or meridional (y-) direction and periodic boundary conditions in the x- or y-direction. These restrictions are imposed to reduce computational cost, and to relax them entirely would require a global CRM (GCRM) which is too computationally expensive for most purposes. &lt;br/&gt;&lt;br/&gt;Alternatively, the Q3D MMF partially relaxes the conditions by using CRMs with domains that are narrow channels with only a few gridpoints in the cross-channel domain. The channels connect with their counterparts in neighboring cells of the GCM, thus avoiding periodic boundary conditions at either end of the channel. Moreover, each grid cell of the GCM has two such channel-shaped CRMs, oriented in the zonal and meridional direction, to allow for directional anisotropy due to surface topography and other factors.The zonal and meridional CRM channels thus extend around the globe without interruption and intersect each other at adjacent grid cells of the parent GCM. The channel models do not interact at the intersections, as that would result in unphysical behavior associated with a cross-shaped domain. The separate CRM channels communicate only with the GCM, receiving background information from the GCM and supplying the GCM with the outputs expected from standard grid column parameterizations found in conventional GCMs. Work here is an extension of previous work at CMMAP, including the development of a simpler version in which the CRMs are embedded in a regional model over an idealized tropical domain. Work under this award includes several tasks required to develop a global model from this prototype, including inclusion of topography and conversion from a periodic Cartesian domain to a realistic GCM domain.&lt;br/&gt;&lt;br/&gt;The work has broader impacts for the research community because it develops a new atmospheric model which is applicable to a range of research areas related to the impact of clouds on large-scale weather and climate phenomena. To ensure accessibility to the broader research community, the Q3D MMF will be constructed using a version of CAM (the spectral element version) as the GCM component. CAM is freely available, well supported and documented, and widely used, thereby maximizing accessibility. In addition, CAM is the atmospheric component model of the Community Earth System Model, which is used for projections of future climate change that inform decision makers concerned with climate impacts on natural and human systems.</AbstractNarration>
+    <MinAmdLetterDate>01/27/2016</MinAmdLetterDate>
+    <MaxAmdLetterDate>01/27/2016</MaxAmdLetterDate>
+    <ARRAAmount/>
+    <AwardID>1500187</AwardID>
+    <Investigator>
+      <FirstName>David</FirstName>
+      <LastName>Randall</LastName>
+      <EmailAddress>randall@atmos.colostate.edu</EmailAddress>
+      <StartDate>01/27/2016</StartDate>
+      <EndDate/>
+      <RoleCode>Co-Principal Investigator</RoleCode>
+    </Investigator>
+    <Investigator>
+      <FirstName>Celal</FirstName>
+      <LastName>Konor</LastName>
+      <EmailAddress>csk@atmos.colostate.edu</EmailAddress>
+      <StartDate>01/27/2016</StartDate>
+      <EndDate/>
+      <RoleCode>Co-Principal Investigator</RoleCode>
+    </Investigator>
+    <Investigator>
+      <FirstName>JOON-HEE</FirstName>
+      <LastName>JUNG</LastName>
+      <EmailAddress>jung@atmos.colostate.edu</EmailAddress>
+      <StartDate>01/27/2016</StartDate>
+      <EndDate/>
+      <RoleCode>Principal Investigator</RoleCode>
+    </Investigator>
+    <Institution>
+      <Name>Colorado State University</Name>
+      <CityName>Fort Collins</CityName>
+      <ZipCode>805232002</ZipCode>
+      <PhoneNumber>9704916355</PhoneNumber>
+      <StreetAddress>601 S Howes St</StreetAddress>
+      <CountryName>United States</CountryName>
+      <StateName>Colorado</StateName>
+      <StateCode>CO</StateCode>
+    </Institution>
+    <ProgramElement>
+      <Code>5740</Code>
+      <Text>CLIMATE &amp; LARGE-SCALE DYNAMICS</Text>
+    </ProgramElement>
+    <ProgramReference>
+      <Code>OTHR</Code>
+      <Text>OTHER RESEARCH OR EDUCATION</Text>
+    </ProgramReference>
+  </Award>
+</rootTag>

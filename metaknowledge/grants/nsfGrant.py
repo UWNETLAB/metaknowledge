@@ -29,7 +29,7 @@ def isNSFfile(fileName, useFileName = True):
             return False
         else:
             return True
-    except ET.ParseError:
+    except (ET.ParseError, UnicodeError):
         return False
 
 def parserNSFfile(fileName):
@@ -73,9 +73,6 @@ def parserNSFfile(fileName):
                 for subElement in xmlElement:
                     if subElement.text is not None:
                         elmComps.append(subElement.text)
-                        if ';' in subElement.text:
-                            print(top.find('AwardID').text)
-                            print("{}\t:\t{}".format(subElement.tag, subElement.text))
                 grantDict[xmlElement.tag].append('; '.join(elmComps))
         grantSet.add(NSFGrant(grantDict, fileName))
     except (ET.ParseError, UnicodeError):

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<rootTag>
+  <Award>
+    <AwardTitle>PFI:AIR - TT: Pulsed Shaped Magnetic Fields to Focus Therapy to Deep Tissue Targets</AwardTitle>
+    <AwardEffectiveDate>05/15/2015</AwardEffectiveDate>
+    <AwardExpirationDate>10/31/2016</AwardExpirationDate>
+    <AwardAmount>200000</AwardAmount>
+    <AwardInstrument>
+      <Value>Standard Grant</Value>
+    </AwardInstrument>
+    <Organization>
+      <Code>07070000</Code>
+      <Directorate>
+        <LongName>Directorate For Engineering</LongName>
+      </Directorate>
+      <Division>
+        <LongName>Div Of Industrial Innovation &amp; Partnersh</LongName>
+      </Division>
+    </Organization>
+    <ProgramOfficer>
+      <SignBlockName>Barbara H. Kenny</SignBlockName>
+    </ProgramOfficer>
+    <AbstractNarration>This PFI: AIR Technology Translation (TT) project aims to enable a safe and effective magnetic focusing of magnetic particle therapies to address inoperable deep tissue tumors. The proposed technique of pulsed magnetic focusing will deliver nanotherapeutics to deep targets in order to direct chemotherapy to where it needs to go in the body. If successful, this technique would enable a technology that could improve treatment for a wide range of diseases. The project will result in a prototype device that will dynamically focus nanorods to deep targets in preclinical studies. In this research, biocompatible nanorods are first aligned in one direction by a fast magnetic pulse, and then before they can turn around a second shaped fast magnetic pulse applies forces on the rods that serve to focus them to a central target. Repeat magnetic pulsing brings all the rods to a central target between the magnets. These features provide the key advantage that therapy can now be focused to a deep target between magnets, for example to treat inoperable deep tissue tumors. Focusing of therapy to deep tissue targets has been a key goal in magnetic drug targeting, and prior efforts in this field have not yet been able to achieve this goal. &lt;br/&gt;&lt;br/&gt;This project addresses the following technology gap(s) as it translates from research discovery toward commercial application. Dynamic magnetic focusing of nanorods to a target between magnets was shown in benchtop experiments. In this NSF AIR TT research, the technology will be tested in tissue samples, scaled up to an in-vivo system, and its safety and utility shall be optimized and verified. In addition, personnel involved in this project will receive innovation, entrepreneurship, and technology translation experiences through developing and helping commercialize this technology.&lt;br/&gt;&lt;br/&gt;The project engages Weinberg Medical Physics who will act as an industry liaison and supply the effort with equipment, expertise, and with connections to strategic partners and future investors in this technology translation effort from research discovery toward commercial reality.</AbstractNarration>
+    <MinAmdLetterDate>05/06/2015</MinAmdLetterDate>
+    <MaxAmdLetterDate>05/06/2015</MaxAmdLetterDate>
+    <ARRAAmount/>
+    <AwardID>1500194</AwardID>
+    <Investigator>
+      <FirstName>Benjamin</FirstName>
+      <LastName>Shapiro</LastName>
+      <EmailAddress>benshap@eng.umd.edu</EmailAddress>
+      <StartDate>05/06/2015</StartDate>
+      <EndDate/>
+      <RoleCode>Principal Investigator</RoleCode>
+    </Investigator>
+    <Investigator>
+      <FirstName>Irving</FirstName>
+      <LastName>Weinberg</LastName>
+      <EmailAddress>inweinberg@gmail.com</EmailAddress>
+      <StartDate>05/06/2015</StartDate>
+      <EndDate/>
+      <RoleCode>Co-Principal Investigator</RoleCode>
+    </Investigator>
+    <Institution>
+      <Name>University of Maryland College Park</Name>
+      <CityName>COLLEGE PARK</CityName>
+      <ZipCode>207425141</ZipCode>
+      <PhoneNumber>3014056269</PhoneNumber>
+      <StreetAddress>3112 LEE BLDG 7809 Regents Drive</StreetAddress>
+      <CountryName>United States</CountryName>
+      <StateName>Maryland</StateName>
+      <StateCode>MD</StateCode>
+    </Institution>
+    <ProgramElement>
+      <Code>8019</Code>
+      <Text>Accelerating Innovation Rsrch</Text>
+    </ProgramElement>
+    <ProgramReference>
+      <Code>8019</Code>
+      <Text>Accelerating Innovation Rsrch</Text>
+    </ProgramReference>
+  </Award>
+</rootTag>

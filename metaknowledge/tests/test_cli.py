@@ -23,7 +23,7 @@ class MockInput(unittest.mock.MagicMock):
         else:
             return val
 
-class MyTestCase(unittest.TestCase):
+class TestCLI(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):

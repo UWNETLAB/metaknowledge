@@ -4,7 +4,7 @@ import metaknowledge
 
 import os
 
-class TestRecord(unittest.TestCase):
+class TestScopus(unittest.TestCase):
 
     def setUp(self):
         metaknowledge.VERBOSE_MODE = False
@@ -31,12 +31,12 @@ class TestRecord(unittest.TestCase):
     def test_isCollection(self):
         self.assertIsInstance(self.RC, metaknowledge.RecordCollection)
 
-    def test_isscopus(self):
+    def test_isScopus(self):
         self.assertIsInstance(self.R, metaknowledge.ScopusRecord)
 
     def test_specials(self):
         for R in self.RC:
-            for s in metaknowledge.medline.medlineSpecialTagToFunc.keys():
+            for s in metaknowledge.scopus.scopusSpecialTagToFunc.keys():
                 self.assertIsInstance(R.get(s), (str, type(None), list, int, metaknowledge.Citation))
 
     def test_allFields(self):

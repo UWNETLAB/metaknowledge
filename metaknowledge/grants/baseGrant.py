@@ -73,12 +73,15 @@ class DefaultGrant(Grant):
         Grant.__init__(self, original, grantdDict, idValue, False, None, sFile = sFile, sLine = sLine)
 
 def isDefaultGrantFile(fileName, useFileName = True, encoding = 'latin-1', dialect = 'excel'):
+    if useFileName:
+        if not fileName.endswith('csv'):
+            return False
     try:
         #Try to open it
         with open(fileName, 'r', encoding = encoding) as openfile:
             #See if csv likes it
             reader = csv.DictReader(openfile, fieldnames = None, dialect = dialect)
-            
+
             #Check that it is not a scopus file
             if len(set(reader.fieldnames) & {'Conference location', 'Conference code', 'ISSN', 'ISBN', 'CODEN', 'PubMed ID', 'Language of Original Document', 'Abbreviated Source Title', 'Document Type', 'Source', 'EID'}) == 11:
                 return False

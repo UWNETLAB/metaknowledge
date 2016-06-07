@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<rootTag>
+  <Award>
+    <AwardTitle>Summer Institute in Mathematics for Secondary School  Teachers</AwardTitle>
+    <AwardEffectiveDate>01/01/1969</AwardEffectiveDate>
+    <AwardExpirationDate>12/01/1969</AwardExpirationDate>
+    <AwardAmount>57778</AwardAmount>
+    <AwardInstrument>
+      <Code></Code>
+      <Value/>
+    </AwardInstrument>
+    <Organization>
+      <Code/>
+      <Directorate>
+        <Abbreviation></Abbreviation>
+        <Code/>
+        <LongName/>
+      </Directorate>
+      <Division>
+        <Code/>
+        <Abbreviation></Abbreviation>
+        <LongName/>
+      </Division>
+    </Organization>
+    <ProgramOfficer>
+      <SignBlockName></SignBlockName>
+    </ProgramOfficer>
+    <PropsalInformation>
+      <ID></ID>
+    </PropsalInformation>
+    <AbstractNarration></AbstractNarration>
+    <MinAmdLetterDate>04/13/2004</MinAmdLetterDate>
+    <MaxAmdLetterDate/>
+    <IsHistoricalAward>1</IsHistoricalAward>
+    <ARRAAmount/>
+    <Institution>
+      <Name>Stanford University</Name>
+      <CityName/>
+      <StateCode>CA</StateCode>
+      <ZipCode/>
+      <PhoneNumber/>
+      <EmailAddress/>
+      <StreetAddress/>
+      <CountryCode/>
+      <CountryName/>
+      <StateName>California</StateName>
+      <CountryFlag>1</CountryFlag>
+    </Institution>
+    <AwardAmountRangeCategory>2</AwardAmountRangeCategory>
+    <AwardExpirationDateEpoch>-2660400</AwardExpirationDateEpoch>
+    <MinAmdLetterDateEpoch>1081828800</MinAmdLetterDateEpoch>
+    <MaxAmdLetterDateEpoch/>
+    <AwardEffectiveDateEpoch>-31518000</AwardEffectiveDateEpoch>
+    <AwardID>69W3551</AwardID>
+  </Award>
+</rootTag>

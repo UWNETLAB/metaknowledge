@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<rootTag>
+  <Award>
+    <AwardTitle>Collaborative Research: Algebra and Algorithms, Structure and Complexity Theory</AwardTitle>
+    <AwardEffectiveDate>09/15/2015</AwardEffectiveDate>
+    <AwardExpirationDate>08/31/2018</AwardExpirationDate>
+    <AwardAmount>67889</AwardAmount>
+    <AwardInstrument>
+      <Value>Standard Grant</Value>
+    </AwardInstrument>
+    <Organization>
+      <Code>03040000</Code>
+      <Directorate>
+        <LongName>Direct For Mathematical &amp; Physical Scien</LongName>
+      </Directorate>
+      <Division>
+        <LongName>Division Of Mathematical Sciences</LongName>
+      </Division>
+    </Organization>
+    <ProgramOfficer>
+      <SignBlockName>Tomek Bartoszynski</SignBlockName>
+    </ProgramOfficer>
+    <AbstractNarration>This project is a collaboration between mathematical researchers at five universities, including young mathematicians at the early stages of their careers, who are joining forces to tackle fundamental problems at the confluence of mathematical logic, algebra, and computer science. The overall goal is to deepen understanding about how to recognize the complexity of certain types of computational problems. The project focuses on a suite of mathematical problems whose solutions will yield new information about the complexity of Constraint Satisfaction Problems. These problems (CSP's) include scheduling problems, resource allocation problems, and problems reducible to solving systems of linear equations. CSP's are theoretically solvable, but some are not solvable efficiently. The research will be aimed at identifying a clear boundary between the tractable and intractable cases, and at providing efficient algorithms for solutions in the tractable cases. Many fundamental problems in mathematics and computer science can be formulated as CSP's, and progress here would have both practical and theoretical significance. A second component of the project investigates classical computational problems in algebra in order to determine whether they are algorithmically solvable. A third component of the project is the further development of the software UACalc, which is a proof assistant developed to handle computations involving algebraic structures.&lt;br/&gt;&lt;br/&gt;The researchers shall work to decide the truth of the CSP Dichotomy Conjecture of Feder and Vardi, which states that every Constraint Satisfaction Problem with a finite template is solvable in polynomial time or is NP complete. They will further develop the algebraic approach to CSP's by refining knowledge about relations compatible with weak idempotent Maltsev conditions and about algebras with finitely related clones. A second goal of the project concerns the computable recognition of properties of finite algebras connected with the varieties they generate, such as whether a finite algebra with a finite residual bound is finitely axiomatizable, or whether a finite algebra can serve as the algebra of character values for a natural duality. One of the more tangible accomplishments of this project will be a broadening and strengthening of the applicability of the UACalc software. The agenda for this part of the project includes parallelizing the important subroutines, building in conjecture-testing and search features, adding further algorithms, and further developing the community of users and contributors.</AbstractNarration>
+    <MinAmdLetterDate>09/11/2015</MinAmdLetterDate>
+    <MaxAmdLetterDate>09/11/2015</MaxAmdLetterDate>
+    <ARRAAmount/>
+    <AwardID>1500216</AwardID>
+    <Investigator>
+      <FirstName>George</FirstName>
+      <LastName>McNulty</LastName>
+      <EmailAddress>mcnulty@math.sc.edu</EmailAddress>
+      <StartDate>09/11/2015</StartDate>
+      <EndDate/>
+      <RoleCode>Principal Investigator</RoleCode>
+    </Investigator>
+    <Institution>
+      <Name>University of South Carolina at Columbia</Name>
+      <CityName>COLUMBIA</CityName>
+      <ZipCode>292080001</ZipCode>
+      <PhoneNumber>8037777093</PhoneNumber>
+      <StreetAddress>Sponsored Awards Management</StreetAddress>
+      <CountryName>United States</CountryName>
+      <StateName>South Carolina</StateName>
+      <StateCode>SC</StateCode>
+    </Institution>
+  </Award>
+</rootTag>

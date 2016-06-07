@@ -7,7 +7,7 @@ import metaknowledge
 import metaknowledge.medline
 
 
-class TestRecord(unittest.TestCase):
+class TestMedline(unittest.TestCase):
     def setUp(self):
         metaknowledge.VERBOSE_MODE = False
         self.RC = metaknowledge.RecordCollection("metaknowledge/tests/medline_test.medline")

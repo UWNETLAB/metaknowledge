@@ -214,10 +214,7 @@ def diffusionCount(source, target, sourceType = "raw", extraValue = None, pandas
 
     for Rs in source:
         if listIds is None and Rs.get(sourceType) is not None:
-            if isinstance(Rs.get(sourceType), list):
-                listIds = True
-            else:
-                listIds = False
+            listIds = isinstance(Rs.get(sourceType), list)
         count += 1
         PBar.updateVal(count / maxCount * .10, "Analyzing source: " + str(Rs))
         RsVal, RsExtras = makeNodeID(Rs, sourceType)

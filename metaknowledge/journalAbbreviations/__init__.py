@@ -5,3 +5,5 @@ The citations provided by WOS used abbreviated journal titles instead of the ful
 
 The other functions of the module are for manually adding and removing abbreviations from the database. It is recommended that this be done with the command-line tool `metaknowledge`, unless you know what you are doing.
 """
+
+from .backend import getj9dict, abrevDBname, manaulDBname, addToDB

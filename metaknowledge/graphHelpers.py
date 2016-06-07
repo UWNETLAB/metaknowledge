@@ -6,6 +6,7 @@ import csv
 import os
 
 from .progressBar import _ProgressBar
+from .mkExceptions import RCValueError
 
 def readGraph(edgeList, nodeList = None, directed = False, idKey = 'ID', eSource = 'From', eDest = 'To'):
     """Reads the files given by _edgeList_ and _nodeList_ and creates a networkx graph for the files.

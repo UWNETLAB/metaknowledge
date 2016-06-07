@@ -32,15 +32,11 @@ Note for those reading the docstrings metaknowledge's docs are written in markdo
 
 from .mkRecord import Record, ExtendedRecord
 from .citation import Citation, filterNonJournals
-from .grants.baseGrant import Grant, DefaultGrant
-from .grants.medlineGrant import MedlineGrant
-from .grants.cihrGrant import CIHRGrant
-from .grants.nsercGrant import NSERCGrant
 
-from .grants.nsfGrant import *
+from .grants import NSERCGrant, CIHRGrant, MedlineGrant, NSFGrant, Grant, DefaultGrant
 
 from .recordCollection import RecordCollection
-from .mkExceptions import BadCitation, BadGrant, BadInputFile, BadProQuestFile, BadProQuestRecord, BadPubmedFile, BadPubmedRecord, BadRecord, BadWOSFile, BadWOSRecord, CollectionTypeError, GrantCollectionException, RCTypeError, RCValueError, RecordsNotCompatible, UnknownFile, cacheError, mkException, TagError
+from .mkExceptions import BadCitation, BadGrant, BadInputFile, BadProQuestFile, BadProQuestRecord, BadPubmedFile, BadPubmedRecord, BadRecord, BadWOSFile, BadWOSRecord, CollectionTypeError, GrantCollectionException, RCTypeError, RCValueError, RecordsNotCompatible, UnknownFile, cacheError, mkException, TagError, BadScopusRecord
 #from .progressBar import _ProgressBar
 from .grantCollection import GrantCollection
 from .mkCollection import Collection, CollectionWithIDs
@@ -51,13 +47,12 @@ from .diffusion import diffusionGraph, diffusionCount, diffusionAddCountsFromSou
 
 #from .WOS.tagProcessing.funcDicts import tagToFull, isTagOrName, normalizeToTag, normalizeToName
 #from .WOS.wosHandlers import wosParser
-from .WOS.recordWOS import WOSRecord#, recordParser
-from .WOS.journalAbbreviations.wosCitations import WOSCitation
+from .WOS import WOSRecord#, recordParser
 
 from .medline import MedlineRecord
 
 from .proquest import ProQuestRecord
 
-from .scopus import *
+from .scopus import ScopusRecord
 
 #from .blondel import blondel, modularity #Better implementations can be found on Pypi so this has been discontinued

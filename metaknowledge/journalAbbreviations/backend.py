@@ -5,7 +5,7 @@ import os
 import datetime
 import dbm.dumb
 
-from ...mkExceptions import JournalDataBaseError
+from ..mkExceptions import JournalDataBaseError
 
 abrevDBname = "j9Abbreviations"
 

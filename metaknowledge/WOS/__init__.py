@@ -85,4 +85,6 @@ The full list of tags and their long names is provided below followed by the des
 
 from .tagProcessing.tagFunctions import *
 from .tagProcessing.funcDicts import tagToFullDict, fullToTagDict, tagNameConverterDict, tagsAndNameSet, knownTagsList
-from .journalAbbreviations.backend import updatej9DB, getj9dict, abrevDBname, excludeFromDB, addToDB, manaulDBname
+
+from .recordWOS import WOSRecord, recordParser
+from .wosHandlers import isWOSFile, wosParser

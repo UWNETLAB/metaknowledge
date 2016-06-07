@@ -2,6 +2,7 @@ from .nsercGrant import NSERCGrant, isNSERCfile, parserNSERCfile
 from .medlineGrant import MedlineGrant
 from .baseGrant import Grant, DefaultGrant, isDefaultGrantFile, parserDefaultGrantFile
 from .cihrGrant import CIHRGrant, isCIHRfile, parserCIHRfile
+from .nsfGrant import NSFGrant, isNSFfile, parserNSFfile
 
 
 """#Creating new grants

@@ -19,11 +19,8 @@ from .progressBar import _ProgressBar
 from .WOS.tagProcessing.funcDicts import tagToFullDict, fullToTagDict, normalizeToTag
 from .citation import Citation
 from .fileHandlers import recordHandlers
-from .mkExceptions import cacheError, BadWOSFile, BadWOSRecord, RCTypeError, BadInputFile, BadRecord, RCValueError, RecordsNotCompatible, UnknownFile
+from .mkExceptions import BadWOSRecord, RCTypeError, BadInputFile, BadRecord, RCValueError, RecordsNotCompatible, UnknownFile
 
-from .WOS.wosHandlers import wosParser, isWOSFile
-
-from .medline.medlineHandlers import medlineParser, isMedlineFile
 from .mkCollection import CollectionWithIDs
 
 from .scopus.scopusHandlers import scopusHeader

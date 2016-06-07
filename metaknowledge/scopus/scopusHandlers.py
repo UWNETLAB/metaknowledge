@@ -33,8 +33,8 @@ def scopusParser(scopusFile):
                     lineNum = line
                     recSet.add(ScopusRecord(row, sFile = scopusFile, sLine = line))
             except BadScopusFile as e:
-                    if error is None:
-                        error = BadScopusFile("The file '{}' becomes unparsable after line: {}, due to the error: {} ".format(scopusFile, lineNum, e))
+                if error is None:
+                    error = BadScopusFile("The file '{}' becomes unparsable after line: {}, due to the error: {} ".format(scopusFile, lineNum, e))
     except (csv.Error, UnicodeDecodeError):
         if error is None:
             error = BadScopusFile("The file '{}' has parts of it that are unparsable starting at line: {}.".format(scopusFile, lineNum))

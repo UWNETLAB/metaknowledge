@@ -1,4 +1,8 @@
-import collections
+try:
+    import collections.abc
+except ImportError:
+    import collections
+    collections.abc = collections
 
 from .mkExceptions import UnknownFile
 

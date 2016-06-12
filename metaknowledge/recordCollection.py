@@ -10,7 +10,6 @@ except ImportError:
     import collections
     collections.abc = collections
 import copy
-
 import networkx as nx
 
 from .constants import __version__
@@ -24,7 +23,6 @@ from .mkExceptions import BadWOSRecord, RCTypeError, BadInputFile, BadRecord, RC
 from .mkCollection import CollectionWithIDs
 
 from .scopus.scopusHandlers import scopusHeader
-
 
 import metaknowledge
 

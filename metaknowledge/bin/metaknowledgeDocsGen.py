@@ -10,7 +10,7 @@ import metaknowledge.WOS.tagProcessing
 import importlib
 import re
 
-documentedModules = ['contour', 'WOS', 'medline', 'proquest']#, 'journalAbbreviations', 'tagProcessing']
+documentedModules = ['contour', 'WOS', 'medline', 'proquest', 'scopus', 'journalAbbreviations']
 
 docsPrefix = time.strftime("%Y-%m-%d-")
 
@@ -21,7 +21,9 @@ blurbDict = {
     #modules
     'contour' : "A nicer matplotlib graph visualizer and contour plot",
     'WOS' : "The functions and classes associated with the Web of Science",
+    'journalAbbreviations' : "Handles the abbreviated journal names used by WOS",
     'medline' : "The functions and classes associated with Medline, the format used by Pubmed",
+    'scopus' : "The functions and classes associated with records from scopus",
     'proquest' : "The functions and classes associated with ProQuest",
 
     #Classes
@@ -34,12 +36,14 @@ blurbDict = {
     'WOSRecord' : "The object for containing and processing WOS entries",
     'ProQuestRecord' : "The object for containing and processing ProQuest entries",
     'MedlineRecord' : "The object for containing and processing Medline entries",
+    'ScopusRecord' : "The object for containing and processing Scopus entries",
 
     'Grant' : "The base for all the other Grants",
     'DefaultGrant' : "The Grant used if a file was not identifiable",
     'CIHRGrant' : "The container for CIHR grant entries",
     'NSERCGrant' : "The container for NSERC grant entries",
     'MedlineGrant' : "The container for grants derived from Medline Records entries",
+    'NSFGrant' : "The container for NSF grant entries",
 
     'Collection' : "The base of all other Collections, basically a set",
     'CollectionWithIDs' : "A Collection that only holds <i>metaknowledge</i> objects",
@@ -48,12 +52,11 @@ blurbDict = {
 
     #Deprecated
     'tagProcessing' : "All the tags and how they are handled",
-    'journalAbbreviations' : "Look here to get your J9 database",
 }
 
 singleFileYAML = """---
 layout: page
-title: Full Documentation
+title: Full Documentation {}
 author:
 - name: Reid McIlroy-Young
   department:
@@ -65,14 +68,14 @@ author:
 shorttitle: metaknowledge
 search_omit: true
 ---
-"""
+""".format(metaknowledge.__version__)
 
 def makeBlurb(name):
     if name in blurbDict:
         return blurbDict[name]
     else:
         print("\033[94m{} had no blurb\033[0m".format(name))
-        return 'BLURB NEEDED FOR: {}'.format(name)
+        return 'BLURB NEEDED FOR {}'.format(name)
         #raise RuntimeError("{} needs a blurb".format(name))
 
 def makeHeader(title, excerpt, tags = (), weight = 10, layout = "doc", singleFile = False):

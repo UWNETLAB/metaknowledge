@@ -1,7 +1,6 @@
 #Written by Reid McIlroy-Young for Dr. John McLevey, University of Waterloo 2015
-import networkx as nx
-
 import itertools
+import networkx as nx
 
 from .WOS.tagProcessing.funcDicts import tagsAndNameSet, normalizeToTag
 from .progressBar import _ProgressBar

@@ -30,29 +30,22 @@ Citations are handled by a special [Citation](#Citation.Citation) class. This cl
 Note for those reading the docstrings metaknowledge's docs are written in markdown and are processed to produce the documentation found at [networkslab.org/metaknowledge/documentation]({{ site.baseurl }}/documentation/), but you should have no problem reading them from the help function.
 """
 
-from .mkRecord import Record, ExtendedRecord
-from .citation import Citation, filterNonJournals
+from .constants import VERBOSE_MODE, __version__, specialRecordFields, FAST_CITES
+from .mkExceptions import BadCitation, BadGrant, BadInputFile, BadProQuestFile, BadProQuestRecord, BadPubmedFile, BadPubmedRecord, BadRecord, BadWOSFile, BadWOSRecord, CollectionTypeError, GrantCollectionException, RCTypeError, RCValueError, RecordsNotCompatible, UnknownFile, cacheError, mkException, TagError, BadScopusRecord
 
+from .graphHelpers import writeEdgeList, writeNodeAttributeFile, writeGraph, readGraph, dropEdges, dropNodesByDegree, dropNodesByCount, mergeGraphs, graphStats, writeTnetFile
+from .diffusion import diffusionGraph, diffusionCount, diffusionAddCountsFromSource
+
+from .citation import Citation, filterNonJournals
+from .mkCollection import Collection, CollectionWithIDs
+from .mkRecord import Record, ExtendedRecord
+
+
+from .grantCollection import GrantCollection
 from .grants import NSERCGrant, CIHRGrant, MedlineGrant, NSFGrant, Grant, DefaultGrant
 
 from .recordCollection import RecordCollection
-from .mkExceptions import BadCitation, BadGrant, BadInputFile, BadProQuestFile, BadProQuestRecord, BadPubmedFile, BadPubmedRecord, BadRecord, BadWOSFile, BadWOSRecord, CollectionTypeError, GrantCollectionException, RCTypeError, RCValueError, RecordsNotCompatible, UnknownFile, cacheError, mkException, TagError, BadScopusRecord
-#from .progressBar import _ProgressBar
-from .grantCollection import GrantCollection
-from .mkCollection import Collection, CollectionWithIDs
-
-from .graphHelpers import writeEdgeList, writeNodeAttributeFile, writeGraph, readGraph, dropEdges, dropNodesByDegree, dropNodesByCount, mergeGraphs, graphStats, writeTnetFile
-from .constants import VERBOSE_MODE, __version__, specialRecordFields, FAST_CITES
-from .diffusion import diffusionGraph, diffusionCount, diffusionAddCountsFromSource
-
-#from .WOS.tagProcessing.funcDicts import tagToFull, isTagOrName, normalizeToTag, normalizeToName
-#from .WOS.wosHandlers import wosParser
-from .WOS import WOSRecord#, recordParser
-
+from .WOS import WOSRecord
 from .medline import MedlineRecord
-
 from .proquest import ProQuestRecord
-
 from .scopus import ScopusRecord
-
-#from .blondel import blondel, modularity #Better implementations can be found on Pypi so this has been discontinued

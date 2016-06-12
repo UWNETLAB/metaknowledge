@@ -1,5 +1,7 @@
 #Written by Reid McIlroy-Young for Dr. John McLevey, University of Waterloo 2016
-from .recordScopus import ScopusRecord, scopusRecordParser
+"""
+"""
+from .recordScopus import ScopusRecord, scopusRecordParser, scopusHeader
 from .scopusHandlers import isScopusFile, scopusParser
 
 from .tagProcessing.tagFunctions import scopusTagToFunction

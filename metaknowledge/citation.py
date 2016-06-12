@@ -1,8 +1,4 @@
 #Written by Reid McIlroy-Young for Dr. John McLevey, University of Waterloo 2015
-from .mkExceptions import BadCitation
-
-from .journalAbbreviations import getj9dict, abrevDBname, manaulDBname, addToDB
-
 import abc
 try:
     import collections.abc
@@ -10,6 +6,9 @@ except ImportError:
     import collections
     collections.abc = collections
 import re
+
+from .mkExceptions import BadCitation
+from .journalAbbreviations import getj9dict, abrevDBname, manaulDBname, addToDB
 
 import metaknowledge
 

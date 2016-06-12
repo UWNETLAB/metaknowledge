@@ -17,6 +17,7 @@ weight: 1
 <li><article><a href="#readGraph"><b>readGraph</b>(<i>edgeList, nodeList=None, directed=False, idKey='ID', eSource='From', eDest='To'</i>)</a></article></li>
 <li><article><a href="#writeEdgeList"><b>writeEdgeList</b>(<i>grph, name, extraInfo=True, allSameAttribute=False</i>)</a></article></li>
 <li><article><a href="#writeNodeAttributeFile"><b>writeNodeAttributeFile</b>(<i>grph, name, allSameAttribute=False</i>)</a></article></li>
+<li><article><a href="#writeTnetFile"><b>writeTnetFile</b>(<i>grph, name, modeNameString, weighted=False, sourceMode=None, timeString=None, nodeIndexString='tnet-ID', weightString='weight'</i>)</a></article></li>
 <li><article><a href="#dropEdges"><b>dropEdges</b>(<i>grph, minWeight=-inf, maxWeight=inf, parameterName='weight', ignoreUnweighted=False, dropSelfLoops=False</i>)</a></article></li>
 <li><article><a href="#dropNodesByDegree"><b>dropNodesByDegree</b>(<i>grph, minDegree=-inf, maxDegree=inf, useWeight=True, parameterName='weight', includeUnweighted=True</i>)</a></article></li>
 <li><article><a href="#dropNodesByCount"><b>dropNodesByCount</b>(<i>grph, minCount=-inf, maxCount=inf, parameterName='count', ignoreMissing=False</i>)</a></article></li>
@@ -34,15 +35,16 @@ weight: 1
 <li><article><b>BadRecord</b>(<i>mkException</i>)</article></li>
 <li><article><b>BadPubmedRecord</b>(<i>mkException</i>)</article></li>
 <li><article><b>BadPubmedFile</b>(<i>mkException</i>)</article></li>
+<li><article><b>BadScopusRecord</b>(<i>mkException</i>)</article></li>
 <li><article><b>BadProQuestRecord</b>(<i>mkException</i>)</article></li>
 <li><article><b>BadProQuestFile</b>(<i>mkException</i>)</article></li>
-<li><article><b>RecordsNotCompatible</b>(<i>mkException</i>)</article></li>
 <li><article><b>CollectionTypeError</b>(<i>mkException, TypeError</i>)</article></li>
+<li><article><b>RecordsNotCompatible</b>(<i>mkException</i>)</article></li>
 <li><article><b>cacheError</b>(<i>mkException</i>)</article></li>
 <li><article><b>BadWOSRecord</b>(<i>BadRecord</i>)</article></li>
 <li><article><b>BadWOSFile</b>(<i>Warning</i>)</article></li>
-<li><article><b>BadCitation</b>(<i>Warning</i>)</article></li>
 <li><article><b>RCTypeError</b>(<i>mkException, TypeError</i>)</article></li>
+<li><article><b>BadCitation</b>(<i>Warning</i>)</article></li>
 <li><article><b>BadGrant</b>(<i>mkException</i>)</article></li>
 <li><article><b>GrantCollectionException</b>(<i>mkException</i>)</article></li>
 <li><article><b>UnknownFile</b>(<i>mkException</i>)</article></li>
@@ -300,6 +302,53 @@ _name_ : `str`
 _allSameAttribute_ : `optional [bool]`
 
  Default `False`, if `True` all the nodes must have the same attributes or an exception will be raised. If `False` the missing attributes will be left blank.
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="writeTnetFile"></a><small></small>**[<ins>writeTnetFile</ins>]({{ site.baseurl }}{{ page.url }}#writeTnetFile)**(_grph, name, modeNameString, weighted=False, sourceMode=None, timeString=None, nodeIndexString='tnet-ID', weightString='weight'_):
+
+Writes an edge list designed for reading by the _R_ package [_tnet_](https://toreopsahl.com/tnet/).
+
+The _networkx_ graph provided must be a pure two-mode network, the modes must be 2 different values for the node attribute accessed by _modeNameString_ and all edges must be between different node types. Each node will be given an integer id, stored in the attribute given by _nodeIndexString_, these ids are then written to the file as the endpoints of the edges. Unless _sourceMode_ is given which mode is the source (first column) and which the target (second column) is random.
+
+**Note** the _grph_ will be modified by this function, the ids of the nodes will be written to the graph at the attribute _nodeIndexString_.
+
+###### Parameters
+
+_grph_ : `network Graph`
+
+ The graph that will be written to _name_
+
+_name_ : `str`
+
+ The path of the file to write
+
+_modeNameString_ : `str`
+
+ The name of the attribute _grph_'s modes are stored in
+
+_weighted_ : `optional bool`
+
+ Default `False`, if `True` then the attribute _weightString_ will be written to the weight column
+
+_sourceMode_ : `optional str`
+
+ Default `None`, if given the name of the mode used for the source (first column) in the output file
+
+_timeString_ : `optional str`
+
+ Default `None`, if present the attribute _timeString_ of an edge will be written to the time column surrounded by double quotes (").
+
+**Note** The format used by tnet for dates is very strict it uses the ISO format, down to the second and without time zones.
+
+_nodeIndexString_ : `optional str`
+
+ Default `'tnet-ID'`, the name of the attribute to save the id for each node
+
+_weightString_ : `optional str`
+
+ Default `'weight'`, the name of the weight attribute
 
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">

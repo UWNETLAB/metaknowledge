@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Full Documentation
+title: Full Documentation 2.1.1
 author:
 - name: Reid McIlroy-Young
   department:
@@ -19,11 +19,12 @@ search_omit: true
 <li><article><a href="#WOS"><b>WOS</b><span class="excerpt">The functions and classes associated with the Web of Science</span></a></article></li>
 <li><article><a href="#medline"><b>medline</b><span class="excerpt">The functions and classes associated with Medline, the format used by Pubmed</span></a></article></li>
 <li><article><a href="#proquest"><b>proquest</b><span class="excerpt">The functions and classes associated with ProQuest</span></a></article></li>
+<li><article><a href="#scopus"><b>scopus</b><span class="excerpt">The functions and classes associated with records from scopus</span></a></article></li>
+<li><article><a href="#journalAbbreviations"><b>journalAbbreviations</b><span class="excerpt">Handles the abbreviated journal names used by WOS</span></a></article></li>
 </ol>
 <h3><a name="objlist"></a>The classes of <i>metaknowledge</i> are:</h3>
 
 <ol class="post-list">
-<li><article><a href="#WOSCitation"><b>WOSCitation</b></a>(<i><a href="#Citation"><u style="border-bottom: .5px dashed gray;">Citation</u></a></i>)<span class="excerpt">A Citation that supports the WOS journal abbreviations</span></article></li>
 <li><article><a href="#WOSRecord"><b>WOSRecord</b></a>(<i><a href="#ExtendedRecord"><u style="border-bottom: .5px dashed gray;">ExtendedRecord</u></a></i>)<span class="excerpt">The object for containing and processing WOS entries</span></article></li>
 <li><article><a href="#Citation"><b>Citation</b></a>(<i>Hashable</i>)<span class="excerpt">Citation are special, here is how they are handled</span></article></li>
 <li><article><a href="#GrantCollection"><b>GrantCollection</b></a>(<i><a href="#CollectionWithIDs"><u style="border-bottom: .5px dashed gray;">CollectionWithIDs</u></a></i>)<span class="excerpt">A Collection of Grants, this is what does most of the stuff on Grants</span></article></li>
@@ -32,6 +33,7 @@ search_omit: true
 <li><article><a href="#CIHRGrant"><b>CIHRGrant</b></a>(<i><a href="#Grant"><u style="border-bottom: .5px dashed gray;">Grant</u></a></i>)<span class="excerpt">The container for CIHR grant entries</span></article></li>
 <li><article><a href="#MedlineGrant"><b>MedlineGrant</b></a>(<i><a href="#Grant"><u style="border-bottom: .5px dashed gray;">Grant</u></a></i>)<span class="excerpt">The container for grants derived from Medline Records entries</span></article></li>
 <li><article><a href="#NSERCGrant"><b>NSERCGrant</b></a>(<i><a href="#Grant"><u style="border-bottom: .5px dashed gray;">Grant</u></a></i>)<span class="excerpt">The container for NSERC grant entries</span></article></li>
+<li><article><a href="#NSFGrant"><b>NSFGrant</b></a>(<i><a href="#Grant"><u style="border-bottom: .5px dashed gray;">Grant</u></a></i>)<span class="excerpt">The container for NSF grant entries</span></article></li>
 <li><article><a href="#MedlineRecord"><b>MedlineRecord</b></a>(<i><a href="#ExtendedRecord"><u style="border-bottom: .5px dashed gray;">ExtendedRecord</u></a></i>)<span class="excerpt">The object for containing and processing Medline entries</span></article></li>
 <li><article><a href="#Collection"><b>Collection</b></a>(<i>MutableSet, Hashable</i>)<span class="excerpt">The base of all other Collections, basically a set</span></article></li>
 <li><article><a href="#CollectionWithIDs"><b>CollectionWithIDs</b></a>(<i><a href="#Collection"><u style="border-bottom: .5px dashed gray;">Collection</u></a></i>)<span class="excerpt">A Collection that only holds <i>metaknowledge</i> objects</span></article></li>
@@ -39,6 +41,7 @@ search_omit: true
 <li><article><a href="#Record"><b>Record</b></a>(<i>Mapping, Hashable</i>)<span class="excerpt">The base of all the other Records, basically a dict</span></article></li>
 <li><article><a href="#ProQuestRecord"><b>ProQuestRecord</b></a>(<i><a href="#ExtendedRecord"><u style="border-bottom: .5px dashed gray;">ExtendedRecord</u></a></i>)<span class="excerpt">The object for containing and processing ProQuest entries</span></article></li>
 <li><article><a href="#RecordCollection"><b>RecordCollection</b></a>(<i><a href="#CollectionWithIDs"><u style="border-bottom: .5px dashed gray;">CollectionWithIDs</u></a></i>)<span class="excerpt">A Collection of Records, this is what does most of the stuff on Records</span></article></li>
+<li><article><a href="#ScopusRecord"><b>ScopusRecord</b></a>(<i><a href="#ExtendedRecord"><u style="border-bottom: .5px dashed gray;">ExtendedRecord</u></a></i>)<span class="excerpt">The object for containing and processing Scopus entries</span></article></li>
 </ol>
 <h3><a name="fulllist"></a>All the functions and methods of <i>metaknowledge</i> and its objects are as follows:</h3>
 
@@ -50,15 +53,13 @@ search_omit: true
 <li><article><a href="#readGraph"><b>readGraph</b>(<i>edgeList, nodeList=None, directed=False, idKey='ID', eSource='From', eDest='To'</i>)</a></article></li>
 <li><article><a href="#writeEdgeList"><b>writeEdgeList</b>(<i>grph, name, extraInfo=True, allSameAttribute=False</i>)</a></article></li>
 <li><article><a href="#writeNodeAttributeFile"><b>writeNodeAttributeFile</b>(<i>grph, name, allSameAttribute=False</i>)</a></article></li>
+<li><article><a href="#writeTnetFile"><b>writeTnetFile</b>(<i>grph, name, modeNameString, weighted=False, sourceMode=None, timeString=None, nodeIndexString='tnet-ID', weightString='weight'</i>)</a></article></li>
 <li><article><a href="#dropEdges"><b>dropEdges</b>(<i>grph, minWeight=-inf, maxWeight=inf, parameterName='weight', ignoreUnweighted=False, dropSelfLoops=False</i>)</a></article></li>
 <li><article><a href="#dropNodesByDegree"><b>dropNodesByDegree</b>(<i>grph, minDegree=-inf, maxDegree=inf, useWeight=True, parameterName='weight', includeUnweighted=True</i>)</a></article></li>
 <li><article><a href="#dropNodesByCount"><b>dropNodesByCount</b>(<i>grph, minCount=-inf, maxCount=inf, parameterName='count', ignoreMissing=False</i>)</a></article></li>
 <li><article><a href="#mergeGraphs"><b>mergeGraphs</b>(<i>targetGraph, addedGraph, incrementedNodeVal='count', incrementedEdgeVal='weight'</i>)</a></article></li>
 <li><article><a href="#graphStats"><b>graphStats</b>(<i>G, stats=('nodes', 'edges', 'isolates', 'loops', 'density', 'transitivity'), makeString=True</i>)</a></article></li>
 <li><article><a href="#writeGraph"><b>writeGraph</b>(<i>grph, name, edgeInfo=True, typing=False, suffix='csv', overwrite=True, allSameAttribute=False</i>)</a></article></li>
-<li><article><a href="#FullJournalName"><small>WOSCitation</small>.<b>FullJournalName</b>()</a></article></li>
-<li><article><a href="#addToDB"><small>WOSCitation</small>.<b>addToDB</b>(<i>manualName=None, manaulDB='manualj9Abbreviations', invert=False</i>)</a></article></li>
-<li><article><a href="#isJournal"><small>WOSCitation</small>.<b>isJournal</b>(<i>dbname='j9Abbreviations', manaulDB='manualj9Abbreviations', returnDict='both', checkIfExcluded=False</i>)</a></article></li>
 <li><article><a href="#tagProcessingFunc"><small>WOSRecord</small>.<b>tagProcessingFunc</b>(<i>tag</i>)</a></article></li>
 <li><article><a href="#specialFuncs"><small>WOSRecord</small>.<b>specialFuncs</b>(<i>key</i>)</a></article></li>
 <li><article><a href="#writeRecord"><small>WOSRecord</small>.<b>writeRecord</b>(<i>infile</i>)</a></article></li>
@@ -70,8 +71,11 @@ search_omit: true
 <li><article><a href="#ID"><small>Citation</small>.<b>ID</b>()</a></article></li>
 <li><article><a href="#allButDOI"><small>Citation</small>.<b>allButDOI</b>()</a></article></li>
 <li><article><a href="#Extra"><small>Citation</small>.<b>Extra</b>()</a></article></li>
+<li><article><a href="#isJournal"><small>Citation</small>.<b>isJournal</b>(<i>dbname='j9Abbreviations', manaulDB='manualj9Abbreviations', returnDict='both', checkIfExcluded=False</i>)</a></article></li>
+<li><article><a href="#FullJournalName"><small>Citation</small>.<b>FullJournalName</b>()</a></article></li>
+<li><article><a href="#addToDB"><small>Citation</small>.<b>addToDB</b>(<i>manualName=None, manaulDB='manualj9Abbreviations', invert=False</i>)</a></article></li>
 <li><article><a href="#update"><small>Grant</small>.<b>update</b>(<i>other</i>)</a></article></li>
-<li><article><a href="#pop"><small>Grant</small>.<b>pop</b>(<i>key, default=<object object at 0x10f08d050></i>)</a></article></li>
+<li><article><a href="#pop"><small>Grant</small>.<b>pop</b>(<i>key, default=<object object at 0x102f6b050></i>)</a></article></li>
 <li><article><a href="#popitem"><small>Grant</small>.<b>popitem</b>()</a></article></li>
 <li><article><a href="#clear"><small>Grant</small>.<b>clear</b>()</a></article></li>
 <li><article><a href="#setdefault"><small>Grant</small>.<b>setdefault</b>(<i>key, default=None</i>)</a></article></li>
@@ -118,7 +122,7 @@ search_omit: true
 <li><article><a href="#writeRecord"><small>ProQuestRecord</small>.<b>writeRecord</b>(<i>infile</i>)</a></article></li>
 <li><article><a href="#dropNonJournals"><small>RecordCollection</small>.<b>dropNonJournals</b>(<i>ptVal='J', dropBad=True, invert=False</i>)</a></article></li>
 <li><article><a href="#writeFile"><small>RecordCollection</small>.<b>writeFile</b>(<i>fname=None</i>)</a></article></li>
-<li><article><a href="#writeCSV"><small>RecordCollection</small>.<b>writeCSV</b>(<i>fname=None, onlyTheseTags=None, numAuthors=True, longNames=False, firstTags=None, csvDelimiter=',', csvQuote='"', listDelimiter='|'</i>)</a></article></li>
+<li><article><a href="#writeCSV"><small>RecordCollection</small>.<b>writeCSV</b>(<i>fname=None, splitByTag=None, onlyTheseTags=None, numAuthors=True, longNames=False, firstTags=None, csvDelimiter=',', csvQuote='"', listDelimiter='|'</i>)</a></article></li>
 <li><article><a href="#writeBib"><small>RecordCollection</small>.<b>writeBib</b>(<i>fname=None, maxStringLength=1000, wosMode=False, reducedOutput=False, niceIDs=True</i>)</a></article></li>
 <li><article><a href="#makeDict"><small>RecordCollection</small>.<b>makeDict</b>(<i>onlyTheseTags=None, longNames=False, raw=False, numAuthors=True</i>)</a></article></li>
 <li><article><a href="#coAuthNetwork"><small>RecordCollection</small>.<b>coAuthNetwork</b>(<i>detailedInfo=False, weighted=True, dropNonJournals=False, count=True</i>)</a></article></li>
@@ -128,6 +132,11 @@ search_omit: true
 <li><article><a href="#localCiteStats"><small>RecordCollection</small>.<b>localCiteStats</b>(<i>pandasFriendly=False, keyType='citation'</i>)</a></article></li>
 <li><article><a href="#localCitesOf"><small>RecordCollection</small>.<b>localCitesOf</b>(<i>rec</i>)</a></article></li>
 <li><article><a href="#citeFilter"><small>RecordCollection</small>.<b>citeFilter</b>(<i>keyString='', field='all', reverse=False, caseSensitive=False</i>)</a></article></li>
+<li><article><a href="#encoding"><small>ScopusRecord</small>.<b>encoding</b>()</a></article></li>
+<li><article><a href="#getAltName"><small>ScopusRecord</small>.<b>getAltName</b>(<i>tag</i>)</a></article></li>
+<li><article><a href="#tagProcessingFunc"><small>ScopusRecord</small>.<b>tagProcessingFunc</b>(<i>tag</i>)</a></article></li>
+<li><article><a href="#specialFuncs"><small>ScopusRecord</small>.<b>specialFuncs</b>(<i>key</i>)</a></article></li>
+<li><article><a href="#writeRecord"><small>ScopusRecord</small>.<b>writeRecord</b>(<i>f</i>)</a></article></li>
 </ol>
 <h3>All the functions of the <a href="#contour"><u>contour</u></a> module are as follows:</h3>
 
@@ -138,10 +147,7 @@ search_omit: true
 <h3>All the functions of the <a href="#WOS"><u>WOS</u></a> module are as follows:</h3>
 
 <ol class="post-list">
-<li><article><a href="#getj9dict"><small>WOS</small>.<b>getj9dict</b>(<i>dbname='j9Abbreviations', manualDB='manualj9Abbreviations', returnDict='both'</i>)</a></article></li>
-<li><article><a href="#addToDB"><small>WOS</small>.<b>addToDB</b>(<i>abbr=None, dbname='manualj9Abbreviations'</i>)</a></article></li>
-<li><article><a href="#excludeFromDB"><small>WOS</small>.<b>excludeFromDB</b>(<i>abbr=None, dbname='manualj9Abbreviations'</i>)</a></article></li>
-<li><article><a href="#updatej9DB"><small>WOS</small>.<b>updatej9DB</b>(<i>dbname='j9Abbreviations', saveRawHTML=False</i>)</a></article></li>
+<li><article><a href="#recordParser"><small>WOS</small>.<b>recordParser</b>(<i>paper</i>)</a></article></li>
 <li><article><a href="#getMonth"><small>WOS</small>.<b>getMonth</b>(<i>s</i>)</a></article></li>
 <li><article><a href="#confHost"><small>WOS</small>.<b>confHost</b>(<i>val</i>)</a></article></li>
 <li><article><a href="#publisherAddress"><small>WOS</small>.<b>publisherAddress</b>(<i>val</i>)</a></article></li>
@@ -204,6 +210,8 @@ search_omit: true
 <li><article><a href="#beginningPage"><small>WOS</small>.<b>beginningPage</b>(<i>val</i>)</a></article></li>
 <li><article><a href="#abstract"><small>WOS</small>.<b>abstract</b>(<i>val</i>)</a></article></li>
 <li><article><a href="#supplement"><small>WOS</small>.<b>supplement</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#wosParser"><small>WOS</small>.<b>wosParser</b>(<i>isifile</i>)</a></article></li>
+<li><article><a href="#isWOSFile"><small>WOS</small>.<b>isWOSFile</b>(<i>infile, checkedLines=3</i>)</a></article></li>
 </ol>
 <h3>All the functions of the <a href="#medline"><u>medline</u></a> module are as follows:</h3>
 
@@ -302,6 +310,19 @@ search_omit: true
 <li><article><a href="#proQuestRecordParser"><small>proquest</small>.<b>proQuestRecordParser</b>(<i>enRecordFile, recNum</i>)</a></article></li>
 <li><article><a href="#proQuestTagToFunc"><small>proquest</small>.<b>proQuestTagToFunc</b>(<i>tag</i>)</a></article></li>
 </ol>
+<h3>All the functions of the <a href="#scopus"><u>scopus</u></a> module are as follows:</h3>
+
+<ol class="post-list">
+<li><article><a href="#scopusRecordParser"><small>scopus</small>.<b>scopusRecordParser</b>(<i>record</i>)</a></article></li>
+<li><article><a href="#scopusParser"><small>scopus</small>.<b>scopusParser</b>(<i>scopusFile</i>)</a></article></li>
+<li><article><a href="#isScopusFile"><small>scopus</small>.<b>isScopusFile</b>(<i>infile, checkedLines=2</i>)</a></article></li>
+</ol>
+<h3>All the functions of the <a href="#journalAbbreviations"><u>journalAbbreviations</u></a> module are as follows:</h3>
+
+<ol class="post-list">
+<li><article><a href="#getj9dict"><small>journalAbbreviations</small>.<b>getj9dict</b>(<i>dbname='j9Abbreviations', manualDB='manualj9Abbreviations', returnDict='both'</i>)</a></article></li>
+<li><article><a href="#addToDB"><small>journalAbbreviations</small>.<b>addToDB</b>(<i>abbr=None, dbname='manualj9Abbreviations'</i>)</a></article></li>
+</ol>
 
 ---
 <a name="Overview"></a>
@@ -351,6 +372,7 @@ Note for those reading the docstrings metaknowledge's docs are written in markdo
 <li><article><a href="#readGraph"><b>readGraph</b>(<i>edgeList, nodeList=None, directed=False, idKey='ID', eSource='From', eDest='To'</i>)</a></article></li>
 <li><article><a href="#writeEdgeList"><b>writeEdgeList</b>(<i>grph, name, extraInfo=True, allSameAttribute=False</i>)</a></article></li>
 <li><article><a href="#writeNodeAttributeFile"><b>writeNodeAttributeFile</b>(<i>grph, name, allSameAttribute=False</i>)</a></article></li>
+<li><article><a href="#writeTnetFile"><b>writeTnetFile</b>(<i>grph, name, modeNameString, weighted=False, sourceMode=None, timeString=None, nodeIndexString='tnet-ID', weightString='weight'</i>)</a></article></li>
 <li><article><a href="#dropEdges"><b>dropEdges</b>(<i>grph, minWeight=-inf, maxWeight=inf, parameterName='weight', ignoreUnweighted=False, dropSelfLoops=False</i>)</a></article></li>
 <li><article><a href="#dropNodesByDegree"><b>dropNodesByDegree</b>(<i>grph, minDegree=-inf, maxDegree=inf, useWeight=True, parameterName='weight', includeUnweighted=True</i>)</a></article></li>
 <li><article><a href="#dropNodesByCount"><b>dropNodesByCount</b>(<i>grph, minCount=-inf, maxCount=inf, parameterName='count', ignoreMissing=False</i>)</a></article></li>
@@ -368,15 +390,16 @@ Note for those reading the docstrings metaknowledge's docs are written in markdo
 <li><article><b>BadRecord</b>(<i>mkException</i>)</article></li>
 <li><article><b>BadPubmedRecord</b>(<i>mkException</i>)</article></li>
 <li><article><b>BadPubmedFile</b>(<i>mkException</i>)</article></li>
+<li><article><b>BadScopusRecord</b>(<i>mkException</i>)</article></li>
 <li><article><b>BadProQuestRecord</b>(<i>mkException</i>)</article></li>
 <li><article><b>BadProQuestFile</b>(<i>mkException</i>)</article></li>
-<li><article><b>RecordsNotCompatible</b>(<i>mkException</i>)</article></li>
 <li><article><b>CollectionTypeError</b>(<i>mkException, TypeError</i>)</article></li>
+<li><article><b>RecordsNotCompatible</b>(<i>mkException</i>)</article></li>
 <li><article><b>cacheError</b>(<i>mkException</i>)</article></li>
 <li><article><b>BadWOSRecord</b>(<i>BadRecord</i>)</article></li>
 <li><article><b>BadWOSFile</b>(<i>Warning</i>)</article></li>
-<li><article><b>BadCitation</b>(<i>Warning</i>)</article></li>
 <li><article><b>RCTypeError</b>(<i>mkException, TypeError</i>)</article></li>
+<li><article><b>BadCitation</b>(<i>Warning</i>)</article></li>
 <li><article><b>BadGrant</b>(<i>mkException</i>)</article></li>
 <li><article><b>GrantCollectionException</b>(<i>mkException</i>)</article></li>
 <li><article><b>UnknownFile</b>(<i>mkException</i>)</article></li>
@@ -638,6 +661,53 @@ _allSameAttribute_ : `optional [bool]`
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
+<a name="writeTnetFile"></a><small></small>**[<ins>writeTnetFile</ins>]({{ site.baseurl }}{{ page.url }}#writeTnetFile)**(_grph, name, modeNameString, weighted=False, sourceMode=None, timeString=None, nodeIndexString='tnet-ID', weightString='weight'_):
+
+Writes an edge list designed for reading by the _R_ package [_tnet_](https://toreopsahl.com/tnet/).
+
+The _networkx_ graph provided must be a pure two-mode network, the modes must be 2 different values for the node attribute accessed by _modeNameString_ and all edges must be between different node types. Each node will be given an integer id, stored in the attribute given by _nodeIndexString_, these ids are then written to the file as the endpoints of the edges. Unless _sourceMode_ is given which mode is the source (first column) and which the target (second column) is random.
+
+**Note** the _grph_ will be modified by this function, the ids of the nodes will be written to the graph at the attribute _nodeIndexString_.
+
+###### Parameters
+
+_grph_ : `network Graph`
+
+ The graph that will be written to _name_
+
+_name_ : `str`
+
+ The path of the file to write
+
+_modeNameString_ : `str`
+
+ The name of the attribute _grph_'s modes are stored in
+
+_weighted_ : `optional bool`
+
+ Default `False`, if `True` then the attribute _weightString_ will be written to the weight column
+
+_sourceMode_ : `optional str`
+
+ Default `None`, if given the name of the mode used for the source (first column) in the output file
+
+_timeString_ : `optional str`
+
+ Default `None`, if present the attribute _timeString_ of an edge will be written to the time column surrounded by double quotes (").
+
+**Note** The format used by tnet for dates is very strict it uses the ISO format, down to the second and without time zones.
+
+_nodeIndexString_ : `optional str`
+
+ Default `'tnet-ID'`, the name of the attribute to save the id for each node
+
+_weightString_ : `optional str`
+
+ Default `'weight'`, the name of the weight attribute
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
 <a name="dropEdges"></a><small></small>**[<ins>dropEdges</ins>]({{ site.baseurl }}{{ page.url }}#dropEdges)**(_grph, minWeight=-inf, maxWeight=inf, parameterName='weight', ignoreUnweighted=False, dropSelfLoops=False_):
 
 Modifies _grph_ by dropping edges whose weight is not within the inclusive bounds of _minWeight_ and _maxWeight_, i.e after running _grph_ will only have edges whose weights meet the following inequality: _minWeight_ <= edge's weight <= _maxWeight_. A `Keyerror` will be raised if the graph is unweighted unless _ignoreUnweighted_ is `True`, the weight is determined by examining the attribute _parameterName_.
@@ -852,133 +922,6 @@ _overwrite_ : `optional [bool]`
 
 
 ---
-<a name="WOSCitation"></a>
-<a name="WOSCitation"></a><small></small>**[<ins>WOSCitation</ins>](#WOSCitation)**(_<a href="#Citation"><u style="border-bottom: .5px dashed gray;">Citation</u></a>_):
-
-<a name="WOSCitation.__init__"></a><small></small>**[<ins>WOSCitation.__init__</ins>](#WOSCitation.__init__)**(_cite_):
-
-A class to hold citation strings and allow for comparison between them.
-
-The initializer takes in a string representing a WOS citation in the form:
-
-    Author, Year, Journal, Volume, Page, DOI
-
-`Author` is the author's name in the form of first last name first initial sometimes followed by a period.
-`Year` is the year of publication.
-`Journal` being the 29-Character Source Abbreviation of the journal.
-`Volume` is the volume number(s) of the publication preceded by a V
-`Page` is the page number the record starts on
-`DOI` is the DOI number of the cited record preceeded by the letters `'DOI'`
-Combined they look like:
-
-    Nunez R., 1998, MATH COGNITION, V4, P85, DOI 10.1080/135467998387343
-
-**Note**: any of the fields have been known to be missing and the requirements for the fields are not always met. If something is in the source string that cannot be interpreted as any of these it is put in the `misc` attribute. That is the reason to use this class, it gracefully handles missing information while still allowing for  comparison between WOS citation strings.
-
-##### Customizations
-
-Citation's hashing and equality checking are based on [`ID()`](#ID) and use the values of `author`, `year` and `journal`.
-
-When converted to a string a Citation will return the original string.
-
-##### Attributes
-
-As noted above, citations are considered to be divided into six distinct fields (`Author`, `Year`, `Journal`, `Volume`, `Page` and `DOI`) with a seventh `misc` for anything not in those. Records thus have an attribute with a name corresponding to each `author`, `year`, `journal`, `V`, `P`, `DOI` and `misc` respectively. These are created if there is anything in the field. So a `Citation` created from the string: `'Nunez R., 1998, MATH COGNITION'` would have `author`, `year` and `journal` defined. While one from `'Nunez R.'` would have only the attribute `misc`.
-
-If the parsing of a citation string fails the attribute `bad` is set to `True` and the attribute `error` is created to contain said error, which is a [BadCitation](#BadCitation) object. If no errors occur `bad` is `False`.
-
-The attribute `original` is the unmodified string (_cite_) given to create the Citation, it can also be accessed by converting to a string, e.g. with `str()`.
-
-##### \_\_Init\_\_
-
-Citations can be created by [Records](#Record) or by giving the initializer a string containing a WOS style citation.
-
-##### Parameters
-
-_cite_ : `str`
-
- A str containing a WOS style citation.
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;"><h3>
-The WOSCitation class has the following methods:</h3>
-
-<ol class="post-list">
-<li><article><a href="#FullJournalName"><b>FullJournalName</b>()</a></article></li>
-<li><article><a href="#addToDB"><b>addToDB</b>(<i>manualName=None, manaulDB='manualj9Abbreviations', invert=False</i>)</a></article></li>
-<li><article><a href="#isJournal"><b>isJournal</b>(<i>dbname='j9Abbreviations', manaulDB='manualj9Abbreviations', returnDict='both', checkIfExcluded=False</i>)</a></article></li>
-</ol>
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="FullJournalName"></a><small>WOSCitation.</small>**[<ins>FullJournalName</ins>]({{ site.baseurl }}{{ page.url }}#FullJournalName)**():
-
-Returns the full name of the Citation's journal field. Requires the [j9Abbreviations]({{ site.baseurl }}{{ page.url }}#getj9dict) database file.
-
-**Note**: Requires the [j9Abbreviations]({{ site.baseurl }}{{ page.url }}#getj9dict) database file and will raise an error if it cannot be found.
-
-###### Returns
-
-`str`
-
- The first full name given for the journal of the Citation (or the first name in the WOS list if multiple names exist), if there is not one then `None` is returned
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="addToDB"></a><small>WOSCitation.</small>**[<ins>addToDB</ins>]({{ site.baseurl }}{{ page.url }}#addToDB)**(_manualName=None, manaulDB='manualj9Abbreviations', invert=False_):
-
-Adds the journal of this Citation to the user created database of journals. This will cause [isJournal()]({{ site.baseurl }}{{ page.url }}#isJournal) to return `True` for this Citation and all others with its `journal`.
-
-**Note**: Requires the [j9Abbreviations]({{ site.baseurl }}{{ page.url }}#getj9dict) database file and will raise an error if it cannot be found.
-
-###### Parameters
-
-_manualName_ : `optional [str]`
-
- Default `None`, the full name of journal to use. If not provided the full name will be the same as the abbreviation.
-
-_manaulDB_ : `optional [str]`
-
- The name of the manually created database file, the default is determined at run time. It is recommended that this remain untouched.
-
-_invert_ : `optional [bool]`
-
- Default `False`, if `True` the journal will be removed instead of added
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="isJournal"></a><small>WOSCitation.</small>**[<ins>isJournal</ins>]({{ site.baseurl }}{{ page.url }}#isJournal)**(_dbname='j9Abbreviations', manaulDB='manualj9Abbreviations', returnDict='both', checkIfExcluded=False_):
-
-Returns `True` if the `Citation`'s `journal` field is a journal abbreviation from the WOS listing found at [http://images.webofknowledge.com/WOK46/help/WOS/A_abrvjt.html](http://images.webofknowledge.com/WOK46/help/WOS/A_abrvjt.html), i.e. checks if the citation is citing a journal.
-
-**Note**: Requires the [j9Abbreviations]({{ site.baseurl }}{{ page.url }}#getj9dict) database file and will raise an error if it cannot be found.
-
-**Note**: All parameters are used for getting the data base with  [**getj9dict**()]({{ site.baseurl }}{{ page.url }}#getj9dict).
-
-###### Parameters
-
-_dbname_ : `optional [str]`
-
- The name of the downloaded database file, the default is determined at run time. It is recommended that this remain untouched.
-
-_manaulDB_ : `optional [str]`
-
- The name of the manually created database file, the default is determined at run time. It is recommended that this remain untouched.
-
-_returnDict_ : `optional [str]`
-
- default `'both'`, can be used to get both databases or only one  with `'WOS'` or `'manual'`.
-
-###### Returns
-
-`bool`
-
- `True` if the `Citation` is for a journal
-
-
-
----
 <a name="WOSRecord"></a>
 <a name="WOSRecord"></a><small></small>**[<ins>WOSRecord</ins>](#WOSRecord)**(_<a href="#ExtendedRecord"><u style="border-bottom: .5px dashed gray;">ExtendedRecord</u></a>_):
 
@@ -1175,7 +1118,7 @@ _tag_ : `str`
 <a name="Citation"></a>
 <a name="Citation"></a><small></small>**[<ins>Citation</ins>](#Citation)**(_Hashable_):
 
-<a name="Citation.__init__"></a><small></small>**[<ins>Citation.__init__</ins>](#Citation.__init__)**(_cite_):
+<a name="Citation.__init__"></a><small></small>**[<ins>Citation.__init__</ins>](#Citation.__init__)**(_cite, scopusMode=False_):
 
 A class to hold citation strings and allow for comparison between them.
 
@@ -1228,6 +1171,9 @@ The Citation class has the following methods:</h3>
 <li><article><a href="#ID"><b>ID</b>()</a></article></li>
 <li><article><a href="#allButDOI"><b>allButDOI</b>()</a></article></li>
 <li><article><a href="#Extra"><b>Extra</b>()</a></article></li>
+<li><article><a href="#isJournal"><b>isJournal</b>(<i>dbname='j9Abbreviations', manaulDB='manualj9Abbreviations', returnDict='both', checkIfExcluded=False</i>)</a></article></li>
+<li><article><a href="#FullJournalName"><b>FullJournalName</b>()</a></article></li>
+<li><article><a href="#addToDB"><b>addToDB</b>(<i>manualName=None, manaulDB='manualj9Abbreviations', invert=False</i>)</a></article></li>
 </ol>
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
@@ -1281,6 +1227,75 @@ Returns any `V`, `P`, `DOI` or `misc` values as a string. These are all the valu
 `str`
 
  A string containing the data not in the ID of the `Citation`.
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="isJournal"></a><small>Citation.</small>**[<ins>isJournal</ins>]({{ site.baseurl }}{{ page.url }}#isJournal)**(_dbname='j9Abbreviations', manaulDB='manualj9Abbreviations', returnDict='both', checkIfExcluded=False_):
+
+Returns `True` if the `Citation`'s `journal` field is a journal abbreviation from the WOS listing found at [http://images.webofknowledge.com/WOK46/help/WOS/A_abrvjt.html](http://images.webofknowledge.com/WOK46/help/WOS/A_abrvjt.html), i.e. checks if the citation is citing a journal.
+
+**Note**: Requires the [j9Abbreviations]({{ site.baseurl }}{{ page.url }}#getj9dict) database file and will raise an error if it cannot be found.
+
+**Note**: All parameters are used for getting the data base with  [**getj9dict**()]({{ site.baseurl }}{{ page.url }}#getj9dict).
+
+###### Parameters
+
+_dbname_ : `optional [str]`
+
+ The name of the downloaded database file, the default is determined at run time. It is recommended that this remain untouched.
+
+_manaulDB_ : `optional [str]`
+
+ The name of the manually created database file, the default is determined at run time. It is recommended that this remain untouched.
+
+_returnDict_ : `optional [str]`
+
+ default `'both'`, can be used to get both databases or only one  with `'WOS'` or `'manual'`.
+
+###### Returns
+
+`bool`
+
+ `True` if the `Citation` is for a journal
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="FullJournalName"></a><small>Citation.</small>**[<ins>FullJournalName</ins>]({{ site.baseurl }}{{ page.url }}#FullJournalName)**():
+
+Returns the full name of the Citation's journal field. Requires the [j9Abbreviations]({{ site.baseurl }}{{ page.url }}#getj9dict) database file.
+
+**Note**: Requires the [j9Abbreviations]({{ site.baseurl }}{{ page.url }}#getj9dict) database file and will raise an error if it cannot be found.
+
+###### Returns
+
+`str`
+
+ The first full name given for the journal of the Citation (or the first name in the WOS list if multiple names exist), if there is not one then `None` is returned
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="addToDB"></a><small>Citation.</small>**[<ins>addToDB</ins>]({{ site.baseurl }}{{ page.url }}#addToDB)**(_manualName=None, manaulDB='manualj9Abbreviations', invert=False_):
+
+Adds the journal of this Citation to the user created database of journals. This will cause [isJournal()]({{ site.baseurl }}{{ page.url }}#isJournal) to return `True` for this Citation and all others with its `journal`.
+
+**Note**: Requires the [j9Abbreviations]({{ site.baseurl }}{{ page.url }}#getj9dict) database file and will raise an error if it cannot be found.
+
+###### Parameters
+
+_manualName_ : `optional [str]`
+
+ Default `None`, the full name of journal to use. If not provided the full name will be the same as the abbreviation.
+
+_manaulDB_ : `optional [str]`
+
+ The name of the manually created database file, the default is determined at run time. It is recommended that this remain untouched.
+
+_invert_ : `optional [bool]`
+
+ Default `False`, if `True` the journal will be removed instead of added
 
 
 
@@ -1483,6 +1498,56 @@ _sLine_ : `int`
 <a name="NSERCGrant"></a><small></small>**[<ins>NSERCGrant</ins>](#NSERCGrant)**(_<a href="#Grant"><u style="border-bottom: .5px dashed gray;">Grant</u></a>_):
 
 <a name="NSERCGrant.__init__"></a><small></small>**[<ins>NSERCGrant.__init__</ins>](#NSERCGrant.__init__)**(_original, grantdDict, sFile, sLine_):
+
+A dictionary with error handling and an id string.
+
+`Record` is the base class of the all objects in _metaknowledge_ that contain information as key-value pairs, these are the grants and the records from different sources.
+
+The error handling of the `Record` is done with the `bad` attribute. If there is some issue with the data _bad_ should be `True` and _error_ given an `Exception` that was caused by or explains the error.
+
+##### Customizations
+
+`Record` is a subclass of `abc.collections.Mapping` which means it has almost all the methods a dictionary does, the missing ones are those that modify entries. So to access the value of the key `'title'` from a `Record` `R`, you would use either the square brace notation `t = R['title']` or the `get()` function `t = R.get('title')` just like a dictionary. The other methods like `keys()` or `copy()` also work.
+
+In addition to being a mapping `Records` are also hashable with their hashes being based on a unique id string they are given on creation, usually some kind of accession number the source gives them. The two optional arguments _sFile_ and _sLine_, which should be given the name of the file the records came from and the line it started on respectively, are used to make the errors more useful.
+
+##### \_\_Init\_\_
+
+_fieldDict_ is the dictionary the `Record` will use and _idValue_ is the unique identifier of the `Record`.
+
+##### Parameters
+
+_fieldDict_ : `dict[str:]`
+
+ A dictionary that maps from strings to values
+
+_idValue_ : `str`
+
+ A unique identifier string for the `Record`
+
+_bad_ : `bool`
+
+ `True` if there are issues with the `Record`, otherwise `False`
+
+_error_ : `Exception`
+
+ The `Exception` that caused whatever error made the record be marked as bad or `None`
+
+_sFile_ : `str`
+
+ A string that gives the source file of the original records
+
+_sLine_ : `int`
+
+ The first line the original record is found on in the source file
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+---
+<a name="NSFGrant"></a>
+<a name="NSFGrant"></a><small></small>**[<ins>NSFGrant</ins>](#NSFGrant)**(_<a href="#Grant"><u style="border-bottom: .5px dashed gray;">Grant</u></a>_):
+
+<a name="NSFGrant.__init__"></a><small></small>**[<ins>NSFGrant.__init__</ins>](#NSFGrant.__init__)**(_grantdDict, sFile_):
 
 A dictionary with error handling and an id string.
 
@@ -2656,7 +2721,7 @@ The RecordCollection class has the following methods:</h3>
 <ol class="post-list">
 <li><article><a href="#dropNonJournals"><b>dropNonJournals</b>(<i>ptVal='J', dropBad=True, invert=False</i>)</a></article></li>
 <li><article><a href="#writeFile"><b>writeFile</b>(<i>fname=None</i>)</a></article></li>
-<li><article><a href="#writeCSV"><b>writeCSV</b>(<i>fname=None, onlyTheseTags=None, numAuthors=True, longNames=False, firstTags=None, csvDelimiter=',', csvQuote='"', listDelimiter='|'</i>)</a></article></li>
+<li><article><a href="#writeCSV"><b>writeCSV</b>(<i>fname=None, splitByTag=None, onlyTheseTags=None, numAuthors=True, longNames=False, firstTags=None, csvDelimiter=',', csvQuote='"', listDelimiter='|'</i>)</a></article></li>
 <li><article><a href="#writeBib"><b>writeBib</b>(<i>fname=None, maxStringLength=1000, wosMode=False, reducedOutput=False, niceIDs=True</i>)</a></article></li>
 <li><article><a href="#makeDict"><b>makeDict</b>(<i>onlyTheseTags=None, longNames=False, raw=False, numAuthors=True</i>)</a></article></li>
 <li><article><a href="#coAuthNetwork"><b>coAuthNetwork</b>(<i>detailedInfo=False, weighted=True, dropNonJournals=False, count=True</i>)</a></article></li>
@@ -2703,7 +2768,7 @@ _fname_ : `optional [str]`
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="writeCSV"></a><small>RecordCollection.</small>**[<ins>writeCSV</ins>]({{ site.baseurl }}{{ page.url }}#writeCSV)**(_fname=None, onlyTheseTags=None, numAuthors=True, longNames=False, firstTags=None, csvDelimiter=',', csvQuote='"', listDelimiter='|'_):
+<a name="writeCSV"></a><small>RecordCollection.</small>**[<ins>writeCSV</ins>]({{ site.baseurl }}{{ page.url }}#writeCSV)**(_fname=None, splitByTag=None, onlyTheseTags=None, numAuthors=True, longNames=False, firstTags=None, csvDelimiter=',', csvQuote='"', listDelimiter='|'_):
 
 Writes all the `Records` from the collection into a csv file with each row a record and each column a tag.
 
@@ -2712,6 +2777,12 @@ Writes all the `Records` from the collection into a csv file with each row a rec
 _fname_ : `optional [str]`
 
  Default `None`, the name of the file to write to, if `None` it uses the collections name suffixed by .csv.
+
+_splitByTag_ : `optional [str]`
+
+ Default `None`, if a tag is given the output will be divided into different files according to the value of the tag, with only the records associated with that tag. For example if `'authorsFull'` is given then each file will only have the lines for `Records` that author is named in.
+
+ The file names are the values of the tag followed by a dash then the normale name for the file as given by _fname_, e.g. for the year 2016 the file could be called `'2016-fname.csv'`.
 
 _onlyTheseTags_ : `optional [iterable]`
 
@@ -3089,6 +3160,109 @@ _caseSensitive_ : `optional [bool]`
 
 
 ---
+<a name="ScopusRecord"></a>
+<a name="ScopusRecord"></a><small></small>**[<ins>ScopusRecord</ins>](#ScopusRecord)**(_<a href="#ExtendedRecord"><u style="border-bottom: .5px dashed gray;">ExtendedRecord</u></a>_):
+
+<a name="ScopusRecord.__init__"></a><small></small>**[<ins>ScopusRecord.__init__</ins>](#ScopusRecord.__init__)**(_inRecord, sFile='', sLine=0_):
+
+Class for full Scopus entries.
+
+This class is an [`ExtendedRecord`](#ExtendedRecord) capable of generating its own id number. You should not create them directly, but instead use [`scopusParser()`](#scopusParser) on a scopus **CSV** file.
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;"><h3>
+The ScopusRecord class has the following methods:</h3>
+
+<ol class="post-list">
+<li><article><a href="#encoding"><b>encoding</b>()</a></article></li>
+<li><article><a href="#getAltName"><b>getAltName</b>(<i>tag</i>)</a></article></li>
+<li><article><a href="#tagProcessingFunc"><b>tagProcessingFunc</b>(<i>tag</i>)</a></article></li>
+<li><article><a href="#specialFuncs"><b>specialFuncs</b>(<i>key</i>)</a></article></li>
+<li><article><a href="#writeRecord"><b>writeRecord</b>(<i>f</i>)</a></article></li>
+</ol>
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="encoding"></a><small>ScopusRecord.</small>**[<ins>encoding</ins>]({{ site.baseurl }}{{ page.url }}#encoding)**():
+
+An `abstractmethod`, gives the encoding string of the record.
+
+###### Returns
+
+`str`
+
+ The encoding
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="getAltName"></a><small>ScopusRecord.</small>**[<ins>getAltName</ins>]({{ site.baseurl }}{{ page.url }}#getAltName)**(_tag_):
+
+An `abstractmethod`, gives the alternate name of _tag_ or `None`
+
+###### Parameters
+
+_tag_ : `str`
+
+ The requested tag
+
+###### Returns
+
+`str`
+
+ The alternate name of _tag_ or `None`
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="tagProcessingFunc"></a><small>ScopusRecord.</small>**[<ins>tagProcessingFunc</ins>]({{ site.baseurl }}{{ page.url }}#tagProcessingFunc)**(_tag_):
+
+An `abstractmethod`, gives the function for processing _tag_
+
+###### Parameters
+
+_tag_ : `optional [str]`
+
+ The tag in need of processing
+
+###### Returns
+
+`fucntion`
+
+ The function to process the raw tag
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="specialFuncs"></a><small>ScopusRecord.</small>**[<ins>specialFuncs</ins>]({{ site.baseurl }}{{ page.url }}#specialFuncs)**(_key_):
+
+An `abstractmethod`, process the special tag, _key_ using the whole `Record`
+
+###### Parameters
+
+_key_ : `str`
+
+ One of the special tags: `'authorsFull'`, `'keywords'`, `'grants'`, `'j9'`, `'authorsShort'`, `'volume'`, `'selfCitation'`, `'citations'`, `'address'`, `'abstract'`, `'title'`, `'month'`, `'year'`, `'journal'`, `'beginningPage'` and `'DOI'`
+
+###### Returns
+
+ The processed value of _key_
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="writeRecord"></a><small>ScopusRecord.</small>**[<ins>writeRecord</ins>]({{ site.baseurl }}{{ page.url }}#writeRecord)**(_f_):
+
+An `abstractmethod`, writes the record in its original form to _infile_
+
+###### Parameters
+
+_infile_ : `writable file`
+
+ The file to be written to
+
+
+
+---
 <a name="contour"></a>
 
 # [contour]({{ site.baseurl }}{{ page.url }}#contour)
@@ -3267,10 +3441,7 @@ The full list of tags and their long names is provided below followed by the des
 <h3><a name="WOS">The <a href="#WOS"><u>WOS</u></a> module provides the following functions:</a></h3>
 
 <ol class="post-list">
-<li><article><a href="#getj9dict"><b>getj9dict</b>(<i>dbname='j9Abbreviations', manualDB='manualj9Abbreviations', returnDict='both'</i>)</a></article></li>
-<li><article><a href="#addToDB"><b>addToDB</b>(<i>abbr=None, dbname='manualj9Abbreviations'</i>)</a></article></li>
-<li><article><a href="#excludeFromDB"><b>excludeFromDB</b>(<i>abbr=None, dbname='manualj9Abbreviations'</i>)</a></article></li>
-<li><article><a href="#updatej9DB"><b>updatej9DB</b>(<i>dbname='j9Abbreviations', saveRawHTML=False</i>)</a></article></li>
+<li><article><a href="#recordParser"><b>recordParser</b>(<i>paper</i>)</a></article></li>
 <li><article><a href="#getMonth"><b>getMonth</b>(<i>s</i>)</a></article></li>
 <li><article><a href="#confHost"><b>confHost</b>(<i>val</i>)</a></article></li>
 <li><article><a href="#publisherAddress"><b>publisherAddress</b>(<i>val</i>)</a></article></li>
@@ -3333,77 +3504,35 @@ The full list of tags and their long names is provided below followed by the des
 <li><article><a href="#beginningPage"><b>beginningPage</b>(<i>val</i>)</a></article></li>
 <li><article><a href="#abstract"><b>abstract</b>(<i>val</i>)</a></article></li>
 <li><article><a href="#supplement"><b>supplement</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#wosParser"><b>wosParser</b>(<i>isifile</i>)</a></article></li>
+<li><article><a href="#isWOSFile"><b>isWOSFile</b>(<i>infile, checkedLines=3</i>)</a></article></li>
 </ol>
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="getj9dict"></a><small>WOS.</small>**[<ins>getj9dict</ins>]({{ site.baseurl }}{{ page.url }}#getj9dict)**(_dbname='j9Abbreviations', manualDB='manualj9Abbreviations', returnDict='both'_):
+<a name="recordParser"></a><small>WOS.</small>**[<ins>recordParser</ins>]({{ site.baseurl }}{{ page.url }}#recordParser)**(_paper_):
 
-Returns the dictionary of journal abbreviations mapping to a list of the associated journal names. By default the local database is used. The database is in the file _dbname_ in the same directory as this source file
+This is function that is used to create [`Records`]({{ site.baseurl }}{{ page.url }}#Record) from files.
 
-###### Parameters
+**recordParser**() reads the file _paper_ until it reaches 'ER'. For each field tag it adds an entry to the returned dict with the tag as the key and a list of the entries as the value, the list has each line separately, so for the following two lines in a record:
 
-_dbname_ : `optional [str]`
+    AF BREVIK, I
+       ANICIN, B
 
- The name of the downloaded database file, the default is determined at run time. It is recommended that this remain untouched.
+The entry in the returned dict would be `{'AF' : ["BREVIK, I", "ANICIN, B"]}`
 
-_manaulDB_ : `optional [str]`
-
- The name of the manually created database file, the default is determined at run time. It is recommended that this remain untouched.
-
-_returnDict_ : `optional [str]`
-
- default `'both'`, can be used to get both databases or only one  with `'WOS'` or `'manual'`.
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="addToDB"></a><small>WOS.</small>**[<ins>addToDB</ins>]({{ site.baseurl }}{{ page.url }}#addToDB)**(_abbr=None, dbname='manualj9Abbreviations'_):
-
-Adds _abbr_ to the database of journals. The database is kept separate from the one scraped from WOS, this supersedes it. The database by default is stored with the WOS one and the name is given by `metaknowledge.journalAbbreviations.manaulDBname`. To create an empty database run **addToDB** without an _abbr_ argument.
+`Record` objects can be created with these dictionaries as the initializer.
 
 ###### Parameters
 
-_abbr_ : `optional [str or dict[str : str]]`
+_paper_ : `file stream`
 
- The journal abbreviation to be added to the database, it can either be a single string in which case that string will be added with its self as the full name, or a dict can be given with the abbreviations as keys and their names as strings, use pipes (`'|'`) to separate multiple names. Note, if the empty string is given as a name the abbreviation will be considered manually __excluded__, i.e. having excludeFromDB() run on it.
+ An open file, with the current line at the beginning of the WOS record.
 
-_dbname_ : `optional [str]`
+###### Returns
 
- The name of the database file, default is `metaknowledge.journalAbbreviations.manaulDBname`.
+`OrderedDict[str : List[str]]`
 
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="excludeFromDB"></a><small>WOS.</small>**[<ins>excludeFromDB</ins>]({{ site.baseurl }}{{ page.url }}#excludeFromDB)**(_abbr=None, dbname='manualj9Abbreviations'_):
-
-Marks _abbr_ to be excluded the database of journals. The database is kept separate from the one scraped from WOS, this supersedes it. The database by default is stored with the WOS one and the name is given by `metaknowledge.journalAbbreviations.manaulDBname`. To create an empty database run [**addToDB**()]({{ site.baseurl }}{{ page.url }}#addToDB) without an _abbr_ argument.
-
-###### Parameters
-
-_abbr_ : `optional [str or tuple[str] or list[str]`
-
- The journal abbreviation to be excluded from the database, it can either be a single string in which case that string will be exclude or a list/tuple of strings can be given with the abbreviations.
-
-_dbname_ : `optional [str]`
-
- The name of the database file, default is `metaknowledge.journalAbbreviations.manaulDBname`.
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="updatej9DB"></a><small>WOS.</small>**[<ins>updatej9DB</ins>]({{ site.baseurl }}{{ page.url }}#updatej9DB)**(_dbname='j9Abbreviations', saveRawHTML=False_):
-
-Updates the database of Journal Title Abbreviations. Requires an internet connection. The data base is saved relative to the source file not the working directory.
-
-###### Parameters
-
-_dbname_ : `optional [str]`
-
- The name of the database file, default is "j9Abbreviations.db"
-
-_saveRawHTML_ : `optional [bool]`
-
- Determines if the original HTML of the pages is stored, default `False`. If `True` they are saved in a directory inside j9Raws begining with todays date.
+ A dictionary mapping WOS tags to lists, the lists are of strings, each string is a line of the record associated with the tag.
 
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
@@ -4692,6 +4821,52 @@ _val_: `list[str]`
  The supplement number
 
 
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="wosParser"></a><small>WOS.</small>**[<ins>wosParser</ins>]({{ site.baseurl }}{{ page.url }}#wosParser)**(_isifile_):
+
+This is function that is used to create [`RecordCollections`]({{ site.baseurl }}{{ page.url }}#RecordCollection) from files.
+
+**wosParser**() reads the file given by the path isifile, checks that the header is correct then reads until it reaches EF. All WOS records it encounters are parsed with [**recordParser**()]({{ site.baseurl }}{{ page.url }}#recordParser) and converted into [`Records`]({{ site.baseurl }}{{ page.url }}#Record). A list of these `Records` is returned.
+
+`BadWOSFile` is raised if an issue is found with the file.
+
+###### Parameters
+
+_isifile_ : `str`
+
+ The path to the target file
+
+###### Returns
+
+`List[Record]`
+
+ All the `Records` found in _isifile_
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="isWOSFile"></a><small>WOS.</small>**[<ins>isWOSFile</ins>]({{ site.baseurl }}{{ page.url }}#isWOSFile)**(_infile, checkedLines=3_):
+
+Determines if _infile_ is the path to a WOS file. A file is considerd to be a WOS file if it has the correct encoding (`utf-8` with a BOM) and within the first _checkedLines_ a line starts with `"VR 1.0"`.
+
+###### Parameters
+
+_infile_ : `str`
+
+ The path to the targets file
+
+_checkedLines_ : `optional [int]`
+
+ default 2, the number of lines to check for the header
+
+###### Returns
+
+`bool`
+
+ `True` if the file is a WOS file
+
+
 
 ---
 <a name="medline"></a>
@@ -5547,6 +5722,150 @@ _tag_ : `str`
 `function`
 
  A function to process the tag's data
+
+
+
+---
+<a name="scopus"></a>
+
+# [scopus]({{ site.baseurl }}{{ page.url }}#scopus)
+
+
+
+
+
+
+<h3><a name="scopus">The <a href="#scopus"><u>scopus</u></a> module provides the following functions:</a></h3>
+
+<ol class="post-list">
+<li><article><a href="#scopusRecordParser"><b>scopusRecordParser</b>(<i>record</i>)</a></article></li>
+<li><article><a href="#scopusParser"><b>scopusParser</b>(<i>scopusFile</i>)</a></article></li>
+<li><article><a href="#isScopusFile"><b>isScopusFile</b>(<i>infile, checkedLines=2</i>)</a></article></li>
+</ol>
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="scopusRecordParser"></a><small>scopus.</small>**[<ins>scopusRecordParser</ins>]({{ site.baseurl }}{{ page.url }}#scopusRecordParser)**(_record_):
+
+The parser [`ScopusRecords`]({{ site.baseurl }}{{ page.url }}#ScopusRecord) use. This takes a line from [`scopusParser()`]({{ site.baseurl }}{{ page.url }}#scopusParser) and parses it as a part of the creation of a `ScopusRecord`.
+
+**Note** this is for csv files downloaded from scopus _not_ the text records as those are less complete. Also, Scopus uses double quotes (`"`) to quote strings, such as abstracts, in the csv so double quotes in the string must be escaped. For reasons not fully understandable by mortals they choose to use two double quotes in a row (`""`) to represent an escaped double quote. This parser does not unescape these quotes, but it does correctly handle their interacts with the outer double quotes.
+
+###### Parameters
+
+_record_ : `str`
+
+ string ending with a newline containing the record's entry
+
+###### Returns
+
+`dict`
+
+ A dictionary of the key-vaue pairs in the entry
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="scopusParser"></a><small>scopus.</small>**[<ins>scopusParser</ins>]({{ site.baseurl }}{{ page.url }}#scopusParser)**(_scopusFile_):
+
+Parses a scopus file, _scopusFile_, to extract the individual lines as [`ScopusRecords`]({{ site.baseurl }}{{ page.url }}#ScopusRecord).
+
+A Scopus file is a csv (Comma-separated values) with a complete header, see [`scopus.scopusHeader`]({{ site.baseurl }}{{ page.url }}#scopus) for the entries, and each line after it containing a record's entry. The string valued entries are quoted with double quotes which means double quotes inside them can cause issues, see [`scopusRecordParser()`]({{ site.baseurl }}{{ page.url }}#scopusRecordParser) for more information.
+
+###### Parameters
+
+_scopusFile_ : `str`
+
+ A path to a valid scopus file, use [`isScopusFile()`]({{ site.baseurl }}{{ page.url }}#isScopusFile) to verify
+
+###### Returns
+
+`set[ScopusRecord]`
+
+ Records for each of the entries
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="isScopusFile"></a><small>scopus.</small>**[<ins>isScopusFile</ins>]({{ site.baseurl }}{{ page.url }}#isScopusFile)**(_infile, checkedLines=2_):
+
+Determines if _infile_ is the path to a Scopus csv file. A file is considerd to be a Scopus file if it has the correct encoding (`utf-8` with BOM (Byte Order Mark)) and within the first _checkedLines_ a line contains the complete header, the list of all header entries in order is found in [`scopus.scopusHeader`]({{ site.baseurl }}{{ page.url }}#scopus).
+
+**Note** this is for csv files _not_ plain text files from scopus, plain text files are not complete.
+
+###### Parameters
+
+_infile_ : `str`
+
+ The path to the targets file
+
+_checkedLines_ : `optional [int]`
+
+ default 2, the number of lines to check for the header
+
+###### Returns
+
+`bool`
+
+ `True` if the file is a Scopus csv file
+
+
+
+---
+<a name="journalAbbreviations"></a>
+
+# [journalAbbreviations]({{ site.baseurl }}{{ page.url }}#journalAbbreviations)
+
+This module handles the abbreviations, known as J29 abbreviations and given by the J9 tag in WOS Records and for journal titles that WOS employs in citations.
+
+The citations provided by WOS used abbreviated journal titles instead of the full names. The full list of abbreviations can be found at a series pages divided by letter starting at [images.webofknowledge.com/WOK46/help/WOS/A_abrvjt.html](http://images.webofknowledge.com/WOK46/help/WOS/A_abrvjt.html). The function [**updatej9DB**()](#getj9dict) is used to scape and parse the pages, it must be run without error before the other features can be used. _metaknowledge_. If the database is requested by `getj9dict()`, which is what [`Citations`](#Citation) use, and the database is not found or is corrupted then [`updatej9DB()`](#updatej9DB) will be run to download the database if this fails an `mkException` will be raised, the download and parsing usually takes less than a second on a good internet connection.
+
+The other functions of the module are for manually adding and removing abbreviations from the database. It is recommended that this be done with the command-line tool `metaknowledge` instead of with a script.
+
+
+
+
+<h3><a name="journalAbbreviations">The <a href="#journalAbbreviations"><u>journalAbbreviations</u></a> module provides the following functions:</a></h3>
+
+<ol class="post-list">
+<li><article><a href="#getj9dict"><b>getj9dict</b>(<i>dbname='j9Abbreviations', manualDB='manualj9Abbreviations', returnDict='both'</i>)</a></article></li>
+<li><article><a href="#addToDB"><b>addToDB</b>(<i>abbr=None, dbname='manualj9Abbreviations'</i>)</a></article></li>
+</ol>
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="getj9dict"></a><small>journalAbbreviations.</small>**[<ins>getj9dict</ins>]({{ site.baseurl }}{{ page.url }}#getj9dict)**(_dbname='j9Abbreviations', manualDB='manualj9Abbreviations', returnDict='both'_):
+
+Returns the dictionary of journal abbreviations mapping to a list of the associated journal names. By default the local database is used. The database is in the file _dbname_ in the same directory as this source file
+
+###### Parameters
+
+_dbname_ : `optional [str]`
+
+ The name of the downloaded database file, the default is determined at run time. It is recommended that this remain untouched.
+
+_manaulDB_ : `optional [str]`
+
+ The name of the manually created database file, the default is determined at run time. It is recommended that this remain untouched.
+
+_returnDict_ : `optional [str]`
+
+ default `'both'`, can be used to get both databases or only one  with `'WOS'` or `'manual'`.
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="addToDB"></a><small>journalAbbreviations.</small>**[<ins>addToDB</ins>]({{ site.baseurl }}{{ page.url }}#addToDB)**(_abbr=None, dbname='manualj9Abbreviations'_):
+
+Adds _abbr_ to the database of journals. The database is kept separate from the one scraped from WOS, this supersedes it. The database by default is stored with the WOS one and the name is given by `metaknowledge.journalAbbreviations.manaulDBname`. To create an empty database run **addToDB** without an _abbr_ argument.
+
+###### Parameters
+
+_abbr_ : `optional [str or dict[str : str]]`
+
+ The journal abbreviation to be added to the database, it can either be a single string in which case that string will be added with its self as the full name, or a dict can be given with the abbreviations as keys and their names as strings, use pipes (`'|'`) to separate multiple names. Note, if the empty string is given as a name the abbreviation will be considered manually __excluded__, i.e. having excludeFromDB() run on it.
+
+_dbname_ : `optional [str]`
+
+ The name of the database file, default is `metaknowledge.journalAbbreviations.manaulDBname`.
 
 
 

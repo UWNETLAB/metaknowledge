@@ -415,10 +415,7 @@
 <h3><a name="WOS">The <a href="#WOS"><u>WOS</u></a> module provides the following functions:</a></h3>
 
 <ol class="post-list">
-<li><article><a href="#getj9dict"><b>getj9dict</b>(<i>dbname='j9Abbreviations', manualDB='manualj9Abbreviations', returnDict='both'</i>)</a></article></li>
-<li><article><a href="#addToDB"><b>addToDB</b>(<i>abbr=None, dbname='manualj9Abbreviations'</i>)</a></article></li>
-<li><article><a href="#excludeFromDB"><b>excludeFromDB</b>(<i>abbr=None, dbname='manualj9Abbreviations'</i>)</a></article></li>
-<li><article><a href="#updatej9DB"><b>updatej9DB</b>(<i>dbname='j9Abbreviations', saveRawHTML=False</i>)</a></article></li>
+<li><article><a href="#recordParser"><b>recordParser</b>(<i>paper</i>)</a></article></li>
 <li><article><a href="#getMonth"><b>getMonth</b>(<i>s</i>)</a></article></li>
 <li><article><a href="#confHost"><b>confHost</b>(<i>val</i>)</a></article></li>
 <li><article><a href="#publisherAddress"><b>publisherAddress</b>(<i>val</i>)</a></article></li>
@@ -481,74 +478,37 @@
 <li><article><a href="#beginningPage"><b>beginningPage</b>(<i>val</i>)</a></article></li>
 <li><article><a href="#abstract"><b>abstract</b>(<i>val</i>)</a></article></li>
 <li><article><a href="#supplement"><b>supplement</b>(<i>val</i>)</a></article></li>
+<li><article><a href="#wosParser"><b>wosParser</b>(<i>isifile</i>)</a></article></li>
+<li><article><a href="#isWOSFile"><b>isWOSFile</b>(<i>infile, checkedLines=3</i>)</a></article></li>
 </ol>
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="getj9dict"></a><small>WOS.</small><strong><a href="/metaknowledge/docs/WOS#getj9dict"><ins>getj9dict</ins></a></strong>(<em>dbname=’j9Abbreviations’, manualDB=’manualj9Abbreviations’, returnDict=’both’</em>):</p>
+<p><a name="recordParser"></a><small>WOS.</small><strong><a href="/metaknowledge/docs/WOS#recordParser"><ins>recordParser</ins></a></strong>(<em>paper</em>):</p>
 
-<p>Returns the dictionary of journal abbreviations mapping to a list of the associated journal names. By default the local database is used. The database is in the file <em>dbname</em> in the same directory as this source file</p>
+<p>This is function that is used to create <a href="/metaknowledge/docs/WOS#Record"><code class="highlighter-rouge">Records</code></a> from files.</p>
+
+<p><strong>recordParser</strong>() reads the file <em>paper</em> until it reaches ‘ER’. For each field tag it adds an entry to the returned dict with the tag as the key and a list of the entries as the value, the list has each line separately, so for the following two lines in a record:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>AF BREVIK, I
+   ANICIN, B
+</code></pre>
+</div>
+
+<p>The entry in the returned dict would be <code class="highlighter-rouge"><span class="p">{</span><span class="err">'AF'</span><span class="w"> </span><span class="err">:</span><span class="w"> </span><span class="err">[</span><span class="nt">"BREVIK, I"</span><span class="err">,</span><span class="w"> </span><span class="nt">"ANICIN, B"</span><span class="err">]}</span></code></p>
+
+<p><code class="highlighter-rouge">Record</code> objects can be created with these dictionaries as the initializer.</p>
 
 <h6 id="parameters">Parameters</h6>
 
-<p><em>dbname</em> : <code class="highlighter-rouge">optional [str]</code></p>
+<p><em>paper</em> : <code class="highlighter-rouge">file stream</code></p>
 
-<p>The name of the downloaded database file, the default is determined at run time. It is recommended that this remain untouched.</p>
+<p>An open file, with the current line at the beginning of the WOS record.</p>
 
-<p><em>manaulDB</em> : <code class="highlighter-rouge">optional [str]</code></p>
+<h6 id="returns">Returns</h6>
 
-<p>The name of the manually created database file, the default is determined at run time. It is recommended that this remain untouched.</p>
+<p><code class="highlighter-rouge">OrderedDict[str : List[str]]</code></p>
 
-<p><em>returnDict</em> : <code class="highlighter-rouge">optional [str]</code></p>
-
-<p>default <code class="highlighter-rouge">'both'</code>, can be used to get both databases or only one  with <code class="highlighter-rouge">'WOS'</code> or <code class="highlighter-rouge">'manual'</code>.</p>
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
-
-<p><a name="addToDB"></a><small>WOS.</small><strong><a href="/metaknowledge/docs/WOS#addToDB"><ins>addToDB</ins></a></strong>(<em>abbr=None, dbname=’manualj9Abbreviations’</em>):</p>
-
-<p>Adds <em>abbr</em> to the database of journals. The database is kept separate from the one scraped from WOS, this supersedes it. The database by default is stored with the WOS one and the name is given by <code class="highlighter-rouge">metaknowledge.journalAbbreviations.manaulDBname</code>. To create an empty database run <strong>addToDB</strong> without an <em>abbr</em> argument.</p>
-
-<h6 id="parameters-1">Parameters</h6>
-
-<p><em>abbr</em> : <code class="highlighter-rouge">optional [str or dict[str : str]]</code></p>
-
-<p>The journal abbreviation to be added to the database, it can either be a single string in which case that string will be added with its self as the full name, or a dict can be given with the abbreviations as keys and their names as strings, use pipes (<code class="highlighter-rouge">'|'</code>) to separate multiple names. Note, if the empty string is given as a name the abbreviation will be considered manually <strong>excluded</strong>, i.e. having excludeFromDB() run on it.</p>
-
-<p><em>dbname</em> : <code class="highlighter-rouge">optional [str]</code></p>
-
-<p>The name of the database file, default is <code class="highlighter-rouge">metaknowledge.journalAbbreviations.manaulDBname</code>.</p>
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
-
-<p><a name="excludeFromDB"></a><small>WOS.</small><strong><a href="/metaknowledge/docs/WOS#excludeFromDB"><ins>excludeFromDB</ins></a></strong>(<em>abbr=None, dbname=’manualj9Abbreviations’</em>):</p>
-
-<p>Marks <em>abbr</em> to be excluded the database of journals. The database is kept separate from the one scraped from WOS, this supersedes it. The database by default is stored with the WOS one and the name is given by <code class="highlighter-rouge">metaknowledge.journalAbbreviations.manaulDBname</code>. To create an empty database run <a href="/metaknowledge/docs/WOS#addToDB"><strong>addToDB</strong>()</a> without an <em>abbr</em> argument.</p>
-
-<h6 id="parameters-2">Parameters</h6>
-
-<p><em>abbr</em> : <code class="highlighter-rouge">optional [str or tuple[str] or list[str]</code></p>
-
-<p>The journal abbreviation to be excluded from the database, it can either be a single string in which case that string will be exclude or a list/tuple of strings can be given with the abbreviations.</p>
-
-<p><em>dbname</em> : <code class="highlighter-rouge">optional [str]</code></p>
-
-<p>The name of the database file, default is <code class="highlighter-rouge">metaknowledge.journalAbbreviations.manaulDBname</code>.</p>
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
-
-<p><a name="updatej9DB"></a><small>WOS.</small><strong><a href="/metaknowledge/docs/WOS#updatej9DB"><ins>updatej9DB</ins></a></strong>(<em>dbname=’j9Abbreviations’, saveRawHTML=False</em>):</p>
-
-<p>Updates the database of Journal Title Abbreviations. Requires an internet connection. The data base is saved relative to the source file not the working directory.</p>
-
-<h6 id="parameters-3">Parameters</h6>
-
-<p><em>dbname</em> : <code class="highlighter-rouge">optional [str]</code></p>
-
-<p>The name of the database file, default is “j9Abbreviations.db”</p>
-
-<p><em>saveRawHTML</em> : <code class="highlighter-rouge">optional [bool]</code></p>
-
-<p>Determines if the original HTML of the pages is stored, default <code class="highlighter-rouge">False</code>. If <code class="highlighter-rouge">True</code> they are saved in a directory inside j9Raws begining with todays date.</p>
+<p>A dictionary mapping WOS tags to lists, the lists are of strings, each string is a line of the record associated with the tag.</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
@@ -570,13 +530,13 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the host of the conference</p>
 
-<h6 id="parameters-4">Parameters</h6>
+<h6 id="parameters-1">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns-1">Returns</h6>
 
 <p><code class="highlighter-rouge">str</code></p>
 
@@ -590,13 +550,13 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the publishers address</p>
 
-<h6 id="parameters-5">Parameters</h6>
+<h6 id="parameters-2">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-1">Returns</h6>
+<h6 id="returns-2">Returns</h6>
 
 <p><code class="highlighter-rouge">str</code></p>
 
@@ -610,13 +570,13 @@ Month Year (“%b %Y”)</p>
 
 <p>return the last page the record occurs on as a string, not aall are intergers</p>
 
-<h6 id="parameters-6">Parameters</h6>
+<h6 id="parameters-3">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-2">Returns</h6>
+<h6 id="returns-3">Returns</h6>
 
 <p><code class="highlighter-rouge">str</code></p>
 
@@ -630,13 +590,13 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the year the record was published in as an int</p>
 
-<h6 id="parameters-7">Parameters</h6>
+<h6 id="parameters-4">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-3">Returns</h6>
+<h6 id="returns-4">Returns</h6>
 
 <p><code class="highlighter-rouge">int</code></p>
 
@@ -654,13 +614,13 @@ Month Year (“%b %Y”)</p>
 </code></pre>
 </div>
 
-<h6 id="parameters-8">Parameters</h6>
+<h6 id="parameters-5">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-4">Returns</h6>
+<h6 id="returns-5">Returns</h6>
 
 <p><code class="highlighter-rouge">list[str]</code></p>
 
@@ -674,13 +634,13 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the reprint address string</p>
 
-<h6 id="parameters-9">Parameters</h6>
+<h6 id="parameters-6">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-5">Returns</h6>
+<h6 id="returns-6">Returns</h6>
 
 <p><code class="highlighter-rouge">str</code></p>
 
@@ -694,13 +654,13 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts a list of the short names of the authors of a book Record</p>
 
-<h6 id="parameters-10">Parameters</h6>
+<h6 id="parameters-7">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-6">Returns</h6>
+<h6 id="returns-7">Returns</h6>
 
 <p><code class="highlighter-rouge">list[str]</code></p>
 
@@ -714,13 +674,13 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the total number of citations of the record</p>
 
-<h6 id="parameters-11">Parameters</h6>
+<h6 id="parameters-8">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-7">Returns</h6>
+<h6 id="returns-8">Returns</h6>
 
 <p><code class="highlighter-rouge">int</code></p>
 
@@ -734,13 +694,13 @@ Month Year (“%b %Y”)</p>
 
 <p>return an integer giving the part of the issue the Record is in</p>
 
-<h6 id="parameters-12">Parameters</h6>
+<h6 id="parameters-9">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-8">Returns</h6>
+<h6 id="returns-9">Returns</h6>
 
 <p><code class="highlighter-rouge">int</code></p>
 
@@ -754,13 +714,13 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the special issue value</p>
 
-<h6 id="parameters-13">Parameters</h6>
+<h6 id="parameters-10">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-9">Returns</h6>
+<h6 id="returns-10">Returns</h6>
 
 <p><code class="highlighter-rouge">str</code></p>
 
@@ -774,13 +734,13 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts a list of subjects as assigned by WOS</p>
 
-<h6 id="parameters-14">Parameters</h6>
+<h6 id="parameters-11">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-10">Returns</h6>
+<h6 id="returns-11">Returns</h6>
 
 <p><code class="highlighter-rouge">list[str]</code></p>
 
@@ -798,13 +758,13 @@ Month Year (“%b %Y”)</p>
 </code></pre>
 </div>
 
-<h6 id="parameters-15">Parameters</h6>
+<h6 id="parameters-12">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-11">Returns</h6>
+<h6 id="returns-12">Returns</h6>
 
 <p><code class="highlighter-rouge">list[str]</code></p>
 
@@ -818,13 +778,13 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the pubmed ID of the record</p>
 
-<h6 id="parameters-16">Parameters</h6>
+<h6 id="parameters-13">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-12">Returns</h6>
+<h6 id="returns-13">Returns</h6>
 
 <p><code class="highlighter-rouge">str</code></p>
 
@@ -838,13 +798,13 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the document delivery number of the Record</p>
 
-<h6 id="parameters-17">Parameters</h6>
+<h6 id="parameters-14">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-13">Returns</h6>
+<h6 id="returns-14">Returns</h6>
 
 <p><code class="highlighter-rouge">str</code></p>
 
@@ -858,13 +818,13 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts a list of the long names of the authors of a book Record</p>
 
-<h6 id="parameters-18">Parameters</h6>
+<h6 id="parameters-15">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-14">Returns</h6>
+<h6 id="returns-15">Returns</h6>
 
 <p><code class="highlighter-rouge">list[str]</code></p>
 
@@ -878,13 +838,13 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the name of the group associated with the Record</p>
 
-<h6 id="parameters-19">Parameters</h6>
+<h6 id="parameters-16">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-15">Returns</h6>
+<h6 id="returns-16">Returns</h6>
 
 <p><code class="highlighter-rouge">str</code></p>
 
@@ -898,13 +858,13 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the title of the record</p>
 
-<h6 id="parameters-20">Parameters</h6>
+<h6 id="parameters-17">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-16">Returns</h6>
+<h6 id="returns-17">Returns</h6>
 
 <p><code class="highlighter-rouge">str</code></p>
 
@@ -926,13 +886,13 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the full name of the publication and normalizes it to uppercase</p>
 
-<h6 id="parameters-21">Parameters</h6>
+<h6 id="parameters-18">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-17">Returns</h6>
+<h6 id="returns-18">Returns</h6>
 
 <p><code class="highlighter-rouge">str</code></p>
 
@@ -946,13 +906,13 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the title of the series the Record is in</p>
 
-<h6 id="parameters-22">Parameters</h6>
+<h6 id="parameters-19">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-18">Returns</h6>
+<h6 id="returns-19">Returns</h6>
 
 <p><code class="highlighter-rouge">str</code></p>
 
@@ -966,13 +926,13 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the title of the series the Record is in</p>
 
-<h6 id="parameters-23">Parameters</h6>
+<h6 id="parameters-20">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-19">Returns</h6>
+<h6 id="returns-20">Returns</h6>
 
 <p><code class="highlighter-rouge">str</code></p>
 
@@ -986,13 +946,13 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the languages of the Record as a string with languages separated by ‘, ‘, usually there is only one language</p>
 
-<h6 id="parameters-24">Parameters</h6>
+<h6 id="parameters-21">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-20">Returns</h6>
+<h6 id="returns-21">Returns</h6>
 
 <p><code class="highlighter-rouge">str</code></p>
 
@@ -1006,13 +966,13 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the type of document the Record contains</p>
 
-<h6 id="parameters-25">Parameters</h6>
+<h6 id="parameters-22">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-21">Returns</h6>
+<h6 id="returns-22">Returns</h6>
 
 <p><code class="highlighter-rouge">str</code></p>
 
@@ -1026,13 +986,13 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts a list of authors full names</p>
 
-<h6 id="parameters-26">Parameters</h6>
+<h6 id="parameters-23">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-22">Returns</h6>
+<h6 id="returns-23">Returns</h6>
 
 <p><code class="highlighter-rouge">list[str]</code></p>
 
@@ -1046,13 +1006,13 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the title of the conference associated with the Record</p>
 
-<h6 id="parameters-27">Parameters</h6>
+<h6 id="parameters-24">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-23">Returns</h6>
+<h6 id="returns-24">Returns</h6>
 
 <p><code class="highlighter-rouge">str</code></p>
 
@@ -1066,13 +1026,13 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the date string of the conference associated with the Record, the date is not normalized</p>
 
-<h6 id="parameters-28">Parameters</h6>
+<h6 id="parameters-25">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-24">Returns</h6>
+<h6 id="returns-25">Returns</h6>
 
 <p><code class="highlighter-rouge">str</code></p>
 
@@ -1086,13 +1046,13 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts a list of sponsors for the conference associated with the record</p>
 
-<h6 id="parameters-29">Parameters</h6>
+<h6 id="parameters-26">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-25">Returns</h6>
+<h6 id="returns-26">Returns</h6>
 
 <p><code class="highlighter-rouge">str</code></p>
 
@@ -1106,13 +1066,13 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the number of times the Record has been cited by records in WOS</p>
 
-<h6 id="parameters-30">Parameters</h6>
+<h6 id="parameters-27">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-26">Returns</h6>
+<h6 id="returns-27">Returns</h6>
 
 <p><code class="highlighter-rouge">int</code></p>
 
@@ -1126,13 +1086,13 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the address of the authors as given by WOS. <strong>Warning</strong> the mapping of author to address is not very good and is given in multiple ways.</p>
 
-<h6 id="parameters-31">Parameters</h6>
+<h6 id="parameters-28">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-27">Returns</h6>
+<h6 id="returns-28">Returns</h6>
 
 <p><code class="highlighter-rouge">list[str]</code></p>
 
@@ -1146,13 +1106,13 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the sting giving the conference’s location</p>
 
-<h6 id="parameters-32">Parameters</h6>
+<h6 id="parameters-29">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-28">Returns</h6>
+<h6 id="returns-29">Returns</h6>
 
 <p><code class="highlighter-rouge">str</code></p>
 
@@ -1166,13 +1126,13 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the J9 (29-Character Source Abbreviation) of the publication</p>
 
-<h6 id="parameters-33">Parameters</h6>
+<h6 id="parameters-30">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-29">Returns</h6>
+<h6 id="returns-30">Returns</h6>
 
 <p><code class="highlighter-rouge">str</code></p>
 
@@ -1186,13 +1146,13 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts a list of the groups funding the Record</p>
 
-<h6 id="parameters-34">Parameters</h6>
+<h6 id="parameters-31">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-30">Returns</h6>
+<h6 id="returns-31">Returns</h6>
 
 <p><code class="highlighter-rouge">list[str]</code></p>
 
@@ -1206,13 +1166,13 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts a list of the subjects associated with the Record</p>
 
-<h6 id="parameters-35">Parameters</h6>
+<h6 id="parameters-32">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-31">Returns</h6>
+<h6 id="returns-32">Returns</h6>
 
 <p><code class="highlighter-rouge">list[str]</code></p>
 
@@ -1226,13 +1186,13 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the group associated with the Record</p>
 
-<h6 id="parameters-36">Parameters</h6>
+<h6 id="parameters-33">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-32">Returns</h6>
+<h6 id="returns-33">Returns</h6>
 
 <p><code class="highlighter-rouge">str</code></p>
 
@@ -1246,13 +1206,13 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts a list of all the citations in the record, the citations are the <a href="/metaknowledge/docs/WOS#Citation">metaknowledge.Citation</a> class.</p>
 
-<h6 id="parameters-37">Parameters</h6>
+<h6 id="parameters-34">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-33">Returns</h6>
+<h6 id="returns-34">Returns</h6>
 
 <p><code class="highlighter-rouge"> list[metaknowledge.Citation]</code></p>
 
@@ -1266,13 +1226,13 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the city the publisher is in</p>
 
-<h6 id="parameters-38">Parameters</h6>
+<h6 id="parameters-35">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-34">Returns</h6>
+<h6 id="returns-35">Returns</h6>
 
 <p><code class="highlighter-rouge">str</code></p>
 
@@ -1286,13 +1246,13 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the ISSN of the Record</p>
 
-<h6 id="parameters-39">Parameters</h6>
+<h6 id="parameters-36">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-35">Returns</h6>
+<h6 id="returns-36">Returns</h6>
 
 <p><code class="highlighter-rouge">str</code></p>
 
@@ -1306,13 +1266,13 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts a string giving the article number, not all are integers</p>
 
-<h6 id="parameters-40">Parameters</h6>
+<h6 id="parameters-37">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-36">Returns</h6>
+<h6 id="returns-37">Returns</h6>
 
 <p><code class="highlighter-rouge">str</code></p>
 
@@ -1326,13 +1286,13 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts a string giving the issue or range of issues the Record was in, not all are integers</p>
 
-<h6 id="parameters-41">Parameters</h6>
+<h6 id="parameters-38">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-37">Returns</h6>
+<h6 id="returns-38">Returns</h6>
 
 <p><code class="highlighter-rouge">str</code></p>
 
@@ -1346,13 +1306,13 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts a list of emails given by the authors of the Record</p>
 
-<h6 id="parameters-42">Parameters</h6>
+<h6 id="parameters-39">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-38">Returns</h6>
+<h6 id="returns-39">Returns</h6>
 
 <p><code class="highlighter-rouge">list[str]</code></p>
 
@@ -1366,13 +1326,13 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the EISSN of the Record</p>
 
-<h6 id="parameters-43">Parameters</h6>
+<h6 id="parameters-40">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-39">Returns</h6>
+<h6 id="returns-40">Returns</h6>
 
 <p><code class="highlighter-rouge">str</code></p>
 
@@ -1386,13 +1346,13 @@ Month Year (“%b %Y”)</p>
 
 <p>return the DOI number of the record</p>
 
-<h6 id="parameters-44">Parameters</h6>
+<h6 id="parameters-41">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-40">Returns</h6>
+<h6 id="returns-41">Returns</h6>
 
 <p><code class="highlighter-rouge">str</code></p>
 
@@ -1406,13 +1366,13 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the WOS number of the record as a string preceded by “WOS:”</p>
 
-<h6 id="parameters-45">Parameters</h6>
+<h6 id="parameters-42">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-41">Returns</h6>
+<h6 id="returns-42">Returns</h6>
 
 <p><code class="highlighter-rouge">str</code></p>
 
@@ -1426,13 +1386,13 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts a list of orc IDs of the Record</p>
 
-<h6 id="parameters-46">Parameters</h6>
+<h6 id="parameters-43">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-42">Returns</h6>
+<h6 id="returns-43">Returns</h6>
 
 <p><code class="highlighter-rouge">str</code></p>
 
@@ -1446,13 +1406,13 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the type of publication as a character: conference, book, journal, book in series, or patent</p>
 
-<h6 id="parameters-47">Parameters</h6>
+<h6 id="parameters-44">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-43">Returns</h6>
+<h6 id="returns-44">Returns</h6>
 
 <p><code class="highlighter-rouge">str</code></p>
 
@@ -1466,13 +1426,13 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts a list of the editors of the Record</p>
 
-<h6 id="parameters-48">Parameters</h6>
+<h6 id="parameters-45">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-44">Returns</h6>
+<h6 id="returns-45">Returns</h6>
 
 <p><code class="highlighter-rouge">list[str]</code></p>
 
@@ -1486,13 +1446,13 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the ID of the meeting abstract prefixed by ‘EPA-‘</p>
 
-<h6 id="parameters-49">Parameters</h6>
+<h6 id="parameters-46">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-45">Returns</h6>
+<h6 id="returns-46">Returns</h6>
 
 <p><code class="highlighter-rouge">str</code></p>
 
@@ -1506,13 +1466,13 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the iso abbreviation of the journal</p>
 
-<h6 id="parameters-50">Parameters</h6>
+<h6 id="parameters-47">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-46">Returns</h6>
+<h6 id="returns-47">Returns</h6>
 
 <p><code class="highlighter-rouge">str</code></p>
 
@@ -1526,13 +1486,13 @@ Month Year (“%b %Y”)</p>
 
 <p>returns an integer giving the number of pages of the Record</p>
 
-<h6 id="parameters-51">Parameters</h6>
+<h6 id="parameters-48">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-47">Returns</h6>
+<h6 id="returns-48">Returns</h6>
 
 <p><code class="highlighter-rouge">int</code></p>
 
@@ -1546,13 +1506,13 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the publisher of the Record</p>
 
-<h6 id="parameters-52">Parameters</h6>
+<h6 id="parameters-49">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-48">Returns</h6>
+<h6 id="returns-49">Returns</h6>
 
 <p><code class="highlighter-rouge">str</code></p>
 
@@ -1566,13 +1526,13 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts a list of ISBNs associated with the Record</p>
 
-<h6 id="parameters-53">Parameters</h6>
+<h6 id="parameters-50">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-49">Returns</h6>
+<h6 id="returns-50">Returns</h6>
 
 <p><code class="highlighter-rouge">list</code></p>
 
@@ -1586,13 +1546,13 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the month the record was published in as an int with January as 1, February 2, …</p>
 
-<h6 id="parameters-54">Parameters</h6>
+<h6 id="parameters-51">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-50">Returns</h6>
+<h6 id="returns-51">Returns</h6>
 
 <p><code class="highlighter-rouge">int</code></p>
 
@@ -1606,13 +1566,13 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts a string of the funding thanks</p>
 
-<h6 id="parameters-55">Parameters</h6>
+<h6 id="parameters-52">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-51">Returns</h6>
+<h6 id="returns-52">Returns</h6>
 
 <p><code class="highlighter-rouge">str</code></p>
 
@@ -1626,13 +1586,13 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the book DOI of the Record</p>
 
-<h6 id="parameters-56">Parameters</h6>
+<h6 id="parameters-53">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-52">Returns</h6>
+<h6 id="returns-53">Returns</h6>
 
 <p><code class="highlighter-rouge">str</code></p>
 
@@ -1646,13 +1606,13 @@ Month Year (“%b %Y”)</p>
 
 <p>return the volume the record is in as a string, not all are integers</p>
 
-<h6 id="parameters-57">Parameters</h6>
+<h6 id="parameters-54">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-53">Returns</h6>
+<h6 id="returns-54">Returns</h6>
 
 <p><code class="highlighter-rouge">str</code></p>
 
@@ -1666,13 +1626,13 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts a list of the research IDs of the Record</p>
 
-<h6 id="parameters-58">Parameters</h6>
+<h6 id="parameters-55">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-54">Returns</h6>
+<h6 id="returns-55">Returns</h6>
 
 <p><code class="highlighter-rouge">list[str]</code></p>
 
@@ -1686,13 +1646,13 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts a list of authors shortened names</p>
 
-<h6 id="parameters-59">Parameters</h6>
+<h6 id="parameters-56">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-55">Returns</h6>
+<h6 id="returns-56">Returns</h6>
 
 <p><code class="highlighter-rouge">list[str]</code></p>
 
@@ -1706,13 +1666,13 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the number citations, length of CR list</p>
 
-<h6 id="parameters-60">Parameters</h6>
+<h6 id="parameters-57">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-56">Returns</h6>
+<h6 id="returns-57">Returns</h6>
 
 <p><code class="highlighter-rouge">int</code></p>
 
@@ -1726,13 +1686,13 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the first page the record occurs on, not all are integers</p>
 
-<h6 id="parameters-61">Parameters</h6>
+<h6 id="parameters-58">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-57">Returns</h6>
+<h6 id="returns-58">Returns</h6>
 
 <p><code class="highlighter-rouge">str</code></p>
 
@@ -1746,13 +1706,13 @@ Month Year (“%b %Y”)</p>
 
 <p>return abstract of the record, with newlines hopefully in the correct places</p>
 
-<h6 id="parameters-62">Parameters</h6>
+<h6 id="parameters-59">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-58">Returns</h6>
+<h6 id="returns-59">Returns</h6>
 
 <p><code class="highlighter-rouge">str</code></p>
 
@@ -1766,17 +1726,61 @@ Month Year (“%b %Y”)</p>
 
 <p>extracts the supplement number</p>
 
-<h6 id="parameters-63">Parameters</h6>
+<h6 id="parameters-60">Parameters</h6>
 
 <p><em>val</em>: <code class="highlighter-rouge">list[str]</code></p>
 
 <p>The raw data from a WOS file</p>
 
-<h6 id="returns-59">Returns</h6>
+<h6 id="returns-60">Returns</h6>
 
 <p><code class="highlighter-rouge">str</code></p>
 
 <p>The supplement number</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="wosParser"></a><small>WOS.</small><strong><a href="/metaknowledge/docs/WOS#wosParser"><ins>wosParser</ins></a></strong>(<em>isifile</em>):</p>
+
+<p>This is function that is used to create <a href="/metaknowledge/docs/WOS#RecordCollection"><code class="highlighter-rouge">RecordCollections</code></a> from files.</p>
+
+<p><strong>wosParser</strong>() reads the file given by the path isifile, checks that the header is correct then reads until it reaches EF. All WOS records it encounters are parsed with <a href="/metaknowledge/docs/WOS#recordParser"><strong>recordParser</strong>()</a> and converted into <a href="/metaknowledge/docs/WOS#Record"><code class="highlighter-rouge">Records</code></a>. A list of these <code class="highlighter-rouge">Records</code> is returned.</p>
+
+<p><code class="highlighter-rouge">BadWOSFile</code> is raised if an issue is found with the file.</p>
+
+<h6 id="parameters-61">Parameters</h6>
+
+<p><em>isifile</em> : <code class="highlighter-rouge">str</code></p>
+
+<p>The path to the target file</p>
+
+<h6 id="returns-61">Returns</h6>
+
+<p><code class="highlighter-rouge">List[Record]</code></p>
+
+<p>All the <code class="highlighter-rouge">Records</code> found in <em>isifile</em></p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="isWOSFile"></a><small>WOS.</small><strong><a href="/metaknowledge/docs/WOS#isWOSFile"><ins>isWOSFile</ins></a></strong>(<em>infile, checkedLines=3</em>):</p>
+
+<p>Determines if <em>infile</em> is the path to a WOS file. A file is considerd to be a WOS file if it has the correct encoding (<code class="highlighter-rouge">utf-8</code> with a BOM) and within the first <em>checkedLines</em> a line starts with <code class="highlighter-rouge">"VR 1.0"</code>.</p>
+
+<h6 id="parameters-62">Parameters</h6>
+
+<p><em>infile</em> : <code class="highlighter-rouge">str</code></p>
+
+<p>The path to the targets file</p>
+
+<p><em>checkedLines</em> : <code class="highlighter-rouge">optional [int]</code></p>
+
+<p>default 2, the number of lines to check for the header</p>
+
+<h6 id="returns-62">Returns</h6>
+
+<p><code class="highlighter-rouge">bool</code></p>
+
+<p><code class="highlighter-rouge">True</code> if the file is a WOS file</p>
 
 <hr />
 

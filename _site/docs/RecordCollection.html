@@ -183,7 +183,7 @@ The RecordCollection class has the following methods:</h3>
 <ol class="post-list">
 <li><article><a href="#dropNonJournals"><b>dropNonJournals</b>(<i>ptVal='J', dropBad=True, invert=False</i>)</a></article></li>
 <li><article><a href="#writeFile"><b>writeFile</b>(<i>fname=None</i>)</a></article></li>
-<li><article><a href="#writeCSV"><b>writeCSV</b>(<i>fname=None, onlyTheseTags=None, numAuthors=True, longNames=False, firstTags=None, csvDelimiter=',', csvQuote='"', listDelimiter='|'</i>)</a></article></li>
+<li><article><a href="#writeCSV"><b>writeCSV</b>(<i>fname=None, splitByTag=None, onlyTheseTags=None, numAuthors=True, longNames=False, firstTags=None, csvDelimiter=',', csvQuote='"', listDelimiter='|'</i>)</a></article></li>
 <li><article><a href="#writeBib"><b>writeBib</b>(<i>fname=None, maxStringLength=1000, wosMode=False, reducedOutput=False, niceIDs=True</i>)</a></article></li>
 <li><article><a href="#makeDict"><b>makeDict</b>(<i>onlyTheseTags=None, longNames=False, raw=False, numAuthors=True</i>)</a></article></li>
 <li><article><a href="#coAuthNetwork"><b>coAuthNetwork</b>(<i>detailedInfo=False, weighted=True, dropNonJournals=False, count=True</i>)</a></article></li>
@@ -231,7 +231,7 @@ The RecordCollection class has the following methods:</h3>
 <table>
   <tbody>
     <tr>
-      <td><a name="writeCSV"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/docs/RecordCollection#writeCSV"><ins>writeCSV</ins></a></strong>(_fname=None, onlyTheseTags=None, numAuthors=True, longNames=False, firstTags=None, csvDelimiter=’,’, csvQuote=’”’, listDelimiter=’</td>
+      <td><a name="writeCSV"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/docs/RecordCollection#writeCSV"><ins>writeCSV</ins></a></strong>(_fname=None, splitByTag=None, onlyTheseTags=None, numAuthors=True, longNames=False, firstTags=None, csvDelimiter=’,’, csvQuote=’”’, listDelimiter=’</td>
       <td>‘_):</td>
     </tr>
   </tbody>
@@ -244,6 +244,12 @@ The RecordCollection class has the following methods:</h3>
 <p><em>fname</em> : <code class="highlighter-rouge">optional [str]</code></p>
 
 <p>Default <code class="highlighter-rouge">None</code>, the name of the file to write to, if <code class="highlighter-rouge">None</code> it uses the collections name suffixed by .csv.</p>
+
+<p><em>splitByTag</em> : <code class="highlighter-rouge">optional [str]</code></p>
+
+<p>Default <code class="highlighter-rouge">None</code>, if a tag is given the output will be divided into different files according to the value of the tag, with only the records associated with that tag. For example if <code class="highlighter-rouge">'authorsFull'</code> is given then each file will only have the lines for <code class="highlighter-rouge">Records</code> that author is named in.</p>
+
+<p>The file names are the values of the tag followed by a dash then the normale name for the file as given by <em>fname</em>, e.g. for the year 2016 the file could be called <code class="highlighter-rouge">'2016-fname.csv'</code>.</p>
 
 <p><em>onlyTheseTags</em> : <code class="highlighter-rouge">optional [iterable]</code></p>
 

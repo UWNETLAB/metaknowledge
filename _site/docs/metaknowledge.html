@@ -141,6 +141,7 @@
 <li><article><a href="#readGraph"><b>readGraph</b>(<i>edgeList, nodeList=None, directed=False, idKey='ID', eSource='From', eDest='To'</i>)</a></article></li>
 <li><article><a href="#writeEdgeList"><b>writeEdgeList</b>(<i>grph, name, extraInfo=True, allSameAttribute=False</i>)</a></article></li>
 <li><article><a href="#writeNodeAttributeFile"><b>writeNodeAttributeFile</b>(<i>grph, name, allSameAttribute=False</i>)</a></article></li>
+<li><article><a href="#writeTnetFile"><b>writeTnetFile</b>(<i>grph, name, modeNameString, weighted=False, sourceMode=None, timeString=None, nodeIndexString='tnet-ID', weightString='weight'</i>)</a></article></li>
 <li><article><a href="#dropEdges"><b>dropEdges</b>(<i>grph, minWeight=-inf, maxWeight=inf, parameterName='weight', ignoreUnweighted=False, dropSelfLoops=False</i>)</a></article></li>
 <li><article><a href="#dropNodesByDegree"><b>dropNodesByDegree</b>(<i>grph, minDegree=-inf, maxDegree=inf, useWeight=True, parameterName='weight', includeUnweighted=True</i>)</a></article></li>
 <li><article><a href="#dropNodesByCount"><b>dropNodesByCount</b>(<i>grph, minCount=-inf, maxCount=inf, parameterName='count', ignoreMissing=False</i>)</a></article></li>
@@ -158,15 +159,16 @@
 <li><article><b>BadRecord</b>(<i>mkException</i>)</article></li>
 <li><article><b>BadPubmedRecord</b>(<i>mkException</i>)</article></li>
 <li><article><b>BadPubmedFile</b>(<i>mkException</i>)</article></li>
+<li><article><b>BadScopusRecord</b>(<i>mkException</i>)</article></li>
 <li><article><b>BadProQuestRecord</b>(<i>mkException</i>)</article></li>
 <li><article><b>BadProQuestFile</b>(<i>mkException</i>)</article></li>
-<li><article><b>RecordsNotCompatible</b>(<i>mkException</i>)</article></li>
 <li><article><b>CollectionTypeError</b>(<i>mkException, TypeError</i>)</article></li>
+<li><article><b>RecordsNotCompatible</b>(<i>mkException</i>)</article></li>
 <li><article><b>cacheError</b>(<i>mkException</i>)</article></li>
 <li><article><b>BadWOSRecord</b>(<i>BadRecord</i>)</article></li>
 <li><article><b>BadWOSFile</b>(<i>Warning</i>)</article></li>
-<li><article><b>BadCitation</b>(<i>Warning</i>)</article></li>
 <li><article><b>RCTypeError</b>(<i>mkException, TypeError</i>)</article></li>
+<li><article><b>BadCitation</b>(<i>Warning</i>)</article></li>
 <li><article><b>BadGrant</b>(<i>mkException</i>)</article></li>
 <li><article><b>GrantCollectionException</b>(<i>mkException</i>)</article></li>
 <li><article><b>UnknownFile</b>(<i>mkException</i>)</article></li>
@@ -421,13 +423,59 @@
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
+<p><a name="writeTnetFile"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#writeTnetFile"><ins>writeTnetFile</ins></a></strong>(<em>grph, name, modeNameString, weighted=False, sourceMode=None, timeString=None, nodeIndexString=’tnet-ID’, weightString=’weight’</em>):</p>
+
+<p>Writes an edge list designed for reading by the <em>R</em> package <a href="https://toreopsahl.com/tnet/"><em>tnet</em></a>.</p>
+
+<p>The <em>networkx</em> graph provided must be a pure two-mode network, the modes must be 2 different values for the node attribute accessed by <em>modeNameString</em> and all edges must be between different node types. Each node will be given an integer id, stored in the attribute given by <em>nodeIndexString</em>, these ids are then written to the file as the endpoints of the edges. Unless <em>sourceMode</em> is given which mode is the source (first column) and which the target (second column) is random.</p>
+
+<p><strong>Note</strong> the <em>grph</em> will be modified by this function, the ids of the nodes will be written to the graph at the attribute <em>nodeIndexString</em>.</p>
+
+<h6 id="parameters-7">Parameters</h6>
+
+<p><em>grph</em> : <code class="highlighter-rouge">network Graph</code></p>
+
+<p>The graph that will be written to <em>name</em></p>
+
+<p><em>name</em> : <code class="highlighter-rouge">str</code></p>
+
+<p>The path of the file to write</p>
+
+<p><em>modeNameString</em> : <code class="highlighter-rouge">str</code></p>
+
+<p>The name of the attribute <em>grph</em>’s modes are stored in</p>
+
+<p><em>weighted</em> : <code class="highlighter-rouge">optional bool</code></p>
+
+<p>Default <code class="highlighter-rouge">False</code>, if <code class="highlighter-rouge">True</code> then the attribute <em>weightString</em> will be written to the weight column</p>
+
+<p><em>sourceMode</em> : <code class="highlighter-rouge">optional str</code></p>
+
+<p>Default <code class="highlighter-rouge">None</code>, if given the name of the mode used for the source (first column) in the output file</p>
+
+<p><em>timeString</em> : <code class="highlighter-rouge">optional str</code></p>
+
+<p>Default <code class="highlighter-rouge">None</code>, if present the attribute <em>timeString</em> of an edge will be written to the time column surrounded by double quotes (“).</p>
+
+<p><strong>Note</strong> The format used by tnet for dates is very strict it uses the ISO format, down to the second and without time zones.</p>
+
+<p><em>nodeIndexString</em> : <code class="highlighter-rouge">optional str</code></p>
+
+<p>Default <code class="highlighter-rouge">'tnet-ID'</code>, the name of the attribute to save the id for each node</p>
+
+<p><em>weightString</em> : <code class="highlighter-rouge">optional str</code></p>
+
+<p>Default <code class="highlighter-rouge">'weight'</code>, the name of the weight attribute</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
 <p><a name="dropEdges"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#dropEdges"><ins>dropEdges</ins></a></strong>(<em>grph, minWeight=-inf, maxWeight=inf, parameterName=’weight’, ignoreUnweighted=False, dropSelfLoops=False</em>):</p>
 
 <p>Modifies <em>grph</em> by dropping edges whose weight is not within the inclusive bounds of <em>minWeight</em> and <em>maxWeight</em>, i.e after running <em>grph</em> will only have edges whose weights meet the following inequality: <em>minWeight</em> &lt;= edge’s weight &lt;= <em>maxWeight</em>. A <code class="highlighter-rouge">Keyerror</code> will be raised if the graph is unweighted unless <em>ignoreUnweighted</em> is <code class="highlighter-rouge">True</code>, the weight is determined by examining the attribute <em>parameterName</em>.</p>
 
 <p><strong>Note</strong>: none of the default options will result in <em>grph</em> being modified so only specify the relevant ones, e.g. <code class="highlighter-rouge">dropEdges(G, dropSelfLoops = True)</code> will remove only the self loops from <code class="highlighter-rouge">G</code>.</p>
 
-<h6 id="parameters-7">Parameters</h6>
+<h6 id="parameters-8">Parameters</h6>
 
 <p><em>grph</em> : <code class="highlighter-rouge">networkx Graph</code></p>
 
@@ -461,7 +509,7 @@
 
 <p>Degree is determined in two ways, the default <em>useWeight</em> is the weight attribute of the edges to a node will be summed, the attribute’s name is <em>parameterName</em> otherwise the number of edges touching the node is used. If <em>includeUnweighted</em> is <code class="highlighter-rouge">True</code> then <em>useWeight</em> will assign a degree of 1 to unweighted edges.</p>
 
-<h6 id="parameters-8">Parameters</h6>
+<h6 id="parameters-9">Parameters</h6>
 
 <p><em>grph</em> : <code class="highlighter-rouge">networkx Graph</code></p>
 
@@ -497,7 +545,7 @@
 
 <p>minCount and maxCount default to negative and positive infinity respectively so without specifying either the output should be the input</p>
 
-<h6 id="parameters-9">Parameters</h6>
+<h6 id="parameters-10">Parameters</h6>
 
 <p><em>grph</em> : <code class="highlighter-rouge">networkx Graph</code></p>
 
@@ -527,7 +575,7 @@
 
 <p><strong>mergeGraphs</strong>() will <strong>modify</strong> <em>targetGraph</em> in place by adding the nodes and edges found in the second, <em>addedGraph</em>. If a node or edge exists <em>targetGraph</em> is given precedence, but the edge and node attributes given by <em>incrementedNodeVal</em> and incrementedEdgeVal are added instead of being overwritten.</p>
 
-<h6 id="parameters-10">Parameters</h6>
+<h6 id="parameters-11">Parameters</h6>
 
 <p><em>targetGraph</em> : <code class="highlighter-rouge">networkx Graph</code></p>
 
@@ -553,7 +601,7 @@
 
 <p><strong>graphStats()</strong> gives 6 different statistics: number of nodes, number of edges, number of isolates, number of loops, density and transitivity. The ones wanted can be given to <em>stats</em>. By default a string giving a sentence containing all the requested statistics is returned but the raw values can be accessed instead by setting <em>makeString</em> to <code class="highlighter-rouge">False</code>.</p>
 
-<h6 id="parameters-11">Parameters</h6>
+<h6 id="parameters-12">Parameters</h6>
 
 <p><em>G</em> : <code class="highlighter-rouge">networkx Graph</code></p>
 
@@ -601,7 +649,7 @@
 
 <p><strong>Note</strong>: If any nodes or edges are missing an attribute a <code class="highlighter-rouge">KeyError</code> will be raised.</p>
 
-<h6 id="parameters-12">Parameters</h6>
+<h6 id="parameters-13">Parameters</h6>
 
 <p><em>grph</em> : <code class="highlighter-rouge">networkx Graph</code></p>
 

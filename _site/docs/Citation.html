@@ -133,7 +133,7 @@
         <p><a name="Citation"></a>
 <a name="Citation"></a><small></small><strong><a href="/metaknowledge/docs/Citation#Citation"><ins>Citation</ins></a></strong>(<em>Hashable</em>):</p>
 
-<p><a name="Citation.__init__"></a><small></small><strong><a href="/metaknowledge/docs/Citation#Citation.__init__"><ins>Citation.__init__</ins></a></strong>(<em>cite</em>):</p>
+<p><a name="Citation.__init__"></a><small></small><strong><a href="/metaknowledge/docs/Citation#Citation.__init__"><ins>Citation.__init__</ins></a></strong>(<em>cite, scopusMode=False</em>):</p>
 
 <p>A class to hold citation strings and allow for comparison between them.</p>
 
@@ -189,6 +189,9 @@ The Citation class has the following methods:</h3>
 <li><article><a href="#ID"><b>ID</b>()</a></article></li>
 <li><article><a href="#allButDOI"><b>allButDOI</b>()</a></article></li>
 <li><article><a href="#Extra"><b>Extra</b>()</a></article></li>
+<li><article><a href="#isJournal"><b>isJournal</b>(<i>dbname='j9Abbreviations', manaulDB='manualj9Abbreviations', returnDict='both', checkIfExcluded=False</i>)</a></article></li>
+<li><article><a href="#FullJournalName"><b>FullJournalName</b>()</a></article></li>
+<li><article><a href="#addToDB"><b>addToDB</b>(<i>manualName=None, manaulDB='manualj9Abbreviations', invert=False</i>)</a></article></li>
 </ol>
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
@@ -239,6 +242,72 @@ The Citation class has the following methods:</h3>
 <p><code class="highlighter-rouge">str</code></p>
 
 <p>A string containing the data not in the ID of the <code class="highlighter-rouge">Citation</code>.</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="isJournal"></a><small>Citation.</small><strong><a href="/metaknowledge/docs/Citation#isJournal"><ins>isJournal</ins></a></strong>(<em>dbname=’j9Abbreviations’, manaulDB=’manualj9Abbreviations’, returnDict=’both’, checkIfExcluded=False</em>):</p>
+
+<p>Returns <code class="highlighter-rouge">True</code> if the <code class="highlighter-rouge">Citation</code>’s <code class="highlighter-rouge">journal</code> field is a journal abbreviation from the WOS listing found at <a href="http://images.webofknowledge.com/WOK46/help/WOS/A_abrvjt.html">http://images.webofknowledge.com/WOK46/help/WOS/A_abrvjt.html</a>, i.e. checks if the citation is citing a journal.</p>
+
+<p><strong>Note</strong>: Requires the <a href="/metaknowledge/docs/Citation#getj9dict">j9Abbreviations</a> database file and will raise an error if it cannot be found.</p>
+
+<p><strong>Note</strong>: All parameters are used for getting the data base with  <a href="/metaknowledge/docs/Citation#getj9dict"><strong>getj9dict</strong>()</a>.</p>
+
+<h6 id="parameters-1">Parameters</h6>
+
+<p><em>dbname</em> : <code class="highlighter-rouge">optional [str]</code></p>
+
+<p>The name of the downloaded database file, the default is determined at run time. It is recommended that this remain untouched.</p>
+
+<p><em>manaulDB</em> : <code class="highlighter-rouge">optional [str]</code></p>
+
+<p>The name of the manually created database file, the default is determined at run time. It is recommended that this remain untouched.</p>
+
+<p><em>returnDict</em> : <code class="highlighter-rouge">optional [str]</code></p>
+
+<p>default <code class="highlighter-rouge">'both'</code>, can be used to get both databases or only one  with <code class="highlighter-rouge">'WOS'</code> or <code class="highlighter-rouge">'manual'</code>.</p>
+
+<h6 id="returns-4">Returns</h6>
+
+<p><code class="highlighter-rouge">bool</code></p>
+
+<p><code class="highlighter-rouge">True</code> if the <code class="highlighter-rouge">Citation</code> is for a journal</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="FullJournalName"></a><small>Citation.</small><strong><a href="/metaknowledge/docs/Citation#FullJournalName"><ins>FullJournalName</ins></a></strong>():</p>
+
+<p>Returns the full name of the Citation’s journal field. Requires the <a href="/metaknowledge/docs/Citation#getj9dict">j9Abbreviations</a> database file.</p>
+
+<p><strong>Note</strong>: Requires the <a href="/metaknowledge/docs/Citation#getj9dict">j9Abbreviations</a> database file and will raise an error if it cannot be found.</p>
+
+<h6 id="returns-5">Returns</h6>
+
+<p><code class="highlighter-rouge">str</code></p>
+
+<p>The first full name given for the journal of the Citation (or the first name in the WOS list if multiple names exist), if there is not one then <code class="highlighter-rouge">None</code> is returned</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="addToDB"></a><small>Citation.</small><strong><a href="/metaknowledge/docs/Citation#addToDB"><ins>addToDB</ins></a></strong>(<em>manualName=None, manaulDB=’manualj9Abbreviations’, invert=False</em>):</p>
+
+<p>Adds the journal of this Citation to the user created database of journals. This will cause <a href="/metaknowledge/docs/Citation#isJournal">isJournal()</a> to return <code class="highlighter-rouge">True</code> for this Citation and all others with its <code class="highlighter-rouge">journal</code>.</p>
+
+<p><strong>Note</strong>: Requires the <a href="/metaknowledge/docs/Citation#getj9dict">j9Abbreviations</a> database file and will raise an error if it cannot be found.</p>
+
+<h6 id="parameters-2">Parameters</h6>
+
+<p><em>manualName</em> : <code class="highlighter-rouge">optional [str]</code></p>
+
+<p>Default <code class="highlighter-rouge">None</code>, the full name of journal to use. If not provided the full name will be the same as the abbreviation.</p>
+
+<p><em>manaulDB</em> : <code class="highlighter-rouge">optional [str]</code></p>
+
+<p>The name of the manually created database file, the default is determined at run time. It is recommended that this remain untouched.</p>
+
+<p><em>invert</em> : <code class="highlighter-rouge">optional [bool]</code></p>
+
+<p>Default <code class="highlighter-rouge">False</code>, if <code class="highlighter-rouge">True</code> the journal will be removed instead of added</p>
 
 <hr />
 

@@ -176,7 +176,7 @@ _useAllAuthors_ : `optional [bool]`
 
 <a name="diffusionAddCountsFromSource"></a><small></small>**[<ins>diffusionAddCountsFromSource</ins>]({{ site.baseurl }}{{ page.url }}#diffusionAddCountsFromSource)**(_grph, source, target, nodeType='citations', extraType=None, diffusionLabel='DiffusionCount', extraKeys=None, countsDict=None, extraMapping=None_):
 
-Does a diffusion using [`diffusionCount()`]({{ site.baseurl }}{{ page.url }}#diffusionCount) and updates _grph_ with it, using the nodes in the graph as keys in the diffusion, i.e. the source. The name of the attribute the counts are added to is given by _diffusionLabel_. If the graph is not composed of citations from the source and instead is another entry the tag for the entry needs to be given to _nodeType_. You can also change
+Does a diffusion using [`diffusionCount()`]({{ site.baseurl }}{{ page.url }}#diffusionCount) and updates _grph_ with it, using the nodes in the graph as keys in the diffusion, i.e. the source. The name of the attribute the counts are added to is given by _diffusionLabel_. If the graph is not composed of citations from the source and instead is another tag _nodeType_ needs to be given the tag string.
 
 ###### Parameters
 
@@ -194,11 +194,13 @@ _target_ : `RecordCollection`
 
 _nodeType_ : `optional [str]`
 
- The tag that constants the values used to create _grph_
+ default `'citations'`, the tag that constants the values used to create _grph_
 
-_extraType_
+###### Returns
 
-diffusion was not done with
+`dict[:int]`
+
+ The counts dictioanry used to add values to _grph_. *Note* _grph_ is modified by the function and the return is done in case you need it.
 
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">

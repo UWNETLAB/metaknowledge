@@ -11,7 +11,7 @@ weight: 2
 
 <a name="RecordCollection.__init__"></a><small></small>**[<ins>RecordCollection.__init__</ins>]({{ site.baseurl }}{{ page.url }}#RecordCollection.__init__)**(_inCollection=None, name='', extension='', cached=False, quietStart=False_):
 
-A container for a large number of indivual WOS records.
+A container for a large number of indivual records.
 
 `RecordCollection` provides ways of creating [`Records`]({{ site.baseurl }}{{ page.url }}#Record) from an isi file, string, list of records or directory containing isi files.
 

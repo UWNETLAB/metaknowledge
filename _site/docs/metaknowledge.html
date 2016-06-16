@@ -297,7 +297,7 @@
 
 <p><a name="diffusionAddCountsFromSource"></a><small></small><strong><a href="/metaknowledge/docs/metaknowledge#diffusionAddCountsFromSource"><ins>diffusionAddCountsFromSource</ins></a></strong>(<em>grph, source, target, nodeType=’citations’, extraType=None, diffusionLabel=’DiffusionCount’, extraKeys=None, countsDict=None, extraMapping=None</em>):</p>
 
-<p>Does a diffusion using <a href="/metaknowledge/docs/metaknowledge#diffusionCount"><code class="highlighter-rouge">diffusionCount()</code></a> and updates <em>grph</em> with it, using the nodes in the graph as keys in the diffusion, i.e. the source. The name of the attribute the counts are added to is given by <em>diffusionLabel</em>. If the graph is not composed of citations from the source and instead is another entry the tag for the entry needs to be given to <em>nodeType</em>. You can also change</p>
+<p>Does a diffusion using <a href="/metaknowledge/docs/metaknowledge#diffusionCount"><code class="highlighter-rouge">diffusionCount()</code></a> and updates <em>grph</em> with it, using the nodes in the graph as keys in the diffusion, i.e. the source. The name of the attribute the counts are added to is given by <em>diffusionLabel</em>. If the graph is not composed of citations from the source and instead is another tag <em>nodeType</em> needs to be given the tag string.</p>
 
 <h6 id="parameters-3">Parameters</h6>
 
@@ -315,11 +315,13 @@
 
 <p><em>nodeType</em> : <code class="highlighter-rouge">optional [str]</code></p>
 
-<p>The tag that constants the values used to create <em>grph</em></p>
+<p>default <code class="highlighter-rouge">'citations'</code>, the tag that constants the values used to create <em>grph</em></p>
 
-<p><em>extraType</em></p>
+<h6 id="returns-3">Returns</h6>
 
-<p>diffusion was not done with</p>
+<p><code class="highlighter-rouge">dict[:int]</code></p>
+
+<p>The counts dictioanry used to add values to <em>grph</em>. <em>Note</em> <em>grph</em> is modified by the function and the return is done in case you need it.</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
@@ -363,7 +365,7 @@
 
 <p>default <code class="highlighter-rouge">'To'</code>, the name of the destination column in the edge list</p>
 
-<h6 id="returns-3">Returns</h6>
+<h6 id="returns-4">Returns</h6>
 
 <p><code class="highlighter-rouge">networkx Graph</code></p>
 
@@ -623,7 +625,7 @@
 
 <p>Default <code class="highlighter-rouge">True</code>, if <code class="highlighter-rouge">True</code> a string is returned if <code class="highlighter-rouge">False</code> a tuple</p>
 
-<h6 id="returns-4">Returns</h6>
+<h6 id="returns-5">Returns</h6>
 
 <p><code class="highlighter-rouge">str or tuple [float and int]</code></p>
 

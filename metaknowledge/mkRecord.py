@@ -8,7 +8,6 @@
 
 + `_fieldDict` contains the base mapping of keys to values, it is the dictionary
 
-
 `ExtendedRecord` is what WOSRecord and its ilk inherit from and extends `Record` by adding memoizing and processing of the fields. `ExtendedRecord` cannot be invoked directly as it has many abstract (virtual) methods that define how the tags are to be proccesed what they are called, what encoding to use when writing to disk, etc.
 """
 

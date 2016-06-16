@@ -1,5 +1,5 @@
-#Written by Reid McIlroy-Young for Dr. John McLevey, University of Waterloo 2015
-"""metaknowledge is a Python3 package that simplifies bibliometric and computational analysis of Web of Science data.
+#Written by Reid McIlroy-Young for Dr. John McLevey, University of Waterloo 2016
+"""_metaknowledge_ is a Python3 package that simplifies bibliometric and computational analysis of Web of Science data.
 
 # Example
 
@@ -19,13 +19,13 @@ There is also a simple command line program called `metaknowledge` that comes wi
 
 # Overview
 
-This package can read the files downloaded from the [Thomson Reuters Web of Science](https://webofknowledge.com) (WOS) as plain text. These files contain metadata about scientific records, such as the authors, title, and citations. The records are exported in groups of up-to 500 individual records to a file.
+This package can read the files downloaded from the Thomson Reuters' [Web of Science](https://webofknowledge.com) (_WOS_), Elsevier's [Scopus](https://www.scopus.com/), [ProQuest](www.proquest.com/) and Medline files from [PubMed](www.ncbi.nlm.nih.gov/pubmed). These files contain entries on the metadata of scientific records, such as authors, title, and citations. _metaknowledge_ can also read grants from various organizations including _NSF_ and _NSERC_ which are handled similarly to records.
 
-The [metaknowledge.RecordCollection](#RecordCollection.RecordCollection) class can take a path to one or more of these files load and parse them. The object is the main way for work to be done on multiple records. For each individual record it creates an instance of the [metaknowledge.Record](#Record.Record) class that contains the results of the parsing of the record.
+The [metaknowledge.RecordCollection](#RecordCollection.RecordCollection) class can take a path to one or more of these files load and parse them. The object is the main way for work to be done on multiple records. For each individual record it creates an instance of the [metaknowledge.Record](#metaknowledge.Record) class that contains the results of the parsing of the record.
 
-The files given by WOS are a flat database containing a series of 2 character tags, e.g. 'TI' is the title. Each WOS tag has one or more values and metaknowledge can read them to extract useful information. The approximate meanings of the tags are listed in the [tagProcessing](#tagProcessing.tagProcessing) package, along with the parsing functions for each tag. If you simply want the mapping [`tagToFull()`](#metaknowledge.tagToFull) is a function that maps tags to their full names it, as well as a few other similar functions are provided by the base metaknowledge import. Note, the long names can be used in place of the short 2 character codes within metaknowledge. There are no full official public listings of tag the meanings available. metaknowledge is not attempting to provide the definitive or authoritative meanings.
+The files read by _metaknowledge_ are a databases containing a series of tags (implicitly or explicitly), e.g. `'TI'` is the title for WOS. Each tag has one or more values and metaknowledge can read them and extract useful information. As the tags differ between providers a small set of values can be accessed by special tags, the tags are listed in `specialRecordFields`. These special tags can act on the whole `Record` and as such may contain information provided by any number of other tags.
 
-Citations are handled by a special [Citation](#Citation.Citation) class. This class can parse the citations given by WOS as well as extra details about the full name of their journal and allow simple comparisons.
+Citations are handled by a special [Citation](#Citation.Citation) class. This class can parse the citations given by _WOS_ and journals cited by _Scopus_ and allows for better comparisons when they are used in graphs.
 
 Note for those reading the docstrings metaknowledge's docs are written in markdown and are processed to produce the documentation found at [networkslab.org/metaknowledge/documentation]({{ site.baseurl }}/documentation/), but you should have no problem reading them from the help function.
 """

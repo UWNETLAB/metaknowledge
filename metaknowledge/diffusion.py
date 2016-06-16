@@ -352,7 +352,6 @@ def diffusionCount(source, target, sourceType = "raw", extraValue = None, pandas
                 sourceCounts[R] = (sourceCounts[R], occ)
         return sourceCounts
 
-#@profile
 def makeNodeID(Rec, ndType, extras = None):
     """Helper to make a node ID, extras is currently not used"""
     if ndType == 'raw':
@@ -375,7 +374,7 @@ def makeNodeID(Rec, ndType, extras = None):
     return recID, extraDict
 
 def diffusionAddCountsFromSource(grph, source, target, nodeType = 'citations', extraType = None, diffusionLabel = 'DiffusionCount', extraKeys = None, countsDict = None, extraMapping = None):
-    """Does a diffusion using [`diffusionCount()`](#metaknowledge.diffusionCount) and updates _grph_ with it, using the nodes in the graph as keys in the diffusion, i.e. the source. The name of the attribute the counts are added to is given by _diffusionLabel_. If the graph is not composed of citations from the source and instead is another entry the tag for the entry needs to be given to _nodeType_. You can also change
+    """Does a diffusion using [`diffusionCount()`](#metaknowledge.diffusionCount) and updates _grph_ with it, using the nodes in the graph as keys in the diffusion, i.e. the source. The name of the attribute the counts are added to is given by _diffusionLabel_. If the graph is not composed of citations from the source and instead is another tag _nodeType_ needs to be given the tag string.
 
     # Parameters
 
@@ -393,11 +392,13 @@ def diffusionAddCountsFromSource(grph, source, target, nodeType = 'citations', e
 
     _nodeType_ : `optional [str]`
 
-    > The tag that constants the values used to create _grph_
+    > default `'citations'`, the tag that constants the values used to create _grph_
 
-    _extraType_
+    # Returns
 
-    diffusion was not done with
+    `dict[:int]`
+
+    > The counts dictioanry used to add values to _grph_. *Note* _grph_ is modified by the function and the return is done in case you need it.
     """
     progArgs = (0, "Starting to add counts to graph")
     if metaknowledge.VERBOSE_MODE:

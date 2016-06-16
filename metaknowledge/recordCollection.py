@@ -27,7 +27,7 @@ from .scopus.scopusHandlers import scopusHeader
 import metaknowledge
 
 class RecordCollection(CollectionWithIDs):
-    """A container for a large number of indivual WOS records.
+    """A container for a large number of indivual records.
 
     `RecordCollection` provides ways of creating [`Records`](#Record.Record) from an isi file, string, list of records or directory containing isi files.
 

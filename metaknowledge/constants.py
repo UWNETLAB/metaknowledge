@@ -2,20 +2,24 @@
 import os
 import sys
 
-__version__ = '2.0.2'
+__version__ = '2.1.1'
 
 specialRecordFields = [
-    'authorsShort',
-    'authorsFull',
     'year',
-    'month',
-    'title',
-    'DOI',
     'volume',
     'beginningPage',
+    'DOI',
+    'address',
     'j9',
     'citations',
-    'pubType',
+    'grants',
+    'selfCitation',
+    'authorsShort',
+    'authorsFull',
+    'title',
+    'journal',
+    'keywords',
+    'abstract',
     'id',
 ]
 

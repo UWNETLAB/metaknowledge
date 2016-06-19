@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<rootTag>
+  <Award>
+    <AwardTitle>Genera of Chrysomelid Beetles of the World</AwardTitle>
+    <AwardEffectiveDate>06/01/1969</AwardEffectiveDate>
+    <AwardExpirationDate>05/31/1971</AwardExpirationDate>
+    <AwardAmount>30900</AwardAmount>
+    <AwardInstrument>
+      <Value>Standard Grant</Value>
+    </AwardInstrument>
+    <Organization>
+      <Code>08000000</Code>
+      <Directorate>
+        <LongName>Direct For Biological Sciences</LongName>
+      </Directorate>
+      <Division>
+        <LongName>Direct For Biological Sciences</LongName>
+      </Division>
+    </Organization>
+    <ProgramOfficer>
+      <SignBlockName>name not available</SignBlockName>
+    </ProgramOfficer>
+    <AbstractNarration/>
+    <MinAmdLetterDate>05/26/1969</MinAmdLetterDate>
+    <MaxAmdLetterDate>05/26/1969</MaxAmdLetterDate>
+    <ARRAAmount/>
+    <AwardID>6800097</AwardID>
+    <Investigator>
+      <FirstName>J.Linsley</FirstName>
+      <LastName>Gressitt</LastName>
+      <EmailAddress/>
+      <StartDate>06/01/1969</StartDate>
+      <EndDate/>
+      <RoleCode>Principal Investigator</RoleCode>
+    </Investigator>
+    <Institution>
+      <Name>Bernice P Bishop Museum</Name>
+      <CityName>Honolulu</CityName>
+      <ZipCode>968172704</ZipCode>
+      <PhoneNumber>8088478204</PhoneNumber>
+      <StreetAddress>1525 Bernice Street</StreetAddress>
+      <CountryName>United States</CountryName>
+      <StateName>Hawaii</StateName>
+      <StateCode>HI</StateCode>
+    </Institution>
+  </Award>
+</rootTag>

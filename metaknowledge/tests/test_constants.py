@@ -6,7 +6,7 @@ import importlib
 import sys
 import metaknowledge.constants
 
-class TestHelpers(unittest.TestCase):
+class TestConstants(unittest.TestCase):
     def test_VerboseMode(self):
         self.assertFalse(metaknowledge.constants.isInteractive())
         sys.stdout.isatty = lambda : True

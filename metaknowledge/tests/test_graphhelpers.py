@@ -30,6 +30,16 @@ class TestHelpers(unittest.TestCase):
         os.remove(fileEName)
         os.remove(fileNName)
 
+    def test_tnetWriter(self):
+        fName = fileShortName + "_tnet.csv"
+        G = self.RC.twoModeNetwork('AF', 'WC', edgeAttribute = 'PY')
+        metaknowledge.writeTnetFile(G, fName, 'type', weighted = True, timeString = 'key')
+        self.assertAlmostEqual(os.path.getsize(fName), 1220, delta=100)
+        os.remove(fName)
+        metaknowledge.writeTnetFile(G, fName, 'type')
+        self.assertAlmostEqual(os.path.getsize(fName), 480, delta=50)
+        os.remove(fName)
+
     def test_progress(self):
         metaknowledge.VERBOSE_MODE = True
         tmpIO = io.StringIO()

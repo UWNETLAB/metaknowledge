@@ -1,11 +1,12 @@
 #Written by Reid McIlroy-Young for Dr. John McLevey, University of Waterloo 2015
-import metaknowledge
-
 import networkx as nx
 import csv
 import os
 
 from .progressBar import _ProgressBar
+from .mkExceptions import RCValueError
+
+import metaknowledge
 
 def readGraph(edgeList, nodeList = None, directed = False, idKey = 'ID', eSource = 'From', eDest = 'To'):
     """Reads the files given by _edgeList_ and _nodeList_ and creates a networkx graph for the files.
@@ -194,7 +195,7 @@ def writeEdgeList(grph, name, extraInfo = True, allSameAttribute = False, _progB
     > Default `False`, if `True` all the edges must have the same attributes or an exception will be raised. If `False` the missing attributes will be left blank.
     """
     count = 0
-    eMax = len(grph.edges(data = True))
+    eMax = len(grph.edges())
     if metaknowledge.VERBOSE_MODE or isinstance(_progBar, _ProgressBar):
         if isinstance(_progBar, _ProgressBar):
             PBar = _progBar
@@ -229,7 +230,7 @@ def writeEdgeList(grph, name, extraInfo = True, allSameAttribute = False, _progB
         count = 0
         PBar.updateVal(.01, "Opening file {}".format(name))
         f = open(os.path.expanduser(os.path.abspath(name)), 'w')
-        outFile = csv.DictWriter(f, csvHeader, delimiter = ',', quotechar = '"', quoting=csv.QUOTE_ALL)
+        outFile = csv.DictWriter(f, csvHeader, delimiter = ',', quotechar = '"', quoting=csv.QUOTE_NONNUMERIC)
         outFile.writeheader()
         if extraInfo:
             for e in grph.edges_iter(data = True):
@@ -310,7 +311,7 @@ def writeNodeAttributeFile(grph, name, allSameAttribute = False, _progBar = None
         count = 0
         PBar.updateVal(.10, "Opening '{}'".format(name))
         f = open(name, 'w')
-        outFile = csv.DictWriter(f, csvHeader, delimiter = ',', quotechar = '"', quoting = csv.QUOTE_ALL)
+        outFile = csv.DictWriter(f, csvHeader, delimiter = ',', quotechar = '"', quoting = csv.QUOTE_NONNUMERIC)
         outFile.writeheader()
         for n in grph.nodes_iter(data = True):
             count += 1
@@ -326,6 +327,102 @@ def writeNodeAttributeFile(grph, name, allSameAttribute = False, _progBar = None
         f.close()
         if not isinstance(_progBar, _ProgressBar):
             PBar.finish("Done node attribute list: {}, {} nodes written.".format(name, count))
+
+def writeTnetFile(grph, name, modeNameString, weighted = False, sourceMode = None, timeString = None, nodeIndexString = 'tnet-ID', weightString = 'weight'):
+    """Writes an edge list designed for reading by the _R_ package [_tnet_](https://toreopsahl.com/tnet/).
+
+    The _networkx_ graph provided must be a pure two-mode network, the modes must be 2 different values for the node attribute accessed by _modeNameString_ and all edges must be between different node types. Each node will be given an integer id, stored in the attribute given by _nodeIndexString_, these ids are then written to the file as the endpoints of the edges. Unless _sourceMode_ is given which mode is the source (first column) and which the target (second column) is random.
+
+    **Note** the _grph_ will be modified by this function, the ids of the nodes will be written to the graph at the attribute _nodeIndexString_.
+
+    # Parameters
+
+    _grph_ : `network Graph`
+
+    > The graph that will be written to _name_
+
+    _name_ : `str`
+
+    > The path of the file to write
+
+    _modeNameString_ : `str`
+
+    > The name of the attribute _grph_'s modes are stored in
+
+    _weighted_ : `optional bool`
+
+    > Default `False`, if `True` then the attribute _weightString_ will be written to the weight column
+
+    _sourceMode_ : `optional str`
+
+    > Default `None`, if given the name of the mode used for the source (first column) in the output file
+
+    _timeString_ : `optional str`
+
+    > Default `None`, if present the attribute _timeString_ of an edge will be written to the time column surrounded by double quotes (").
+
+    **Note** The format used by tnet for dates is very strict it uses the ISO format, down to the second and without time zones.
+
+    _nodeIndexString_ : `optional str`
+
+    > Default `'tnet-ID'`, the name of the attribute to save the id for each node
+
+    _weightString_ : `optional str`
+
+    > Default `'weight'`, the name of the weight attribute
+    """
+    count = 0
+    eMax = len(grph.edges())
+    progArgs = (0, "Writing tnet edge list {}".format(name))
+    if metaknowledge.VERBOSE_MODE:
+        progKwargs = {'dummy' : False}
+    else:
+        progKwargs = {'dummy' : True}
+    with _ProgressBar(*progArgs, **progKwargs) as PBar:
+        if sourceMode is not None:
+            modes = [sourceMode]
+        else:
+            modes = []
+        mode1Set = set()
+        PBar.updateVal(.1, "Indexing nodes for tnet")
+        for nodeIndex, node in enumerate(grph.nodes_iter(data = True), start = 1):
+            try:
+                nMode = node[1][modeNameString]
+            except KeyError:
+                #too many modes so will fail
+                modes = [1,2,3]
+                nMode = 4
+            if nMode not in modes:
+                if len(modes) < 2:
+                    modes.append(nMode)
+                else:
+                    raise RCValueError("Too many modes of '{}' found in the network or one of the nodes was missing its mode. There must be exactly 2 modes.".format(modeNameString))
+            if nMode == modes[0]:
+                mode1Set.add(node[0])
+            node[1][nodeIndexString] = nodeIndex
+        if len(modes) != 2:
+            raise RCValueError("Too few modes of '{}' found in the network. There must be exactly 2 modes.".format(modeNameString))
+        with open(name, 'w', encoding = 'utf-8') as f:
+            for n1, n2, eDict in grph.edges_iter(data = True):
+                count += 1
+                if count % 1000 == 1:
+                    PBar.updateVal(count/ eMax * .9 + .1, "writing edge: '{}'-'{}'".format(n1, n2))
+                if n1 in mode1Set:
+                    if n2 in mode1Set:
+                        raise RCValueError("The nodes '{}' and '{}' have an edge and the same type. The network must be purely 2-mode.".format(n1, n2))
+                elif n2 in mode1Set:
+                    n1, n2 = n2, n1
+                else:
+                    raise RCValueError("The nodes '{}' and '{}' have an edge and the same type. The network must be purely 2-mode.".format(n1, n2))
+                if timeString is not None:
+                    eTimeString = '"{}" '.format(eDict[timeString])
+                else:
+                    eTimeString = ''
+                if weighted:
+                    f.write("{}{} {} {}\n".format(eTimeString, grph.node[n1][nodeIndexString], grph.node[n2][nodeIndexString], eDict[weightString]))
+                else:
+                    f.write("{}{} {}\n".format(eTimeString, grph.node[n1][nodeIndexString], grph.node[n2][nodeIndexString]))
+        PBar.finish("Done writing tnet file '{}'".format(name))
 
 def getWeight(grph, nd1, nd2, weightString = "weight", returnType = int):
     """

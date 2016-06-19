@@ -4,15 +4,18 @@ import collections
 import itertools
 import io
 
-from ..mkExceptions import BadPubmedRecord
+from ..mkExceptions import BadPubmedRecord, RCTypeError
 from ..mkRecord import ExtendedRecord
 from .tagProcessing.tagNames import tagNameConverterDict, authorBasedTags
 from .tagProcessing.tagFunctions import medlineTagToFunc
 from .tagProcessing.specialFunctions import medlineSpecialTagToFunc
 
 class MedlineRecord(ExtendedRecord):
+    """Class for full Medline(Pubmed) entries.
+
+    This class is an [`ExtendedRecord`](#metaknowledge.ExtendedRecord) capable of generating its own id number. You should not create them directly, but instead use [`medlineParser()`](#metaknowledge.medlineParser) on a medline file.
+    """
     def __init__(self, inRecord, sFile = "", sLine = 0):
-        """See help on [Record](#Record.Record) for details"""
         bad = False
         error = None
         fieldDict = None
@@ -30,7 +33,7 @@ class MedlineRecord(ExtendedRecord):
                 fieldDict = medlineRecordParser(enumerate(addCharToEnd(inRecord.split('\n')), start = 1))
                 #string io
             else:
-                raise TypeError("Unsupported input type '{}', PubmedRecords cannot be created from '{}'".format(inRecord, type(inRecord)))
+                raise RCTypeError("Unsupported input type '{}', PubmedRecords cannot be created from '{}'".format(inRecord, type(inRecord)))
         except BadPubmedRecord as b:
             self.bad = True
             self.error = b
@@ -41,7 +44,7 @@ class MedlineRecord(ExtendedRecord):
             else:
                 self._pubNum = None
                 bad = True
-                error = BadPubmedRecord("Missing WOS number")
+                error = BadPubmedRecord("Missing PMID")
         ExtendedRecord.__init__(self, fieldDict, self._pubNum, bad, error, sFile = sFile, sLine = sLine)
 
     def encoding(self):
@@ -85,6 +88,20 @@ class MedlineRecord(ExtendedRecord):
                                 f.write(authVal)
 
 def medlineRecordParser(record):
+    """The parser [`MedlineRecord`](#metaknowledge.MedlineRecord) use. This takes an entry from [`medlineParser()`](#metaknowledge.medlineParser) and parses it a part of the creation of a `MedlineRecord`.
+
+    # Parameters
+
+    _record_ : `enumerate object`
+
+    > a file wrapped by `enumerate()`
+
+    # Returns
+
+    `collections.OrderedDict`
+
+    > An ordered dictionary of the key-vaue pairs in the entry
+    """
     tagDict = collections.OrderedDict()
     tag = 'PMID'
     mostRecentAuthor = None

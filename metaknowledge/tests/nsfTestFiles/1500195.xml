@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<rootTag>
+  <Award>
+    <AwardTitle>PFI:AIR-TT: Video Collaboratory: A Platform for Active Viewing and Collaboration with Video Data</AwardTitle>
+    <AwardEffectiveDate>07/15/2015</AwardEffectiveDate>
+    <AwardExpirationDate>12/31/2016</AwardExpirationDate>
+    <AwardAmount>211917</AwardAmount>
+    <AwardInstrument>
+      <Value>Standard Grant</Value>
+    </AwardInstrument>
+    <Organization>
+      <Code>07070000</Code>
+      <Directorate>
+        <LongName>Directorate For Engineering</LongName>
+      </Directorate>
+      <Division>
+        <LongName>Div Of Industrial Innovation &amp; Partnersh</LongName>
+      </Division>
+    </Organization>
+    <ProgramOfficer>
+      <SignBlockName>Barbara H. Kenny</SignBlockName>
+    </ProgramOfficer>
+    <AbstractNarration>This PFI: AIR Technology Translation project focuses on translating an online software technology (The Video Collaboratory) to fill the need for innovative support in small group collaboration and discussion around video documents. The Video Collaboratory is important because increasingly huge amounts of video are being generated for business and personal use. And while there are currently ways to distribute / watch video, it is still not easy to drill into, analyze, and note important details from within the video as a means to an end, particularly when working with others. From corporate training to healthcare, education, and security, people need effective ways to privately converse about, mark up and brainstorm around videos that are linked directly into the video content itself. The project will result in a scaled-up and enhanced Video Collaboratory platform with the following unique features: new ways for precision interaction with video documents, direct connection of group discussions to the video timeline, and private social networking to support meaningful work with videos. These features provide the following advantages: enabling clearer, deeper discussion; reducing error and confusion; and increasing efficiency / saving time when compared to the leading competing technologies in this market space, such as YouTube and Vimeo, that focus on distribution rather than detailed analysis and use of video documents. This project will develop a market-ready technology platform for next-generation collaboration around video data.&lt;br/&gt;&lt;br/&gt;This project addresses the following technology gaps as it translates from research discovery toward commercial application: (1) social presence affordances and group analytics to enable group-guided viewing and synchronous interaction around video documents; (2) rich communication pathways to support multimedia annotations and video-centric filtering of commentary as part of video-anchored discussion; (3) responsive components for interface and video data to scale across platforms (particularly mobile) with smart video streaming that adapts to user network environments; and (4) elastic, scalable, and socially-aware metrics for group/project organization, access/privacy control, and content management for sharing. Significant contributions to the research and knowledge base are novel techniques designed to address these gaps, validated through user study testing. Contributions include techniques for synchronous interaction around video documents; social discussion threading (integrating context from annotated video segmentation, user interaction analytics, and discussion content); weighted adaptive video streaming to prioritize transfer of content by discussion activity; and a flexible, socially-aware model for access management and content sharing. In addition, personnel involved in this project, graduate students and post-docs, will receive technology translation and entrepreneurship experiences through research development and discovery toward commercial reality.</AbstractNarration>
+    <MinAmdLetterDate>07/10/2015</MinAmdLetterDate>
+    <MaxAmdLetterDate>05/17/2016</MaxAmdLetterDate>
+    <ARRAAmount/>
+    <AwardID>1500195</AwardID>
+    <Investigator>
+      <FirstName>David</FirstName>
+      <LastName>Wilson</LastName>
+      <EmailAddress>davils@uncc.edu</EmailAddress>
+      <StartDate>07/10/2015</StartDate>
+      <EndDate/>
+      <RoleCode>Principal Investigator</RoleCode>
+    </Investigator>
+    <Investigator>
+      <FirstName>Celine</FirstName>
+      <LastName>Latulipe</LastName>
+      <EmailAddress>clatulip@uncc.edu</EmailAddress>
+      <StartDate>07/10/2015</StartDate>
+      <EndDate/>
+      <RoleCode>Co-Principal Investigator</RoleCode>
+    </Investigator>
+    <Investigator>
+      <FirstName>Sybil</FirstName>
+      <LastName>Huskey</LastName>
+      <EmailAddress>sdhuskey@uncc.edu</EmailAddress>
+      <StartDate>07/10/2015</StartDate>
+      <EndDate/>
+      <RoleCode>Co-Principal Investigator</RoleCode>
+    </Investigator>
+    <Investigator>
+      <FirstName>Devin</FirstName>
+      <LastName>Collins</LastName>
+      <EmailAddress>Devin.Collins@uncc.edu</EmailAddress>
+      <StartDate>07/10/2015</StartDate>
+      <EndDate/>
+      <RoleCode>Co-Principal Investigator</RoleCode>
+    </Investigator>
+    <Institution>
+      <Name>University of North Carolina at Charlotte</Name>
+      <CityName>CHARLOTTE</CityName>
+      <ZipCode>282230001</ZipCode>
+      <PhoneNumber>7046871888</PhoneNumber>
+      <StreetAddress>9201 University City Boulevard</StreetAddress>
+      <CountryName>United States</CountryName>
+      <StateName>North Carolina</StateName>
+      <StateCode>NC</StateCode>
+    </Institution>
+    <ProgramElement>
+      <Code>8019</Code>
+      <Text>Accelerating Innovation Rsrch</Text>
+    </ProgramElement>
+    <ProgramReference>
+      <Code>8019</Code>
+      <Text>Accelerating Innovation Rsrch</Text>
+    </ProgramReference>
+    <ProgramReference>
+      <Code>116E</Code>
+      <Text>RESEARCH EXP FOR UNDERGRADS</Text>
+    </ProgramReference>
+    <ProgramReference>
+      <Code>9251</Code>
+      <Text>RES EXPER FOR UNDERGRAD-SUPPLT</Text>
+    </ProgramReference>
+  </Award>
+</rootTag>

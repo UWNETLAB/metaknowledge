@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<rootTag>
+  <Award>
+    <AwardTitle>Radical Chemistry on Cloud and Aerosol Surfaces</AwardTitle>
+    <AwardEffectiveDate>09/01/2014</AwardEffectiveDate>
+    <AwardExpirationDate>08/31/2016</AwardExpirationDate>
+    <AwardAmount>269915</AwardAmount>
+    <AwardInstrument>
+      <Value>Continuing grant</Value>
+    </AwardInstrument>
+    <Organization>
+      <Code>03090000</Code>
+      <Directorate>
+        <LongName>Direct For Mathematical &amp; Physical Scien</LongName>
+      </Directorate>
+      <Division>
+        <LongName>Division Of Chemistry</LongName>
+      </Division>
+    </Organization>
+    <ProgramOfficer>
+      <SignBlockName>Tyrone D. Mitchell</SignBlockName>
+    </ProgramOfficer>
+    <AbstractNarration>The Environmental Chemical Sciences Program in the Chemistry Division at the National Science Foundation supports the research of Professors Joseph S. Francisco and Sabre Kais both from Purdue University who will examine how free radicals contribute to numerous significant chemical processes in the atmosphere. Aerosols and cloud droplets play an important role in both the removal and the conversion of gases in the atmosphere. The interactions between gas-phase species on liquid surfaces are central to understanding chemistry at these interfaces. The overall goal of this award is to provide a theoretical framework, based on first principles including classical and ab initio molecular dynamics (MD) simulations, density functional theory combined with finite element methods for Car-Parrinello simulations, and finite size scaling for universal behavior of free energies and other thermodynamic quantities to understand how atmospheric free radicals accommodate and react at the gas-liquid interface.&lt;br/&gt;&lt;br/&gt;Results of this project will help improve our understanding of the contribution to radical accommodation and uptake leading to more effective pollution control strategies as well as the improvement in air quality for pollutants whose chemistry is highly coupled to atmospheric free radicals. This multidisciplinary project will bring both undergraduate and graduate students from the departments of Chemistry and Earth and Atmospheric Sciences into the research environment. Moreover, this project will promote and support broader efforts to recruit minority and underrepresented graduate students to the chemical physics program at Purdue University.</AbstractNarration>
+    <MinAmdLetterDate>01/23/2015</MinAmdLetterDate>
+    <MaxAmdLetterDate>01/23/2015</MaxAmdLetterDate>
+    <ARRAAmount/>
+    <AwardID>1500217</AwardID>
+    <Investigator>
+      <FirstName>Joseph</FirstName>
+      <LastName>Francisco</LastName>
+      <EmailAddress>francisco3@unl.edu</EmailAddress>
+      <StartDate>01/23/2015</StartDate>
+      <EndDate/>
+      <RoleCode>Principal Investigator</RoleCode>
+    </Investigator>
+    <Institution>
+      <Name>University of Nebraska-Lincoln</Name>
+      <CityName>Lincoln</CityName>
+      <ZipCode>685031435</ZipCode>
+      <PhoneNumber>4024723171</PhoneNumber>
+      <StreetAddress>2200 Vine St, 151 Whittier</StreetAddress>
+      <CountryName>United States</CountryName>
+      <StateName>Nebraska</StateName>
+      <StateCode>NE</StateCode>
+    </Institution>
+  </Award>
+</rootTag>

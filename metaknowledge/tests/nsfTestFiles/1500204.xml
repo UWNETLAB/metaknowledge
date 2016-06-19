@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<rootTag>
+  <Award>
+    <AwardTitle>PFI:AIR - TT: Ultra-fast electro-optical switching of nematic liquid crystals</AwardTitle>
+    <AwardEffectiveDate>07/01/2015</AwardEffectiveDate>
+    <AwardExpirationDate>12/31/2016</AwardExpirationDate>
+    <AwardAmount>200000</AwardAmount>
+    <AwardInstrument>
+      <Value>Standard Grant</Value>
+    </AwardInstrument>
+    <Organization>
+      <Code>07070000</Code>
+      <Directorate>
+        <LongName>Directorate For Engineering</LongName>
+      </Directorate>
+      <Division>
+        <LongName>Div Of Industrial Innovation &amp; Partnersh</LongName>
+      </Division>
+    </Organization>
+    <ProgramOfficer>
+      <SignBlockName>Barbara H. Kenny</SignBlockName>
+    </ProgramOfficer>
+    <AbstractNarration>This PFI: AIR Technology Translation project focuses on translating two recently discovered effects to fill the need for fast switching of liquid crystal (LC) electro-optic devices. Fast switching of light propagation is of prime importance in applications such as optical communications and computing as it allows one to process larger amounts of information within a shorter period of time. The two discovered effects are the Nanosecond Electrically Modified Order Parameter (NEMOP), in which the electric field is used to alter the refractive indices of the LC rather than to reorient the optic axis as in standard approach used so far, and the polymer-induced modification of the order parameter that allows one to enhance the amplitude of the switched optical birefringence. The NEMOP-based technology has the following unique features: the switching time of optical properties is on the order of nanoseconds and tens of nanoseconds; moreover, the switching-on and switching-off responses are equally fast. These features provide the advantages when compared to the leading competing LC switches based on reorientation of the optic axis, as the nanosecond switching is million times faster than the current industry standard of a few milliseconds.&lt;br/&gt;&lt;br/&gt;The NEMOP-based technology brings a new paradigm in the development of LC devices by utilizing microscopic effects of molecular alignment instead of macroscopic reorientation. This project addresses the following technology gaps: relatively high operating voltages (hundreds of volts) and moderate (10-3-10-2) modulation of the effective refractive index, as it translates from research discovery toward commercial application. The researchers will overcome the gaps by a synergy of approaches: (a) polymer modification of the LC materials to increase the amplitude of switching; (b) exploration of LC structure-property relationships in order to enhance the optical response and lower the driving field; (c) design of electro-optic cells that increases the pathway of light propagation. The main commercial target is communication industry where cheap and light-weight LC optical and infrared modulators with nanosecond response times would be of great value. In addition, personnel involved in this project includes several graduate students, who will receive innovation and entrepreneurship experiences through the cutting-edge research, targeted development of the technology to the commercialization level, and through participation in the NSF I-Corps program.</AbstractNarration>
+    <MinAmdLetterDate>06/12/2015</MinAmdLetterDate>
+    <MaxAmdLetterDate>08/19/2015</MaxAmdLetterDate>
+    <ARRAAmount/>
+    <AwardID>1500204</AwardID>
+    <Investigator>
+      <FirstName>Oleg</FirstName>
+      <LastName>Lavrentovich</LastName>
+      <EmailAddress>olavrent@kent.edu</EmailAddress>
+      <StartDate>06/12/2015</StartDate>
+      <EndDate/>
+      <RoleCode>Principal Investigator</RoleCode>
+    </Investigator>
+    <Investigator>
+      <FirstName>Sergij</FirstName>
+      <LastName>Shiyanovskii</LastName>
+      <EmailAddress>sshiyano@kent.edu</EmailAddress>
+      <StartDate>06/12/2015</StartDate>
+      <EndDate/>
+      <RoleCode>Co-Principal Investigator</RoleCode>
+    </Investigator>
+    <Investigator>
+      <FirstName>Suguna</FirstName>
+      <LastName>Rachakonda</LastName>
+      <EmailAddress>srachako@kent.edu</EmailAddress>
+      <StartDate>06/12/2015</StartDate>
+      <EndDate>08/19/2015</EndDate>
+      <RoleCode>Former Co-Principal Investigator</RoleCode>
+    </Investigator>
+    <Investigator>
+      <FirstName>William</FirstName>
+      <LastName>Southards</LastName>
+      <EmailAddress>wsouthar@kent.edu</EmailAddress>
+      <StartDate>08/19/2015</StartDate>
+      <EndDate/>
+      <RoleCode>Co-Principal Investigator</RoleCode>
+    </Investigator>
+    <Institution>
+      <Name>Kent State University</Name>
+      <CityName>KENT</CityName>
+      <ZipCode>442420001</ZipCode>
+      <PhoneNumber>3306722070</PhoneNumber>
+      <StreetAddress>OFFICE OF THE COMPTROLLER</StreetAddress>
+      <CountryName>United States</CountryName>
+      <StateName>Ohio</StateName>
+      <StateCode>OH</StateCode>
+    </Institution>
+  </Award>
+</rootTag>

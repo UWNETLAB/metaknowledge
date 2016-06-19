@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<rootTag>
+  <Award>
+    <AwardTitle>Extremal graph theory, graph limits, and algebraic invariants</AwardTitle>
+    <AwardEffectiveDate>06/01/2015</AwardEffectiveDate>
+    <AwardExpirationDate>05/31/2018</AwardExpirationDate>
+    <AwardAmount>151604</AwardAmount>
+    <AwardInstrument>
+      <Value>Standard Grant</Value>
+    </AwardInstrument>
+    <Organization>
+      <Code>03040000</Code>
+      <Directorate>
+        <LongName>Direct For Mathematical &amp; Physical Scien</LongName>
+      </Directorate>
+      <Division>
+        <LongName>Division Of Mathematical Sciences</LongName>
+      </Division>
+    </Organization>
+    <ProgramOfficer>
+      <SignBlockName>Tomek Bartoszynski</SignBlockName>
+    </ProgramOfficer>
+    <AbstractNarration>In this project, the PI aims to study very large networks using algebraic and analytic tools. Large networks like the Internet, molecular lattices and social networks (such as Facebook) naturally arise in many different areas of real life. The PI aims to look at these from a new perspective: we consider them as approximations of an infinite object. For molecular lattices this is a very natural approach, but via a recently developed theory of sparse graph convergence we can tackle a much broader class of problems, creating new links between mathematics, statistical physics and computer science.&lt;br/&gt;&lt;br/&gt;The PI will investigate two essentially different, but still related topics. The first one is the study of extremal values of algebraic invariants of graphs with a special emphasis on those problems where the conjectured extremal graphs are not finite. Despite the lack of finite extremal solutions, using the recently emerging language of Benjamini--Schramm convergence, one can find and analyze the extremal solutions. This then leads to new asymptotic results on finite graphs. The second topic is the study of certain special infinite graphs and lattices via graph limit theory and analytic and algebraic combinatorics. The general theme is to consider a graph invariant of algebraic nature and analyze its limiting behaviour using analytic tools. Often the invariants come from graph polynomials like the matching, chromatic and independence polynomials and have various ties to statistical mechanics.</AbstractNarration>
+    <MinAmdLetterDate>04/24/2015</MinAmdLetterDate>
+    <MaxAmdLetterDate>04/24/2015</MaxAmdLetterDate>
+    <ARRAAmount/>
+    <AwardID>1500219</AwardID>
+    <Investigator>
+      <FirstName>Peter</FirstName>
+      <LastName>Csikvari</LastName>
+      <EmailAddress>csikvari@mit.edu</EmailAddress>
+      <StartDate>04/24/2015</StartDate>
+      <EndDate/>
+      <RoleCode>Principal Investigator</RoleCode>
+    </Investigator>
+    <Institution>
+      <Name>Massachusetts Institute of Technology</Name>
+      <CityName>Cambridge</CityName>
+      <ZipCode>021394301</ZipCode>
+      <PhoneNumber>6172531000</PhoneNumber>
+      <StreetAddress>77 MASSACHUSETTS AVE</StreetAddress>
+      <CountryName>United States</CountryName>
+      <StateName>Massachusetts</StateName>
+      <StateCode>MA</StateCode>
+    </Institution>
+    <ProgramElement>
+      <Code>7970</Code>
+      <Text>Combinatorics</Text>
+    </ProgramElement>
+  </Award>
+</rootTag>

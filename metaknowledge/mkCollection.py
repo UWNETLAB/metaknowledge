@@ -15,7 +15,7 @@ from .progressBar import _ProgressBar
 
 from .constants import __version__
 
-from .mkExceptions import CollectionTypeError, cacheError
+from .mkExceptions import CollectionTypeError, cacheError, TagError
 
 import metaknowledge
 
@@ -39,7 +39,7 @@ class Collection(collections.abc.MutableSet, collections.abc.Hashable):
     As `Collection` is mostly meant to be base for other classes all but one of the arguments in the \_\_Init\_\_ are not optional and the optional one is not used.
 
     # Parameters
-    
+
     _inSet_ : `set`
 
     > The objects to be contained
@@ -116,6 +116,14 @@ class Collection(collections.abc.MutableSet, collections.abc.Hashable):
     #Mutable Set methods
 
     def add(self, elem):
+        """ Adds _elem_ to the collection.
+
+        # Parameters
+
+        _elem_ : `object`
+
+        > The object to be added
+        """
         if isinstance(elem, self._allowedTypes):
             self._collection.add(elem)
             self._collectedTypes.add(type(elem).__name__)
@@ -123,20 +131,47 @@ class Collection(collections.abc.MutableSet, collections.abc.Hashable):
             raise CollectionTypeError("{} can only contain '{}', '{}' is not allowed.".format(type(self).__name__, self._allowedTypes, elem))
 
     def discard(self, elem):
+        """Removes _elem_ from the collection, will not raise an Exception if _elem_ is missing
+
+        # Parameters
+
+        _elem_ : `object`
+
+        > The object to be removed
+
+        """
         return self._collection.discard(elem)
 
     def remove(self, elem):
+        """Removes _elem_ from the collection, will raise a KeyError is _elem_ is missing
+
+        # Parameters
+
+        _elem_ : `object`
+
+        > The object to be removed
+        """
         try:
             return self._collection.remove(elem)
         except KeyError:
             raise KeyError("'{}' was not found in the {}: '{}'.".format(elem, type(self).__name__, self)) from None
 
     def clear(self):
+        """"Removes all elements from the collection and resets the error handling
+        """
         self.bad = False
         self.errors = {}
         self._collection.clear()
 
     def pop(self):
+        """Removes a random element from the collection and returns it
+
+        # Returns
+
+        `object`
+
+        > A random object from the collection
+        """
         try:
             return self._collection.pop()
         except KeyError:
@@ -240,6 +275,14 @@ class Collection(collections.abc.MutableSet, collections.abc.Hashable):
         return "{}({})".format(type(self).__name__, self.name)
 
     def copy(self):
+        """Creates a shallow copy of the collection
+
+        # Returns
+
+        `Collection`
+
+        > A copy of the `Collection`
+        """
         collectedCopy = copy.copy(self)
         collectedCopy._collection = copy.copy(collectedCopy._collection)
         self._collectedTypes = copy.copy(self._collectedTypes)
@@ -247,13 +290,36 @@ class Collection(collections.abc.MutableSet, collections.abc.Hashable):
         collectedCopy.errors = copy.copy(collectedCopy.errors)
         return collectedCopy
 
-    def peak(self):
+    def peek(self):
+        """returns a random element from the collection. If ran twice the same element will usually be returned
+
+        # Returns
+
+        `object`
+
+        > A random object from the collection
+        """
         if len(self._collection) > 0:
             return self._collection.__iter__().__next__()
         else:
             return None
 
     def chunk(self, maxSize):
+        """Splits the `Collection` into _maxSize_ size or smaller `Collections`
+
+        # Parameters
+
+        _maxSize_ : `int`
+
+        > The maximum number of elements in a retuned `Collection`
+
+
+        # Returns
+
+        `list [Collection]`
+
+        > A list of `Collections` that if all merged (`|` operator) would create the original
+        """
         chunks = []
         currentSize = maxSize + 1
         for i in self:
@@ -266,7 +332,20 @@ class Collection(collections.abc.MutableSet, collections.abc.Hashable):
         return chunks
 
     def split(self, maxSize):
-        """destructive"""
+        """Destructively, splits the `Collection` into _maxSize_ size or smaller `Collections`. The source `Collection` will be empty after this operation
+
+        # Parameters
+
+        _maxSize_ : `int`
+
+        > The maximum number of elements in a retuned `Collection`
+
+        # Returns
+
+        `list [Collection]`
+
+        > A list of `Collections` that if all merged (`|` operator) would create the original
+        """
         chunks = []
         currentSize = maxSize + 1
         try:
@@ -278,6 +357,7 @@ class Collection(collections.abc.MutableSet, collections.abc.Hashable):
                     chunks[-1].add(self.pop())
                 currentSize += 1
         except KeyError:
+            self.clear()
             self.name = 'Emptied-{}'.format(self.name)
         return chunks
 
@@ -324,24 +404,59 @@ class Collection(collections.abc.MutableSet, collections.abc.Hashable):
             pickle.dump((dat, self), f)
 
 class CollectionWithIDs(Collection):
-    """A Collection with a few extra methods that assume all the contained items have an id attribute and a bad attribute, e.g. Records or Grants"""
+    """A [`Collection`](#metaknowledge.Collection) with a few extra methods that assume all the contained items have an id attribute and a bad attribute, e.g. [`Records`](#metaknowledge.Record) or [`Grants`](#metaknowledge.Grant).
+
+    \_\_Init\_\_
+
+    As `CollectionWithIDs` is mostly meant to be base for other classes all but one of the arguments in the `__init__` are not optional and the optional one is not used. The `__init__()` function is the same as a [`Collection`](#metaknowledge.Collection).
+    """
     def __init__(self, inSet, allowedTypes, collectedTypes, name, bad, errors, quietStart = False):
 
         Collection.__init__(self, inSet, allowedTypes, collectedTypes, name, bad, errors, quietStart = quietStart)
 
     def containsID(self, idVal):
+        """Checks if the collected items contains the give _idVal_
+
+        # Parameters
+
+        _idVal_ : `str`
+
+        > The queried id string
+
+        # Returns
+
+        `bool`
+
+        > `True` if the item is in the collection
+        """
         for i in self:
             if i.id == idVal:
                 return True
         return False
 
     def discardID(self, idVal):
+        """Checks if the collected items contains the give _idVal_ and discards it if it is found, will not raise an exception if item is not found
+
+        # Parameters
+
+        _idVal_ : `str`
+
+        > The discarded id string
+        """
         for i in self:
             if i.id == idVal:
                 self._collection.discard(i)
                 return
 
     def removeID(self, idVal):
+        """Checks if the collected items contains the give _idVal_ and removes it if it is found, will raise a `KeyError` if item is not found
+
+        # Parameters
+
+        _idVal_ : `str`
+
+        > The removed id string
+        """
         for i in self:
             if i.id == idVal:
                 self._collection.remove(i)
@@ -349,12 +464,34 @@ class CollectionWithIDs(Collection):
         raise KeyError("A Record with the ID '{}' was not found in the RecordCollection: '{}'.".format(idVal, self))
 
     def getID(self, idVal):
+        """Looks up an item with _idVal_ and returns it if it is found, returns `None` if it does not find the item
+
+        # Parameters
+
+        _idVal_ : `str`
+
+        > The requested item's id string
+
+        # Returns
+
+        `object`
+
+        > The requested object or `None`
+        """
         for i in self:
             if i.id == idVal:
                 return i
         return None
 
     def badEntries(self):
+        """Creates a new collection of the same type with only the bad entries
+
+        # Returns
+
+        `CollectionWithIDs`
+
+        > A collection of only the bad entries
+        """
         badEntries = set()
         for i in self:
             if i.bad:
@@ -362,18 +499,91 @@ class CollectionWithIDs(Collection):
         return type(self)(badEntries, quietStart = True)
 
     def dropBadEntries(self):
+        """Removes all the bad entries from the collection
+        """
         self._collection = set((i for i in self if not i.bad))
+        self.bad = False
+        self.errors = {}
 
     def tags(self):
+        """Creates a list of all the tags of the contained items
+
+        # Returns
+
+        `list [str]`
+
+        > A list of all the tags
+        """
         tags = set()
         for i in self:
             tags |= set(i.keys())
         return tags
 
-    def oneModeNetwork(self, mode, nodeCount = True, edgeWeight = True, stemmer = None, edgeAttribute = None, nodeAttribute = None):
-        """Creates a network of the objects found by one WOS tag _mode_.
+    def cooccurrenceCounts(self, keyTag, *countedTags):
+        """Counts the number of times values from any of the _countedTags_ occurs with _keyTag_. The counts are retuned as a dictionary with the values of _keyTag_ mapping to dictionaries with each of the _countedTags_ values mapping to thier counts.
 
-        A **oneModeNetwork**() looks are each Record in the RecordCollection and extracts its values for the tag given by _mode_, e.g. the `'AF'` tag. Then if multiple are returned an edge is created between them. So in the case of the author tag `'AF'` a co-authorship network is created.
+        # Parameters
+
+        _keyTag_ : `str`
+
+        > The tag used as the key for the returned dictionary
+
+        _*countedTags_ : `str, str, str, ...`
+
+        > The tags used as the key for the returned dictionary's values
+
+        # Returns
+
+        `dict[str:dict[str:int]]`
+
+        > The dictionary of counts
+        """
+        if not isinstance(keyTag, str):
+            raise TagError("'{}' is not a string it cannot be used as a tag.".format(keyTag))
+        if len(countedTags) < 1:
+            TagError("You need to provide atleast one tag")
+        for tag in countedTags:
+            if not isinstance(tag, str):
+                raise TagError("'{}' is not a string it cannot be used as a tag.".format(tag))
+        occurenceDict = {}
+        progArgs = (0, "Starting to count the co-occurrences of '{}' and' {}'".format(keyTag, "','".join(countedTags)))
+        if metaknowledge.VERBOSE_MODE:
+            progKwargs = {'dummy' : False}
+        else:
+            progKwargs = {'dummy' : True}
+        with _ProgressBar(*progArgs, **progKwargs) as PBar:
+
+            for i, R in enumerate(self):
+                PBar.updateVal(i / len(self), "Analyzing {}".format(R))
+                keyVal = R.get(keyTag)
+                if keyVal is None:
+                    continue
+                if not isinstance(keyVal, list):
+                    keyVal = [keyVal]
+                for key in keyVal:
+                    if key not in occurenceDict:
+                        occurenceDict[key] = {}
+                for tag in countedTags:
+                    tagval = R.get(tag)
+                    if tagval is None:
+                        continue
+                    if not isinstance(tagval, list):
+                        tagval = [tagval]
+                    for val in tagval:
+                        for key in keyVal:
+                            try:
+                                occurenceDict[key][val] += 1
+                            except KeyError:
+                                occurenceDict[key][val] = 1
+            PBar.finish("Done extracting the co-occurrences of '{}' and '{}'".format(keyTag, "','".join(countedTags)))
+        return occurenceDict
+
+
+
+    def oneModeNetwork(self, mode, nodeCount = True, edgeWeight = True, stemmer = None, edgeAttribute = None, nodeAttribute = None):
+        """Creates a network of the objects found by one tag _mode_.
+
+        A **oneModeNetwork**() looks are each entry in the collection and extracts its values for the tag given by _mode_, e.g. the `'authorsFull'` tag. Then if multiple are returned an edge is created between them. So in the case of the author tag `'authorsFull'` a co-authorship network is created.
 
         The number of times each object occurs is count if _nodeCount_ is `True` and the edges count the number of co-occurrences if _edgeWeight_ is `True`. Both are`True` by default.
 
@@ -410,7 +620,7 @@ class CollectionWithIDs(Collection):
             if isinstance(stemmer, collections.abc.Callable):
                 stemCheck = True
             else:
-                raise TypeError("stemmer must be callable, e.g. a function or class with a __call__ method.")
+                raise TagError("stemmer must be callable, e.g. a function or class with a __call__ method.")
         count = 0
         progArgs = (0, "Starting to make a one mode network with {}".format(mode))
         if metaknowledge.VERBOSE_MODE:
@@ -578,21 +788,21 @@ class CollectionWithIDs(Collection):
         > A networkx Graph with the objects of the tags _tag1_ and _tag2_ as nodes and their co-occurrences as edges.
         """
         if not isinstance(tag1, str):
-            raise TypeError("{} is not a string it cannot be a tag.".format(tag1))
+            raise TagError("{} is not a string it cannot be a tag.".format(tag1))
         if not isinstance(tag2, str):
-            raise TypeError("{} is not a string it cannot be a tag.".format(tag2))
+            raise TagError("{} is not a string it cannot be a tag.".format(tag2))
         if stemmerTag1 is not None:
             if isinstance(stemmerTag1, collections.abc.Callable):
                 stemCheck = True
             else:
-                raise TypeError("stemmerTag1 must be callable, e.g. a function or class with a __call__ method.")
+                raise TagError("stemmerTag1 must be callable, e.g. a function or class with a __call__ method.")
         else:
             stemmerTag1 = lambda x: x
         if stemmerTag2 is not None:
             if isinstance(stemmerTag2, collections.abc.Callable):
                 stemCheck = True
             else:
-                raise TypeError("stemmerTag2 must be callable, e.g. a function or class with a __call__ method.")
+                raise TagError("stemmerTag2 must be callable, e.g. a function or class with a __call__ method.")
         else:
             stemmerTag2 = lambda x: x
         count = 0
@@ -616,8 +826,10 @@ class CollectionWithIDs(Collection):
                 if PBar:
                     count += 1
                     PBar.updateVal(count / len(self), "Analyzing: {}".format(R))
-                if edgeAttribute:
-                    edgeVals = [str(v) for v in getattr(R, edgeAttribute, [])]
+                if edgeAttribute is not None:
+                    edgeVals = R.get(edgeAttribute, [])
+                    if not isinstance(edgeVals, list):
+                        edgeVals = [edgeVals]
                 contents1 = R.get(tag1)
                 contents2 = R.get(tag2)
                 if isinstance(contents1, list):
@@ -705,10 +917,10 @@ class CollectionWithIDs(Collection):
                 PBar.finish("Done making a two mode network of " + tag1 + " and " + tag2)
         return grph
 
-    def nModeNetwork(self, tags, recordType = True, nodeCount = True, edgeWeight = True, stemmer = None, edgeAttribute = None):
-        """Creates a network of the objects found by all WOS tags in _tags_, each node is marked by which tag spawned it making the resultant graph n-partite.
+    def nModeNetwork(self, *tags, recordType = True, nodeCount = True, edgeWeight = True, stemmer = None, edgeAttribute = None):
+        """Creates a network of the objects found by all tags in _tags_, each node is marked by which tag spawned it making the resultant graph n-partite.
 
-        A **nModeNetwork()** looks are each Record in the RecordCollection and extracts its values for the tags given by _tags_. Then for all objects returned an edge is created between them, regardless of their type. Each node will have an attribute call `'type'` that gives the tag that created it or both if both created it, e.g. if `'LA'` were in _tags_ node `'English'` would have the type attribute be `'LA'`.
+        A **nModeNetwork()** looks are each item in the collection and extracts its values for the tags given by _tags_. Then for all objects returned an edge is created between them, regardless of their type. Each node will have an attribute call `'type'` that gives the tag that created it or both if both created it, e.g. if `'LA'` were in _tags_ node `'English'` would have the type attribute be `'LA'`.
 
         For example if _tags_ was set to `['CR', 'UT', 'LA']`, a three mode network would be created, composed of a co-citation network from the `'CR'` tag. Then each citation would also have edges to all the languages of Records that cited it and to the WOS number of the those Records.
 
@@ -716,9 +928,9 @@ class CollectionWithIDs(Collection):
 
         # Parameters
 
-        _mode_ : `str`
+        _tags_ : `str`, `str`, `str`, ... or `list [str]`
 
-        > A two character WOS tag or one of the full names for a tag
+        > Any number of tags, or a list of tags
 
         _nodeCount_ : `optional [bool]`
 
@@ -740,14 +952,20 @@ class CollectionWithIDs(Collection):
 
         > A networkx Graph with the objects of the tags _tags_ as nodes and their co-occurrences as edges
         """
+        if len(tags) == 1:
+            if not isinstance(tags[0], str):
+                try:
+                    tags = list(tags[0])
+                except TypeError:
+                    raise TagError("'{}' is not a string it cannot be a tag.".format(tags[0]))
         for t in (i for i in tags if not isinstance(i, str)):
-            raise TypeError("{} is not a string it cannot be a tag.".format(t))
+            raise TagError("{} is not a string it cannot be a tag.".format(t))
         stemCheck = False
         if stemmer is not None:
             if isinstance(stemmer, collections.abc.Callable):
                 stemCheck = True
             else:
-                raise TypeError("stemmer must be Callable, e.g. a function or class with a __call__ method.")
+                raise TagError("stemmer must be Callable, e.g. a function or class with a __call__ method.")
         count = 0
         progArgs = (0, "Starting to make a " + str(len(tags)) + "-mode network of: " + ', '.join(tags))
         if metaknowledge.VERBOSE_MODE:

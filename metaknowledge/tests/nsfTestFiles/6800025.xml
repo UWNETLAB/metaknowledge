@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<rootTag>
+  <Award>
+    <AwardTitle>Chemical and Mineralogical Investigations of Puerto Rican Spilites</AwardTitle>
+    <AwardEffectiveDate>10/15/1968</AwardEffectiveDate>
+    <AwardExpirationDate>06/30/1972</AwardExpirationDate>
+    <AwardAmount>20300</AwardAmount>
+    <AwardInstrument>
+      <Value>Standard Grant</Value>
+    </AwardInstrument>
+    <Organization>
+      <Code>06030003</Code>
+      <Directorate>
+        <LongName>Directorate For Geosciences</LongName>
+      </Directorate>
+      <Division>
+        <LongName>Division Of Earth Sciences</LongName>
+      </Division>
+    </Organization>
+    <ProgramOfficer>
+      <SignBlockName>name not available</SignBlockName>
+    </ProgramOfficer>
+    <AbstractNarration/>
+    <MinAmdLetterDate>10/17/1968</MinAmdLetterDate>
+    <MaxAmdLetterDate>10/17/1968</MaxAmdLetterDate>
+    <ARRAAmount/>
+    <AwardID>6800025</AwardID>
+    <Investigator>
+      <FirstName/>
+      <LastName>DATA NOT AVAILABLE</LastName>
+      <EmailAddress/>
+      <StartDate>10/15/1968</StartDate>
+      <EndDate/>
+      <RoleCode>Principal Investigator</RoleCode>
+    </Investigator>
+    <Institution>
+      <Name>University of Pittsburgh</Name>
+      <CityName>Pittsburgh</CityName>
+      <ZipCode>152132303</ZipCode>
+      <PhoneNumber>4126247400</PhoneNumber>
+      <StreetAddress>University Club</StreetAddress>
+      <CountryName>United States</CountryName>
+      <StateName>Pennsylvania</StateName>
+      <StateCode>PA</StateCode>
+    </Institution>
+  </Award>
+</rootTag>

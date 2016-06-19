@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<rootTag>
+  <Award>
+    <AwardTitle>Down Deep Bore Hole Carbon Dating Project at Byrd Station, Antarctica</AwardTitle>
+    <AwardEffectiveDate>08/15/1968</AwardEffectiveDate>
+    <AwardExpirationDate>08/31/1969</AwardExpirationDate>
+    <AwardAmount>12600</AwardAmount>
+    <AwardInstrument>
+      <Value>Standard Grant</Value>
+    </AwardInstrument>
+    <Organization>
+      <Code>07000000</Code>
+      <Directorate>
+        <LongName>Directorate For Engineering</LongName>
+      </Directorate>
+      <Division>
+        <LongName>Directorate For Engineering</LongName>
+      </Division>
+    </Organization>
+    <ProgramOfficer>
+      <SignBlockName>name not available</SignBlockName>
+    </ProgramOfficer>
+    <AbstractNarration/>
+    <MinAmdLetterDate>06/10/1968</MinAmdLetterDate>
+    <MaxAmdLetterDate>06/10/1968</MaxAmdLetterDate>
+    <ARRAAmount/>
+    <AwardID>6800031</AwardID>
+    <Investigator>
+      <FirstName>Hans</FirstName>
+      <LastName>Oeschger</LastName>
+      <EmailAddress/>
+      <StartDate>08/15/1968</StartDate>
+      <EndDate/>
+      <RoleCode>Principal Investigator</RoleCode>
+    </Investigator>
+    <Institution>
+      <Name>University of Bern</Name>
+      <CityName>Bern</CityName>
+      <ZipCode>3007</ZipCode>
+      <PhoneNumber>0316314847</PhoneNumber>
+      <StreetAddress>Hochschulstrasse 4</StreetAddress>
+      <CountryName>Switzerland</CountryName>
+      <StateName/>
+      <StateCode></StateCode>
+    </Institution>
+  </Award>
+</rootTag>

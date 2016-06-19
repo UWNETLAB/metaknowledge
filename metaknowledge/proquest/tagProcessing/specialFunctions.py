@@ -1,8 +1,7 @@
 proQuestSpecialTagToFunc = {
     #'DOI' : lambda R : None,
-    'authorsShort' : lambda R : 'Author',
+    'authorsShort' : lambda R : R['Author'],
     #'grants' : lambda R : [],
-    #'month' : '',
     #'address' : '',
     'selfCitation' : lambda R: R.createCitation(),
     'beginningPage' : lambda R : 0,

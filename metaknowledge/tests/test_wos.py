@@ -2,7 +2,7 @@
 import unittest
 import metaknowledge
 
-class TestRecord(unittest.TestCase):
+class TestWOS(unittest.TestCase):
     def setUp(self):
         self.R = metaknowledge.WOSRecord(simplePaperString)
         self.Rbad = metaknowledge.WOSRecord(simplePaperString[:-3])

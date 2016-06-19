@@ -8,7 +8,6 @@
 
 + `_fieldDict` contains the base mapping of keys to values, it is the dictionary
 
-
 `ExtendedRecord` is what WOSRecord and its ilk inherit from and extends `Record` by adding memoizing and processing of the fields. `ExtendedRecord` cannot be invoked directly as it has many abstract (virtual) methods that define how the tags are to be proccesed what they are called, what encoding to use when writing to disk, etc.
 """
 
@@ -22,7 +21,7 @@ import copy
 
 from .mkExceptions import BadRecord
 
-from .WOS.journalAbbreviations.wosCitations import WOSCitation
+from .citation import Citation
 
 class Record(collections.abc.Mapping, collections.abc.Hashable):
     """A dictionary with error handling and an id string.
@@ -586,8 +585,8 @@ class ExtendedRecord(Record, metaclass = abc.ABCMeta):
         if self.get("DOI", False):
             valsLst.append('DOI ' + self.get('DOI'))
         if multiCite and len(auths) > 0:
-            return(tuple((WOSCitation(', '.join([a] + valsLst)) for a in auths)))
+            return(tuple((Citation(', '.join([a] + valsLst)) for a in auths)))
         elif multiCite:
-            return WOSCitation(', '.join(valsLst)),
+            return Citation(', '.join(valsLst)),
         else:
-            return WOSCitation(', '.join(valsLst))
+            return Citation(', '.join(valsLst))

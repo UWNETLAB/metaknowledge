@@ -10,17 +10,20 @@ import metaknowledge.WOS.tagProcessing
 import importlib
 import re
 
-documentedModules = ['contour', 'WOS', 'medline', 'proquest']#, 'journalAbbreviations', 'tagProcessing']
+documentedModules = ['contour', 'WOS', 'medline', 'proquest', 'scopus', 'journalAbbreviations']
 
 docsPrefix = time.strftime("%Y-%m-%d-")
 
 funcCounter = 0
+undocumented = 0
 
 blurbDict = {
     #modules
     'contour' : "A nicer matplotlib graph visualizer and contour plot",
     'WOS' : "The functions and classes associated with the Web of Science",
+    'journalAbbreviations' : "Handles the abbreviated journal names used by WOS",
     'medline' : "The functions and classes associated with Medline, the format used by Pubmed",
+    'scopus' : "The functions and classes associated with records from scopus",
     'proquest' : "The functions and classes associated with ProQuest",
 
     #Classes
@@ -33,12 +36,14 @@ blurbDict = {
     'WOSRecord' : "The object for containing and processing WOS entries",
     'ProQuestRecord' : "The object for containing and processing ProQuest entries",
     'MedlineRecord' : "The object for containing and processing Medline entries",
+    'ScopusRecord' : "The object for containing and processing Scopus entries",
 
     'Grant' : "The base for all the other Grants",
     'DefaultGrant' : "The Grant used if a file was not identifiable",
     'CIHRGrant' : "The container for CIHR grant entries",
     'NSERCGrant' : "The container for NSERC grant entries",
     'MedlineGrant' : "The container for grants derived from Medline Records entries",
+    'NSFGrant' : "The container for NSF grant entries",
 
     'Collection' : "The base of all other Collections, basically a set",
     'CollectionWithIDs' : "A Collection that only holds <i>metaknowledge</i> objects",
@@ -47,12 +52,11 @@ blurbDict = {
 
     #Deprecated
     'tagProcessing' : "All the tags and how they are handled",
-    'journalAbbreviations' : "Look here to get your J9 database",
 }
 
 singleFileYAML = """---
 layout: page
-title: Full Documentation
+title: Full Documentation {}
 author:
 - name: Reid McIlroy-Young
   department:
@@ -64,14 +68,14 @@ author:
 shorttitle: metaknowledge
 search_omit: true
 ---
-"""
+""".format(metaknowledge.__version__)
 
 def makeBlurb(name):
     if name in blurbDict:
         return blurbDict[name]
     else:
         print("\033[94m{} had no blurb\033[0m".format(name))
-        return 'BLURB NEEDED FOR: {}'.format(name)
+        return 'BLURB NEEDED FOR {}'.format(name)
         #raise RuntimeError("{} needs a blurb".format(name))
 
 def makeHeader(title, excerpt, tags = (), weight = 10, layout = "doc", singleFile = False):
@@ -209,6 +213,8 @@ def writeFunc(fn, f, prefix = '', level = 5, singleFile = False):
         f.write(cleanedDoc(fn[1], lvl = level, singleFile = singleFile))
     except AttributeError:
         f.write("# Needs to be written\n\n")
+        global undocumented
+        undocumented += 1
         print("\033[93m{0}{1} had no docs\033[0m".format(prefix, fn[0]))
 
 def writeClass(cl, f, prefix = '', level = 4, singleFile = False, exceptMode = False):
@@ -219,6 +225,8 @@ def writeClass(cl, f, prefix = '', level = 4, singleFile = False, exceptMode = F
         f.write(cleanedDoc(cl[1], lvl = level, singleFile = singleFile))
     except AttributeError:
         f.write("# Needs to be written\n\n")
+        global undocumented
+        undocumented += 1
         print("\033[93m{0}{1} had no docs\033[0m".format(prefix, cl[0]))
 
 def proccessClass(cls, f, singleFile = False, exceptMode = False):
@@ -335,7 +343,7 @@ def main(args):
 
     if args.single:
         single = True
-        f = open("metaknowledge2Draft.md",'w')
+        f = open("metaknowledgeFull.md",'w')
         f.write(singleFileYAML)
 
         f.write(makeTable(documentedModules, header = '<a name="objlist"></a>The modules of <i>metaknowledge</i> are:', withBlurbs = True))
@@ -383,7 +391,8 @@ def main(args):
 def mkDocs():
     args = argumentParser()
     main(args)
-    print(funcCounter)
+    print("{} total functions".format(funcCounter))
+    print("{} undocumented".format(undocumented))
 
 if __name__ == '__main__':
     mkDocs()

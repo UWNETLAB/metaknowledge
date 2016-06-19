@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<rootTag>
+  <Award>
+    <AwardTitle>Redox, Electronic, and Rectifying Response of Five- and Six-coordinate Metallosurfactants in Solution, as Films, and on Electrodes</AwardTitle>
+    <AwardEffectiveDate>05/01/2015</AwardEffectiveDate>
+    <AwardExpirationDate>04/30/2018</AwardExpirationDate>
+    <AwardAmount>449000</AwardAmount>
+    <AwardInstrument>
+      <Value>Standard Grant</Value>
+    </AwardInstrument>
+    <Organization>
+      <Code>03090000</Code>
+      <Directorate>
+        <LongName>Direct For Mathematical &amp; Physical Scien</LongName>
+      </Directorate>
+      <Division>
+        <LongName>Division Of Chemistry</LongName>
+      </Division>
+    </Organization>
+    <ProgramOfficer>
+      <SignBlockName>James Lisy</SignBlockName>
+    </ProgramOfficer>
+    <AbstractNarration>In this project funded by the Macromolecular, Supramolecular and Nanochemistry Program of the Division of Chemistry, Professor Cláudio N. Verani and his research group at Wayne State University in Detroit are studying metal-based molecules able to act as diodes for electric current rectification. Rectification, or directional current flow from an electrode A to an electrode B (but not from B back to A) is fundamental to the conversion of alternating into direct current, and is absolutely necessary for electronic data computation. This interdisciplinary proposal seeks to enhance our fundamental understanding on the use of metallosurfactants for molecular diodes. Broader impacts include scientific outreach to fourth and fifth graders and effort to promote Latino-student inclusion in STEM research.&lt;br/&gt;&lt;br/&gt;Verani and collaborators are studying the redox, electronic, and rectifying behavior of metallosurfactants, both in solution and as Langmuir-Blodgett monolayer films deposited onto gold electrodes. Therefore, this interdisciplinary program focuses on the use of amphiphilic coordination complexes towards current-rectifying assemblies as measured by the asymmetry of current/potential (I/V) curves aiming to understand (i) the predominant rectification mechanisms in metallosurfactants; (ii) the possibility of electron-transfer mediation in metal-based singly occupied molecular orbitals (SOMOs); (iii) the viability of electron transfer mediation by metals between ligand-centered lowest unoccupied &amp; highest occupied molecular orbitals (LUMOS &amp; HOMOs); (iv) the role of metallosurfactant orientation in the mechanism of rectification; (v) the influence of the metallosurfactant geometry in observed symmetric conduction, unimolecular or asymmetric rectification, or insulation. This research is multi-faceted, incluidng efforts to make strides in synthetic methodologies, and in electrochemical, spectroscopic, computational, isothermal compression, and microscopy methods.</AbstractNarration>
+    <MinAmdLetterDate>04/23/2015</MinAmdLetterDate>
+    <MaxAmdLetterDate>04/23/2015</MaxAmdLetterDate>
+    <ARRAAmount/>
+    <AwardID>1500201</AwardID>
+    <Investigator>
+      <FirstName>Claudio</FirstName>
+      <LastName>Verani</LastName>
+      <EmailAddress>cnverani@chem.wayne.edu</EmailAddress>
+      <StartDate>04/23/2015</StartDate>
+      <EndDate/>
+      <RoleCode>Principal Investigator</RoleCode>
+    </Investigator>
+    <Institution>
+      <Name>Wayne State University</Name>
+      <CityName>Detroit</CityName>
+      <ZipCode>482023622</ZipCode>
+      <PhoneNumber>3135772424</PhoneNumber>
+      <StreetAddress>5057 Woodward</StreetAddress>
+      <CountryName>United States</CountryName>
+      <StateName>Michigan</StateName>
+      <StateCode>MI</StateCode>
+    </Institution>
+  </Award>
+</rootTag>

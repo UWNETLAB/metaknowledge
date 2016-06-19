@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<rootTag>
+  <Award>
+    <AwardTitle>Tides and Tidal Friction in the Bight of Abaco, Bahamas</AwardTitle>
+    <AwardEffectiveDate>11/01/1968</AwardEffectiveDate>
+    <AwardExpirationDate>10/31/1970</AwardExpirationDate>
+    <AwardAmount>62700</AwardAmount>
+    <AwardInstrument>
+      <Value>Standard Grant</Value>
+    </AwardInstrument>
+    <Organization>
+      <Code>06040303</Code>
+      <Directorate>
+        <LongName>Directorate For Geosciences</LongName>
+      </Directorate>
+      <Division>
+        <LongName>Division Of Ocean Sciences</LongName>
+      </Division>
+    </Organization>
+    <ProgramOfficer>
+      <SignBlockName>name not available</SignBlockName>
+    </ProgramOfficer>
+    <AbstractNarration/>
+    <MinAmdLetterDate>11/08/1968</MinAmdLetterDate>
+    <MaxAmdLetterDate>11/08/1968</MaxAmdLetterDate>
+    <ARRAAmount/>
+    <AwardID>6800039</AwardID>
+    <Investigator>
+      <FirstName/>
+      <LastName>DATA NOT AVAILABLE</LastName>
+      <EmailAddress/>
+      <StartDate>11/01/1968</StartDate>
+      <EndDate/>
+      <RoleCode>Principal Investigator</RoleCode>
+    </Investigator>
+    <Investigator>
+      <FirstName/>
+      <LastName>DATA NOT AVAILABLE</LastName>
+      <EmailAddress/>
+      <StartDate>11/01/1968</StartDate>
+      <EndDate/>
+      <RoleCode>Co-Principal Investigator</RoleCode>
+    </Investigator>
+    <Institution>
+      <Name>Nova Southeastern University</Name>
+      <CityName>FORT LAUDERDALE</CityName>
+      <ZipCode>333147796</ZipCode>
+      <PhoneNumber>9542625366</PhoneNumber>
+      <StreetAddress>3301 COLLEGE AVE</StreetAddress>
+      <CountryName>United States</CountryName>
+      <StateName>Florida</StateName>
+      <StateCode>FL</StateCode>
+    </Institution>
+  </Award>
+</rootTag>

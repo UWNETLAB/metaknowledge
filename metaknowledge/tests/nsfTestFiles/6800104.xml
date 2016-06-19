@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<rootTag>
+  <Award>
+    <AwardTitle>Task Order For Partial Support of the Committee on Geography</AwardTitle>
+    <AwardEffectiveDate>12/08/1967</AwardEffectiveDate>
+    <AwardExpirationDate>06/30/1971</AwardExpirationDate>
+    <AwardAmount>30000</AwardAmount>
+    <AwardInstrument>
+      <Value>BOA/Task Order</Value>
+    </AwardInstrument>
+    <Organization>
+      <Code>06030003</Code>
+      <Directorate>
+        <LongName>Directorate For Geosciences</LongName>
+      </Directorate>
+      <Division>
+        <LongName>Division Of Earth Sciences</LongName>
+      </Division>
+    </Organization>
+    <ProgramOfficer>
+      <SignBlockName>name not available</SignBlockName>
+    </ProgramOfficer>
+    <AbstractNarration/>
+    <MinAmdLetterDate>12/08/1967</MinAmdLetterDate>
+    <MaxAmdLetterDate>05/14/1969</MaxAmdLetterDate>
+    <ARRAAmount/>
+    <AwardID>6800104</AwardID>
+    <Investigator>
+      <FirstName>Jeremy</FirstName>
+      <LastName>Taylor</LastName>
+      <EmailAddress>jeremygtaylor@compuserve.com</EmailAddress>
+      <StartDate>12/08/1967</StartDate>
+      <EndDate/>
+      <RoleCode>Principal Investigator</RoleCode>
+    </Investigator>
+    <Institution>
+      <Name>National Research Council</Name>
+      <CityName>WASHINGTON</CityName>
+      <ZipCode>204180006</ZipCode>
+      <PhoneNumber></PhoneNumber>
+      <StreetAddress>2101 CONSTITUTION AVE NW</StreetAddress>
+      <CountryName>United States</CountryName>
+      <StateName>District of Columbia</StateName>
+      <StateCode>DC</StateCode>
+    </Institution>
+  </Award>
+</rootTag>

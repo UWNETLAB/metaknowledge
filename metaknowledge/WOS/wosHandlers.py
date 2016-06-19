@@ -4,7 +4,23 @@ from .recordWOS import WOSRecord
 from ..mkExceptions import cacheError, BadWOSFile, BadWOSRecord
 
 def isWOSFile(infile, checkedLines = 3):
-    """Checks if _infile_ has the right header in the first _checkedLines_ lines
+    """Determines if _infile_ is the path to a WOS file. A file is considerd to be a WOS file if it has the correct encoding (`utf-8` with a BOM) and within the first _checkedLines_ a line starts with `"VR 1.0"`.
+
+    # Parameters
+
+    _infile_ : `str`
+
+    > The path to the targets file
+
+    _checkedLines_ : `optional [int]`
+
+    > default 2, the number of lines to check for the header
+
+    # Returns
+
+    `bool`
+
+    > `True` if the file is a WOS file
     """
     try:
         with open(infile, 'r', encoding='utf-8-sig') as openfile:

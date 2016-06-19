@@ -9,10 +9,12 @@ import os
 from ..mkRecord import Record
 from ..mkExceptions import BadGrant
 
+
+
 class Grant(Record, collections.abc.MutableMapping):
 
     #Overwriting Record's attribute
-    _documented = ['__setitem__']
+    _documented = []
 
     def __init__(self, original, grantdDict, idValue, bad, error, sFile = "", sLine = 0):
         self.original = original
@@ -28,6 +30,14 @@ class Grant(Record, collections.abc.MutableMapping):
         self._fieldDict.__delitem__(key)
 
     def update(self, other):
+        """Adds all the tag-entry pairs from _other_ to the `Grant`. If there is a conflict _other_ takes precedence.
+
+        # Parameters
+
+        _other_ : `Grant`
+
+        > Another `Grant` of the same type as _self_
+        """
         if type(self) != type(other):
             return NotImplemented
         else:
@@ -52,6 +62,8 @@ def csvAndLinesReader(enumeratedFile, *csvArgs, **csvKwargs):
         yield currentData['currentLineNum'], currentData['currentLineString'], row
 
 class DefaultGrant(Grant):
+    """A subclass of [`Grant`](#metaknowledge.grant), it has the same attributes and is returned from the default constructor for grants.
+    """
     #Making it a subclass so that Grant is never used raw
     #Also make interface simpler
     def __init__(self, original, grantdDict, sFile = "", sLine = 0):
@@ -61,11 +73,18 @@ class DefaultGrant(Grant):
         Grant.__init__(self, original, grantdDict, idValue, False, None, sFile = sFile, sLine = sLine)
 
 def isDefaultGrantFile(fileName, useFileName = True, encoding = 'latin-1', dialect = 'excel'):
+    if useFileName:
+        if not fileName.endswith('csv'):
+            return False
     try:
         #Try to open it
         with open(fileName, 'r', encoding = encoding) as openfile:
             #See if csv likes it
             reader = csv.DictReader(openfile, fieldnames = None, dialect = dialect)
+
+            #Check that it is not a scopus file
+            if len(set(reader.fieldnames) & {'Conference location', 'Conference code', 'ISSN', 'ISBN', 'CODEN', 'PubMed ID', 'Language of Original Document', 'Abbreviated Source Title', 'Document Type', 'Source', 'EID'}) == 11:
+                return False
             #Check that every row can be read
             length = 0
             for row in reader:
@@ -77,7 +96,7 @@ def isDefaultGrantFile(fileName, useFileName = True, encoding = 'latin-1', diale
             #Check that there are rows to read
             if length < 1:
                 return False
-    except (StopIteration, UnicodeDecodeError, csv.Error):
+    except (StopIteration, UnicodeDecodeError, csv.Error, TypeError):
         #If any of theses exceptions are raised the nit is defintly not as csv file
         #We do not want to catch everything though as there could be an issue with the code
         return False

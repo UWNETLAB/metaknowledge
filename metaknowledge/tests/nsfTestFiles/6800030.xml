@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<rootTag>
+  <Award>
+    <AwardTitle>Participation in Usarp Expeditions</AwardTitle>
+    <AwardEffectiveDate>07/01/1968</AwardEffectiveDate>
+    <AwardExpirationDate>12/31/1977</AwardExpirationDate>
+    <AwardAmount>49203</AwardAmount>
+    <AwardInstrument>
+      <Value>Interagency Agreement</Value>
+    </AwardInstrument>
+    <Organization>
+      <Code>07000000</Code>
+      <Directorate>
+        <LongName>Directorate For Engineering</LongName>
+      </Directorate>
+      <Division>
+        <LongName>Directorate For Engineering</LongName>
+      </Division>
+    </Organization>
+    <ProgramOfficer>
+      <SignBlockName>name not available</SignBlockName>
+    </ProgramOfficer>
+    <AbstractNarration/>
+    <MinAmdLetterDate>05/23/1968</MinAmdLetterDate>
+    <MaxAmdLetterDate>01/25/1974</MaxAmdLetterDate>
+    <ARRAAmount/>
+    <AwardID>6800030</AwardID>
+    <Investigator>
+      <FirstName>H.</FirstName>
+      <LastName>Fehlmann</LastName>
+      <EmailAddress/>
+      <StartDate>07/01/1968</StartDate>
+      <EndDate/>
+      <RoleCode>Principal Investigator</RoleCode>
+    </Investigator>
+    <Institution>
+      <Name>Smithsonian Institution</Name>
+      <CityName>Arlington</CityName>
+      <ZipCode>222023709</ZipCode>
+      <PhoneNumber>2026337110</PhoneNumber>
+      <StreetAddress>Office of Sponsored Projects</StreetAddress>
+      <CountryName>United States</CountryName>
+      <StateName>Virginia</StateName>
+      <StateCode>VA</StateCode>
+    </Institution>
+  </Award>
+</rootTag>

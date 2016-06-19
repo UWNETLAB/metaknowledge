@@ -43,6 +43,20 @@ customTags = {
 }
 
 def proQuestTagToFunc(tag):
+    """Takes a tag string, _tag_, and returns the processing function for its data. If their is not a predefined function returns the identity function (`lambda x : x`).
+
+    # Parameters
+
+    _tag_ : `str`
+
+    > The requested tag
+
+    # Returns
+
+    `function`
+
+    > A function to process the tag's data
+    """
     if tag in singleLineEntries:
         return lambda x : x[0]
     elif tag in customTags:

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<rootTag>
+  <Award>
+    <AwardTitle>PFI:AIR - TT: Design Optimization on the Cloud</AwardTitle>
+    <AwardEffectiveDate>04/01/2015</AwardEffectiveDate>
+    <AwardExpirationDate>09/30/2016</AwardExpirationDate>
+    <AwardAmount>197508</AwardAmount>
+    <AwardInstrument>
+      <Value>Standard Grant</Value>
+    </AwardInstrument>
+    <Organization>
+      <Code>07070000</Code>
+      <Directorate>
+        <LongName>Directorate For Engineering</LongName>
+      </Directorate>
+      <Division>
+        <LongName>Div Of Industrial Innovation &amp; Partnersh</LongName>
+      </Division>
+    </Organization>
+    <ProgramOfficer>
+      <SignBlockName>Barbara H. Kenny</SignBlockName>
+    </ProgramOfficer>
+    <AbstractNarration>This PFI: AIR Technology Translation project focuses on translating the Pareto method of design optimization, developed by the PI's group, into a cloud-based service that can be accessed by designers without the expense of special hardware or software. The Pareto design method is important, and particularly relevant in a cloud-based service, because it offers unprecedented speed at low computational cost. This increases accessibility of design optimization tools across a number of industries, allowing smaller firms to engage in design optimization. The project will result in CloudTopopt, a design optimization cloud service with the following unique features: (a) it can be accessed by anyone, at any time, from any browser such as Firefox, Chrome, Safari or Internet Explorer, (b) it will offer the latest technology and design optimization features, and (c) it will help designers reduce the cost of their end-products through real-time optimization. These features provide the following advantages: (1) it will level the playing field in product design by providing equal access to high quality design software, to large corporations, small firms and individual consultants, (2) it will result in significant cost savings since users will not have to purchase expensive design software and associated hardware, and (3) software and technology updates will be carried out with little or no interference in the product design process. This is in contrast to leading design software modules that require expensive software/hardware installation and maintenance that only large corporations can afford.&lt;br/&gt;&lt;br/&gt;This project addresses the following technology gaps as it translates from research discovery toward commercial application: (1) sustaining the speed of the Pareto method in a cloud service by minimizing the overhead of network communication and browser computation, (2) ensuring cloud security by relying on secure https URLs (Uniform Resource Locator), and data encryption based on industry standard 256 bit AES (Advanced Encryption Standard), and (3) providing a robust user experience by relying on modern WebGL (Web Graphics Library) technology. The personnel involved in this project include an engineering graduate student and a management graduate student. The two students will receive technology translation and entrepreneurship experiences by addressing the technological gaps, and studying the market potential for CloudTopopt, respectively.&lt;br/&gt;&lt;br/&gt;The project engages Design Concepts, LLC (Madison) to guide the technological development and commercialization in this technology translation effort from research discovery toward commercial reality.</AbstractNarration>
+    <MinAmdLetterDate>03/23/2015</MinAmdLetterDate>
+    <MaxAmdLetterDate>03/23/2015</MaxAmdLetterDate>
+    <ARRAAmount/>
+    <AwardID>1500205</AwardID>
+    <Investigator>
+      <FirstName>Krishnan</FirstName>
+      <LastName>Suresh</LastName>
+      <EmailAddress>suresh@engr.wisc.edu</EmailAddress>
+      <StartDate>03/23/2015</StartDate>
+      <EndDate/>
+      <RoleCode>Principal Investigator</RoleCode>
+    </Investigator>
+    <Investigator>
+      <FirstName>Jonathan</FirstName>
+      <LastName>Eckhardt</LastName>
+      <EmailAddress>jeckhardt@wisc.edu</EmailAddress>
+      <StartDate>03/23/2015</StartDate>
+      <EndDate/>
+      <RoleCode>Co-Principal Investigator</RoleCode>
+    </Investigator>
+    <Institution>
+      <Name>University of Wisconsin-Madison</Name>
+      <CityName>MADISON</CityName>
+      <ZipCode>537151218</ZipCode>
+      <PhoneNumber>6082623822</PhoneNumber>
+      <StreetAddress>21 North Park Street</StreetAddress>
+      <CountryName>United States</CountryName>
+      <StateName>Wisconsin</StateName>
+      <StateCode>WI</StateCode>
+    </Institution>
+    <ProgramElement>
+      <Code>8019</Code>
+      <Text>Accelerating Innovation Rsrch</Text>
+    </ProgramElement>
+    <ProgramReference>
+      <Code>8019</Code>
+      <Text>Accelerating Innovation Rsrch</Text>
+    </ProgramReference>
+  </Award>
+</rootTag>

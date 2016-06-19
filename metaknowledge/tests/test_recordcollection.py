@@ -26,7 +26,7 @@ class TestRecordCollection(unittest.TestCase):
 
     def test_fullRead(self):
         RC = metaknowledge.RecordCollection("metaknowledge/tests/")
-        self.assertEqual(len(RC), 812)
+        self.assertEqual(len(RC), 1032)
 
     def test_caching(self):
         RC = metaknowledge.RecordCollection("metaknowledge/tests/", cached = True, name = 'testingCache', extension = 'testFile.isi')
@@ -73,18 +73,18 @@ class TestRecordCollection(unittest.TestCase):
         self.assertEqual(hash(RC), hash(hash(R)))
 
     def test_contains(self):
-        R = self.RC.peak()
+        R = self.RC.peek()
         self.assertTrue(R in self.RC)
         R = self.RC.pop()
         self.assertFalse(R in self.RC)
 
     def test_conID(self):
-        R = self.RC.peak()
+        R = self.RC.peek()
         self.assertTrue(self.RC.containsID(R.id))
         self.assertFalse(self.RC.containsID('234567654'))
 
     def test_discard(self):
-        R = self.RC.peak()
+        R = self.RC.peek()
         l = len(self.RC)
         self.RC.discard(R)
         l2 = len(self.RC)
@@ -99,22 +99,22 @@ class TestRecordCollection(unittest.TestCase):
         with self.assertRaises(KeyError):
             R = self.RC.pop()
 
-    def test_peak(self):
-        R = self.RC.peak()
+    def test_peek(self):
+        R = self.RC.peek()
         self.assertTrue(R in self.RC)
         self.RC.clear()
-        R = self.RC.peak()
+        R = self.RC.peek()
         self.assertTrue(R is None)
 
     def test_clear(self):
-        R = self.RCbad.peak()
+        R = self.RCbad.peek()
         self.assertTrue(self.RCbad.bad)
         self.RCbad.clear()
         self.assertFalse(self.RCbad.bad)
         self.assertFalse(R in self.RCbad)
 
     def test_remove(self):
-        R = self.RC.peak()
+        R = self.RC.peek()
         l = len(self.RC)
         self.RC.remove(R)
         self.assertEqual(l, len(self.RC) + 1)
@@ -198,13 +198,13 @@ class TestRecordCollection(unittest.TestCase):
 
     def test_WOS(self):
         self.RC.dropBadEntries()
-        R = self.RC.peak()
+        R = self.RC.peek()
         l = len(self.RC)
         self.assertTrue(R, self.RC.getID(R.id))
         self.assertEqual(len(self.RC), l)
         self.RC.removeID(R.id)
         self.assertEqual(len(self.RC), l - 1)
-        self.RC.getID(self.RC.peak().id)
+        self.RC.getID(self.RC.peek().id)
         self.assertEqual(len(self.RC), l - 1)
         self.assertFalse(self.RC.getID(self.RC.pop().id))
         self.RC.discardID('sdfghjkjhgfdfghj')
@@ -219,7 +219,7 @@ class TestRecordCollection(unittest.TestCase):
 
     def test_contentType(self):
         RC = metaknowledge.RecordCollection('metaknowledge/tests/')
-        self.assertEqual(RC._collectedTypes, {'MedlineRecord', 'WOSRecord', 'ProQuestRecord'})
+        self.assertEqual(RC._collectedTypes, {'MedlineRecord', 'WOSRecord', 'ProQuestRecord', 'ScopusRecord'})
         self.assertEqual(self.RC._collectedTypes, {'WOSRecord'})
 
     def test_write(self):
@@ -244,6 +244,16 @@ class TestRecordCollection(unittest.TestCase):
         self.assertTrue(os.path.isfile(filename))
         self.assertEqual(os.path.getsize(filename), 88837)
         os.remove(filename)
+        self.RC.writeCSV(splitByTag = 'PY', onlyTheseTags = ['id', 'title', 'authorsFull', 'citations', 'keywords', 'DOI'])
+        yearsSt = set()
+        for R in self.RC:
+            yearsSt.add(str(R.get('PY', 2012)))
+        for year in yearsSt:
+            f = open("{}-testFile.csv".format(year))
+            self.assertEqual(f.readline(), '"id","TI","AF","CR","ID","DI","numAuthors"\n')
+            self.assertGreater(len(f.readline()), 1)
+            f.close()
+            os.remove("{}-testFile.csv".format(year))
 
     def test_writeBib(self):
         filename = 'testFile.bib'
@@ -340,6 +350,9 @@ class TestRecordCollection(unittest.TestCase):
         self.assertEqual(Gcore.node['Gilles H, 2002, OPT LETT']['info'], 'Gilles H, Simple technique for measuring the Goos-Hanchen effect with polarization modulation and a position-sensitive detector, OPTICS LETTERS, 27, 1421')
         self.assertEqual(metaknowledge.graphStats(Gexplode), "The graph has 19 nodes, 29 edges, 0 isolates, 3 self loops, a density of 0.0847953 and a transitivity of 0.132075")
 
+    def test_coOccurnce(self):
+        self.assertEqual(sum(self.RC.cooccurrenceCounts('TI', *tuple(self.RC.tags()))['Longitudinal and transverse effects of nonspecular reflection'].values()), 104)
+
     def test_oneMode(self):
         Gcr  = self.RC.oneModeNetwork('CR')
         Gcite = self.RC.oneModeNetwork('citations', nodeCount = False, edgeWeight = False)
@@ -372,10 +385,10 @@ class TestRecordCollection(unittest.TestCase):
         self.assertIsInstance(Gafwc, nx.classes.graph.Graph)
         self.assertEqual(Gutti.edges('WOS:A1979GV55600001')[0][1][:31], "EXPERIMENTS IN PHENOMENOLOGICAL")
         self.assertEqual(len(Gutti.nodes()), 2 * len(self.RC) - 1)
-        with self.assertRaises(TypeError):
+        with self.assertRaises(metaknowledge.TagError):
             G = self.RC.twoModeNetwork('TI', b'not a tag')
             del G
-        with self.assertRaises(TypeError):
+        with self.assertRaises(metaknowledge.TagError):
             G = self.RC.twoModeNetwork(b'Not a Tag', 'TI')
             del G
         self.assertTrue(nx.is_isomorphic(Gd2em, Gemd2))
@@ -399,9 +412,9 @@ class TestRecordCollection(unittest.TestCase):
 
     def test_localCitesOf(self):
         C = metaknowledge.Citation("COSTADEB.O, 1974, LETT NUOVO CIMENTO, V10, P852")
-        self.assertEqual("WOS:A1976CW02200002", self.RC.localCitesOf(C).peak().id)
-        self.assertEqual(self.RC.localCitesOf(self.RC.peak().id),
-         self.RC.localCitesOf(self.RC.peak().createCitation()))
+        self.assertEqual("WOS:A1976CW02200002", self.RC.localCitesOf(C).peek().id)
+        self.assertEqual(self.RC.localCitesOf(self.RC.peek().id),
+         self.RC.localCitesOf(self.RC.peek().createCitation()))
 
     def test_citeFilter(self):
         RCmin = self.RC.citeFilter('', reverse = True)

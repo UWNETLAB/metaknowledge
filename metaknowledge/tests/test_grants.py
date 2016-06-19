@@ -2,7 +2,7 @@
 import unittest
 import metaknowledge
 
-class TestMedlineGrant(unittest.TestCase):
+class TestGrants(unittest.TestCase):
     def setUp(self):
         self.Grant1 = metaknowledge.MedlineGrant("U10 HD04267/HG/NICHD NHI HHS/Unit State")
         self.Grant2 = metaknowledge.MedlineGrant("HG/NICHD NHI HHS/Unit State")
@@ -34,3 +34,8 @@ class TestMedlineGrant(unittest.TestCase):
 
     def test_rerp(self):
         self.assertEqual(repr(self.Grant1), "<metaknowledge.MedlineGrant object U10 HD04267/HG-Unit State>")
+
+    def test_NSF(self):
+        GC = metaknowledge.GrantCollection("metaknowledge/tests/nsfTestFiles")
+        G = GC.nModeNetwork(GC.tags())
+        self.assertEqual(metaknowledge.graphStats(G), "The graph has 255 nodes, 2351 edges, 0 isolates, 19 self loops, a density of 0.0725953 and a transitivity of 0.512436")

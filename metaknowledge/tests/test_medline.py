@@ -7,14 +7,14 @@ import metaknowledge
 import metaknowledge.medline
 
 
-class TestRecord(unittest.TestCase):
+class TestMedline(unittest.TestCase):
     def setUp(self):
         metaknowledge.VERBOSE_MODE = False
         self.RC = metaknowledge.RecordCollection("metaknowledge/tests/medline_test.medline")
-        self.R = self.RC.peak()
+        self.R = self.RC.peek()
 
     def test_creation(self):
-        Rstart = self.RC.peak()
+        Rstart = self.RC.peek()
         R = metaknowledge.MedlineRecord(Rstart._fieldDict)
         self.assertEqual(R, Rstart)
         with open("metaknowledge/tests/medline_test.medline") as f:
@@ -30,6 +30,7 @@ class TestRecord(unittest.TestCase):
         self.assertTrue(R.bad)
         with self.assertRaises(metaknowledge.BadPubmedRecord):
             R.writeRecord('not a file')
+
     def test_isCollection(self):
         self.assertIsInstance(self.RC, metaknowledge.RecordCollection)
 

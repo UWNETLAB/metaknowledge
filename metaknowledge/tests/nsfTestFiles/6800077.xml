@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<rootTag>
+  <Award>
+    <AwardTitle>Cytogenetics of Coccid Chromosome Systems and Related Nutritional and Biochemical Studies</AwardTitle>
+    <AwardEffectiveDate>10/01/1968</AwardEffectiveDate>
+    <AwardExpirationDate>11/30/1974</AwardExpirationDate>
+    <AwardAmount>99600</AwardAmount>
+    <AwardInstrument>
+      <Value>Standard Grant</Value>
+    </AwardInstrument>
+    <Organization>
+      <Code>08070100</Code>
+      <Directorate>
+        <LongName>Direct For Biological Sciences</LongName>
+      </Directorate>
+      <Division>
+        <LongName>Div Of Molecular and Cellular Bioscience</LongName>
+      </Division>
+    </Organization>
+    <ProgramOfficer>
+      <SignBlockName>name not available</SignBlockName>
+    </ProgramOfficer>
+    <AbstractNarration/>
+    <MinAmdLetterDate>10/04/1968</MinAmdLetterDate>
+    <MaxAmdLetterDate>02/03/1975</MaxAmdLetterDate>
+    <ARRAAmount/>
+    <AwardID>6800077</AwardID>
+    <Investigator>
+      <FirstName>Spencer</FirstName>
+      <LastName>Brown</LastName>
+      <EmailAddress/>
+      <StartDate>10/01/1968</StartDate>
+      <EndDate/>
+      <RoleCode>Principal Investigator</RoleCode>
+    </Investigator>
+    <Institution>
+      <Name>University of California-Berkeley</Name>
+      <CityName>BERKELEY</CityName>
+      <ZipCode>947045940</ZipCode>
+      <PhoneNumber>5106428109</PhoneNumber>
+      <StreetAddress>Sponsored Projects Office</StreetAddress>
+      <CountryName>United States</CountryName>
+      <StateName>California</StateName>
+      <StateCode>CA</StateCode>
+    </Institution>
+  </Award>
+</rootTag>

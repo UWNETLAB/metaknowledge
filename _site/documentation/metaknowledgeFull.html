@@ -138,10 +138,10 @@
 
 <ol class="post-list">
 <li><article><a href="#contour"><b>contour</b><span class="excerpt">A nicer matplotlib graph visualizer and contour plot</span></a></article></li>
-<li><article><a href="#WOS"><b>WOS</b><span class="excerpt">The functions and classes associated with the Web of Science</span></a></article></li>
-<li><article><a href="#medline"><b>medline</b><span class="excerpt">The functions and classes associated with Medline, the format used by Pubmed</span></a></article></li>
-<li><article><a href="#proquest"><b>proquest</b><span class="excerpt">The functions and classes associated with ProQuest</span></a></article></li>
-<li><article><a href="#scopus"><b>scopus</b><span class="excerpt">The functions and classes associated with records from scopus</span></a></article></li>
+<li><article><a href="#WOS"><b>WOS</b><span class="excerpt">The backend functions and classes associated with the Web of Science</span></a></article></li>
+<li><article><a href="#medline"><b>medline</b><span class="excerpt">The backend functions and classes associated with Medline, the format used by Pubmed</span></a></article></li>
+<li><article><a href="#proquest"><b>proquest</b><span class="excerpt">The backend functions and classes associated with ProQuest</span></a></article></li>
+<li><article><a href="#scopus"><b>scopus</b><span class="excerpt">The backend functions and classes associated with records from scopus</span></a></article></li>
 <li><article><a href="#journalAbbreviations"><b>journalAbbreviations</b><span class="excerpt">Handles the abbreviated journal names used by WOS</span></a></article></li>
 </ol>
 <h3><a name="objlist"></a>The classes of <i>metaknowledge</i> are:</h3>
@@ -197,7 +197,7 @@
 <li><article><a href="#FullJournalName"><small>Citation</small>.<b>FullJournalName</b>()</a></article></li>
 <li><article><a href="#addToDB"><small>Citation</small>.<b>addToDB</b>(<i>manualName=None, manaulDB='manualj9Abbreviations', invert=False</i>)</a></article></li>
 <li><article><a href="#update"><small>Grant</small>.<b>update</b>(<i>other</i>)</a></article></li>
-<li><article><a href="#pop"><small>Grant</small>.<b>pop</b>(<i>key, default=&lt;object object at 0x10a81d050&gt;</i>)</a></article></li>
+<li><article><a href="#pop"><small>Grant</small>.<b>pop</b>(<i>key, default=&lt;object object at 0x10519a050&gt;</i>)</a></article></li>
 <li><article><a href="#popitem"><small>Grant</small>.<b>popitem</b>()</a></article></li>
 <li><article><a href="#clear"><small>Grant</small>.<b>clear</b>()</a></article></li>
 <li><article><a href="#setdefault"><small>Grant</small>.<b>setdefault</b>(<i>key, default=None</i>)</a></article></li>
@@ -3377,283 +3377,7 @@ The ScopusRecord class has the following methods:</h3>
 
 <h1 id="wosmetaknowledgedocumentationmetaknowledgefullwos"><a href="/metaknowledge/documentation/metaknowledgeFull#WOS">WOS</a></h1>
 
-<p>The functions used by metaknowledge to handle WOS tags</p>
-
-<p>Each of the functions in tagProcessing is named after the long name of its tag and is responsible for taking the raw data from a WOS file and returning usable information. The raw data is a list containing each line associated with the tag as a string. So the section of a record:</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>TI The Motion Behind the Symbols: A Vital Role for Dynamism in the
-  Conceptualization of Limits and Continuity in Expert Mathematics
-</code></pre>
-</div>
-
-<p>would be the list:</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>["The Motion Behind the Symbols: A Vital Role for Dynamism in the",
-"Conceptualization of Limits and Continuity in Expert Mathematics"
-]
-</code></pre>
-</div>
-
-<p>The function to process it is called <a href="#title"><strong>title</strong>()</a> which is determined by looking up the tag in the <code class="highlighter-rouge">tagProcessing.tagToFunc</code> dictionary. Which is a dictionary mapping WOS tag strings to their functions. For a simple mapping of tags to their long strings use <a href="#metaknowledge"><code class="highlighter-rouge">metaknowledge.tagToFull</code></a>.</p>
-
-<p>The objects <code class="highlighter-rouge">tagToFullDict</code>, <code class="highlighter-rouge">fullToTagDict</code>, <code class="highlighter-rouge">tagNameConverterDict</code>, <code class="highlighter-rouge">tagsAndNameSet</code> and <code class="highlighter-rouge">knownTagsList</code> are also provided. They are the objects used by <em>metaknowledge</em> to keep track of tag names. <code class="highlighter-rouge">tagToFullDict</code> and <code class="highlighter-rouge">fullToTagDict</code> are dictionaries that convert from tags to full names and vice versa, respectively, while <code class="highlighter-rouge">tagNameConverterDict</code> goes both ways. <code class="highlighter-rouge">tagsAndNameSet</code> is a set of all full names and tags, while <code class="highlighter-rouge">knownTagsList</code> contains only tags and is a list. For a less raw interface look the functions provided by the base <em>metaknowledge</em> module, e.g. <a href="#tagToFull"><strong>tagToFull</strong>()</a>.</p>
-
-<p>The full list of tags and their long names is provided below followed by the descriptions of the functions, they are ordered by their occurrence in WOS records:</p>
-
-<table>
-  <thead>
-    <tr>
-      <th style="text-align: left">tag</th>
-      <th style="text-align: left">Name</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#pubType"><code class="highlighter-rouge">'PT'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#pubType">pubType</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#authorsFull"><code class="highlighter-rouge">'AF'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#authorsFull">authorsFull</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#group"><code class="highlighter-rouge">'GP'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#group">group</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#editedBy"><code class="highlighter-rouge">'BE'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#editedBy">editedBy</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#authorsShort"><code class="highlighter-rouge">'AU'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#authorsShort">authorsShort</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#bookAuthor"><code class="highlighter-rouge">'BA'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#bookAuthor">bookAuthor</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#bookAuthorFull"><code class="highlighter-rouge">'BF'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#bookAuthorFull">bookAuthorFull</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#groupName"><code class="highlighter-rouge">'CA'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#groupName">groupName</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#editors"><code class="highlighter-rouge">'ED'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#editors">editors</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#title"><code class="highlighter-rouge">'TI'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#title">title</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#journal"><code class="highlighter-rouge">'SO'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#journal">journal</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#seriesTitle"><code class="highlighter-rouge">'SE'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#seriesTitle">seriesTitle</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#seriesSubtitle"><code class="highlighter-rouge">'BS'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#seriesSubtitle">seriesSubtitle</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#language"><code class="highlighter-rouge">'LA'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#language">language</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#docType"><code class="highlighter-rouge">'DT'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#docType">docType</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#confTitle"><code class="highlighter-rouge">'CT'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#confTitle">confTitle</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#confDate"><code class="highlighter-rouge">'CY'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#confDate">confDate</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#confHost"><code class="highlighter-rouge">'HO'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#confHost">confHost</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#confLocation"><code class="highlighter-rouge">'CL'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#confLocation">confLocation</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#confSponsors"><code class="highlighter-rouge">'SP'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#confSponsors">confSponsors</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#authKeyWords"><code class="highlighter-rouge">'DE'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#authKeyWords">authKeyWords</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#keywords"><code class="highlighter-rouge">'ID'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#keywords">keywords</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#abstract"><code class="highlighter-rouge">'AB'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#abstract">abstract</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#authAddress"><code class="highlighter-rouge">'C1'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#authAddress">authAddress</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#reprintAddress"><code class="highlighter-rouge">'RP'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#reprintAddress">reprintAddress</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#email"><code class="highlighter-rouge">'EM'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#email">email</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#ResearcherIDnumber"><code class="highlighter-rouge">'RI'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#ResearcherIDnumber">ResearcherIDnumber</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#orcID"><code class="highlighter-rouge">'OI'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#orcID">orcID</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#funding"><code class="highlighter-rouge">'FU'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#funding">funding</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#fundingText"><code class="highlighter-rouge">'FX'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#fundingText">fundingText</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#citations"><code class="highlighter-rouge">'CR'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#citations">citations</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#citedRefsCount"><code class="highlighter-rouge">'NR'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#citedRefsCount">citedRefsCount</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#wosTimesCited"><code class="highlighter-rouge">'TC'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#wosTimesCited">wosTimesCited</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#totalTimesCited"><code class="highlighter-rouge">'Z9'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#totalTimesCited">totalTimesCited</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#publisher"><code class="highlighter-rouge">'PU'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#publisher">publisher</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#publisherCity"><code class="highlighter-rouge">'PI'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#publisherCity">publisherCity</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#publisherAddress"><code class="highlighter-rouge">'PA'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#publisherAddress">publisherAddress</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#subjectCategory"><code class="highlighter-rouge">'SC'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#subjectCategory">subjectCategory</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#ISSN"><code class="highlighter-rouge">'SN'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#ISSN">ISSN</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#eISSN"><code class="highlighter-rouge">'EI'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#eISSN">eISSN</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#ISBN"><code class="highlighter-rouge">'BN'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#ISBN">ISBN</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#j9"><code class="highlighter-rouge">'J9'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#j9">j9</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#isoAbbreviation"><code class="highlighter-rouge">'JI'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#isoAbbreviation">isoAbbreviation</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#month"><code class="highlighter-rouge">'PD'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#month">month</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#year"><code class="highlighter-rouge">'PY'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#year">year</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#volume"><code class="highlighter-rouge">'VL'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#volume">volume</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#issue"><code class="highlighter-rouge">'IS'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#issue">issue</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#partNumber"><code class="highlighter-rouge">'PN'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#partNumber">partNumber</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#supplement"><code class="highlighter-rouge">'SU'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#supplement">supplement</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#specialIssue"><code class="highlighter-rouge">'SI'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#specialIssue">specialIssue</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#meetingAbstract"><code class="highlighter-rouge">'MA'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#meetingAbstract">meetingAbstract</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#beginningPage"><code class="highlighter-rouge">'BP'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#beginningPage">beginningPage</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#endingPage"><code class="highlighter-rouge">'EP'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#endingPage">endingPage</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#articleNumber"><code class="highlighter-rouge">'AR'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#articleNumber">articleNumber</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#pageCount"><code class="highlighter-rouge">'PG'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#pageCount">pageCount</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#subjects"><code class="highlighter-rouge">'WC'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#subjects">subjects</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#DOI"><code class="highlighter-rouge">'DI'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#DOI">DOI</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#bookDOI"><code class="highlighter-rouge">'D2'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#bookDOI">bookDOI</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#documentDeliveryNumber"><code class="highlighter-rouge">'GA'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#documentDeliveryNumber">documentDeliveryNumber</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#wosString"><code class="highlighter-rouge">'UT'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#wosString">wosString</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#pubMedID"><code class="highlighter-rouge">'PM'</code></a></td>
-      <td style="text-align: left"><a href="/metaknowledge/documentation/metaknowledgeFull#pubMedID">pubMedID</a></td>
-    </tr>
-  </tbody>
-</table>
+<p>These are the functions used to process medline (pubmed) files at the backend. They are meant for use internal use by metaknowledge.</p>
 
 <h3><a name="WOS">The <a href="#WOS"><u>WOS</u></a> module provides the following functions:</a></h3>
 
@@ -5030,7 +4754,7 @@ Month Year (“%b %Y”)</p>
 
 <h1 id="medlinemetaknowledgedocumentationmetaknowledgefullmedline"><a href="/metaknowledge/documentation/metaknowledgeFull#medline">medline</a></h1>
 
-<p>hdvfghjhg</p>
+<p>These are the functions used to process medline (pubmed) files at the backend. They are meant for use internal use by metaknowledge.</p>
 
 <h3><a name="medline">The <a href="#medline"><u>medline</u></a> module provides the following functions:</a></h3>
 
@@ -5689,6 +5413,8 @@ The volumes as a string as volume is single line</p>
 
 <h1 id="proquestmetaknowledgedocumentationmetaknowledgefullproquest"><a href="/metaknowledge/documentation/metaknowledgeFull#proquest">proquest</a></h1>
 
+<p>These are the functions used to process medline (pubmed) files at the backend. They are meant for use internal use by metaknowledge.</p>
+
 <h3><a name="proquest">The <a href="#proquest"><u>proquest</u></a> module provides the following functions:</a></h3>
 
 <ol class="post-list">
@@ -5789,6 +5515,8 @@ Report Information from ProQuest
 <p><a name="scopus"></a></p>
 
 <h1 id="scopusmetaknowledgedocumentationmetaknowledgefullscopus"><a href="/metaknowledge/documentation/metaknowledgeFull#scopus">scopus</a></h1>
+
+<p>These are the functions used to process scopus csv files at the backend. They are meant for use internal use by metaknowledge.</p>
 
 <h3><a name="scopus">The <a href="#scopus"><u>scopus</u></a> module provides the following functions:</a></h3>
 

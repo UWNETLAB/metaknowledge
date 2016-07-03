@@ -4,7 +4,7 @@
     {
       "title"			: "scopus",
       "link"			: "http://networkslab.org/docs/scopus",
-      "excerpt"		: "The functions and classes associated with records from scopus"
+      "excerpt"		: "The backend functions and classes associated with records from scopus"
     }
   
 
@@ -12,7 +12,7 @@
     ,{
       "title"			: "proquest",
       "link"			: "http://networkslab.org/docs/proquest",
-      "excerpt"		: "The functions and classes associated with ProQuest"
+      "excerpt"		: "The backend functions and classes associated with ProQuest"
     }
   
 
@@ -36,7 +36,7 @@
     ,{
       "title"			: "medline",
       "link"			: "http://networkslab.org/docs/medline",
-      "excerpt"		: "The functions and classes associated with Medline, the format used by Pubmed"
+      "excerpt"		: "The backend functions and classes associated with Medline, the format used by Pubmed"
     }
   
 
@@ -68,7 +68,7 @@
     ,{
       "title"			: "WOS",
       "link"			: "http://networkslab.org/docs/WOS",
-      "excerpt"		: "The functions and classes associated with the Web of Science"
+      "excerpt"		: "The backend functions and classes associated with the Web of Science"
     }
   
 

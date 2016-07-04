@@ -75,7 +75,7 @@ search_omit: true
 <li><article><a href="#FullJournalName"><small>Citation</small>.<b>FullJournalName</b>()</a></article></li>
 <li><article><a href="#addToDB"><small>Citation</small>.<b>addToDB</b>(<i>manualName=None, manaulDB='manualj9Abbreviations', invert=False</i>)</a></article></li>
 <li><article><a href="#update"><small>Grant</small>.<b>update</b>(<i>other</i>)</a></article></li>
-<li><article><a href="#pop"><small>Grant</small>.<b>pop</b>(<i>key, default=<object object at 0x10519a050></i>)</a></article></li>
+<li><article><a href="#pop"><small>Grant</small>.<b>pop</b>(<i>key, default=<object object at 0x101739050></i>)</a></article></li>
 <li><article><a href="#popitem"><small>Grant</small>.<b>popitem</b>()</a></article></li>
 <li><article><a href="#clear"><small>Grant</small>.<b>clear</b>()</a></article></li>
 <li><article><a href="#setdefault"><small>Grant</small>.<b>setdefault</b>(<i>key, default=None</i>)</a></article></li>

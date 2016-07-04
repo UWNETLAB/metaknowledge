@@ -1,7 +1,16 @@
 from ...WOS.tagProcessing.helpFuncs import getMonth
 
+import re
+
 def year(R):
-    return R['DP'].split(' ')[0]
+    try:
+        return int(R['DP'].split(' ')[0])
+    except ValueError:
+        yVal = re.search(r'-?\d{1,4}', R['DP'].split(' ')[0])
+        if yVal is None:
+            return 0
+        else:
+            return(int(yVal.group(0)))
 
 def month(R):
     try:

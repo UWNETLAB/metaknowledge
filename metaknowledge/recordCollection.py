@@ -329,7 +329,7 @@ class RecordCollection(CollectionWithIDs):
                 else:
                     recDict[t] = str(value)
             if numAuthors:
-                recDict["numAuthors"] = len(R['authorsShort'])
+                recDict["numAuthors"] = len(R.get('authorsShort', []))
             if splitByTag:
                 for sTag in splitVal:
                     if sTag in filesDict:

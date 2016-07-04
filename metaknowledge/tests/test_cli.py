@@ -31,7 +31,6 @@ class TestCLI(unittest.TestCase):
         cls.RCmain = metaknowledge.RecordCollection("metaknowledge/tests/testFile.isi")
         cls.Gmain = cls.RCmain.coAuthNetwork()
 
-
     def setUp(self):
         self.RC = self.RCmain.copy()
         self.G = self.Gmain.copy()
@@ -172,7 +171,7 @@ class TestCLI(unittest.TestCase):
                 m.calledVals = ['6', 'y']
                 self.RC.dropBadEntries()
                 self.assertFalse(metaknowledge.bin.metaknowledgeCLI.getWhatToDo(named, self.RC))
-                self.assertEqual(os.path.getsize(fileName+ '.csv'), 35411)
+                self.assertEqual(os.path.getsize(fileName+ '.csv'), 18499)
                 os.remove(fileName + '.csv')
                 self.assertEqual(len(m.calledVals), 0)
 

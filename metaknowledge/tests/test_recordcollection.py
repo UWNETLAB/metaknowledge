@@ -259,11 +259,12 @@ class TestRecordCollection(unittest.TestCase):
         filename = 'testFile.bib'
         if os.path.isfile(filename):
             os.remove(filename)
+        self.RC.dropBadEntries()
         self.RC.writeBib(maxStringLength = 100)
-        self.assertEqual(os.path.getsize(filename), 106458)
+        self.assertEqual(os.path.getsize(filename), 100418)
         os.remove(filename)
         self.RC.writeBib(fname = filename, wosMode = True, reducedOutput = True, niceIDs = False)
-        self.assertEqual(os.path.getsize(filename), 17038)
+        self.assertEqual(os.path.getsize(filename), 78163)
         os.remove(filename)
 
     def test_makeDict(self):

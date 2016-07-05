@@ -19,6 +19,8 @@ except ImportError:
     collections.abc = collections
 import copy
 
+from .constants import specialRecordFields
+
 from .mkExceptions import BadRecord
 
 from .citation import Citation
@@ -314,6 +316,24 @@ class ExtendedRecord(Record, metaclass = abc.ABCMeta):
         #Memoizing stuff
         self._computedFields = {}
 
+    def __contains__(self, item):
+        """Checks if the tag _item_ is in the Record"""
+        #Check all the dicts
+        #They are ordered assuming people are checking fresh Records not ones with full _computedFields
+        if item in self._fieldDict or self.getAltName(item) in self._fieldDict or item in self._computedFields:
+            return True
+        else:
+            try:
+                computedVal = self.specialFuncs(item)
+            except KeyError:
+                return False
+            self._computedFields[item] = computedVal
+            alt = self.getAltName(item)
+            if alt is not None:
+                self._computedFields[alt] = computedVal
+            return True
+
+
     def __getitem__(self, key):
         """Processes the tag requested with _key_ and memoize it.
 
@@ -590,3 +610,99 @@ class ExtendedRecord(Record, metaclass = abc.ABCMeta):
             return Citation(', '.join(valsLst)),
         else:
             return Citation(', '.join(valsLst))
+
+
+    def bibString(self, maxLength = 1000, WOSMode = False, restrictedOutput = False, niceID = True):
+        """Makes a string giving the Record as a bibTex entry. If the Record is of a journal article (`PT J`) the bibtext type is set to `'article'`, otherwise it is set to `'misc'`. The ID of the entry is the WOS number and all the Record's fields are given as entries with their long names.
+
+        **Note** This is not meant to be used directly with LaTeX none of the special characters have been escaped and there are a large number of unnecessary fields provided. _niceID_ and _maxLength_ have been provided to make conversions easier.
+
+        **Note** Record entries that are lists have their values seperated with the string `' and '`
+
+        # Parameters
+
+        _maxLength_ : `optional [int]`
+
+        > default 1000, The max length for a continuous string. Most bibTex implementation only allow string to be up to 1000 characters ([source](https://www.cs.arizona.edu/~collberg/Teaching/07.231/BibTeX/bibtex.html)), this splits them up into substrings then uses the native string concatenation (the `'#'` character) to allow for longer strings
+
+        _WOSMode_ : `optional [bool]`
+
+        > default `False`, if `True` the data produced will be unprocessed and use double curly braces. This is the style WOS produces bib files in and mostly macthes that.
+
+        _restrictedOutput_ : `optional [bool]`
+
+        > default `False`, if `True` the tags output will be limited to tose found in `metaknowledge.specialRecordFields`
+
+        _niceID_ : `optional [bool]`
+
+        > default `True`, if `True` the ID used will be derived from the authors, publishing date and title, if `False` it will be the UT tag
+
+        # Returns
+
+        `str`
+
+        > The bibTex string of the Record
+        """
+        keyEntries = []
+        if self.bad:
+            raise BadRecord("This record cannot be converted to a bibtex entry as the input was malformed.\nThe original line number (if any) is: {} and the original file is: '{}'".format(self._sourceLine, self._sourceFile))
+        if niceID:
+            if self.get('authorsFull'):
+                bibID = self['authorsFull'][0].title().replace(' ', '').replace(',', '').replace('.','')
+            else:
+                bibID = ''
+            if self.get('year', False):
+                bibID += '-' + str(self['year'])
+            if self.get('month', False):
+                bibID += '-' + str(self['month'])
+            if self.get('title', False):
+                tiSorted = sorted(self.get('title').split(' '), key = len)
+                bibID += '-' + tiSorted.pop().title()
+                while len(bibID) < 35 and len(tiSorted) > 0:
+                    bibID += '-' + tiSorted.pop().title() #Title Case
+            if len(bibID) < 30:
+                bibID += str(self.id)
+        elif WOSMode:
+            bibID = 'ISI:{}'.format(self.id[4:])
+        else:
+            bibID = str(self.id)
+        keyEntries.append("author = {{{{{}}}}},".format(' and '.join(self.get('authorsFull', ['None']))))
+        if restrictedOutput:
+            tagsIter = ((k, self[k]) for k in specialRecordFields if k in self)
+        else:
+            tagsIter = self.items()
+        if WOSMode:
+            for tag, value in tagsIter:
+                if isinstance(value, list):
+                    keyEntries.append("{} = {{{{{}}}}},".format(tag,'\n   '.join((str(v) for v in value))))
+                else:
+                    keyEntries.append("{} = {{{{{}}}}},".format(tag, value))
+            s = """@{0}{{ {1},\n{2}\n}}""".format('misc', bibID, '\n'.join(keyEntries))
+        else:
+            for tag, value in tagsIter:
+                keyEntries.append("{} = {},".format(tag, _bibFormatter(value, maxLength)))
+            s = """@{0}{{ {1},\n    {2}\n}}""".format('misc', bibID, '\n    '.join(keyEntries))
+        return s
+
+def _bibFormatter(s, maxLength):
+    """Formats a string, list or number to make it good for a bib file by:
+        * if too long splits up the string correctly
+        * tries to use the best quoting characters
+        * expands lists into ' and ' seperated values, as per spec for authors field
+    Note, this does not escape characters. LaTeX may have issues with the output
+    Max length splitting derived from https://www.cs.arizona.edu/~collberg/Teaching/07.231/BibTeX/bibtex.html
+    """
+    if isinstance(s, list):
+        s = ' and '.join((str(v) for v in s))
+    elif not isinstance(s, str):
+        s = str(s)
+    if len(s) > maxLength:
+        s = s.replace('"', '')
+        s = [s[i * maxLength: (i + 1) * maxLength] for i in range(len(s) // maxLength )]
+        s = '"{}"'.format('" # "'.join(s))
+    elif '"' not in s:
+        s = '"{}"'.format(s)
+    else:
+        s = s.replace('{', '\\{').replace('}', '\\}')
+        s = '{{{}}}'.format(s)
+    return s

@@ -38,8 +38,11 @@ class TestMedline(unittest.TestCase):
         self.assertIsInstance(self.R, metaknowledge.MedlineRecord)
 
     def test_bibWrite(self):
-        with self.assertRaises(metaknowledge.RecordsNotCompatible):
-            self.RC.writeBib("tempFile.bib.tmp")
+        fileName = "tempFile.bib.tmp"
+        self.RC.writeBib(fileName)
+        self.assertEqual(os.path.getsize(fileName), 606182)
+        self.RC.writeBib(fileName, wosMode = True, reducedOutput = True)
+        self.assertEqual(os.path.getsize(fileName), 460001)
         os.remove("tempFile.bib.tmp")
 
     def test_specials(self):

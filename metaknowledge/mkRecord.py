@@ -23,8 +23,6 @@ from .constants import specialRecordFields
 
 from .mkExceptions import BadRecord
 
-from .citation import Citation
-
 class Record(collections.abc.Mapping, collections.abc.Hashable):
     """A dictionary with error handling and an id string.
 
@@ -583,6 +581,8 @@ class ExtendedRecord(Record, metaclass = abc.ABCMeta):
 
         > A [`Citation`](#Citation.Citation) object containing a citation for the Record.
         """
+        #Need to put the import here to avoid circular import issues
+        from .citation import Citation
         valsLst = []
         if multiCite:
             auths = []

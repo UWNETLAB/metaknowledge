@@ -88,7 +88,7 @@ class TestCLI(unittest.TestCase):
     def test_spamming(self):
         with unittest.mock.patch('builtins.print'):
             with unittest.mock.patch('builtins.input', return_value = '0') as m:
-                self.assertIsInstance(metaknowledge.bin.mkCLI(), RecursionError)
+                self.assertIsInstance(metaknowledge.bin.mkCLI(), Exception)
 
     def test_Thresholds(self):
         with unittest.mock.patch('builtins.print'):

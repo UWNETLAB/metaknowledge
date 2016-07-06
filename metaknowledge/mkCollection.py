@@ -578,12 +578,10 @@ class CollectionWithIDs(Collection):
             PBar.finish("Done extracting the co-occurrences of '{}' and '{}'".format(keyTag, "','".join(countedTags)))
         return occurenceDict
 
+    def nLevelNetwork(self, *modes, nodeCount = True, edgeWeight = True, stemmer = None, edgeAttribute = None, nodeAttribute = None, _networkTypeString = 'n-level network'):
+        """Creates a network of the objects found by any number of tags _modes_, with edges between all co-occurring values. IF you only want edges between co-occurring values from different tags use [`nModeNetwork()`](#metaknowledge.nModeNetwork).
 
-
-    def oneModeNetwork(self, mode, nodeCount = True, edgeWeight = True, stemmer = None, edgeAttribute = None, nodeAttribute = None):
-        """Creates a network of the objects found by one tag _mode_.
-
-        A **oneModeNetwork**() looks are each entry in the collection and extracts its values for the tag given by _mode_, e.g. the `'authorsFull'` tag. Then if multiple are returned an edge is created between them. So in the case of the author tag `'authorsFull'` a co-authorship network is created.
+        A **nLevelNetwork**() looks are each entry in the collection and extracts its values for the tag given by each of the _modes_, e.g. the `'authorsFull'` tag. Then if multiple are returned an edge is created between them. So in the case of the author tag `'authorsFull'` a co-authorship network is created. Then for each other tag the entries are also added and edges between the first tag's node and theirs are created.
 
         The number of times each object occurs is count if _nodeCount_ is `True` and the edges count the number of co-occurrences if _edgeWeight_ is `True`. Both are`True` by default.
 
@@ -622,7 +620,7 @@ class CollectionWithIDs(Collection):
             else:
                 raise TagError("stemmer must be callable, e.g. a function or class with a __call__ method.")
         count = 0
-        progArgs = (0, "Starting to make a one mode network with {}".format(mode))
+        progArgs = (0, "Starting to make a {} from {}".format(_networkTypeString, modes))
         if metaknowledge.VERBOSE_MODE:
             progKwargs = {'dummy' : False}
         else:
@@ -640,16 +638,13 @@ class CollectionWithIDs(Collection):
                     edgeVals = [str(v) for v in R.get(edgeAttribute, [])]
                 if nodeAttribute:
                     nodeVals = [str(v) for v in R.get(nodeAttribute, [])]
-                if isinstance(mode, list):
-                    contents = []
-                    for attr in mode:
-                        tmpContents = R.get(attr, [])
-                        if isinstance(tmpContents, list):
-                            contents += tmpContents
-                        else:
-                            contents.append(tmpContents)
-                else:
-                    contents = R.get(mode)
+                contents = []
+                for attr in modes:
+                    tmpContents = R.get(attr, [])
+                    if isinstance(tmpContents, list):
+                        contents += tmpContents
+                    else:
+                        contents.append(tmpContents)
                 if contents is not None:
                     if not isinstance(contents, str) and isinstance(contents, collections.abc.Iterable):
                         if stemCheck:
@@ -737,8 +732,46 @@ class CollectionWithIDs(Collection):
                                 for nodeValue in (n for n in nodeVals if n not in currentAttrib):
                                     grph.node[nodeVal][nodeAttribute].append(nodeValue)
             if PBar:
-                PBar.finish("Done making a one mode network with {}".format(mode))
+                PBar.finish("Done making a {} from {}".format(_networkTypeString, modes))
         return grph
+
+
+    def oneModeNetwork(self, mode, nodeCount = True, edgeWeight = True, stemmer = None, edgeAttribute = None, nodeAttribute = None):
+        """Creates a network of the objects found by one tag _mode_. This is the same as [`nLevelNetwork()`](#metaknowledge.nLevelNetwork) with only one tag.
+
+        A **oneModeNetwork**() looks are each entry in the collection and extracts its values for the tag given by _mode_, e.g. the `'authorsFull'` tag. Then if multiple are returned an edge is created between them. So in the case of the author tag `'authorsFull'` a co-authorship network is created.
+
+        The number of times each object occurs is count if _nodeCount_ is `True` and the edges count the number of co-occurrences if _edgeWeight_ is `True`. Both are`True` by default.
+
+        **Note** Do not use this for the construction of co-citation networks use [Recordcollection.coCiteNetwork()](#RecordCollection.coCiteNetwork) it is more accurate and has more options.
+
+        # Parameters
+
+        _mode_ : `str`
+
+        > A two character WOS tag or one of the full names for a tag
+
+        _nodeCount_ : `optional [bool]`
+
+        > Default `True`, if `True` each node will have an attribute called "count" that contains an int giving the number of time the object occurred.
+
+        _edgeWeight_ : `optional [bool]`
+
+        > Default `True`, if `True` each edge will have an attribute called "weight" that contains an int giving the number of time the two objects co-occurrenced.
+
+        _stemmer_ : `optional [func]`
+
+        > Default `None`, If _stemmer_ is a callable object, basically a function or possibly a class, it will be called for the ID of every node in the graph, all IDs are strings. For example:
+
+        > The function ` f = lambda x: x[0]` if given as the stemmer will cause all IDs to be the first character of their unstemmed IDs. e.g. the title `'Goos-Hanchen and Imbert-Fedorov shifts for leaky guided modes'` will create the node `'G'`.
+
+        # Returns
+
+        `networkx Graph`
+
+        > A networkx Graph with the objects of the tag _mode_ as nodes and their co-occurrences as edges
+        """
+        return self.nLevelNetwork(mode, nodeCount = nodeCount, edgeWeight = edgeWeight, stemmer = stemmer, edgeAttribute = edgeAttribute, nodeAttribute = nodeAttribute, _networkTypeString = 'one mode network')
 
     def twoModeNetwork(self, tag1, tag2, directed = False, recordType = True, nodeCount = True, edgeWeight = True, stemmerTag1 = None, stemmerTag2 = None, edgeAttribute = None):
         """Creates a network of the objects found by two WOS tags _tag1_ and _tag2_, each node marked by which tag spawned it making the resultant graph bipartite.

@@ -354,6 +354,10 @@ class TestRecordCollection(unittest.TestCase):
     def test_coOccurnce(self):
         self.assertEqual(sum(self.RC.cooccurrenceCounts('TI', *tuple(self.RC.tags()))['Longitudinal and transverse effects of nonspecular reflection'].values()), 104)
 
+    def test_nLevel(self):
+        G = self.RC.nLevelNetwork(*tuple(self.RC.tags()))
+        self.assertEqual(metaknowledge.graphStats(G), 'The graph has 1187 nodes, 58761 edges, 0 isolates, 59 self loops, a density of 0.0834803 and a transitivity of 0.493814')
+
     def test_oneMode(self):
         Gcr  = self.RC.oneModeNetwork('CR')
         Gcite = self.RC.oneModeNetwork('citations', nodeCount = False, edgeWeight = False)

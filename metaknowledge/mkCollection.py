@@ -3,6 +3,7 @@ import pickle
 import os
 import os.path
 import math
+import csv
 try:
     import collections.abc
 except ImportError:
@@ -518,6 +519,65 @@ class CollectionWithIDs(Collection):
         for i in self:
             tags |= set(i.keys())
         return tags
+
+    def rankedSeries(self, tag, outputFile = None, giveCounts = True, greatestFirst = True):
+        seriesDict = {}
+        for R in self:
+            #This should be faster than using get, since get is a wrapper for __getitem__
+            try:
+                val = R[tag]
+            except KeyError:
+                continue
+            if not isinstance(val, list):
+                val = [val]
+            for entry in val:
+                if entry in seriesDict:
+                    seriesDict[entry] += 1
+                else:
+                    seriesDict[entry] = 1
+        seriesList = sorted(seriesDict.items(), key = lambda x: x[1], reverse = greatestFirst)
+        if outputFile is not None:
+            with open(outputFile, 'w') as f:
+                writer = csv.writer(f, dialect = 'excel')
+                writer.writerow((str(tag), 'count'))
+                writer.writerows(seriesList)
+        if giveCounts:
+            return seriesList
+        else:
+            return [e for e,c in seriesList]
+
+    def timeSeries(self, tag = None, outputFile = None, giveYears = True, greatestFirst = True):
+        seriesDict = {}
+        for R in self:
+            #This should be faster than using get, since get is a wrapper for __getitem__
+            try:
+                year = R['year']
+            except KeyError:
+                continue
+            if tag is None:
+                seriesDict[R] = {year}
+            else:
+                try:
+                    val = R[tag]
+                except KeyError:
+                    continue
+                if not isinstance(val, list):
+                    val = [val]
+                for entry in val:
+                    if entry in seriesDict:
+                        seriesDict[entry].add(year)
+                    else:
+                        seriesDict[entry] = {year}
+        seriesList = sorted(seriesDict.items(), key = lambda x: x[1], reverse = greatestFirst)
+        if outputFile is not None:
+            with open(outputFile, 'w') as f:
+                writer = csv.writer(f, dialect = 'excel')
+                writer.writerow((str(tag), 'years'))
+                writer.writerows(((k,'|'.join((str(y) for y in v))) for k,v in seriesList))
+        if giveYears:
+            return seriesList
+        else:
+            return [e for e,c in seriesList]
 
     def cooccurrenceCounts(self, keyTag, *countedTags):
         """Counts the number of times values from any of the _countedTags_ occurs with _keyTag_. The counts are retuned as a dictionary with the values of _keyTag_ mapping to dictionaries with each of the _countedTags_ values mapping to thier counts.

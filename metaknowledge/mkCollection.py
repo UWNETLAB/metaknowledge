@@ -14,6 +14,8 @@ import networkx as nx
 
 from .progressBar import _ProgressBar
 
+from .RCglimpse import _glimpse
+
 from .constants import __version__
 
 from .mkExceptions import CollectionTypeError, cacheError, TagError
@@ -519,6 +521,9 @@ class CollectionWithIDs(Collection):
         for i in self:
             tags |= set(i.keys())
         return tags
+
+    def glimpse(self):
+        return _glimpse(self)
 
     def rankedSeries(self, tag, outputFile = None, giveCounts = True, greatestFirst = True):
         seriesDict = {}

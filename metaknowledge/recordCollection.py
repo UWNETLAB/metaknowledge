@@ -440,9 +440,35 @@ class RecordCollection(CollectionWithIDs):
             retDict["numAuthors"] = []
         for R in self:
             if numAuthors:
-                retDict["numAuthors"].append(len(R.get('authorsShort')))
+                retDict["numAuthors"].append(len(R.get('authorsShort', [])))
             for k, v in R.subDict(retrievedFields, raw = raw).items():
                 retDict[k].append(v)
+        return retDict
+
+    def standardRPYS(self, minYear = -float('inf'), maxYear = float('inf')):
+        yearCounts = {}
+        for R in self:
+            try:
+                cites = R['citations']
+            except KeyError:
+                continue
+            for cite in cites:
+                try:
+                    #year can be None
+                    cYear = int(cite.year)
+                except (AttributeError, TypeError):
+                    continue
+                else:
+                    if cYear > maxYear or cYear < minYear:
+                        continue
+                if cYear in yearCounts:
+                    yearCounts[cYear] += 1
+                else:
+                    yearCounts[cYear] = 1
+        retDict = {'years' : [], 'counts' : []}
+        for y, c in sorted(yearCounts.items(), key = lambda x: x[0]):
+            retDict['years'].append(y)
+            retDict['counts'].append(c)
         return retDict
 
     def coAuthNetwork(self, detailedInfo = False, weighted = True, dropNonJournals = False, count = True):

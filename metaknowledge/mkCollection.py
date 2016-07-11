@@ -18,7 +18,7 @@ from .RCglimpse import _glimpse
 
 from .constants import __version__
 
-from .mkExceptions import CollectionTypeError, cacheError, TagError
+from .mkExceptions import CollectionTypeError, cacheError, TagError, mkException
 
 import metaknowledge
 
@@ -548,6 +548,20 @@ class CollectionWithIDs(Collection):
                 writer.writerows(seriesList)
         if giveCounts:
             return seriesList
+        elif giveRanks:
+            if not greatestFirst:
+                seriesList.reverse()
+            currentCount = seriesList[0][1]
+            currentRank = 1
+            retList = []
+            for valString, count in seriesList:
+                if currentCount > count:
+                    currentRank += 1
+                    currentCount = count
+                retList.append((valString, currentRank))
+            if not greatestFirst:
+                retList.reverse()
+            return retList
         else:
             return [e for e,c in seriesList]
 

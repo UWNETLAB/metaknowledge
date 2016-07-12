@@ -53,7 +53,7 @@ medlineSpecialTagToFunc = {
 
     'j9' : lambda R : R['TA'], #remaps to the closests field TA, but J9 != TA
 
-    'citations' : lambda R: None, #Medline does not have citations
+    #'citations' : lambda R: None, #Medline does not have citations
 
     'grants' : lambda R: R['GR'],#This is the basis for the 'grants' special function
 

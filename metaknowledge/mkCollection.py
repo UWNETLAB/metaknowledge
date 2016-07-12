@@ -525,7 +525,9 @@ class CollectionWithIDs(Collection):
     def glimpse(self):
         return _glimpse(self)
 
-    def rankedSeries(self, tag, outputFile = None, giveCounts = True, greatestFirst = True):
+    def rankedSeries(self, tag, outputFile = None, giveCounts = True, giveRanks = False, greatestFirst = True):
+        if giveRanks and giveCounts:
+            raise mkException("rankedSeries cannot return counts and ranks only one of giveRanks or giveCounts can be True.")
         seriesDict = {}
         for R in self:
             #This should be faster than using get, since get is a wrapper for __getitem__

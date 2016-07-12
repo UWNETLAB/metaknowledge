@@ -445,8 +445,30 @@ class RecordCollection(CollectionWithIDs):
                 retDict[k].append(v)
         return retDict
 
-    def standardRPYS(self, minYear = -float('inf'), maxYear = float('inf')):
+    def standardRPYS(self, minYear = 1000, maxYear = 2100, dropYears = None, top10 = False):
+
+        def deviation(targetYear, targetValue, targetDict):
+            yearCounts = [targetValue]
+            for deltaY in [-2, -1, 1, 2]:
+                try:
+                    yearCounts.append(targetDict[targetYear + deltaY])
+                except KeyError:
+                    yearCounts.append(0)
+            medianCount = list(sorted(yearCounts))[2]
+            absDiff = targetValue - medianCount
+            return absDiff
+
+        if dropYears is None:
+            dropYears = set()
         yearCounts = {}
+        topAuths = {}
+        topJourns = {}
+        retDict = {'year' : [], 'count' : [], 'abs-deviation' : [], 'rank' : []}
+        if top10:
+            for i in range(1, 11):
+                retDict["author-rank-{}".format(i)] = []
+                retDict["journal-rank-{}".format(i)] = []
+
         for R in self:
             try:
                 cites = R['citations']
@@ -459,16 +481,74 @@ class RecordCollection(CollectionWithIDs):
                 except (AttributeError, TypeError):
                     continue
                 else:
-                    if cYear > maxYear or cYear < minYear:
+                    #need the extra years for the normlization
+                    if cYear > (maxYear + 2) or cYear < (minYear - 2):
                         continue
                 if cYear in yearCounts:
                     yearCounts[cYear] += 1
                 else:
                     yearCounts[cYear] = 1
-        retDict = {'years' : [], 'counts' : []}
-        for y, c in sorted(yearCounts.items(), key = lambda x: x[0]):
-            retDict['years'].append(y)
-            retDict['counts'].append(c)
+                    if top10:
+                        topAuths[cYear] = {}
+                        topJourns[cYear] = {}
+                if top10:
+                    try:
+                        topAuths[cYear][cite.author] += 1
+                    except KeyError:
+                        topAuths[cYear][cite.author] = 1
+                    except AttributeError:
+                        pass
+                    try:
+                        topJourns[cYear][cite.journal] += 1
+                    except KeyError:
+                        topJourns[cYear][cite.journal] = 1
+                    except AttributeError:
+                        pass
+
+
+        if min(yearCounts.keys()) > minYear:
+            minYear = min(yearCounts.keys())
+        if max(yearCounts.keys()) < maxYear:
+            maxYear = max(yearCounts.keys())
+        targetYears = set(range(minYear, maxYear + 1))
+
+        ranks = {}
+        for rank, yTuple in enumerate(sorted(((yR, vR) for yR, vR in yearCounts.items() if yR in targetYears), key = lambda x: x[1], reverse = True), start = 1):
+            ranks[yTuple[0]] = rank
+
+        for y in targetYears:
+            try:
+                c = yearCounts[y]
+            except KeyError:
+                c = 0
+            if y > maxYear or y < minYear:
+                continue
+            retDict['year'].append(y)
+            retDict['count'].append(c)
+            try:
+                retDict['rank'].append(ranks[y])
+            except KeyError:
+                retDict['rank'].append(0)
+            retDict['abs-deviation'].append(deviation(y, c, yearCounts))
+            if top10:
+                try:
+                    top10Auths = [i[0] for i in sorted(topAuths[y].items(), key = lambda x : x[1], reverse = True)[:10]]
+                except KeyError:
+                    top10Auths = [''] * 10
+                try:
+                    top10Journs = [i[0] for i in sorted(topJourns[y].items(), key = lambda x : x[1], reverse = True)[:10]]
+                except KeyError:
+                    top10Journs = [''] * 10
+                for i in range(1, 11):
+                    try:
+                        retDict["author-rank-{}".format(i)].append(top10Auths.pop(0))
+                    except IndexError:
+                        retDict["author-rank-{}".format(i)].append('')
+                    try:
+                        retDict["journal-rank-{}".format(i)].append(top10Journs.pop(0))
+                    except IndexError:
+                        retDict["journal-rank-{}".format(i)].append('')
+
         return retDict
 
     def coAuthNetwork(self, detailedInfo = False, weighted = True, dropNonJournals = False, count = True):

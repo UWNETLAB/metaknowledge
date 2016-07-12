@@ -542,6 +542,25 @@ class ExtendedRecord(Record, metaclass = abc.ABCMeta):
         else:
             return auth
 
+    def getCitations(self, field = None, values = None, pandasFriendly = True):
+        retCites = []
+        if values is not None:
+            if isinstance(values, (str, int, float)) or not isinstance(values, collections.abc.Container):
+                values = [values]
+        if field is not None:
+            for cite in self.get('citations', []):
+                try:
+                    targetVal = getattr(cite, field)
+                    if values is None or targetVal in values:
+                        retCites.append(cite)
+                except AttributeError:
+                    pass
+        else:
+            retCites = self.get('citations', [])
+        if pandasFriendly:
+            return _pandasPrep(retCites, False)
+        return retCites
+
     def subDict(self, tags, raw = False):
         """Creates a dict of values of _tags_ from the Record. The tags are the keys and the values are the values. If the tag is missing the value will be `None`.
 
@@ -706,3 +725,45 @@ def _bibFormatter(s, maxLength):
         s = s.replace('{', '\\{').replace('}', '\\}')
         s = '{{{}}}'.format(s)
     return s
+
+def _pandasPrep(cites, addcounts):
+    mainValues = ['year', 'journal', 'author']
+    retDict = {'citeString' : []}
+    for s in mainValues:
+        retDict[s] = []
+    if addcounts:
+        retDict.update({'num-cites' : [], 'fraction-cites-overall' : [], 'fraction-cites-year' : []})
+        countsDict = {}
+        totCites = 0
+        for cite in cites:
+            totCites += 1
+            try:
+                countsDict[cite] += 1
+            except KeyError:
+                countsDict[cite] = 1
+            try:
+                cYear = cite.year
+            except AttributeError:
+                continue
+            else:
+                try:
+                    countsDict[cYear] += 1
+                except KeyError:
+                    countsDict[cYear] = 1
+
+    for cite in set(cites):
+        retDict['citeString'].append(str(cite))
+        for s in mainValues:
+            try:
+                retDict[s].append(getattr(cite, s))
+            except AttributeError:
+                retDict[s].append(None)
+        if addcounts:
+            count = countsDict[cite]
+            retDict['num-cites'].append(count)
+            retDict['fraction-cites-overall'].append(count / totCites)
+            try:
+                retDict['fraction-cites-year'].append(count / countsDict[cite.year])
+            except AttributeError:
+                retDict['fraction-cites-year'].append(None)
+    return retDict

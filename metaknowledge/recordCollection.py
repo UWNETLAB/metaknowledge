@@ -13,7 +13,7 @@ import copy
 import networkx as nx
 
 from .constants import __version__
-from .mkRecord import Record
+from .mkRecord import Record, _pandasPrep
 from .progressBar import _ProgressBar
 from .WOS.tagProcessing.funcDicts import tagToFullDict, fullToTagDict, normalizeToTag
 from .citation import Citation
@@ -548,8 +548,19 @@ class RecordCollection(CollectionWithIDs):
                         retDict["journal-rank-{}".format(i)].append(top10Journs.pop(0))
                     except IndexError:
                         retDict["journal-rank-{}".format(i)].append('')
-
         return retDict
+
+    def getCitations(self, field = None, values = None, pandasFriendly = True, counts = True):
+        retCites = []
+        if values is not None:
+            if isinstance(values, (str, int, float)) or not isinstance(values, collections.abc.Container):
+                values = [values]
+        for R in self:
+            retCites += R.getCitations(field = field, values = values, pandasFriendly = False)
+        if pandasFriendly:
+            return _pandasPrep(retCites, counts)
+        else:
+            return list(set(retCites))
 
     def coAuthNetwork(self, detailedInfo = False, weighted = True, dropNonJournals = False, count = True):
         """Creates a coauthorship network for the RecordCollection.

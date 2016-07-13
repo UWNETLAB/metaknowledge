@@ -2,7 +2,7 @@
 
 title: metaknowledge
 locale: en_US
-description: A Python3 package for computational research in bibliometrics, scientometrics, and network analysis
+description: A Python3 package for computational research on knowledge
 logo: site-logo.png
 search: true
 url: http://networkslab.org

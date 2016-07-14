@@ -379,6 +379,7 @@ class Collection(collections.abc.MutableSet, collections.abc.Hashable):
                 raise cacheError("Extension mismatch")
             if len(flist) != len(dat["File dict"]):
                 raise cacheError("File number mismatch")
+            flist = flist.copy()
             while len(flist) > 0:
                 workingFile = flist.pop()
                 if os.stat(workingFile).st_mtime != dat["File dict"][workingFile]:

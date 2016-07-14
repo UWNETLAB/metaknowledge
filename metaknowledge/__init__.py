@@ -49,3 +49,5 @@ from .WOS import WOSRecord
 from .medline import MedlineRecord
 from .proquest import ProQuestRecord
 from .scopus import ScopusRecord
+
+from .RCglimpse import *

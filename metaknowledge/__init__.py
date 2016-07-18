@@ -50,4 +50,5 @@ from .medline import MedlineRecord
 from .proquest import ProQuestRecord
 from .scopus import ScopusRecord
 
-from .RCglimpse import *
+#Indev
+#from .RCglimpse import *

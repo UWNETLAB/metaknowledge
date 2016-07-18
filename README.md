@@ -5,7 +5,7 @@ _metaknowledge_ is a Python3 library that simplifies bibliometric research using
 The website can be found at [networkslab.org/metaknowledge](http://networkslab.org/metaknowledge/).
 
 # Major Update
-The version of _metaknowledge_ currently available is the second major release and is not backwards compatible with the previous versions. If you wish to use an older version they are still available on github or pip.
+A new update of _metaknowledge_ is scheduled to be released soon, some function names will change but functionality will not be affected. All past releases are available on [github](https://github.com/networks-lab/metaknowledge/releases) and [pip](https://pypi.python.org/pypi/metaknowledge/2.1.1)
 
 ## Installing
 To install run `python3 setup.py install`

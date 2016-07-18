@@ -23,6 +23,8 @@ from .constants import specialRecordFields
 
 from .mkExceptions import BadRecord
 
+from .genders.nameGender import recordGenders
+
 class Record(collections.abc.Mapping, collections.abc.Hashable):
     """A dictionary with error handling and an id string.
 
@@ -630,6 +632,23 @@ class ExtendedRecord(Record, metaclass = abc.ABCMeta):
         else:
             return Citation(', '.join(valsLst))
 
+    def authGenders(self, countsOnly = False, fractionsMode = False, _countsTuple = False):
+        authDict = recordGenders(self)
+        if _countsTuple or countsOnly or fractionsMode:
+            rawList = list(authDict.values())
+            countsList = []
+            for k in ('Male','Female','Unknown'):
+                countsList.append(rawList.count(k))
+            if fractionsMode:
+                tot = sum(countsList)
+                for i in range(3):
+                    countsList.append(countsList.pop(0) / tot)
+            if _countsTuple:
+                return tuple(countsList)
+            else:
+                return {'Male' : countsList[0], 'Female' : countsList[1], 'Unknown' : countsList[2]}
+        else:
+            return authDict
 
     def bibString(self, maxLength = 1000, WOSMode = False, restrictedOutput = False, niceID = True):
         """Makes a string giving the Record as a bibTex entry. If the Record is of a journal article (`PT J`) the bibtext type is set to `'article'`, otherwise it is set to `'misc'`. The ID of the entry is the WOS number and all the Record's fields are given as entries with their long names.

@@ -227,7 +227,7 @@ class RecordCollection(CollectionWithIDs):
             f.write('EF')
         f.close()
 
-    def writeCSV(self, fname = None, splitByTag = None, onlyTheseTags = None, numAuthors = True, longNames = False, firstTags = None, csvDelimiter = ',', csvQuote = '"', listDelimiter = '|'):
+    def writeCSV(self, fname = None, splitByTag = None, onlyTheseTags = None, numAuthors = True, genderCounts = True, longNames = False, firstTags = None, csvDelimiter = ',', csvQuote = '"', listDelimiter = '|'):
         """Writes all the `Records` from the collection into a csv file with each row a record and each column a tag.
 
         # Parameters
@@ -302,6 +302,8 @@ class RecordCollection(CollectionWithIDs):
             csvWriterFields = retrievedFields + ["numAuthors"]
         else:
             csvWriterFields = retrievedFields
+        if genderCounts:
+            csvWriterFields += ['num-Male', 'num-Female', 'num-Unkown']
         if splitByTag is None:
             f = open(baseFileName, mode = 'w', encoding = 'utf-8')
             csvWriter = csv.DictWriter(f, csvWriterFields, delimiter = csvDelimiter, quotechar = csvQuote, quoting=csv.QUOTE_ALL)
@@ -330,6 +332,8 @@ class RecordCollection(CollectionWithIDs):
                     recDict[t] = str(value)
             if numAuthors:
                 recDict["numAuthors"] = len(R.get('authorsShort', []))
+            if genderCounts:
+                recDict['num-Male'], recDict['num-Female'], recDict['num-Unkown'] = R.authGenders(_countsTuple = True)
             if splitByTag:
                 for sTag in splitVal:
                     if sTag in filesDict:
@@ -341,7 +345,8 @@ class RecordCollection(CollectionWithIDs):
                         csvWriter.writeheader()
                         csvWriter.writerow(recDict)
                         filesDict[sTag] = (f, csvWriter)
-            else:csvWriter.writerow(recDict)
+            else:
+                csvWriter.writerow(recDict)
         if splitByTag:
             for f, c in filesDict.values():
                 f.close()
@@ -402,7 +407,7 @@ class RecordCollection(CollectionWithIDs):
             pass
     """
 
-    def makeDict(self, onlyTheseTags = None, longNames = False, raw = False, numAuthors = True):
+    def makeDict(self, onlyTheseTags = None, longNames = False, raw = False, numAuthors = True, genderCounts = True):
         """Returns a dict with each key a tag and the values being lists of the values for each of the Records in the collection, `None` is given when there is no value and they are in the same order across each tag.
 
         When used with pandas: `pandas.DataFrame(RC.makeDict())` returns a data frame with each column a tag and each row a Record.
@@ -444,10 +449,17 @@ class RecordCollection(CollectionWithIDs):
                 raise KeyError("One of the tags could not be converted to a long name.")
         retDict = {k : [] for k in retrievedFields}
         if numAuthors:
-            retDict["numAuthors"] = []
+            retDict["num-Authors"] = []
+        if genderCounts:
+            retDict.update({'num-Male' : [], 'num-Female' : [], 'num-Unkown' : []})
         for R in self:
             if numAuthors:
-                retDict["numAuthors"].append(len(R.get('authorsShort', [])))
+                retDict["num-Authors"].append(len(R.get('authorsShort', [])))
+            if genderCounts:
+                m, f, u = R.authGenders(_countsTuple = True)
+                retDict['num-Male'].append(m)
+                retDict['num-Female'].append(f)
+                retDict['num-Unkown'].append(u)
             for k, v in R.subDict(retrievedFields, raw = raw).items():
                 retDict[k].append(v)
         return retDict
@@ -547,6 +559,20 @@ class RecordCollection(CollectionWithIDs):
             retDict['abs-deviation'].append(deviation(y, c, yearCounts))
 
         return retDict
+
+    def genderStats(self, asFractions = False):
+        maleCount = 0
+        femaleCount = 0
+        unknownCount = 0
+        for R in self:
+            m, f, u = R.authGenders(_countsTuple = True)
+            maleCount += m
+            femaleCount += f
+            unknownCount += u
+        if asFractions:
+            tot = maleCount + femaleCount + unknownCount
+            return {'Male' : maleCount / tot, 'Female' : femaleCount / tot, 'Unknown' : unknownCount / tot}
+        return {'Male' : maleCount, 'Female' : femaleCount, 'Unknown' : unknownCount}
 
     def getCitations(self, field = None, values = None, pandasFriendly = True, counts = True):
         retCites = []
@@ -928,7 +954,9 @@ class RecordCollection(CollectionWithIDs):
                     pass
                 else:
                     raise
-        return RecordCollection(recordsInRange, name = "{}({}-{})".format(self.name, startYear, endYear), quietStart = True)
+        RCret = RecordCollection(recordsInRange, name = "{}({}-{})".format(self.name, startYear, endYear), quietStart = True)
+        RCret._collectedTypes = self._collectedTypes.copy()
+        return RCret
 
     def localCiteStats(self, pandasFriendly = False, keyType = "citation"):
         """Returns a dict with all the citations in the CR field as keys and the number of times they occur as the values

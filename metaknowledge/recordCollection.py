@@ -757,7 +757,7 @@ class RecordCollection(CollectionWithIDs):
                 for tag in detailedCore:
                     coreValues.append(normalizeToTag(tag))
             except TypeError:
-                coreValues = ['AF', 'PY', 'TI', 'SO', 'VL', 'BP']
+                coreValues = ['id', 'authorsFull', 'year', 'title', 'journal', 'volume', 'beginningPage']
         tmpgrph = nx.Graph()
         pcount = 0
         progArgs = (0, "Starting to make a co-citation network")
@@ -869,7 +869,7 @@ class RecordCollection(CollectionWithIDs):
                 for tag in detailedCore:
                     coreValues.append(normalizeToTag(tag))
             except TypeError:
-                coreValues = ['AF', 'PY', 'TI', 'SO', 'VL', 'BP']
+                coreValues = ['id', 'authorsFull', 'year', 'title', 'journal', 'volume', 'beginningPage']
         if directed:
             tmpgrph = nx.DiGraph()
         else:

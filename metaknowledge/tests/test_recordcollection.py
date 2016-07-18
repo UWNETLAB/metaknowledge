@@ -267,6 +267,15 @@ class TestRecordCollection(unittest.TestCase):
         self.assertEqual(os.path.getsize(filename), 78163)
         os.remove(filename)
 
+    def test_rpys(self):
+        d = self.RC.rpys()
+        self.assertIn(27, d['count'])
+        d = self.RC.rpys(1990, 2000)
+        self.assertEqual(len(d['year']), 11)
+        for v in d.values():
+            for i in v:
+                self.assertIsInstance(i, int)
+
     def test_makeDict(self):
         d = self.RC.makeDict(onlyTheseTags = list(metaknowledge.WOS.tagsAndNameSet), longNames = True)
         self.assertEqual(len(d), 62)

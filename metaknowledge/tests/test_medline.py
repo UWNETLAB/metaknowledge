@@ -42,7 +42,7 @@ class TestMedline(unittest.TestCase):
         self.RC.writeBib(fileName)
         self.assertEqual(os.path.getsize(fileName), 606182)
         self.RC.writeBib(fileName, wosMode = True, reducedOutput = True)
-        self.assertEqual(os.path.getsize(fileName), 460001)
+        self.assertEqual(os.path.getsize(fileName), 456151)
         os.remove("tempFile.bib.tmp")
 
     def test_specials(self):

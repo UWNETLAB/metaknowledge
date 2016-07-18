@@ -395,6 +395,13 @@ class RecordCollection(CollectionWithIDs):
                 raise RecordsNotCompatible("The Record '{}', with ID '{}' does not support writing to bibtext files.".format(R, R.id))
         f.close()
 
+    """
+    def writeBurst(self, tag, dropWords = None, clean = True, dateStrings = False):
+
+        for R in RC:
+            pass
+    """
+
     def makeDict(self, onlyTheseTags = None, longNames = False, raw = False, numAuthors = True):
         """Returns a dict with each key a tag and the values being lists of the values for each of the Records in the collection, `None` is given when there is no value and they are in the same order across each tag.
 
@@ -445,7 +452,38 @@ class RecordCollection(CollectionWithIDs):
                 retDict[k].append(v)
         return retDict
 
-    def standardRPYS(self, minYear = 1000, maxYear = 2100, dropYears = None, top10 = False):
+    def rpys(self, minYear = 1000, maxYear = 2100, dropYears = None):
+        """This implements _Referenced Publication Years Spectroscopy_ a techinique for finding import years in citation data. The authors of the original papers have a website with more information, found [here](http://www.leydesdorff.net/software/rpys/).
+
+        This function computes the spectra of the `RecordCollection` and returns a dictionary mapping strings to lists of `ints`. Each list is ordered and the values of each with the same index form a row and each list a column. The strings are the names of the columns. This is intended to be read directly by pandas `DataFrames`.
+
+        The columns returned are:
+
+        1. `'year'`, the years of the counted citations, missing years are inserted with a count of 0, unless they are outside the bounds of the highest year or the lowest year and the default value is used. e.g. if the highest year is 2016, 2017 will not be inserted unless _maxYear_ has been set to 2017 or higher
+        2. `'count'`, the number of times the year was cited
+        3. `'abs-deviation'`, deviation from the 5-year median. Calculated by taking the absolute deviation of the count from the median of it and the next 2 years and the preceding 2 years
+        4. `'rank'`, the rank of the year, the highest ranked year being the one most cited, the second highest being the second highest citation count and so on. All years with 0 count are given the rank 0
+
+        # Parameters
+
+        _minYear_ : `optional int`
+
+        > Default `1000`, The lowest year to be returned, note years outside this bound will be used to calculate the deviation from the 5-year median
+
+        _maxYear_ : `optional int`
+
+        > Default `2100`, The highest year to be returned, note years outside this bound will be used to calculate the deviation from the 5-year median
+
+        _dropYears_ : `optional int or list[int]`
+
+        > Default `None`, year or collection of years that will be removed from the returned value, note the dropped years will still be used to calculate the deviation from the 5-year
+
+        # Returns
+
+        `dict[str:list]`
+
+        > The table of values from the _Referenced Publication Years Spectroscopy_
+        """
 
         def deviation(targetYear, targetValue, targetDict):
             yearCounts = [targetValue]
@@ -461,13 +499,7 @@ class RecordCollection(CollectionWithIDs):
         if dropYears is None:
             dropYears = set()
         yearCounts = {}
-        topAuths = {}
-        topJourns = {}
         retDict = {'year' : [], 'count' : [], 'abs-deviation' : [], 'rank' : []}
-        if top10:
-            for i in range(1, 11):
-                retDict["author-rank-{}".format(i)] = []
-                retDict["journal-rank-{}".format(i)] = []
 
         for R in self:
             try:
@@ -488,32 +520,15 @@ class RecordCollection(CollectionWithIDs):
                     yearCounts[cYear] += 1
                 else:
                     yearCounts[cYear] = 1
-                    if top10:
-                        topAuths[cYear] = {}
-                        topJourns[cYear] = {}
-                if top10:
-                    try:
-                        topAuths[cYear][cite.author] += 1
-                    except KeyError:
-                        topAuths[cYear][cite.author] = 1
-                    except AttributeError:
-                        pass
-                    try:
-                        topJourns[cYear][cite.journal] += 1
-                    except KeyError:
-                        topJourns[cYear][cite.journal] = 1
-                    except AttributeError:
-                        pass
 
-
-        if min(yearCounts.keys()) > minYear:
+        if min(yearCounts.keys()) > minYear and minYear == 1000:
             minYear = min(yearCounts.keys())
-        if max(yearCounts.keys()) < maxYear:
+        if max(yearCounts.keys()) < maxYear and maxYear == 2100:
             maxYear = max(yearCounts.keys())
         targetYears = set(range(minYear, maxYear + 1))
 
         ranks = {}
-        for rank, yTuple in enumerate(sorted(((yR, vR) for yR, vR in yearCounts.items() if yR in targetYears), key = lambda x: x[1], reverse = True), start = 1):
+        for rank, yTuple in enumerate(sorted(((yR, vR) for yR, vR in yearCounts.items() if yR in targetYears), key = lambda x: x[1], reverse = False), start = 1):
             ranks[yTuple[0]] = rank
 
         for y in targetYears:
@@ -530,24 +545,7 @@ class RecordCollection(CollectionWithIDs):
             except KeyError:
                 retDict['rank'].append(0)
             retDict['abs-deviation'].append(deviation(y, c, yearCounts))
-            if top10:
-                try:
-                    top10Auths = [i[0] for i in sorted(topAuths[y].items(), key = lambda x : x[1], reverse = True)[:10]]
-                except KeyError:
-                    top10Auths = [''] * 10
-                try:
-                    top10Journs = [i[0] for i in sorted(topJourns[y].items(), key = lambda x : x[1], reverse = True)[:10]]
-                except KeyError:
-                    top10Journs = [''] * 10
-                for i in range(1, 11):
-                    try:
-                        retDict["author-rank-{}".format(i)].append(top10Auths.pop(0))
-                    except IndexError:
-                        retDict["author-rank-{}".format(i)].append('')
-                    try:
-                        retDict["journal-rank-{}".format(i)].append(top10Journs.pop(0))
-                    except IndexError:
-                        retDict["journal-rank-{}".format(i)].append('')
+
         return retDict
 
     def getCitations(self, field = None, values = None, pandasFriendly = True, counts = True):
@@ -608,7 +606,7 @@ class RecordCollection(CollectionWithIDs):
                 for tag in detailedInfo:
                     infoVals.append(normalizeToTag(tag))
             except TypeError:
-                infoVals = ['PY', 'TI', 'SO', 'VL', 'BP']
+                infoVals = ['year', 'title', 'journal', 'volume', 'beginningPage']
             def attributeMaker(Rec):
                 attribsDict = {}
                 for val in infoVals:
@@ -663,7 +661,7 @@ class RecordCollection(CollectionWithIDs):
                 PBar.finish("Done making a co-authorship network from {}".format(self))
         return grph
 
-    def coCiteNetwork(self, dropAnon = True, nodeType = "full", nodeInfo = True, fullInfo = False, weighted = True, dropNonJournals = False, count = True, keyWords = None, detailedCore = None, detailedCoreAttributes = False, coreOnly = False, expandedCore = False):
+    def coCiteNetwork(self, dropAnon = True, nodeType = "full", nodeInfo = True, fullInfo = False, weighted = True, dropNonJournals = False, count = True, keyWords = None, detailedCore = True, detailedCoreAttributes = False, coreOnly = False, expandedCore = False):
         """Creates a co-citation network for the RecordCollection.
 
         # Parameters
@@ -702,7 +700,7 @@ class RecordCollection(CollectionWithIDs):
 
         _detailedCore_ : `optional [bool or iterable[WOS tag Strings]]`
 
-        > default `False`, if `True` all Citations from the core (those of records in the RecordCollection) and the _nodeType_ is `'full'` all nodes from the core will be given info strings composed of information from the Record objects themselves. This is Equivalent to passing the list: `['AF', 'PY', 'TI', 'SO', 'VL', 'BP']`.
+        > default `True`, if `True` all Citations from the core (those of records in the RecordCollection) and the _nodeType_ is `'full'` all nodes from the core will be given info strings composed of information from the Record objects themselves. This is Equivalent to passing the list: `['AF', 'PY', 'TI', 'SO', 'VL', 'BP']`.
 
         > If _detailedCore_ is an iterable (That evaluates to `True`) of WOS Tags (or long names) The values  of those tags will be used to make the info attribute. All
 
@@ -768,7 +766,7 @@ class RecordCollection(CollectionWithIDs):
         return tmpgrph
 
 
-    def citationNetwork(self, dropAnon = False, nodeType = "full", nodeInfo = True, fullInfo = False, weighted = True, dropNonJournals = False, count = True, directed = True, keyWords = None, detailedCore = None, detailedCoreAttributes = False, coreOnly = False, expandedCore = False, recordToCite = True):
+    def citationNetwork(self, dropAnon = False, nodeType = "full", nodeInfo = True, fullInfo = False, weighted = True, dropNonJournals = False, count = True, directed = True, keyWords = None, detailedCore = True, detailedCoreAttributes = False, coreOnly = False, expandedCore = False, recordToCite = True):
 
         """Creates a citation network for the RecordCollection.
 
@@ -812,7 +810,7 @@ class RecordCollection(CollectionWithIDs):
 
         _detailedCore_ : `optional [bool or iterable[WOS tag Strings]]`
 
-        > default `False`, if `True` all Citations from the core (those of records in the RecordCollection) and the _nodeType_ is `'full'` all nodes from the core will be given info strings composed of information from the Record objects themselves. This is Equivalent to passing the list: `['AF', 'PY', 'TI', 'SO', 'VL', 'BP']`.
+        > default `True`, if `True` all Citations from the core (those of records in the RecordCollection) and the _nodeType_ is `'full'` all nodes from the core will be given info strings composed of information from the Record objects themselves. This is Equivalent to passing the list: `['AF', 'PY', 'TI', 'SO', 'VL', 'BP']`.
 
         > If _detailedCore_ is an iterable (That evaluates to `True`) of WOS Tags (or long names) The values  of those tags will be used to make the info attribute. All
 

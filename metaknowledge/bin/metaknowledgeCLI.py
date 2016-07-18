@@ -175,6 +175,7 @@ def getWhatToDo(clargs, inRC):
             else:
                 cites += [str(c) + '\n' for c in R.get('citations', [])]
         fName = getOutputName(clargs, '.csv')
+        cites = set(cites)
         print("Writing {}".format(fName))
         with open(fName, 'w') as f:
             f.writelines(cites)

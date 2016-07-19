@@ -1283,7 +1283,7 @@ def makeNodeTuple(citation, idVal, nodeInfo, fullInfo, nodeType, count, coreCite
             if coreValues:
                 if citation in coreCitesDict:
                     R = coreCitesDict[citation]
-                    d['ID'] = R.id
+                    d['MK-ID'] = R.id
                     if not detailedValues:
                         infoVals = []
                         for tag in coreValues:
@@ -1304,7 +1304,7 @@ def makeNodeTuple(citation, idVal, nodeInfo, fullInfo, nodeType, count, coreCite
                                 d[tag] = v
                     d['inCore'] = True
                 else:
-                    d['ID'] = 'None'
+                    d['MK-ID'] = 'None'
                     d['info'] = citation.allButDOI()
                     d['inCore'] = False
             else:

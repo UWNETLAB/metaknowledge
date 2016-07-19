@@ -526,7 +526,7 @@ class CollectionWithIDs(Collection):
     def glimpse(self, *tags, outputFile = None):
         return _glimpse(self, *tags)
 
-    def rankedSeries(self, tag, outputFile = None, giveCounts = True, giveRanks = False, greatestFirst = True):
+    def rankedSeries(self, tag, outputFile = None, giveCounts = True, giveRanks = False, greatestFirst = True, pandasMode = False, limitTo = None):
         if giveRanks and giveCounts:
             raise mkException("rankedSeries cannot return counts and ranks only one of giveRanks or giveCounts can be True.")
         seriesDict = {}
@@ -539,6 +539,8 @@ class CollectionWithIDs(Collection):
             if not isinstance(val, list):
                 val = [val]
             for entry in val:
+                if limitTo and entry not in limitTo:
+                    continue
                 if entry in seriesDict:
                     seriesDict[entry] += 1
                 else:
@@ -549,26 +551,35 @@ class CollectionWithIDs(Collection):
                 writer = csv.writer(f, dialect = 'excel')
                 writer.writerow((str(tag), 'count'))
                 writer.writerows(seriesList)
-        if giveCounts:
+        if giveCounts and not pandasMode:
             return seriesList
-        elif giveRanks:
+        elif giveRanks or pandasMode:
             if not greatestFirst:
                 seriesList.reverse()
             currentCount = seriesList[0][1]
             currentRank = 1
             retList = []
+            panDict = {'entry' : [], 'count' : [], 'rank' : []}
             for valString, count in seriesList:
                 if currentCount > count:
                     currentRank += 1
                     currentCount = count
-                retList.append((valString, currentRank))
+                if pandasMode:
+                    panDict['entry'].append(valString)
+                    panDict['count'].append(count)
+                    panDict['rank'].append(currentRank)
+                else:
+                    retList.append((valString, currentRank))
             if not greatestFirst:
                 retList.reverse()
-            return retList
+            if pandasMode:
+                return panDict
+            else:
+                return retList
         else:
             return [e for e,c in seriesList]
 
-    def timeSeries(self, tag = None, outputFile = None, giveYears = True, greatestFirst = True):
+    def timeSeries(self, tag = None, outputFile = None, giveYears = True, greatestFirst = True, limitTo = False, pandasMode = False):
         seriesDict = {}
         for R in self:
             #This should be faster than using get, since get is a wrapper for __getitem__
@@ -586,17 +597,34 @@ class CollectionWithIDs(Collection):
                 if not isinstance(val, list):
                     val = [val]
                 for entry in val:
+                    if limitTo and entry not in limitTo:
+                        continue
                     if entry in seriesDict:
-                        seriesDict[entry].add(year)
+                        try:
+                            seriesDict[entry][year] += 1
+                        except KeyError:
+                            seriesDict[entry][year] = 1
                     else:
-                        seriesDict[entry] = {year}
-        seriesList = sorted(seriesDict.items(), key = lambda x: x[1], reverse = greatestFirst)
+                        seriesDict[entry] = {year : 1}
+        if not pandasMode:
+            seriesList = []
+            for e, yd in seriesDict.items():
+                seriesList += [(e, y) for y in yd.keys()]
+            seriesList = sorted(seriesList, key = lambda x: x[1], reverse = greatestFirst)
         if outputFile is not None:
             with open(outputFile, 'w') as f:
                 writer = csv.writer(f, dialect = 'excel')
                 writer.writerow((str(tag), 'years'))
                 writer.writerows(((k,'|'.join((str(y) for y in v))) for k,v in seriesList))
-        if giveYears:
+        if pandasMode:
+            panDict = {'entry' : [], 'count' : [], 'year' : []}
+            for entry, years in seriesDict.items():
+                for year, count in years.items():
+                    panDict['entry'].append(entry)
+                    panDict['year'].append(year)
+                    panDict['count'].append(count)
+            return panDict
+        elif giveYears:
             return seriesList
         else:
             return [e for e,c in seriesList]

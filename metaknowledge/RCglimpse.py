@@ -2,63 +2,79 @@ import shutil
 import collections
 import datetime
 
-testTable = {
-    'abc' : [1,2,4,5,'657y8u98r54356754'],
-    '1234567898765' : list(range(10)),
-    'abcd' : ['1',2,4,5,'657y8u98r54356754','sdjsdhsfjsdfsd'],
-}
+from .mkExceptions import mkException
 
 glimpseTags = collections.OrderedDict([
-    ('Authors','authorsFull'),
-    ('Journals','journal'),
-    ('Cited','citations'),
+    ('Top Authors','authorsFull'),
+    ('Top Journals','journal'),
+    ('Top Cited','citations'),
     ])
 
-def _glimpse(RC):
+
+descriptionString1 = 'Columns are ranked by num. of occurrences'
+descriptionString2 = 'and are independent of one another'
+
+descriptionStringFull = descriptionString1 + ' ' + descriptionString2
+
+def _glimpse(RC, *tags):
     tColumns, tRows = tuple(shutil.get_terminal_size())
+    if len(tags) < 1:
+        targetTags = glimpseTags
+    else:
+        targetTags = {t: t for t in tags}
     #If it can't fit just go with the usual settings
-    if tColumns < 50:
+    if tColumns < 55:
         tColumns = 80
     if tRows < 6:
         tRows = 24
-    maxRows = tRows - 4
     glimpseVals = collections.OrderedDict()
-    for name, tag in glimpseTags.items():
-        glimpseVals[name] = RC.rankedSeries(tag, giveCounts = False, giveRanks = True)[:maxRows]
-    return makeHeader(RC, tColumns) + makeTable(glimpseVals, maxRows + 1, tColumns)
+    if len(descriptionStringFull) > tColumns:
+        maxRows = tRows - 7
+    else:
+        maxRows = tRows - 6
+    for name, tag in targetTags.items():
+        glimpseVals[name] = RC.rankedSeries(tag, giveCounts = False, giveRanks = True)
+    return makeHeader(RC, tColumns, targetTags) + makeTable(glimpseVals, maxRows, tColumns)
 
-def makeHeader(RC, width):
+def makeHeader(RC, width, glimpseVals):
     now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     firstLine = "{} glimpse made at: {}".format(type(RC).__name__, now)
-    return '{1:+^{0}}\n'.format(width, firstLine)
+    secondLine = "{} Records from {}".format(len(RC), RC.name[:30])
+    if len(descriptionStringFull) > width - 2:
+        thirdLine = '|{1:+<{0}}|\n|{2:+<{0}}|\n'.format(width - 2, descriptionString1, descriptionString2)
+    else:
+        thirdLine = '|{1:+<{0}}|\n'.format(width - 2,descriptionStringFull)
+    return '+{2:+<{0}}\n|{3:+<{1}}|\n{4}'.format(width - 1, width - 2, firstLine, secondLine, thirdLine)
 
 def makeTable(values, height, width):
     lines = [[] for i in range(height + 1)]
+    firstRowString = "|{}" + "+{}" * (len(values) - 1) + '|'
     rowString = "|{}" * len(values) + '|'
-    cWidth = (width / len(values)) - 1
+    cWidth = (width // len(values)) - 1
     cRemainder = width % len(values) - 1
-    for heading, rows in values.items():
+    for title, rows in values.items():
         if cRemainder > 0:
-            heading = "{1: ^{0}}".format(cWidth + 1, heading)
+            heading = "{1:-^{0}}".format(cWidth + 1, title)
             cRemainder -= 1
-        elif cRemainder < 1:
-            heading = "{1: ^{0}}".format(cWidth - 1, heading)
+        elif cRemainder < 0:
+            heading = "{1:-^{0}}".format(cWidth - 1, title)
             cRemainder += 1
         else:
-            heading = "{1: ^{0}}".format(cWidth, heading)
+            heading = "{1:-^{0}}".format(cWidth, title)
         hWidth = len(heading)
         lines[0].append(heading)
         if len(rows) < height:
             for i in range(height - len(rows)):
                 rows.append(('NA', -1))
-        for index, entry in enumerate((prepEntry(*s, hWidth) for s in rows[:height]), start = 1):
+        for index, entry in enumerate((prepEntry(hWidth, *s) for s in rows[:height]), start = 1):
             lines[index].append(entry)
     retLines = []
-    for line in lines:
+    retLines.append(firstRowString.format(*tuple(lines[0])))
+    for line in lines[1:]:
         retLines.append(rowString.format(*tuple(line)))
     return '\n'.join(retLines)
 
-def prepEntry(valString, rank, maxLength):
+def prepEntry(maxLength, valString, rank):
     valString = str(valString)
     if len(valString) <= maxLength - 2:
         valString = valString.rjust(maxLength - 2, ' ')

@@ -14,7 +14,7 @@ import networkx as nx
 
 from .progressBar import _ProgressBar
 
-#from .RCglimpse import _glimpse
+from .RCglimpse import _glimpse
 
 from .constants import __version__
 
@@ -523,8 +523,8 @@ class CollectionWithIDs(Collection):
             tags |= set(i.keys())
         return tags
 
-    #def glimpse(self):
-    #    return _glimpse(self)
+    def glimpse(self, *tags, outputFile = None):
+        return _glimpse(self, *tags)
 
     def rankedSeries(self, tag, outputFile = None, giveCounts = True, giveRanks = False, greatestFirst = True):
         if giveRanks and giveCounts:

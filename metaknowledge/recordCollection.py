@@ -299,11 +299,11 @@ class RecordCollection(CollectionWithIDs):
         else:
             baseFileName = "{}.csv".format(self.name[:200])
         if numAuthors:
-            csvWriterFields = retrievedFields + ["numAuthors"]
+            csvWriterFields = retrievedFields + ["num-Authors"]
         else:
             csvWriterFields = retrievedFields
         if genderCounts:
-            csvWriterFields += ['num-Male', 'num-Female', 'num-Unkown']
+            csvWriterFields += ['num-Male', 'num-Female', 'num-Unknown']
         if splitByTag is None:
             f = open(baseFileName, mode = 'w', encoding = 'utf-8')
             csvWriter = csv.DictWriter(f, csvWriterFields, delimiter = csvDelimiter, quotechar = csvQuote, quoting=csv.QUOTE_ALL)
@@ -331,9 +331,9 @@ class RecordCollection(CollectionWithIDs):
                 else:
                     recDict[t] = str(value)
             if numAuthors:
-                recDict["numAuthors"] = len(R.get('authorsShort', []))
+                recDict["num-Authors"] = len(R.get('authorsShort', []))
             if genderCounts:
-                recDict['num-Male'], recDict['num-Female'], recDict['num-Unkown'] = R.authGenders(_countsTuple = True)
+                recDict['num-Male'], recDict['num-Female'], recDict['num-Unknown'] = R.authGenders(_countsTuple = True)
             if splitByTag:
                 for sTag in splitVal:
                     if sTag in filesDict:
@@ -451,7 +451,7 @@ class RecordCollection(CollectionWithIDs):
         if numAuthors:
             retDict["num-Authors"] = []
         if genderCounts:
-            retDict.update({'num-Male' : [], 'num-Female' : [], 'num-Unkown' : []})
+            retDict.update({'num-Male' : [], 'num-Female' : [], 'num-Unknown' : []})
         for R in self:
             if numAuthors:
                 retDict["num-Authors"].append(len(R.get('authorsShort', [])))
@@ -459,7 +459,7 @@ class RecordCollection(CollectionWithIDs):
                 m, f, u = R.authGenders(_countsTuple = True)
                 retDict['num-Male'].append(m)
                 retDict['num-Female'].append(f)
-                retDict['num-Unkown'].append(u)
+                retDict['num-Unknown'].append(u)
             for k, v in R.subDict(retrievedFields, raw = raw).items():
                 retDict[k].append(v)
         return retDict

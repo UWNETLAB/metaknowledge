@@ -586,7 +586,7 @@ class RecordCollection(CollectionWithIDs):
         else:
             return list(set(retCites))
 
-    def coAuthNetwork(self, detailedInfo = False, weighted = True, dropNonJournals = False, count = True):
+    def networkCoAuthor(self, detailedInfo = False, weighted = True, dropNonJournals = False, count = True):
         """Creates a coauthorship network for the RecordCollection.
 
         # Parameters
@@ -599,7 +599,7 @@ class RecordCollection(CollectionWithIDs):
 
         > For each of the selected tags an attribute will be added to the node using the values of those tags on the first `Record` encountered. **Warning** iterating over `RecordCollection` objects is not deterministic the first `Record` will not always be same between runs. The node will be given attributes with the names of the WOS tags for each of the selected tags. The attributes will contain strings of containing the values (with commas removed), if multiple values are encountered they will be comma separated.
 
-        > Note: _detailedInfo_ is not identical to the _detailedCore_ argument of [`Recordcollection.coCiteNetwork()`](#RecordCollection.coCiteNetwork) or [`Recordcollection.citationNetwork()`](#RecordCollection.citationNetwork)
+        > Note: _detailedInfo_ is not identical to the _detailedCore_ argument of [`Recordcollection.networkCoCitation()`](#RecordCollection.networkCoCitation) or [`Recordcollection.networkCitation()`](#RecordCollection.networkCitation)
 
         _weighted_ : `optional [bool]`
 
@@ -687,7 +687,7 @@ class RecordCollection(CollectionWithIDs):
                 PBar.finish("Done making a co-authorship network from {}".format(self))
         return grph
 
-    def coCiteNetwork(self, dropAnon = True, nodeType = "full", nodeInfo = True, fullInfo = False, weighted = True, dropNonJournals = False, count = True, keyWords = None, detailedCore = True, detailedCoreAttributes = False, coreOnly = False, expandedCore = False):
+    def networkCoCitation(self, dropAnon = True, nodeType = "full", nodeInfo = True, fullInfo = False, weighted = True, dropNonJournals = False, count = True, keyWords = None, detailedCore = True, detailedCoreAttributes = False, coreOnly = False, expandedCore = False):
         """Creates a co-citation network for the RecordCollection.
 
         # Parameters
@@ -732,7 +732,7 @@ class RecordCollection(CollectionWithIDs):
 
         > The resultant string is the values of each tag, with commas removed, seperated by `', '`, just like the info given by non-core Citations. Note that for tags like `'AF'` that return lists only the first entry in the list will be used. Also a second attribute is created for all nodes called inCore wich is a boolean describing if the node is in the core or not.
 
-        > Note: _detailedCore_  is not identical to the _detailedInfo_ argument of [`Recordcollection.coAuthNetwork()`](#RecordCollection.coAuthNetwork)
+        > Note: _detailedCore_  is not identical to the _detailedInfo_ argument of [`Recordcollection.networkCoAuthor()`](#RecordCollection.networkCoAuthor)
 
         _coreOnly_ : `optional [bool]`
 
@@ -792,7 +792,7 @@ class RecordCollection(CollectionWithIDs):
         return tmpgrph
 
 
-    def citationNetwork(self, dropAnon = False, nodeType = "full", nodeInfo = True, fullInfo = False, weighted = True, dropNonJournals = False, count = True, directed = True, keyWords = None, detailedCore = True, detailedCoreAttributes = False, coreOnly = False, expandedCore = False, recordToCite = True):
+    def networkCitation(self, dropAnon = False, nodeType = "full", nodeInfo = True, fullInfo = False, weighted = True, dropNonJournals = False, count = True, directed = True, keyWords = None, detailedCore = True, detailedCoreAttributes = False, coreOnly = False, expandedCore = False, recordToCite = True):
 
         """Creates a citation network for the RecordCollection.
 
@@ -842,7 +842,7 @@ class RecordCollection(CollectionWithIDs):
 
         > The resultant string is the values of each tag, with commas removed, seperated by `', '`, just like the info given by non-core Citations. Note that for tags like `'AF'` that return lists only the first entry in the list will be used. Also a second attribute is created for all nodes called inCore wich is a boolean describing if the node is in the core or not.
 
-        > Note: _detailedCore_  is not identical to the _detailedInfo_ argument of [`Recordcollection.coAuthNetwork()`](#RecordCollection.coAuthNetwork)
+        > Note: _detailedCore_  is not identical to the _detailedInfo_ argument of [`Recordcollection.networkCoAuthor()`](#RecordCollection.networkCoAuthor)
 
         _coreOnly_ : `optional [bool]`
 

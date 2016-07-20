@@ -29,7 +29,7 @@ class TestProQuest(unittest.TestCase):
                 self.assertIsInstance(v, (str, list, int))
 
     def test_graphs(self):
-        self.assertEqual(metaknowledge.graphStats(self.RC.nModeNetwork(self.RC.tags())), "The graph has 1928 nodes, 50890 edges, 0 isolates, 114 self loops, a density of 0.0273952 and a transitivity of 0.0815136")
+        self.assertEqual(metaknowledge.graphStats(self.RC.networkMultiMode(self.RC.tags())), "The graph has 1928 nodes, 50890 edges, 0 isolates, 114 self loops, a density of 0.0273952 and a transitivity of 0.0815136")
 
     def test_write(self):
         #No writer currently implemented

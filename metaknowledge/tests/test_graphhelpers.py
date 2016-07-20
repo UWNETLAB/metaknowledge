@@ -15,7 +15,7 @@ class TestHelpers(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.RCmain = metaknowledge.RecordCollection("metaknowledge/tests/testFile.isi")
-        cls.Gmain = cls.RCmain.coCiteNetwork()
+        cls.Gmain = cls.RCmain.networkCoCitation()
 
     def setUp(self):
         metaknowledge.VERBOSE_MODE = False
@@ -32,7 +32,7 @@ class TestHelpers(unittest.TestCase):
 
     def test_tnetWriter(self):
         fName = fileShortName + "_tnet.csv"
-        G = self.RC.twoModeNetwork('AF', 'WC', edgeAttribute = 'PY')
+        G = self.RC.networkTwoMode('AF', 'WC', edgeAttribute = 'PY')
         metaknowledge.writeTnetFile(G, fName, 'type', weighted = True, timeString = 'key')
         self.assertAlmostEqual(os.path.getsize(fName), 1220, delta=100)
         os.remove(fName)
@@ -79,8 +79,8 @@ class TestHelpers(unittest.TestCase):
     def test_mergeGraphs(self):
         RC1 = self.RC.yearSplit(0,1978)
         RC2 = self.RC.yearSplit(1979,10000)
-        G1 = RC1.coCiteNetwork()
-        G2 = RC2.coCiteNetwork()
+        G1 = RC1.networkCoCitation()
+        G2 = RC2.networkCoCitation()
         metaknowledge.mergeGraphs(G1,G2)
         for node, attr in G1.nodes_iter(data = True):
             self.assertEqual(self.G.node[node]['count'], attr['count'])

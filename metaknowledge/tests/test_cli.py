@@ -29,7 +29,7 @@ class TestCLI(unittest.TestCase):
     def setUpClass(cls):
         cls.sysArgs = sys.argv
         cls.RCmain = metaknowledge.RecordCollection("metaknowledge/tests/testFile.isi")
-        cls.Gmain = cls.RCmain.coAuthNetwork()
+        cls.Gmain = cls.RCmain.networkCoAuthor()
 
     def setUp(self):
         self.RC = self.RCmain.copy()

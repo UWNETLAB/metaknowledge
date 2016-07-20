@@ -687,14 +687,14 @@ class CollectionWithIDs(Collection):
             PBar.finish("Done extracting the co-occurrences of '{}' and '{}'".format(keyTag, "','".join(countedTags)))
         return occurenceDict
 
-    def nLevelNetwork(self, *modes, nodeCount = True, edgeWeight = True, stemmer = None, edgeAttribute = None, nodeAttribute = None, _networkTypeString = 'n-level network'):
-        """Creates a network of the objects found by any number of tags _modes_, with edges between all co-occurring values. IF you only want edges between co-occurring values from different tags use [`nModeNetwork()`](#metaknowledge.nModeNetwork).
+    def networkMultiLevel(self, *modes, nodeCount = True, edgeWeight = True, stemmer = None, edgeAttribute = None, nodeAttribute = None, _networkTypeString = 'n-level network'):
+        """Creates a network of the objects found by any number of tags _modes_, with edges between all co-occurring values. IF you only want edges between co-occurring values from different tags use [`networkMultiMode()`](#metaknowledge.networkMultiMode).
 
-        A **nLevelNetwork**() looks are each entry in the collection and extracts its values for the tag given by each of the _modes_, e.g. the `'authorsFull'` tag. Then if multiple are returned an edge is created between them. So in the case of the author tag `'authorsFull'` a co-authorship network is created. Then for each other tag the entries are also added and edges between the first tag's node and theirs are created.
+        A **networkMultiLevel**() looks are each entry in the collection and extracts its values for the tag given by each of the _modes_, e.g. the `'authorsFull'` tag. Then if multiple are returned an edge is created between them. So in the case of the author tag `'authorsFull'` a co-authorship network is created. Then for each other tag the entries are also added and edges between the first tag's node and theirs are created.
 
         The number of times each object occurs is count if _nodeCount_ is `True` and the edges count the number of co-occurrences if _edgeWeight_ is `True`. Both are`True` by default.
 
-        **Note** Do not use this for the construction of co-citation networks use [Recordcollection.coCiteNetwork()](#RecordCollection.coCiteNetwork) it is more accurate and has more options.
+        **Note** Do not use this for the construction of co-citation networks use [Recordcollection.networkCoCitation()](#RecordCollection.networkCoCitation) it is more accurate and has more options.
 
         # Parameters
 
@@ -845,14 +845,14 @@ class CollectionWithIDs(Collection):
         return grph
 
 
-    def oneModeNetwork(self, mode, nodeCount = True, edgeWeight = True, stemmer = None, edgeAttribute = None, nodeAttribute = None):
-        """Creates a network of the objects found by one tag _mode_. This is the same as [`nLevelNetwork()`](#metaknowledge.nLevelNetwork) with only one tag.
+    def networkOneMode(self, mode, nodeCount = True, edgeWeight = True, stemmer = None, edgeAttribute = None, nodeAttribute = None):
+        """Creates a network of the objects found by one tag _mode_. This is the same as [`networkMultiLevel()`](#metaknowledge.networkMultiLevel) with only one tag.
 
-        A **oneModeNetwork**() looks are each entry in the collection and extracts its values for the tag given by _mode_, e.g. the `'authorsFull'` tag. Then if multiple are returned an edge is created between them. So in the case of the author tag `'authorsFull'` a co-authorship network is created.
+        A **networkOneMode**() looks are each entry in the collection and extracts its values for the tag given by _mode_, e.g. the `'authorsFull'` tag. Then if multiple are returned an edge is created between them. So in the case of the author tag `'authorsFull'` a co-authorship network is created.
 
         The number of times each object occurs is count if _nodeCount_ is `True` and the edges count the number of co-occurrences if _edgeWeight_ is `True`. Both are`True` by default.
 
-        **Note** Do not use this for the construction of co-citation networks use [Recordcollection.coCiteNetwork()](#RecordCollection.coCiteNetwork) it is more accurate and has more options.
+        **Note** Do not use this for the construction of co-citation networks use [Recordcollection.networkCoCitation()](#RecordCollection.networkCoCitation) it is more accurate and has more options.
 
         # Parameters
 
@@ -880,12 +880,12 @@ class CollectionWithIDs(Collection):
 
         > A networkx Graph with the objects of the tag _mode_ as nodes and their co-occurrences as edges
         """
-        return self.nLevelNetwork(mode, nodeCount = nodeCount, edgeWeight = edgeWeight, stemmer = stemmer, edgeAttribute = edgeAttribute, nodeAttribute = nodeAttribute, _networkTypeString = 'one mode network')
+        return self.networkMultiLevel(mode, nodeCount = nodeCount, edgeWeight = edgeWeight, stemmer = stemmer, edgeAttribute = edgeAttribute, nodeAttribute = nodeAttribute, _networkTypeString = 'one mode network')
 
-    def twoModeNetwork(self, tag1, tag2, directed = False, recordType = True, nodeCount = True, edgeWeight = True, stemmerTag1 = None, stemmerTag2 = None, edgeAttribute = None):
+    def networkTwoMode(self, tag1, tag2, directed = False, recordType = True, nodeCount = True, edgeWeight = True, stemmerTag1 = None, stemmerTag2 = None, edgeAttribute = None):
         """Creates a network of the objects found by two WOS tags _tag1_ and _tag2_, each node marked by which tag spawned it making the resultant graph bipartite.
 
-        A **twoModeNetwork()** looks at each Record in the `RecordCollection` and extracts its values for the tags given by _tag1_ and _tag2_, e.g. the `'WC'` and `'LA'` tags. Then for each object returned by each tag and edge is created between it and every other object of the other tag. So the WOS defined subject tag `'WC'` and language tag `'LA'`, will give a two-mode network showing the connections between subjects and languages. Each node will have an attribute call `'type'` that gives the tag that created it or both if both created it, e.g. the node `'English'` would have the type attribute be `'LA'`.
+        A **networkTwoMode()** looks at each Record in the `RecordCollection` and extracts its values for the tags given by _tag1_ and _tag2_, e.g. the `'WC'` and `'LA'` tags. Then for each object returned by each tag and edge is created between it and every other object of the other tag. So the WOS defined subject tag `'WC'` and language tag `'LA'`, will give a two-mode network showing the connections between subjects and languages. Each node will have an attribute call `'type'` that gives the tag that created it or both if both created it, e.g. the node `'English'` would have the type attribute be `'LA'`.
 
         The number of times each object occurs is count if _nodeCount_ is `True` and the edges count the number of co-occurrences if _edgeWeight_ is `True`. Both are`True` by default.
 
@@ -1059,10 +1059,10 @@ class CollectionWithIDs(Collection):
                 PBar.finish("Done making a two mode network of " + tag1 + " and " + tag2)
         return grph
 
-    def nModeNetwork(self, *tags, recordType = True, nodeCount = True, edgeWeight = True, stemmer = None, edgeAttribute = None):
+    def networkMultiMode(self, *tags, recordType = True, nodeCount = True, edgeWeight = True, stemmer = None, edgeAttribute = None):
         """Creates a network of the objects found by all tags in _tags_, each node is marked by which tag spawned it making the resultant graph n-partite.
 
-        A **nModeNetwork()** looks are each item in the collection and extracts its values for the tags given by _tags_. Then for all objects returned an edge is created between them, regardless of their type. Each node will have an attribute call `'type'` that gives the tag that created it or both if both created it, e.g. if `'LA'` were in _tags_ node `'English'` would have the type attribute be `'LA'`.
+        A **networkMultiMode()** looks are each item in the collection and extracts its values for the tags given by _tags_. Then for all objects returned an edge is created between them, regardless of their type. Each node will have an attribute call `'type'` that gives the tag that created it or both if both created it, e.g. if `'LA'` were in _tags_ node `'English'` would have the type attribute be `'LA'`.
 
         For example if _tags_ was set to `['CR', 'UT', 'LA']`, a three mode network would be created, composed of a co-citation network from the `'CR'` tag. Then each citation would also have edges to all the languages of Records that cited it and to the WOS number of the those Records.
 

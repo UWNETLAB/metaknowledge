@@ -224,12 +224,12 @@ def getNetwork(clargs, inRC):
     if netID == 1:
         otg = Tag("What is the tag to use for the network? ", inRC)
         print("Generating a network using the {0} tag.".format(otg), inRC)
-        return inRC.oneModeNetwork(otg)
+        return inRC.networkOneMode(otg)
     elif netID == 2:
         tg1 = Tag("What is the first tag to use for the network? ", inRC)
         tg2 = Tag("And the second tag? ", inRC)
         print("Generating a network using the {0} and {1} tags.".format(tg1, tg2))
-        return inRC.twoModeNetwork(tg1, tg2)
+        return inRC.networkTwoMode(tg1, tg2)
     elif netID == 3:
         tgs = []
         tgs.append(Tag("What is the first tag to use for the network? ", inRC))
@@ -238,16 +238,16 @@ def getNetwork(clargs, inRC):
             tgs.append(innertag)
             innertag = Tag("And the next tag (leave blank to continue)? ", inRC, nMode = True)
         print("Generating a network using the {0} and {1} tags".format(', '.join(tgs[:-1]), tgs[-1]))
-        return inRC.nModeNetwork(tgs)
+        return inRC.networkMultiMode(tgs)
     elif netID == 4:
         print("Generating citation network")
-        return inRC.citationNetwork()
+        return inRC.networkCitation()
     elif netID == 5:
         print("Generating co-citation network")
-        return inRC.coCiteNetwork()
+        return inRC.networkCoCitation()
     else:
         print("Generating co-authorship network")
-        return inRC.coAuthNetwork()
+        return inRC.networkCoAuthor()
 
 def getThresholds(clargs, grph):
     thresDict = collections.OrderedDict([

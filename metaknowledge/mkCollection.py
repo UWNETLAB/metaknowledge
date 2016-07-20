@@ -617,11 +617,10 @@ class CollectionWithIDs(Collection):
                 writer.writerows(((k,'|'.join((str(y) for y in v))) for k,v in seriesDict.items()))
         if pandasMode:
             panDict = {'entry' : [], 'count' : [], 'year' : []}
-            for entry, years in seriesList:
-                for year, count in seriesDict[entry].items():
-                    panDict['entry'].append(entry)
-                    panDict['year'].append(year)
-                    panDict['count'].append(count)
+            for entry, year in seriesList:
+                panDict['entry'].append(entry)
+                panDict['year'].append(year)
+                panDict['count'].append(seriesDict[entry][year])
             return panDict
         elif giveYears:
             return seriesList

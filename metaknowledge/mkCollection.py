@@ -526,7 +526,7 @@ class CollectionWithIDs(Collection):
     def glimpse(self, *tags, outputFile = None):
         return _glimpse(self, *tags)
 
-    def rankedSeries(self, tag, outputFile = None, giveCounts = True, giveRanks = False, greatestFirst = True, pandasMode = False, limitTo = None):
+    def rankedSeries(self, tag, outputFile = None, giveCounts = True, giveRanks = False, greatestFirst = True, pandasMode = True, limitTo = None):
         if giveRanks and giveCounts:
             raise mkException("rankedSeries cannot return counts and ranks only one of giveRanks or giveCounts can be True.")
         seriesDict = {}
@@ -579,7 +579,7 @@ class CollectionWithIDs(Collection):
         else:
             return [e for e,c in seriesList]
 
-    def timeSeries(self, tag = None, outputFile = None, giveYears = True, greatestFirst = True, limitTo = False, pandasMode = False):
+    def timeSeries(self, tag = None, outputFile = None, giveYears = True, greatestFirst = True, limitTo = False, pandasMode = True):
         seriesDict = {}
         for R in self:
             #This should be faster than using get, since get is a wrapper for __getitem__
@@ -588,7 +588,7 @@ class CollectionWithIDs(Collection):
             except KeyError:
                 continue
             if tag is None:
-                seriesDict[R] = {year}
+                seriesDict[R] = {year : 1}
             else:
                 try:
                     val = R[tag]
@@ -606,20 +606,19 @@ class CollectionWithIDs(Collection):
                             seriesDict[entry][year] = 1
                     else:
                         seriesDict[entry] = {year : 1}
-        if not pandasMode:
-            seriesList = []
-            for e, yd in seriesDict.items():
-                seriesList += [(e, y) for y in yd.keys()]
-            seriesList = sorted(seriesList, key = lambda x: x[1], reverse = greatestFirst)
+        seriesList = []
+        for e, yd in seriesDict.items():
+            seriesList += [(e, y) for y in yd.keys()]
+        seriesList = sorted(seriesList, key = lambda x: x[1], reverse = greatestFirst)
         if outputFile is not None:
             with open(outputFile, 'w') as f:
                 writer = csv.writer(f, dialect = 'excel')
                 writer.writerow((str(tag), 'years'))
-                writer.writerows(((k,'|'.join((str(y) for y in v))) for k,v in seriesList))
+                writer.writerows(((k,'|'.join((str(y) for y in v))) for k,v in seriesDict.items()))
         if pandasMode:
             panDict = {'entry' : [], 'count' : [], 'year' : []}
-            for entry, years in seriesDict.items():
-                for year, count in years.items():
+            for entry, years in seriesList:
+                for year, count in seriesDict[entry].items():
                     panDict['entry'].append(entry)
                     panDict['year'].append(year)
                     panDict['count'].append(count)

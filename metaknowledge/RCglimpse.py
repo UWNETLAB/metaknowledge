@@ -33,7 +33,7 @@ def _glimpse(RC, *tags):
     else:
         maxRows = tRows - 6
     for name, tag in targetTags.items():
-        glimpseVals[name] = RC.rankedSeries(tag, giveCounts = False, giveRanks = True)
+        glimpseVals[name] = RC.rankedSeries(tag, giveCounts = False, giveRanks = True, pandasMode = False)
     return makeHeader(RC, tColumns, targetTags) + makeTable(glimpseVals, maxRows, tColumns)
 
 def makeHeader(RC, width, glimpseVals):

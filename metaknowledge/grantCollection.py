@@ -135,3 +135,6 @@ class GrantCollection(CollectionWithIDs):
                 PBar.finish("Done making a GrantCollection of {} Grants".format(len(self)))
             except AttributeError:
                 PBar.finish("Done making a GrantCollection. Warning an error occured.")
+
+    def networkCoInvestigator(self, *args, **kwargs):
+        pass

@@ -560,6 +560,15 @@ class RecordCollection(CollectionWithIDs):
 
         return retDict
 
+    def forTopicModel(self, *args, **kwargs):
+        pass
+
+    def forBurst(self, *args, **kwargs):
+        pass
+
+    def networkBibCoupling(self, *args, **kwargs):
+        pass
+
     def genderStats(self, asFractions = False):
         maleCount = 0
         femaleCount = 0

@@ -238,11 +238,11 @@ class TestRecordCollection(unittest.TestCase):
             os.remove(filename)
         self.RC.writeCSV(filename, onlyTheseTags=['UT', 'PT', 'TI', 'AF','J9' ,'CR', 'pubMedID'], firstTags = ['CR', 'UT', 'J9', 'citations'], csvDelimiter = '∂', csvQuote='≠', listDelimiter= '«', longNames=True, numAuthors = False)
         self.assertTrue(os.path.isfile(filename))
-        self.assertEqual(os.path.getsize(filename), 106350)
+        self.assertEqual(os.path.getsize(filename), 107396)
         os.remove(filename)
         self.RC.writeCSV(filename)
         self.assertTrue(os.path.isfile(filename))
-        self.assertEqual(os.path.getsize(filename), 88837)
+        self.assertEqual(os.path.getsize(filename), 89272)
         os.remove(filename)
         self.RC.writeCSV(splitByTag = 'PY', onlyTheseTags = ['id', 'title', 'authorsFull', 'citations', 'keywords', 'DOI'])
         yearsSt = set()
@@ -250,7 +250,7 @@ class TestRecordCollection(unittest.TestCase):
             yearsSt.add(str(R.get('PY', 2012)))
         for year in yearsSt:
             f = open("{}-testFile.csv".format(year))
-            self.assertEqual(f.readline(), '"id","TI","AF","CR","ID","DI","numAuthors"\n')
+            self.assertEqual(f.readline(), '"id","TI","AF","CR","ID","DI","num-Authors","num-Male","num-Female","num-Unknown"\n')
             self.assertGreater(len(f.readline()), 1)
             f.close()
             os.remove("{}-testFile.csv".format(year))
@@ -278,7 +278,7 @@ class TestRecordCollection(unittest.TestCase):
 
     def test_makeDict(self):
         d = self.RC.makeDict(onlyTheseTags = list(metaknowledge.WOS.tagsAndNameSet), longNames = True)
-        self.assertEqual(len(d), 62)
+        self.assertEqual(len(d), 65)
         self.assertEqual(len(d['wosString']), len(self.RC))
         if d['eISSN'][0] == '2155-3165':
             self.assertEqual(d['eISSN'][1], None)
@@ -286,7 +286,7 @@ class TestRecordCollection(unittest.TestCase):
             self.assertEqual(d['eISSN'][0], None)
         self.assertIsInstance(d['citations'], list)
         d = self.RC.makeDict(longNames = False, raw = True, numAuthors = False)
-        self.assertEqual(len(d), 42)
+        self.assertEqual(len(d), 45)
         self.assertEqual(len(d['UT']), len(self.RC))
         self.assertIsInstance(d['CR'], list)
 
@@ -357,7 +357,7 @@ class TestRecordCollection(unittest.TestCase):
             self.assertEqual(len(Gjour.edges()), 432)
             self.assertTrue('info' in Gjour.nodes(data=True)[0][1])
         self.assertTrue('info' in Gyear.nodes(data=True)[0][1])
-        self.assertEqual(Gcore.node['Gilles H, 2002, OPT LETT']['info'], 'Gilles H, Simple technique for measuring the Goos-Hanchen effect with polarization modulation and a position-sensitive detector, OPTICS LETTERS, 27, 1421')
+        self.assertEqual(Gcore.node['Gilles H, 2002, OPT LETT']['info'], 'WOS:000177484300017, Gilles H, Simple technique for measuring the Goos-Hanchen effect with polarization modulation and a position-sensitive detector, OPTICS LETTERS, 27, 1421')
         self.assertEqual(metaknowledge.graphStats(Gexplode), "The graph has 19 nodes, 29 edges, 0 isolates, 3 self loops, a density of 0.0847953 and a transitivity of 0.132075")
 
     def test_coOccurnce(self):

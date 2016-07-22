@@ -464,7 +464,7 @@ class RecordCollection(CollectionWithIDs):
                 retDict[k].append(v)
         return retDict
 
-    def rpys(self, minYear = 1000, maxYear = 2100, dropYears = None):
+    def rpys(self, minYear = None, maxYear = None, dropYears = None):
         """This implements _Referenced Publication Years Spectroscopy_ a techinique for finding import years in citation data. The authors of the original papers have a website with more information, found [here](http://www.leydesdorff.net/software/rpys/).
 
         This function computes the spectra of the `RecordCollection` and returns a dictionary mapping strings to lists of `ints`. Each list is ordered and the values of each with the same index form a row and each list a column. The strings are the names of the columns. This is intended to be read directly by pandas `DataFrames`.
@@ -526,37 +526,47 @@ class RecordCollection(CollectionWithIDs):
                     continue
                 else:
                     #need the extra years for the normlization
-                    if cYear > (maxYear + 2) or cYear < (minYear - 2):
+                    if (maxYear is not None and cYear > (maxYear + 2)) or (minYear is not None and cYear < (minYear - 2)):
                         continue
                 if cYear in yearCounts:
                     yearCounts[cYear] += 1
                 else:
                     yearCounts[cYear] = 1
 
-        if min(yearCounts.keys()) > minYear and minYear == 1000:
-            minYear = min(yearCounts.keys())
-        if max(yearCounts.keys()) < maxYear and maxYear == 2100:
-            maxYear = max(yearCounts.keys())
-        targetYears = set(range(minYear, maxYear + 1))
+        if minYear is None:
+            smallest = min(yearCounts.keys())
+            if smallest > 1000:
+                minYear = smallest
+        if maxYear is None:
+            biggest = max(yearCounts.keys())
+            if biggest < 2100:
+                maxYear = biggest
+
+        targetYears = set(( i for i in range(minYear, maxYear + 1) if i not in dropYears))
 
         ranks = {}
-        for rank, yTuple in enumerate(sorted(((yR, vR) for yR, vR in yearCounts.items() if yR in targetYears), key = lambda x: x[1], reverse = False), start = 1):
-            ranks[yTuple[0]] = rank
+        yearDeviances = {}
 
         for y in targetYears:
             try:
                 c = yearCounts[y]
             except KeyError:
                 c = 0
-            if y > maxYear or y < minYear:
-                continue
+            yearDeviances[y] = deviation(y, c, yearCounts)
+
+        for rank, year in enumerate(sorted(yearDeviances.items(), key = lambda x: x[1], reverse = False), start = 1):
+            ranks[year[0]] = rank
+
+        for y in targetYears:
+            try:
+                c = yearCounts[y]
+            except KeyError:
+                c = 0
+
+            retDict['rank'].append(ranks[y])
+            retDict['abs-deviation'].append(yearDeviances[y])
             retDict['year'].append(y)
             retDict['count'].append(c)
-            try:
-                retDict['rank'].append(ranks[y])
-            except KeyError:
-                retDict['rank'].append(0)
-            retDict['abs-deviation'].append(deviation(y, c, yearCounts))
 
         return retDict
 

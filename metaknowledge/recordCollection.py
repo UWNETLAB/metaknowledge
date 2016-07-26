@@ -4,6 +4,7 @@ import os
 import os.path
 import csv
 import pickle
+import re
 try:
     import collections.abc
 except ImportError:
@@ -67,7 +68,7 @@ class RecordCollection(CollectionWithIDs):
 
     > _metaknowledge_ saves the names of the parsed files as well as their last modification times and will check these when recreating the `RecordCollection`, so modifying existing files or adding new ones will result in the entire directory being reanalyzed and a new cache file being created. The extension given to **__init__**() is taken into account as well and each suffix is given its own cache.
 
-    > **Note** The pickle allows for arbitrary python code exicution so only use caches that you trust.
+    > **Note** The pickle allows for arbitrary python code execution so only use caches that you trust.
     """
 
     def __init__(self, inCollection = None, name = '', extension = '', cached = False, quietStart = False):
@@ -407,6 +408,57 @@ class RecordCollection(CollectionWithIDs):
             pass
     """
 
+    def forTopicModel(self, outputFile, extraColumns = None, drop = None, toLower = True, removeNumbers = True, removeDelimeters = True, removeWhitespace = True, delimeter = '|', stemmer = None):
+
+        code = []
+        if removeDelimeters:
+            code.append(r'\W')
+        if removeNumbers:
+            code.append(r'\d')
+        if removeWhitespace:
+            code.append(r'\s')
+        if drop is not None:
+            code += list(drop)
+
+        regex = re.compile("([{}])|([ ]+)|({})".format(delimeter,'|'.join(code)))
+
+        def reRepl(matchobj):
+            if matchobj.group(1) or matchobj.group(3):
+                return ''
+            else:
+                return '|'
+
+        def abPrep(s):
+            s = re.sub(regex, reRepl, s, count = 0)
+            if toLower:
+                s = s.lower()
+            if stemmer is not None:
+                newS = []
+                for word in s.split(delimeter):
+                    newS.append(stemmer(word))
+                s = delimeter.join(newS)
+            return s
+
+        csvLst = []
+        if extraColumns is None:
+            extraColumns = []
+        for R in self:
+            retDict = {'id' : R.id}
+            retDict['abstract']= abPrep(R.get('abstract', ''))
+            retDict['title'] = R.get('title', '')
+            for extraTag in extraColumns:
+                e = R.get(extra)
+                if isinstance(e, list):
+                    e = delimeter.join((str(s) for s in e))
+                retDict[extraTag] = e
+            csvLst.append(retDict)
+        with open(outputFile, 'w') as f:
+            fieldNames = ['id', 'abstract', 'title'] + list(extraColumns)
+            writer = csv.DictWriter(f, fieldNames)
+            writer.writeheader()
+            for row in csvLst:
+                writer.writerow(row)
+
     def makeDict(self, onlyTheseTags = None, longNames = False, raw = False, numAuthors = True, genderCounts = True):
         """Returns a dict with each key a tag and the values being lists of the values for each of the Records in the collection, `None` is given when there is no value and they are in the same order across each tag.
 
@@ -570,8 +622,6 @@ class RecordCollection(CollectionWithIDs):
 
         return retDict
 
-    def forTopicModel(self, *args, **kwargs):
-        pass
 
     def forBurst(self, *args, **kwargs):
         pass

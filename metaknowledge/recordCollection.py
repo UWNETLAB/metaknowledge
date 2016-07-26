@@ -408,44 +408,46 @@ class RecordCollection(CollectionWithIDs):
             pass
     """
 
-    def forTopicModel(self, outputFile, extraColumns = None, drop = None, toLower = True, removeNumbers = True, removeDelimeters = True, removeWhitespace = True, delimeter = '|', stemmer = None):
+    def forTopicModel(self, outputFile, extraColumns = None, drop = None, toLower = True, removeNumbers = True, removeDelimeters = True, delimeter = ' ', stemmer = None):
 
         code = []
         if removeDelimeters:
             code.append(r'\W')
         if removeNumbers:
             code.append(r'\d')
-        if removeWhitespace:
-            code.append(r'\s')
-        if drop is not None:
-            code += list(drop)
 
-        regex = re.compile("([{}])|([ ]+)|({})".format(delimeter,'|'.join(code)))
+        dropRegex = re.compile("|".join(code))
+        tokenizeRegex = re.compile(r"[\s]+")
 
         def reRepl(matchobj):
-            if matchobj.group(1) or matchobj.group(3):
-                return ''
+            if matchobj.group(1):
+                return delimeter
             else:
-                return '|'
+                return ''
 
         def abPrep(s):
-            s = re.sub(regex, reRepl, s, count = 0)
             if toLower:
                 s = s.lower()
-            if stemmer is not None:
-                newS = []
-                for word in s.split(delimeter):
-                    newS.append(stemmer(word))
-                s = delimeter.join(newS)
-            return s
+            s = re.sub(tokenizeRegex, '|', s, count = 0).split('|')
+            newS = []
+            for word in s:
+                word = re.sub(dropRegex, '', word, count = 0)
+                if stemmer is not None:
+                    word = stemmer(word)
+                if word in drop:
+                    continue
+                if len(word) > 0:
+                    newS.append(word)
+            return delimeter.join(newS)
 
         csvLst = []
         if extraColumns is None:
             extraColumns = []
         for R in self:
-            retDict = {'id' : R.id}
-            retDict['abstract']= abPrep(R.get('abstract', ''))
-            retDict['title'] = R.get('title', '')
+            retDict = {'id' : R.id, 'year' : R.get('year', '')}
+            retDict['abstract']= abPrep(R.get('AB', ''))
+            retDict['title'] = abPrep(R.get('title', ''))
+            retDict['keywords'] = delimeter.join(R.get('keywords', []))
             for extraTag in extraColumns:
                 e = R.get(extra)
                 if isinstance(e, list):
@@ -453,7 +455,7 @@ class RecordCollection(CollectionWithIDs):
                 retDict[extraTag] = e
             csvLst.append(retDict)
         with open(outputFile, 'w') as f:
-            fieldNames = ['id', 'abstract', 'title'] + list(extraColumns)
+            fieldNames = ['id', 'abstract', 'title', 'year', 'keywords'] + list(extraColumns)
             writer = csv.DictWriter(f, fieldNames)
             writer.writeheader()
             for row in csvLst:

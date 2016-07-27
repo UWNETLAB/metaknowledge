@@ -408,58 +408,83 @@ class RecordCollection(CollectionWithIDs):
             pass
     """
 
-    def forTopicModel(self, outputFile, extraColumns = None, drop = None, toLower = True, removeNumbers = True, removeDelimeters = True, delimeter = ' ', stemmer = None):
+    def forNLP(self, outputFile = None, extraColumns = None, dropList = None, lower = True, removeNumbers = True, removeNonWords = True, removeWhitespace = True, extractCopyright = True, stemmer = None):
 
-        code = []
-        if removeDelimeters:
-            code.append(r'\W')
+        whiteSpaceRegex = re.compile(r'\s+')
         if removeNumbers:
-            code.append(r'\d')
-
-        dropRegex = re.compile("|".join(code))
-        tokenizeRegex = re.compile(r"[\s]+")
-
-        def reRepl(matchobj):
-            if matchobj.group(1):
-                return delimeter
+            if removeNonWords:
+                otherString = r"[\W\d]"
+            else:
+                otherString = r"\d"
+        elif removeNonWords:
+            otherString = r"\W"
+        else:
+            otherString = ''
+        def otherRepl(r):
+            if r.group(0) == ' ':
+                return ' '
             else:
                 return ''
+        otherDropsRegex = re.compile(otherString)
 
-        def abPrep(s):
-            if toLower:
-                s = s.lower()
-            s = re.sub(tokenizeRegex, '|', s, count = 0).split('|')
-            newS = []
-            for word in s:
-                word = re.sub(dropRegex, '', word, count = 0)
-                if stemmer is not None:
-                    word = stemmer(word)
-                if word in drop:
-                    continue
-                if len(word) > 0:
-                    newS.append(word)
-            return delimeter.join(newS)
+        def abPrep(abst):
+            if removeWhitespace:
+                abst = re.sub(whiteSpaceRegex, lambda x: ' ', abst, count = 0)
+            if extractCopyright:
+                sSplit = abst.split('(C)')
+                if len(sSplit) > 1:
+                    copyright = sSplit[-1]
+                    abst = '(C)'.join(sSplit[:-1])
+                else:
+                    copyright = ''
+            else:
+                copyright = ''
+            if lower:
+                abst = abst.lower()
+            abst = re.sub(otherDropsRegex, otherRepl, abst, count = 0)
+            if stemmer is not None or dropList is not None:
+                sTokens = abst.split(' ')
+                retTokens = []
+                for token in sTokens:
+                    if stemmer is not None:
+                        token = stemmer(token)
+                    if token in dropList:
+                        continue
+                    retTokens.append(token)
+                abst = ' '.join(retTokens)
+            return abst, copyright
 
-        csvLst = []
+        retDict = {'id' : [], 'year' : [], 'title' : [], 'keywords' : [], 'abstract' : []}
+        if extractCopyright:
+            retDict['copyright'] = []
         if extraColumns is None:
             extraColumns = []
+        for column in extraColumns:
+            retDict[column] = []
         for R in self:
-            retDict = {'id' : R.id, 'year' : R.get('year', '')}
-            retDict['abstract']= abPrep(R.get('AB', ''))
-            retDict['title'] = abPrep(R.get('title', ''))
-            retDict['keywords'] = delimeter.join(R.get('keywords', []))
+            abstract, copyright = abPrep(R.get('AB', ''))
+
+            retDict['id'].append(R.id)
+            retDict['year'].append(R.get('year', ''))
+            retDict['title'].append(R.get('title', ''))
+            retDict['keywords'].append('|'.join(R.get('keywords', [])))
+            retDict['abstract'].append(abstract)
+            if extractCopyright:
+                retDict['copyright'].append(copyright)
             for extraTag in extraColumns:
                 e = R.get(extra)
                 if isinstance(e, list):
-                    e = delimeter.join((str(s) for s in e))
-                retDict[extraTag] = e
-            csvLst.append(retDict)
-        with open(outputFile, 'w') as f:
-            fieldNames = ['id', 'abstract', 'title', 'year', 'keywords'] + list(extraColumns)
-            writer = csv.DictWriter(f, fieldNames)
-            writer.writeheader()
-            for row in csvLst:
-                writer.writerow(row)
+                    e = '|'.join((str(s) for abst in e))
+                retDict[extraTag].append(e)
+
+        if outputFile is not None:
+            with open(outputFile, 'w') as f:
+                fieldNames = retDict.keys()
+                writer = csv.DictWriter(f, fieldNames)
+                writer.writeheader()
+                for row in range(len(retDict)):
+                    writer.writerow({k : retDict[k][row] for k in retDict.keys()})
+        return retDict
 
     def makeDict(self, onlyTheseTags = None, longNames = False, raw = False, numAuthors = True, genderCounts = True):
         """Returns a dict with each key a tag and the values being lists of the values for each of the Records in the collection, `None` is given when there is no value and they are in the same order across each tag.

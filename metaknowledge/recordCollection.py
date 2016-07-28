@@ -440,6 +440,14 @@ class RecordCollection(CollectionWithIDs):
         otherDropsRegex = re.compile(otherString)
 
         def abPrep(abst):
+            if dropList is not None:
+                import pdb;pdb.set_trace()
+                #incase a drop string is on the edge
+                abst = " {} ".format(abst.replace('\n', ' '))
+                for dropS in (" {} ".format(s) for s in dropList):
+                    if dropS in abst:
+                        abst = abst.replace(dropS, ' ')
+                abst = abst[1:-1]
             if removeWhitespace:
                 abst = re.sub(whiteSpaceRegex, lambda x: ' ', abst, count = 0)
             if extractCopyright:
@@ -454,14 +462,12 @@ class RecordCollection(CollectionWithIDs):
             if lower:
                 abst = abst.lower()
             abst = re.sub(otherDropsRegex, otherRepl, abst, count = 0)
-            if stemmer is not None or dropList is not None:
+            if stemmer is not None:
                 sTokens = abst.split(' ')
                 retTokens = []
                 for token in sTokens:
                     if stemmer is not None:
                         token = stemmer(token)
-                    if token in dropList:
-                        continue
                     retTokens.append(token)
                 abst = ' '.join(retTokens)
             return abst, copyright

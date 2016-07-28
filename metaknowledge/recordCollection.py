@@ -415,9 +415,9 @@ class RecordCollection(CollectionWithIDs):
             abSplit = abS.split('(C) ')
             if len(abSplit) > 1:
                 if includeC:
-                    retCopyrights.add('(C) ' + abSplit[-1])
+                    retCopyrights.add('(C) ' + abSplit[-1].rstrip())
                 else:
-                   retCopyrights.add(abSplit[-1])
+                   retCopyrights.add(abSplit[-1].rstrip())
         return list(retCopyrights)
 
     def forNLP(self, outputFile = None, extraColumns = None, dropList = None, lower = True, removeNumbers = True, removeNonWords = True, removeWhitespace = True, extractCopyright = False, stemmer = None):

@@ -409,6 +409,20 @@ class RecordCollection(CollectionWithIDs):
     """
 
     def findProbableCopyright(self, includeC = True):
+        """Finds the (likely) copyright string from all abstracts in the `RecordCollection`
+
+        # Parameters
+
+        _includeC_ : `optional bool`
+
+        > Default `True`, if `True` the `'(C) '` will be included with the strings.
+
+        # Returns
+
+        `list[str]`
+
+        > A deduplicated list of all the copyright strings
+        """
         retCopyrights = set()
         for R in self:
             abS = R.get('abstract', '')
@@ -421,7 +435,9 @@ class RecordCollection(CollectionWithIDs):
         return list(retCopyrights)
 
     def forNLP(self, outputFile = None, extraColumns = None, dropList = None, lower = True, removeNumbers = True, removeNonWords = True, removeWhitespace = True, extractCopyright = False, stemmer = None):
+        """Creates a pandas friendly dictionary with each row a `Record` in the `RecordCollection`. The
 
+        """
         whiteSpaceRegex = re.compile(r'\s+')
         if removeNumbers:
             if removeNonWords:
@@ -441,7 +457,6 @@ class RecordCollection(CollectionWithIDs):
 
         def abPrep(abst):
             if dropList is not None:
-                import pdb;pdb.set_trace()
                 #incase a drop string is on the edge
                 abst = " {} ".format(abst.replace('\n', ' '))
                 for dropS in (" {} ".format(s) for s in dropList):

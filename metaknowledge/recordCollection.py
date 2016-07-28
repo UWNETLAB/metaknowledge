@@ -487,6 +487,9 @@ class RecordCollection(CollectionWithIDs):
                 abst = ' '.join(retTokens)
             return abst, copyright
 
+        if metaknowledge.VERBOSE_MODE:
+            pass
+
         retDict = {'id' : [], 'year' : [], 'title' : [], 'keywords' : [], 'abstract' : []}
         if extractCopyright:
             retDict['copyright'] = []
@@ -515,7 +518,7 @@ class RecordCollection(CollectionWithIDs):
                 fieldNames = retDict.keys()
                 writer = csv.DictWriter(f, fieldNames)
                 writer.writeheader()
-                for row in range(len(retDict)):
+                for row in range(len(retDict['id'])):
                     writer.writerow({k : retDict[k][row] for k in retDict.keys()})
         return retDict
 

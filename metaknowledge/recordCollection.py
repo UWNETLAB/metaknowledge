@@ -408,7 +408,19 @@ class RecordCollection(CollectionWithIDs):
             pass
     """
 
-    def forNLP(self, outputFile = None, extraColumns = None, dropList = None, lower = True, removeNumbers = True, removeNonWords = True, removeWhitespace = True, extractCopyright = True, stemmer = None):
+    def findProbableCopyright(self, includeC = False):
+        retCopyrights = set()
+        for R in self:
+            abS = R.get('abstract', '')
+            abSplit = abS.split('(C) ')
+            if len(abSplit) > 1:
+                if includeC:
+                    retCopyrights.add('(C) ' + abSplit[-1])
+                else:
+                   retCopyrights.add(abSplit[-1])
+        return list(retCopyrights)
+
+    def forNLP(self, outputFile = None, extraColumns = None, dropList = None, lower = True, removeNumbers = True, removeNonWords = True, removeWhitespace = True, extractCopyright = False, stemmer = None):
 
         whiteSpaceRegex = re.compile(r'\s+')
         if removeNumbers:
@@ -431,10 +443,10 @@ class RecordCollection(CollectionWithIDs):
             if removeWhitespace:
                 abst = re.sub(whiteSpaceRegex, lambda x: ' ', abst, count = 0)
             if extractCopyright:
-                sSplit = abst.split('(C)')
+                sSplit = abst.split('(C) ')
                 if len(sSplit) > 1:
                     copyright = sSplit[-1]
-                    abst = '(C)'.join(sSplit[:-1])
+                    abst = '(C) '.join(sSplit[:-1])
                 else:
                     copyright = ''
             else:

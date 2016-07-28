@@ -408,7 +408,7 @@ class RecordCollection(CollectionWithIDs):
             pass
     """
 
-    def findProbableCopyright(self, includeC = False):
+    def findProbableCopyright(self, includeC = True):
         retCopyrights = set()
         for R in self:
             abS = R.get('abstract', '')

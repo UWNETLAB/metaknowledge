@@ -276,6 +276,28 @@ class TestRecordCollection(unittest.TestCase):
             for i in v:
                 self.assertIsInstance(i, int)
 
+    def test_CopyrightFinder(self):
+        l = self.RC.findProbableCopyright()
+        self.assertEqual(len(l), 7)
+        for c in l:
+            self.assertEqual(c[:4], '(C) ')
+        l = self.RC.findProbableCopyright(includeC = False)
+        self.assertTrue("2005 Optical Society of America." in l)
+
+    def test_NLP(self):
+        filename = 'NLP_test.csv'
+        full = self.RC.forNLP(filename, extractCopyright = True, extraColumns = ['ID'])
+        self.assertEqual(len(full), 7)
+        self.assertEqual(len(full['id']), 33)
+        self.assertEqual(full['keywords'][0], full['ID'][0])
+        self.assertEqual(os.path.getsize(filename), 14419)
+        os.remove(filename)
+        dropping = self.RC.forNLP(filename,removeNumbers = False, dropList = ['a', 'and', 'the', 'is'], stemmer = lambda x: x.title())
+        self.assertEqual(len(dropping), 5)
+        self.assertEqual(len(dropping['id']), 33)
+        self.assertEqual(os.path.getsize(filename), 12901)
+        os.remove(filename)
+
     def test_makeDict(self):
         d = self.RC.makeDict(onlyTheseTags = list(metaknowledge.WOS.tagsAndNameSet), longNames = True)
         self.assertEqual(len(d), 65)

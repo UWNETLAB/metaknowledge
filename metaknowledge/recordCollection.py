@@ -431,12 +431,49 @@ class RecordCollection(CollectionWithIDs):
                 if includeC:
                     retCopyrights.add('(C) ' + abSplit[-1].rstrip())
                 else:
-                   retCopyrights.add(abSplit[-1].rstrip())
+                    retCopyrights.add(abSplit[-1].rstrip())
         return list(retCopyrights)
 
     def forNLP(self, outputFile = None, extraColumns = None, dropList = None, lower = True, removeNumbers = True, removeNonWords = True, removeWhitespace = True, extractCopyright = False, stemmer = None):
-        """Creates a pandas friendly dictionary with each row a `Record` in the `RecordCollection`. The
+        """Creates a pandas friendly dictionary with each row a `Record` in the `RecordCollection` and the columns fields natural language processing uses (id, title, publication year, keywords and the abstract). The abstract is by default is processed to remove non-word, non-space characters and the case is lowered.
 
+        # Parameters
+
+        _outputFile_ : `optional str`
+
+        > default `None`, if a file path is given a csv of the returned data will be written
+
+        _extraColumns_ : `optional list[str]`
+
+        > default `None`, if a list of tags is given each of the tag's values for a `Record` will be added to the output(s)
+
+        _dropList_ : `optional list[str]`
+
+        > default `None`, if a list of strings is provided they will be dropped from the output's abstracts. The matching is case sensitive and done before any other processing. The strings will only be dropped if they are surrounded on both sides with spaces (`' '`) so if `dropList = ['a']` then `'a cat'` will become `'cat'`.
+
+        _lower_ : `optional bool`
+
+        > default `True`, if `True` the abstract will made to lower case
+
+        _removeNumbers_ : `optional bool`
+
+        > default `True`, if `True` all numbers will be removed
+
+        _removeNonWords_ : `optional bool`
+
+        > default `True`, if `True` all non-number non-number characters will be removed
+
+        _removeWhitespace_ : `optional bool`
+
+        > default `True`, if `True` all whitespace will be converted to a single space (`' '`)
+
+        _extractCopyright_ : `optional bool`
+
+        > default `False`, if `True` the copyright statement at the end of the abstract will be removed and added to a new column. Note this is heuristic based and will not work for all papers.
+
+        _stemmer_ : `optional func`
+
+        > default `None`, if a function is provided it will be run on each individual word in the abstract and the output will replace it. For example to use the  `PorterStemmer` in the _nltk_ package you would give `nltk.PorterStemmer().stem` 
         """
         whiteSpaceRegex = re.compile(r'\s+')
         if removeNumbers:
@@ -468,12 +505,12 @@ class RecordCollection(CollectionWithIDs):
             if extractCopyright:
                 sSplit = abst.split('(C) ')
                 if len(sSplit) > 1:
-                    copyright = sSplit[-1]
+                    copyrightString = sSplit[-1]
                     abst = '(C) '.join(sSplit[:-1])
                 else:
-                    copyright = ''
+                    copyrightString = ''
             else:
-                copyright = ''
+                copyrightString = ''
             if lower:
                 abst = abst.lower()
             abst = re.sub(otherDropsRegex, otherRepl, abst, count = 0)
@@ -485,7 +522,7 @@ class RecordCollection(CollectionWithIDs):
                         token = stemmer(token)
                     retTokens.append(token)
                 abst = ' '.join(retTokens)
-            return abst, copyright
+            return abst, copyrightString
 
         if metaknowledge.VERBOSE_MODE:
             pass
@@ -498,7 +535,7 @@ class RecordCollection(CollectionWithIDs):
         for column in extraColumns:
             retDict[column] = []
         for R in self:
-            abstract, copyright = abPrep(R.get('AB', ''))
+            abstract, copyrightString = abPrep(R.get('AB', ''))
 
             retDict['id'].append(R.id)
             retDict['year'].append(R.get('year', ''))
@@ -506,16 +543,23 @@ class RecordCollection(CollectionWithIDs):
             retDict['keywords'].append('|'.join(R.get('keywords', [])))
             retDict['abstract'].append(abstract)
             if extractCopyright:
-                retDict['copyright'].append(copyright)
+                retDict['copyright'].append(copyrightString)
             for extraTag in extraColumns:
-                e = R.get(extra)
+                e = R.get(extraTag)
                 if isinstance(e, list):
-                    e = '|'.join((str(s) for abst in e))
+                    e = '|'.join((str(s) for s in e))
+                elif e is None:
+                    e = ''
                 retDict[extraTag].append(e)
 
         if outputFile is not None:
             with open(outputFile, 'w') as f:
-                fieldNames = retDict.keys()
+                fieldNames = list(retDict.keys())
+                fieldNames.remove('id')
+                fieldNames.remove('title')
+                fieldNames.remove('year')
+                fieldNames.remove('keywords')
+                fieldNames = ['id', 'year', 'title', 'keywords'] + fieldNames
                 writer = csv.DictWriter(f, fieldNames)
                 writer.writeheader()
                 for row in range(len(retDict['id'])):

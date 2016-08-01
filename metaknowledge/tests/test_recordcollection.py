@@ -279,10 +279,8 @@ class TestRecordCollection(unittest.TestCase):
     def test_CopyrightFinder(self):
         l = self.RC.findProbableCopyright()
         self.assertEqual(len(l), 7)
-        for c in l:
-            self.assertEqual(c[:4], '(C) ')
-        l = self.RC.findProbableCopyright(includeC = False)
-        self.assertTrue("2005 Optical Society of America." in l)
+        l = self.RC.findProbableCopyright()
+        self.assertTrue(' (C) 2002 Optical Society of America.' in l)
 
     def test_NLP(self):
         filename = 'NLP_test.csv'
@@ -290,7 +288,8 @@ class TestRecordCollection(unittest.TestCase):
         self.assertEqual(len(full), 7)
         self.assertEqual(len(full['id']), 33)
         self.assertEqual(full['keywords'][0], full['ID'][0])
-        self.assertEqual(os.path.getsize(filename), 14419)
+        self.assertTrue(' (C) 2002 Optical Society of America.' in full['copyright'])
+        self.assertEqual(os.path.getsize(filename), 14445)
         os.remove(filename)
         dropping = self.RC.forNLP(filename,removeNumbers = False, dropList = ['a', 'and', 'the', 'is'], stemmer = lambda x: x.title())
         self.assertEqual(len(dropping), 5)

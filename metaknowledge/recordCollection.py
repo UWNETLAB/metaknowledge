@@ -408,14 +408,8 @@ class RecordCollection(CollectionWithIDs):
             pass
     """
 
-    def findProbableCopyright(self, includeC = True):
+    def findProbableCopyright(self):
         """Finds the (likely) copyright string from all abstracts in the `RecordCollection`
-
-        # Parameters
-
-        _includeC_ : `optional bool`
-
-        > Default `True`, if `True` the `'(C) '` will be included with the strings.
 
         # Returns
 
@@ -425,13 +419,9 @@ class RecordCollection(CollectionWithIDs):
         """
         retCopyrights = set()
         for R in self:
-            abS = R.get('abstract', '')
-            abSplit = abS.split('(C) ')
-            if len(abSplit) > 1:
-                if includeC:
-                    retCopyrights.add('(C) ' + abSplit[-1].rstrip())
-                else:
-                    retCopyrights.add(abSplit[-1].rstrip())
+            begin, abS = findCopyright(R.get('abstract', ''))
+            if abS != '':
+                retCopyrights.add(abS)
         return list(retCopyrights)
 
     def forNLP(self, outputFile = None, extraColumns = None, dropList = None, lower = True, removeNumbers = True, removeNonWords = True, removeWhitespace = True, extractCopyright = False, stemmer = None):
@@ -473,7 +463,7 @@ class RecordCollection(CollectionWithIDs):
 
         _stemmer_ : `optional func`
 
-        > default `None`, if a function is provided it will be run on each individual word in the abstract and the output will replace it. For example to use the  `PorterStemmer` in the _nltk_ package you would give `nltk.PorterStemmer().stem` 
+        > default `None`, if a function is provided it will be run on each individual word in the abstract and the output will replace it. For example to use the  `PorterStemmer` in the _nltk_ package you would give `nltk.PorterStemmer().stem`
         """
         whiteSpaceRegex = re.compile(r'\s+')
         if removeNumbers:
@@ -485,6 +475,7 @@ class RecordCollection(CollectionWithIDs):
             otherString = r"\W"
         else:
             otherString = ''
+
         def otherRepl(r):
             if r.group(0) == ' ':
                 return ' '
@@ -503,12 +494,7 @@ class RecordCollection(CollectionWithIDs):
             if removeWhitespace:
                 abst = re.sub(whiteSpaceRegex, lambda x: ' ', abst, count = 0)
             if extractCopyright:
-                sSplit = abst.split('(C) ')
-                if len(sSplit) > 1:
-                    copyrightString = sSplit[-1]
-                    abst = '(C) '.join(sSplit[:-1])
-                else:
-                    copyrightString = ''
+                abst, copyrightString = findCopyright(abst)
             else:
                 copyrightString = ''
             if lower:
@@ -526,6 +512,7 @@ class RecordCollection(CollectionWithIDs):
 
         if metaknowledge.VERBOSE_MODE:
             pass
+            #TODO: Add this
 
         retDict = {'id' : [], 'year' : [], 'title' : [], 'keywords' : [], 'abstract' : []}
         if extractCopyright:
@@ -1549,3 +1536,23 @@ def expandRecs(G, RecCollect, nodeType, weighted):
                                 G.add_edge(citeID1, citeID2, weight = 1)
                         for e1, e2, data in G.edges_iter(citeID1, data = True):
                             G.add_edge(citeID2, e2, attr_dict = data)
+
+def findCopyright(inS):
+    possibleHits = ['. &COPY; ', '. Crown Copyright',' Elsevier Ltd. ', '. Copyright', '. Published by Els', '. (c) ', '. (C) ']
+    splitString = False
+    for target in possibleHits:
+        if target in inS:
+            splitString = target
+            break
+    if not splitString:
+        regexHit = re.search(r'([.] [(]?(c|C)[)]? \d\d\d\d )|([.] \d\d\d\d Elsevier)', inS)
+        if regexHit:
+            splitString = regexHit.group(0)
+    if splitString:
+        copSplit = inS.split(splitString)
+        if '.' == splitString[0]:
+            return splitString.join(copSplit[:-1]) + '.', splitString[1:] + copSplit[-1].rstrip()
+        else:
+            return splitString.join(copSplit[:-1]), splitString + copSplit[-1].rstrip()
+    else:
+        return inS, ''

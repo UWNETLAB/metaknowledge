@@ -720,9 +720,6 @@ class RecordCollection(CollectionWithIDs):
     def forBurst(self, *args, **kwargs):
         pass
 
-    def networkBibCoupling(self, *args, **kwargs):
-        pass
-
     def genderStats(self, asFractions = False):
         maleCount = 0
         femaleCount = 0
@@ -955,7 +952,7 @@ class RecordCollection(CollectionWithIDs):
         return tmpgrph
 
 
-    def networkCitation(self, dropAnon = False, nodeType = "full", nodeInfo = True, fullInfo = False, weighted = True, dropNonJournals = False, count = True, directed = True, keyWords = None, detailedCore = True, detailedCoreAttributes = False, coreOnly = False, expandedCore = False, recordToCite = True):
+    def networkCitation(self, dropAnon = False, nodeType = "full", nodeInfo = True, fullInfo = False, weighted = True, dropNonJournals = False, count = True, directed = True, keyWords = None, detailedCore = True, detailedCoreAttributes = False, coreOnly = False, expandedCore = False, recordToCite = True, _quiet = False):
 
         """Creates a citation network for the RecordCollection.
 
@@ -1039,7 +1036,7 @@ class RecordCollection(CollectionWithIDs):
             tmpgrph = nx.Graph()
         pcount = 0
         progArgs = (0, "Starting to make a citation network")
-        if metaknowledge.VERBOSE_MODE:
+        if metaknowledge.VERBOSE_MODE and not _quiet:
             progKwargs = {'dummy' : False}
         else:
             progKwargs = {'dummy' : True}
@@ -1068,9 +1065,46 @@ class RecordCollection(CollectionWithIDs):
                 if PBar:
                     PBar.updateVal(.98, "Expanding core Records")
                 expandRecs(tmpgrph, self, nodeType, weighted)
-            if PBar:
-                PBar.finish("Done making a citation network from {}".format(self))
+            PBar.finish("Done making a citation network from {}".format(self))
         return tmpgrph
+
+    def networkBibCoupling(self, weighted = True, fullInfo = False):
+        progArgs = (0, "Make a citation network for coupling")
+        if metaknowledge.VERBOSE_MODE:
+            progKwargs = {'dummy' : False}
+        else:
+            progKwargs = {'dummy' : True}
+        with _ProgressBar(*progArgs, **progKwargs) as PBar:
+            citeGrph = self.networkCitation(weighted = False, directed = True, detailedCore = True, fullInfo = fullInfo, count = False, nodeInfo = True, _quiet = True)
+            pcount = 0
+            pmax = len(citeGrph)
+            PBar.updateVal(.2, "Starting to classify nodes")
+            workingGrph = nx.Graph()
+            couplingSet = set()
+            for n, d in citeGrph.nodes_iter(data = True):
+                pcount += 1
+                PBar.updateVal(.2 + .4 * (pcount / pmax), "Classifying: {}".format(n))
+                if d['inCore']:
+                    workingGrph.add_node(n, d)
+                if citeGrph.in_degree(n) > 0:
+                    couplingSet.add(n)
+            pcount = 0
+            pmax = len(couplingSet)
+            for n in couplingSet:
+                PBar.updateVal(.6 + .4 * (pcount / pmax), "Coupling: {}".format(n))
+                citesLst = citeGrph.in_edges(n)
+                for i, edgeOuter in enumerate(citesLst):
+                    outerNode = edgeOuter[1]
+                    for edgeInner in citesLst[i + 1:]:
+                        innerNode = edgeInner[1]
+                        if weighted and  workingGrph.has_edge(outerNode, innerNode):
+                            workingGrph.edge[outerNode][innerNode]['weight'] += 1
+                        elif weighted:
+                            workingGrph.add_edge(outerNode, innerNode, weight = 1)
+                        else:
+                            workingGrph.add_edge(outerNode, innerNode)
+            PBar.finish("Done making a bib-coupling network from {}".format(self))
+        return workingGrph
 
     def _extractTagged(self, taglist):
         recordsWithTags = set()

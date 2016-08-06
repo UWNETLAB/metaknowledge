@@ -19,6 +19,10 @@ class NSFGrant(Grant):
             idValue = "NSF:{}".format(grantdDict.get('AwardID'))
         Grant.__init__(self, originalName, grantdDict, idValue, bad, error, sFile = sFile, sLine = 1)
 
+    def getInvestigators(self):
+        #By default we don't know whcich field has the investigators
+        return [s.split('; ')[0] for s in self.get('Investigator', [])]
+
 def isNSFfile(fileName, useFileName = True):
     if useFileName and not os.path.basename(fileName).endswith('.xml'):
         return False
@@ -61,10 +65,27 @@ def parserNSFfile(fileName):
                     if 'Division' not in grantDict:
                         grantDict['Division'] = []
                     grantDict['Division'].append('; '.join(divisionVal))
+        for invest in top.findall('Investigator'):
+            name = []
+            other = []
+            for subElement in invest:
+                if subElement.text is None:
+                    pass
+                elif subElement.tag == 'FirstName':
+                    name.insert(0, subElement.text)
+                elif subElement.tag == 'LastName':
+                    name.append(subElement.text)
+                else:
+                    other.append(subElement.text)
+            investString = "{}; {}".format(' '.join(name), ', '.join(other))
+            if 'Investigator' in grantDict:
+                grantDict['Investigator'].append(investString)
+            else:
+                grantDict['Investigator'] = [investString]
         for xmlElement in top:
-            if xmlElement.tag == 'Organization':
-                pass
-            if len(xmlElement) < 1:
+            if xmlElement.tag == 'Organization' or xmlElement.tag == 'Investigator':
+                continue
+            elif len(xmlElement) < 1:
                 grantDict[xmlElement.tag] = xmlElement.text
             else:
                 if xmlElement.tag not in grantDict:

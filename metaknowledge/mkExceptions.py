@@ -43,6 +43,9 @@ class RecordsNotCompatible(mkException):
 class JournalDataBaseError(mkException):
     pass
 
+class GenderException(mkException):
+    pass
+
 class cacheError(mkException):
     """Exception raised when loading a cached RecordCollection fails, should only be seen inside metaknowledge and always be caught."""
     pass

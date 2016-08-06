@@ -16,6 +16,18 @@ class NSERCGrant(Grant):
             idValue = "NSERC:{}".format(grantdDict.get('Cle', ''))
         Grant.__init__(self, original, grantdDict, idValue, bad, error, sFile = sFile, sLine = sLine)
 
+    def update(self, other):
+        for field, value in other._fieldDict.items():
+            if value == '':
+                continue
+            elif self._fieldDict.get(field, '') == '':
+                self._fieldDict[field] = value
+            else:
+                self._fieldDict[field] += "; {}".format(value)
+
+    def getInvestigators(self):
+        return self.get('CoApplicantName-NomCoApplicant', '').split('; ')
+
 def isNSERCfile(fileName, useFileName = True):
     if useFileName and not os.path.basename(fileName).startswith('NSERC_'):
         return False

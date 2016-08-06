@@ -29,8 +29,7 @@ class TestCLI(unittest.TestCase):
     def setUpClass(cls):
         cls.sysArgs = sys.argv
         cls.RCmain = metaknowledge.RecordCollection("metaknowledge/tests/testFile.isi")
-        cls.Gmain = cls.RCmain.coAuthNetwork()
-
+        cls.Gmain = cls.RCmain.networkCoAuthor()
 
     def setUp(self):
         self.RC = self.RCmain.copy()
@@ -89,7 +88,7 @@ class TestCLI(unittest.TestCase):
     def test_spamming(self):
         with unittest.mock.patch('builtins.print'):
             with unittest.mock.patch('builtins.input', return_value = '0') as m:
-                self.assertIsInstance(metaknowledge.bin.mkCLI(), RecursionError)
+                self.assertIsInstance(metaknowledge.bin.mkCLI(), Exception)
 
     def test_Thresholds(self):
         with unittest.mock.patch('builtins.print'):
@@ -165,14 +164,14 @@ class TestCLI(unittest.TestCase):
                 m.calledVals = ['4']
                 self.RC.dropBadEntries()
                 self.assertFalse(metaknowledge.bin.metaknowledgeCLI.getWhatToDo(named, self.RC))
-                self.assertEqual(os.path.getsize(fileName+ '.csv'), 85907)
+                self.assertEqual(os.path.getsize(fileName+ '.csv'), 86330)
                 os.remove(fileName + '.csv')
                 self.assertEqual(len(m.calledVals), 0)
 
                 m.calledVals = ['6', 'y']
                 self.RC.dropBadEntries()
                 self.assertFalse(metaknowledge.bin.metaknowledgeCLI.getWhatToDo(named, self.RC))
-                self.assertEqual(os.path.getsize(fileName+ '.csv'), 35411)
+                self.assertEqual(os.path.getsize(fileName+ '.csv'), 11132)
                 os.remove(fileName + '.csv')
                 self.assertEqual(len(m.calledVals), 0)
 

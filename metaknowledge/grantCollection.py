@@ -5,6 +5,8 @@ except ImportError:
     import collections
     collections.abc = collections
 
+import networkx as nx
+
 from .progressBar import _ProgressBar
 
 from .mkCollection import CollectionWithIDs
@@ -135,3 +137,53 @@ class GrantCollection(CollectionWithIDs):
                 PBar.finish("Done making a GrantCollection of {} Grants".format(len(self)))
             except AttributeError:
                 PBar.finish("Done making a GrantCollection. Warning an error occured.")
+
+    def networkCoInvestigator(self, count = True, weighted = True):
+        """Works for only some grant types"""
+        grph = nx.Graph()
+        pcount = 0
+        progArgs = (0, "Starting to make a co-investigator network")
+        if metaknowledge.VERBOSE_MODE:
+            progKwargs = {'dummy' : False}
+        else:
+            progKwargs = {'dummy' : True}
+        with _ProgressBar(*progArgs, **progKwargs) as PBar:
+            for G in self:
+                if PBar:
+                    pcount += 1
+                    PBar.updateVal(pcount/ len(self), "Analyzing: " + str(G))
+                investList = G.getInvestigators()
+                if len(investList) > 1:
+                    for i, invest1 in enumerate(investList):
+                        if invest1 not in grph:
+                            if count:
+                                grph.add_node(invest1, count = 1)
+                            else:
+                                grph.add_node(invest1)
+                        elif count:
+                            grph.node[invest1]['count'] += 1
+                        for invest2 in investList[i + 1:]:
+                            if invest2 not in grph:
+                                if count:
+                                    grph.add_node(invest2, count = 1)
+                                else:
+                                    grph.add_node(invest2)
+                            elif count:
+                                grph.node[invest2]['count'] += 1
+                            if grph.has_edge(invest1, invest2) and weighted:
+                                grph.edge[invest1][invest2]['weight'] += 1
+                            elif weighted:
+                                grph.add_edge(invest1, invest2, weight = 1)
+                            else:
+                                grph.add_edge(invest1, invest2)
+                elif len(investList) > 0:
+                    invest1 = investList[0]
+                    if invest1 not in grph:
+                        if count:
+                            grph.add_node(invest1, count = 1)
+                        else:
+                            grph.add_node(invest1)
+                    elif count:
+                        grph.node[invest1]['count'] += 1
+            PBar.finish("Done making a co-investigator network from {}".format(self))
+        return grph

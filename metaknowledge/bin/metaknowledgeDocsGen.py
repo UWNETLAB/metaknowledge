@@ -20,11 +20,11 @@ undocumented = 0
 blurbDict = {
     #modules
     'contour' : "A nicer matplotlib graph visualizer and contour plot",
-    'WOS' : "The functions and classes associated with the Web of Science",
+    'WOS' : "The backend functions and classes associated with the Web of Science",
     'journalAbbreviations' : "Handles the abbreviated journal names used by WOS",
-    'medline' : "The functions and classes associated with Medline, the format used by Pubmed",
-    'scopus' : "The functions and classes associated with records from scopus",
-    'proquest' : "The functions and classes associated with ProQuest",
+    'medline' : "The backend functions and classes associated with Medline, the format used by Pubmed",
+    'scopus' : "The backend functions and classes associated with records from scopus",
+    'proquest' : "The backend functions and classes associated with ProQuest",
 
     #Classes
 

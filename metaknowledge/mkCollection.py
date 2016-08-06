@@ -3,6 +3,7 @@ import pickle
 import os
 import os.path
 import math
+import csv
 try:
     import collections.abc
 except ImportError:
@@ -13,9 +14,11 @@ import networkx as nx
 
 from .progressBar import _ProgressBar
 
+from .RCglimpse import _glimpse
+
 from .constants import __version__
 
-from .mkExceptions import CollectionTypeError, cacheError, TagError
+from .mkExceptions import CollectionTypeError, cacheError, TagError, mkException
 
 import metaknowledge
 
@@ -376,6 +379,7 @@ class Collection(collections.abc.MutableSet, collections.abc.Hashable):
                 raise cacheError("Extension mismatch")
             if len(flist) != len(dat["File dict"]):
                 raise cacheError("File number mismatch")
+            flist = flist.copy()
             while len(flist) > 0:
                 workingFile = flist.pop()
                 if os.stat(workingFile).st_mtime != dat["File dict"][workingFile]:
@@ -519,6 +523,110 @@ class CollectionWithIDs(Collection):
             tags |= set(i.keys())
         return tags
 
+    def glimpse(self, *tags, outputFile = None):
+        return _glimpse(self, *tags)
+
+    def rankedSeries(self, tag, outputFile = None, giveCounts = True, giveRanks = False, greatestFirst = True, pandasMode = True, limitTo = None):
+        if giveRanks and giveCounts:
+            raise mkException("rankedSeries cannot return counts and ranks only one of giveRanks or giveCounts can be True.")
+        seriesDict = {}
+        for R in self:
+            #This should be faster than using get, since get is a wrapper for __getitem__
+            try:
+                val = R[tag]
+            except KeyError:
+                continue
+            if not isinstance(val, list):
+                val = [val]
+            for entry in val:
+                if limitTo and entry not in limitTo:
+                    continue
+                if entry in seriesDict:
+                    seriesDict[entry] += 1
+                else:
+                    seriesDict[entry] = 1
+        seriesList = sorted(seriesDict.items(), key = lambda x: x[1], reverse = greatestFirst)
+        if outputFile is not None:
+            with open(outputFile, 'w') as f:
+                writer = csv.writer(f, dialect = 'excel')
+                writer.writerow((str(tag), 'count'))
+                writer.writerows(seriesList)
+        if giveCounts and not pandasMode:
+            return seriesList
+        elif giveRanks or pandasMode:
+            if not greatestFirst:
+                seriesList.reverse()
+            currentCount = seriesList[0][1]
+            currentRank = 1
+            retList = []
+            panDict = {'entry' : [], 'count' : [], 'rank' : []}
+            for valString, count in seriesList:
+                if currentCount > count:
+                    currentRank += 1
+                    currentCount = count
+                if pandasMode:
+                    panDict['entry'].append(valString)
+                    panDict['count'].append(count)
+                    panDict['rank'].append(currentRank)
+                else:
+                    retList.append((valString, currentRank))
+            if not greatestFirst:
+                retList.reverse()
+            if pandasMode:
+                return panDict
+            else:
+                return retList
+        else:
+            return [e for e,c in seriesList]
+
+    def timeSeries(self, tag = None, outputFile = None, giveYears = True, greatestFirst = True, limitTo = False, pandasMode = True):
+        seriesDict = {}
+        for R in self:
+            #This should be faster than using get, since get is a wrapper for __getitem__
+            try:
+                year = R['year']
+            except KeyError:
+                continue
+            if tag is None:
+                seriesDict[R] = {year : 1}
+            else:
+                try:
+                    val = R[tag]
+                except KeyError:
+                    continue
+                if not isinstance(val, list):
+                    val = [val]
+                for entry in val:
+                    if limitTo and entry not in limitTo:
+                        continue
+                    if entry in seriesDict:
+                        try:
+                            seriesDict[entry][year] += 1
+                        except KeyError:
+                            seriesDict[entry][year] = 1
+                    else:
+                        seriesDict[entry] = {year : 1}
+        seriesList = []
+        for e, yd in seriesDict.items():
+            seriesList += [(e, y) for y in yd.keys()]
+        seriesList = sorted(seriesList, key = lambda x: x[1], reverse = greatestFirst)
+        if outputFile is not None:
+            with open(outputFile, 'w') as f:
+                writer = csv.writer(f, dialect = 'excel')
+                writer.writerow((str(tag), 'years'))
+                writer.writerows(((k,'|'.join((str(y) for y in v))) for k,v in seriesDict.items()))
+        if pandasMode:
+            panDict = {'entry' : [], 'count' : [], 'year' : []}
+            for entry, year in seriesList:
+                panDict['entry'].append(entry)
+                panDict['year'].append(year)
+                panDict['count'].append(seriesDict[entry][year])
+            return panDict
+        elif giveYears:
+            return seriesList
+        else:
+            return [e for e,c in seriesList]
+
     def cooccurrenceCounts(self, keyTag, *countedTags):
         """Counts the number of times values from any of the _countedTags_ occurs with _keyTag_. The counts are retuned as a dictionary with the values of _keyTag_ mapping to dictionaries with each of the _countedTags_ values mapping to thier counts.
 
@@ -578,16 +686,14 @@ class CollectionWithIDs(Collection):
             PBar.finish("Done extracting the co-occurrences of '{}' and '{}'".format(keyTag, "','".join(countedTags)))
         return occurenceDict
 
+    def networkMultiLevel(self, *modes, nodeCount = True, edgeWeight = True, stemmer = None, edgeAttribute = None, nodeAttribute = None, _networkTypeString = 'n-level network'):
+        """Creates a network of the objects found by any number of tags _modes_, with edges between all co-occurring values. IF you only want edges between co-occurring values from different tags use [`networkMultiMode()`](#metaknowledge.networkMultiMode).
 
-
-    def oneModeNetwork(self, mode, nodeCount = True, edgeWeight = True, stemmer = None, edgeAttribute = None, nodeAttribute = None):
-        """Creates a network of the objects found by one tag _mode_.
-
-        A **oneModeNetwork**() looks are each entry in the collection and extracts its values for the tag given by _mode_, e.g. the `'authorsFull'` tag. Then if multiple are returned an edge is created between them. So in the case of the author tag `'authorsFull'` a co-authorship network is created.
+        A **networkMultiLevel**() looks are each entry in the collection and extracts its values for the tag given by each of the _modes_, e.g. the `'authorsFull'` tag. Then if multiple are returned an edge is created between them. So in the case of the author tag `'authorsFull'` a co-authorship network is created. Then for each other tag the entries are also added and edges between the first tag's node and theirs are created.
 
         The number of times each object occurs is count if _nodeCount_ is `True` and the edges count the number of co-occurrences if _edgeWeight_ is `True`. Both are`True` by default.
 
-        **Note** Do not use this for the construction of co-citation networks use [Recordcollection.coCiteNetwork()](#RecordCollection.coCiteNetwork) it is more accurate and has more options.
+        **Note** Do not use this for the construction of co-citation networks use [Recordcollection.networkCoCitation()](#RecordCollection.networkCoCitation) it is more accurate and has more options.
 
         # Parameters
 
@@ -622,7 +728,7 @@ class CollectionWithIDs(Collection):
             else:
                 raise TagError("stemmer must be callable, e.g. a function or class with a __call__ method.")
         count = 0
-        progArgs = (0, "Starting to make a one mode network with {}".format(mode))
+        progArgs = (0, "Starting to make a {} from {}".format(_networkTypeString, modes))
         if metaknowledge.VERBOSE_MODE:
             progKwargs = {'dummy' : False}
         else:
@@ -640,16 +746,13 @@ class CollectionWithIDs(Collection):
                     edgeVals = [str(v) for v in R.get(edgeAttribute, [])]
                 if nodeAttribute:
                     nodeVals = [str(v) for v in R.get(nodeAttribute, [])]
-                if isinstance(mode, list):
-                    contents = []
-                    for attr in mode:
-                        tmpContents = R.get(attr, [])
-                        if isinstance(tmpContents, list):
-                            contents += tmpContents
-                        else:
-                            contents.append(tmpContents)
-                else:
-                    contents = R.get(mode)
+                contents = []
+                for attr in modes:
+                    tmpContents = R.get(attr, [])
+                    if isinstance(tmpContents, list):
+                        contents += tmpContents
+                    else:
+                        contents.append(tmpContents)
                 if contents is not None:
                     if not isinstance(contents, str) and isinstance(contents, collections.abc.Iterable):
                         if stemCheck:
@@ -737,13 +840,51 @@ class CollectionWithIDs(Collection):
                                 for nodeValue in (n for n in nodeVals if n not in currentAttrib):
                                     grph.node[nodeVal][nodeAttribute].append(nodeValue)
             if PBar:
-                PBar.finish("Done making a one mode network with {}".format(mode))
+                PBar.finish("Done making a {} from {}".format(_networkTypeString, modes))
         return grph
 
-    def twoModeNetwork(self, tag1, tag2, directed = False, recordType = True, nodeCount = True, edgeWeight = True, stemmerTag1 = None, stemmerTag2 = None, edgeAttribute = None):
+
+    def networkOneMode(self, mode, nodeCount = True, edgeWeight = True, stemmer = None, edgeAttribute = None, nodeAttribute = None):
+        """Creates a network of the objects found by one tag _mode_. This is the same as [`networkMultiLevel()`](#metaknowledge.networkMultiLevel) with only one tag.
+
+        A **networkOneMode**() looks are each entry in the collection and extracts its values for the tag given by _mode_, e.g. the `'authorsFull'` tag. Then if multiple are returned an edge is created between them. So in the case of the author tag `'authorsFull'` a co-authorship network is created.
+
+        The number of times each object occurs is count if _nodeCount_ is `True` and the edges count the number of co-occurrences if _edgeWeight_ is `True`. Both are`True` by default.
+
+        **Note** Do not use this for the construction of co-citation networks use [Recordcollection.networkCoCitation()](#RecordCollection.networkCoCitation) it is more accurate and has more options.
+
+        # Parameters
+
+        _mode_ : `str`
+
+        > A two character WOS tag or one of the full names for a tag
+
+        _nodeCount_ : `optional [bool]`
+
+        > Default `True`, if `True` each node will have an attribute called "count" that contains an int giving the number of time the object occurred.
+
+        _edgeWeight_ : `optional [bool]`
+
+        > Default `True`, if `True` each edge will have an attribute called "weight" that contains an int giving the number of time the two objects co-occurrenced.
+
+        _stemmer_ : `optional [func]`
+
+        > Default `None`, If _stemmer_ is a callable object, basically a function or possibly a class, it will be called for the ID of every node in the graph, all IDs are strings. For example:
+
+        > The function ` f = lambda x: x[0]` if given as the stemmer will cause all IDs to be the first character of their unstemmed IDs. e.g. the title `'Goos-Hanchen and Imbert-Fedorov shifts for leaky guided modes'` will create the node `'G'`.
+
+        # Returns
+
+        `networkx Graph`
+
+        > A networkx Graph with the objects of the tag _mode_ as nodes and their co-occurrences as edges
+        """
+        return self.networkMultiLevel(mode, nodeCount = nodeCount, edgeWeight = edgeWeight, stemmer = stemmer, edgeAttribute = edgeAttribute, nodeAttribute = nodeAttribute, _networkTypeString = 'one mode network')
+
+    def networkTwoMode(self, tag1, tag2, directed = False, recordType = True, nodeCount = True, edgeWeight = True, stemmerTag1 = None, stemmerTag2 = None, edgeAttribute = None):
         """Creates a network of the objects found by two WOS tags _tag1_ and _tag2_, each node marked by which tag spawned it making the resultant graph bipartite.
 
-        A **twoModeNetwork()** looks at each Record in the `RecordCollection` and extracts its values for the tags given by _tag1_ and _tag2_, e.g. the `'WC'` and `'LA'` tags. Then for each object returned by each tag and edge is created between it and every other object of the other tag. So the WOS defined subject tag `'WC'` and language tag `'LA'`, will give a two-mode network showing the connections between subjects and languages. Each node will have an attribute call `'type'` that gives the tag that created it or both if both created it, e.g. the node `'English'` would have the type attribute be `'LA'`.
+        A **networkTwoMode()** looks at each Record in the `RecordCollection` and extracts its values for the tags given by _tag1_ and _tag2_, e.g. the `'WC'` and `'LA'` tags. Then for each object returned by each tag and edge is created between it and every other object of the other tag. So the WOS defined subject tag `'WC'` and language tag `'LA'`, will give a two-mode network showing the connections between subjects and languages. Each node will have an attribute call `'type'` that gives the tag that created it or both if both created it, e.g. the node `'English'` would have the type attribute be `'LA'`.
 
         The number of times each object occurs is count if _nodeCount_ is `True` and the edges count the number of co-occurrences if _edgeWeight_ is `True`. Both are`True` by default.
 
@@ -917,10 +1058,10 @@ class CollectionWithIDs(Collection):
                 PBar.finish("Done making a two mode network of " + tag1 + " and " + tag2)
         return grph
 
-    def nModeNetwork(self, *tags, recordType = True, nodeCount = True, edgeWeight = True, stemmer = None, edgeAttribute = None):
+    def networkMultiMode(self, *tags, recordType = True, nodeCount = True, edgeWeight = True, stemmer = None, edgeAttribute = None):
         """Creates a network of the objects found by all tags in _tags_, each node is marked by which tag spawned it making the resultant graph n-partite.
 
-        A **nModeNetwork()** looks are each item in the collection and extracts its values for the tags given by _tags_. Then for all objects returned an edge is created between them, regardless of their type. Each node will have an attribute call `'type'` that gives the tag that created it or both if both created it, e.g. if `'LA'` were in _tags_ node `'English'` would have the type attribute be `'LA'`.
+        A **networkMultiMode()** looks are each item in the collection and extracts its values for the tags given by _tags_. Then for all objects returned an edge is created between them, regardless of their type. Each node will have an attribute call `'type'` that gives the tag that created it or both if both created it, e.g. if `'LA'` were in _tags_ node `'English'` would have the type attribute be `'LA'`.
 
         For example if _tags_ was set to `['CR', 'UT', 'LA']`, a three mode network would be created, composed of a co-citation network from the `'CR'` tag. Then each citation would also have edges to all the languages of Records that cited it and to the WOS number of the those Records.
 

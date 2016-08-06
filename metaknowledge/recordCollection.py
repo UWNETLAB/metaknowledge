@@ -4,6 +4,7 @@ import os
 import os.path
 import csv
 import pickle
+import re
 try:
     import collections.abc
 except ImportError:
@@ -13,7 +14,7 @@ import copy
 import networkx as nx
 
 from .constants import __version__
-from .mkRecord import Record
+from .mkRecord import Record, _pandasPrep
 from .progressBar import _ProgressBar
 from .WOS.tagProcessing.funcDicts import tagToFullDict, fullToTagDict, normalizeToTag
 from .citation import Citation
@@ -67,7 +68,7 @@ class RecordCollection(CollectionWithIDs):
 
     > _metaknowledge_ saves the names of the parsed files as well as their last modification times and will check these when recreating the `RecordCollection`, so modifying existing files or adding new ones will result in the entire directory being reanalyzed and a new cache file being created. The extension given to **__init__**() is taken into account as well and each suffix is given its own cache.
 
-    > **Note** The pickle allows for arbitrary python code exicution so only use caches that you trust.
+    > **Note** The pickle allows for arbitrary python code execution so only use caches that you trust.
     """
 
     def __init__(self, inCollection = None, name = '', extension = '', cached = False, quietStart = False):
@@ -227,7 +228,7 @@ class RecordCollection(CollectionWithIDs):
             f.write('EF')
         f.close()
 
-    def writeCSV(self, fname = None, splitByTag = None, onlyTheseTags = None, numAuthors = True, longNames = False, firstTags = None, csvDelimiter = ',', csvQuote = '"', listDelimiter = '|'):
+    def writeCSV(self, fname = None, splitByTag = None, onlyTheseTags = None, numAuthors = True, genderCounts = True, longNames = False, firstTags = None, csvDelimiter = ',', csvQuote = '"', listDelimiter = '|'):
         """Writes all the `Records` from the collection into a csv file with each row a record and each column a tag.
 
         # Parameters
@@ -299,9 +300,11 @@ class RecordCollection(CollectionWithIDs):
         else:
             baseFileName = "{}.csv".format(self.name[:200])
         if numAuthors:
-            csvWriterFields = retrievedFields + ["numAuthors"]
+            csvWriterFields = retrievedFields + ["num-Authors"]
         else:
             csvWriterFields = retrievedFields
+        if genderCounts:
+            csvWriterFields += ['num-Male', 'num-Female', 'num-Unknown']
         if splitByTag is None:
             f = open(baseFileName, mode = 'w', encoding = 'utf-8')
             csvWriter = csv.DictWriter(f, csvWriterFields, delimiter = csvDelimiter, quotechar = csvQuote, quoting=csv.QUOTE_ALL)
@@ -329,7 +332,9 @@ class RecordCollection(CollectionWithIDs):
                 else:
                     recDict[t] = str(value)
             if numAuthors:
-                recDict["numAuthors"] = len(R['authorsShort'])
+                recDict["num-Authors"] = len(R.get('authorsShort', []))
+            if genderCounts:
+                recDict['num-Male'], recDict['num-Female'], recDict['num-Unknown'] = R.authGenders(_countsTuple = True)
             if splitByTag:
                 for sTag in splitVal:
                     if sTag in filesDict:
@@ -341,7 +346,8 @@ class RecordCollection(CollectionWithIDs):
                         csvWriter.writeheader()
                         csvWriter.writerow(recDict)
                         filesDict[sTag] = (f, csvWriter)
-            else:csvWriter.writerow(recDict)
+            else:
+                csvWriter.writerow(recDict)
         if splitByTag:
             for f, c in filesDict.values():
                 f.close()
@@ -395,7 +401,231 @@ class RecordCollection(CollectionWithIDs):
                 raise RecordsNotCompatible("The Record '{}', with ID '{}' does not support writing to bibtext files.".format(R, R.id))
         f.close()
 
-    def makeDict(self, onlyTheseTags = None, longNames = False, raw = False, numAuthors = True):
+    """
+    def writeBurst(self, tag, dropWords = None, clean = True, dateStrings = False):
+
+        for R in RC:
+            pass
+    """
+
+    def findProbableCopyright(self):
+        """Finds the (likely) copyright string from all abstracts in the `RecordCollection`
+
+        # Returns
+
+        `list[str]`
+
+        > A deduplicated list of all the copyright strings
+        """
+        retCopyrights = set()
+        for R in self:
+            begin, abS = findCopyright(R.get('abstract', ''))
+            if abS != '':
+                retCopyrights.add(abS)
+        return list(retCopyrights)
+
+    def forBurst(self, tag, outputFile = None, dropList = None, lower = True, removeNumbers = True, removeNonWords = True, removeWhitespace = True, stemmer = None):
+
+        whiteSpaceRegex = re.compile(r'\s+')
+
+        if removeNumbers:
+            if removeNonWords:
+                otherString = r"[\W\d]"
+            else:
+                otherString = r"\d"
+        elif removeNonWords:
+            otherString = r"\W"
+        else:
+            otherString = ''
+
+        def otherRepl(r):
+            if r.group(0) == ' ':
+                return ' '
+            else:
+                return ''
+        otherDropsRegex = re.compile(otherString)
+
+        def burstPreper(inString):
+            if dropList is not None:
+                inString = " {} ".format(inString)
+                for dropS in (" {} ".format(s) for s in dropList):
+                    if dropS in inString:
+                        inString = inString.replace(dropS, ' ')
+                inString = inString[1:-1]
+            if removeWhitespace:
+                inString = re.sub(whiteSpaceRegex, lambda x: ' ', inString, count = 0)
+            if lower:
+                inString = inString.lower()
+            inString = re.sub(otherDropsRegex, otherRepl, inString, count = 0)
+            sTokens = inString.split(' ')
+            if stemmer is not None:
+                retTokens = []
+                for token in sTokens:
+                    if stemmer is not None:
+                        token = stemmer(token)
+                    retTokens.append(token)
+            else:
+                retTokens = sTokens
+            return retTokens
+
+        retDict = {'year' : [], 'word' : []}
+
+        for R in self:
+            try:
+                year = R['year']
+            except KeyError:
+                continue
+            try:
+                burstVal = R[tag]
+            except KeyError:
+                continue
+            else:
+                if isinstance(burstVal, list):
+                    burstVal = ' '.join((str(i) for i in burstVal))
+                else:
+                    burstVal = str(burstVal)
+            for sToken in burstPreper(burstVal):
+                retDict['year'].append(year)
+                retDict['word'].append(sToken)
+
+        if outputFile is not None:
+            with open(outputFile, 'w') as f:
+                writer = csv.DictWriter(f, ['year', 'word'])
+                for row in range(len(retDict['year'])):
+                    writer.writerow({k : retDict[k][row] for k in retDict.keys()})
+        return retDict
+
+    def forNLP(self, outputFile = None, extraColumns = None, dropList = None, lower = True, removeNumbers = True, removeNonWords = True, removeWhitespace = True, extractCopyright = False, stemmer = None):
+        """Creates a pandas friendly dictionary with each row a `Record` in the `RecordCollection` and the columns fields natural language processing uses (id, title, publication year, keywords and the abstract). The abstract is by default is processed to remove non-word, non-space characters and the case is lowered.
+
+        # Parameters
+
+        _outputFile_ : `optional str`
+
+        > default `None`, if a file path is given a csv of the returned data will be written
+
+        _extraColumns_ : `optional list[str]`
+
+        > default `None`, if a list of tags is given each of the tag's values for a `Record` will be added to the output(s)
+
+        _dropList_ : `optional list[str]`
+
+        > default `None`, if a list of strings is provided they will be dropped from the output's abstracts. The matching is case sensitive and done before any other processing. The strings will only be dropped if they are surrounded on both sides with spaces (`' '`) so if `dropList = ['a']` then `'a cat'` will become `'cat'`.
+
+        _lower_ : `optional bool`
+
+        > default `True`, if `True` the abstract will made to lower case
+
+        _removeNumbers_ : `optional bool`
+
+        > default `True`, if `True` all numbers will be removed
+
+        _removeNonWords_ : `optional bool`
+
+        > default `True`, if `True` all non-number non-number characters will be removed
+
+        _removeWhitespace_ : `optional bool`
+
+        > default `True`, if `True` all whitespace will be converted to a single space (`' '`)
+
+        _extractCopyright_ : `optional bool`
+
+        > default `False`, if `True` the copyright statement at the end of the abstract will be removed and added to a new column. Note this is heuristic based and will not work for all papers.
+
+        _stemmer_ : `optional func`
+
+        > default `None`, if a function is provided it will be run on each individual word in the abstract and the output will replace it. For example to use the  `PorterStemmer` in the _nltk_ package you would give `nltk.PorterStemmer().stem`
+        """
+        whiteSpaceRegex = re.compile(r'\s+')
+
+        if removeNumbers:
+            if removeNonWords:
+                otherString = r"[\W\d]"
+            else:
+                otherString = r"\d"
+        elif removeNonWords:
+            otherString = r"\W"
+        else:
+            otherString = ''
+
+        def otherRepl(r):
+            if r.group(0) == ' ':
+                return ' '
+            else:
+                return ''
+        otherDropsRegex = re.compile(otherString)
+
+        def abPrep(abst):
+            if dropList is not None:
+                #incase a drop string is on the edge
+                abst = " {} ".format(abst.replace('\n', ' '))
+                for dropS in (" {} ".format(s) for s in dropList):
+                    if dropS in abst:
+                        abst = abst.replace(dropS, ' ')
+                abst = abst[1:-1]
+            if removeWhitespace:
+                abst = re.sub(whiteSpaceRegex, lambda x: ' ', abst, count = 0)
+            if extractCopyright:
+                abst, copyrightString = findCopyright(abst)
+            else:
+                copyrightString = ''
+            if lower:
+                abst = abst.lower()
+            abst = re.sub(otherDropsRegex, otherRepl, abst, count = 0)
+            if stemmer is not None:
+                sTokens = abst.split(' ')
+                retTokens = []
+                for token in sTokens:
+                    if stemmer is not None:
+                        token = stemmer(token)
+                    retTokens.append(token)
+                abst = ' '.join(retTokens)
+            return abst, copyrightString
+
+        if metaknowledge.VERBOSE_MODE:
+            pass
+            #TODO: Add this
+
+        retDict = {'id' : [], 'year' : [], 'title' : [], 'keywords' : [], 'abstract' : []}
+        if extractCopyright:
+            retDict['copyright'] = []
+        if extraColumns is None:
+            extraColumns = []
+        for column in extraColumns:
+            retDict[column] = []
+        for R in self:
+            abstract, copyrightString = abPrep(R.get('AB', ''))
+
+            retDict['id'].append(R.id)
+            retDict['year'].append(R.get('year', ''))
+            retDict['title'].append(R.get('title', ''))
+            retDict['keywords'].append('|'.join(R.get('keywords', [])))
+            retDict['abstract'].append(abstract)
+            if extractCopyright:
+                retDict['copyright'].append(copyrightString)
+            for extraTag in extraColumns:
+                e = R.get(extraTag)
+                if isinstance(e, list):
+                    e = '|'.join((str(s) for s in e))
+                elif e is None:
+                    e = ''
+                retDict[extraTag].append(e)
+
+        if outputFile is not None:
+            with open(outputFile, 'w') as f:
+                fieldNames = list(retDict.keys())
+                fieldNames.remove('id')
+                fieldNames.remove('title')
+                fieldNames.remove('year')
+                fieldNames.remove('keywords')
+                fieldNames = ['id', 'year', 'title', 'keywords'] + fieldNames
+                writer = csv.DictWriter(f, fieldNames)
+                writer.writeheader()
+                for row in range(len(retDict['id'])):
+                    writer.writerow({k : retDict[k][row] for k in retDict.keys()})
+        return retDict
+
+    def makeDict(self, onlyTheseTags = None, longNames = False, raw = False, numAuthors = True, genderCounts = True):
         """Returns a dict with each key a tag and the values being lists of the values for each of the Records in the collection, `None` is given when there is no value and they are in the same order across each tag.
 
         When used with pandas: `pandas.DataFrame(RC.makeDict())` returns a data frame with each column a tag and each row a Record.
@@ -437,15 +667,154 @@ class RecordCollection(CollectionWithIDs):
                 raise KeyError("One of the tags could not be converted to a long name.")
         retDict = {k : [] for k in retrievedFields}
         if numAuthors:
-            retDict["numAuthors"] = []
+            retDict["num-Authors"] = []
+        if genderCounts:
+            retDict.update({'num-Male' : [], 'num-Female' : [], 'num-Unknown' : []})
         for R in self:
             if numAuthors:
-                retDict["numAuthors"].append(len(R.get('authorsShort')))
+                retDict["num-Authors"].append(len(R.get('authorsShort', [])))
+            if genderCounts:
+                m, f, u = R.authGenders(_countsTuple = True)
+                retDict['num-Male'].append(m)
+                retDict['num-Female'].append(f)
+                retDict['num-Unknown'].append(u)
             for k, v in R.subDict(retrievedFields, raw = raw).items():
                 retDict[k].append(v)
         return retDict
 
-    def coAuthNetwork(self, detailedInfo = False, weighted = True, dropNonJournals = False, count = True):
+    def rpys(self, minYear = None, maxYear = None, dropYears = None):
+        """This implements _Referenced Publication Years Spectroscopy_ a techinique for finding import years in citation data. The authors of the original papers have a website with more information, found [here](http://www.leydesdorff.net/software/rpys/).
+
+        This function computes the spectra of the `RecordCollection` and returns a dictionary mapping strings to lists of `ints`. Each list is ordered and the values of each with the same index form a row and each list a column. The strings are the names of the columns. This is intended to be read directly by pandas `DataFrames`.
+
+        The columns returned are:
+
+        1. `'year'`, the years of the counted citations, missing years are inserted with a count of 0, unless they are outside the bounds of the highest year or the lowest year and the default value is used. e.g. if the highest year is 2016, 2017 will not be inserted unless _maxYear_ has been set to 2017 or higher
+        2. `'count'`, the number of times the year was cited
+        3. `'abs-deviation'`, deviation from the 5-year median. Calculated by taking the absolute deviation of the count from the median of it and the next 2 years and the preceding 2 years
+        4. `'rank'`, the rank of the year, the highest ranked year being the one most cited, the second highest being the second highest citation count and so on. All years with 0 count are given the rank 0
+
+        # Parameters
+
+        _minYear_ : `optional int`
+
+        > Default `1000`, The lowest year to be returned, note years outside this bound will be used to calculate the deviation from the 5-year median
+
+        _maxYear_ : `optional int`
+
+        > Default `2100`, The highest year to be returned, note years outside this bound will be used to calculate the deviation from the 5-year median
+
+        _dropYears_ : `optional int or list[int]`
+
+        > Default `None`, year or collection of years that will be removed from the returned value, note the dropped years will still be used to calculate the deviation from the 5-year
+
+        # Returns
+
+        `dict[str:list]`
+
+        > The table of values from the _Referenced Publication Years Spectroscopy_
+        """
+
+        def deviation(targetYear, targetValue, targetDict):
+            yearCounts = [targetValue]
+            for deltaY in [-2, -1, 1, 2]:
+                try:
+                    yearCounts.append(targetDict[targetYear + deltaY])
+                except KeyError:
+                    yearCounts.append(0)
+            medianCount = list(sorted(yearCounts))[2]
+            absDiff = targetValue - medianCount
+            return absDiff
+
+        if dropYears is None:
+            dropYears = set()
+        yearCounts = {}
+        retDict = {'year' : [], 'count' : [], 'abs-deviation' : [], 'rank' : []}
+
+        for R in self:
+            try:
+                cites = R['citations']
+            except KeyError:
+                continue
+            for cite in cites:
+                try:
+                    #year can be None
+                    cYear = int(cite.year)
+                except (AttributeError, TypeError):
+                    continue
+                else:
+                    #need the extra years for the normlization
+                    if (maxYear is not None and cYear > (maxYear + 2)) or (minYear is not None and cYear < (minYear - 2)):
+                        continue
+                if cYear in yearCounts:
+                    yearCounts[cYear] += 1
+                else:
+                    yearCounts[cYear] = 1
+
+        if minYear is None:
+            smallest = min(yearCounts.keys())
+            if smallest > 1000:
+                minYear = smallest
+        if maxYear is None:
+            biggest = max(yearCounts.keys())
+            if biggest < 2100:
+                maxYear = biggest
+
+        targetYears = set(( i for i in range(minYear, maxYear + 1) if i not in dropYears))
+
+        ranks = {}
+        yearDeviances = {}
+
+        for y in targetYears:
+            try:
+                c = yearCounts[y]
+            except KeyError:
+                c = 0
+            yearDeviances[y] = deviation(y, c, yearCounts)
+
+        for rank, year in enumerate(sorted(yearDeviances.items(), key = lambda x: x[1], reverse = False), start = 1):
+            ranks[year[0]] = rank
+
+        for y in targetYears:
+            try:
+                c = yearCounts[y]
+            except KeyError:
+                c = 0
+
+            retDict['rank'].append(ranks[y])
+            retDict['abs-deviation'].append(yearDeviances[y])
+            retDict['year'].append(y)
+            retDict['count'].append(c)
+
+        return retDict
+
+    def genderStats(self, asFractions = False):
+        maleCount = 0
+        femaleCount = 0
+        unknownCount = 0
+        for R in self:
+            m, f, u = R.authGenders(_countsTuple = True)
+            maleCount += m
+            femaleCount += f
+            unknownCount += u
+        if asFractions:
+            tot = maleCount + femaleCount + unknownCount
+            return {'Male' : maleCount / tot, 'Female' : femaleCount / tot, 'Unknown' : unknownCount / tot}
+        return {'Male' : maleCount, 'Female' : femaleCount, 'Unknown' : unknownCount}
+
+    def getCitations(self, field = None, values = None, pandasFriendly = True, counts = True):
+        retCites = []
+        if values is not None:
+            if isinstance(values, (str, int, float)) or not isinstance(values, collections.abc.Container):
+                values = [values]
+        for R in self:
+            retCites += R.getCitations(field = field, values = values, pandasFriendly = False)
+        if pandasFriendly:
+            return _pandasPrep(retCites, counts)
+        else:
+            return list(set(retCites))
+
+    def networkCoAuthor(self, detailedInfo = False, weighted = True, dropNonJournals = False, count = True):
         """Creates a coauthorship network for the RecordCollection.
 
         # Parameters
@@ -458,7 +827,7 @@ class RecordCollection(CollectionWithIDs):
 
         > For each of the selected tags an attribute will be added to the node using the values of those tags on the first `Record` encountered. **Warning** iterating over `RecordCollection` objects is not deterministic the first `Record` will not always be same between runs. The node will be given attributes with the names of the WOS tags for each of the selected tags. The attributes will contain strings of containing the values (with commas removed), if multiple values are encountered they will be comma separated.
 
-        > Note: _detailedInfo_ is not identical to the _detailedCore_ argument of [`Recordcollection.coCiteNetwork()`](#RecordCollection.coCiteNetwork) or [`Recordcollection.citationNetwork()`](#RecordCollection.citationNetwork)
+        > Note: _detailedInfo_ is not identical to the _detailedCore_ argument of [`Recordcollection.networkCoCitation()`](#RecordCollection.networkCoCitation) or [`Recordcollection.networkCitation()`](#RecordCollection.networkCitation)
 
         _weighted_ : `optional [bool]`
 
@@ -491,7 +860,7 @@ class RecordCollection(CollectionWithIDs):
                 for tag in detailedInfo:
                     infoVals.append(normalizeToTag(tag))
             except TypeError:
-                infoVals = ['PY', 'TI', 'SO', 'VL', 'BP']
+                infoVals = ['year', 'title', 'journal', 'volume', 'beginningPage']
             def attributeMaker(Rec):
                 attribsDict = {}
                 for val in infoVals:
@@ -546,7 +915,7 @@ class RecordCollection(CollectionWithIDs):
                 PBar.finish("Done making a co-authorship network from {}".format(self))
         return grph
 
-    def coCiteNetwork(self, dropAnon = True, nodeType = "full", nodeInfo = True, fullInfo = False, weighted = True, dropNonJournals = False, count = True, keyWords = None, detailedCore = None, detailedCoreAttributes = False, coreOnly = False, expandedCore = False):
+    def networkCoCitation(self, dropAnon = True, nodeType = "full", nodeInfo = True, fullInfo = False, weighted = True, dropNonJournals = False, count = True, keyWords = None, detailedCore = True, detailedCoreAttributes = False, coreOnly = False, expandedCore = False):
         """Creates a co-citation network for the RecordCollection.
 
         # Parameters
@@ -585,13 +954,13 @@ class RecordCollection(CollectionWithIDs):
 
         _detailedCore_ : `optional [bool or iterable[WOS tag Strings]]`
 
-        > default `False`, if `True` all Citations from the core (those of records in the RecordCollection) and the _nodeType_ is `'full'` all nodes from the core will be given info strings composed of information from the Record objects themselves. This is Equivalent to passing the list: `['AF', 'PY', 'TI', 'SO', 'VL', 'BP']`.
+        > default `True`, if `True` all Citations from the core (those of records in the RecordCollection) and the _nodeType_ is `'full'` all nodes from the core will be given info strings composed of information from the Record objects themselves. This is Equivalent to passing the list: `['AF', 'PY', 'TI', 'SO', 'VL', 'BP']`.
 
         > If _detailedCore_ is an iterable (That evaluates to `True`) of WOS Tags (or long names) The values  of those tags will be used to make the info attribute. All
 
         > The resultant string is the values of each tag, with commas removed, seperated by `', '`, just like the info given by non-core Citations. Note that for tags like `'AF'` that return lists only the first entry in the list will be used. Also a second attribute is created for all nodes called inCore wich is a boolean describing if the node is in the core or not.
 
-        > Note: _detailedCore_  is not identical to the _detailedInfo_ argument of [`Recordcollection.coAuthNetwork()`](#RecordCollection.coAuthNetwork)
+        > Note: _detailedCore_  is not identical to the _detailedInfo_ argument of [`Recordcollection.networkCoAuthor()`](#RecordCollection.networkCoAuthor)
 
         _coreOnly_ : `optional [bool]`
 
@@ -616,7 +985,7 @@ class RecordCollection(CollectionWithIDs):
                 for tag in detailedCore:
                     coreValues.append(normalizeToTag(tag))
             except TypeError:
-                coreValues = ['AF', 'PY', 'TI', 'SO', 'VL', 'BP']
+                coreValues = ['id', 'authorsFull', 'year', 'title', 'journal', 'volume', 'beginningPage']
         tmpgrph = nx.Graph()
         pcount = 0
         progArgs = (0, "Starting to make a co-citation network")
@@ -651,7 +1020,7 @@ class RecordCollection(CollectionWithIDs):
         return tmpgrph
 
 
-    def citationNetwork(self, dropAnon = False, nodeType = "full", nodeInfo = True, fullInfo = False, weighted = True, dropNonJournals = False, count = True, directed = True, keyWords = None, detailedCore = None, detailedCoreAttributes = False, coreOnly = False, expandedCore = False, recordToCite = True):
+    def networkCitation(self, dropAnon = False, nodeType = "full", nodeInfo = True, fullInfo = False, weighted = True, dropNonJournals = False, count = True, directed = True, keyWords = None, detailedCore = True, detailedCoreAttributes = False, coreOnly = False, expandedCore = False, recordToCite = True, _quiet = False):
 
         """Creates a citation network for the RecordCollection.
 
@@ -695,13 +1064,13 @@ class RecordCollection(CollectionWithIDs):
 
         _detailedCore_ : `optional [bool or iterable[WOS tag Strings]]`
 
-        > default `False`, if `True` all Citations from the core (those of records in the RecordCollection) and the _nodeType_ is `'full'` all nodes from the core will be given info strings composed of information from the Record objects themselves. This is Equivalent to passing the list: `['AF', 'PY', 'TI', 'SO', 'VL', 'BP']`.
+        > default `True`, if `True` all Citations from the core (those of records in the RecordCollection) and the _nodeType_ is `'full'` all nodes from the core will be given info strings composed of information from the Record objects themselves. This is Equivalent to passing the list: `['AF', 'PY', 'TI', 'SO', 'VL', 'BP']`.
 
         > If _detailedCore_ is an iterable (That evaluates to `True`) of WOS Tags (or long names) The values  of those tags will be used to make the info attribute. All
 
         > The resultant string is the values of each tag, with commas removed, seperated by `', '`, just like the info given by non-core Citations. Note that for tags like `'AF'` that return lists only the first entry in the list will be used. Also a second attribute is created for all nodes called inCore wich is a boolean describing if the node is in the core or not.
 
-        > Note: _detailedCore_  is not identical to the _detailedInfo_ argument of [`Recordcollection.coAuthNetwork()`](#RecordCollection.coAuthNetwork)
+        > Note: _detailedCore_  is not identical to the _detailedInfo_ argument of [`Recordcollection.networkCoAuthor()`](#RecordCollection.networkCoAuthor)
 
         _coreOnly_ : `optional [bool]`
 
@@ -728,14 +1097,14 @@ class RecordCollection(CollectionWithIDs):
                 for tag in detailedCore:
                     coreValues.append(normalizeToTag(tag))
             except TypeError:
-                coreValues = ['AF', 'PY', 'TI', 'SO', 'VL', 'BP']
+                coreValues = ['id', 'authorsFull', 'year', 'title', 'journal', 'volume', 'beginningPage']
         if directed:
             tmpgrph = nx.DiGraph()
         else:
             tmpgrph = nx.Graph()
         pcount = 0
         progArgs = (0, "Starting to make a citation network")
-        if metaknowledge.VERBOSE_MODE:
+        if metaknowledge.VERBOSE_MODE and not _quiet:
             progKwargs = {'dummy' : False}
         else:
             progKwargs = {'dummy' : True}
@@ -764,9 +1133,46 @@ class RecordCollection(CollectionWithIDs):
                 if PBar:
                     PBar.updateVal(.98, "Expanding core Records")
                 expandRecs(tmpgrph, self, nodeType, weighted)
-            if PBar:
-                PBar.finish("Done making a citation network from {}".format(self))
+            PBar.finish("Done making a citation network from {}".format(self))
         return tmpgrph
+
+    def networkBibCoupling(self, weighted = True, fullInfo = False):
+        progArgs = (0, "Make a citation network for coupling")
+        if metaknowledge.VERBOSE_MODE:
+            progKwargs = {'dummy' : False}
+        else:
+            progKwargs = {'dummy' : True}
+        with _ProgressBar(*progArgs, **progKwargs) as PBar:
+            citeGrph = self.networkCitation(weighted = False, directed = True, detailedCore = True, fullInfo = fullInfo, count = False, nodeInfo = True, _quiet = True)
+            pcount = 0
+            pmax = len(citeGrph)
+            PBar.updateVal(.2, "Starting to classify nodes")
+            workingGrph = nx.Graph()
+            couplingSet = set()
+            for n, d in citeGrph.nodes_iter(data = True):
+                pcount += 1
+                PBar.updateVal(.2 + .4 * (pcount / pmax), "Classifying: {}".format(n))
+                if d['inCore']:
+                    workingGrph.add_node(n, d)
+                if citeGrph.in_degree(n) > 0:
+                    couplingSet.add(n)
+            pcount = 0
+            pmax = len(couplingSet)
+            for n in couplingSet:
+                PBar.updateVal(.6 + .4 * (pcount / pmax), "Coupling: {}".format(n))
+                citesLst = citeGrph.in_edges(n)
+                for i, edgeOuter in enumerate(citesLst):
+                    outerNode = edgeOuter[1]
+                    for edgeInner in citesLst[i + 1:]:
+                        innerNode = edgeInner[1]
+                        if weighted and  workingGrph.has_edge(outerNode, innerNode):
+                            workingGrph.edge[outerNode][innerNode]['weight'] += 1
+                        elif weighted:
+                            workingGrph.add_edge(outerNode, innerNode, weight = 1)
+                        else:
+                            workingGrph.add_edge(outerNode, innerNode)
+            PBar.finish("Done making a bib-coupling network from {}".format(self))
+        return workingGrph
 
     def _extractTagged(self, taglist):
         recordsWithTags = set()
@@ -813,7 +1219,9 @@ class RecordCollection(CollectionWithIDs):
                     pass
                 else:
                     raise
-        return RecordCollection(recordsInRange, name = "{}({}-{})".format(self.name, startYear, endYear), quietStart = True)
+        RCret = RecordCollection(recordsInRange, name = "{}({}-{})".format(self.name, startYear, endYear), quietStart = True)
+        RCret._collectedTypes = self._collectedTypes.copy()
+        return RCret
 
     def localCiteStats(self, pandasFriendly = False, keyType = "citation"):
         """Returns a dict with all the citations in the CR field as keys and the number of times they occur as the values
@@ -1140,6 +1548,7 @@ def makeNodeTuple(citation, idVal, nodeInfo, fullInfo, nodeType, count, coreCite
             if coreValues:
                 if citation in coreCitesDict:
                     R = coreCitesDict[citation]
+                    d['MK-ID'] = R.id
                     if not detailedValues:
                         infoVals = []
                         for tag in coreValues:
@@ -1160,6 +1569,7 @@ def makeNodeTuple(citation, idVal, nodeInfo, fullInfo, nodeType, count, coreCite
                                 d[tag] = v
                     d['inCore'] = True
                 else:
+                    d['MK-ID'] = 'None'
                     d['info'] = citation.allButDOI()
                     d['inCore'] = False
             else:
@@ -1228,3 +1638,23 @@ def expandRecs(G, RecCollect, nodeType, weighted):
                                 G.add_edge(citeID1, citeID2, weight = 1)
                         for e1, e2, data in G.edges_iter(citeID1, data = True):
                             G.add_edge(citeID2, e2, attr_dict = data)
+
+def findCopyright(inS):
+    possibleHits = ['. &COPY; ', '. Crown Copyright',' Elsevier Ltd. ', '. Copyright', '. Published by Els', '. (c) ', '. (C) ']
+    splitString = False
+    for target in possibleHits:
+        if target in inS:
+            splitString = target
+            break
+    if not splitString:
+        regexHit = re.search(r'([.] [(]?(c|C)[)]? \d\d\d\d )|([.] \d\d\d\d Elsevier)', inS)
+        if regexHit:
+            splitString = regexHit.group(0)
+    if splitString:
+        copSplit = inS.split(splitString)
+        if '.' == splitString[0]:
+            return splitString.join(copSplit[:-1]) + '.', splitString[1:] + copSplit[-1].rstrip()
+        else:
+            return splitString.join(copSplit[:-1]), splitString + copSplit[-1].rstrip()
+    else:
+        return inS, ''

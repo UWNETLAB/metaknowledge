@@ -125,7 +125,7 @@ def updatej9DB(dbname = abrevDBname, saveRawHTML = False):
                 else:
                     db[k] = '|'.join(v)
     except dbm.dumb.error as e:
-        raise mkException("Something happened with the database of WOS journal names. To fix this you should delete the 1 to 3 files whose names start with {}. If this doesn't work (sorry), deleteing everything in '{}' and reinstalling metaknowledge should.\nThe error was '{}'".format(dbLoc, os.path.dirname(__file__), e))
+        raise JournalDataBaseError("Something happened with the database of WOS journal names. To fix this you should delete the 1 to 3 files whose names start with {}. If this doesn't work (sorry), deleteing everything in '{}' and reinstalling metaknowledge should.\nThe error was '{}'".format(dbLoc, os.path.dirname(__file__), e))
 
 def getj9dict(dbname = abrevDBname, manualDB = manaulDBname, returnDict = 'both'):
     """Returns the dictionary of journal abbreviations mapping to a list of the associated journal names. By default the local database is used. The database is in the file _dbname_ in the same directory as this source file

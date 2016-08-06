@@ -37,5 +37,5 @@ class TestGrants(unittest.TestCase):
 
     def test_NSF(self):
         GC = metaknowledge.GrantCollection("metaknowledge/tests/nsfTestFiles")
-        G = GC.nModeNetwork(GC.tags())
+        G = GC.networkMultiMode(GC.tags())
         self.assertEqual(metaknowledge.graphStats(G), "The graph has 255 nodes, 2351 edges, 0 isolates, 19 self loops, a density of 0.0725953 and a transitivity of 0.512436")

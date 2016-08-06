@@ -238,11 +238,11 @@ class TestRecordCollection(unittest.TestCase):
             os.remove(filename)
         self.RC.writeCSV(filename, onlyTheseTags=['UT', 'PT', 'TI', 'AF','J9' ,'CR', 'pubMedID'], firstTags = ['CR', 'UT', 'J9', 'citations'], csvDelimiter = '∂', csvQuote='≠', listDelimiter= '«', longNames=True, numAuthors = False)
         self.assertTrue(os.path.isfile(filename))
-        self.assertEqual(os.path.getsize(filename), 106350)
+        self.assertEqual(os.path.getsize(filename), 107396)
         os.remove(filename)
         self.RC.writeCSV(filename)
         self.assertTrue(os.path.isfile(filename))
-        self.assertEqual(os.path.getsize(filename), 88837)
+        self.assertEqual(os.path.getsize(filename), 89272)
         os.remove(filename)
         self.RC.writeCSV(splitByTag = 'PY', onlyTheseTags = ['id', 'title', 'authorsFull', 'citations', 'keywords', 'DOI'])
         yearsSt = set()
@@ -250,7 +250,7 @@ class TestRecordCollection(unittest.TestCase):
             yearsSt.add(str(R.get('PY', 2012)))
         for year in yearsSt:
             f = open("{}-testFile.csv".format(year))
-            self.assertEqual(f.readline(), '"id","TI","AF","CR","ID","DI","numAuthors"\n')
+            self.assertEqual(f.readline(), '"id","TI","AF","CR","ID","DI","num-Authors","num-Male","num-Female","num-Unknown"\n')
             self.assertGreater(len(f.readline()), 1)
             f.close()
             os.remove("{}-testFile.csv".format(year))
@@ -259,16 +259,47 @@ class TestRecordCollection(unittest.TestCase):
         filename = 'testFile.bib'
         if os.path.isfile(filename):
             os.remove(filename)
+        self.RC.dropBadEntries()
         self.RC.writeBib(maxStringLength = 100)
-        self.assertEqual(os.path.getsize(filename), 106458)
+        self.assertEqual(os.path.getsize(filename), 100418)
         os.remove(filename)
         self.RC.writeBib(fname = filename, wosMode = True, reducedOutput = True, niceIDs = False)
-        self.assertEqual(os.path.getsize(filename), 17038)
+        self.assertEqual(os.path.getsize(filename), 78163)
+        os.remove(filename)
+
+    def test_rpys(self):
+        d = self.RC.rpys()
+        self.assertIn(27, d['count'])
+        d = self.RC.rpys(1990, 2000)
+        self.assertEqual(len(d['year']), 11)
+        for v in d.values():
+            for i in v:
+                self.assertIsInstance(i, int)
+
+    def test_CopyrightFinder(self):
+        l = self.RC.findProbableCopyright()
+        self.assertEqual(len(l), 7)
+        l = self.RC.findProbableCopyright()
+        self.assertTrue(' (C) 2002 Optical Society of America.' in l)
+
+    def test_NLP(self):
+        filename = 'NLP_test.csv'
+        full = self.RC.forNLP(filename, extractCopyright = True, extraColumns = ['ID'])
+        self.assertEqual(len(full), 7)
+        self.assertEqual(len(full['id']), 33)
+        self.assertEqual(full['keywords'][0], full['ID'][0])
+        self.assertTrue(' (C) 2002 Optical Society of America.' in full['copyright'])
+        self.assertEqual(os.path.getsize(filename), 14445)
+        os.remove(filename)
+        dropping = self.RC.forNLP(filename,removeNumbers = False, dropList = ['a', 'and', 'the', 'is'], stemmer = lambda x: x.title())
+        self.assertEqual(len(dropping), 5)
+        self.assertEqual(len(dropping['id']), 33)
+        self.assertEqual(os.path.getsize(filename), 12901)
         os.remove(filename)
 
     def test_makeDict(self):
         d = self.RC.makeDict(onlyTheseTags = list(metaknowledge.WOS.tagsAndNameSet), longNames = True)
-        self.assertEqual(len(d), 62)
+        self.assertEqual(len(d), 65)
         self.assertEqual(len(d['wosString']), len(self.RC))
         if d['eISSN'][0] == '2155-3165':
             self.assertEqual(d['eISSN'][1], None)
@@ -276,20 +307,20 @@ class TestRecordCollection(unittest.TestCase):
             self.assertEqual(d['eISSN'][0], None)
         self.assertIsInstance(d['citations'], list)
         d = self.RC.makeDict(longNames = False, raw = True, numAuthors = False)
-        self.assertEqual(len(d), 42)
+        self.assertEqual(len(d), 45)
         self.assertEqual(len(d['UT']), len(self.RC))
         self.assertIsInstance(d['CR'], list)
 
     def test_coCite(self):
-        Gdefault = self.RC.coCiteNetwork(fullInfo = True)
-        Gauths = self.RC.coCiteNetwork(nodeType = "author", dropAnon = False, detailedCore = True)
-        GauthsNoExtra = self.RC.coCiteNetwork(nodeType = "author", nodeInfo = False)
-        Gunwei = self.RC.coCiteNetwork(nodeType = 'original', weighted = False)
+        Gdefault = self.RC.networkCoCitation(fullInfo = True)
+        Gauths = self.RC.networkCoCitation(nodeType = "author", dropAnon = False, detailedCore = True)
+        GauthsNoExtra = self.RC.networkCoCitation(nodeType = "author", nodeInfo = False)
+        Gunwei = self.RC.networkCoCitation(nodeType = 'original', weighted = False)
         if not disableJournChecking:
-            Gjour = self.RC.coCiteNetwork(nodeType = "journal", dropNonJournals = True)
-        Gyear = self.RC.coCiteNetwork(nodeType = "year", fullInfo = True, count = False)
-        Gcore = self.RC.coCiteNetwork(detailedCore = ['AF','AU', 'DE', 'ID', 'PY'], coreOnly = True)
-        Gexplode = self.RC.coCiteNetwork(expandedCore = True, keyWords = 'a')
+            Gjour = self.RC.networkCoCitation(nodeType = "journal", dropNonJournals = True)
+        Gyear = self.RC.networkCoCitation(nodeType = "year", fullInfo = True, count = False)
+        Gcore = self.RC.networkCoCitation(detailedCore = ['AF','AU', 'DE', 'ID', 'PY'], coreOnly = True)
+        Gexplode = self.RC.networkCoCitation(expandedCore = True, keyWords = 'a')
         self.assertIsInstance(Gdefault, nx.classes.graph.Graph)
         self.assertLessEqual(len(Gdefault.edges()), len(Gunwei.edges()))
         self.assertLessEqual(len(Gdefault.nodes()), len(Gunwei.nodes()))
@@ -312,9 +343,9 @@ class TestRecordCollection(unittest.TestCase):
         self.assertEqual(metaknowledge.graphStats(Gexplode), "The graph has 73 nodes, 369 edges, 0 isolates, 5 self loops, a density of 0.140411 and a transitivity of 0.523179")
 
     def test_coAuth(self):
-        Gdefault = self.RC.coAuthNetwork()
+        Gdefault = self.RC.networkCoAuthor()
         if not disableJournChecking:
-            Gdetailed = self.RC.coAuthNetwork(count = False, weighted = False, detailedInfo = True, dropNonJournals = True)
+            Gdetailed = self.RC.networkCoAuthor(count = False, weighted = False, detailedInfo = True, dropNonJournals = True)
         self.assertIsInstance(Gdefault, nx.classes.graph.Graph)
         self.assertEqual(len(Gdefault.nodes()), 45)
         self.assertEqual(len(Gdefault.edges()), 46)
@@ -322,16 +353,16 @@ class TestRecordCollection(unittest.TestCase):
             self.assertEqual(metaknowledge.graphStats(Gdetailed), 'The graph has 45 nodes, 46 edges, 9 isolates, 0 self loops, a density of 0.0464646 and a transitivity of 0.822581')
 
     def test_cite(self):
-        Gdefault = self.RC.citationNetwork(fullInfo = True, count = False, dropAnon = True)
-        Ganon = self.RC.citationNetwork(dropAnon = False)
-        Gauths = self.RC.citationNetwork(nodeType = "author", detailedCore = True, dropAnon = True)
-        GauthsNoExtra = self.RC.citationNetwork(nodeType = "author", nodeInfo = False, dropAnon = True)
-        Gunwei = self.RC.citationNetwork(nodeType = 'original', weighted = False)
+        Gdefault = self.RC.networkCitation(fullInfo = True, count = False, dropAnon = True)
+        Ganon = self.RC.networkCitation(dropAnon = False)
+        Gauths = self.RC.networkCitation(nodeType = "author", detailedCore = True, dropAnon = True)
+        GauthsNoExtra = self.RC.networkCitation(nodeType = "author", nodeInfo = False, dropAnon = True)
+        Gunwei = self.RC.networkCitation(nodeType = 'original', weighted = False)
         if not disableJournChecking:
-            Gjour = self.RC.citationNetwork(nodeType = "author", dropNonJournals = True, nodeInfo = True, count = False)
-        Gyear = self.RC.citationNetwork(nodeType = "year", nodeInfo = True)
-        Gcore = self.RC.citationNetwork(detailedCore = True, coreOnly = False)
-        Gexplode = self.RC.citationNetwork(expandedCore = True, keyWords = ['b', 'c'])
+            Gjour = self.RC.networkCitation(nodeType = "author", dropNonJournals = True, nodeInfo = True, count = False)
+        Gyear = self.RC.networkCitation(nodeType = "year", nodeInfo = True)
+        Gcore = self.RC.networkCitation(detailedCore = True, coreOnly = False)
+        Gexplode = self.RC.networkCitation(expandedCore = True, keyWords = ['b', 'c'])
         self.assertIsInstance(Gdefault, nx.classes.digraph.DiGraph)
         self.assertLessEqual(len(Gdefault.edges()), len(Gunwei.edges()))
         self.assertLessEqual(len(Gdefault.nodes()), len(Gunwei.nodes()))
@@ -347,57 +378,61 @@ class TestRecordCollection(unittest.TestCase):
             self.assertEqual(len(Gjour.edges()), 432)
             self.assertTrue('info' in Gjour.nodes(data=True)[0][1])
         self.assertTrue('info' in Gyear.nodes(data=True)[0][1])
-        self.assertEqual(Gcore.node['Gilles H, 2002, OPT LETT']['info'], 'Gilles H, Simple technique for measuring the Goos-Hanchen effect with polarization modulation and a position-sensitive detector, OPTICS LETTERS, 27, 1421')
+        self.assertEqual(Gcore.node['Gilles H, 2002, OPT LETT']['info'], 'WOS:000177484300017, Gilles H, Simple technique for measuring the Goos-Hanchen effect with polarization modulation and a position-sensitive detector, OPTICS LETTERS, 27, 1421')
         self.assertEqual(metaknowledge.graphStats(Gexplode), "The graph has 19 nodes, 29 edges, 0 isolates, 3 self loops, a density of 0.0847953 and a transitivity of 0.132075")
 
     def test_coOccurnce(self):
         self.assertEqual(sum(self.RC.cooccurrenceCounts('TI', *tuple(self.RC.tags()))['Longitudinal and transverse effects of nonspecular reflection'].values()), 104)
 
+    def test_nLevel(self):
+        G = self.RC.networkMultiLevel(*tuple(self.RC.tags()))
+        self.assertEqual(metaknowledge.graphStats(G), 'The graph has 1187 nodes, 58761 edges, 0 isolates, 59 self loops, a density of 0.0834803 and a transitivity of 0.493814')
+
     def test_oneMode(self):
-        Gcr  = self.RC.oneModeNetwork('CR')
-        Gcite = self.RC.oneModeNetwork('citations', nodeCount = False, edgeWeight = False)
-        GcoCit = self.RC.coCiteNetwork()
-        Gtit = self.RC.oneModeNetwork('title')
+        Gcr  = self.RC.networkOneMode('CR')
+        Gcite = self.RC.networkOneMode('citations', nodeCount = False, edgeWeight = False)
+        GcoCit = self.RC.networkCoCitation()
+        Gtit = self.RC.networkOneMode('title')
         stemFunc = lambda x: x[:-1]
-        Gstem = self.RC.oneModeNetwork('keywords', stemmer = stemFunc)
+        Gstem = self.RC.networkOneMode('keywords', stemmer = stemFunc)
         self.assertEqual(len(Gcite.edges()), len(Gcr.edges()))
         self.assertEqual(len(Gcite.nodes()), len(Gcr.nodes()))
         self.assertAlmostEqual(len(Gcite.nodes()), len(GcoCit.nodes()), delta = 50)
-        self.assertEqual(len(self.RC.oneModeNetwork('D2').nodes()), 0)
+        self.assertEqual(len(self.RC.networkOneMode('D2').nodes()), 0)
         self.assertEqual(len(Gtit.nodes()), 31)
         self.assertEqual(len(Gtit.edges()), 0)
-        self.assertEqual(len(self.RC.oneModeNetwork('email').edges()), 3)
-        self.assertEqual(len(self.RC.oneModeNetwork('UT').nodes()), len(self.RC) - 1)
+        self.assertEqual(len(self.RC.networkOneMode('email').edges()), 3)
+        self.assertEqual(len(self.RC.networkOneMode('UT').nodes()), len(self.RC) - 1)
         self.assertEqual(metaknowledge.graphStats(Gstem), 'The graph has 41 nodes, 142 edges, 2 isolates, 0 self loops, a density of 0.173171 and a transitivity of 0.854015')
         self.assertIsInstance(Gstem.nodes()[0], str)
         with self.assertRaises(TypeError):
-            G = self.RC.oneModeNetwork(b'Not a Tag')
+            G = self.RC.networkOneMode(b'Not a Tag')
             del G
 
     def test_twoMode(self):
         self.RC.dropBadEntries()
-        Gutti = self.RC.twoModeNetwork('UT', 'title', directed = True, recordType = False)
-        Gafwc = self.RC.twoModeNetwork('AF', 'WC', nodeCount = False, edgeWeight = False)
-        Gd2em = self.RC.twoModeNetwork('D2', 'email')
-        Gemd2 = self.RC.twoModeNetwork('email', 'D2')
-        Gstemm = self.RC.twoModeNetwork('title', 'title', stemmerTag1 = lambda x: x[:-1], stemmerTag2 = lambda x: x + 's')
+        Gutti = self.RC.networkTwoMode('UT', 'title', directed = True, recordType = False)
+        Gafwc = self.RC.networkTwoMode('AF', 'WC', nodeCount = False, edgeWeight = False)
+        Gd2em = self.RC.networkTwoMode('D2', 'email')
+        Gemd2 = self.RC.networkTwoMode('email', 'D2')
+        Gstemm = self.RC.networkTwoMode('title', 'title', stemmerTag1 = lambda x: x[:-1], stemmerTag2 = lambda x: x + 's')
         self.assertIsInstance(Gutti, nx.classes.digraph.DiGraph)
         self.assertIsInstance(Gafwc, nx.classes.graph.Graph)
         self.assertEqual(Gutti.edges('WOS:A1979GV55600001')[0][1][:31], "EXPERIMENTS IN PHENOMENOLOGICAL")
         self.assertEqual(len(Gutti.nodes()), 2 * len(self.RC) - 1)
         with self.assertRaises(metaknowledge.TagError):
-            G = self.RC.twoModeNetwork('TI', b'not a tag')
+            G = self.RC.networkTwoMode('TI', b'not a tag')
             del G
         with self.assertRaises(metaknowledge.TagError):
-            G = self.RC.twoModeNetwork(b'Not a Tag', 'TI')
+            G = self.RC.networkTwoMode(b'Not a Tag', 'TI')
             del G
         self.assertTrue(nx.is_isomorphic(Gd2em, Gemd2))
         self.assertEqual(metaknowledge.graphStats(Gstemm), 'The graph has 62 nodes, 31 edges, 0 isolates, 0 self loops, a density of 0.0163934 and a transitivity of 0')
         self.assertTrue('Optical properties of nanostructured thin filmss' in Gstemm)
 
     def test_nMode(self):
-        G = self.RC.nModeNetwork(metaknowledge.WOS.tagToFullDict.keys())
-        Gstem = self.RC.nModeNetwork(metaknowledge.WOS.tagToFullDict.keys(), stemmer = lambda x : x[0])
+        G = self.RC.networkMultiMode(metaknowledge.WOS.tagToFullDict.keys())
+        Gstem = self.RC.networkMultiMode(metaknowledge.WOS.tagToFullDict.keys(), stemmer = lambda x : x[0])
         self.assertEqual(metaknowledge.graphStats(G), 'The graph has 1186 nodes, 38592 edges, 0 isolates, 56 self loops, a density of 0.0549192 and a transitivity of 0.295384')
         self.assertEqual(metaknowledge.graphStats(Gstem), 'The graph has 50 nodes, 1015 edges, 0 isolates, 35 self loops, a density of 0.828571 and a transitivity of 0.855834')
 

@@ -1,7 +1,16 @@
 from ...WOS.tagProcessing.helpFuncs import getMonth
 
+import re
+
 def year(R):
-    return R['DP'].split(' ')[0]
+    try:
+        return int(R['DP'].split(' ')[0])
+    except ValueError:
+        yVal = re.search(r'-?\d{1,4}', R['DP'].split(' ')[0])
+        if yVal is None:
+            return 0
+        else:
+            return(int(yVal.group(0)))
 
 def month(R):
     try:
@@ -44,7 +53,7 @@ medlineSpecialTagToFunc = {
 
     'j9' : lambda R : R['TA'], #remaps to the closests field TA, but J9 != TA
 
-    'citations' : lambda R: None, #Medline does not have citations
+    #'citations' : lambda R: None, #Medline does not have citations
 
     'grants' : lambda R: R['GR'],#This is the basis for the 'grants' special function
 

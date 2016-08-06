@@ -290,7 +290,9 @@ class Citation(collections.abc.Hashable):
         global abbrevDict
         if abbrevDict is None:
             abbrevDict = getj9dict(dbname = dbname, manualDB = manaulDB, returnDict = returnDict)
-        if checkIfExcluded and self.journal:
+        if not hasattr(self, 'journal'):
+            return False
+        elif checkIfExcluded and self.journal:
             try:
                 if abbrevDict.get(self.journal, [True])[0]:
                     return False

@@ -29,6 +29,10 @@ class Grant(Record, collections.abc.MutableMapping):
     def __delitem__(self, key):
         self._fieldDict.__delitem__(key)
 
+    def getInvestigators(self):
+        #By default we don't know whcich field has the investigators
+        return []
+
     def update(self, other):
         """Adds all the tag-entry pairs from _other_ to the `Grant`. If there is a conflict _other_ takes precedence.
 

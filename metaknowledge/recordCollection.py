@@ -424,6 +424,77 @@ class RecordCollection(CollectionWithIDs):
                 retCopyrights.add(abS)
         return list(retCopyrights)
 
+    def forBurst(self, tag, outputFile = None, dropList = None, lower = True, removeNumbers = True, removeNonWords = True, removeWhitespace = True, stemmer = None):
+
+        whiteSpaceRegex = re.compile(r'\s+')
+
+        if removeNumbers:
+            if removeNonWords:
+                otherString = r"[\W\d]"
+            else:
+                otherString = r"\d"
+        elif removeNonWords:
+            otherString = r"\W"
+        else:
+            otherString = ''
+
+        def otherRepl(r):
+            if r.group(0) == ' ':
+                return ' '
+            else:
+                return ''
+        otherDropsRegex = re.compile(otherString)
+
+        def burstPreper(inString):
+            if dropList is not None:
+                inString = " {} ".format(inString)
+                for dropS in (" {} ".format(s) for s in dropList):
+                    if dropS in inString:
+                        inString = inString.replace(dropS, ' ')
+                inString = inString[1:-1]
+            if removeWhitespace:
+                inString = re.sub(whiteSpaceRegex, lambda x: ' ', inString, count = 0)
+            if lower:
+                inString = inString.lower()
+            inString = re.sub(otherDropsRegex, otherRepl, inString, count = 0)
+            sTokens = inString.split(' ')
+            if stemmer is not None:
+                retTokens = []
+                for token in sTokens:
+                    if stemmer is not None:
+                        token = stemmer(token)
+                    retTokens.append(token)
+            else:
+                retTokens = sTokens
+            return retTokens
+
+        retDict = {'year' : [], 'word' : []}
+
+        for R in self:
+            try:
+                year = R['year']
+            except KeyError:
+                continue
+            try:
+                burstVal = R[tag]
+            except KeyError:
+                continue
+            else:
+                if isinstance(burstVal, list):
+                    burstVal = ' '.join((str(i) for i in burstVal))
+                else:
+                    burstVal = str(burstVal)
+            for sToken in burstPreper(burstVal):
+                retDict['year'].append(year)
+                retDict['word'].append(sToken)
+
+        if outputFile is not None:
+            with open(outputFile, 'w') as f:
+                writer = csv.DictWriter(f, ['year', 'word'])
+                for row in range(len(retDict['year'])):
+                    writer.writerow({k : retDict[k][row] for k in retDict.keys()})
+        return retDict
+
     def forNLP(self, outputFile = None, extraColumns = None, dropList = None, lower = True, removeNumbers = True, removeNonWords = True, removeWhitespace = True, extractCopyright = False, stemmer = None):
         """Creates a pandas friendly dictionary with each row a `Record` in the `RecordCollection` and the columns fields natural language processing uses (id, title, publication year, keywords and the abstract). The abstract is by default is processed to remove non-word, non-space characters and the case is lowered.
 
@@ -466,6 +537,7 @@ class RecordCollection(CollectionWithIDs):
         > default `None`, if a function is provided it will be run on each individual word in the abstract and the output will replace it. For example to use the  `PorterStemmer` in the _nltk_ package you would give `nltk.PorterStemmer().stem`
         """
         whiteSpaceRegex = re.compile(r'\s+')
+
         if removeNumbers:
             if removeNonWords:
                 otherString = r"[\W\d]"
@@ -715,10 +787,6 @@ class RecordCollection(CollectionWithIDs):
             retDict['count'].append(c)
 
         return retDict
-
-
-    def forBurst(self, *args, **kwargs):
-        pass
 
     def genderStats(self, asFractions = False):
         maleCount = 0

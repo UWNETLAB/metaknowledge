@@ -63,8 +63,6 @@ The WOSRecord class has the following methods:</h3>
 <li><article><a href="#tagProcessingFunc"><b>tagProcessingFunc</b>(<i>tag</i>)</a></article></li>
 <li><article><a href="#specialFuncs"><b>specialFuncs</b>(<i>key</i>)</a></article></li>
 <li><article><a href="#writeRecord"><b>writeRecord</b>(<i>infile</i>)</a></article></li>
-<li><article><a href="#bibString"><b>bibString</b>(<i>maxLength=1000, WOSMode=False, restrictedOutput=False, niceID=True</i>)</a></article></li>
-<li><article><a href="#bibTexType"><b>bibTexType</b>()</a></article></li>
 <li><article><a href="#encoding"><b>encoding</b>()</a></article></li>
 <li><article><a href="#getAltName"><b>getAltName</b>(<i>tag</i>)</a></article></li>
 </ol>
@@ -115,54 +113,6 @@ Writes to _infile_ the original contents of the Record. This is intended for use
 _infile_ : `file stream`
 
  An open utf-8 encoded file
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="bibString"></a><small>WOSRecord.</small>**[<ins>bibString</ins>]({{ site.baseurl }}{{ page.url }}#bibString)**(_maxLength=1000, WOSMode=False, restrictedOutput=False, niceID=True_):
-
-Makes a string giving the Record as a bibTex entry. If the Record is of a journal article (`PT J`) the bibtext type is set to `'article'`, otherwise it is set to `'misc'`. The ID of the entry is the WOS number and all the Record's fields are given as entries with their long names.
-
-**Note** This is not meant to be used directly with LaTeX none of the special characters have been escaped and there are a large number of unnecessary fields provided. _niceID_ and _maxLength_ have been provided to make conversions easier.
-
-**Note** Record entries that are lists have their values seperated with the string `' and '`
-
-###### Parameters
-
-_maxLength_ : `optional [int]`
-
- default 1000, The max length for a continuous string. Most bibTex implementation only allow string to be up to 1000 characters ([source](https://www.cs.arizona.edu/~collberg/Teaching/07.231/BibTeX/bibtex.html)), this splits them up into substrings then uses the native string concatenation (the `'#'` character) to allow for longer strings
-
-_WOSMode_ : `optional [bool]`
-
- default `False`, if `True` the data produced will be unprocessed and use double curly braces. This is the style WOS produces bib files in and mostly macthes that.
-
-_restrictedOutput_ : `optional [bool]`
-
- default `False`, if `True` the tags output will be limited to: `'AF'`, `'BF'`, `'ED'`, `'TI'`, `'SO'`, `'LA'`, `'NR'`, `'TC'`, `'Z9'`, `'PU'`, `'J9'`, `'PY'`, `'PD'`, `'VL'`, `'IS'`, `'SU'`, `'PG'`, `'DI'`, `'D2'`, and `'UT'`
-
-_niceID_ : `optional [bool]`
-
- default `True`, if `True` the ID used will be derived from the authors, publishing date and title, if `False` it will be the UT tag
-
-###### Returns
-
-`str`
-
- The bibTex string of the Record
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="bibTexType"></a><small>WOSRecord.</small>**[<ins>bibTexType</ins>]({{ site.baseurl }}{{ page.url }}#bibTexType)**():
-
-Returns the bibTex type corresonding to the record
-
-###### Returns
-
-`str`
-
- The bibTex type string
 
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">

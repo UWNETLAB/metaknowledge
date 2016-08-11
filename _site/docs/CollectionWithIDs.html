@@ -145,6 +145,7 @@
 The CollectionWithIDs class has the following methods:</h3>
 
 <ol class="post-list">
+<li><article><a href="#networkMultiMode"><b>networkMultiMode</b>(<i>*tags, recordType=True, nodeCount=True, edgeWeight=True, stemmer=None, edgeAttribute=None</i>)</a></article></li>
 <li><article><a href="#containsID"><b>containsID</b>(<i>idVal</i>)</a></article></li>
 <li><article><a href="#discardID"><b>discardID</b>(<i>idVal</i>)</a></article></li>
 <li><article><a href="#removeID"><b>removeID</b>(<i>idVal</i>)</a></article></li>
@@ -152,24 +153,65 @@ The CollectionWithIDs class has the following methods:</h3>
 <li><article><a href="#badEntries"><b>badEntries</b>()</a></article></li>
 <li><article><a href="#dropBadEntries"><b>dropBadEntries</b>()</a></article></li>
 <li><article><a href="#tags"><b>tags</b>()</a></article></li>
+<li><article><a href="#glimpse"><b>glimpse</b>(<i>*tags, outputFile=None</i>)</a></article></li>
+<li><article><a href="#rankedSeries"><b>rankedSeries</b>(<i>tag, outputFile=None, giveCounts=True, giveRanks=False, greatestFirst=True, pandasMode=True, limitTo=None</i>)</a></article></li>
+<li><article><a href="#timeSeries"><b>timeSeries</b>(<i>tag=None, outputFile=None, giveYears=True, greatestFirst=True, limitTo=False, pandasMode=True</i>)</a></article></li>
 <li><article><a href="#cooccurrenceCounts"><b>cooccurrenceCounts</b>(<i>keyTag, *countedTags</i>)</a></article></li>
-<li><article><a href="#oneModeNetwork"><b>oneModeNetwork</b>(<i>mode, nodeCount=True, edgeWeight=True, stemmer=None, edgeAttribute=None, nodeAttribute=None</i>)</a></article></li>
-<li><article><a href="#twoModeNetwork"><b>twoModeNetwork</b>(<i>tag1, tag2, directed=False, recordType=True, nodeCount=True, edgeWeight=True, stemmerTag1=None, stemmerTag2=None, edgeAttribute=None</i>)</a></article></li>
-<li><article><a href="#nModeNetwork"><b>nModeNetwork</b>(<i>*tags, recordType=True, nodeCount=True, edgeWeight=True, stemmer=None, edgeAttribute=None</i>)</a></article></li>
+<li><article><a href="#networkMultiLevel"><b>networkMultiLevel</b>(<i>*modes, nodeCount=True, edgeWeight=True, stemmer=None, edgeAttribute=None, nodeAttribute=None</i>)</a></article></li>
+<li><article><a href="#networkOneMode"><b>networkOneMode</b>(<i>mode, nodeCount=True, edgeWeight=True, stemmer=None, edgeAttribute=None, nodeAttribute=None</i>)</a></article></li>
+<li><article><a href="#networkTwoMode"><b>networkTwoMode</b>(<i>tag1, tag2, directed=False, recordType=True, nodeCount=True, edgeWeight=True, stemmerTag1=None, stemmerTag2=None, edgeAttribute=None</i>)</a></article></li>
 </ol>
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="networkMultiMode"></a><small>CollectionWithIDs.</small><strong><a href="/metaknowledge/docs/CollectionWithIDs#networkMultiMode"><ins>networkMultiMode</ins></a></strong>(<em>*tags, recordType=True, nodeCount=True, edgeWeight=True, stemmer=None, edgeAttribute=None</em>):</p>
+
+<p>Creates a network of the objects found by all tags in <em>tags</em>, each node is marked by which tag spawned it making the resultant graph n-partite.</p>
+
+<p>A <strong>networkMultiMode()</strong> looks are each item in the collection and extracts its values for the tags given by <em>tags</em>. Then for all objects returned an edge is created between them, regardless of their type. Each node will have an attribute call <code class="highlighter-rouge">'type'</code> that gives the tag that created it or both if both created it, e.g. if <code class="highlighter-rouge">'LA'</code> were in <em>tags</em> node <code class="highlighter-rouge">'English'</code> would have the type attribute be <code class="highlighter-rouge">'LA'</code>.</p>
+
+<p>For example if <em>tags</em> was set to <code class="highlighter-rouge">['CR', 'UT', 'LA']</code>, a three mode network would be created, composed of a co-citation network from the <code class="highlighter-rouge">'CR'</code> tag. Then each citation would also have edges to all the languages of Records that cited it and to the WOS number of the those Records.</p>
+
+<p>The number of times each object occurs is count if <em>nodeCount</em> is <code class="highlighter-rouge">True</code> and the edges count the number of co-occurrences if <em>edgeWeight</em> is <code class="highlighter-rouge">True</code>. Both are<code class="highlighter-rouge">True</code> by default.</p>
+
+<h6 id="parameters">Parameters</h6>
+
+<p><em>tags</em> : <code class="highlighter-rouge">str</code>, <code class="highlighter-rouge">str</code>, <code class="highlighter-rouge">str</code>, … or <code class="highlighter-rouge">list [str]</code></p>
+
+<p>Any number of tags, or a list of tags</p>
+
+<p><em>nodeCount</em> : <code class="highlighter-rouge">optional [bool]</code></p>
+
+<p>Default <code class="highlighter-rouge">True</code>, if <code class="highlighter-rouge">True</code> each node will have an attribute called <code class="highlighter-rouge">'count'</code> that contains an int giving the number of time the object occurred.</p>
+
+<p><em>edgeWeight</em> : <code class="highlighter-rouge">optional [bool]</code></p>
+
+<p>Default <code class="highlighter-rouge">True</code>, if <code class="highlighter-rouge">True</code> each edge will have an attribute called <code class="highlighter-rouge">'weight'</code> that contains an int giving the number of time the two objects co-occurrenced.</p>
+
+<p><em>stemmer</em> : <code class="highlighter-rouge">optional [func]</code></p>
+
+<p>Default <code class="highlighter-rouge">None</code>, If <em>stemmer</em> is a callable object, basically a function or possibly a class, it will be called for the ID of every node in the graph, note that all IDs are strings.</p>
+
+<p>For example: the function <code class="highlighter-rouge">f = lambda x: x[0]</code> if given as the stemmer will cause all IDs to be the first character of their unstemmed IDs. e.g. the title <code class="highlighter-rouge">'Goos-Hanchen and Imbert-Fedorov shifts for leaky guided modes'</code> will create the node <code class="highlighter-rouge">'G'</code>.</p>
+
+<h6 id="returns">Returns</h6>
+
+<p><code class="highlighter-rouge">networkx Graph</code></p>
+
+<p>A networkx Graph with the objects of the tags <em>tags</em> as nodes and their co-occurrences as edges</p>
+
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="containsID"></a><small>CollectionWithIDs.</small><strong><a href="/metaknowledge/docs/CollectionWithIDs#containsID"><ins>containsID</ins></a></strong>(<em>idVal</em>):</p>
 
 <p>Checks if the collected items contains the give <em>idVal</em></p>
 
-<h6 id="parameters">Parameters</h6>
+<h6 id="parameters-1">Parameters</h6>
 
 <p><em>idVal</em> : <code class="highlighter-rouge">str</code></p>
 
 <p>The queried id string</p>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns-1">Returns</h6>
 
 <p><code class="highlighter-rouge">bool</code></p>
 
@@ -181,7 +223,7 @@ The CollectionWithIDs class has the following methods:</h3>
 
 <p>Checks if the collected items contains the give <em>idVal</em> and discards it if it is found, will not raise an exception if item is not found</p>
 
-<h6 id="parameters-1">Parameters</h6>
+<h6 id="parameters-2">Parameters</h6>
 
 <p><em>idVal</em> : <code class="highlighter-rouge">str</code></p>
 
@@ -193,7 +235,7 @@ The CollectionWithIDs class has the following methods:</h3>
 
 <p>Checks if the collected items contains the give <em>idVal</em> and removes it if it is found, will raise a <code class="highlighter-rouge">KeyError</code> if item is not found</p>
 
-<h6 id="parameters-2">Parameters</h6>
+<h6 id="parameters-3">Parameters</h6>
 
 <p><em>idVal</em> : <code class="highlighter-rouge">str</code></p>
 
@@ -205,13 +247,13 @@ The CollectionWithIDs class has the following methods:</h3>
 
 <p>Looks up an item with <em>idVal</em> and returns it if it is found, returns <code class="highlighter-rouge">None</code> if it does not find the item</p>
 
-<h6 id="parameters-3">Parameters</h6>
+<h6 id="parameters-4">Parameters</h6>
 
 <p><em>idVal</em> : <code class="highlighter-rouge">str</code></p>
 
 <p>The requested item’s id string</p>
 
-<h6 id="returns-1">Returns</h6>
+<h6 id="returns-2">Returns</h6>
 
 <p><code class="highlighter-rouge">object</code></p>
 
@@ -223,7 +265,7 @@ The CollectionWithIDs class has the following methods:</h3>
 
 <p>Creates a new collection of the same type with only the bad entries</p>
 
-<h6 id="returns-2">Returns</h6>
+<h6 id="returns-3">Returns</h6>
 
 <p><code class="highlighter-rouge">CollectionWithIDs</code></p>
 
@@ -241,7 +283,7 @@ The CollectionWithIDs class has the following methods:</h3>
 
 <p>Creates a list of all the tags of the contained items</p>
 
-<h6 id="returns-3">Returns</h6>
+<h6 id="returns-4">Returns</h6>
 
 <p><code class="highlighter-rouge">list [str]</code></p>
 
@@ -249,11 +291,29 @@ The CollectionWithIDs class has the following methods:</h3>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
+<p><a name="glimpse"></a><small>CollectionWithIDs.</small><strong><a href="/metaknowledge/docs/CollectionWithIDs#glimpse"><ins>glimpse</ins></a></strong>(<em>*tags, outputFile=None</em>):</p>
+
+<h1 id="needs-to-be-written">Needs to be written</h1>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="rankedSeries"></a><small>CollectionWithIDs.</small><strong><a href="/metaknowledge/docs/CollectionWithIDs#rankedSeries"><ins>rankedSeries</ins></a></strong>(<em>tag, outputFile=None, giveCounts=True, giveRanks=False, greatestFirst=True, pandasMode=True, limitTo=None</em>):</p>
+
+<h1 id="needs-to-be-written-1">Needs to be written</h1>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="timeSeries"></a><small>CollectionWithIDs.</small><strong><a href="/metaknowledge/docs/CollectionWithIDs#timeSeries"><ins>timeSeries</ins></a></strong>(<em>tag=None, outputFile=None, giveYears=True, greatestFirst=True, limitTo=False, pandasMode=True</em>):</p>
+
+<h1 id="needs-to-be-written-2">Needs to be written</h1>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
 <p><a name="cooccurrenceCounts"></a><small>CollectionWithIDs.</small><strong><a href="/metaknowledge/docs/CollectionWithIDs#cooccurrenceCounts"><ins>cooccurrenceCounts</ins></a></strong>(<em>keyTag, *countedTags</em>):</p>
 
 <p>Counts the number of times values from any of the <em>countedTags</em> occurs with <em>keyTag</em>. The counts are retuned as a dictionary with the values of <em>keyTag</em> mapping to dictionaries with each of the <em>countedTags</em> values mapping to thier counts.</p>
 
-<h6 id="parameters-4">Parameters</h6>
+<h6 id="parameters-5">Parameters</h6>
 
 <p><em>keyTag</em> : <code class="highlighter-rouge">str</code></p>
 
@@ -263,7 +323,7 @@ The CollectionWithIDs class has the following methods:</h3>
 
 <p>The tags used as the key for the returned dictionary’s values</p>
 
-<h6 id="returns-4">Returns</h6>
+<h6 id="returns-5">Returns</h6>
 
 <p><code class="highlighter-rouge">dict[str:dict[str:int]]</code></p>
 
@@ -271,17 +331,17 @@ The CollectionWithIDs class has the following methods:</h3>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="oneModeNetwork"></a><small>CollectionWithIDs.</small><strong><a href="/metaknowledge/docs/CollectionWithIDs#oneModeNetwork"><ins>oneModeNetwork</ins></a></strong>(<em>mode, nodeCount=True, edgeWeight=True, stemmer=None, edgeAttribute=None, nodeAttribute=None</em>):</p>
+<p><a name="networkMultiLevel"></a><small>CollectionWithIDs.</small><strong><a href="/metaknowledge/docs/CollectionWithIDs#networkMultiLevel"><ins>networkMultiLevel</ins></a></strong>(<em>*modes, nodeCount=True, edgeWeight=True, stemmer=None, edgeAttribute=None, nodeAttribute=None</em>):</p>
 
-<p>Creates a network of the objects found by one tag <em>mode</em>.</p>
+<p>Creates a network of the objects found by any number of tags <em>modes</em>, with edges between all co-occurring values. IF you only want edges between co-occurring values from different tags use <a href="/metaknowledge/docs/CollectionWithIDs#networkMultiMode"><code class="highlighter-rouge">networkMultiMode()</code></a>.</p>
 
-<p>A <strong>oneModeNetwork</strong>() looks are each entry in the collection and extracts its values for the tag given by <em>mode</em>, e.g. the <code class="highlighter-rouge">'authorsFull'</code> tag. Then if multiple are returned an edge is created between them. So in the case of the author tag <code class="highlighter-rouge">'authorsFull'</code> a co-authorship network is created.</p>
+<p>A <strong>networkMultiLevel</strong>() looks are each entry in the collection and extracts its values for the tag given by each of the <em>modes</em>, e.g. the <code class="highlighter-rouge">'authorsFull'</code> tag. Then if multiple are returned an edge is created between them. So in the case of the author tag <code class="highlighter-rouge">'authorsFull'</code> a co-authorship network is created. Then for each other tag the entries are also added and edges between the first tag’s node and theirs are created.</p>
 
 <p>The number of times each object occurs is count if <em>nodeCount</em> is <code class="highlighter-rouge">True</code> and the edges count the number of co-occurrences if <em>edgeWeight</em> is <code class="highlighter-rouge">True</code>. Both are<code class="highlighter-rouge">True</code> by default.</p>
 
-<p><strong>Note</strong> Do not use this for the construction of co-citation networks use <a href="/metaknowledge/docs/CollectionWithIDs#coCiteNetwork">Recordcollection.coCiteNetwork()</a> it is more accurate and has more options.</p>
+<p><strong>Note</strong> Do not use this for the construction of co-citation networks use <a href="/metaknowledge/docs/CollectionWithIDs#networkCoCitation">Recordcollection.networkCoCitation()</a> it is more accurate and has more options.</p>
 
-<h6 id="parameters-5">Parameters</h6>
+<h6 id="parameters-6">Parameters</h6>
 
 <p><em>mode</em> : <code class="highlighter-rouge">str</code></p>
 
@@ -301,7 +361,7 @@ The CollectionWithIDs class has the following methods:</h3>
 
 <p>The function ` f = lambda x: x[0]<code class="highlighter-rouge"> if given as the stemmer will cause all IDs to be the first character of their unstemmed IDs. e.g. the title </code>‘Goos-Hanchen and Imbert-Fedorov shifts for leaky guided modes’<code class="highlighter-rouge"> will create the node </code>‘G’`.</p>
 
-<h6 id="returns-5">Returns</h6>
+<h6 id="returns-6">Returns</h6>
 
 <p><code class="highlighter-rouge">networkx Graph</code></p>
 
@@ -309,17 +369,55 @@ The CollectionWithIDs class has the following methods:</h3>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="twoModeNetwork"></a><small>CollectionWithIDs.</small><strong><a href="/metaknowledge/docs/CollectionWithIDs#twoModeNetwork"><ins>twoModeNetwork</ins></a></strong>(<em>tag1, tag2, directed=False, recordType=True, nodeCount=True, edgeWeight=True, stemmerTag1=None, stemmerTag2=None, edgeAttribute=None</em>):</p>
+<p><a name="networkOneMode"></a><small>CollectionWithIDs.</small><strong><a href="/metaknowledge/docs/CollectionWithIDs#networkOneMode"><ins>networkOneMode</ins></a></strong>(<em>mode, nodeCount=True, edgeWeight=True, stemmer=None, edgeAttribute=None, nodeAttribute=None</em>):</p>
+
+<p>Creates a network of the objects found by one tag <em>mode</em>. This is the same as <a href="/metaknowledge/docs/CollectionWithIDs#networkMultiLevel"><code class="highlighter-rouge">networkMultiLevel()</code></a> with only one tag.</p>
+
+<p>A <strong>networkOneMode</strong>() looks are each entry in the collection and extracts its values for the tag given by <em>mode</em>, e.g. the <code class="highlighter-rouge">'authorsFull'</code> tag. Then if multiple are returned an edge is created between them. So in the case of the author tag <code class="highlighter-rouge">'authorsFull'</code> a co-authorship network is created.</p>
+
+<p>The number of times each object occurs is count if <em>nodeCount</em> is <code class="highlighter-rouge">True</code> and the edges count the number of co-occurrences if <em>edgeWeight</em> is <code class="highlighter-rouge">True</code>. Both are<code class="highlighter-rouge">True</code> by default.</p>
+
+<p><strong>Note</strong> Do not use this for the construction of co-citation networks use <a href="/metaknowledge/docs/CollectionWithIDs#networkCoCitation">Recordcollection.networkCoCitation()</a> it is more accurate and has more options.</p>
+
+<h6 id="parameters-7">Parameters</h6>
+
+<p><em>mode</em> : <code class="highlighter-rouge">str</code></p>
+
+<p>A two character WOS tag or one of the full names for a tag</p>
+
+<p><em>nodeCount</em> : <code class="highlighter-rouge">optional [bool]</code></p>
+
+<p>Default <code class="highlighter-rouge">True</code>, if <code class="highlighter-rouge">True</code> each node will have an attribute called “count” that contains an int giving the number of time the object occurred.</p>
+
+<p><em>edgeWeight</em> : <code class="highlighter-rouge">optional [bool]</code></p>
+
+<p>Default <code class="highlighter-rouge">True</code>, if <code class="highlighter-rouge">True</code> each edge will have an attribute called “weight” that contains an int giving the number of time the two objects co-occurrenced.</p>
+
+<p><em>stemmer</em> : <code class="highlighter-rouge">optional [func]</code></p>
+
+<p>Default <code class="highlighter-rouge">None</code>, If <em>stemmer</em> is a callable object, basically a function or possibly a class, it will be called for the ID of every node in the graph, all IDs are strings. For example:</p>
+
+<p>The function ` f = lambda x: x[0]<code class="highlighter-rouge"> if given as the stemmer will cause all IDs to be the first character of their unstemmed IDs. e.g. the title </code>‘Goos-Hanchen and Imbert-Fedorov shifts for leaky guided modes’<code class="highlighter-rouge"> will create the node </code>‘G’`.</p>
+
+<h6 id="returns-7">Returns</h6>
+
+<p><code class="highlighter-rouge">networkx Graph</code></p>
+
+<p>A networkx Graph with the objects of the tag <em>mode</em> as nodes and their co-occurrences as edges</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="networkTwoMode"></a><small>CollectionWithIDs.</small><strong><a href="/metaknowledge/docs/CollectionWithIDs#networkTwoMode"><ins>networkTwoMode</ins></a></strong>(<em>tag1, tag2, directed=False, recordType=True, nodeCount=True, edgeWeight=True, stemmerTag1=None, stemmerTag2=None, edgeAttribute=None</em>):</p>
 
 <p>Creates a network of the objects found by two WOS tags <em>tag1</em> and <em>tag2</em>, each node marked by which tag spawned it making the resultant graph bipartite.</p>
 
-<p>A <strong>twoModeNetwork()</strong> looks at each Record in the <code class="highlighter-rouge">RecordCollection</code> and extracts its values for the tags given by <em>tag1</em> and <em>tag2</em>, e.g. the <code class="highlighter-rouge">'WC'</code> and <code class="highlighter-rouge">'LA'</code> tags. Then for each object returned by each tag and edge is created between it and every other object of the other tag. So the WOS defined subject tag <code class="highlighter-rouge">'WC'</code> and language tag <code class="highlighter-rouge">'LA'</code>, will give a two-mode network showing the connections between subjects and languages. Each node will have an attribute call <code class="highlighter-rouge">'type'</code> that gives the tag that created it or both if both created it, e.g. the node <code class="highlighter-rouge">'English'</code> would have the type attribute be <code class="highlighter-rouge">'LA'</code>.</p>
+<p>A <strong>networkTwoMode()</strong> looks at each Record in the <code class="highlighter-rouge">RecordCollection</code> and extracts its values for the tags given by <em>tag1</em> and <em>tag2</em>, e.g. the <code class="highlighter-rouge">'WC'</code> and <code class="highlighter-rouge">'LA'</code> tags. Then for each object returned by each tag and edge is created between it and every other object of the other tag. So the WOS defined subject tag <code class="highlighter-rouge">'WC'</code> and language tag <code class="highlighter-rouge">'LA'</code>, will give a two-mode network showing the connections between subjects and languages. Each node will have an attribute call <code class="highlighter-rouge">'type'</code> that gives the tag that created it or both if both created it, e.g. the node <code class="highlighter-rouge">'English'</code> would have the type attribute be <code class="highlighter-rouge">'LA'</code>.</p>
 
 <p>The number of times each object occurs is count if <em>nodeCount</em> is <code class="highlighter-rouge">True</code> and the edges count the number of co-occurrences if <em>edgeWeight</em> is <code class="highlighter-rouge">True</code>. Both are<code class="highlighter-rouge">True</code> by default.</p>
 
 <p>The <em>directed</em> parameter if <code class="highlighter-rouge">True</code> will cause the network to be directed with the first tag as the source and the second as the destination.</p>
 
-<h6 id="parameters-6">Parameters</h6>
+<h6 id="parameters-8">Parameters</h6>
 
 <p><em>tag1</em> : <code class="highlighter-rouge">str</code></p>
 
@@ -351,49 +449,11 @@ The CollectionWithIDs class has the following methods:</h3>
 
 <p>Default <code class="highlighter-rouge">None</code>, see <em>stemmerTag1</em> as it is the same but for <em>tag2</em></p>
 
-<h6 id="returns-6">Returns</h6>
+<h6 id="returns-8">Returns</h6>
 
 <p><code class="highlighter-rouge">networkx Graph or networkx DiGraph</code></p>
 
 <p>A networkx Graph with the objects of the tags <em>tag1</em> and <em>tag2</em> as nodes and their co-occurrences as edges.</p>
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
-
-<p><a name="nModeNetwork"></a><small>CollectionWithIDs.</small><strong><a href="/metaknowledge/docs/CollectionWithIDs#nModeNetwork"><ins>nModeNetwork</ins></a></strong>(<em>*tags, recordType=True, nodeCount=True, edgeWeight=True, stemmer=None, edgeAttribute=None</em>):</p>
-
-<p>Creates a network of the objects found by all tags in <em>tags</em>, each node is marked by which tag spawned it making the resultant graph n-partite.</p>
-
-<p>A <strong>nModeNetwork()</strong> looks are each item in the collection and extracts its values for the tags given by <em>tags</em>. Then for all objects returned an edge is created between them, regardless of their type. Each node will have an attribute call <code class="highlighter-rouge">'type'</code> that gives the tag that created it or both if both created it, e.g. if <code class="highlighter-rouge">'LA'</code> were in <em>tags</em> node <code class="highlighter-rouge">'English'</code> would have the type attribute be <code class="highlighter-rouge">'LA'</code>.</p>
-
-<p>For example if <em>tags</em> was set to <code class="highlighter-rouge">['CR', 'UT', 'LA']</code>, a three mode network would be created, composed of a co-citation network from the <code class="highlighter-rouge">'CR'</code> tag. Then each citation would also have edges to all the languages of Records that cited it and to the WOS number of the those Records.</p>
-
-<p>The number of times each object occurs is count if <em>nodeCount</em> is <code class="highlighter-rouge">True</code> and the edges count the number of co-occurrences if <em>edgeWeight</em> is <code class="highlighter-rouge">True</code>. Both are<code class="highlighter-rouge">True</code> by default.</p>
-
-<h6 id="parameters-7">Parameters</h6>
-
-<p><em>tags</em> : <code class="highlighter-rouge">str</code>, <code class="highlighter-rouge">str</code>, <code class="highlighter-rouge">str</code>, … or <code class="highlighter-rouge">list [str]</code></p>
-
-<p>Any number of tags, or a list of tags</p>
-
-<p><em>nodeCount</em> : <code class="highlighter-rouge">optional [bool]</code></p>
-
-<p>Default <code class="highlighter-rouge">True</code>, if <code class="highlighter-rouge">True</code> each node will have an attribute called <code class="highlighter-rouge">'count'</code> that contains an int giving the number of time the object occurred.</p>
-
-<p><em>edgeWeight</em> : <code class="highlighter-rouge">optional [bool]</code></p>
-
-<p>Default <code class="highlighter-rouge">True</code>, if <code class="highlighter-rouge">True</code> each edge will have an attribute called <code class="highlighter-rouge">'weight'</code> that contains an int giving the number of time the two objects co-occurrenced.</p>
-
-<p><em>stemmer</em> : <code class="highlighter-rouge">optional [func]</code></p>
-
-<p>Default <code class="highlighter-rouge">None</code>, If <em>stemmer</em> is a callable object, basically a function or possibly a class, it will be called for the ID of every node in the graph, note that all IDs are strings.</p>
-
-<p>For example: the function <code class="highlighter-rouge">f = lambda x: x[0]</code> if given as the stemmer will cause all IDs to be the first character of their unstemmed IDs. e.g. the title <code class="highlighter-rouge">'Goos-Hanchen and Imbert-Fedorov shifts for leaky guided modes'</code> will create the node <code class="highlighter-rouge">'G'</code>.</p>
-
-<h6 id="returns-7">Returns</h6>
-
-<p><code class="highlighter-rouge">networkx Graph</code></p>
-
-<p>A networkx Graph with the objects of the tags <em>tags</em> as nodes and their co-occurrences as edges</p>
 
 <hr />
 

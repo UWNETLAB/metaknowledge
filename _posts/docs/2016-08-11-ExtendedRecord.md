@@ -77,8 +77,11 @@ The ExtendedRecord class has the following methods:</h3>
 <li><article><a href="#getAltName"><b>getAltName</b>(<i>tag</i>)</a></article></li>
 <li><article><a href="#tagProcessingFunc"><b>tagProcessingFunc</b>(<i>tag</i>)</a></article></li>
 <li><article><a href="#specialFuncs"><b>specialFuncs</b>(<i>key</i>)</a></article></li>
+<li><article><a href="#getCitations"><b>getCitations</b>(<i>field=None, values=None, pandasFriendly=True</i>)</a></article></li>
 <li><article><a href="#subDict"><b>subDict</b>(<i>tags, raw=False</i>)</a></article></li>
 <li><article><a href="#createCitation"><b>createCitation</b>(<i>multiCite=False</i>)</a></article></li>
+<li><article><a href="#authGenders"><b>authGenders</b>(<i>countsOnly=False, fractionsMode=False</i>)</a></article></li>
+<li><article><a href="#bibString"><b>bibString</b>(<i>maxLength=1000, WOSMode=False, restrictedOutput=False, niceID=True</i>)</a></article></li>
 </ol>
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
@@ -228,6 +231,12 @@ _key_ : `str`
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
+<a name="getCitations"></a><small>ExtendedRecord.</small>**[<ins>getCitations</ins>]({{ site.baseurl }}{{ page.url }}#getCitations)**(_field=None, values=None, pandasFriendly=True_):
+
+# Needs to be written
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
 <a name="subDict"></a><small>ExtendedRecord.</small>**[<ins>subDict</ins>]({{ site.baseurl }}{{ page.url }}#subDict)**(_tags, raw=False_):
 
 Creates a dict of values of _tags_ from the Record. The tags are the keys and the values are the values. If the tag is missing the value will be `None`.
@@ -266,6 +275,47 @@ _multiCite_ : `optional [bool]`
 `Citation`
 
  A [`Citation`]({{ site.baseurl }}{{ page.url }}#Citation) object containing a citation for the Record.
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="authGenders"></a><small>ExtendedRecord.</small>**[<ins>authGenders</ins>]({{ site.baseurl }}{{ page.url }}#authGenders)**(_countsOnly=False, fractionsMode=False_):
+
+# Needs to be written
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="bibString"></a><small>ExtendedRecord.</small>**[<ins>bibString</ins>]({{ site.baseurl }}{{ page.url }}#bibString)**(_maxLength=1000, WOSMode=False, restrictedOutput=False, niceID=True_):
+
+Makes a string giving the Record as a bibTex entry. If the Record is of a journal article (`PT J`) the bibtext type is set to `'article'`, otherwise it is set to `'misc'`. The ID of the entry is the WOS number and all the Record's fields are given as entries with their long names.
+
+**Note** This is not meant to be used directly with LaTeX none of the special characters have been escaped and there are a large number of unnecessary fields provided. _niceID_ and _maxLength_ have been provided to make conversions easier.
+
+**Note** Record entries that are lists have their values seperated with the string `' and '`
+
+###### Parameters
+
+_maxLength_ : `optional [int]`
+
+ default 1000, The max length for a continuous string. Most bibTex implementation only allow string to be up to 1000 characters ([source](https://www.cs.arizona.edu/~collberg/Teaching/07.231/BibTeX/bibtex.html)), this splits them up into substrings then uses the native string concatenation (the `'#'` character) to allow for longer strings
+
+_WOSMode_ : `optional [bool]`
+
+ default `False`, if `True` the data produced will be unprocessed and use double curly braces. This is the style WOS produces bib files in and mostly macthes that.
+
+_restrictedOutput_ : `optional [bool]`
+
+ default `False`, if `True` the tags output will be limited to tose found in `metaknowledge.commonRecordFields`
+
+_niceID_ : `optional [bool]`
+
+ default `True`, if `True` the ID used will be derived from the authors, publishing date and title, if `False` it will be the UT tag
+
+###### Returns
+
+`str`
+
+ The bibTex string of the Record
 
 
 

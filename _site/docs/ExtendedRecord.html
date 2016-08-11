@@ -204,8 +204,11 @@ The ExtendedRecord class has the following methods:</h3>
 <li><article><a href="#getAltName"><b>getAltName</b>(<i>tag</i>)</a></article></li>
 <li><article><a href="#tagProcessingFunc"><b>tagProcessingFunc</b>(<i>tag</i>)</a></article></li>
 <li><article><a href="#specialFuncs"><b>specialFuncs</b>(<i>key</i>)</a></article></li>
+<li><article><a href="#getCitations"><b>getCitations</b>(<i>field=None, values=None, pandasFriendly=True</i>)</a></article></li>
 <li><article><a href="#subDict"><b>subDict</b>(<i>tags, raw=False</i>)</a></article></li>
 <li><article><a href="#createCitation"><b>createCitation</b>(<i>multiCite=False</i>)</a></article></li>
+<li><article><a href="#authGenders"><b>authGenders</b>(<i>countsOnly=False, fractionsMode=False</i>)</a></article></li>
+<li><article><a href="#bibString"><b>bibString</b>(<i>maxLength=1000, WOSMode=False, restrictedOutput=False, niceID=True</i>)</a></article></li>
 </ol>
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
@@ -347,6 +350,12 @@ The ExtendedRecord class has the following methods:</h3>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
+<p><a name="getCitations"></a><small>ExtendedRecord.</small><strong><a href="/metaknowledge/docs/ExtendedRecord#getCitations"><ins>getCitations</ins></a></strong>(<em>field=None, values=None, pandasFriendly=True</em>):</p>
+
+<h1 id="needs-to-be-written">Needs to be written</h1>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
 <p><a name="subDict"></a><small>ExtendedRecord.</small><strong><a href="/metaknowledge/docs/ExtendedRecord#subDict"><ins>subDict</ins></a></strong>(<em>tags, raw=False</em>):</p>
 
 <p>Creates a dict of values of <em>tags</em> from the Record. The tags are the keys and the values are the values. If the tag is missing the value will be <code class="highlighter-rouge">None</code>.</p>
@@ -384,6 +393,46 @@ The ExtendedRecord class has the following methods:</h3>
 <p><code class="highlighter-rouge">Citation</code></p>
 
 <p>A <a href="/metaknowledge/docs/ExtendedRecord#Citation"><code class="highlighter-rouge">Citation</code></a> object containing a citation for the Record.</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="authGenders"></a><small>ExtendedRecord.</small><strong><a href="/metaknowledge/docs/ExtendedRecord#authGenders"><ins>authGenders</ins></a></strong>(<em>countsOnly=False, fractionsMode=False</em>):</p>
+
+<h1 id="needs-to-be-written-1">Needs to be written</h1>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="bibString"></a><small>ExtendedRecord.</small><strong><a href="/metaknowledge/docs/ExtendedRecord#bibString"><ins>bibString</ins></a></strong>(<em>maxLength=1000, WOSMode=False, restrictedOutput=False, niceID=True</em>):</p>
+
+<p>Makes a string giving the Record as a bibTex entry. If the Record is of a journal article (<code class="highlighter-rouge">PT J</code>) the bibtext type is set to <code class="highlighter-rouge">'article'</code>, otherwise it is set to <code class="highlighter-rouge">'misc'</code>. The ID of the entry is the WOS number and all the Record’s fields are given as entries with their long names.</p>
+
+<p><strong>Note</strong> This is not meant to be used directly with LaTeX none of the special characters have been escaped and there are a large number of unnecessary fields provided. <em>niceID</em> and <em>maxLength</em> have been provided to make conversions easier.</p>
+
+<p><strong>Note</strong> Record entries that are lists have their values seperated with the string <code class="highlighter-rouge">' and '</code></p>
+
+<h6 id="parameters-9">Parameters</h6>
+
+<p><em>maxLength</em> : <code class="highlighter-rouge">optional [int]</code></p>
+
+<p>default 1000, The max length for a continuous string. Most bibTex implementation only allow string to be up to 1000 characters (<a href="https://www.cs.arizona.edu/~collberg/Teaching/07.231/BibTeX/bibtex.html">source</a>), this splits them up into substrings then uses the native string concatenation (the <code class="highlighter-rouge">'#'</code> character) to allow for longer strings</p>
+
+<p><em>WOSMode</em> : <code class="highlighter-rouge">optional [bool]</code></p>
+
+<p>default <code class="highlighter-rouge">False</code>, if <code class="highlighter-rouge">True</code> the data produced will be unprocessed and use double curly braces. This is the style WOS produces bib files in and mostly macthes that.</p>
+
+<p><em>restrictedOutput</em> : <code class="highlighter-rouge">optional [bool]</code></p>
+
+<p>default <code class="highlighter-rouge">False</code>, if <code class="highlighter-rouge">True</code> the tags output will be limited to tose found in <code class="highlighter-rouge">metaknowledge.specialRecordFields</code></p>
+
+<p><em>niceID</em> : <code class="highlighter-rouge">optional [bool]</code></p>
+
+<p>default <code class="highlighter-rouge">True</code>, if <code class="highlighter-rouge">True</code> the ID used will be derived from the authors, publishing date and title, if <code class="highlighter-rouge">False</code> it will be the UT tag</p>
+
+<h6 id="returns-9">Returns</h6>
+
+<p><code class="highlighter-rouge">str</code></p>
+
+<p>The bibTex string of the Record</p>
 
 <hr />
 

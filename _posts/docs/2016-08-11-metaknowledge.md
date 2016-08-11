@@ -139,10 +139,6 @@ _sourceType_ : `optional [str]`
 
  default `'raw'`, if `'raw'` the returned `dict` will contain `Records` as keys. If it is a WOS tag the keys will be of that type.
 
-_extraValue_ : `optional [str]`
-
- default `None`, a tag that will split the counts based on entries to it, meaning instead of a single integer a dictionary will be given.
-
 _pandasFriendly_ : `optional [bool]`
 
  default `False`, makes the output be a dict with two keys one `"Record"` is the list of Records ( or data type requested by _sourceType_) the other is their occurrence counts as `"Counts"`. The lists are the same length.

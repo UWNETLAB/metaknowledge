@@ -54,5 +54,31 @@ _sLine_ : `int`
  The first line the original record is found on in the source file
 
 
+<h3>
+The NSERCGrant class has the following methods:</h3>
+
+<ol class="post-list">
+<li><article><a href="#update"><b>update</b>(<i>other</i>)</a></article></li>
+<li><article><a href="#getInvestigators"><b>getInvestigators</b>()</a></article></li>
+</ol>
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="update"></a><small>NSERCGrant.</small>**[<ins>update</ins>]({{ site.baseurl }}{{ page.url }}#update)**(_other_):
+
+Adds all the tag-entry pairs from _other_ to the `Grant`. If there is a conflict _other_ takes precedence.
+
+###### Parameters
+
+_other_ : `Grant`
+
+ Another `Grant` of the same type as _self_
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="getInvestigators"></a><small>NSERCGrant.</small>**[<ins>getInvestigators</ins>]({{ site.baseurl }}{{ page.url }}#getInvestigators)**():
+
+# Needs to be written
+
 
 {% include docsFooter.md %}

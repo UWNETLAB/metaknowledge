@@ -18,5 +18,18 @@ A [`Collection`]({{ site.baseurl }}{{ page.url }}#Collection) with a few extra m
 As `CollectionWithIDs` is mostly meant to be base for other classes all but one of the arguments in the `__init__` are not optional and the optional one is not used. The `__init__()` function is the same as a [`Collection`]({{ site.baseurl }}{{ page.url }}#Collection).
 
 
+<h3>
+The GrantCollection class has the following methods:</h3>
+
+<ol class="post-list">
+<li><article><a href="#networkCoInvestigator"><b>networkCoInvestigator</b>(<i>count=True, weighted=True</i>)</a></article></li>
+</ol>
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="networkCoInvestigator"></a><small>GrantCollection.</small>**[<ins>networkCoInvestigator</ins>]({{ site.baseurl }}{{ page.url }}#networkCoInvestigator)**(_count=True, weighted=True_):
+
+Works for only some grant types
+
+
 
 {% include docsFooter.md %}

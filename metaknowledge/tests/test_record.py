@@ -121,7 +121,7 @@ class TestRecord(unittest.TestCase):
         self.assertEqual(self.R.subDict(['a', 'b']), {'a': None, 'b': None})
 
     def test_specials(self):
-        for t in metaknowledge.specialRecordFields:
+        for t in metaknowledge.commonRecordFields:
             if t not in ['id', 'address', 'grants', 'selfCitation']:
                 self.assertIsInstance(self.R.getAltName(t), str)
 

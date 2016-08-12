@@ -398,13 +398,6 @@ class RecordCollection(CollectionWithIDs):
                 raise RecordsNotCompatible("The Record '{}', with ID '{}' does not support writing to bibtext files.".format(R, R.id))
         f.close()
 
-    """
-    def writeBurst(self, tag, dropWords = None, clean = True, dateStrings = False):
-
-        for R in RC:
-            pass
-    """
-
     def findProbableCopyright(self):
         """Finds the (likely) copyright string from all abstracts in the `RecordCollection`
 
@@ -422,6 +415,42 @@ class RecordCollection(CollectionWithIDs):
         return list(retCopyrights)
 
     def forBurst(self, tag, outputFile = None, dropList = None, lower = True, removeNumbers = True, removeNonWords = True, removeWhitespace = True, stemmer = None):
+        """Creates a pandas friendly dictionary with 2 columns one `'year'` and the other `'word'`. Each row is a word that occurred in the field given by _tag_ in a `Record` and the year of the record. Unfortunately getting the month or day with any type of accuracy has proved to be impossible so year is the only option.
+
+        # Parameters
+
+        _tag_ : `str`
+
+        > The tag giving the field for the words to be extracted from.
+
+        _outputFile_ : `optional str`
+
+        > Default `None`, if a path is given a csv file will be created from the returned dictionary and written to that file
+
+        _dropList_ : `optional list[str]`
+
+        > Default `None`, if a list of strings is given each field will be checked for substrings, before any other processing, in the field, surrounded by spaces, matching those in _dropList_. The strings will only be dropped if they are surrounded on both sides with spaces (`' '`) so if `dropList = ['a']` then `'a cat'` will become `'cat'`.
+
+        _lower_ : `optional bool`
+
+        > default `True`, if `True` the output will made lower case
+
+        _removeNumbers_ : `optional bool`
+
+        > default `True`, if `True` all numbers will be removed
+
+        _removeNonWords_ : `optional bool`
+
+        > default `True`, if `True` all non-number non-number characters will be removed
+
+        _removeWhitespace_ : `optional bool`
+
+        > default `True`, if `True` all whitespace will be converted to a single space (`' '`)
+
+        _stemmer_ : `optional func`
+
+        > default `None`, if a function is provided it will be run on each individual word in the field and the output will replace it. For example to use the  `PorterStemmer` in the _nltk_ package you would give `nltk.PorterStemmer().stem`
+        """
 
         whiteSpaceRegex = re.compile(r'\s+')
 
@@ -1437,51 +1466,6 @@ class RecordCollection(CollectionWithIDs):
             return RecordCollection(inCollection = excluded, name = self.name, quietStart = True)
         else:
             return RecordCollection(inCollection = retRecs, name = self.name, quietStart = True)
-
-def getCoCiteIDs(clst):
-    """
-    Creates a dict of the ID-extra information pairs for a CR tag.
-    """
-    idDict = {}
-    for c in clst:
-        cId = c.ID()
-        if cId not in idDict:
-            idDict[cId] = c.Extra()
-    return idDict
-
-def updateWeightedEdges(grph, ebunch):
-    for e in ebunch:
-        try:
-            grph.edge[e[0]][e[1]]['weight'] += e[2]
-        except KeyError:
-            grph.add_edge(e[0], e[1], weight = e[2])
-
-def edgeBunchGenerator(base, nodes, weighted = False, reverse = False):
-    """
-    A helper function for generating a bunch of edges from 1 node base to a list of nodes nodes.
-    """
-    if weighted and reverse:
-        for n in nodes:
-            yield (n, base, 1)
-    elif weighted:
-        for n in nodes:
-            yield (base, n, 1)
-    elif reverse:
-        for n in nodes:
-            yield (n, base)
-    else:
-        for n in nodes:
-            yield (base, n)
-
-def edgeNodeReplacerGenerator(base, nodes, loc):
-    """
-    A helper function for replacing an element of nodes at loc with base
-    """
-    for n in nodes:
-        tmpN = list(n)
-        tmpN[loc] = base
-        yield tmpN
-
 
 def addToNetwork(grph, nds, count, weighted, nodeType, nodeInfo, fullInfo, coreCitesDict, coreValues, detailedValues, recordToCite = True, headNd = None):
     """Addeds the citations _nds_ to _grph_, according to the rules give by _nodeType_, _fullInfo_, etc.

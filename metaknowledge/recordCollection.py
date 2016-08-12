@@ -1,16 +1,13 @@
 #Written by Reid McIlroy-Young for Dr. John McLevey, University of Waterloo 2015
-import itertools
 import os
 import os.path
 import csv
-import pickle
 import re
 try:
     import collections.abc
 except ImportError:
     import collections
     collections.abc = collections
-import copy
 import networkx as nx
 
 from .constants import __version__

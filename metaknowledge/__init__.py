@@ -23,14 +23,14 @@ This package can read the files downloaded from the Thomson Reuters' [Web of Sci
 
 The [metaknowledge.RecordCollection](#RecordCollection.RecordCollection) class can take a path to one or more of these files load and parse them. The object is the main way for work to be done on multiple records. For each individual record it creates an instance of the [metaknowledge.Record](#metaknowledge.Record) class that contains the results of the parsing of the record.
 
-The files read by _metaknowledge_ are a databases containing a series of tags (implicitly or explicitly), e.g. `'TI'` is the title for WOS. Each tag has one or more values and metaknowledge can read them and extract useful information. As the tags differ between providers a small set of values can be accessed by special tags, the tags are listed in `specialRecordFields`. These special tags can act on the whole `Record` and as such may contain information provided by any number of other tags.
+The files read by _metaknowledge_ are a databases containing a series of tags (implicitly or explicitly), e.g. `'TI'` is the title for WOS. Each tag has one or more values and metaknowledge can read them and extract useful information. As the tags differ between providers a small set of values can be accessed by special tags, the tags are listed in `commonRecordFields`. These special tags can act on the whole `Record` and as such may contain information provided by any number of other tags.
 
 Citations are handled by a special [Citation](#Citation.Citation) class. This class can parse the citations given by _WOS_ and journals cited by _Scopus_ and allows for better comparisons when they are used in graphs.
 
 Note for those reading the docstrings metaknowledge's docs are written in markdown and are processed to produce the documentation found at [networkslab.org/metaknowledge/documentation]({{ site.baseurl }}/documentation/), but you should have no problem reading them from the help function.
 """
 
-from .constants import VERBOSE_MODE, __version__, specialRecordFields, FAST_CITES
+from .constants import VERBOSE_MODE, __version__, commonRecordFields, FAST_CITES
 from .mkExceptions import BadCitation, BadGrant, BadInputFile, BadProQuestFile, BadProQuestRecord, BadPubmedFile, BadPubmedRecord, BadRecord, BadWOSFile, BadWOSRecord, CollectionTypeError, GrantCollectionException, RCTypeError, RCValueError, RecordsNotCompatible, UnknownFile, cacheError, mkException, TagError, BadScopusRecord
 
 from .graphHelpers import writeEdgeList, writeNodeAttributeFile, writeGraph, readGraph, dropEdges, dropNodesByDegree, dropNodesByCount, mergeGraphs, graphStats, writeTnetFile

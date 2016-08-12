@@ -19,7 +19,7 @@ except ImportError:
     collections.abc = collections
 import copy
 
-from .constants import specialRecordFields
+from .constants import commonRecordFields
 
 from .mkExceptions import BadRecord
 
@@ -669,7 +669,7 @@ class ExtendedRecord(Record, metaclass = abc.ABCMeta):
 
         _restrictedOutput_ : `optional [bool]`
 
-        > default `False`, if `True` the tags output will be limited to tose found in `metaknowledge.specialRecordFields`
+        > default `False`, if `True` the tags output will be limited to tose found in `metaknowledge.commonRecordFields`
 
         _niceID_ : `optional [bool]`
 
@@ -706,7 +706,7 @@ class ExtendedRecord(Record, metaclass = abc.ABCMeta):
             bibID = str(self.id)
         keyEntries.append("author = {{{{{}}}}},".format(' and '.join(self.get('authorsFull', ['None']))))
         if restrictedOutput:
-            tagsIter = ((k, self[k]) for k in specialRecordFields if k in self)
+            tagsIter = ((k, self[k]) for k in commonRecordFields if k in self)
         else:
             tagsIter = self.items()
         if WOSMode:

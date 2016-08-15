@@ -27,6 +27,9 @@ metaknowledge/journalAbbreviations/j9Abbreviations.dat
 *.bib
 TODO.md
 
+
+*.DS_Store
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

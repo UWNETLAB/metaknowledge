@@ -19,7 +19,7 @@ class NSFGrant(Grant):
             idValue = "NSF:{}".format(grantdDict.get('AwardID'))
         Grant.__init__(self, originalName, grantdDict, idValue, bad, error, sFile = sFile, sLine = 1)
 
-    def getInvestigators(self):
+    def getInvestigators(self, tags = None, seperator = ";"):
         #By default we don't know whcich field has the investigators
         return [s.split('; ')[0] for s in self.get('Investigator', [])]
 

@@ -25,7 +25,7 @@ class NSERCGrant(Grant):
             else:
                 self._fieldDict[field] += "; {}".format(value)
 
-    def getInvestigators(self):
+    def getInvestigators(self, tags = None, seperator = ";"):
         return self.get('CoApplicantName-NomCoApplicant', '').split('; ')
 
 def isNSERCfile(fileName, useFileName = True):

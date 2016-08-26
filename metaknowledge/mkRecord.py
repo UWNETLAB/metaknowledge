@@ -478,7 +478,6 @@ class ExtendedRecord(Record, metaclass = abc.ABCMeta):
         return 'utf-8' #Most likely to be the encoding
 
     @staticmethod
-    @abc.abstractmethod
     def getAltName(tag):
         """An `abstractmethod`, gives the alternate name of _tag_ or `None`
 
@@ -633,6 +632,25 @@ class ExtendedRecord(Record, metaclass = abc.ABCMeta):
             return Citation(', '.join(valsLst))
 
     def authGenders(self, countsOnly = False, fractionsMode = False, _countsTuple = False):
+        """Creates a dict mapping `'Male'`, `'Female'` and `'Unknown'` to lists of the names of all the authors.
+
+        # Parameters
+
+        _countsOnly_ : `optional bool`
+
+        > Default `False`, if `True` the counts (lengths of the lists) will be given instead of the lists of names
+
+        _fractionsMode_ : `optional bool`
+
+        > Default `False`, if `True` the fraction counts (lengths of the lists divided by the total  number of authors) will be given instead of the lists of names. This supersedes _countsOnly_
+
+        # Returns
+
+        `dict[str:str or int]`
+
+        > The mapping of genders to author's names or counts
+        """
+
         authDict = recordGenders(self)
         if _countsTuple or countsOnly or fractionsMode:
             rawList = list(authDict.values())

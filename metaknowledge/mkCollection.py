@@ -522,10 +522,89 @@ class CollectionWithIDs(Collection):
             tags |= set(i.keys())
         return tags
 
-    def glimpse(self, *tags, outputFile = None):
+    def glimpse(self, *tags):
+        """Creates a printable table with the most frequently occurring values of each of the requested _tags_, or if none are provided the top authors, journals and citations. The table will be as wide and as tall as the terminal (or 80x24 if there is no terminal) so `print(RC.glimpse())`should always create a nice looking table. Below is a table created from some of the testing files:
+
+        ```
+        >>> print(RC.glimpse())
+        +RecordCollection glimpse made at: 2016-01-01 12:00:00++++++++++++++++++++++++++
+        |33 Records from testFile++++++++++++++++++++++++++++++++++++++++++++++++++++++|
+        |Columns are ranked by num. of occurrences and are independent of one another++|
+        |-------Top Authors--------+------Top Journals-------+--------Top Cited--------|
+        |1                Girard, S|1 CANADIAN JOURNAL OF PH.|1 LEVY Y, 1975, OPT COMM.|
+        |1                Gilles, H|1 JOURNAL OF THE OPTICAL.|2 GOOS F, 1947, ANN PHYS.|
+        |2                IMBERT, C|2          APPLIED OPTICS|3 LOTSCH HKV, 1970, OPTI.|
+        |2                Pillon, F|2   OPTICS COMMUNICATIONS|4 RENARD RH, 1964, J OPT.|
+        |3          BEAUREGARD, OCD|2 NUOVO CIMENTO DELLA SO.|5 IMBERT C, 1972, PHYS R.|
+        |3               Laroche, M|2 JOURNAL OF THE OPTICAL.|6 ARTMANN K, 1948, ANN P.|
+        |3                 HUARD, S|2 JOURNAL OF THE OPTICAL.|6 COSTADEB.O, 1973, PHYS.|
+        |4                  PURI, A|2 NOUVELLE REVUE D OPTIQ.|6 ROOSEN G, 1973, CR ACA.|
+        |4               COSTADEB.O|3 PHYSICS REPORTS-REVIEW.|7 Imbert C., 1972, Nouve.|
+        |4           PATTANAYAK, DN|3 PHYSICAL REVIEW LETTERS|8 HOROWITZ BR, 1971, J O.|
+        |4           Gazibegovic, A|3 USPEKHI FIZICHESKIKH N.|8 BRETENAKER F, 1992, PH.|
+        |4                ROOSEN, G|3 APPLIED PHYSICS B-LASE.|8 SCHILLIN.H, 1965, ANN .|
+        |4               BIRMAN, JL|3 AEU-INTERNATIONAL JOUR.|8 FEDOROV FI, 1955, DOKL.|
+        |4                Kaiser, R|3 COMPTES RENDUS HEBDOMA.|8 MAZET A, 1971, CR ACAD.|
+        |5                  LEVY, Y|3 CHINESE PHYSICS LETTERS|9 IMBERT C, 1972, CR ACA.|
+        |5              BEAUREGA.OC|3       PHYSICAL REVIEW B|9 LOTSCH HKV, 1971, OPTI.|
+        |5               PAVLOV, VI|3 LETTERE AL NUOVO CIMEN.|9 ASHBY N, 1973, PHYS RE.|
+        |5                BREVIK, I|3 PROGRESS IN QUANTUM EL.|9 BOULWARE DG, 1973, PHY.|
+        >>>
+        ```
+
+        # Parameters
+
+        _*tags_ : `str, str, ...`
+
+        > Any number of tag strings to be made into columns in the output table
+
+        # Returns
+
+        `str`
+
+        > A string containing the table
+        """
         return _glimpse(self, *tags)
 
     def rankedSeries(self, tag, outputFile = None, giveCounts = True, giveRanks = False, greatestFirst = True, pandasMode = True, limitTo = None):
+        """Creates an pandas dict of the ordered list of all the values of _tag_, with and ranked by their number of occurrences. A list can also be returned with the the counts or ranks added or it can be written to a file.
+
+        # Parameters
+
+        _tag_ : `str`
+
+        > The tag to be ranked
+
+        _outputFile_ : `optional str`
+
+        > A file path to write a csv with 2 columns, one the tag values the other their counts
+
+        _giveCounts_ : `optional bool`
+
+        > Default `True`, if `True` the retuned list will be composed of tuples the first values being the tag value and the second their counts. This supersedes _giveRanks_.
+
+        _giveRanks_ : `optional bool`
+
+        > Default `False`, if `True` and _giveCounts_ is `False`, the retuned list will be composed of tuples the first values being the tag value and the second their ranks. This is superseded by _giveCounts_.
+
+        _greatestFirst_ : `optional bool`
+
+        > Default `True`, if `True` the returned list will be ordered with the highest ranked value first, otherwise the lowest ranked will be first.
+
+        _pandasMode_ : `optional bool`
+
+        > Default `True`, if `True` a `dict` ready for pandas will be returned, otherwise a list
+
+        _limitTo_ : `optional list[values]`
+
+        > Default `None`, if a list is provided only those values in the list will be counted or returned
+
+        # Returns
+
+        `dict[str:list[value]] or list[str]`
+
+        > A `dict` or `list` will be returned depending on if _pandasMode_ is `True`
+        """
         if giveRanks and giveCounts:
             raise mkException("rankedSeries cannot return counts and ranks only one of giveRanks or giveCounts can be True.")
         seriesDict = {}
@@ -579,6 +658,42 @@ class CollectionWithIDs(Collection):
             return [e for e,c in seriesList]
 
     def timeSeries(self, tag = None, outputFile = None, giveYears = True, greatestFirst = True, limitTo = False, pandasMode = True):
+        """Creates an pandas dict of the ordered list of all the values of _tag_, with and ranked by the year the occurred in, multiple year occurrences will create multiple entries. A list can also be returned with the the counts or years added or it can be written to a file.
+
+        If no _tag_ is given the `Records` in the collection will be used
+
+        # Parameters
+
+        _tag_ : `optional str`
+
+        > Default `None`, if provided the tag will be ordered
+
+        _outputFile_ : `optional str`
+
+        > A file path to write a csv with 2 columns, one the tag values the other their years
+
+        _giveYears_ : `optional bool`
+
+        > Default `True`, if `True` the retuned list will be composed of tuples the first values being the tag value and the second their years.
+
+        _greatestFirst_ : `optional bool`
+
+        > Default `True`, if `True` the returned list will be ordered with the highest years first, otherwise the lowest years will be first.
+
+        _pandasMode_ : `optional bool`
+
+        > Default `True`, if `True` a `dict` ready for pandas will be returned, otherwise a list
+
+        _limitTo_ : `optional list[values]`
+
+        > Default `None`, if a list is provided only those values in the list will be counted or returned
+
+        # Returns
+
+        `dict[str:list[value]] or list[str]`
+
+        > A `dict` or `list` will be returned depending on if _pandasMode_ is `True`
+        """
         seriesDict = {}
         for R in self:
             #This should be faster than using get, since get is a wrapper for __getitem__

@@ -496,29 +496,41 @@ class RecordCollection(CollectionWithIDs):
 
         retDict = {'year' : [], 'word' : []}
 
-        for R in self:
-            try:
-                year = R['year']
-            except KeyError:
-                continue
-            try:
-                burstVal = R[tag]
-            except KeyError:
-                continue
-            else:
-                if isinstance(burstVal, list):
-                    burstVal = ' '.join((str(i) for i in burstVal))
+        pcount = 0
+        pmax = len(self)
+        progArgs = (0, "Starting to work on DataFrame for burst analysis")
+        if metaknowledge.VERBOSE_MODE:
+            progKwargs = {'dummy' : False}
+        else:
+            progKwargs = {'dummy' : True}
+        with _ProgressBar(*progArgs, **progKwargs) as PBar:
+            for R in self:
+                pcount += 1
+                PBar.updateVal(pcount/ pmax, "Analyzing: {}".format(R))
+                try:
+                    year = R['year']
+                except KeyError:
+                    continue
+                try:
+                    burstVal = R[tag]
+                except KeyError:
+                    continue
                 else:
-                    burstVal = str(burstVal)
-            for sToken in burstPreper(burstVal):
-                retDict['year'].append(year)
-                retDict['word'].append(sToken)
+                    if isinstance(burstVal, list):
+                        burstVal = ' '.join((str(i) for i in burstVal))
+                    else:
+                        burstVal = str(burstVal)
+                for sToken in burstPreper(burstVal):
+                    retDict['year'].append(year)
+                    retDict['word'].append(sToken)
 
-        if outputFile is not None:
-            with open(outputFile, 'w') as f:
-                writer = csv.DictWriter(f, ['year', 'word'])
-                for row in range(len(retDict['year'])):
-                    writer.writerow({k : retDict[k][row] for k in retDict.keys()})
+            if outputFile is not None:
+                PBar.updateVal(.99, "Writing to file: {}".format(outputFile))
+                with open(outputFile, 'w') as f:
+                    writer = csv.DictWriter(f, ['year', 'word'])
+                    for row in range(len(retDict['year'])):
+                        writer.writerow({k : retDict[k][row] for k in retDict.keys()})
+            PBar.finish("Done burst analysis DataFrame with {} rows".format(len(retDict['year'])))
         return retDict
 
     def forNLP(self, outputFile = None, extraColumns = None, dropList = None, lower = True, removeNumbers = True, removeNonWords = True, removeWhitespace = True, extractCopyright = False, stemmer = None):
@@ -608,9 +620,13 @@ class RecordCollection(CollectionWithIDs):
                 abst = ' '.join(retTokens)
             return abst, copyrightString
 
+        pcount = 0
+        pmax = len(self)
+        progArgs = (0, "Starting to work on DataFrame for NLP")
         if metaknowledge.VERBOSE_MODE:
-            pass
-            #TODO: Add this
+            progKwargs = {'dummy' : False}
+        else:
+            progKwargs = {'dummy' : True}
 
         retDict = {'id' : [], 'year' : [], 'title' : [], 'keywords' : [], 'abstract' : []}
         if extractCopyright:
@@ -619,36 +635,41 @@ class RecordCollection(CollectionWithIDs):
             extraColumns = []
         for column in extraColumns:
             retDict[column] = []
-        for R in self:
-            abstract, copyrightString = abPrep(R.get('AB', ''))
+        with _ProgressBar(*progArgs, **progKwargs) as PBar:
+            for R in self:
+                pcount += 1
+                PBar.updateVal(pcount/ pmax, "Analyzing: {}".format(R))
+                abstract, copyrightString = abPrep(R.get('AB', ''))
 
-            retDict['id'].append(R.id)
-            retDict['year'].append(R.get('year', ''))
-            retDict['title'].append(R.get('title', ''))
-            retDict['keywords'].append('|'.join(R.get('keywords', [])))
-            retDict['abstract'].append(abstract)
-            if extractCopyright:
-                retDict['copyright'].append(copyrightString)
-            for extraTag in extraColumns:
-                e = R.get(extraTag)
-                if isinstance(e, list):
-                    e = '|'.join((str(s) for s in e))
-                elif e is None:
-                    e = ''
-                retDict[extraTag].append(e)
+                retDict['id'].append(R.id)
+                retDict['year'].append(R.get('year', ''))
+                retDict['title'].append(R.get('title', ''))
+                retDict['keywords'].append('|'.join(R.get('keywords', [])))
+                retDict['abstract'].append(abstract)
+                if extractCopyright:
+                    retDict['copyright'].append(copyrightString)
+                for extraTag in extraColumns:
+                    e = R.get(extraTag)
+                    if isinstance(e, list):
+                        e = '|'.join((str(s) for s in e))
+                    elif e is None:
+                        e = ''
+                    retDict[extraTag].append(e)
 
-        if outputFile is not None:
-            with open(outputFile, 'w') as f:
-                fieldNames = list(retDict.keys())
-                fieldNames.remove('id')
-                fieldNames.remove('title')
-                fieldNames.remove('year')
-                fieldNames.remove('keywords')
-                fieldNames = ['id', 'year', 'title', 'keywords'] + fieldNames
-                writer = csv.DictWriter(f, fieldNames)
-                writer.writeheader()
-                for row in range(len(retDict['id'])):
-                    writer.writerow({k : retDict[k][row] for k in retDict.keys()})
+            if outputFile is not None:
+                PBar.updateVal(.99, "Writing to file: {}".format(outputFile))
+                with open(outputFile, 'w') as f:
+                    fieldNames = list(retDict.keys())
+                    fieldNames.remove('id')
+                    fieldNames.remove('title')
+                    fieldNames.remove('year')
+                    fieldNames.remove('keywords')
+                    fieldNames = ['id', 'year', 'title', 'keywords'] + fieldNames
+                    writer = csv.DictWriter(f, fieldNames)
+                    writer.writeheader()
+                    for row in range(len(retDict['id'])):
+                        writer.writerow({k : retDict[k][row] for k in retDict.keys()})
+            PBar.finish("Done NLP DataFrame with {} rows".format(len(retDict['id'])))
         return retDict
 
     def makeDict(self, onlyTheseTags = None, longNames = False, raw = False, numAuthors = True, genderCounts = True):
@@ -815,6 +836,21 @@ class RecordCollection(CollectionWithIDs):
         return retDict
 
     def genderStats(self, asFractions = False):
+        """Creates a dict (`{'Male' : maleCount, 'Female' : femaleCount, 'Unknown' : unknownCount}`) with the numbers of male, female and unknown names in the collection.
+
+        # Parameters
+
+        _asFractions_ : `optional bool`
+
+        > Default `False`, if `True` the counts will be divided by the total number of names, giving the fraction of names in each category instead of the raw counts.
+
+        # Returns
+
+        `dict[str:int]`
+
+        > A dict with three keys `'Male'`, `'Female'` and `'Unknown'` mapping to their respective counts
+        """
+
         maleCount = 0
         femaleCount = 0
         unknownCount = 0

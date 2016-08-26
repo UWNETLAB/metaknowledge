@@ -20,8 +20,27 @@ class NSFGrant(Grant):
         Grant.__init__(self, originalName, grantdDict, idValue, bad, error, sFile = sFile, sLine = 1)
 
     def getInvestigators(self, tags = None, seperator = ";"):
+        """Returns a list of the names of investigators. The optional arguments are ignored.
+
+        # Returns
+
+        `list [str]`
+
+        > A list of all the found investigator's names
+        """
         #By default we don't know whcich field has the investigators
         return [s.split('; ')[0] for s in self.get('Investigator', [])]
+
+    def getInstitutions(self, tags = None, seperator = ";"):
+        """Returns a list with the names of the institution. The optional arguments are ignored
+
+        # Returns
+
+        `list [str]`
+
+        > A list with 1 entry the name of the institution
+        """
+        return self.get('Institution', '').split("; ")[0:1]
 
 def isNSFfile(fileName, useFileName = True):
     if useFileName and not os.path.basename(fileName).endswith('.xml'):

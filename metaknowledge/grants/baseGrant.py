@@ -30,6 +30,26 @@ class Grant(Record, collections.abc.MutableMapping):
         self._fieldDict.__delitem__(key)
 
     def getInvestigators(self, tags = None, seperator = ";"):
+        """Returns a list of the names of investigators. This is done by looking (in order) for any of fields in _tags_ and splitting the strings on _seperator_. If no strings are found an empty list will be returned.
+
+        *Note* for some Grants `getInvestigators` has been overwritten and will ignore the arguments and simply provide the investigators.
+
+        # Parameters
+
+        _tags_ : `optional list[str]`
+
+        > A list of the tags to look for investigators in
+
+        _seperator_ : `optional str`
+
+        > The string that separators each investigators name  within the column
+
+        # Returns
+
+        `list [str]`
+
+        > A list of all the found investigator's names
+        """
         #By default we don't know which field has the investigators
         investVal = []
         if tag is not None:
@@ -42,6 +62,29 @@ class Grant(Record, collections.abc.MutableMapping):
                 except KeyError:
                     pass
         return investVal
+
+    def getInstitutions(self, tags = None, seperator = ";"):
+        """Returns a list of the names of institutions. This is done by looking (in order) for any of fields in _tags_ and splitting the strings on _seperator_ (in case of multiple institutions). If no strings are found an empty list will be returned.
+
+        *Note* for some Grants `getInstitutions` has been overwritten and will ignore the arguments and simply provide the investigators.
+
+        # Parameters
+
+        _tags_ : `optional list[str]`
+
+        > A list of the tags to look for institutions in
+
+        _seperator_ : `optional str`
+
+        > The string that separators each institutions name within the column
+
+        # Returns
+
+        `list [str]`
+
+        > A list of all the found institution's names
+        """
+        return self.getInvestigators(tags = tags, seperator = seperator)
 
     def update(self, other):
         """Adds all the tag-entry pairs from _other_ to the `Grant`. If there is a conflict _other_ takes precedence.

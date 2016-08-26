@@ -138,7 +138,7 @@ class GrantCollection(CollectionWithIDs):
             except AttributeError:
                 PBar.finish("Done making a GrantCollection. Warning an error occured.")
 
-    def networkCoInvestigator(self, investigatorTag = None, investigatorSeperator = ';', count = True, weighted = True):
+    def networkCoInvestigator(self, institutionLevel = False, targetTags = None, tagSeperator = ';', count = True, weighted = True):
         """Works for only some grant types"""
         grph = nx.Graph()
         pcount = 0
@@ -152,7 +152,10 @@ class GrantCollection(CollectionWithIDs):
                 if PBar:
                     pcount += 1
                     PBar.updateVal(pcount/ len(self), "Analyzing: " + str(G))
-                investList = G.getInvestigators(tags = investigatorTag, seperator = investigatorSeperator)
+                if institutionLevel:
+                    investList = G.getInstitutions(tags = targetTags, seperator = tagSeperator)
+                else:
+                    investList = G.getInvestigators(tags = targetTags, seperator = tagSeperator)
                 if len(investList) > 1:
                     for i, invest1 in enumerate(investList):
                         if invest1 not in grph:

@@ -30,7 +30,7 @@ class WOSRecord(ExtendedRecord):
 
     Generally, to get the information from a Record its attributes should be used. For a Record `R`, calling `R.CR` causes [**citations**()](#tagProcessing.citations) from the the [tagProcessing](#tagProcessing.tagProcessing) module to be called on the contents of the raw 'CR' field. Then the result is saved and returned. In this case, a list of Citation objects is returned. You can also call `R.citations` to get the same effect, as each known field tag has a longer name (currently there are 61 field tags). These names are meant to make accessing tags more readable and mapping from tag to name can be found in the tagToFull dict. If a tag is known (in [tagToFull](#metaknowledge.metaknowledge)) but not in the raw data `None` is returned instead. Most tags when cleaned return a string or list of strings, the exact results can be found in the help for the particular function.
 
-    The attribute `authors` is also defined as a connivence and returns the same as 'AF' or if that is not found 'AU'.
+    The attribute `authors` is also defined as a convenience and returns the same as 'AF' or if that is not found 'AU'.
 
     # \_\_Init\_\_
 

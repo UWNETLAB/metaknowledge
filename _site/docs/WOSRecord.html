@@ -119,7 +119,7 @@
   		<a href="/metaknowledge/" class="site-logo" rel="home" title="metaknowledge"><img src="/metaknowledge/images/site-logo.png" width="200" height="200" alt="metaknowledge logo" class="animated fadeInDown"></a>
       
       <h1 class="site-title animated fadeIn"><a href="/metaknowledge/">metaknowledge</a></h1>
-		<h2 class="site-description animated fadeIn" itemprop="description">A Python3 package for social networks and bibliometric research on knowledge</h2>
+		<h2 class="site-description animated fadeIn" itemprop="description">A Python3 package for computational research on knowledge</h2>
 	</div>
 </header><!-- /.masthead -->
 
@@ -153,7 +153,7 @@
 
 <p>Generally, to get the information from a Record its attributes should be used. For a Record <code class="highlighter-rouge">R</code>, calling <code class="highlighter-rouge">R.CR</code> causes <a href="/metaknowledge/docs/WOSRecord#citations"><strong>citations</strong>()</a> from the the <a href="/metaknowledge/docs/WOSRecord#tagProcessing">tagProcessing</a> module to be called on the contents of the raw ‘CR’ field. Then the result is saved and returned. In this case, a list of Citation objects is returned. You can also call <code class="highlighter-rouge">R.citations</code> to get the same effect, as each known field tag has a longer name (currently there are 61 field tags). These names are meant to make accessing tags more readable and mapping from tag to name can be found in the tagToFull dict. If a tag is known (in <a href="/metaknowledge/docs/WOSRecord#metaknowledge">tagToFull</a>) but not in the raw data <code class="highlighter-rouge">None</code> is returned instead. Most tags when cleaned return a string or list of strings, the exact results can be found in the help for the particular function.</p>
 
-<p>The attribute <code class="highlighter-rouge">authors</code> is also defined as a connivence and returns the same as ‘AF’ or if that is not found ‘AU’.</p>
+<p>The attribute <code class="highlighter-rouge">authors</code> is also defined as a convenience and returns the same as ‘AF’ or if that is not found ‘AU’.</p>
 
 <h5 id="init">__Init__</h5>
 

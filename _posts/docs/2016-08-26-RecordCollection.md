@@ -396,7 +396,42 @@ Finds the (likely) copyright string from all abstracts in the `RecordCollection`
 
 <a name="forBurst"></a><small>RecordCollection.</small>**[<ins>forBurst</ins>]({{ site.baseurl }}{{ page.url }}#forBurst)**(_tag, outputFile=None, dropList=None, lower=True, removeNumbers=True, removeNonWords=True, removeWhitespace=True, stemmer=None_):
 
-# Needs to be written
+Creates a pandas friendly dictionary with 2 columns one `'year'` and the other `'word'`. Each row is a word that occurred in the field given by _tag_ in a `Record` and the year of the record. Unfortunately getting the month or day with any type of accuracy has proved to be impossible so year is the only option.
+
+###### Parameters
+
+_tag_ : `str`
+
+ The tag giving the field for the words to be extracted from.
+
+_outputFile_ : `optional str`
+
+ Default `None`, if a path is given a csv file will be created from the returned dictionary and written to that file
+
+_dropList_ : `optional list[str]`
+
+ Default `None`, if a list of strings is given each field will be checked for substrings, before any other processing, in the field, surrounded by spaces, matching those in _dropList_. The strings will only be dropped if they are surrounded on both sides with spaces (`' '`) so if `dropList = ['a']` then `'a cat'` will become `'cat'`.
+
+_lower_ : `optional bool`
+
+ default `True`, if `True` the output will made lower case
+
+_removeNumbers_ : `optional bool`
+
+ default `True`, if `True` all numbers will be removed
+
+_removeNonWords_ : `optional bool`
+
+ default `True`, if `True` all non-number non-number characters will be removed
+
+_removeWhitespace_ : `optional bool`
+
+ default `True`, if `True` all whitespace will be converted to a single space (`' '`)
+
+_stemmer_ : `optional func`
+
+ default `None`, if a function is provided it will be run on each individual word in the field and the output will replace it. For example to use the  `PorterStemmer` in the _nltk_ package you would give `nltk.PorterStemmer().stem`
+
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
@@ -512,7 +547,20 @@ _dropYears_ : `optional int or list[int]`
 
 <a name="genderStats"></a><small>RecordCollection.</small>**[<ins>genderStats</ins>]({{ site.baseurl }}{{ page.url }}#genderStats)**(_asFractions=False_):
 
-# Needs to be written
+Creates a dict (`{'Male' : maleCount, 'Female' : femaleCount, 'Unknown' : unknownCount}`) with the numbers of male, female and unknown names in the collection.
+
+###### Parameters
+
+_asFractions_ : `optional bool`
+
+ Default `False`, if `True` the counts will be divided by the total number of names, giving the fraction of names in each category instead of the raw counts.
+
+###### Returns
+
+`dict[str:int]`
+
+ A dict with three keys `'Male'`, `'Female'` and `'Unknown'` mapping to their respective counts
+
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 

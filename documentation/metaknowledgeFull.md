@@ -28,8 +28,8 @@ search_omit: true
 <li><article><a href="#WOSRecord"><b>WOSRecord</b></a>(<i><a href="#ExtendedRecord"><u style="border-bottom: .5px dashed gray;">ExtendedRecord</u></a></i>)<span class="excerpt">The object for containing and processing WOS entries</span></article></li>
 <li><article><a href="#Citation"><b>Citation</b></a>(<i>Hashable</i>)<span class="excerpt">Citation are special, here is how they are handled</span></article></li>
 <li><article><a href="#GrantCollection"><b>GrantCollection</b></a>(<i><a href="#CollectionWithIDs"><u style="border-bottom: .5px dashed gray;">CollectionWithIDs</u></a></i>)<span class="excerpt">A Collection of Grants, this is what does most of the stuff on Grants</span></article></li>
-<li><article><a href="#Grant"><b>Grant</b></a>(<i><a href="#Record"><u style="border-bottom: .5px dashed gray;">Record</u></a>, MutableMapping</i>)<span class="excerpt">The base for all the other Grants</span></article></li>
 <li><article><a href="#DefaultGrant"><b>DefaultGrant</b></a>(<i><a href="#Grant"><u style="border-bottom: .5px dashed gray;">Grant</u></a></i>)<span class="excerpt">The Grant used if a file was not identifiable</span></article></li>
+<li><article><a href="#Grant"><b>Grant</b></a>(<i><a href="#Record"><u style="border-bottom: .5px dashed gray;">Record</u></a>, MutableMapping</i>)<span class="excerpt">The base for all the other Grants</span></article></li>
 <li><article><a href="#CIHRGrant"><b>CIHRGrant</b></a>(<i><a href="#Grant"><u style="border-bottom: .5px dashed gray;">Grant</u></a></i>)<span class="excerpt">The container for CIHR grant entries</span></article></li>
 <li><article><a href="#MedlineGrant"><b>MedlineGrant</b></a>(<i><a href="#Grant"><u style="border-bottom: .5px dashed gray;">Grant</u></a></i>)<span class="excerpt">The container for grants derived from Medline Records entries</span></article></li>
 <li><article><a href="#NSERCGrant"><b>NSERCGrant</b></a>(<i><a href="#Grant"><u style="border-bottom: .5px dashed gray;">Grant</u></a></i>)<span class="excerpt">The container for NSERC grant entries</span></article></li>
@@ -72,16 +72,19 @@ search_omit: true
 <li><article><a href="#isJournal"><small>Citation</small>.<b>isJournal</b>(<i>dbname='j9Abbreviations', manaulDB='manualj9Abbreviations', returnDict='both', checkIfExcluded=False</i>)</a></article></li>
 <li><article><a href="#FullJournalName"><small>Citation</small>.<b>FullJournalName</b>()</a></article></li>
 <li><article><a href="#addToDB"><small>Citation</small>.<b>addToDB</b>(<i>manualName=None, manaulDB='manualj9Abbreviations', invert=False</i>)</a></article></li>
-<li><article><a href="#networkCoInvestigator"><small>GrantCollection</small>.<b>networkCoInvestigator</b>(<i>count=True, weighted=True</i>)</a></article></li>
-<li><article><a href="#getInvestigators"><small>Grant</small>.<b>getInvestigators</b>()</a></article></li>
+<li><article><a href="#networkCoInvestigator"><small>GrantCollection</small>.<b>networkCoInvestigator</b>(<i>institutionLevel=False, targetTags=None, tagSeperator=';', count=True, weighted=True</i>)</a></article></li>
+<li><article><a href="#getInvestigators"><small>Grant</small>.<b>getInvestigators</b>(<i>tags=None, seperator=';'</i>)</a></article></li>
+<li><article><a href="#getInstitutions"><small>Grant</small>.<b>getInstitutions</b>(<i>tags=None, seperator=';'</i>)</a></article></li>
 <li><article><a href="#update"><small>Grant</small>.<b>update</b>(<i>other</i>)</a></article></li>
-<li><article><a href="#pop"><small>Grant</small>.<b>pop</b>(<i>key, default=<object object at 0x109970050></i>)</a></article></li>
+<li><article><a href="#pop"><small>Grant</small>.<b>pop</b>(<i>key, default=<object object at 0x10349a050></i>)</a></article></li>
 <li><article><a href="#popitem"><small>Grant</small>.<b>popitem</b>()</a></article></li>
 <li><article><a href="#clear"><small>Grant</small>.<b>clear</b>()</a></article></li>
 <li><article><a href="#setdefault"><small>Grant</small>.<b>setdefault</b>(<i>key, default=None</i>)</a></article></li>
 <li><article><a href="#update"><small>NSERCGrant</small>.<b>update</b>(<i>other</i>)</a></article></li>
-<li><article><a href="#getInvestigators"><small>NSERCGrant</small>.<b>getInvestigators</b>()</a></article></li>
-<li><article><a href="#getInvestigators"><small>NSFGrant</small>.<b>getInvestigators</b>()</a></article></li>
+<li><article><a href="#getInvestigators"><small>NSERCGrant</small>.<b>getInvestigators</b>(<i>tags=None, seperator=';'</i>)</a></article></li>
+<li><article><a href="#getInstitutions"><small>NSERCGrant</small>.<b>getInstitutions</b>(<i>tags=None, seperator=';'</i>)</a></article></li>
+<li><article><a href="#getInvestigators"><small>NSFGrant</small>.<b>getInvestigators</b>(<i>tags=None, seperator=';'</i>)</a></article></li>
+<li><article><a href="#getInstitutions"><small>NSFGrant</small>.<b>getInstitutions</b>(<i>tags=None, seperator=';'</i>)</a></article></li>
 <li><article><a href="#encoding"><small>MedlineRecord</small>.<b>encoding</b>()</a></article></li>
 <li><article><a href="#getAltName"><small>MedlineRecord</small>.<b>getAltName</b>(<i>tag</i>)</a></article></li>
 <li><article><a href="#tagProcessingFunc"><small>MedlineRecord</small>.<b>tagProcessingFunc</b>(<i>tag</i>)</a></article></li>
@@ -104,7 +107,7 @@ search_omit: true
 <li><article><a href="#badEntries"><small>CollectionWithIDs</small>.<b>badEntries</b>()</a></article></li>
 <li><article><a href="#dropBadEntries"><small>CollectionWithIDs</small>.<b>dropBadEntries</b>()</a></article></li>
 <li><article><a href="#tags"><small>CollectionWithIDs</small>.<b>tags</b>()</a></article></li>
-<li><article><a href="#glimpse"><small>CollectionWithIDs</small>.<b>glimpse</b>(<i>*tags, outputFile=None</i>)</a></article></li>
+<li><article><a href="#glimpse"><small>CollectionWithIDs</small>.<b>glimpse</b>(<i>*tags</i>)</a></article></li>
 <li><article><a href="#rankedSeries"><small>CollectionWithIDs</small>.<b>rankedSeries</b>(<i>tag, outputFile=None, giveCounts=True, giveRanks=False, greatestFirst=True, pandasMode=True, limitTo=None</i>)</a></article></li>
 <li><article><a href="#timeSeries"><small>CollectionWithIDs</small>.<b>timeSeries</b>(<i>tag=None, outputFile=None, giveYears=True, greatestFirst=True, limitTo=False, pandasMode=True</i>)</a></article></li>
 <li><article><a href="#cooccurrenceCounts"><small>CollectionWithIDs</small>.<b>cooccurrenceCounts</b>(<i>keyTag, *countedTags</i>)</a></article></li>
@@ -960,7 +963,7 @@ When a record is created if the parsing of the WOS file failed it is marked as `
 
 Generally, to get the information from a Record its attributes should be used. For a Record `R`, calling `R.CR` causes [**citations**()](#citations) from the the [tagProcessing](#tagProcessing) module to be called on the contents of the raw 'CR' field. Then the result is saved and returned. In this case, a list of Citation objects is returned. You can also call `R.citations` to get the same effect, as each known field tag has a longer name (currently there are 61 field tags). These names are meant to make accessing tags more readable and mapping from tag to name can be found in the tagToFull dict. If a tag is known (in [tagToFull](#metaknowledge)) but not in the raw data `None` is returned instead. Most tags when cleaned return a string or list of strings, the exact results can be found in the help for the particular function.
 
-The attribute `authors` is also defined as a connivence and returns the same as 'AF' or if that is not found 'AU'.
+The attribute `authors` is also defined as a convenience and returns the same as 'AF' or if that is not found 'AU'.
 
 ##### \_\_Init\_\_
 
@@ -1281,16 +1284,27 @@ As `CollectionWithIDs` is mostly meant to be base for other classes all but one 
 The GrantCollection class has the following methods:</h3>
 
 <ol class="post-list">
-<li><article><a href="#networkCoInvestigator"><b>networkCoInvestigator</b>(<i>count=True, weighted=True</i>)</a></article></li>
+<li><article><a href="#networkCoInvestigator"><b>networkCoInvestigator</b>(<i>institutionLevel=False, targetTags=None, tagSeperator=';', count=True, weighted=True</i>)</a></article></li>
 </ol>
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="networkCoInvestigator"></a><small>GrantCollection.</small>**[<ins>networkCoInvestigator</ins>]({{ site.baseurl }}{{ page.url }}#networkCoInvestigator)**(_count=True, weighted=True_):
+<a name="networkCoInvestigator"></a><small>GrantCollection.</small>**[<ins>networkCoInvestigator</ins>]({{ site.baseurl }}{{ page.url }}#networkCoInvestigator)**(_institutionLevel=False, targetTags=None, tagSeperator=';', count=True, weighted=True_):
 
 Works for only some grant types
 
 
 
+---
+<a name="DefaultGrant"></a>
+<a name="DefaultGrant"></a><small></small>**[<ins>DefaultGrant</ins>](#DefaultGrant)**(_<a href="#Grant"><u style="border-bottom: .5px dashed gray;">Grant</u></a>_):
+
+<a name="DefaultGrant.__init__"></a><small></small>**[<ins>DefaultGrant.__init__</ins>](#DefaultGrant.__init__)**(_original, grantdDict, sFile='', sLine=0_):
+
+A subclass of [`Grant`](#grant), it has the same attributes and is returned from the default constructor for grants.
+    
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 ---
 <a name="Grant"></a>
 <a name="Grant"></a><small></small>**[<ins>Grant</ins>](#Grant)**(_<a href="#Record"><u style="border-bottom: .5px dashed gray;">Record</u></a>, MutableMapping_):
@@ -1344,14 +1358,59 @@ _sLine_ : `int`
 The Grant class has the following methods:</h3>
 
 <ol class="post-list">
-<li><article><a href="#getInvestigators"><b>getInvestigators</b>()</a></article></li>
+<li><article><a href="#getInvestigators"><b>getInvestigators</b>(<i>tags=None, seperator=';'</i>)</a></article></li>
+<li><article><a href="#getInstitutions"><b>getInstitutions</b>(<i>tags=None, seperator=';'</i>)</a></article></li>
 <li><article><a href="#update"><b>update</b>(<i>other</i>)</a></article></li>
 </ol>
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="getInvestigators"></a><small>Grant.</small>**[<ins>getInvestigators</ins>]({{ site.baseurl }}{{ page.url }}#getInvestigators)**():
+<a name="getInvestigators"></a><small>Grant.</small>**[<ins>getInvestigators</ins>]({{ site.baseurl }}{{ page.url }}#getInvestigators)**(_tags=None, seperator=';'_):
 
-# Needs to be written
+Returns a list of the names of investigators. This is done by looking (in order) for any of fields in _tags_ and splitting the strings on _seperator_. If no strings are found an empty list will be returned.
+
+*Note* for some Grants `getInvestigators` has been overwritten and will ignore the arguments and simply provide the investigators.
+
+###### Parameters
+
+_tags_ : `optional list[str]`
+
+ A list of the tags to look for investigators in
+
+_seperator_ : `optional str`
+
+ The string that separators each investigators name  within the column
+
+###### Returns
+
+`list [str]`
+
+ A list of all the found investigator's names
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="getInstitutions"></a><small>Grant.</small>**[<ins>getInstitutions</ins>]({{ site.baseurl }}{{ page.url }}#getInstitutions)**(_tags=None, seperator=';'_):
+
+Returns a list of the names of institutions. This is done by looking (in order) for any of fields in _tags_ and splitting the strings on _seperator_ (in case of multiple institutions). If no strings are found an empty list will be returned.
+
+*Note* for some Grants `getInstitutions` has been overwritten and will ignore the arguments and simply provide the investigators.
+
+###### Parameters
+
+_tags_ : `optional list[str]`
+
+ A list of the tags to look for institutions in
+
+_seperator_ : `optional str`
+
+ The string that separators each institutions name within the column
+
+###### Returns
+
+`list [str]`
+
+ A list of all the found institution's names
+
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
@@ -1367,17 +1426,6 @@ _other_ : `Grant`
 
 
 
----
-<a name="DefaultGrant"></a>
-<a name="DefaultGrant"></a><small></small>**[<ins>DefaultGrant</ins>](#DefaultGrant)**(_<a href="#Grant"><u style="border-bottom: .5px dashed gray;">Grant</u></a>_):
-
-<a name="DefaultGrant.__init__"></a><small></small>**[<ins>DefaultGrant.__init__</ins>](#DefaultGrant.__init__)**(_original, grantdDict, sFile='', sLine=0_):
-
-A subclass of [`Grant`](#grant), it has the same attributes and is returned from the default constructor for grants.
-    
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 ---
 <a name="CIHRGrant"></a>
 <a name="CIHRGrant"></a><small></small>**[<ins>CIHRGrant</ins>](#CIHRGrant)**(_<a href="#Grant"><u style="border-bottom: .5px dashed gray;">Grant</u></a>_):
@@ -1532,7 +1580,8 @@ The NSERCGrant class has the following methods:</h3>
 
 <ol class="post-list">
 <li><article><a href="#update"><b>update</b>(<i>other</i>)</a></article></li>
-<li><article><a href="#getInvestigators"><b>getInvestigators</b>()</a></article></li>
+<li><article><a href="#getInvestigators"><b>getInvestigators</b>(<i>tags=None, seperator=';'</i>)</a></article></li>
+<li><article><a href="#getInstitutions"><b>getInstitutions</b>(<i>tags=None, seperator=';'</i>)</a></article></li>
 </ol>
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
@@ -1549,9 +1598,29 @@ _other_ : `Grant`
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="getInvestigators"></a><small>NSERCGrant.</small>**[<ins>getInvestigators</ins>]({{ site.baseurl }}{{ page.url }}#getInvestigators)**():
+<a name="getInvestigators"></a><small>NSERCGrant.</small>**[<ins>getInvestigators</ins>]({{ site.baseurl }}{{ page.url }}#getInvestigators)**(_tags=None, seperator=';'_):
 
-# Needs to be written
+Returns a list of the names of investigators. The optional arguments are ignored.
+
+###### Returns
+
+`list [str]`
+
+ A list of all the found investigator's names
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="getInstitutions"></a><small>NSERCGrant.</small>**[<ins>getInstitutions</ins>]({{ site.baseurl }}{{ page.url }}#getInstitutions)**(_tags=None, seperator=';'_):
+
+Returns a list with the names of the institution. The optional arguments are ignored
+
+###### Returns
+
+`list [str]`
+
+ A list with 1 entry the name of the institution
+
 
 
 ---
@@ -1607,13 +1676,34 @@ _sLine_ : `int`
 The NSFGrant class has the following methods:</h3>
 
 <ol class="post-list">
-<li><article><a href="#getInvestigators"><b>getInvestigators</b>()</a></article></li>
+<li><article><a href="#getInvestigators"><b>getInvestigators</b>(<i>tags=None, seperator=';'</i>)</a></article></li>
+<li><article><a href="#getInstitutions"><b>getInstitutions</b>(<i>tags=None, seperator=';'</i>)</a></article></li>
 </ol>
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="getInvestigators"></a><small>NSFGrant.</small>**[<ins>getInvestigators</ins>]({{ site.baseurl }}{{ page.url }}#getInvestigators)**():
+<a name="getInvestigators"></a><small>NSFGrant.</small>**[<ins>getInvestigators</ins>]({{ site.baseurl }}{{ page.url }}#getInvestigators)**(_tags=None, seperator=';'_):
 
-# Needs to be written
+Returns a list of the names of investigators. The optional arguments are ignored.
+
+###### Returns
+
+`list [str]`
+
+ A list of all the found investigator's names
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="getInstitutions"></a><small>NSFGrant.</small>**[<ins>getInstitutions</ins>]({{ site.baseurl }}{{ page.url }}#getInstitutions)**(_tags=None, seperator=';'_):
+
+Returns a list with the names of the institution. The optional arguments are ignored
+
+###### Returns
+
+`list [str]`
+
+ A list with 1 entry the name of the institution
+
 
 
 ---
@@ -1934,7 +2024,7 @@ The CollectionWithIDs class has the following methods:</h3>
 <li><article><a href="#badEntries"><b>badEntries</b>()</a></article></li>
 <li><article><a href="#dropBadEntries"><b>dropBadEntries</b>()</a></article></li>
 <li><article><a href="#tags"><b>tags</b>()</a></article></li>
-<li><article><a href="#glimpse"><b>glimpse</b>(<i>*tags, outputFile=None</i>)</a></article></li>
+<li><article><a href="#glimpse"><b>glimpse</b>(<i>*tags</i>)</a></article></li>
 <li><article><a href="#rankedSeries"><b>rankedSeries</b>(<i>tag, outputFile=None, giveCounts=True, giveRanks=False, greatestFirst=True, pandasMode=True, limitTo=None</i>)</a></article></li>
 <li><article><a href="#timeSeries"><b>timeSeries</b>(<i>tag=None, outputFile=None, giveYears=True, greatestFirst=True, limitTo=False, pandasMode=True</i>)</a></article></li>
 <li><article><a href="#cooccurrenceCounts"><b>cooccurrenceCounts</b>(<i>keyTag, *countedTags</i>)</a></article></li>
@@ -2081,21 +2171,133 @@ Creates a list of all the tags of the contained items
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="glimpse"></a><small>CollectionWithIDs.</small>**[<ins>glimpse</ins>]({{ site.baseurl }}{{ page.url }}#glimpse)**(_*tags, outputFile=None_):
+<a name="glimpse"></a><small>CollectionWithIDs.</small>**[<ins>glimpse</ins>]({{ site.baseurl }}{{ page.url }}#glimpse)**(_*tags_):
 
-# Needs to be written
+Creates a printable table with the most frequently occurring values of each of the requested _tags_, or if none are provided the top authors, journals and citations. The table will be as wide and as tall as the terminal (or 80x24 if there is no terminal) so `print(RC.glimpse())`should always create a nice looking table. Below is a table created from some of the testing files:
+
+```
+> > print(RC.glimpse())
++RecordCollection glimpse made at: 2016-01-01 12:00:00++++++++++++++++++++++++++
+|33 Records from testFile++++++++++++++++++++++++++++++++++++++++++++++++++++++|
+|Columns are ranked by num. of occurrences and are independent of one another++|
+|-------Top Authors--------+------Top Journals-------+--------Top Cited--------|
+|1                Girard, S|1 CANADIAN JOURNAL OF PH.|1 LEVY Y, 1975, OPT COMM.|
+|1                Gilles, H|1 JOURNAL OF THE OPTICAL.|2 GOOS F, 1947, ANN PHYS.|
+|2                IMBERT, C|2          APPLIED OPTICS|3 LOTSCH HKV, 1970, OPTI.|
+|2                Pillon, F|2   OPTICS COMMUNICATIONS|4 RENARD RH, 1964, J OPT.|
+|3          BEAUREGARD, OCD|2 NUOVO CIMENTO DELLA SO.|5 IMBERT C, 1972, PHYS R.|
+|3               Laroche, M|2 JOURNAL OF THE OPTICAL.|6 ARTMANN K, 1948, ANN P.|
+|3                 HUARD, S|2 JOURNAL OF THE OPTICAL.|6 COSTADEB.O, 1973, PHYS.|
+|4                  PURI, A|2 NOUVELLE REVUE D OPTIQ.|6 ROOSEN G, 1973, CR ACA.|
+|4               COSTADEB.O|3 PHYSICS REPORTS-REVIEW.|7 Imbert C., 1972, Nouve.|
+|4           PATTANAYAK, DN|3 PHYSICAL REVIEW LETTERS|8 HOROWITZ BR, 1971, J O.|
+|4           Gazibegovic, A|3 USPEKHI FIZICHESKIKH N.|8 BRETENAKER F, 1992, PH.|
+|4                ROOSEN, G|3 APPLIED PHYSICS B-LASE.|8 SCHILLIN.H, 1965, ANN .|
+|4               BIRMAN, JL|3 AEU-INTERNATIONAL JOUR.|8 FEDOROV FI, 1955, DOKL.|
+|4                Kaiser, R|3 COMPTES RENDUS HEBDOMA.|8 MAZET A, 1971, CR ACAD.|
+|5                  LEVY, Y|3 CHINESE PHYSICS LETTERS|9 IMBERT C, 1972, CR ACA.|
+|5              BEAUREGA.OC|3       PHYSICAL REVIEW B|9 LOTSCH HKV, 1971, OPTI.|
+|5               PAVLOV, VI|3 LETTERE AL NUOVO CIMEN.|9 ASHBY N, 1973, PHYS RE.|
+|5                BREVIK, I|3 PROGRESS IN QUANTUM EL.|9 BOULWARE DG, 1973, PHY.|
+> >
+```
+
+###### Parameters
+
+_*tags_ : `str, str, ...`
+
+ Any number of tag strings to be made into columns in the output table
+
+###### Returns
+
+`str`
+
+ A string containing the table
+
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="rankedSeries"></a><small>CollectionWithIDs.</small>**[<ins>rankedSeries</ins>]({{ site.baseurl }}{{ page.url }}#rankedSeries)**(_tag, outputFile=None, giveCounts=True, giveRanks=False, greatestFirst=True, pandasMode=True, limitTo=None_):
 
-# Needs to be written
+Creates an pandas dict of the ordered list of all the values of _tag_, with and ranked by their number of occurrences. A list can also be returned with the the counts or ranks added or it can be written to a file.
+
+###### Parameters
+
+_tag_ : `str`
+
+ The tag to be ranked
+
+_outputFile_ : `optional str`
+
+ A file path to write a csv with 2 columns, one the tag values the other their counts
+
+_giveCounts_ : `optional bool`
+
+ Default `True`, if `True` the retuned list will be composed of tuples the first values being the tag value and the second their counts. This supersedes _giveRanks_.
+
+_giveRanks_ : `optional bool`
+
+ Default `False`, if `True` and _giveCounts_ is `False`, the retuned list will be composed of tuples the first values being the tag value and the second their ranks. This is superseded by _giveCounts_.
+
+_greatestFirst_ : `optional bool`
+
+ Default `True`, if `True` the returned list will be ordered with the highest ranked value first, otherwise the lowest ranked will be first.
+
+_pandasMode_ : `optional bool`
+
+ Default `True`, if `True` a `dict` ready for pandas will be returned, otherwise a list
+
+_limitTo_ : `optional list[values]`
+
+ Default `None`, if a list is provided only those values in the list will be counted or returned
+
+###### Returns
+
+`dict[str:list[value]] or list[str]`
+
+ A `dict` or `list` will be returned depending on if _pandasMode_ is `True`
+
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="timeSeries"></a><small>CollectionWithIDs.</small>**[<ins>timeSeries</ins>]({{ site.baseurl }}{{ page.url }}#timeSeries)**(_tag=None, outputFile=None, giveYears=True, greatestFirst=True, limitTo=False, pandasMode=True_):
 
-# Needs to be written
+Creates an pandas dict of the ordered list of all the values of _tag_, with and ranked by the year the occurred in, multiple year occurrences will create multiple entries. A list can also be returned with the the counts or years added or it can be written to a file.
+
+If no _tag_ is given the `Records` in the collection will be used
+
+###### Parameters
+
+_tag_ : `optional str`
+
+ Default `None`, if provided the tag will be ordered
+
+_outputFile_ : `optional str`
+
+ A file path to write a csv with 2 columns, one the tag values the other their years
+
+_giveYears_ : `optional bool`
+
+ Default `True`, if `True` the retuned list will be composed of tuples the first values being the tag value and the second their years.
+
+_greatestFirst_ : `optional bool`
+
+ Default `True`, if `True` the returned list will be ordered with the highest years first, otherwise the lowest years will be first.
+
+_pandasMode_ : `optional bool`
+
+ Default `True`, if `True` a `dict` ready for pandas will be returned, otherwise a list
+
+_limitTo_ : `optional list[values]`
+
+ Default `None`, if a list is provided only those values in the list will be counted or returned
+
+###### Returns
+
+`dict[str:list[value]] or list[str]`
+
+ A `dict` or `list` will be returned depending on if _pandasMode_ is `True`
+
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
@@ -2526,7 +2728,24 @@ _multiCite_ : `optional [bool]`
 
 <a name="authGenders"></a><small>ExtendedRecord.</small>**[<ins>authGenders</ins>]({{ site.baseurl }}{{ page.url }}#authGenders)**(_countsOnly=False, fractionsMode=False_):
 
-# Needs to be written
+Creates a dict mapping `'Male'`, `'Female'` and `'Unknown'` to lists of the names of all the authors.
+
+###### Parameters
+
+_countsOnly_ : `optional bool`
+
+ Default `False`, if `True` the counts (lengths of the lists) will be given instead of the lists of names
+
+_fractionsMode_ : `optional bool`
+
+ Default `False`, if `True` the fraction counts (lengths of the lists divided by the total  number of authors) will be given instead of the lists of names. This supersedes _countsOnly_
+
+###### Returns
+
+`dict[str:str or int]`
+
+ The mapping of genders to author's names or counts
+
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
@@ -3191,7 +3410,42 @@ Finds the (likely) copyright string from all abstracts in the `RecordCollection`
 
 <a name="forBurst"></a><small>RecordCollection.</small>**[<ins>forBurst</ins>]({{ site.baseurl }}{{ page.url }}#forBurst)**(_tag, outputFile=None, dropList=None, lower=True, removeNumbers=True, removeNonWords=True, removeWhitespace=True, stemmer=None_):
 
-# Needs to be written
+Creates a pandas friendly dictionary with 2 columns one `'year'` and the other `'word'`. Each row is a word that occurred in the field given by _tag_ in a `Record` and the year of the record. Unfortunately getting the month or day with any type of accuracy has proved to be impossible so year is the only option.
+
+###### Parameters
+
+_tag_ : `str`
+
+ The tag giving the field for the words to be extracted from.
+
+_outputFile_ : `optional str`
+
+ Default `None`, if a path is given a csv file will be created from the returned dictionary and written to that file
+
+_dropList_ : `optional list[str]`
+
+ Default `None`, if a list of strings is given each field will be checked for substrings, before any other processing, in the field, surrounded by spaces, matching those in _dropList_. The strings will only be dropped if they are surrounded on both sides with spaces (`' '`) so if `dropList = ['a']` then `'a cat'` will become `'cat'`.
+
+_lower_ : `optional bool`
+
+ default `True`, if `True` the output will made lower case
+
+_removeNumbers_ : `optional bool`
+
+ default `True`, if `True` all numbers will be removed
+
+_removeNonWords_ : `optional bool`
+
+ default `True`, if `True` all non-number non-number characters will be removed
+
+_removeWhitespace_ : `optional bool`
+
+ default `True`, if `True` all whitespace will be converted to a single space (`' '`)
+
+_stemmer_ : `optional func`
+
+ default `None`, if a function is provided it will be run on each individual word in the field and the output will replace it. For example to use the  `PorterStemmer` in the _nltk_ package you would give `nltk.PorterStemmer().stem`
+
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
@@ -3307,7 +3561,20 @@ _dropYears_ : `optional int or list[int]`
 
 <a name="genderStats"></a><small>RecordCollection.</small>**[<ins>genderStats</ins>]({{ site.baseurl }}{{ page.url }}#genderStats)**(_asFractions=False_):
 
-# Needs to be written
+Creates a dict (`{'Male' : maleCount, 'Female' : femaleCount, 'Unknown' : unknownCount}`) with the numbers of male, female and unknown names in the collection.
+
+###### Parameters
+
+_asFractions_ : `optional bool`
+
+ Default `False`, if `True` the counts will be divided by the total number of names, giving the fraction of names in each category instead of the raw counts.
+
+###### Returns
+
+`dict[str:int]`
+
+ A dict with three keys `'Male'`, `'Female'` and `'Unknown'` mapping to their respective counts
+
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 

@@ -119,7 +119,7 @@
   		<a href="/metaknowledge/" class="site-logo" rel="home" title="metaknowledge"><img src="/metaknowledge/images/site-logo.png" width="200" height="200" alt="metaknowledge logo" class="animated fadeInDown"></a>
       
       <h1 class="site-title animated fadeIn"><a href="/metaknowledge/">metaknowledge</a></h1>
-		<h2 class="site-description animated fadeIn" itemprop="description">A Python3 package for social networks and bibliometric research on knowledge</h2>
+		<h2 class="site-description animated fadeIn" itemprop="description">A Python3 package for computational research on knowledge</h2>
 	</div>
 </header><!-- /.masthead -->
 
@@ -181,13 +181,32 @@
 The NSFGrant class has the following methods:</h3>
 
 <ol class="post-list">
-<li><article><a href="#getInvestigators"><b>getInvestigators</b>()</a></article></li>
+<li><article><a href="#getInvestigators"><b>getInvestigators</b>(<i>tags=None, seperator=';'</i>)</a></article></li>
+<li><article><a href="#getInstitutions"><b>getInstitutions</b>(<i>tags=None, seperator=';'</i>)</a></article></li>
 </ol>
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="getInvestigators"></a><small>NSFGrant.</small><strong><a href="/metaknowledge/docs/NSFGrant#getInvestigators"><ins>getInvestigators</ins></a></strong>():</p>
+<p><a name="getInvestigators"></a><small>NSFGrant.</small><strong><a href="/metaknowledge/docs/NSFGrant#getInvestigators"><ins>getInvestigators</ins></a></strong>(<em>tags=None, seperator=’;’</em>):</p>
 
-<h1 id="needs-to-be-written">Needs to be written</h1>
+<p>Returns a list of the names of investigators. The optional arguments are ignored.</p>
+
+<h6 id="returns">Returns</h6>
+
+<p><code class="highlighter-rouge">list [str]</code></p>
+
+<p>A list of all the found investigator’s names</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="getInstitutions"></a><small>NSFGrant.</small><strong><a href="/metaknowledge/docs/NSFGrant#getInstitutions"><ins>getInstitutions</ins></a></strong>(<em>tags=None, seperator=’;’</em>):</p>
+
+<p>Returns a list with the names of the institution. The optional arguments are ignored</p>
+
+<h6 id="returns-1">Returns</h6>
+
+<p><code class="highlighter-rouge">list [str]</code></p>
+
+<p>A list with 1 entry the name of the institution</p>
 
 <hr />
 

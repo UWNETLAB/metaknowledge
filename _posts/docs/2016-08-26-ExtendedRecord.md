@@ -281,7 +281,24 @@ _multiCite_ : `optional [bool]`
 
 <a name="authGenders"></a><small>ExtendedRecord.</small>**[<ins>authGenders</ins>]({{ site.baseurl }}{{ page.url }}#authGenders)**(_countsOnly=False, fractionsMode=False_):
 
-# Needs to be written
+Creates a dict mapping `'Male'`, `'Female'` and `'Unknown'` to lists of the names of all the authors.
+
+###### Parameters
+
+_countsOnly_ : `optional bool`
+
+ Default `False`, if `True` the counts (lengths of the lists) will be given instead of the lists of names
+
+_fractionsMode_ : `optional bool`
+
+ Default `False`, if `True` the fraction counts (lengths of the lists divided by the total  number of authors) will be given instead of the lists of names. This supersedes _countsOnly_
+
+###### Returns
+
+`dict[str:str or int]`
+
+ The mapping of genders to author's names or counts
+
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 

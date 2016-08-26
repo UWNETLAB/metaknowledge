@@ -119,7 +119,7 @@
   		<a href="/metaknowledge/" class="site-logo" rel="home" title="metaknowledge"><img src="/metaknowledge/images/site-logo.png" width="200" height="200" alt="metaknowledge logo" class="animated fadeInDown"></a>
       
       <h1 class="site-title animated fadeIn"><a href="/metaknowledge/">metaknowledge</a></h1>
-		<h2 class="site-description animated fadeIn" itemprop="description">A Python3 package for social networks and bibliometric research on knowledge</h2>
+		<h2 class="site-description animated fadeIn" itemprop="description">A Python3 package for computational research on knowledge</h2>
 	</div>
 </header><!-- /.masthead -->
 
@@ -398,7 +398,23 @@ The ExtendedRecord class has the following methods:</h3>
 
 <p><a name="authGenders"></a><small>ExtendedRecord.</small><strong><a href="/metaknowledge/docs/ExtendedRecord#authGenders"><ins>authGenders</ins></a></strong>(<em>countsOnly=False, fractionsMode=False</em>):</p>
 
-<h1 id="needs-to-be-written-1">Needs to be written</h1>
+<p>Creates a dict mapping <code class="highlighter-rouge">'Male'</code>, <code class="highlighter-rouge">'Female'</code> and <code class="highlighter-rouge">'Unknown'</code> to lists of the names of all the authors.</p>
+
+<h6 id="parameters-9">Parameters</h6>
+
+<p><em>countsOnly</em> : <code class="highlighter-rouge">optional bool</code></p>
+
+<p>Default <code class="highlighter-rouge">False</code>, if <code class="highlighter-rouge">True</code> the counts (lengths of the lists) will be given instead of the lists of names</p>
+
+<p><em>fractionsMode</em> : <code class="highlighter-rouge">optional bool</code></p>
+
+<p>Default <code class="highlighter-rouge">False</code>, if <code class="highlighter-rouge">True</code> the fraction counts (lengths of the lists divided by the total  number of authors) will be given instead of the lists of names. This supersedes <em>countsOnly</em></p>
+
+<h6 id="returns-9">Returns</h6>
+
+<p><code class="highlighter-rouge">dict[str:str or int]</code></p>
+
+<p>The mapping of genders to author’s names or counts</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
@@ -410,7 +426,7 @@ The ExtendedRecord class has the following methods:</h3>
 
 <p><strong>Note</strong> Record entries that are lists have their values seperated with the string <code class="highlighter-rouge">' and '</code></p>
 
-<h6 id="parameters-9">Parameters</h6>
+<h6 id="parameters-10">Parameters</h6>
 
 <p><em>maxLength</em> : <code class="highlighter-rouge">optional [int]</code></p>
 
@@ -422,13 +438,13 @@ The ExtendedRecord class has the following methods:</h3>
 
 <p><em>restrictedOutput</em> : <code class="highlighter-rouge">optional [bool]</code></p>
 
-<p>default <code class="highlighter-rouge">False</code>, if <code class="highlighter-rouge">True</code> the tags output will be limited to tose found in <code class="highlighter-rouge">metaknowledge.specialRecordFields</code></p>
+<p>default <code class="highlighter-rouge">False</code>, if <code class="highlighter-rouge">True</code> the tags output will be limited to tose found in <code class="highlighter-rouge">metaknowledge.commonRecordFields</code></p>
 
 <p><em>niceID</em> : <code class="highlighter-rouge">optional [bool]</code></p>
 
 <p>default <code class="highlighter-rouge">True</code>, if <code class="highlighter-rouge">True</code> the ID used will be derived from the authors, publishing date and title, if <code class="highlighter-rouge">False</code> it will be the UT tag</p>
 
-<h6 id="returns-9">Returns</h6>
+<h6 id="returns-10">Returns</h6>
 
 <p><code class="highlighter-rouge">str</code></p>
 

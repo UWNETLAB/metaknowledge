@@ -119,7 +119,7 @@
   		<a href="/metaknowledge/" class="site-logo" rel="home" title="metaknowledge"><img src="/metaknowledge/images/site-logo.png" width="200" height="200" alt="metaknowledge logo" class="animated fadeInDown"></a>
       
       <h1 class="site-title animated fadeIn"><a href="/metaknowledge/">metaknowledge</a></h1>
-		<h2 class="site-description animated fadeIn" itemprop="description">A Python3 package for social networks and bibliometric research on knowledge</h2>
+		<h2 class="site-description animated fadeIn" itemprop="description">A Python3 package for computational research on knowledge</h2>
 	</div>
 </header><!-- /.masthead -->
 
@@ -518,7 +518,41 @@ The other options are:</p>
 
 <p><a name="forBurst"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/docs/RecordCollection#forBurst"><ins>forBurst</ins></a></strong>(<em>tag, outputFile=None, dropList=None, lower=True, removeNumbers=True, removeNonWords=True, removeWhitespace=True, stemmer=None</em>):</p>
 
-<h1 id="needs-to-be-written-1">Needs to be written</h1>
+<p>Creates a pandas friendly dictionary with 2 columns one <code class="highlighter-rouge">'year'</code> and the other <code class="highlighter-rouge">'word'</code>. Each row is a word that occurred in the field given by <em>tag</em> in a <code class="highlighter-rouge">Record</code> and the year of the record. Unfortunately getting the month or day with any type of accuracy has proved to be impossible so year is the only option.</p>
+
+<h6 id="parameters-10">Parameters</h6>
+
+<p><em>tag</em> : <code class="highlighter-rouge">str</code></p>
+
+<p>The tag giving the field for the words to be extracted from.</p>
+
+<p><em>outputFile</em> : <code class="highlighter-rouge">optional str</code></p>
+
+<p>Default <code class="highlighter-rouge">None</code>, if a path is given a csv file will be created from the returned dictionary and written to that file</p>
+
+<p><em>dropList</em> : <code class="highlighter-rouge">optional list[str]</code></p>
+
+<p>Default <code class="highlighter-rouge">None</code>, if a list of strings is given each field will be checked for substrings, before any other processing, in the field, surrounded by spaces, matching those in <em>dropList</em>. The strings will only be dropped if they are surrounded on both sides with spaces (<code class="highlighter-rouge">' '</code>) so if <code class="highlighter-rouge">dropList = ['a']</code> then <code class="highlighter-rouge">'a cat'</code> will become <code class="highlighter-rouge">'cat'</code>.</p>
+
+<p><em>lower</em> : <code class="highlighter-rouge">optional bool</code></p>
+
+<p>default <code class="highlighter-rouge">True</code>, if <code class="highlighter-rouge">True</code> the output will made lower case</p>
+
+<p><em>removeNumbers</em> : <code class="highlighter-rouge">optional bool</code></p>
+
+<p>default <code class="highlighter-rouge">True</code>, if <code class="highlighter-rouge">True</code> all numbers will be removed</p>
+
+<p><em>removeNonWords</em> : <code class="highlighter-rouge">optional bool</code></p>
+
+<p>default <code class="highlighter-rouge">True</code>, if <code class="highlighter-rouge">True</code> all non-number non-number characters will be removed</p>
+
+<p><em>removeWhitespace</em> : <code class="highlighter-rouge">optional bool</code></p>
+
+<p>default <code class="highlighter-rouge">True</code>, if <code class="highlighter-rouge">True</code> all whitespace will be converted to a single space (<code class="highlighter-rouge">' '</code>)</p>
+
+<p><em>stemmer</em> : <code class="highlighter-rouge">optional func</code></p>
+
+<p>default <code class="highlighter-rouge">None</code>, if a function is provided it will be run on each individual word in the field and the output will replace it. For example to use the  <code class="highlighter-rouge">PorterStemmer</code> in the <em>nltk</em> package you would give <code class="highlighter-rouge">nltk.PorterStemmer().stem</code></p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
@@ -526,7 +560,7 @@ The other options are:</p>
 
 <p>Creates a pandas friendly dictionary with each row a <code class="highlighter-rouge">Record</code> in the <code class="highlighter-rouge">RecordCollection</code> and the columns fields natural language processing uses (id, title, publication year, keywords and the abstract). The abstract is by default is processed to remove non-word, non-space characters and the case is lowered.</p>
 
-<h6 id="parameters-10">Parameters</h6>
+<h6 id="parameters-11">Parameters</h6>
 
 <p><em>outputFile</em> : <code class="highlighter-rouge">optional str</code></p>
 
@@ -572,7 +606,7 @@ The other options are:</p>
 
 <p>When used with pandas: <code class="highlighter-rouge">pandas.DataFrame(RC.makeDict())</code> returns a data frame with each column a tag and each row a Record.</p>
 
-<h6 id="parameters-11">Parameters</h6>
+<h6 id="parameters-12">Parameters</h6>
 
 <p><em>onlyTheseTags</em> : <code class="highlighter-rouge">optional [iterable]</code></p>
 
@@ -609,7 +643,7 @@ The other options are:</p>
   <li><code class="highlighter-rouge">'rank'</code>, the rank of the year, the highest ranked year being the one most cited, the second highest being the second highest citation count and so on. All years with 0 count are given the rank 0</li>
 </ol>
 
-<h6 id="parameters-12">Parameters</h6>
+<h6 id="parameters-13">Parameters</h6>
 
 <p><em>minYear</em> : <code class="highlighter-rouge">optional int</code></p>
 
@@ -633,13 +667,25 @@ The other options are:</p>
 
 <p><a name="genderStats"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/docs/RecordCollection#genderStats"><ins>genderStats</ins></a></strong>(<em>asFractions=False</em>):</p>
 
-<h1 id="needs-to-be-written-2">Needs to be written</h1>
+<p>Creates a dict (<code class="highlighter-rouge"><span class="p">{</span><span class="err">'Male'</span><span class="w"> </span><span class="err">:</span><span class="w"> </span><span class="err">maleCount,</span><span class="w"> </span><span class="err">'Female'</span><span class="w"> </span><span class="err">:</span><span class="w"> </span><span class="err">femaleCount,</span><span class="w"> </span><span class="err">'Unknown'</span><span class="w"> </span><span class="err">:</span><span class="w"> </span><span class="err">unknownCount</span><span class="p">}</span></code>) with the numbers of male, female and unknown names in the collection.</p>
+
+<h6 id="parameters-14">Parameters</h6>
+
+<p><em>asFractions</em> : <code class="highlighter-rouge">optional bool</code></p>
+
+<p>Default <code class="highlighter-rouge">False</code>, if <code class="highlighter-rouge">True</code> the counts will be divided by the total number of names, giving the fraction of names in each category instead of the raw counts.</p>
+
+<h6 id="returns-6">Returns</h6>
+
+<p><code class="highlighter-rouge">dict[str:int]</code></p>
+
+<p>A dict with three keys <code class="highlighter-rouge">'Male'</code>, <code class="highlighter-rouge">'Female'</code> and <code class="highlighter-rouge">'Unknown'</code> mapping to their respective counts</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="getCitations"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/docs/RecordCollection#getCitations"><ins>getCitations</ins></a></strong>(<em>field=None, values=None, pandasFriendly=True, counts=True</em>):</p>
 
-<h1 id="needs-to-be-written-3">Needs to be written</h1>
+<h1 id="needs-to-be-written-1">Needs to be written</h1>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
@@ -647,7 +693,7 @@ The other options are:</p>
 
 <p>Creates a coauthorship network for the RecordCollection.</p>
 
-<h6 id="parameters-13">Parameters</h6>
+<h6 id="parameters-15">Parameters</h6>
 
 <p><em>detailedInfo</em> : <code class="highlighter-rouge">optional [bool or iterable[WOS tag Strings]]</code></p>
 
@@ -671,7 +717,7 @@ The other options are:</p>
 
 <p>Default <code class="highlighter-rouge">True</code>, causes the number of occurrences of a node to be counted</p>
 
-<h6 id="returns-6">Returns</h6>
+<h6 id="returns-7">Returns</h6>
 
 <p><code class="highlighter-rouge">Networkx Graph</code></p>
 
@@ -683,7 +729,7 @@ The other options are:</p>
 
 <p>Creates a co-citation network for the RecordCollection.</p>
 
-<h6 id="parameters-14">Parameters</h6>
+<h6 id="parameters-16">Parameters</h6>
 
 <p><em>nodeType</em> : <code class="highlighter-rouge">optional [str]</code></p>
 
@@ -735,7 +781,7 @@ The other options are:</p>
 
 <p>default <code class="highlighter-rouge">False</code>, if <code class="highlighter-rouge">True</code> all citations in the ouput graph that are records in the collection will be duplicated for each author. If the nodes are <code class="highlighter-rouge">"full"</code>, <code class="highlighter-rouge">"original"</code> or <code class="highlighter-rouge">"author"</code> this will result in new noded being created for the other options the results are <strong>not</strong> defined or tested. Edges will be created between each of the nodes for each record expanded, attributes will be copied from exiting nodes.</p>
 
-<h6 id="returns-7">Returns</h6>
+<h6 id="returns-8">Returns</h6>
 
 <p><code class="highlighter-rouge">Networkx Graph</code></p>
 

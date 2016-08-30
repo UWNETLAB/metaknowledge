@@ -181,23 +181,23 @@ def getWhatToDo(clargs, inRC):
             f.writelines(cites)
         return False
     else:
-        dbName = input("The default manual databse file is called {}, press Enter to use it or type the name of the database you wish to use:\n".format(metaknowledge.journalAbbreviations.manaulDBname))
+        dbName = input("The default manual databse file is called {}, press Enter to use it or type the name of the database you wish to use:\n".format(metaknowledge.journalAbbreviations.manualDBname))
         print("Starting to go over citations, to exit press ctr-C.")
         if dbName == '':
-            dbName = metaknowledge.journalAbbreviations.manaulDBname
+            dbName = metaknowledge.journalAbbreviations.manualDBname
         try:
             for R in inRC:
                 for c in R.get('citations', []):
                     if not hasattr(c, 'journal'):
                         print("{} does not have a journal field".format(c))
-                    elif c.isJournal(manaulDB = dbName, returnDict = 'both'):
+                    elif c.isJournal(manualDB= dbName, returnDict ='both'):
                         print("the journal field of {} is in the database".format(c.journal))
-                    elif c.isJournal(manaulDB = dbName, returnDict = 'both', checkIfExcluded = True):
+                    elif c.isJournal(manualDB= dbName, returnDict ='both', checkIfExcluded = True):
                         print("the journal field of {} is in the database marked to be skipped".format(c.journal))
                     else:
                         addToDB = yesorNo("The citation {} has the journal field:\n{} add as a journal (y/n)? ".format(c, c.journal))
                         if addToDB:
-                            c.addToDB(manaulDB = dbName)
+                            c.addToDB(manualDB= dbName)
                             print("{} added as a journal abbrviation.".format(c.journal))
                         else:
                             c.addToDB(invert = True)

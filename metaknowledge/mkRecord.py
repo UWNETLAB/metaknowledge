@@ -544,6 +544,32 @@ class ExtendedRecord(Record, metaclass = abc.ABCMeta):
             return auth
 
     def getCitations(self, field = None, values = None, pandasFriendly = True):
+        """Creates a pandas ready dict with each row a different citation and columns containing the original string, year, journal and author's name.
+
+        There are also options to filter the output citations with _field_ and _values_
+
+        # Parameters
+
+        _field_ : `optional str`
+
+        > Default `None`, if given all citations missing the named field will be dropped.
+
+        _values_ : `optional str or list[str]`
+
+        > Default `None`, if _field_ is also given only those citations with one of the strings given in _values_ will be included.
+
+        > e.g. to get only citations from 1990 or 1991: `field = year, values = [1991, 1990]`
+
+        _pandasFriendly_ : `optional bool`
+
+        > Default `True`, if `False` a list of the citations will be returned instead of the more complicated pandas dict
+
+        # Returns
+
+        `dict`
+
+        > A pandas ready dict with all the citations
+        """
         retCites = []
         if values is not None:
             if isinstance(values, (str, int, float)) or not isinstance(values, collections.abc.Container):

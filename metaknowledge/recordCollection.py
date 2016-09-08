@@ -865,6 +865,36 @@ class RecordCollection(CollectionWithIDs):
         return {'Male' : maleCount, 'Female' : femaleCount, 'Unknown' : unknownCount}
 
     def getCitations(self, field = None, values = None, pandasFriendly = True, counts = True):
+        """Creates a pandas ready dict with each row a different citation the contained Records and columns containing the original string, year, journal, author's name and the number of times it occured.
+
+        There are also options to filter the output citations with _field_ and _values_
+
+        # Parameters
+
+        _field_ : `optional str`
+
+        > Default `None`, if given all citations missing the named field will be dropped.
+
+        _values_ : `optional str or list[str]`
+
+        > Default `None`, if _field_ is also given only those citations with one of the strings given in _values_ will be included.
+
+        > e.g. to get only citations from 1990 or 1991: `field = year, values = [1991, 1990]`
+
+        _pandasFriendly_ : `optional bool`
+
+        > Default `True`, if `False` a list of the citations will be returned instead of the more complicated pandas dict
+
+        _counts_ : `optional bool`
+
+        > Default `True`, if `False` the counts columns will be removed
+
+        # Returns
+
+        `dict`
+
+        > A pandas ready dict with all the Citations
+        """
         retCites = []
         if values is not None:
             if isinstance(values, (str, int, float)) or not isinstance(values, collections.abc.Container):
@@ -1199,6 +1229,24 @@ class RecordCollection(CollectionWithIDs):
         return tmpgrph
 
     def networkBibCoupling(self, weighted = True, fullInfo = False):
+        """Creates a bibliographic coupling network based on citations for the RecordCollection.
+
+        # Parameters
+
+        _weighted_ : `optional bool`
+
+        > Default `True`, if `True` the weight of the edges will be added to the network
+
+        _fullInfo_ : `optional bool`
+
+        > Default `False`, if `True` the full citation string will be added to each of the nodes of the network.
+
+        # Returns
+
+        `Networkx Graph`
+
+        > A graph of the bibliographic coupling
+        """
         progArgs = (0, "Make a citation network for coupling")
         if metaknowledge.VERBOSE_MODE:
             progKwargs = {'dummy' : False}

@@ -181,6 +181,7 @@
 The RecordCollection class has the following methods:</h3>
 
 <ol class="post-list">
+<li><article><a href="#networkCoCitation"><b>networkCoCitation</b>(<i>dropAnon=True, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, keyWords=None, detailedCore=True, detailedCoreAttributes=False, coreOnly=False, expandedCore=False</i>)</a></article></li>
 <li><article><a href="#networkCitation"><b>networkCitation</b>(<i>dropAnon=False, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, directed=True, keyWords=None, detailedCore=True, detailedCoreAttributes=False, coreOnly=False, expandedCore=False, recordToCite=True</i>)</a></article></li>
 <li><article><a href="#networkBibCoupling"><b>networkBibCoupling</b>(<i>weighted=True, fullInfo=False</i>)</a></article></li>
 <li><article><a href="#yearSplit"><b>yearSplit</b>(<i>startYear, endYear, dropMissingYears=True</i>)</a></article></li>
@@ -199,15 +200,78 @@ The RecordCollection class has the following methods:</h3>
 <li><article><a href="#genderStats"><b>genderStats</b>(<i>asFractions=False</i>)</a></article></li>
 <li><article><a href="#getCitations"><b>getCitations</b>(<i>field=None, values=None, pandasFriendly=True, counts=True</i>)</a></article></li>
 <li><article><a href="#networkCoAuthor"><b>networkCoAuthor</b>(<i>detailedInfo=False, weighted=True, dropNonJournals=False, count=True</i>)</a></article></li>
-<li><article><a href="#networkCoCitation"><b>networkCoCitation</b>(<i>dropAnon=True, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, keyWords=None, detailedCore=True, detailedCoreAttributes=False, coreOnly=False, expandedCore=False</i>)</a></article></li>
 </ol>
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="networkCoCitation"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/docs/RecordCollection#networkCoCitation"><ins>networkCoCitation</ins></a></strong>(<em>dropAnon=True, nodeType=’full’, nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, keyWords=None, detailedCore=True, detailedCoreAttributes=False, coreOnly=False, expandedCore=False</em>):</p>
+
+<p>Creates a co-citation network for the RecordCollection.</p>
+
+<h6 id="parameters-1">Parameters</h6>
+
+<p><em>nodeType</em> : <code class="highlighter-rouge">optional [str]</code></p>
+
+<p>One of <code class="highlighter-rouge">"full"</code>, <code class="highlighter-rouge">"original"</code>, <code class="highlighter-rouge">"author"</code>, <code class="highlighter-rouge">"journal"</code> or <code class="highlighter-rouge">"year"</code>. Specifies the value of the nodes in the graph. The default <code class="highlighter-rouge">"full"</code> causes the citations to be compared holistically using the <a href="/metaknowledge/docs/RecordCollection#Citation"><code class="highlighter-rouge">metaknowledge.Citation</code></a> builtin comparison operators. <code class="highlighter-rouge">"original"</code> uses the raw original strings of the citations. While <code class="highlighter-rouge">"author"</code>, <code class="highlighter-rouge">"journal"</code> and <code class="highlighter-rouge">"year"</code> each use the author, journal and year respectively.</p>
+
+<p><em>dropAnon</em> : <code class="highlighter-rouge">optional [bool]</code></p>
+
+<p>default <code class="highlighter-rouge">True</code>, if <code class="highlighter-rouge">True</code> citations labeled anonymous are removed from the network</p>
+
+<p><em>nodeInfo</em> : <code class="highlighter-rouge">optional [bool]</code></p>
+
+<p>default <code class="highlighter-rouge">True</code>, if <code class="highlighter-rouge">True</code> an extra piece of information is stored with each node. The extra inforamtion is detemined by <em>nodeType</em>.</p>
+
+<p><em>fullInfo</em> : <code class="highlighter-rouge">optional [bool]</code></p>
+
+<p>default <code class="highlighter-rouge">False</code>, if <code class="highlighter-rouge">True</code> the original citation string is added to the node as an extra value, the attribute is labeled as fullCite</p>
+
+<p><em>weighted</em> : <code class="highlighter-rouge">optional [bool]</code></p>
+
+<p>default <code class="highlighter-rouge">True</code>, wether the edges are weighted. If <code class="highlighter-rouge">True</code> the edges are weighted by the number of citations.</p>
+
+<p><em>dropNonJournals</em> : <code class="highlighter-rouge">optional [bool]</code></p>
+
+<p>default <code class="highlighter-rouge">False</code>, wether to drop citations of non-journals</p>
+
+<p><em>count</em> : <code class="highlighter-rouge">optional [bool]</code></p>
+
+<p>default <code class="highlighter-rouge">True</code>, causes the number of occurrences of a node to be counted</p>
+
+<p><em>keyWords</em> : <code class="highlighter-rouge">optional [str] or [list[str]]</code></p>
+
+<p>A string or list of strings that the citations are checked against, if they contain any of the strings they are removed from the network</p>
+
+<p><em>detailedCore</em> : <code class="highlighter-rouge">optional [bool or iterable[WOS tag Strings]]</code></p>
+
+<p>default <code class="highlighter-rouge">True</code>, if <code class="highlighter-rouge">True</code> all Citations from the core (those of records in the RecordCollection) and the <em>nodeType</em> is <code class="highlighter-rouge">'full'</code> all nodes from the core will be given info strings composed of information from the Record objects themselves. This is Equivalent to passing the list: <code class="highlighter-rouge">['AF', 'PY', 'TI', 'SO', 'VL', 'BP']</code>.</p>
+
+<p>If <em>detailedCore</em> is an iterable (That evaluates to <code class="highlighter-rouge">True</code>) of WOS Tags (or long names) The values  of those tags will be used to make the info attribute. All</p>
+
+<p>The resultant string is the values of each tag, with commas removed, seperated by <code class="highlighter-rouge">', '</code>, just like the info given by non-core Citations. Note that for tags like <code class="highlighter-rouge">'AF'</code> that return lists only the first entry in the list will be used. Also a second attribute is created for all nodes called inCore wich is a boolean describing if the node is in the core or not.</p>
+
+<p>Note: <em>detailedCore</em>  is not identical to the <em>detailedInfo</em> argument of <a href="/metaknowledge/docs/RecordCollection#networkCoAuthor"><code class="highlighter-rouge">Recordcollection.networkCoAuthor()</code></a></p>
+
+<p><em>coreOnly</em> : <code class="highlighter-rouge">optional [bool]</code></p>
+
+<p>default <code class="highlighter-rouge">False</code>, if <code class="highlighter-rouge">True</code> only Citations from the RecordCollection will be included in the network</p>
+
+<p><em>expandedCore</em> : <code class="highlighter-rouge">optional [bool]</code></p>
+
+<p>default <code class="highlighter-rouge">False</code>, if <code class="highlighter-rouge">True</code> all citations in the ouput graph that are records in the collection will be duplicated for each author. If the nodes are <code class="highlighter-rouge">"full"</code>, <code class="highlighter-rouge">"original"</code> or <code class="highlighter-rouge">"author"</code> this will result in new noded being created for the other options the results are <strong>not</strong> defined or tested. Edges will be created between each of the nodes for each record expanded, attributes will be copied from exiting nodes.</p>
+
+<h6 id="returns">Returns</h6>
+
+<p><code class="highlighter-rouge">Networkx Graph</code></p>
+
+<p>A networkx graph with hashes as ID and co-citation as edges</p>
+
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
 <p><a name="networkCitation"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/docs/RecordCollection#networkCitation"><ins>networkCitation</ins></a></strong>(<em>dropAnon=False, nodeType=’full’, nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, directed=True, keyWords=None, detailedCore=True, detailedCoreAttributes=False, coreOnly=False, expandedCore=False, recordToCite=True</em>):</p>
 
 <p>Creates a citation network for the RecordCollection.</p>
 
-<h6 id="parameters-1">Parameters</h6>
+<h6 id="parameters-2">Parameters</h6>
 
 <p><em>nodeType</em> : <code class="highlighter-rouge">optional [str]</code></p>
 
@@ -263,7 +327,7 @@ The RecordCollection class has the following methods:</h3>
 
 <p>default <code class="highlighter-rouge">False</code>, if <code class="highlighter-rouge">True</code> all citations in the ouput graph that are records in the collection will be duplicated for each author. If the nodes are <code class="highlighter-rouge">"full"</code>, <code class="highlighter-rouge">"original"</code> or <code class="highlighter-rouge">"author"</code> this will result in new noded being created for the other options the results are <strong>not</strong> defined or tested. Edges will be created between each of the nodes for each record expanded, attributes will be copied from exiting nodes.</p>
 
-<h6 id="returns">Returns</h6>
+<h6 id="returns-1">Returns</h6>
 
 <p><code class="highlighter-rouge">Networkx DiGraph or Networkx Graph</code></p>
 
@@ -275,7 +339,23 @@ The RecordCollection class has the following methods:</h3>
 
 <p><a name="networkBibCoupling"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/docs/RecordCollection#networkBibCoupling"><ins>networkBibCoupling</ins></a></strong>(<em>weighted=True, fullInfo=False</em>):</p>
 
-<h1 id="needs-to-be-written">Needs to be written</h1>
+<p>Creates a bibliographic coupling network based on citations for the RecordCollection.</p>
+
+<h6 id="parameters-3">Parameters</h6>
+
+<p><em>weighted</em> : <code class="highlighter-rouge">optional bool</code></p>
+
+<p>Default <code class="highlighter-rouge">True</code>, if <code class="highlighter-rouge">True</code> the weight of the edges will be added to the network</p>
+
+<p><em>fullInfo</em> : <code class="highlighter-rouge">optional bool</code></p>
+
+<p>Default <code class="highlighter-rouge">False</code>, if <code class="highlighter-rouge">True</code> the full citation string will be added to each of the nodes of the network.</p>
+
+<h6 id="returns-2">Returns</h6>
+
+<p><code class="highlighter-rouge">Networkx Graph</code></p>
+
+<p>A graph of the bibliographic coupling</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
@@ -283,7 +363,7 @@ The RecordCollection class has the following methods:</h3>
 
 <p>Creates a RecordCollection of Records from the years between <em>startYear</em> and <em>endYear</em> inclusive.</p>
 
-<h6 id="parameters-2">Parameters</h6>
+<h6 id="parameters-4">Parameters</h6>
 
 <p><em>startYear</em> : <code class="highlighter-rouge">int</code></p>
 
@@ -297,7 +377,7 @@ The RecordCollection class has the following methods:</h3>
 
 <p>Default <code class="highlighter-rouge">True</code>, if <code class="highlighter-rouge">True</code> Records with missing years will be dropped. If <code class="highlighter-rouge">False</code> a <code class="highlighter-rouge">TypeError</code> exception will be raised</p>
 
-<h6 id="returns-1">Returns</h6>
+<h6 id="returns-3">Returns</h6>
 
 <p><code class="highlighter-rouge">RecordCollection</code></p>
 
@@ -309,7 +389,7 @@ The RecordCollection class has the following methods:</h3>
 
 <p>Returns a dict with all the citations in the CR field as keys and the number of times they occur as the values</p>
 
-<h6 id="parameters-3">Parameters</h6>
+<h6 id="parameters-5">Parameters</h6>
 
 <p><em>pandasFriendly</em> : <code class="highlighter-rouge">optional [bool]</code></p>
 
@@ -319,7 +399,7 @@ The RecordCollection class has the following methods:</h3>
 
 <p>default <code class="highlighter-rouge">'citation'</code>, the type of key to use for the dictionary, the valid strings are <code class="highlighter-rouge">'citation'</code>, <code class="highlighter-rouge">'journal'</code>, <code class="highlighter-rouge">'year'</code> or <code class="highlighter-rouge">'author'</code>. IF changed from <code class="highlighter-rouge">'citation'</code> all citations matching the requested option will be contracted and their counts added together.</p>
 
-<h6 id="returns-2">Returns</h6>
+<h6 id="returns-4">Returns</h6>
 
 <p><code class="highlighter-rouge">dict[str, int or Citation : int]</code></p>
 
@@ -331,13 +411,13 @@ The RecordCollection class has the following methods:</h3>
 
 <p>Takes in a Record, WOS string, citation string or Citation and returns a RecordCollection of all records that cite it.</p>
 
-<h6 id="parameters-4">Parameters</h6>
+<h6 id="parameters-6">Parameters</h6>
 
 <p><em>rec</em> : <code class="highlighter-rouge">Record, str or Citation</code></p>
 
 <p>The object that is being cited</p>
 
-<h6 id="returns-3">Returns</h6>
+<h6 id="returns-5">Returns</h6>
 
 <p><code class="highlighter-rouge">RecordCollection</code></p>
 
@@ -349,7 +429,7 @@ The RecordCollection class has the following methods:</h3>
 
 <p>Filters <code class="highlighter-rouge">Records</code> by some string, <em>keyString</em>, in their citations and returns all <code class="highlighter-rouge">Records</code> with at least one citation possessing <em>keyString</em> in the field given by <em>field</em>.</p>
 
-<h6 id="parameters-5">Parameters</h6>
+<h6 id="parameters-7">Parameters</h6>
 
 <p><em>keyString</em> : <code class="highlighter-rouge">optional [str]</code></p>
 
@@ -385,7 +465,7 @@ The other options are:</p>
 
 <p>Drops the non journal type <code class="highlighter-rouge">Records</code> from the collection, this is done by checking <em>ptVal</em> against the PT tag</p>
 
-<h6 id="parameters-6">Parameters</h6>
+<h6 id="parameters-8">Parameters</h6>
 
 <p><em>ptVal</em> : <code class="highlighter-rouge">optional [str]</code></p>
 
@@ -405,7 +485,7 @@ The other options are:</p>
 
 <p>Writes the <code class="highlighter-rouge">RecordCollection</code> to a file, the written file’s format is identical to those download from WOS. The order of <code class="highlighter-rouge">Records</code> written is random.</p>
 
-<h6 id="parameters-7">Parameters</h6>
+<h6 id="parameters-9">Parameters</h6>
 
 <p><em>fname</em> : <code class="highlighter-rouge">optional [str]</code></p>
 
@@ -424,7 +504,7 @@ The other options are:</p>
 
 <p>Writes all the <code class="highlighter-rouge">Records</code> from the collection into a csv file with each row a record and each column a tag.</p>
 
-<h6 id="parameters-8">Parameters</h6>
+<h6 id="parameters-10">Parameters</h6>
 
 <p><em>fname</em> : <code class="highlighter-rouge">optional [str]</code></p>
 
@@ -480,7 +560,7 @@ The other options are:</p>
 
 <p><strong>Note</strong> Record entries that are lists have their values separated with the string <code class="highlighter-rouge">' and '</code>, as this is the way bibTex understands</p>
 
-<h6 id="parameters-9">Parameters</h6>
+<h6 id="parameters-11">Parameters</h6>
 
 <p><em>fname</em> : <code class="highlighter-rouge">optional [str]</code></p>
 
@@ -508,7 +588,7 @@ The other options are:</p>
 
 <p>Finds the (likely) copyright string from all abstracts in the <code class="highlighter-rouge">RecordCollection</code></p>
 
-<h6 id="returns-4">Returns</h6>
+<h6 id="returns-6">Returns</h6>
 
 <p><code class="highlighter-rouge">list[str]</code></p>
 
@@ -520,7 +600,7 @@ The other options are:</p>
 
 <p>Creates a pandas friendly dictionary with 2 columns one <code class="highlighter-rouge">'year'</code> and the other <code class="highlighter-rouge">'word'</code>. Each row is a word that occurred in the field given by <em>tag</em> in a <code class="highlighter-rouge">Record</code> and the year of the record. Unfortunately getting the month or day with any type of accuracy has proved to be impossible so year is the only option.</p>
 
-<h6 id="parameters-10">Parameters</h6>
+<h6 id="parameters-12">Parameters</h6>
 
 <p><em>tag</em> : <code class="highlighter-rouge">str</code></p>
 
@@ -560,7 +640,7 @@ The other options are:</p>
 
 <p>Creates a pandas friendly dictionary with each row a <code class="highlighter-rouge">Record</code> in the <code class="highlighter-rouge">RecordCollection</code> and the columns fields natural language processing uses (id, title, publication year, keywords and the abstract). The abstract is by default is processed to remove non-word, non-space characters and the case is lowered.</p>
 
-<h6 id="parameters-11">Parameters</h6>
+<h6 id="parameters-13">Parameters</h6>
 
 <p><em>outputFile</em> : <code class="highlighter-rouge">optional str</code></p>
 
@@ -606,7 +686,7 @@ The other options are:</p>
 
 <p>When used with pandas: <code class="highlighter-rouge">pandas.DataFrame(RC.makeDict())</code> returns a data frame with each column a tag and each row a Record.</p>
 
-<h6 id="parameters-12">Parameters</h6>
+<h6 id="parameters-14">Parameters</h6>
 
 <p><em>onlyTheseTags</em> : <code class="highlighter-rouge">optional [iterable]</code></p>
 
@@ -643,7 +723,7 @@ The other options are:</p>
   <li><code class="highlighter-rouge">'rank'</code>, the rank of the year, the highest ranked year being the one most cited, the second highest being the second highest citation count and so on. All years with 0 count are given the rank 0</li>
 </ol>
 
-<h6 id="parameters-13">Parameters</h6>
+<h6 id="parameters-15">Parameters</h6>
 
 <p><em>minYear</em> : <code class="highlighter-rouge">optional int</code></p>
 
@@ -657,7 +737,7 @@ The other options are:</p>
 
 <p>Default <code class="highlighter-rouge">None</code>, year or collection of years that will be removed from the returned value, note the dropped years will still be used to calculate the deviation from the 5-year</p>
 
-<h6 id="returns-5">Returns</h6>
+<h6 id="returns-7">Returns</h6>
 
 <p><code class="highlighter-rouge">dict[str:list]</code></p>
 
@@ -669,13 +749,13 @@ The other options are:</p>
 
 <p>Creates a dict (<code class="highlighter-rouge"><span class="p">{</span><span class="err">'Male'</span><span class="w"> </span><span class="err">:</span><span class="w"> </span><span class="err">maleCount,</span><span class="w"> </span><span class="err">'Female'</span><span class="w"> </span><span class="err">:</span><span class="w"> </span><span class="err">femaleCount,</span><span class="w"> </span><span class="err">'Unknown'</span><span class="w"> </span><span class="err">:</span><span class="w"> </span><span class="err">unknownCount</span><span class="p">}</span></code>) with the numbers of male, female and unknown names in the collection.</p>
 
-<h6 id="parameters-14">Parameters</h6>
+<h6 id="parameters-16">Parameters</h6>
 
 <p><em>asFractions</em> : <code class="highlighter-rouge">optional bool</code></p>
 
 <p>Default <code class="highlighter-rouge">False</code>, if <code class="highlighter-rouge">True</code> the counts will be divided by the total number of names, giving the fraction of names in each category instead of the raw counts.</p>
 
-<h6 id="returns-6">Returns</h6>
+<h6 id="returns-8">Returns</h6>
 
 <p><code class="highlighter-rouge">dict[str:int]</code></p>
 
@@ -685,7 +765,35 @@ The other options are:</p>
 
 <p><a name="getCitations"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/docs/RecordCollection#getCitations"><ins>getCitations</ins></a></strong>(<em>field=None, values=None, pandasFriendly=True, counts=True</em>):</p>
 
-<h1 id="needs-to-be-written-1">Needs to be written</h1>
+<p>Creates a pandas ready dict with each row a different citation the contained Records and columns containing the original string, year, journal, author’s name and the number of times it occured.</p>
+
+<p>There are also options to filter the output citations with <em>field</em> and <em>values</em></p>
+
+<h6 id="parameters-17">Parameters</h6>
+
+<p><em>field</em> : <code class="highlighter-rouge">optional str</code></p>
+
+<p>Default <code class="highlighter-rouge">None</code>, if given all citations missing the named field will be dropped.</p>
+
+<p><em>values</em> : <code class="highlighter-rouge">optional str or list[str]</code></p>
+
+<p>Default <code class="highlighter-rouge">None</code>, if <em>field</em> is also given only those citations with one of the strings given in <em>values</em> will be included.</p>
+
+<p>e.g. to get only citations from 1990 or 1991: <code class="highlighter-rouge">field = year, values = [1991, 1990]</code></p>
+
+<p><em>pandasFriendly</em> : <code class="highlighter-rouge">optional bool</code></p>
+
+<p>Default <code class="highlighter-rouge">True</code>, if <code class="highlighter-rouge">False</code> a list of the citations will be returned instead of the more complicated pandas dict</p>
+
+<p><em>counts</em> : <code class="highlighter-rouge">optional bool</code></p>
+
+<p>Default <code class="highlighter-rouge">True</code>, if <code class="highlighter-rouge">False</code> the counts columns will be removed</p>
+
+<h6 id="returns-9">Returns</h6>
+
+<p><code class="highlighter-rouge">dict</code></p>
+
+<p>A pandas ready dict with all the Citations</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
@@ -693,7 +801,7 @@ The other options are:</p>
 
 <p>Creates a coauthorship network for the RecordCollection.</p>
 
-<h6 id="parameters-15">Parameters</h6>
+<h6 id="parameters-18">Parameters</h6>
 
 <p><em>detailedInfo</em> : <code class="highlighter-rouge">optional [bool or iterable[WOS tag Strings]]</code></p>
 
@@ -717,75 +825,11 @@ The other options are:</p>
 
 <p>Default <code class="highlighter-rouge">True</code>, causes the number of occurrences of a node to be counted</p>
 
-<h6 id="returns-7">Returns</h6>
+<h6 id="returns-10">Returns</h6>
 
 <p><code class="highlighter-rouge">Networkx Graph</code></p>
 
 <p>A networkx graph with author names as nodes and collaborations as edges.</p>
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
-
-<p><a name="networkCoCitation"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/docs/RecordCollection#networkCoCitation"><ins>networkCoCitation</ins></a></strong>(<em>dropAnon=True, nodeType=’full’, nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, keyWords=None, detailedCore=True, detailedCoreAttributes=False, coreOnly=False, expandedCore=False</em>):</p>
-
-<p>Creates a co-citation network for the RecordCollection.</p>
-
-<h6 id="parameters-16">Parameters</h6>
-
-<p><em>nodeType</em> : <code class="highlighter-rouge">optional [str]</code></p>
-
-<p>One of <code class="highlighter-rouge">"full"</code>, <code class="highlighter-rouge">"original"</code>, <code class="highlighter-rouge">"author"</code>, <code class="highlighter-rouge">"journal"</code> or <code class="highlighter-rouge">"year"</code>. Specifies the value of the nodes in the graph. The default <code class="highlighter-rouge">"full"</code> causes the citations to be compared holistically using the <a href="/metaknowledge/docs/RecordCollection#Citation"><code class="highlighter-rouge">metaknowledge.Citation</code></a> builtin comparison operators. <code class="highlighter-rouge">"original"</code> uses the raw original strings of the citations. While <code class="highlighter-rouge">"author"</code>, <code class="highlighter-rouge">"journal"</code> and <code class="highlighter-rouge">"year"</code> each use the author, journal and year respectively.</p>
-
-<p><em>dropAnon</em> : <code class="highlighter-rouge">optional [bool]</code></p>
-
-<p>default <code class="highlighter-rouge">True</code>, if <code class="highlighter-rouge">True</code> citations labeled anonymous are removed from the network</p>
-
-<p><em>nodeInfo</em> : <code class="highlighter-rouge">optional [bool]</code></p>
-
-<p>default <code class="highlighter-rouge">True</code>, if <code class="highlighter-rouge">True</code> an extra piece of information is stored with each node. The extra inforamtion is detemined by <em>nodeType</em>.</p>
-
-<p><em>fullInfo</em> : <code class="highlighter-rouge">optional [bool]</code></p>
-
-<p>default <code class="highlighter-rouge">False</code>, if <code class="highlighter-rouge">True</code> the original citation string is added to the node as an extra value, the attribute is labeled as fullCite</p>
-
-<p><em>weighted</em> : <code class="highlighter-rouge">optional [bool]</code></p>
-
-<p>default <code class="highlighter-rouge">True</code>, wether the edges are weighted. If <code class="highlighter-rouge">True</code> the edges are weighted by the number of citations.</p>
-
-<p><em>dropNonJournals</em> : <code class="highlighter-rouge">optional [bool]</code></p>
-
-<p>default <code class="highlighter-rouge">False</code>, wether to drop citations of non-journals</p>
-
-<p><em>count</em> : <code class="highlighter-rouge">optional [bool]</code></p>
-
-<p>default <code class="highlighter-rouge">True</code>, causes the number of occurrences of a node to be counted</p>
-
-<p><em>keyWords</em> : <code class="highlighter-rouge">optional [str] or [list[str]]</code></p>
-
-<p>A string or list of strings that the citations are checked against, if they contain any of the strings they are removed from the network</p>
-
-<p><em>detailedCore</em> : <code class="highlighter-rouge">optional [bool or iterable[WOS tag Strings]]</code></p>
-
-<p>default <code class="highlighter-rouge">True</code>, if <code class="highlighter-rouge">True</code> all Citations from the core (those of records in the RecordCollection) and the <em>nodeType</em> is <code class="highlighter-rouge">'full'</code> all nodes from the core will be given info strings composed of information from the Record objects themselves. This is Equivalent to passing the list: <code class="highlighter-rouge">['AF', 'PY', 'TI', 'SO', 'VL', 'BP']</code>.</p>
-
-<p>If <em>detailedCore</em> is an iterable (That evaluates to <code class="highlighter-rouge">True</code>) of WOS Tags (or long names) The values  of those tags will be used to make the info attribute. All</p>
-
-<p>The resultant string is the values of each tag, with commas removed, seperated by <code class="highlighter-rouge">', '</code>, just like the info given by non-core Citations. Note that for tags like <code class="highlighter-rouge">'AF'</code> that return lists only the first entry in the list will be used. Also a second attribute is created for all nodes called inCore wich is a boolean describing if the node is in the core or not.</p>
-
-<p>Note: <em>detailedCore</em>  is not identical to the <em>detailedInfo</em> argument of <a href="/metaknowledge/docs/RecordCollection#networkCoAuthor"><code class="highlighter-rouge">Recordcollection.networkCoAuthor()</code></a></p>
-
-<p><em>coreOnly</em> : <code class="highlighter-rouge">optional [bool]</code></p>
-
-<p>default <code class="highlighter-rouge">False</code>, if <code class="highlighter-rouge">True</code> only Citations from the RecordCollection will be included in the network</p>
-
-<p><em>expandedCore</em> : <code class="highlighter-rouge">optional [bool]</code></p>
-
-<p>default <code class="highlighter-rouge">False</code>, if <code class="highlighter-rouge">True</code> all citations in the ouput graph that are records in the collection will be duplicated for each author. If the nodes are <code class="highlighter-rouge">"full"</code>, <code class="highlighter-rouge">"original"</code> or <code class="highlighter-rouge">"author"</code> this will result in new noded being created for the other options the results are <strong>not</strong> defined or tested. Edges will be created between each of the nodes for each record expanded, attributes will be copied from exiting nodes.</p>
-
-<h6 id="returns-8">Returns</h6>
-
-<p><code class="highlighter-rouge">Networkx Graph</code></p>
-
-<p>A networkx graph with hashes as ID and co-citation as edges</p>
 
 <hr />
 

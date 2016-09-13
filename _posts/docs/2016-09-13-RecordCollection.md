@@ -58,6 +58,7 @@ _cached_ : `optional [bool]`
 The RecordCollection class has the following methods:</h3>
 
 <ol class="post-list">
+<li><article><a href="#networkCoCitation"><b>networkCoCitation</b>(<i>dropAnon=True, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, keyWords=None, detailedCore=True, detailedCoreAttributes=False, coreOnly=False, expandedCore=False</i>)</a></article></li>
 <li><article><a href="#networkCitation"><b>networkCitation</b>(<i>dropAnon=False, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, directed=True, keyWords=None, detailedCore=True, detailedCoreAttributes=False, coreOnly=False, expandedCore=False, recordToCite=True</i>)</a></article></li>
 <li><article><a href="#networkBibCoupling"><b>networkBibCoupling</b>(<i>weighted=True, fullInfo=False</i>)</a></article></li>
 <li><article><a href="#yearSplit"><b>yearSplit</b>(<i>startYear, endYear, dropMissingYears=True</i>)</a></article></li>
@@ -76,8 +77,72 @@ The RecordCollection class has the following methods:</h3>
 <li><article><a href="#genderStats"><b>genderStats</b>(<i>asFractions=False</i>)</a></article></li>
 <li><article><a href="#getCitations"><b>getCitations</b>(<i>field=None, values=None, pandasFriendly=True, counts=True</i>)</a></article></li>
 <li><article><a href="#networkCoAuthor"><b>networkCoAuthor</b>(<i>detailedInfo=False, weighted=True, dropNonJournals=False, count=True</i>)</a></article></li>
-<li><article><a href="#networkCoCitation"><b>networkCoCitation</b>(<i>dropAnon=True, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, keyWords=None, detailedCore=True, detailedCoreAttributes=False, coreOnly=False, expandedCore=False</i>)</a></article></li>
 </ol>
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="networkCoCitation"></a><small>RecordCollection.</small>**[<ins>networkCoCitation</ins>]({{ site.baseurl }}{{ page.url }}#networkCoCitation)**(_dropAnon=True, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, keyWords=None, detailedCore=True, detailedCoreAttributes=False, coreOnly=False, expandedCore=False_):
+
+Creates a co-citation network for the RecordCollection.
+
+###### Parameters
+
+_nodeType_ : `optional [str]`
+
+ One of `"full"`, `"original"`, `"author"`, `"journal"` or `"year"`. Specifies the value of the nodes in the graph. The default `"full"` causes the citations to be compared holistically using the [`metaknowledge.Citation`]({{ site.baseurl }}{{ page.url }}#Citation) builtin comparison operators. `"original"` uses the raw original strings of the citations. While `"author"`, `"journal"` and `"year"` each use the author, journal and year respectively.
+
+_dropAnon_ : `optional [bool]`
+
+ default `True`, if `True` citations labeled anonymous are removed from the network
+
+_nodeInfo_ : `optional [bool]`
+
+ default `True`, if `True` an extra piece of information is stored with each node. The extra inforamtion is detemined by _nodeType_.
+
+_fullInfo_ : `optional [bool]`
+
+ default `False`, if `True` the original citation string is added to the node as an extra value, the attribute is labeled as fullCite
+
+_weighted_ : `optional [bool]`
+
+ default `True`, wether the edges are weighted. If `True` the edges are weighted by the number of citations.
+
+_dropNonJournals_ : `optional [bool]`
+
+ default `False`, wether to drop citations of non-journals
+
+_count_ : `optional [bool]`
+
+ default `True`, causes the number of occurrences of a node to be counted
+
+_keyWords_ : `optional [str] or [list[str]]`
+
+ A string or list of strings that the citations are checked against, if they contain any of the strings they are removed from the network
+
+_detailedCore_ : `optional [bool or iterable[WOS tag Strings]]`
+
+ default `True`, if `True` all Citations from the core (those of records in the RecordCollection) and the _nodeType_ is `'full'` all nodes from the core will be given info strings composed of information from the Record objects themselves. This is Equivalent to passing the list: `['AF', 'PY', 'TI', 'SO', 'VL', 'BP']`.
+
+ If _detailedCore_ is an iterable (That evaluates to `True`) of WOS Tags (or long names) The values  of those tags will be used to make the info attribute. All
+
+ The resultant string is the values of each tag, with commas removed, seperated by `', '`, just like the info given by non-core Citations. Note that for tags like `'AF'` that return lists only the first entry in the list will be used. Also a second attribute is created for all nodes called inCore wich is a boolean describing if the node is in the core or not.
+
+ Note: _detailedCore_  is not identical to the _detailedInfo_ argument of [`Recordcollection.networkCoAuthor()`]({{ site.baseurl }}{{ page.url }}#networkCoAuthor)
+
+_coreOnly_ : `optional [bool]`
+
+ default `False`, if `True` only Citations from the RecordCollection will be included in the network
+
+_expandedCore_ : `optional [bool]`
+
+ default `False`, if `True` all citations in the ouput graph that are records in the collection will be duplicated for each author. If the nodes are `"full"`, `"original"` or `"author"` this will result in new noded being created for the other options the results are **not** defined or tested. Edges will be created between each of the nodes for each record expanded, attributes will be copied from exiting nodes.
+
+###### Returns
+
+`Networkx Graph`
+
+ A networkx graph with hashes as ID and co-citation as edges
+
+
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="networkCitation"></a><small>RecordCollection.</small>**[<ins>networkCitation</ins>]({{ site.baseurl }}{{ page.url }}#networkCitation)**(_dropAnon=False, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, directed=True, keyWords=None, detailedCore=True, detailedCoreAttributes=False, coreOnly=False, expandedCore=False, recordToCite=True_):
@@ -153,7 +218,24 @@ _expandedCore_ : `optional [bool]`
 
 <a name="networkBibCoupling"></a><small>RecordCollection.</small>**[<ins>networkBibCoupling</ins>]({{ site.baseurl }}{{ page.url }}#networkBibCoupling)**(_weighted=True, fullInfo=False_):
 
-# Needs to be written
+Creates a bibliographic coupling network based on citations for the RecordCollection.
+
+###### Parameters
+
+_weighted_ : `optional bool`
+
+ Default `True`, if `True` the weight of the edges will be added to the network
+
+_fullInfo_ : `optional bool`
+
+ Default `False`, if `True` the full citation string will be added to each of the nodes of the network.
+
+###### Returns
+
+`Networkx Graph`
+
+ A graph of the bibliographic coupling
+
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
@@ -566,7 +648,36 @@ _asFractions_ : `optional bool`
 
 <a name="getCitations"></a><small>RecordCollection.</small>**[<ins>getCitations</ins>]({{ site.baseurl }}{{ page.url }}#getCitations)**(_field=None, values=None, pandasFriendly=True, counts=True_):
 
-# Needs to be written
+Creates a pandas ready dict with each row a different citation the contained Records and columns containing the original string, year, journal, author's name and the number of times it occured.
+
+There are also options to filter the output citations with _field_ and _values_
+
+###### Parameters
+
+_field_ : `optional str`
+
+ Default `None`, if given all citations missing the named field will be dropped.
+
+_values_ : `optional str or list[str]`
+
+ Default `None`, if _field_ is also given only those citations with one of the strings given in _values_ will be included.
+
+ e.g. to get only citations from 1990 or 1991: `field = year, values = [1991, 1990]`
+
+_pandasFriendly_ : `optional bool`
+
+ Default `True`, if `False` a list of the citations will be returned instead of the more complicated pandas dict
+
+_counts_ : `optional bool`
+
+ Default `True`, if `False` the counts columns will be removed
+
+###### Returns
+
+`dict`
+
+ A pandas ready dict with all the Citations
+
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
@@ -603,71 +714,6 @@ _count_ : `optional [bool]`
 `Networkx Graph`
 
  A networkx graph with author names as nodes and collaborations as edges.
-
-
-<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
-
-<a name="networkCoCitation"></a><small>RecordCollection.</small>**[<ins>networkCoCitation</ins>]({{ site.baseurl }}{{ page.url }}#networkCoCitation)**(_dropAnon=True, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, keyWords=None, detailedCore=True, detailedCoreAttributes=False, coreOnly=False, expandedCore=False_):
-
-Creates a co-citation network for the RecordCollection.
-
-###### Parameters
-
-_nodeType_ : `optional [str]`
-
- One of `"full"`, `"original"`, `"author"`, `"journal"` or `"year"`. Specifies the value of the nodes in the graph. The default `"full"` causes the citations to be compared holistically using the [`metaknowledge.Citation`]({{ site.baseurl }}{{ page.url }}#Citation) builtin comparison operators. `"original"` uses the raw original strings of the citations. While `"author"`, `"journal"` and `"year"` each use the author, journal and year respectively.
-
-_dropAnon_ : `optional [bool]`
-
- default `True`, if `True` citations labeled anonymous are removed from the network
-
-_nodeInfo_ : `optional [bool]`
-
- default `True`, if `True` an extra piece of information is stored with each node. The extra inforamtion is detemined by _nodeType_.
-
-_fullInfo_ : `optional [bool]`
-
- default `False`, if `True` the original citation string is added to the node as an extra value, the attribute is labeled as fullCite
-
-_weighted_ : `optional [bool]`
-
- default `True`, wether the edges are weighted. If `True` the edges are weighted by the number of citations.
-
-_dropNonJournals_ : `optional [bool]`
-
- default `False`, wether to drop citations of non-journals
-
-_count_ : `optional [bool]`
-
- default `True`, causes the number of occurrences of a node to be counted
-
-_keyWords_ : `optional [str] or [list[str]]`
-
- A string or list of strings that the citations are checked against, if they contain any of the strings they are removed from the network
-
-_detailedCore_ : `optional [bool or iterable[WOS tag Strings]]`
-
- default `True`, if `True` all Citations from the core (those of records in the RecordCollection) and the _nodeType_ is `'full'` all nodes from the core will be given info strings composed of information from the Record objects themselves. This is Equivalent to passing the list: `['AF', 'PY', 'TI', 'SO', 'VL', 'BP']`.
-
- If _detailedCore_ is an iterable (That evaluates to `True`) of WOS Tags (or long names) The values  of those tags will be used to make the info attribute. All
-
- The resultant string is the values of each tag, with commas removed, seperated by `', '`, just like the info given by non-core Citations. Note that for tags like `'AF'` that return lists only the first entry in the list will be used. Also a second attribute is created for all nodes called inCore wich is a boolean describing if the node is in the core or not.
-
- Note: _detailedCore_  is not identical to the _detailedInfo_ argument of [`Recordcollection.networkCoAuthor()`]({{ site.baseurl }}{{ page.url }}#networkCoAuthor)
-
-_coreOnly_ : `optional [bool]`
-
- default `False`, if `True` only Citations from the RecordCollection will be included in the network
-
-_expandedCore_ : `optional [bool]`
-
- default `False`, if `True` all citations in the ouput graph that are records in the collection will be duplicated for each author. If the nodes are `"full"`, `"original"` or `"author"` this will result in new noded being created for the other options the results are **not** defined or tested. Edges will be created between each of the nodes for each record expanded, attributes will be copied from exiting nodes.
-
-###### Returns
-
-`Networkx Graph`
-
- A networkx graph with hashes as ID and co-citation as edges
 
 
 

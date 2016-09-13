@@ -145,13 +145,46 @@
 The GrantCollection class has the following methods:</h3>
 
 <ol class="post-list">
-<li><article><a href="#networkCoInvestigator"><b>networkCoInvestigator</b>(<i>institutionLevel=False, targetTags=None, tagSeperator=';', count=True, weighted=True</i>)</a></article></li>
+<li><article><a href="#networkCoInstitution"><b>networkCoInstitution</b>(<i>targetTags=None, tagSeperator=';', count=True, weighted=True</i>)</a></article></li>
+<li><article><a href="#networkCoInvestigator"><b>networkCoInvestigator</b>(<i>targetTags=None, tagSeperator=';', count=True, weighted=True</i>)</a></article></li>
 </ol>
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="networkCoInvestigator"></a><small>GrantCollection.</small><strong><a href="/metaknowledge/docs/GrantCollection#networkCoInvestigator"><ins>networkCoInvestigator</ins></a></strong>(<em>institutionLevel=False, targetTags=None, tagSeperator=’;’, count=True, weighted=True</em>):</p>
+<p><a name="networkCoInstitution"></a><small>GrantCollection.</small><strong><a href="/metaknowledge/docs/GrantCollection#networkCoInstitution"><ins>networkCoInstitution</ins></a></strong>(<em>targetTags=None, tagSeperator=’;’, count=True, weighted=True</em>):</p>
 
-<p>Works for only some grant types</p>
+<p>This works the same as <a href="/metaknowledge/docs/GrantCollection#networkCoInvestigator"><code class="highlighter-rouge">networkCoInvestigator()</code></a> see it for details.</p>
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
+
+<p><a name="networkCoInvestigator"></a><small>GrantCollection.</small><strong><a href="/metaknowledge/docs/GrantCollection#networkCoInvestigator"><ins>networkCoInvestigator</ins></a></strong>(<em>targetTags=None, tagSeperator=’;’, count=True, weighted=True</em>):</p>
+
+<p>Creates a co-investigator from the collection</p>
+
+<p>Most grants do not have a known investigator tag so it must be provided by the user in <em>targetTags</em> and the separator character if it is not a semicolon should also be given.</p>
+
+<h6 id="parameters">Parameters</h6>
+
+<p><em>targetTags</em> : <code class="highlighter-rouge">optional list[str]</code></p>
+
+<p>A list of all the Grant tags to check for investigators</p>
+
+<p><em>tagSeperator</em> : <code class="highlighter-rouge">optional str</code></p>
+
+<p>The character that separates the individual investigator’s names</p>
+
+<p><em>count</em> : <code class="highlighter-rouge">optional bool</code></p>
+
+<p>Default <code class="highlighter-rouge">True</code>, if <code class="highlighter-rouge">True</code> the number of time a name occurs will be given</p>
+
+<p><em>weighted</em> : <code class="highlighter-rouge">optional bool</code></p>
+
+<p>Default <code class="highlighter-rouge">True</code>, if <code class="highlighter-rouge">True</code> the edge weights will be calculated and added to the edges</p>
+
+<h6 id="returns">Returns</h6>
+
+<p><code class="highlighter-rouge">networkx Graph</code></p>
+
+<p>The graph of co-investigator</p>
 
 <hr />
 

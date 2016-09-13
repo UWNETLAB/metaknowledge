@@ -352,7 +352,31 @@ The ExtendedRecord class has the following methods:</h3>
 
 <p><a name="getCitations"></a><small>ExtendedRecord.</small><strong><a href="/metaknowledge/docs/ExtendedRecord#getCitations"><ins>getCitations</ins></a></strong>(<em>field=None, values=None, pandasFriendly=True</em>):</p>
 
-<h1 id="needs-to-be-written">Needs to be written</h1>
+<p>Creates a pandas ready dict with each row a different citation and columns containing the original string, year, journal and author’s name.</p>
+
+<p>There are also options to filter the output citations with <em>field</em> and <em>values</em></p>
+
+<h6 id="parameters-7">Parameters</h6>
+
+<p><em>field</em> : <code class="highlighter-rouge">optional str</code></p>
+
+<p>Default <code class="highlighter-rouge">None</code>, if given all citations missing the named field will be dropped.</p>
+
+<p><em>values</em> : <code class="highlighter-rouge">optional str or list[str]</code></p>
+
+<p>Default <code class="highlighter-rouge">None</code>, if <em>field</em> is also given only those citations with one of the strings given in <em>values</em> will be included.</p>
+
+<p>e.g. to get only citations from 1990 or 1991: <code class="highlighter-rouge">field = year, values = [1991, 1990]</code></p>
+
+<p><em>pandasFriendly</em> : <code class="highlighter-rouge">optional bool</code></p>
+
+<p>Default <code class="highlighter-rouge">True</code>, if <code class="highlighter-rouge">False</code> a list of the citations will be returned instead of the more complicated pandas dict</p>
+
+<h6 id="returns-7">Returns</h6>
+
+<p><code class="highlighter-rouge">dict</code></p>
+
+<p>A pandas ready dict with all the citations</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
@@ -360,7 +384,7 @@ The ExtendedRecord class has the following methods:</h3>
 
 <p>Creates a dict of values of <em>tags</em> from the Record. The tags are the keys and the values are the values. If the tag is missing the value will be <code class="highlighter-rouge">None</code>.</p>
 
-<h6 id="parameters-7">Parameters</h6>
+<h6 id="parameters-8">Parameters</h6>
 
 <p><em>tags</em> : <code class="highlighter-rouge">list[str]</code></p>
 
@@ -370,7 +394,7 @@ The ExtendedRecord class has the following methods:</h3>
 
 <p>default <code class="highlighter-rouge">False</code> if <code class="highlighter-rouge">True</code> the retuned values of the dict will be unprocessed</p>
 
-<h6 id="returns-7">Returns</h6>
+<h6 id="returns-8">Returns</h6>
 
 <p><code class="highlighter-rouge">dict</code></p>
 
@@ -382,13 +406,13 @@ The ExtendedRecord class has the following methods:</h3>
 
 <p>Creates a citation string, using the same format as other WOS citations, for the <a href="/metaknowledge/docs/ExtendedRecord#Record">Record</a> by reading the relevant special tags (<code class="highlighter-rouge">'year'</code>, <code class="highlighter-rouge">'J9'</code>, <code class="highlighter-rouge">'volume'</code>, <code class="highlighter-rouge">'beginningPage'</code>, <code class="highlighter-rouge">'DOI'</code>) and using it to create a <a href="/metaknowledge/docs/ExtendedRecord#Citation"><code class="highlighter-rouge">Citation</code></a> object.</p>
 
-<h6 id="parameters-8">Parameters</h6>
+<h6 id="parameters-9">Parameters</h6>
 
 <p><em>multiCite</em> : <code class="highlighter-rouge">optional [bool]</code></p>
 
 <p>Default <code class="highlighter-rouge">False</code>, if <code class="highlighter-rouge">True</code> a tuple of Citations is returned with each having a different one of the records authors as the author</p>
 
-<h6 id="returns-8">Returns</h6>
+<h6 id="returns-9">Returns</h6>
 
 <p><code class="highlighter-rouge">Citation</code></p>
 
@@ -400,7 +424,7 @@ The ExtendedRecord class has the following methods:</h3>
 
 <p>Creates a dict mapping <code class="highlighter-rouge">'Male'</code>, <code class="highlighter-rouge">'Female'</code> and <code class="highlighter-rouge">'Unknown'</code> to lists of the names of all the authors.</p>
 
-<h6 id="parameters-9">Parameters</h6>
+<h6 id="parameters-10">Parameters</h6>
 
 <p><em>countsOnly</em> : <code class="highlighter-rouge">optional bool</code></p>
 
@@ -410,7 +434,7 @@ The ExtendedRecord class has the following methods:</h3>
 
 <p>Default <code class="highlighter-rouge">False</code>, if <code class="highlighter-rouge">True</code> the fraction counts (lengths of the lists divided by the total  number of authors) will be given instead of the lists of names. This supersedes <em>countsOnly</em></p>
 
-<h6 id="returns-9">Returns</h6>
+<h6 id="returns-10">Returns</h6>
 
 <p><code class="highlighter-rouge">dict[str:str or int]</code></p>
 
@@ -426,7 +450,7 @@ The ExtendedRecord class has the following methods:</h3>
 
 <p><strong>Note</strong> Record entries that are lists have their values seperated with the string <code class="highlighter-rouge">' and '</code></p>
 
-<h6 id="parameters-10">Parameters</h6>
+<h6 id="parameters-11">Parameters</h6>
 
 <p><em>maxLength</em> : <code class="highlighter-rouge">optional [int]</code></p>
 
@@ -444,7 +468,7 @@ The ExtendedRecord class has the following methods:</h3>
 
 <p>default <code class="highlighter-rouge">True</code>, if <code class="highlighter-rouge">True</code> the ID used will be derived from the authors, publishing date and title, if <code class="highlighter-rouge">False</code> it will be the UT tag</p>
 
-<h6 id="returns-10">Returns</h6>
+<h6 id="returns-11">Returns</h6>
 
 <p><code class="highlighter-rouge">str</code></p>
 

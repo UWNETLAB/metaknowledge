@@ -11,7 +11,7 @@ The one issue you will have is that the urls will not work. To make them work yo
 
 {% endcomment %}
 
-_metaknowledge_ is a python library for creating and analyzing scientific metadata. It uses records obtained from Web of Science (WOS) and mostly produces graphs. As it is intended to be usable by those who do not know much python. This page will be a short overview of its capabilities, to allow you to use it for your own work. For complete coverage of the package as well as install instructions read the full the documentation [here]({{ site.baseurl }}/documentation).
+_metaknowledge_ is a python library for creating and analyzing scientific metadata. It uses records obtained from Web of Science (WOS), Scopus and other sources. As it is intended to be usable by those who do not know much python. This page will be a short overview of its capabilities, to allow you to use it for your own work. For complete coverage of the package as well as install instructions read the full the documentation [here]({{ site.baseurl }}/documentation).
 
 
 This document was made from a [jupyter](https://jupyter.org) notebook, if you know how to use them, you can download the notebook [here]({{ site.baseurl }}/examples/metaknowledgeExamples.ipynb) and the sample file is [here]({{ site.baseurl }}/examples/savedrecs.txt) if you wish to have an interactive version of this page. Now lets begin.
@@ -37,20 +37,16 @@ _metaknowledge_ also has a _matplotlib_ based graph [visualizer]({{ site.baseurl
 
 []import metaknowledge.contour as mkv
 
-The functions for handling the raw WOS tags are all found in [_tagProcessing_]({{ site.baseurl }}/documentation/metaknowledgeFull.html#tagProcessing) which also contains low level interface to them
-
-[]import metaknowledge.tagProcessing as mkt
-
 [_pandas_](http://pandas.pydata.org/) is also used in one example
 
 []import pandas
 
 # Reading Files
 
-The files from the Web of Science (WOS) can be loaded into a [`RecordCollections`]({{ site.baseurl }}/docs/RecordCollection#RecordCollection) by creating a `RecordCollection` with the path to the files given to it as a string.
+The files used here are for WOS, but the instructions apply to any of the sources. fRecords can be loaded into a [`RecordCollections`]({{ site.baseurl }}/docs/RecordCollection#RecordCollection) by creating a `RecordCollection` with the path to the files given to it as a string.
 
 []RC = mk.RecordCollection("savedrecs.txt")
-[]repr(RC)
+[]RC
 
 You can also read a whole directory, in this case it is reading the current working directory
 
@@ -66,32 +62,33 @@ Now you have a `RecordCollection` composed of all the WOS records in the selecte
 
 []print("RC is a " + str(RC))
 
-You might have noticed I used two different ways to display the `RecordCollection`. `repr(RC)` will give you where _metaknowledge_ thinks the collection came from. While `str(RC)` will give you a nice string containing the number of `Records`.
-
-
 # `Record` object
 
+[`Record`]({{ site.baseurl }}/docs/Record#Record) is an object that contains a simple record, for example a journal article, book, or conference proceedings. They are what [`RecordCollections`]({{ site.baseurl }}/docs/RecordCollection#RecordCollection) contain. To see an individual [`Record`]({{ site.baseurl }}/docs/Record#Record) at random from a `RecordCollection` you can use `peek()`
 
-[`Record`]({{ site.baseurl }}/docs/Record#Record) is an object that contains a simple WOS record, for example a journal article, book, or conference proceedings. They are what [`RecordCollections`]({{ site.baseurl }}/docs/RecordCollection#RecordCollection) contain. To see an individual [`Record`]({{ site.baseurl }}/docs/Record#Record) at random from a `RecordCollection` you can use `peak()`
-
-[]R = RC.peak()
+[]R = RC.peek()
 
 A single `Record` can give you all the information it contains about its record. If for example you want its authors.
 
-[]print(R.authorsFull)
-[]print(R.AF)
+[]print(R['authorsFull'])
+[]print(R.get('AF'))
 
 Converting a `Record` to a string will give its title
 
 []print(R)
 
-If you try to access a tag the `Record` does not have it will return `None`
+If you try to access a tag the `Record` does not have it will raise a KeyError unless `get()` is used
 
-[]print(R.GP)
+[]try:
+[]    print(R['GP'])
+[]except KeyError as k:
+[]    print(k)
 
-There are two ways of getting each tag, one is using the WOS 2 letter abbreviation and the second is to use the human readable name. There is no standard for the human readable names, so they are specific to _metaknowledge_. To see how the WOS names map to the long names look at [tagFuncs]({{ site.baseurl }}/docs/tagFuncs#tagFuncs). If you want all the tags a `Record` has use [`activeTags()`](({{ site.baseurl }}/docs/Record#activeTags).
+There are two ways of getting a tag, one is using the sources names, in this case WOS 2 letter abbreviations and the second is to use the human readable name. There is no standard for the human readable names, so they are specific to _metaknowledge_. They are: `'year'`, `'volume'`, `'beginningPage'`, `'DOI'`, `'address'`, `'j9'`, `'citations'`, `'grants'`, `'selfCitation'`, `'authorsShort'`, `'authorsFull'`, `'title'`, `'journal'`, `'keywords'`, `'abstract'` and `'id`'.
 
-[]print(R.activeTags())
+To see how the WOS names map to the long names look at the complete [documentation]({{ site.baseurl }}/docs/metaknowledgeFull.html#WOS). If you want all the tags a [`Record`]({{ site.baseurl }}/documentation/metaknowledgeFull.html#Record) has use `keys()` like a `dict`.
+
+[]print(list(R.keys()))
 
 
 # `RecordCollection` object
@@ -104,9 +101,9 @@ To iterate over all of the `Records` you can use a for loop
 []for R in RC:
 []    print(R)
 
-The individual `Records` are index by their WOS numbers so you can access a specific one in the collection if you know its number.
+The individual `Records` are index by their id numbers so you can access a specific one in the collection if you know its number.
 
-[]RC.WOS("WOS:A1979GV55600001")
+[]RC.getID("WOS:A1979GV55600001")
 
 
 # `Citation` object
@@ -133,13 +130,13 @@ First create a new RecordCollection
 Then add the records that meet your condition, in this case that their title's start with `'A'`
 
 [1]for R in RC:
-[1]    if R.title[0] == 'A':
-[1]        RCfiltered.addRec(R)
+[1]    if R['title'][0] == 'A':
+[1]        RCfiltered.add(R)
 [2]print(RCfiltered)
 
 Now you have a RecordCollection `RCfiltered` of all the `Records` whose titles begin with `'A'`.
 
-One note about implementing this, the above code does not handle the case in which the title is missing i.e. `R.title` is `None`. You will have to deal with this on your own.
+One note about implementing this, the above code does not handle the case in which the title is missing i.e. `R['title']` is missing. You will have to deal with this on your own.
 
 
 Two builtin functions to filter collections are [`yearSplit()`]({{ site.baseurl }}/docs/RecordCollection#yearSplit) and [`localCitesOf()`]({{ site.baseurl }}/docs/RecordCollection#localCitesOf). To get a RecordCollection of all Records between 1970 and 1979:
@@ -179,10 +176,10 @@ The last export feature is for using _metaknowledge_ with other packages, in par
 # Making a co-citation network
 
 
-To make a basic co-citation network of Records use [`coCiteNetwork()`]({{ site.baseurl }}/docs/RecordCollection#coCiteNetwork).
+To make a basic co-citation network of Records use [`networkCoCitation()`]({{ site.baseurl }}/docs/RecordCollection#networkCoCitation).
 
-[]coCites = RC.coCiteNetwork()
-[]print(mk.graphStats(coCites, makeString = True)) #makestring by default is True so it is not strictly necessary to include
+[]coCites = RC.networkCoCitation()
+[]print(mk.graphStats(coCites))
 
 [`graphStats()`]({{ site.baseurl }}/documentation/metaknowledgeFull.html#graphStats) is a function to extract some of the statists of a graph and make them into a nice string.
 
@@ -196,9 +193,9 @@ and an edge
 
 All the graphs _metaknowledge_ use are _networkx_ graphs, a few functions to trim them are implemented in _metaknowledge_, [here](#filtering-graphs) is the example section, but many useful functions are implemented by it. Read the documentation [here](https://networkx.github.io/documentation/networkx-1.9.1/) for more information.
 
-The `coCiteNetwork()` function has many options for filtering and determining the nodes. The default is to use the `Citations` themselves. If you wanted to make a network of co-citations of journals you would have to make the node type `'journal'` and remove the non-journals.
+The `networkCoCitation()` function has many options for filtering and determining the nodes. The default is to use the `Citations` themselves. If you wanted to make a network of co-citations of journals you would have to make the node type `'journal'` and remove the non-journals.
 
-[]coCiteJournals = RC.coCiteNetwork(nodeType = 'journal', dropNonJournals = True)
+[]coCiteJournals = RC.networkCoCitation(nodeType = 'journal', dropNonJournals = True)
 []print(mk.graphStats(coCiteJournals))
 
 Lets take a look at the graph after a quick spring layout
@@ -210,12 +207,12 @@ A bit basic but gives a general idea. If you want to make a much better looking 
 # Making a citation network
 
 
-The [`citationNetwork()`]({{ site.baseurl }}/docs/RecordCollection#citationNetwork) method is nearly identical to `coCiteNetwork()` in its parameters. It has one additional keyword argument `directed` that controls if it produces a directed network. Read [**Making a co-citation network**]({{ site.baseurl }}/examples/#Making-a-co-citation-network) to learn more about `citationNetwork()`.
+The [`networkCitation()`]({{ site.baseurl }}/docs/RecordCollection#networkCitation) method is nearly identical to `coCiteNetwork()` in its parameters. It has one additional keyword argument `directed` that controls if it produces a directed network. Read [**Making a co-citation network**]({{ site.baseurl }}/examples/#Making-a-co-citation-network) to learn more about `networkCitation()`.
 
 
 One small example is still worth providing. If you want to make a network of the citations of years by other years and have the letter `'A'` in them then you would write:
 
-[]citationsA = RC.citationNetwork(nodeType = 'year', keyWords = ['A'])
+[]citationsA = RC.networkCitation(nodeType = 'year', keyWords = ['A'])
 []print(mk.graphStats(citationsA))
 
 
@@ -225,17 +222,17 @@ One small example is still worth providing. If you want to make a network of the
 # Making a co-author network
 
 
-The [`coAuthNetwork()`]({{ site.baseurl }}/docs/RecordCollection#coAuthNetwork) function produces the co-authorship network of the RecordCollection as is used as shown
+The [`networkCoAuthor()`]({{ site.baseurl }}/docs/RecordCollection#networkCoAuthor) function produces the co-authorship network of the RecordCollection as is used as shown
 
-[]coAuths = RC.coAuthNetwork()
+[]coAuths = RC.networkCoAuthor()
 []print(mk.graphStats(coAuths))
 
 # Making a one-mode network
 
 
-In addition to the specialized network generators _metaknowledge_ lets you make a one-mode co-occurence network of any of the WOS tags, with the [oneModeNetwork()]({{ site.baseurl }}/docs/RecordCollection#oneModeNetwork) function. For examples the WOS subject tag `'WC'` can be examined.
+In addition to the specialized network generators _metaknowledge_ lets you make a one-mode co-occurence network of any of the WOS tags, with the [networkOneMode()]({{ site.baseurl }}/docs/RecordCollection#networkOneMode) function. For examples the WOS subject tag `'WC'` can be examined.
 
-[]wcCoOccurs = RC.oneModeNetwork('WC')
+[]wcCoOccurs = RC.networkOneMode('WC')
 []print(mk.graphStats(wcCoOccurs))
 
 
@@ -244,9 +241,9 @@ In addition to the specialized network generators _metaknowledge_ lets you make 
 # Making a two-mode network
 
 
-If you wish to study the relationships between 2 tags you can use the [`twoModeNetwork()`]({{ site.baseurl }}/docs/RecordCollection#twoModeNetwork) function which creates a two mode network showing the connections between the tags. For example to look at the connections between titles(`'TI'`) and subjects (`'WC'`)
+If you wish to study the relationships between 2 tags you can use the [`networkTwoMode()`]({{ site.baseurl }}/docs/RecordCollection#networkTwoMode) function which creates a two mode network showing the connections between the tags. For example to look at the connections between titles(`'TI'`) and subjects (`'WC'`)
 
-[]ti_wc = RC.twoModeNetwork('WC', 'title')
+[]ti_wc = RC.networkTwoMode('WC', 'title')
 []print(mk.graphStats(ti_wc))
 
 
@@ -261,18 +258,18 @@ The network is directed by default with the first tag going to the second.
 # Making a multi-mode network
 
 
-For any number of tags the [`nModeNetwork()`]({{ site.baseurl }}/docs/RecordCollection#nModeNetwork) function will do the same thing as the `oneModeNetwork()` but with any number of tags and it will keep track of their types. So to look at the co-occurence of titles `'TI'`, WOS number `'UT'` and authors `'AU'`.
+For any number of tags the [`networkMultiMode()`]({{ site.baseurl }}/docs/RecordCollection#networkMultiMode) function will do the same thing as the `oneModeNetwork()` but with any number of tags and it will keep track of their types. So to look at the co-occurence of titles `'TI'`, WOS number `'UT'` and authors `'AU'`.
 
 []tags = ['TI', 'UT', 'AU']
-[]multiModeNet = RC.nModeNetwork(tags)
+[]multiModeNet = RC.networkMultiMode(tags)
 []mk.graphStats(multiModeNet)
 
 []mkv.quickVisual(multiModeNet)
 
 Beware this can very easily produce hairballs
 
-[]tags = mkt.tagsAndNameSet #All the tags, twice
-[]sillyMultiModeNet = RC.nModeNetwork(tags)
+[]tags = mk.commonRecordFields #All the tags, twice
+[]sillyMultiModeNet = RC.networkMultiMode(tags)
 []mk.graphStats(sillyMultiModeNet)
 
 []mkv.quickVisual(sillyMultiModeNet)

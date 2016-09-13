@@ -29,7 +29,7 @@ class Grant(Record, collections.abc.MutableMapping):
     def __delitem__(self, key):
         self._fieldDict.__delitem__(key)
 
-    def getInvestigators(self, tags = None, seperator = ";"):
+    def getInvestigators(self, tags = None, seperator = ";", _getTag = False):
         """Returns a list of the names of investigators. This is done by looking (in order) for any of fields in _tags_ and splitting the strings on _seperator_. If no strings are found an empty list will be returned.
 
         *Note* for some Grants `getInvestigators` has been overwritten and will ignore the arguments and simply provide the investigators.
@@ -52,18 +52,22 @@ class Grant(Record, collections.abc.MutableMapping):
         """
         #By default we don't know which field has the investigators
         investVal = []
-        if tag is not None:
+        retTag = None
+        if tags is not None:
             if not isinstance(tags, list):
                 tags = [tags]
-            for t in tags:
+            for tag in tags:
                 try:
-                    investVal = self[t].split(seperator)
-                    break
+                    tval = self[tag].split(seperator)
+                    if _getTag:
+                        investVal += [(t.strip(), tag) for t in tval]
+                    else:
+                        investVal += [t.strip() for t in tval]
                 except KeyError:
                     pass
         return investVal
 
-    def getInstitutions(self, tags = None, seperator = ";"):
+    def getInstitutions(self, tags = None, seperator = ";", _getTag = False):
         """Returns a list of the names of institutions. This is done by looking (in order) for any of fields in _tags_ and splitting the strings on _seperator_ (in case of multiple institutions). If no strings are found an empty list will be returned.
 
         *Note* for some Grants `getInstitutions` has been overwritten and will ignore the arguments and simply provide the investigators.
@@ -84,7 +88,7 @@ class Grant(Record, collections.abc.MutableMapping):
 
         > A list of all the found institution's names
         """
-        return self.getInvestigators(tags = tags, seperator = seperator)
+        return self.getInvestigators(tags = tags, seperator = seperator, _getTag = _getTag)
 
     def update(self, other):
         """Adds all the tag-entry pairs from _other_ to the `Grant`. If there is a conflict _other_ takes precedence.

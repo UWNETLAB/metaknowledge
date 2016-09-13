@@ -478,7 +478,6 @@ class ExtendedRecord(Record, metaclass = abc.ABCMeta):
         return 'utf-8' #Most likely to be the encoding
 
     @staticmethod
-    @abc.abstractmethod
     def getAltName(tag):
         """An `abstractmethod`, gives the alternate name of _tag_ or `None`
 
@@ -545,6 +544,32 @@ class ExtendedRecord(Record, metaclass = abc.ABCMeta):
             return auth
 
     def getCitations(self, field = None, values = None, pandasFriendly = True):
+        """Creates a pandas ready dict with each row a different citation and columns containing the original string, year, journal and author's name.
+
+        There are also options to filter the output citations with _field_ and _values_
+
+        # Parameters
+
+        _field_ : `optional str`
+
+        > Default `None`, if given all citations missing the named field will be dropped.
+
+        _values_ : `optional str or list[str]`
+
+        > Default `None`, if _field_ is also given only those citations with one of the strings given in _values_ will be included.
+
+        > e.g. to get only citations from 1990 or 1991: `field = year, values = [1991, 1990]`
+
+        _pandasFriendly_ : `optional bool`
+
+        > Default `True`, if `False` a list of the citations will be returned instead of the more complicated pandas dict
+
+        # Returns
+
+        `dict`
+
+        > A pandas ready dict with all the citations
+        """
         retCites = []
         if values is not None:
             if isinstance(values, (str, int, float)) or not isinstance(values, collections.abc.Container):
@@ -633,6 +658,25 @@ class ExtendedRecord(Record, metaclass = abc.ABCMeta):
             return Citation(', '.join(valsLst))
 
     def authGenders(self, countsOnly = False, fractionsMode = False, _countsTuple = False):
+        """Creates a dict mapping `'Male'`, `'Female'` and `'Unknown'` to lists of the names of all the authors.
+
+        # Parameters
+
+        _countsOnly_ : `optional bool`
+
+        > Default `False`, if `True` the counts (lengths of the lists) will be given instead of the lists of names
+
+        _fractionsMode_ : `optional bool`
+
+        > Default `False`, if `True` the fraction counts (lengths of the lists divided by the total  number of authors) will be given instead of the lists of names. This supersedes _countsOnly_
+
+        # Returns
+
+        `dict[str:str or int]`
+
+        > The mapping of genders to author's names or counts
+        """
+
         authDict = recordGenders(self)
         if _countsTuple or countsOnly or fractionsMode:
             rawList = list(authDict.values())

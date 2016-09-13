@@ -138,11 +138,45 @@ class GrantCollection(CollectionWithIDs):
             except AttributeError:
                 PBar.finish("Done making a GrantCollection. Warning an error occured.")
 
-    def networkCoInvestigator(self, count = True, weighted = True):
-        """Works for only some grant types"""
+    def networkCoInstitution(self, targetTags = None, tagSeperator = ';', count = True, weighted = True):
+        """This works the same as [`networkCoInvestigator()`](#GrantCollection.networkCoInvestigator) see it for details."""
+        return self.networkCoInvestigator(targetTags = targetTags, tagSeperator = tagSeperator, count = count, weighted = weighted, _institutionLevel = True)
+
+    def networkCoInvestigator(self, targetTags = None, tagSeperator = ';', count = True, weighted = True, _institutionLevel = False):
+        """Creates a co-investigator from the collection
+
+        Most grants do not have a known investigator tag so it must be provided by the user in _targetTags_ and the separator character if it is not a semicolon should also be given.
+
+        # Parameters
+
+        > _targetTags_ : `optional list[str]`
+
+        > A list of all the Grant tags to check for investigators
+
+        _tagSeperator_ : `optional str`
+
+        > The character that separates the individual investigator's names
+
+        _count_ : `optional bool`
+
+        > Default `True`, if `True` the number of time a name occurs will be given
+
+        _weighted_ : `optional bool`
+
+        > Default `True`, if `True` the edge weights will be calculated and added to the edges
+
+        # Returns
+
+        `networkx Graph`
+
+        > The graph of co-investigator
+        """
         grph = nx.Graph()
         pcount = 0
-        progArgs = (0, "Starting to make a co-investigator network")
+        if _institutionLevel:
+            progArgs = (0, "Starting to make a co-institution network")
+        else:
+            progArgs = (0, "Starting to make a co-investigator network")
         if metaknowledge.VERBOSE_MODE:
             progKwargs = {'dummy' : False}
         else:
@@ -152,38 +186,44 @@ class GrantCollection(CollectionWithIDs):
                 if PBar:
                     pcount += 1
                     PBar.updateVal(pcount/ len(self), "Analyzing: " + str(G))
-                investList = G.getInvestigators()
+                if _institutionLevel:
+                    investList = G.getInstitutions(tags = targetTags, seperator = tagSeperator, _getTag = True)
+                else:
+                    investList = G.getInvestigators(tags = targetTags, seperator = tagSeperator, _getTag = True)
                 if len(investList) > 1:
                     for i, invest1 in enumerate(investList):
-                        if invest1 not in grph:
+                        if invest1[0] not in grph:
                             if count:
-                                grph.add_node(invest1, count = 1)
+                                grph.add_node(invest1[0], count = 1, field = invest1[1])
                             else:
-                                grph.add_node(invest1)
+                                grph.add_node(invest1[0], field = invest1[1])
                         elif count:
-                            grph.node[invest1]['count'] += 1
+                            grph.node[invest1[0]]['count'] += 1
                         for invest2 in investList[i + 1:]:
-                            if invest2 not in grph:
+                            if invest2[0] not in grph:
                                 if count:
-                                    grph.add_node(invest2, count = 1)
+                                    grph.add_node(invest2[0], count = 1, field = invest2[1])
                                 else:
-                                    grph.add_node(invest2)
+                                    grph.add_node(invest2[0], field = invest2[1])
                             elif count:
-                                grph.node[invest2]['count'] += 1
-                            if grph.has_edge(invest1, invest2) and weighted:
-                                grph.edge[invest1][invest2]['weight'] += 1
+                                grph.node[invest2[0]]['count'] += 1
+                            if grph.has_edge(invest1[0], invest2[0]) and weighted:
+                                grph.edge[invest1[0]][invest2[0]]['weight'] += 1
                             elif weighted:
-                                grph.add_edge(invest1, invest2, weight = 1)
+                                grph.add_edge(invest1[0], invest2[0], weight = 1)
                             else:
-                                grph.add_edge(invest1, invest2)
+                                grph.add_edge(invest1[0], invest2[0])
                 elif len(investList) > 0:
                     invest1 = investList[0]
-                    if invest1 not in grph:
+                    if invest1[0] not in grph:
                         if count:
-                            grph.add_node(invest1, count = 1)
+                            grph.add_node(invest1[0], count = 1, field = invest1[1])
                         else:
-                            grph.add_node(invest1)
+                            grph.add_node(invest1[0], field = invest1[1])
                     elif count:
-                        grph.node[invest1]['count'] += 1
-            PBar.finish("Done making a co-investigator network from {}".format(self))
+                        grph.node[invest1[0]]['count'] += 1
+            if _institutionLevel:
+                PBar.finish("Done making a co-institution network from {}".format(self))
+            else:
+                PBar.finish("Done making a co-investigator network from {}".format(self))
         return grph

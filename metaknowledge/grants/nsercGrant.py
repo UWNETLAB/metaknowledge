@@ -25,8 +25,39 @@ class NSERCGrant(Grant):
             else:
                 self._fieldDict[field] += "; {}".format(value)
 
-    def getInvestigators(self):
-        return self.get('CoApplicantName-NomCoApplicant', '').split('; ')
+    def getInvestigators(self, tags = None, seperator = ";", _getTag = False):
+        """Returns a list of the names of investigators. The optional arguments are ignored.
+
+        # Returns
+
+        `list [str]`
+
+        > A list of all the found investigator's names
+        """
+        if tags is None:
+            tags = ['CoApplicantName-NomCoApplicant']
+        elif isinstance(tags, str):
+            tags = ['CoApplicantName-NomCoApplicant', tags]
+        else:
+            tags.append('CoApplicantName-NomCoApplicant')
+        return super().getInvestigators(tags = tags, seperator = seperator, _getTag = _getTag)
+
+    def getInstitutions(self, tags = None, seperator = ";", _getTag = False):
+        """Returns a list with the names of the institution. The optional arguments are ignored
+
+        # Returns
+
+        `list [str]`
+
+        > A list with 1 entry the name of the institution
+        """
+        if tags is None:
+            tags = ['Institution']
+        elif isinstance(tags, str):
+            tags = ['Institution', tags]
+        else:
+            tags.append('Institution')
+        return super().getInvestigators(tags = tags, seperator = seperator, _getTag = _getTag)
 
 def isNSERCfile(fileName, useFileName = True):
     if useFileName and not os.path.basename(fileName).startswith('NSERC_'):

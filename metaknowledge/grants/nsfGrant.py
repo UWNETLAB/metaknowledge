@@ -19,9 +19,39 @@ class NSFGrant(Grant):
             idValue = "NSF:{}".format(grantdDict.get('AwardID'))
         Grant.__init__(self, originalName, grantdDict, idValue, bad, error, sFile = sFile, sLine = 1)
 
-    def getInvestigators(self):
-        #By default we don't know whcich field has the investigators
-        return [s.split('; ')[0] for s in self.get('Investigator', [])]
+    def getInvestigators(self, tags = None, seperator = ";", _getTag = False):
+        """Returns a list of the names of investigators. The optional arguments are ignored.
+
+        # Returns
+
+        `list [str]`
+
+        > A list of all the found investigator's names
+        """
+        if tags is None:
+            tags = ['Investigator']
+        elif isinstance(tags, str):
+            tags = ['Investigator', tags]
+        else:
+            tags.append('Investigator')
+        return super().getInvestigators(tags = tags, seperator = seperator, _getTag = _getTag)
+
+    def getInstitutions(self, tags = None, seperator = ";", _getTag = False):
+        """Returns a list with the names of the institution. The optional arguments are ignored
+
+        # Returns
+
+        `list [str]`
+
+        > A list with 1 entry the name of the institution
+        """
+        if tags is None:
+            tags = ['Institution']
+        elif isinstance(tags, str):
+            tags = ['Institution', tags]
+        else:
+            tags.append('Institution')
+        return super().getInvestigators(tags = tags, seperator = seperator, _getTag = _getTag)
 
 def isNSFfile(fileName, useFileName = True):
     if useFileName and not os.path.basename(fileName).endswith('.xml'):

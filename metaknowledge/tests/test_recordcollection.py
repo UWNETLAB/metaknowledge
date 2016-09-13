@@ -297,6 +297,24 @@ class TestRecordCollection(unittest.TestCase):
         self.assertEqual(os.path.getsize(filename), 12901)
         os.remove(filename)
 
+    def test_forBurst(self):
+        filename = 'Burst_test.csv'
+        full = self.RC.forBurst('keywords', outputFile = filename)
+        self.assertEqual(len(full), 2)
+        self.assertEqual(len(full['year']), 75)
+        self.assertIn('guides', full['word'])
+        os.remove(filename)
+
+    def test_genderStats(self):
+        stats = self.RC.genderStats()
+        self.assertEqual(stats, {'Unknown': 65, 'Male': 6, 'Female': 1})
+        stats = self.RC.genderStats(asFractions = True)
+        self.assertEqual(stats['Male'], 0.08333333333333333)
+
+    def test_getCitations(self):
+        cites = self.RC.getCitations()
+        self.assertIn('LAUE MV, 1920, RELATIVITATSTHEORIE, V1, P227', cites['citeString'])
+
     def test_makeDict(self):
         d = self.RC.makeDict(onlyTheseTags = list(metaknowledge.WOS.tagsAndNameSet), longNames = True)
         self.assertEqual(len(d), 65)
@@ -380,6 +398,10 @@ class TestRecordCollection(unittest.TestCase):
         self.assertTrue('info' in Gyear.nodes(data=True)[0][1])
         self.assertEqual(Gcore.node['Gilles H, 2002, OPT LETT']['info'], 'WOS:000177484300017, Gilles H, Simple technique for measuring the Goos-Hanchen effect with polarization modulation and a position-sensitive detector, OPTICS LETTERS, 27, 1421')
         self.assertEqual(metaknowledge.graphStats(Gexplode), "The graph has 19 nodes, 29 edges, 0 isolates, 3 self loops, a density of 0.0847953 and a transitivity of 0.132075")
+
+    def test_networkBibCoupling(self):
+        G = self.RC.networkBibCoupling()
+        self.assertEqual(metaknowledge.graphStats(G), 'The graph has 138 nodes, 111 edges, 27 isolates, 111 self loops, a density of 0.0117423 and a transitivity of 0')
 
     def test_coOccurnce(self):
         self.assertEqual(sum(self.RC.cooccurrenceCounts('TI', *tuple(self.RC.tags()))['Longitudinal and transverse effects of nonspecular reflection'].values()), 104)

@@ -26,6 +26,11 @@ This is the documentation for the current version of _metaknowledge_ which is no
    <li><article>
    <a href="{{ site.baseurl }}/documentation/metaknowledgeFull.html#fulllist">Functions and Methods<span class="excerpt">The full list of functions and methods provided by metaknowledge</span></a>
    </article></li>
+   <li><article>
+   <a href="#Extending">Extending MK<span class="excerpt">How to add new features to metaknowledge</span></a>
+   </article></li>
+
+
 
 
 {% for post in sortedDocs %}
@@ -109,8 +114,8 @@ On Windows [_PuTTY_](http://www.chiark.greenend.org.uk/~sgtatham/putty/) has bee
 
 Installing without _Vagrant_ is done with [setuptools](https://pypi.python.org/pypi/setuptools). Go to the metaknowledge directory and run `python3 setup.py install`. This is the same version that is installed via pip plus some extra development command line tools.
 
-## IF you want to extend MK
+## <a name="Extending"></a>Extending MK
 
-do tall this ...
+Coming soon
 
 {% include docsFooter.md %}

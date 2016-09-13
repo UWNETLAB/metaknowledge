@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Full Documentation 3.0.0
+title: Full Documentation 3.0.2
 author:
 - name: Reid McIlroy-Young
   department:
@@ -77,7 +77,7 @@ search_omit: true
 <li><article><a href="#getInvestigators"><small>Grant</small>.<b>getInvestigators</b>(<i>tags=None, seperator=';'</i>)</a></article></li>
 <li><article><a href="#getInstitutions"><small>Grant</small>.<b>getInstitutions</b>(<i>tags=None, seperator=';'</i>)</a></article></li>
 <li><article><a href="#update"><small>Grant</small>.<b>update</b>(<i>other</i>)</a></article></li>
-<li><article><a href="#pop"><small>Grant</small>.<b>pop</b>(<i>key, default=<object object at 0x10f9f5050></i>)</a></article></li>
+<li><article><a href="#pop"><small>Grant</small>.<b>pop</b>(<i>key, default=<object object at 0x109308050></i>)</a></article></li>
 <li><article><a href="#popitem"><small>Grant</small>.<b>popitem</b>()</a></article></li>
 <li><article><a href="#clear"><small>Grant</small>.<b>clear</b>()</a></article></li>
 <li><article><a href="#setdefault"><small>Grant</small>.<b>setdefault</b>(<i>key, default=None</i>)</a></article></li>

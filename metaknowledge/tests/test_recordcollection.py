@@ -488,3 +488,18 @@ class TestRecordCollection(unittest.TestCase):
         self.assertEqual(len(RCMELLER), 1)
         RCnocite = metaknowledge.RecordCollection('metaknowledge/tests/OnePaperNoCites.isi')
         self.assertEqual(len(RCnocite.citeFilter('')), 0)
+
+    def test_yearDiff(self):
+        Gdefault = self.RC.networkCitation()
+        Gfull = self.RC.networkCitation(nodeType="full")
+        Goriginal = self.RC.networkCitation(nodeType="original")
+        # Is yearDiff included as an attribute
+        self.assertTrue('yearDiff' in Gdefault.edges(data=True)[0][2])
+        self.assertTrue('yearDiff' in Gfull.edges(data=True)[0][2])
+        self.assertTrue('yearDiff' in Goriginal.edges(data=True)[0][2])
+        # Is yearDiff being calculated correctly?
+        self.assertEqual(Gdefault["Costadebo, 1974, CR ACAD SCI A MATH"]["Gordon Jp, 1973, PHYS REV A"]["yearDiff"], 1)
+        self.assertEqual(Gfull["Costadebo, 1974, CR ACAD SCI A MATH"]["Gordon Jp, 1973, PHYS REV A"]["yearDiff"], 1)
+        self.assertEqual(Goriginal["COWAN JJ, 1977, J OPT SOC AM, V67, P1307, DOI 10.1364/JOSA.67.001307"]["GOOS F, 1947, ANN PHYS-BERLIN, V1, P333"]['yearDiff'], 30)
+
+

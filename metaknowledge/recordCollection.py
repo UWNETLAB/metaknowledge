@@ -1112,7 +1112,7 @@ class RecordCollection(CollectionWithIDs):
                 Cites = R.get('citations')
                 if Cites:
                     filteredCites = filterCites(Cites, nodeType, dropAnon, dropNonJournals, keyWords, coreCites)
-                    addToNetwork(tmpgrph, filteredCites, count, weighted, nodeType, nodeInfo , fullInfo, coreCitesDict, coreValues, detailedCoreAttributes, headNd = None)
+                    addToNetwork(tmpgrph, filteredCites, count, weighted, nodeType, nodeInfo , fullInfo, coreCitesDict, coreValues, detailedCoreAttributes, addCR, headNd = None)
             if expandedCore:
                 if PBar:
                     PBar.updateVal(.98, "Expanding core Records")
@@ -1121,7 +1121,7 @@ class RecordCollection(CollectionWithIDs):
                 PBar.finish("Done making a co-citation network from {}".format(self))
         return tmpgrph
 
-    def networkCitation(self, dropAnon = False, nodeType = "full", nodeInfo = True, fullInfo = False, weighted = True, dropNonJournals = False, count = True, directed = True, keyWords = None, detailedCore = True, detailedCoreAttributes = False, coreOnly = False, expandedCore = False, recordToCite = True, _quiet = False):
+    def networkCitation(self, dropAnon = False, nodeType = "full", nodeInfo = True, fullInfo = False, weighted = True, dropNonJournals = False, count = True, directed = True, keyWords = None, detailedCore = True, detailedCoreAttributes = False, coreOnly = False, expandedCore = False, recordToCite = True, addCR = False, _quiet = False):
         """Creates a citation network for the RecordCollection.
 
         # Parameters
@@ -1230,7 +1230,7 @@ class RecordCollection(CollectionWithIDs):
                     filteredCites = filterCites(rCites, nodeType, dropAnon, dropNonJournals, keyWords, coreCites)
                     # print(getattr(filteredCites[0], 'year'))
                     # print(R['year'])
-                    addToNetwork(tmpgrph, filteredCites, count, weighted, nodeType, nodeInfo, fullInfo, coreCitesDict, coreValues, detailedCoreAttributes, recordToCite, headNd = reRef)
+                    addToNetwork(tmpgrph, filteredCites, count, weighted, nodeType, nodeInfo, fullInfo, coreCitesDict, coreValues, detailedCoreAttributes, addCR, recordToCite, headNd = reRef)
             if expandedCore:
                 if PBar:
                     PBar.updateVal(.98, "Expanding core Records")
@@ -1282,7 +1282,7 @@ class RecordCollection(CollectionWithIDs):
                 PBar.updateVal(.6 + .4 * (pcount / pmax), "Coupling: {}".format(n))
                 citesLst = citeGrph.in_edges(n)
                 for i, edgeOuter in enumerate(citesLst):
-                    outerNode = edgeOuter[1]
+                    outerNode = edgeOuter[0]
                     for edgeInner in citesLst[i + 1:]:
                         innerNode = edgeInner[0]
                         if weighted and  workingGrph.has_edge(outerNode, innerNode):
@@ -1562,7 +1562,7 @@ class RecordCollection(CollectionWithIDs):
             return RecordCollection(inCollection = retRecs, name = self.name, quietStart = True)
 
 
-def addToNetwork(grph, nds, count, weighted, nodeType, nodeInfo, fullInfo, coreCitesDict, coreValues, detailedValues, recordToCite = True, headNd = None):
+def addToNetwork(grph, nds, count, weighted, nodeType, nodeInfo, fullInfo, coreCitesDict, coreValues, detailedValues, addCR, recordToCite = True, headNd = None):
     """Addeds the citations _nds_ to _grph_, according to the rules give by _nodeType_, _fullInfo_, etc.
 
     _headNd_ is the citation of the Record
@@ -1572,7 +1572,7 @@ def addToNetwork(grph, nds, count, weighted, nodeType, nodeInfo, fullInfo, coreC
         if nodeType == 'full' or nodeType == 'original':
             hYear = getattr(headNd, "year")
         if hID not in grph:
-            grph.add_node(*makeNodeTuple(headNd, hID, nodeInfo, fullInfo, nodeType, count, coreCitesDict, coreValues, detailedValues))
+            grph.add_node(*makeNodeTuple(headNd, hID, nodeInfo, fullInfo, nodeType, count, coreCitesDict, coreValues, detailedValues, addCR))
     else:
         hID = None
     idList = []
@@ -1587,7 +1587,7 @@ def addToNetwork(grph, nds, count, weighted, nodeType, nodeInfo, fullInfo, coreC
             yearList.append(nYear)
 
         if nID not in grph:
-            grph.add_node(*makeNodeTuple(n, nID, nodeInfo, fullInfo, nodeType, count, coreCitesDict, coreValues, detailedValues))
+            grph.add_node(*makeNodeTuple(n, nID, nodeInfo, fullInfo, nodeType, count, coreCitesDict, coreValues, detailedValues, addCR))
         elif count:
             grph.node[nID]['count'] += 1
         idList.append(nID)
@@ -1651,7 +1651,7 @@ def makeID(citation, nodeType):
         return citation.ID()
 
 
-def makeNodeTuple(citation, idVal, nodeInfo, fullInfo, nodeType, count, coreCitesDict, coreValues, detailedValues):
+def makeNodeTuple(citation, idVal, nodeInfo, fullInfo, nodeType, count, coreCitesDict, coreValues, detailedValues, addCR):
     """Makes a tuple of idVal and a dict of the selected attributes"""
     d = {}
     if nodeInfo:
@@ -1679,10 +1679,14 @@ def makeNodeTuple(citation, idVal, nodeInfo, fullInfo, nodeType, count, coreCite
                             else:
                                 d[tag] = v
                     d['inCore'] = True
+                    if addCR:
+                        d['citations'] = '|'.join((str(c) for c in R.get('citations', [])))
                 else:
                     d['MK-ID'] = 'None'
                     d['info'] = citation.allButDOI()
                     d['inCore'] = False
+                    if addCR:
+                        d['citations'] = ''
             else:
                 d['info'] = citation.allButDOI()
         elif nodeType == 'journal':

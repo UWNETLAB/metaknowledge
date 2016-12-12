@@ -339,6 +339,7 @@ class TestRecordCollection(unittest.TestCase):
         Gyear = self.RC.networkCoCitation(nodeType = "year", fullInfo = True, count = False)
         Gcore = self.RC.networkCoCitation(detailedCore = ['AF','AU', 'DE', 'ID', 'PY'], coreOnly = True)
         Gexplode = self.RC.networkCoCitation(expandedCore = True, keyWords = 'a')
+        Gcr = self.RC.networkCoCitation(addCR = True, coreOnly = True)
         self.assertIsInstance(Gdefault, nx.classes.graph.Graph)
         self.assertLessEqual(len(Gdefault.edges()), len(Gunwei.edges()))
         self.assertLessEqual(len(Gdefault.nodes()), len(Gunwei.nodes()))
@@ -359,6 +360,7 @@ class TestRecordCollection(unittest.TestCase):
         self.assertTrue('fullCite' in Gyear.nodes(data = True)[0][1])
         self.assertEqual(Gcore.node['Costadebeauregard O, 1975, CAN J PHYS']['info'], 'COSTADEBEAUREGARD O, COSTADEBEAUREGARD O')
         self.assertEqual(metaknowledge.graphStats(Gexplode, sentenceString = True), "The graph has 73 nodes, 369 edges, 0 isolates, 5 self loops, a density of 0.140411 and a transitivity of 0.523179")
+        self.assertIn('AUDOIN C, 1976, J PHYS E SCI INSTRUM', Gcr.node['Huard S, 1979, CAN J PHYS']['citations'])
 
     def test_coAuth(self):
         Gdefault = self.RC.networkCoAuthor()
@@ -401,7 +403,7 @@ class TestRecordCollection(unittest.TestCase):
 
     def test_networkBibCoupling(self):
         G = self.RC.networkBibCoupling()
-        self.assertEqual(metaknowledge.graphStats(G, sentenceString = True), 'The graph has 138 nodes, 323 edges, 1 isolates, 0 self loops, a density of 0.034169 and a transitivity of 0.0504767')
+        self.assertEqual(metaknowledge.graphStats(G, sentenceString = True), 'The graph has 32 nodes, 304 edges, 1 isolates, 0 self loops, a density of 0.612903 and a transitivity of 0.836511')
 
     def test_coOccurnce(self):
         self.assertEqual(sum(self.RC.cooccurrenceCounts('TI', *tuple(self.RC.tags()))['Longitudinal and transverse effects of nonspecular reflection'].values()), 104)

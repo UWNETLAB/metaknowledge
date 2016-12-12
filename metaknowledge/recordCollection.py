@@ -1284,7 +1284,7 @@ class RecordCollection(CollectionWithIDs):
                 for i, edgeOuter in enumerate(citesLst):
                     outerNode = edgeOuter[1]
                     for edgeInner in citesLst[i + 1:]:
-                        innerNode = edgeInner[1]
+                        innerNode = edgeInner[0]
                         if weighted and  workingGrph.has_edge(outerNode, innerNode):
                             workingGrph.edge[outerNode][innerNode]['weight'] += 1
                         elif weighted:

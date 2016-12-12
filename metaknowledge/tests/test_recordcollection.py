@@ -401,7 +401,7 @@ class TestRecordCollection(unittest.TestCase):
 
     def test_networkBibCoupling(self):
         G = self.RC.networkBibCoupling()
-        self.assertEqual(metaknowledge.graphStats(G, sentenceString = True), 'The graph has 138 nodes, 111 edges, 27 isolates, 111 self loops, a density of 0.0117423 and a transitivity of 0')
+        self.assertEqual(metaknowledge.graphStats(G, sentenceString = True), 'The graph has 138 nodes, 323 edges, 1 isolates, 0 self loops, a density of 0.034169 and a transitivity of 0.0504767')
 
     def test_coOccurnce(self):
         self.assertEqual(sum(self.RC.cooccurrenceCounts('TI', *tuple(self.RC.tags()))['Longitudinal and transverse effects of nonspecular reflection'].values()), 104)

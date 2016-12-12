@@ -46,8 +46,8 @@ class TestScopus(unittest.TestCase):
                 self.assertIsInstance(v, (str, list, int))
 
     def test_graphs(self):
-        self.assertEqual(metaknowledge.graphStats(self.RC.networkCoAuthor()), "The graph has 1798 nodes, 89244 edges, 36 isolates, 15 self loops, a density of 0.0552422 and a transitivity of 0.994673")
-        self.assertEqual(metaknowledge.graphStats(self.RC.networkCitation()), "The graph has 10026 nodes, 10362 edges, 0 isolates, 0 self loops, a density of 0.000103094 and a transitivity of 0")
+        self.assertEqual(metaknowledge.graphStats(self.RC.networkCoAuthor(), sentenceString = True), "The graph has 1798 nodes, 89244 edges, 36 isolates, 15 self loops, a density of 0.0552422 and a transitivity of 0.994673")
+        self.assertEqual(metaknowledge.graphStats(self.RC.networkCitation(), sentenceString = True), "The graph has 10026 nodes, 10362 edges, 0 isolates, 0 self loops, a density of 0.000103094 and a transitivity of 0")
 
     def test_write(self):
         fileName = 'tempFile.scopus.tmp'

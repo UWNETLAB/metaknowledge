@@ -100,7 +100,7 @@ class TestCLI(unittest.TestCase):
 
                 m.calledVals = ['1', '2', '3', '1', '4', '5', '5', '0', '6', 'ten', '2', '0']
                 G = metaknowledge.bin.metaknowledgeCLI.getThresholds(None, self.G)
-                self.assertEqual(metaknowledge.graphStats(G), 'The graph has 2 nodes, 1 edges, 0 isolates, 0 self loops, a density of 1 and a transitivity of 0')
+                self.assertEqual(metaknowledge.graphStats(G, sentenceString = True), 'The graph has 2 nodes, 1 edges, 0 isolates, 0 self loops, a density of 1 and a transitivity of 0')
                 self.assertEqual(len(m.calledVals), 0)
 
     def test_graphs(self):
@@ -108,32 +108,32 @@ class TestCLI(unittest.TestCase):
             with unittest.mock.patch('builtins.input', new_callable = MockInput) as m:
                 m.calledVals = ['1', 'NOT A TAG', 'AF']
                 G = metaknowledge.bin.metaknowledgeCLI.getNetwork(None, self.RC)
-                self.assertEqual(metaknowledge.graphStats(G), 'The graph has 45 nodes, 46 edges, 9 isolates, 0 self loops, a density of 0.0464646 and a transitivity of 0.822581')
+                self.assertEqual(metaknowledge.graphStats(G, sentenceString = True), 'The graph has 45 nodes, 46 edges, 9 isolates, 0 self loops, a density of 0.0464646 and a transitivity of 0.822581')
                 self.assertEqual(len(m.calledVals), 0)
 
                 m.calledVals = ['2', 'AF', 'UT']
                 G = metaknowledge.bin.metaknowledgeCLI.getNetwork(None, self.RC)
-                self.assertEqual(metaknowledge.graphStats(G), 'The graph has 77 nodes, 66 edges, 0 isolates, 0 self loops, a density of 0.0225564 and a transitivity of 0')
+                self.assertEqual(metaknowledge.graphStats(G, sentenceString = True), 'The graph has 77 nodes, 66 edges, 0 isolates, 0 self loops, a density of 0.0225564 and a transitivity of 0')
                 self.assertEqual(len(m.calledVals), 0)
 
                 m.calledVals = ['3'] + list(self.RC.tags()) + ['']
                 G = metaknowledge.bin.metaknowledgeCLI.getNetwork(None, self.RC)
-                self.assertEqual(metaknowledge.graphStats(G), 'The graph has 1186 nodes, 38592 edges, 0 isolates, 56 self loops, a density of 0.0549192 and a transitivity of 0.295384')
+                self.assertEqual(metaknowledge.graphStats(G, sentenceString = True), 'The graph has 1186 nodes, 38592 edges, 0 isolates, 56 self loops, a density of 0.0549192 and a transitivity of 0.295384')
                 self.assertEqual(len(m.calledVals), 0)
 
                 m.calledVals = ['4']
                 G = metaknowledge.bin.metaknowledgeCLI.getNetwork(None, self.RC)
-                self.assertEqual(metaknowledge.graphStats(G), 'The graph has 511 nodes, 817 edges, 0 isolates, 0 self loops, a density of 0.00313495 and a transitivity of 0.00600437')
+                self.assertEqual(metaknowledge.graphStats(G, sentenceString = True), 'The graph has 511 nodes, 817 edges, 0 isolates, 0 self loops, a density of 0.00313495 and a transitivity of 0.00600437')
                 self.assertEqual(len(m.calledVals), 0)
 
                 m.calledVals = ['5']
                 G = metaknowledge.bin.metaknowledgeCLI.getNetwork(None, self.RC)
-                self.assertEqual(metaknowledge.graphStats(G), 'The graph has 493 nodes, 13011 edges, 0 isolates, 22 self loops, a density of 0.107282 and a transitivity of 0.611431')
+                self.assertEqual(metaknowledge.graphStats(G, sentenceString = True), 'The graph has 493 nodes, 13011 edges, 0 isolates, 22 self loops, a density of 0.107282 and a transitivity of 0.611431')
                 self.assertEqual(len(m.calledVals), 0)
 
                 m.calledVals = ['6']
                 G = metaknowledge.bin.metaknowledgeCLI.getNetwork(None, self.RC)
-                self.assertEqual(metaknowledge.graphStats(G), 'The graph has 45 nodes, 46 edges, 9 isolates, 0 self loops, a density of 0.0464646 and a transitivity of 0.822581')
+                self.assertEqual(metaknowledge.graphStats(G, sentenceString = True), 'The graph has 45 nodes, 46 edges, 9 isolates, 0 self loops, a density of 0.0464646 and a transitivity of 0.822581')
                 self.assertEqual(len(m.calledVals), 0)
 
     def test_create(self):

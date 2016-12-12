@@ -269,7 +269,7 @@ class TestRecordCollection(unittest.TestCase):
 
     def test_rpys(self):
         d = self.RC.rpys()
-        self.assertIn(27, d['count'])
+        self.assertIn(17, d['count'])
         d = self.RC.rpys(1990, 2000)
         self.assertEqual(len(d['year']), 11)
         for v in d.values():
@@ -284,7 +284,7 @@ class TestRecordCollection(unittest.TestCase):
 
     def test_NLP(self):
         filename = 'NLP_test.csv'
-        full = self.RC.forNLP(filename, extractCopyright = True, extraColumns = ['ID'])
+        full = self.RC.forNLP(filename, removeCopyright = True, extraColumns = ['ID'])
         self.assertEqual(len(full), 7)
         self.assertEqual(len(full['id']), 33)
         self.assertEqual(full['keywords'][0], full['ID'][0])

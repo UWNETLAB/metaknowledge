@@ -533,7 +533,7 @@ class RecordCollection(CollectionWithIDs):
             PBar.finish("Done burst analysis DataFrame with {} rows".format(len(retDict['year'])))
         return retDict
 
-    def forNLP(self, outputFile = None, extraColumns = None, dropList = None, lower = True, removeNumbers = True, removeNonWords = True, removeWhitespace = True, extractCopyright = False, stemmer = None):
+    def forNLP(self, outputFile = None, extraColumns = None, dropList = None, lower = True, removeNumbers = True, removeNonWords = True, removeWhitespace = True, removeCopyright = False, stemmer = None):
         """Creates a pandas friendly dictionary with each row a `Record` in the `RecordCollection` and the columns fields natural language processing uses (id, title, publication year, keywords and the abstract). The abstract is by default is processed to remove non-word, non-space characters and the case is lowered.
 
         # Parameters
@@ -566,7 +566,7 @@ class RecordCollection(CollectionWithIDs):
 
         > default `True`, if `True` all whitespace will be converted to a single space (`' '`)
 
-        _extractCopyright_ : `optional bool`
+        _removeCopyright_ : `optional bool`
 
         > default `False`, if `True` the copyright statement at the end of the abstract will be removed and added to a new column. Note this is heuristic based and will not work for all papers.
 
@@ -603,7 +603,7 @@ class RecordCollection(CollectionWithIDs):
                 abst = abst[1:-1]
             if removeWhitespace:
                 abst = re.sub(whiteSpaceRegex, lambda x: ' ', abst, count = 0)
-            if extractCopyright:
+            if removeCopyright:
                 abst, copyrightString = findCopyright(abst)
             else:
                 copyrightString = ''
@@ -629,7 +629,7 @@ class RecordCollection(CollectionWithIDs):
             progKwargs = {'dummy' : True}
 
         retDict = {'id' : [], 'year' : [], 'title' : [], 'keywords' : [], 'abstract' : []}
-        if extractCopyright:
+        if removeCopyright:
             retDict['copyright'] = []
         if extraColumns is None:
             extraColumns = []
@@ -646,7 +646,7 @@ class RecordCollection(CollectionWithIDs):
                 retDict['title'].append(R.get('title', ''))
                 retDict['keywords'].append('|'.join(R.get('keywords', [])))
                 retDict['abstract'].append(abstract)
-                if extractCopyright:
+                if removeCopyright:
                     retDict['copyright'].append(copyrightString)
                 for extraTag in extraColumns:
                     e = R.get(extraTag)
@@ -729,7 +729,7 @@ class RecordCollection(CollectionWithIDs):
                 retDict[k].append(v)
         return retDict
 
-    def rpys(self, minYear = None, maxYear = None, dropYears = None):
+    def rpys(self, minYear = None, maxYear = None, dropYears = None, rankEmptyYears = False):
         """This implements _Referenced Publication Years Spectroscopy_ a techinique for finding import years in citation data. The authors of the original papers have a website with more information, found [here](http://www.leydesdorff.net/software/rpys/).
 
         This function computes the spectra of the `RecordCollection` and returns a dictionary mapping strings to lists of `ints`. Each list is ordered and the values of each with the same index form a row and each list a column. The strings are the names of the columns. This is intended to be read directly by pandas `DataFrames`.
@@ -739,7 +739,7 @@ class RecordCollection(CollectionWithIDs):
         1. `'year'`, the years of the counted citations, missing years are inserted with a count of 0, unless they are outside the bounds of the highest year or the lowest year and the default value is used. e.g. if the highest year is 2016, 2017 will not be inserted unless _maxYear_ has been set to 2017 or higher
         2. `'count'`, the number of times the year was cited
         3. `'abs-deviation'`, deviation from the 5-year median. Calculated by taking the absolute deviation of the count from the median of it and the next 2 years and the preceding 2 years
-        4. `'rank'`, the rank of the year, the highest ranked year being the one most cited, the second highest being the second highest citation count and so on. All years with 0 count are given the rank 0
+        4. `'rank'`, the rank of the year, the highest ranked year being the one with the highest deviation, the second highest being the second highest deviation and so on. All years with 0 count are given the rank 0 by default
 
         # Parameters
 
@@ -754,6 +754,10 @@ class RecordCollection(CollectionWithIDs):
         _dropYears_ : `optional int or list[int]`
 
         > Default `None`, year or collection of years that will be removed from the returned value, note the dropped years will still be used to calculate the deviation from the 5-year
+
+        _rankEmptyYears_ : `optional [bool]`
+
+        > Default `False`, if `True` years with 0 count will be ranked according to their deviance, if many 0 count years exist their ordering is not guaranteed to be stable
 
         # Returns
 
@@ -783,6 +787,7 @@ class RecordCollection(CollectionWithIDs):
                 cites = R['citations']
             except KeyError:
                 continue
+            recYear = R.get('year', float('inf'))
             for cite in cites:
                 try:
                     #year can be None
@@ -792,6 +797,9 @@ class RecordCollection(CollectionWithIDs):
                 else:
                     #need the extra years for the normlization
                     if (maxYear is not None and cYear > (maxYear + 2)) or (minYear is not None and cYear < (minYear - 2)):
+                        continue
+                    #years from before the paper are an error
+                    elif recYear < (cYear + 2):
                         continue
                 if cYear in yearCounts:
                     yearCounts[cYear] += 1
@@ -819,7 +827,7 @@ class RecordCollection(CollectionWithIDs):
                 c = 0
             yearDeviances[y] = deviation(y, c, yearCounts)
 
-        for rank, year in enumerate(sorted(yearDeviances.items(), key = lambda x: x[1], reverse = False), start = 1):
+        for rank, year in enumerate(sorted(yearDeviances.items(), key = lambda x: x[1], reverse = True), start = 1):
             ranks[year[0]] = rank
 
         for y in targetYears:
@@ -827,8 +835,10 @@ class RecordCollection(CollectionWithIDs):
                 c = yearCounts[y]
             except KeyError:
                 c = 0
-
-            retDict['rank'].append(ranks[y])
+            if c == 0 and not rankEmptyYears:
+                retDict['rank'].append(0)
+            else:
+                retDict['rank'].append(ranks[y])
             retDict['abs-deviation'].append(yearDeviances[y])
             retDict['year'].append(y)
             retDict['count'].append(c)
@@ -1007,7 +1017,7 @@ class RecordCollection(CollectionWithIDs):
                 PBar.finish("Done making a co-authorship network from {}".format(self))
         return grph
 
-    def networkCoCitation(self, dropAnon = True, nodeType = "full", nodeInfo = True, fullInfo = False, weighted = True, dropNonJournals = False, count = True, keyWords = None, detailedCore = True, detailedCoreAttributes = False, coreOnly = False, expandedCore = False):
+    def networkCoCitation(self, dropAnon = True, nodeType = "full", nodeInfo = True, fullInfo = False, weighted = True, dropNonJournals = False, count = True, keyWords = None, detailedCore = True, detailedCoreAttributes = False, coreOnly = False, expandedCore = False, addCR = False):
         """Creates a co-citation network for the RecordCollection.
 
         # Parameters

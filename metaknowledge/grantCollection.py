@@ -138,7 +138,7 @@ class GrantCollection(CollectionWithIDs):
             except AttributeError:
                 PBar.finish("Done making a GrantCollection. Warning an error occured.")
 
-    def networkCoInvestigatorInstitutions(self, targetTags = None, tagSeperator = ';', count = True, weighted = True):
+    def networkCoInvestigatorInstitution(self, targetTags = None, tagSeperator = ';', count = True, weighted = True):
         """This works the same as [`networkCoInvestigator()`](#GrantCollection.networkCoInvestigator) see it for details."""
         return self.networkCoInvestigator(targetTags = targetTags, tagSeperator = tagSeperator, count = count, weighted = weighted, _institutionLevel = True)
 

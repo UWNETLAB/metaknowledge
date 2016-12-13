@@ -55,5 +55,5 @@ class TestGrantCollection(unittest.TestCase):
         os.remove(fname)
 
     def test_CoInstitution(self):
-        G = self.GC.networkInvestigatorInstitutions()
+        G = self.GC.networkCoInvestigatorInstitutions()
         self.assertEqual(metaknowledge.graphStats(G), '')

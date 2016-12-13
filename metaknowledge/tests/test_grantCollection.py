@@ -56,4 +56,4 @@ class TestGrantCollection(unittest.TestCase):
 
     def test_CoInstitution(self):
         G = self.GC.networkCoInvestigatorInstitution()
-        self.assertEqual(metaknowledge.graphStats(G), '')
+        self.assertEqual(metaknowledge.graphStats(G), 'Nodes: 641\nEdges: 2034\nIsolates: 79\nSelf loops: 0\nDensity: 0.00991615\nTransitivity: 0.273548')

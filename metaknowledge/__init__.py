@@ -53,6 +53,8 @@ from .journalAbbreviations.backend import updatej9DB
 from .genders.nameGender import downloadData
 
 def downloadExtras():
+    """Downloads all the external files used by metaknowledge. This will overwrite exiting files
+    """
     print("Downloading journal abbreviations data")
     updatej9DB()
     print("Downloading name gender data")

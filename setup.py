@@ -49,5 +49,4 @@ if __name__ == '__main__':
               ]},
         test_suite='metaknowledge.tests',
     )
-    print("metaknowledge installed\nIf you intend to use the name genders or journal abbreviations facilities it is advisable to download and setup the required files now. Running following line in your interpreter will do it:\nimport metaknowledge;metaknowledge.downloadExtras()")
-`one line of Python`")
+    print("metaknowledge installed\nIf you intend to use the name genders or journal abbreviations facilities it is\nadvisable to download and setup the required files now.\nRunning following line in your interpreter will do it:\nimport metaknowledge;metaknowledge.downloadExtras()")

@@ -827,7 +827,7 @@ class RecordCollection(CollectionWithIDs):
                 c = 0
             yearDeviances[y] = deviation(y, c, yearCounts)
 
-        for rank, year in enumerate(sorted(yearDeviances.items(), key = lambda x: x[1], reverse = True), start = 1):
+        for rank, year in enumerate(sorted(yearDeviances.items(), key = lambda x: x[1], reverse = False), start = 1):
             ranks[year[0]] = rank
 
         for y in targetYears:

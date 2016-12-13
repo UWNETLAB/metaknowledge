@@ -57,5 +57,5 @@ def downloadExtras():
     """
     print("Downloading journal abbreviations data")
     updatej9DB()
-    print("Downloading name gender data")
+    print("Downloading gender name data")
     downloadData()

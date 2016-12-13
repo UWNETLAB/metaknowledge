@@ -53,3 +53,7 @@ class TestGrantCollection(unittest.TestCase):
         GC = metaknowledge.GrantCollection(fname, extension = '.csv')
         self.assertEqual(GC._collectedTypes, {"DefaultGrant"})
         os.remove(fname)
+
+    def test_CoInstitution(self):
+        G = self.GC.networkCoInstitution()
+        self.assertEqual(metaknowledge.graphStats(G), '')

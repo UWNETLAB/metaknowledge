@@ -128,7 +128,7 @@ class DefaultGrant(Grant):
     #Making it a subclass so that Grant is never used raw
     #Also make interface simpler
     def __init__(self, original, grantdDict, sFile = "", sLine = 0):
-        #We do not known anyhting about the structure of the grant so there is nothing to check about causing an error
+        #We do not known anything about the structure of the grant so there is nothing to check about causing an error
         #The id needs to be unique so hashing the original will always give us that
         idValue = "{}-l:{}-{:0=20}".format(os.path.basename(sFile), sLine, hash(original))
         Grant.__init__(self, original, grantdDict, idValue, False, None, sFile = sFile, sLine = sLine)

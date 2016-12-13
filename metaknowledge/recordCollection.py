@@ -916,7 +916,7 @@ class RecordCollection(CollectionWithIDs):
         else:
             return list(set(retCites))
 
-    def networkCoAuthor(self, detailedInfo = False, weighted = True, dropNonJournals = False, count = True):
+    def networkCoAuthor(self, detailedInfo = False, weighted = True, dropNonJournals = False, count = True, useShortNames = False):
         """Creates a coauthorship network for the RecordCollection.
 
         # Parameters
@@ -986,7 +986,10 @@ class RecordCollection(CollectionWithIDs):
                     PBar.updateVal(pcount/ len(self), "Analyzing: " + str(R))
                 if dropNonJournals and not R.createCitation().isJournal():
                     continue
-                authsList = R.get('authorsFull')
+                if useShortNames:
+                    R.get('authorsShort', [])
+                else:
+                    authsList = R.get('authorsFull', [])
                 if authsList:
                     authsList = list(authsList)
                     detailedInfo = attributeMaker(R)

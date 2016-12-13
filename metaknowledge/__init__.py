@@ -40,7 +40,6 @@ from .citation import Citation, filterNonJournals
 from .mkCollection import Collection, CollectionWithIDs
 from .mkRecord import Record, ExtendedRecord
 
-
 from .grantCollection import GrantCollection
 from .grants import NSERCGrant, CIHRGrant, MedlineGrant, NSFGrant, Grant, DefaultGrant
 
@@ -49,3 +48,12 @@ from .WOS import WOSRecord
 from .medline import MedlineRecord
 from .proquest import ProQuestRecord
 from .scopus import ScopusRecord
+
+from .journalAbbreviations.backend import updatej9DB
+from .genders.nameGender import downloadData
+
+def downloadExtras():
+    print("Downloading journal abbreviations data")
+    updatej9DB()
+    print("Downloading name gender data")
+    downloadData()

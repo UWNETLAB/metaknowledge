@@ -41,7 +41,7 @@ from .mkCollection import Collection, CollectionWithIDs
 from .mkRecord import Record, ExtendedRecord
 
 from .grantCollection import GrantCollection
-from .grants import NSERCGrant, CIHRGrant, MedlineGrant, NSFGrant, Grant, DefaultGrant
+from .grants import NSERCGrant, CIHRGrant, MedlineGrant, NSFGrant, Grant, FallbackGrant
 
 from .recordCollection import RecordCollection
 from .WOS import WOSRecord

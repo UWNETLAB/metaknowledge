@@ -709,10 +709,10 @@ def mergeGraphs(targetGraph, addedGraph, incrementedNodeVal = 'count', increment
             if not targetGraph.Graph.has_edge(edgeNode1, edgeNode2):
                 targetGraph.add_edge(edgeNode1, edgeNode2, **attribs)
 
-def graphStats(G, stats = ('nodes', 'edges', 'isolates', 'loops', 'density', 'transitivity'), makeString = True):
+def graphStats(G, stats = ('nodes', 'edges', 'isolates', 'loops', 'density', 'transitivity'), makeString = True, sentenceString = False):
     """Returns a string or list containing statistics about the graph _G_.
 
-    **graphStats()** gives 6 different statistics: number of nodes, number of edges, number of isolates, number of loops, density and transitivity. The ones wanted can be given to _stats_. By default a string giving a sentence containing all the requested statistics is returned but the raw values can be accessed instead by setting _makeString_ to `False`.
+    **graphStats()** gives 6 different statistics: number of nodes, number of edges, number of isolates, number of loops, density and transitivity. The ones wanted can be given to _stats_. By default a string giving each stat on a different line it can also produce a sentence containing all the requested statistics or the raw values can be accessed instead by setting _makeString_ to `False`.
 
     # Parameters
 
@@ -736,6 +736,10 @@ def graphStats(G, stats = ('nodes', 'edges', 'isolates', 'loops', 'density', 'tr
 
     > Default `True`, if `True` a string is returned if `False` a tuple
 
+    _sentenceString_ : `optional [bool]`
+
+    >Default `False` : if `True` the returned string is a sentce, otherwise each value has a seperate line.
+
     # Returns
 
     `str or tuple [float and int]`
@@ -752,42 +756,63 @@ def graphStats(G, stats = ('nodes', 'edges', 'isolates', 'loops', 'density', 'tr
         stsData = {}
     if 'nodes' in stats:
         if makeString:
-            stsData.append("{:G} nodes".format(len(G.nodes())))
+            if sentenceString:
+                stsData.append("{:G} nodes".format(len(G.nodes())))
+            else:
+                stsData.append("Nodes: {:G}".format(len(G.nodes())))
         else:
             stsData['nodes'] = len(G.nodes())
     if 'edges' in stats:
         if makeString:
-            stsData.append("{:G} edges".format(len(G.edges())))
+            if sentenceString:
+                stsData.append("{:G} edges".format(len(G.edges())))
+            else:
+                stsData.append("Edges: {:G}".format(len(G.edges())))
         else:
             stsData['edges'] = len(G.edges())
     if 'isolates' in stats:
         if makeString:
-            stsData.append("{:G} isolates".format(len(nx.isolates(G))))
+            if sentenceString:
+                stsData.append("{:G} isolates".format(len(nx.isolates(G))))
+            else:
+                stsData.append("Isolates: {:G}".format(len(nx.isolates(G))))
         else:
             stsData['isolates'] = len(nx.isolates(G))
     if 'loops' in stats:
         if makeString:
-            stsData.append("{:G} self loops".format(len(G.selfloop_edges())))
+            if sentenceString:
+                stsData.append("{:G} self loops".format(len(G.selfloop_edges())))
+            else:
+                stsData.append("Self loops: {:G}".format(len(G.selfloop_edges())))
         else:
             stsData['loops'] = len(G.selfloop_edges())
     if 'density' in stats:
         if makeString:
-            stsData.append("a density of {:G}".format(nx.density(G)))
+            if sentenceString:
+                stsData.append("a density of {:G}".format(nx.density(G)))
+            else:
+                stsData.append("Density: {:G}".format(nx.density(G)))
         else:
             stsData['density'] = nx.density(G)
     if 'transitivity' in stats:
         if makeString:
-            stsData.append("a transitivity of {:G}".format(nx.transitivity(G)))
+            if sentenceString:
+                stsData.append("a transitivity of {:G}".format(nx.transitivity(G)))
+            else:
+                stsData.append("Transitivity: {:G}".format(nx.transitivity(G)))
         else:
             stsData['transitivity'] = nx.transitivity(G)
     if makeString:
-        retString = "The graph has "
-        if len(stsData) < 1:
-            return retString
-        elif len(stsData) == 1:
-            return retString + stsData[0]
+        if sentenceString:
+            retString = "The graph has "
+            if len(stsData) < 1:
+                return retString
+            elif len(stsData) == 1:
+                return retString + stsData[0]
+            else:
+                return retString + ', '.join(stsData[:-1]) + ' and ' + stsData[-1]
         else:
-            return retString + ', '.join(stsData[:-1]) + ' and ' + stsData[-1]
+            return '\n'.join(stsData)
     else:
         retLst = []
         for sts in stats:

@@ -9,7 +9,7 @@ from ..mkExceptions import JournalDataBaseError
 
 abrevDBname = "j9Abbreviations"
 
-manaulDBname = "manualj9Abbreviations"
+manualDBname = "manualj9Abbreviations"
 
 def j9urlGenerator(nameDict = False):
     """How to get all the urls for the WOS Journal Title Abbreviations. Each is varies by only a few characters. These are the currently in use urls they may change.
@@ -127,7 +127,7 @@ def updatej9DB(dbname = abrevDBname, saveRawHTML = False):
     except dbm.dumb.error as e:
         raise JournalDataBaseError("Something happened with the database of WOS journal names. To fix this you should delete the 1 to 3 files whose names start with {}. If this doesn't work (sorry), deleteing everything in '{}' and reinstalling metaknowledge should.\nThe error was '{}'".format(dbLoc, os.path.dirname(__file__), e))
 
-def getj9dict(dbname = abrevDBname, manualDB = manaulDBname, returnDict = 'both'):
+def getj9dict(dbname = abrevDBname, manualDB = manualDBname, returnDict ='both'):
     """Returns the dictionary of journal abbreviations mapping to a list of the associated journal names. By default the local database is used. The database is in the file _dbname_ in the same directory as this source file
 
     # Parameters
@@ -136,7 +136,7 @@ def getj9dict(dbname = abrevDBname, manualDB = manaulDBname, returnDict = 'both'
 
     > The name of the downloaded database file, the default is determined at run time. It is recommended that this remain untouched.
 
-    _manaulDB_ : `optional [str]`
+    _manualDB_ : `optional [str]`
 
     > The name of the manually created database file, the default is determined at run time. It is recommended that this remain untouched.
 
@@ -171,8 +171,8 @@ def getj9dict(dbname = abrevDBname, manualDB = manaulDBname, returnDict = 'both'
         return getj9dict(dbname = dbname, manualDB = manualDB, returnDict = returnDict)
     return retDict
 
-def addToDB(abbr = None, dbname = manaulDBname):
-    """Adds _abbr_ to the database of journals. The database is kept separate from the one scraped from WOS, this supersedes it. The database by default is stored with the WOS one and the name is given by `metaknowledge.journalAbbreviations.manaulDBname`. To create an empty database run **addToDB** without an _abbr_ argument.
+def addToDB(abbr = None, dbname = manualDBname):
+    """Adds _abbr_ to the database of journals. The database is kept separate from the one scraped from WOS, this supersedes it. The database by default is stored with the WOS one and the name is given by `metaknowledge.journalAbbreviations.manualDBname`. To create an empty database run **addToDB** without an _abbr_ argument.
 
     # Parameters
 
@@ -182,7 +182,7 @@ def addToDB(abbr = None, dbname = manaulDBname):
 
     _dbname_ : `optional [str]`
 
-    > The name of the database file, default is `metaknowledge.journalAbbreviations.manaulDBname`.
+    > The name of the database file, default is `metaknowledge.journalAbbreviations.manualDBname`.
     """
     dbLoc = os.path.normpath(os.path.dirname(__file__))
     with dbm.dumb.open(dbLoc + '/' + dbname) as db:
@@ -198,8 +198,8 @@ def addToDB(abbr = None, dbname = manaulDBname):
         else:
             raise TypeError("abbr must be a str or dict.")
 
-def excludeFromDB(abbr = None, dbname = manaulDBname):
-    """Marks _abbr_ to be excluded the database of journals. The database is kept separate from the one scraped from WOS, this supersedes it. The database by default is stored with the WOS one and the name is given by `metaknowledge.journalAbbreviations.manaulDBname`. To create an empty database run [**addToDB**()](#journalAbbreviations.addToDB) without an _abbr_ argument.
+def excludeFromDB(abbr = None, dbname = manualDBname):
+    """Marks _abbr_ to be excluded the database of journals. The database is kept separate from the one scraped from WOS, this supersedes it. The database by default is stored with the WOS one and the name is given by `metaknowledge.journalAbbreviations.manualDBname`. To create an empty database run [**addToDB**()](#journalAbbreviations.addToDB) without an _abbr_ argument.
 
     # Parameters
 
@@ -209,7 +209,7 @@ def excludeFromDB(abbr = None, dbname = manaulDBname):
 
     _dbname_ : `optional [str]`
 
-    > The name of the database file, default is `metaknowledge.journalAbbreviations.manaulDBname`.
+    > The name of the database file, default is `metaknowledge.journalAbbreviations.manualDBname`.
     """
     dbLoc = os.path.normpath(os.path.dirname(__file__))
     with dbm.dumb.open(dbLoc + '/' + dbname) as db:

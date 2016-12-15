@@ -35,11 +35,12 @@ class NSERCGrant(Grant):
         > A list of all the found investigator's names
         """
         if tags is None:
-            tags = ['CoApplicantName-NomCoApplicant']
+            tags = []
         elif isinstance(tags, str):
-            tags = ['CoApplicantName-NomCoApplicant', tags]
-        else:
-            tags.append('CoApplicantName-NomCoApplicant')
+            tags = [tags]
+        for k in self.keys():
+            if 'name-' in k.lower() and k not in tags:
+                tags.append(k)
         return super().getInvestigators(tags = tags, seperator = seperator, _getTag = _getTag)
 
     def getInstitutions(self, tags = None, seperator = ";", _getTag = False):
@@ -52,11 +53,12 @@ class NSERCGrant(Grant):
         > A list with 1 entry the name of the institution
         """
         if tags is None:
-            tags = ['Institution']
+            tags = []
         elif isinstance(tags, str):
-            tags = ['Institution', tags]
-        else:
-            tags.append('Institution')
+            tags = [tags]
+        for k in self.keys():
+            if 'institution' in k.lower() and k not in tags:
+                tags.append(k)
         return super().getInvestigators(tags = tags, seperator = seperator, _getTag = _getTag)
 
 def isNSERCfile(fileName, useFileName = True):

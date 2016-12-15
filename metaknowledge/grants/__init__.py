@@ -1,13 +1,13 @@
 from .nsercGrant import NSERCGrant, isNSERCfile, parserNSERCfile
 from .medlineGrant import MedlineGrant
-from .baseGrant import Grant, DefaultGrant, isDefaultGrantFile, parserDefaultGrantFile
+from .baseGrant import Grant, FallbackGrant, isFallbackGrantFile, parserFallbackGrantFile
 from .cihrGrant import CIHRGrant, isCIHRfile, parserCIHRfile
 from .nsfGrant import NSFGrant, isNSFfile, parserNSFfile
 
 
 """#Creating new grants
 
-mk is intended to be expanded as different researchers will require processing of files not in it currently. To add a new grant you need to write 2 simple functions and class. To see a basic example look at the `baseGrant.py` file as it contains the default grant processors and you should be able to reuse much of that code.
+mk is intended to be expanded as different researchers will require processing of files not in it currently. To add a new grant you need to write 2 simple functions and class. To see a basic example look at the `baseGrant.py` file as it contains the fallback grant processors and you should be able to reuse much of that code.
 
 The way GrantCollections are created is when they are given a file or directory of files they check each file with the `detector` functions in the `grantProcessors` found in `fileHandlers.py` and if one returns `True` they use the `processor` function and added the `type` string to their `collectedTypes` set. The `processor` must return a tuple the first element being a set of all the Grants the second `None` or an `Exception` object. `processor` should not raise an exception, if there is an issue the GrantCollection should be given even a partial set of grants, GrantCollections have an errors attribute that contains all errors they encountered during the parsing.
 

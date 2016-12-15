@@ -522,7 +522,7 @@ class CollectionWithIDs(Collection):
             tags |= set(i.keys())
         return tags
 
-    def glimpse(self, *tags):
+    def glimpse(self, *tags, compact = False):
         """Creates a printable table with the most frequently occurring values of each of the requested _tags_, or if none are provided the top authors, journals and citations. The table will be as wide and as tall as the terminal (or 80x24 if there is no terminal) so `print(RC.glimpse())`should always create a nice looking table. Below is a table created from some of the testing files:
 
         ```
@@ -564,7 +564,7 @@ class CollectionWithIDs(Collection):
 
         > A string containing the table
         """
-        return _glimpse(self, *tags)
+        return _glimpse(self, *tags, compact = compact)
 
     def rankedSeries(self, tag, outputFile = None, giveCounts = True, giveRanks = False, greatestFirst = True, pandasMode = True, limitTo = None):
         """Creates an pandas dict of the ordered list of all the values of _tag_, with and ranked by their number of occurrences. A list can also be returned with the the counts or ranks added or it can be written to a file.

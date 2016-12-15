@@ -39,7 +39,7 @@ blurbDict = {
     'ScopusRecord' : "The object for containing and processing Scopus entries",
 
     'Grant' : "The base for all the other Grants",
-    'DefaultGrant' : "The Grant used if a file was not identifiable",
+    'FallbackGrant' : "The Grant used if a file was not identifiable",
     'CIHRGrant' : "The container for CIHR grant entries",
     'NSERCGrant' : "The container for NSERC grant entries",
     'MedlineGrant' : "The container for grants derived from Medline Records entries",

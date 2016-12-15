@@ -122,18 +122,18 @@ def csvAndLinesReader(enumeratedFile, *csvArgs, **csvKwargs):
         row = next(readerIter)
         yield currentData['currentLineNum'], currentData['currentLineString'], row
 
-class DefaultGrant(Grant):
-    """A subclass of [`Grant`](#metaknowledge.grant), it has the same attributes and is returned from the default constructor for grants.
+class FallbackGrant(Grant):
+    """A subclass of [`Grant`](#metaknowledge.grant), it has the same attributes and is returned from the fall back constructor for grants.
     """
     #Making it a subclass so that Grant is never used raw
     #Also make interface simpler
     def __init__(self, original, grantdDict, sFile = "", sLine = 0):
-        #We do not known anyhting about the structure of the grant so there is nothing to check about causing an error
+        #We do not known anything about the structure of the grant so there is nothing to check about causing an error
         #The id needs to be unique so hashing the original will always give us that
         idValue = "{}-l:{}-{:0=20}".format(os.path.basename(sFile), sLine, hash(original))
         Grant.__init__(self, original, grantdDict, idValue, False, None, sFile = sFile, sLine = sLine)
 
-def isDefaultGrantFile(fileName, useFileName = True, encoding = 'latin-1', dialect = 'excel'):
+def isFallbackGrantFile(fileName, useFileName = True, encoding = 'latin-1', dialect = 'excel'):
     if useFileName:
         if not fileName.endswith('csv'):
             return False
@@ -165,7 +165,7 @@ def isDefaultGrantFile(fileName, useFileName = True, encoding = 'latin-1', diale
         #IF nothing caused an issue return True
         return True
 
-def parserDefaultGrantFile(fileName, encoding = 'latin-1', dialect = 'excel'):
+def parserFallbackGrantFile(fileName, encoding = 'latin-1', dialect = 'excel'):
     #Declare the returns out side of the block to show they are accessible everywhere inside it and so if there are issues with their creation it will no cause a problem with returning them
     grantSet = set()
     error = None
@@ -174,7 +174,7 @@ def parserDefaultGrantFile(fileName, encoding = 'latin-1', dialect = 'excel'):
             f = enumerate(openfile, start = 1)
             reader = csvAndLinesReader(f, fieldnames = None, dialect = dialect)
             for lineNum, lineString, lineDict in reader:
-                grantSet.add(DefaultGrant(lineString, lineDict, sFile = fileName, sLine = lineNum))
+                grantSet.add(FallbackGrant(lineString, lineDict, sFile = fileName, sLine = lineNum))
     except Exception:
         if error is None:
             error = BadGrant("The file '{}' is having decoding issues. It may have been modifed since it was downloaded or not be a CIHR grant file.".format(fileName))

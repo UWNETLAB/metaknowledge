@@ -9,7 +9,7 @@ from .mkExceptions import UnknownFile
 from .grants.cihrGrant import parserCIHRfile, isCIHRfile
 from .grants.nsercGrant import parserNSERCfile, isNSERCfile
 from .grants.nsfGrant import parserNSFfile, isNSFfile
-from .grants.baseGrant import parserDefaultGrantFile, isDefaultGrantFile
+from .grants.baseGrant import parserFallbackGrantFile, isFallbackGrantFile
 
 from .WOS.wosHandlers import isWOSFile, wosParser
 from .medline.medlineHandlers import isMedlineFile, medlineParser
@@ -25,7 +25,7 @@ grantProcessors = [
     ProccessorTuple("NSFGrant", parserNSFfile, isNSFfile),
     ProccessorTuple("CIHRGrant", parserCIHRfile, isCIHRfile),
     ProccessorTuple("NSERCGrant", parserNSERCfile, isNSERCfile),
-    ProccessorTuple("DefaultGrant", parserDefaultGrantFile, isDefaultGrantFile),
+    ProccessorTuple("FallbackGrant", parserFallbackGrantFile, isFallbackGrantFile),
     #Raises exception if reached, to indicate the end of the list
     #This simplifes things at the other end
     ProccessorTuple("Invalid File", None, unrecognizedFileHandler),

@@ -63,17 +63,17 @@ class TestHelpers(unittest.TestCase):
 
     def test_dropEdges(self):
         metaknowledge.dropEdges(self.G, minWeight = 1, maxWeight = 3, dropSelfLoops = True)
-        self.assertEqual(metaknowledge.graphStats(self.G), "The graph has 493 nodes, 12711 edges, 0 isolates, 0 self loops, a density of 0.104809 and a transitivity of 0.588968")
+        self.assertEqual(metaknowledge.graphStats(self.G, sentenceString = True), "The graph has 493 nodes, 12711 edges, 0 isolates, 0 self loops, a density of 0.104809 and a transitivity of 0.588968")
         self.assertTrue(self.G.edge['Imbert C, 1975, NOUV REV OPT']['Fainman Y, 1984, APPL OPTICS']['weight'] == 1)
 
     def test_dropNodeByCount(self):
         metaknowledge.dropNodesByCount(self.G, minCount = 2, maxCount = 5)
-        self.assertEqual(metaknowledge.graphStats(self.G), "The graph has 106 nodes, 1214 edges, 0 isolates, 17 self loops, a density of 0.218149 and a transitivity of 0.751036")
+        self.assertEqual(metaknowledge.graphStats(self.G, sentenceString = True), "The graph has 106 nodes, 1214 edges, 0 isolates, 17 self loops, a density of 0.218149 and a transitivity of 0.751036")
         self.assertTrue(self.G.node['Shih H, 1971, PHYS REV A']['count'] == 2)
 
     def test_dropNodesByDegree(self):
         metaknowledge.dropNodesByDegree(self.G, minDegree = 20, maxDegree = 100)
-        self.assertEqual(metaknowledge.graphStats(self.G), "The graph has 385 nodes, 5929 edges, 0 isolates, 11 self loops, a density of 0.0802083 and a transitivity of 0.954487")
+        self.assertEqual(metaknowledge.graphStats(self.G, sentenceString = True), "The graph has 385 nodes, 5929 edges, 0 isolates, 11 self loops, a density of 0.0802083 and a transitivity of 0.954487")
         self.assertTrue(self.G.edge['Mazur P, 1953, MEM ACAD ROY BELG']['Livens Gh, 1948, P CAMB PHILOS SOC']['weight'] == 1)
 
     def test_mergeGraphs(self):

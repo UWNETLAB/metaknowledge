@@ -47,9 +47,13 @@ class TestGrantCollection(unittest.TestCase):
         self.assertTrue(os.path.isfile("metaknowledge/tests/tests.[].mkGrantDirCache"))
         os.remove("metaknowledge/tests/tests.[].mkGrantDirCache")
 
-    def test_default(self):
+    def test_fallback(self):
         fname = "DefaultGrantTestFile.csv"
         shutil.copyfile("metaknowledge/tests/NSERC_TEST_PARTNER.testcsv", fname)
         GC = metaknowledge.GrantCollection(fname, extension = '.csv')
-        self.assertEqual(GC._collectedTypes, {"DefaultGrant"})
+        self.assertEqual(GC._collectedTypes, {"FallbackGrant"})
         os.remove(fname)
+
+    def test_CoInstitution(self):
+        G = self.GC.networkCoInvestigatorInstitution()
+        self.assertEqual(metaknowledge.graphStats(G), 'Nodes: 641\nEdges: 2034\nIsolates: 79\nSelf loops: 0\nDensity: 0.00991615\nTransitivity: 0.273548')

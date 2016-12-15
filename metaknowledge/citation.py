@@ -8,7 +8,7 @@ except ImportError:
 import re
 
 from .mkExceptions import BadCitation
-from .journalAbbreviations import getj9dict, abrevDBname, manaulDBname, addToDB
+from .journalAbbreviations import getj9dict, abrevDBname, manualDBname, addToDB
 
 import metaknowledge
 
@@ -260,7 +260,7 @@ class Citation(collections.abc.Hashable):
         else:
             return retVal
 
-    def isJournal(self, dbname = abrevDBname, manaulDB = manaulDBname, returnDict = 'both', checkIfExcluded = False):
+    def isJournal(self, dbname = abrevDBname, manualDB = manualDBname, returnDict ='both', checkIfExcluded = False):
         """Returns `True` if the `Citation`'s `journal` field is a journal abbreviation from the WOS listing found at [http://images.webofknowledge.com/WOK46/help/WOS/A_abrvjt.html](http://images.webofknowledge.com/WOK46/help/WOS/A_abrvjt.html), i.e. checks if the citation is citing a journal.
 
         **Note**: Requires the [j9Abbreviations](#journalAbbreviations.getj9dict) database file and will raise an error if it cannot be found.
@@ -273,7 +273,7 @@ class Citation(collections.abc.Hashable):
 
         > The name of the downloaded database file, the default is determined at run time. It is recommended that this remain untouched.
 
-        _manaulDB_ : `optional [str]`
+        _manualDB_ : `optional [str]`
 
         > The name of the manually created database file, the default is determined at run time. It is recommended that this remain untouched.
 
@@ -289,7 +289,7 @@ class Citation(collections.abc.Hashable):
         """
         global abbrevDict
         if abbrevDict is None:
-            abbrevDict = getj9dict(dbname = dbname, manualDB = manaulDB, returnDict = returnDict)
+            abbrevDict = getj9dict(dbname = dbname, manualDB = manualDB, returnDict = returnDict)
         if not hasattr(self, 'journal'):
             return False
         elif checkIfExcluded and self.journal:
@@ -329,7 +329,7 @@ class Citation(collections.abc.Hashable):
         else:
             return None
 
-    def addToDB(self, manualName = None, manaulDB = manaulDBname, invert = False):
+    def addToDB(self, manualName = None, manualDB = manualDBname, invert = False):
         """Adds the journal of this Citation to the user created database of journals. This will cause [isJournal()](#Citation.isJournal) to return `True` for this Citation and all others with its `journal`.
 
         **Note**: Requires the [j9Abbreviations](#journalAbbreviations.getj9dict) database file and will raise an error if it cannot be found.
@@ -340,7 +340,7 @@ class Citation(collections.abc.Hashable):
 
         > Default `None`, the full name of journal to use. If not provided the full name will be the same as the abbreviation.
 
-        _manaulDB_ : `optional [str]`
+        _manualDB_ : `optional [str]`
 
         > The name of the manually created database file, the default is determined at run time. It is recommended that this remain untouched.
 
@@ -355,7 +355,7 @@ class Citation(collections.abc.Hashable):
                 d = {self.journal : self.journal}
             else:
                 d = {self.journal : manualName}
-            addToDB(abbr = d, dbname = manaulDB)
+            addToDB(abbr = d, dbname = manualDB)
         except KeyError:
             raise KeyError("This citation does not have a journal field.")
         else:

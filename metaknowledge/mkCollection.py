@@ -634,20 +634,25 @@ class CollectionWithIDs(Collection):
         elif giveRanks or pandasMode:
             if not greatestFirst:
                 seriesList.reverse()
-            currentCount = seriesList[0][1]
             currentRank = 1
             retList = []
             panDict = {'entry' : [], 'count' : [], 'rank' : []}
-            for valString, count in seriesList:
-                if currentCount > count:
-                    currentRank += 1
-                    currentCount = count
-                if pandasMode:
-                    panDict['entry'].append(valString)
-                    panDict['count'].append(count)
-                    panDict['rank'].append(currentRank)
-                else:
-                    retList.append((valString, currentRank))
+            try:
+                currentCount = seriesList[0][1]
+            except IndexError:
+                #Empty series so no need to loop
+                pass
+            else:
+                for valString, count in seriesList:
+                    if currentCount > count:
+                        currentRank += 1
+                        currentCount = count
+                    if pandasMode:
+                        panDict['entry'].append(valString)
+                        panDict['count'].append(count)
+                        panDict['rank'].append(currentRank)
+                    else:
+                        retList.append((valString, currentRank))
             if not greatestFirst:
                 retList.reverse()
             if pandasMode:

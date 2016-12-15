@@ -503,3 +503,16 @@ class TestRecordCollection(unittest.TestCase):
         self.assertEqual(Gdefault["Costadebo, 1974, CR ACAD SCI A MATH"]["Gordon Jp, 1973, PHYS REV A"]["yearDiff"], 1)
         self.assertEqual(Gfull["Costadebo, 1974, CR ACAD SCI A MATH"]["Gordon Jp, 1973, PHYS REV A"]["yearDiff"], 1)
         self.assertEqual(Goriginal["COWAN JJ, 1977, J OPT SOC AM, V67, P1307, DOI 10.1364/JOSA.67.001307"]["GOOS F, 1947, ANN PHYS-BERLIN, V1, P333"]['yearDiff'], 30)
+
+    def test_glimpse(self):
+        #These tests do depend on terminal size
+        gBasic = self.RC.glimpse()
+        gCompact = self.RC.glimpse(compact = True)
+        gEmpty = self.RC.glimpse('AF', 'qwertyhujk')
+        self.assertIn('RecordCollection glimpse made at:', gBasic)
+        self.assertIn('Top Authors\n', gBasic)
+        self.assertIn('1 Gilles, H\n', gBasic)
+
+        self.assertIn('|1 JOURNAL OF THE OPTICAL.|', gCompact)
+        self.assertIn('|Columns are ranked by num. of occurrences and are independent of one another++|', gCompact)
+        self.assertIn('qwertyhujk', gEmpty)

@@ -181,8 +181,8 @@
 The RecordCollection class has the following methods:</h3>
 
 <ol class="post-list">
-<li><article><a href="#networkCoCitation"><b>networkCoCitation</b>(<i>dropAnon=True, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, keyWords=None, detailedCore=True, detailedCoreAttributes=False, coreOnly=False, expandedCore=False</i>)</a></article></li>
-<li><article><a href="#networkCitation"><b>networkCitation</b>(<i>dropAnon=False, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, directed=True, keyWords=None, detailedCore=True, detailedCoreAttributes=False, coreOnly=False, expandedCore=False, recordToCite=True</i>)</a></article></li>
+<li><article><a href="#networkCoCitation"><b>networkCoCitation</b>(<i>dropAnon=True, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, keyWords=None, detailedCore=True, detailedCoreAttributes=False, coreOnly=False, expandedCore=False, addCR=False</i>)</a></article></li>
+<li><article><a href="#networkCitation"><b>networkCitation</b>(<i>dropAnon=False, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, directed=True, keyWords=None, detailedCore=True, detailedCoreAttributes=False, coreOnly=False, expandedCore=False, recordToCite=True, addCR=False</i>)</a></article></li>
 <li><article><a href="#networkBibCoupling"><b>networkBibCoupling</b>(<i>weighted=True, fullInfo=False</i>)</a></article></li>
 <li><article><a href="#yearSplit"><b>yearSplit</b>(<i>startYear, endYear, dropMissingYears=True</i>)</a></article></li>
 <li><article><a href="#localCiteStats"><b>localCiteStats</b>(<i>pandasFriendly=False, keyType='citation'</i>)</a></article></li>
@@ -194,16 +194,16 @@ The RecordCollection class has the following methods:</h3>
 <li><article><a href="#writeBib"><b>writeBib</b>(<i>fname=None, maxStringLength=1000, wosMode=False, reducedOutput=False, niceIDs=True</i>)</a></article></li>
 <li><article><a href="#findProbableCopyright"><b>findProbableCopyright</b>()</a></article></li>
 <li><article><a href="#forBurst"><b>forBurst</b>(<i>tag, outputFile=None, dropList=None, lower=True, removeNumbers=True, removeNonWords=True, removeWhitespace=True, stemmer=None</i>)</a></article></li>
-<li><article><a href="#forNLP"><b>forNLP</b>(<i>outputFile=None, extraColumns=None, dropList=None, lower=True, removeNumbers=True, removeNonWords=True, removeWhitespace=True, extractCopyright=False, stemmer=None</i>)</a></article></li>
+<li><article><a href="#forNLP"><b>forNLP</b>(<i>outputFile=None, extraColumns=None, dropList=None, lower=True, removeNumbers=True, removeNonWords=True, removeWhitespace=True, removeCopyright=False, stemmer=None</i>)</a></article></li>
 <li><article><a href="#makeDict"><b>makeDict</b>(<i>onlyTheseTags=None, longNames=False, raw=False, numAuthors=True, genderCounts=True</i>)</a></article></li>
-<li><article><a href="#rpys"><b>rpys</b>(<i>minYear=None, maxYear=None, dropYears=None</i>)</a></article></li>
+<li><article><a href="#rpys"><b>rpys</b>(<i>minYear=None, maxYear=None, dropYears=None, rankEmptyYears=False</i>)</a></article></li>
 <li><article><a href="#genderStats"><b>genderStats</b>(<i>asFractions=False</i>)</a></article></li>
 <li><article><a href="#getCitations"><b>getCitations</b>(<i>field=None, values=None, pandasFriendly=True, counts=True</i>)</a></article></li>
-<li><article><a href="#networkCoAuthor"><b>networkCoAuthor</b>(<i>detailedInfo=False, weighted=True, dropNonJournals=False, count=True</i>)</a></article></li>
+<li><article><a href="#networkCoAuthor"><b>networkCoAuthor</b>(<i>detailedInfo=False, weighted=True, dropNonJournals=False, count=True, useShortNames=False</i>)</a></article></li>
 </ol>
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="networkCoCitation"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/docs/RecordCollection#networkCoCitation"><ins>networkCoCitation</ins></a></strong>(<em>dropAnon=True, nodeType=’full’, nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, keyWords=None, detailedCore=True, detailedCoreAttributes=False, coreOnly=False, expandedCore=False</em>):</p>
+<p><a name="networkCoCitation"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/docs/RecordCollection#networkCoCitation"><ins>networkCoCitation</ins></a></strong>(<em>dropAnon=True, nodeType=’full’, nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, keyWords=None, detailedCore=True, detailedCoreAttributes=False, coreOnly=False, expandedCore=False, addCR=False</em>):</p>
 
 <p>Creates a co-citation network for the RecordCollection.</p>
 
@@ -267,7 +267,7 @@ The RecordCollection class has the following methods:</h3>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="networkCitation"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/docs/RecordCollection#networkCitation"><ins>networkCitation</ins></a></strong>(<em>dropAnon=False, nodeType=’full’, nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, directed=True, keyWords=None, detailedCore=True, detailedCoreAttributes=False, coreOnly=False, expandedCore=False, recordToCite=True</em>):</p>
+<p><a name="networkCitation"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/docs/RecordCollection#networkCitation"><ins>networkCitation</ins></a></strong>(<em>dropAnon=False, nodeType=’full’, nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, directed=True, keyWords=None, detailedCore=True, detailedCoreAttributes=False, coreOnly=False, expandedCore=False, recordToCite=True, addCR=False</em>):</p>
 
 <p>Creates a citation network for the RecordCollection.</p>
 
@@ -283,19 +283,19 @@ The RecordCollection class has the following methods:</h3>
 
 <p><em>nodeInfo</em> : <code class="highlighter-rouge">optional [bool]</code></p>
 
-<p>default <code class="highlighter-rouge">True</code>, wether an extra piece of information is stored with each node.</p>
+<p>default <code class="highlighter-rouge">True</code>, whether an extra piece of information is stored with each node.</p>
 
 <p><em>fullInfo</em> : <code class="highlighter-rouge">optional [bool]</code></p>
 
-<p>default <code class="highlighter-rouge">False</code>, wether the original citation string is added to the node as an extra value, the attribute is labeled as fullCite</p>
+<p>default <code class="highlighter-rouge">False</code>, whether the original citation string is added to the node as an extra value, the attribute is labeled as fullCite</p>
 
 <p><em>weighted</em> : <code class="highlighter-rouge">optional [bool]</code></p>
 
-<p>default <code class="highlighter-rouge">True</code>, wether the edges are weighted. If <code class="highlighter-rouge">True</code> the edges are weighted by the number of citations.</p>
+<p>default <code class="highlighter-rouge">True</code>, whether the edges are weighted. If <code class="highlighter-rouge">True</code> the edges are weighted by the number of citations.</p>
 
 <p><em>dropNonJournals</em> : <code class="highlighter-rouge">optional [bool]</code></p>
 
-<p>default <code class="highlighter-rouge">False</code>, wether to drop citations of non-journals</p>
+<p>default <code class="highlighter-rouge">False</code>, whether to drop citations of non-journals</p>
 
 <p><em>count</em> : <code class="highlighter-rouge">optional [bool]</code></p>
 
@@ -636,7 +636,7 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="forNLP"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/docs/RecordCollection#forNLP"><ins>forNLP</ins></a></strong>(<em>outputFile=None, extraColumns=None, dropList=None, lower=True, removeNumbers=True, removeNonWords=True, removeWhitespace=True, extractCopyright=False, stemmer=None</em>):</p>
+<p><a name="forNLP"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/docs/RecordCollection#forNLP"><ins>forNLP</ins></a></strong>(<em>outputFile=None, extraColumns=None, dropList=None, lower=True, removeNumbers=True, removeNonWords=True, removeWhitespace=True, removeCopyright=False, stemmer=None</em>):</p>
 
 <p>Creates a pandas friendly dictionary with each row a <code class="highlighter-rouge">Record</code> in the <code class="highlighter-rouge">RecordCollection</code> and the columns fields natural language processing uses (id, title, publication year, keywords and the abstract). The abstract is by default is processed to remove non-word, non-space characters and the case is lowered.</p>
 
@@ -670,7 +670,7 @@ The other options are:</p>
 
 <p>default <code class="highlighter-rouge">True</code>, if <code class="highlighter-rouge">True</code> all whitespace will be converted to a single space (<code class="highlighter-rouge">' '</code>)</p>
 
-<p><em>extractCopyright</em> : <code class="highlighter-rouge">optional bool</code></p>
+<p><em>removeCopyright</em> : <code class="highlighter-rouge">optional bool</code></p>
 
 <p>default <code class="highlighter-rouge">False</code>, if <code class="highlighter-rouge">True</code> the copyright statement at the end of the abstract will be removed and added to a new column. Note this is heuristic based and will not work for all papers.</p>
 
@@ -708,7 +708,7 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="rpys"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/docs/RecordCollection#rpys"><ins>rpys</ins></a></strong>(<em>minYear=None, maxYear=None, dropYears=None</em>):</p>
+<p><a name="rpys"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/docs/RecordCollection#rpys"><ins>rpys</ins></a></strong>(<em>minYear=None, maxYear=None, dropYears=None, rankEmptyYears=False</em>):</p>
 
 <p>This implements <em>Referenced Publication Years Spectroscopy</em> a techinique for finding import years in citation data. The authors of the original papers have a website with more information, found <a href="http://www.leydesdorff.net/software/rpys/">here</a>.</p>
 
@@ -720,7 +720,7 @@ The other options are:</p>
   <li><code class="highlighter-rouge">'year'</code>, the years of the counted citations, missing years are inserted with a count of 0, unless they are outside the bounds of the highest year or the lowest year and the default value is used. e.g. if the highest year is 2016, 2017 will not be inserted unless <em>maxYear</em> has been set to 2017 or higher</li>
   <li><code class="highlighter-rouge">'count'</code>, the number of times the year was cited</li>
   <li><code class="highlighter-rouge">'abs-deviation'</code>, deviation from the 5-year median. Calculated by taking the absolute deviation of the count from the median of it and the next 2 years and the preceding 2 years</li>
-  <li><code class="highlighter-rouge">'rank'</code>, the rank of the year, the highest ranked year being the one most cited, the second highest being the second highest citation count and so on. All years with 0 count are given the rank 0</li>
+  <li><code class="highlighter-rouge">'rank'</code>, the rank of the year, the highest ranked year being the one with the highest deviation, the second highest being the second highest deviation and so on. All years with 0 count are given the rank 0 by default</li>
 </ol>
 
 <h6 id="parameters-15">Parameters</h6>
@@ -736,6 +736,10 @@ The other options are:</p>
 <p><em>dropYears</em> : <code class="highlighter-rouge">optional int or list[int]</code></p>
 
 <p>Default <code class="highlighter-rouge">None</code>, year or collection of years that will be removed from the returned value, note the dropped years will still be used to calculate the deviation from the 5-year</p>
+
+<p><em>rankEmptyYears</em> : <code class="highlighter-rouge">optional [bool]</code></p>
+
+<p>Default <code class="highlighter-rouge">False</code>, if <code class="highlighter-rouge">True</code> years with 0 count will be ranked according to their deviance, if many 0 count years exist their ordering is not guaranteed to be stable</p>
 
 <h6 id="returns-7">Returns</h6>
 
@@ -797,7 +801,7 @@ The other options are:</p>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="networkCoAuthor"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/docs/RecordCollection#networkCoAuthor"><ins>networkCoAuthor</ins></a></strong>(<em>detailedInfo=False, weighted=True, dropNonJournals=False, count=True</em>):</p>
+<p><a name="networkCoAuthor"></a><small>RecordCollection.</small><strong><a href="/metaknowledge/docs/RecordCollection#networkCoAuthor"><ins>networkCoAuthor</ins></a></strong>(<em>detailedInfo=False, weighted=True, dropNonJournals=False, count=True, useShortNames=False</em>):</p>
 
 <p>Creates a coauthorship network for the RecordCollection.</p>
 
@@ -815,11 +819,11 @@ The other options are:</p>
 
 <p><em>weighted</em> : <code class="highlighter-rouge">optional [bool]</code></p>
 
-<p>Default <code class="highlighter-rouge">True</code>, wether the edges are weighted. If <code class="highlighter-rouge">True</code> the edges are weighted by the number of co-authorships.</p>
+<p>Default <code class="highlighter-rouge">True</code>, whether the edges are weighted. If <code class="highlighter-rouge">True</code> the edges are weighted by the number of co-authorships.</p>
 
 <p><em>dropNonJournals</em> : <code class="highlighter-rouge">optional [bool]</code></p>
 
-<p>Default <code class="highlighter-rouge">False</code>, wether to drop authors from non-journals</p>
+<p>Default <code class="highlighter-rouge">False</code>, whether to drop authors from non-journals</p>
 
 <p><em>count</em> : <code class="highlighter-rouge">optional [bool]</code></p>
 

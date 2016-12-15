@@ -22,12 +22,12 @@ As `CollectionWithIDs` is mostly meant to be base for other classes all but one 
 The GrantCollection class has the following methods:</h3>
 
 <ol class="post-list">
-<li><article><a href="#networkCoInstitution"><b>networkCoInstitution</b>(<i>targetTags=None, tagSeperator=';', count=True, weighted=True</i>)</a></article></li>
+<li><article><a href="#networkCoInvestigatorInstitution"><b>networkCoInvestigatorInstitution</b>(<i>targetTags=None, tagSeperator=';', count=True, weighted=True</i>)</a></article></li>
 <li><article><a href="#networkCoInvestigator"><b>networkCoInvestigator</b>(<i>targetTags=None, tagSeperator=';', count=True, weighted=True</i>)</a></article></li>
 </ol>
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="networkCoInstitution"></a><small>GrantCollection.</small>**[<ins>networkCoInstitution</ins>]({{ site.baseurl }}{{ page.url }}#networkCoInstitution)**(_targetTags=None, tagSeperator=';', count=True, weighted=True_):
+<a name="networkCoInvestigatorInstitution"></a><small>GrantCollection.</small>**[<ins>networkCoInvestigatorInstitution</ins>]({{ site.baseurl }}{{ page.url }}#networkCoInvestigatorInstitution)**(_targetTags=None, tagSeperator=';', count=True, weighted=True_):
 
 This works the same as [`networkCoInvestigator()`]({{ site.baseurl }}{{ page.url }}#networkCoInvestigator) see it for details.
 

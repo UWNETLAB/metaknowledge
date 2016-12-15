@@ -189,9 +189,9 @@ The Citation class has the following methods:</h3>
 <li><article><a href="#ID"><b>ID</b>()</a></article></li>
 <li><article><a href="#allButDOI"><b>allButDOI</b>()</a></article></li>
 <li><article><a href="#Extra"><b>Extra</b>()</a></article></li>
-<li><article><a href="#isJournal"><b>isJournal</b>(<i>dbname='j9Abbreviations', manaulDB='manualj9Abbreviations', returnDict='both', checkIfExcluded=False</i>)</a></article></li>
+<li><article><a href="#isJournal"><b>isJournal</b>(<i>dbname='j9Abbreviations', manualDB='manualj9Abbreviations', returnDict='both', checkIfExcluded=False</i>)</a></article></li>
 <li><article><a href="#FullJournalName"><b>FullJournalName</b>()</a></article></li>
-<li><article><a href="#addToDB"><b>addToDB</b>(<i>manualName=None, manaulDB='manualj9Abbreviations', invert=False</i>)</a></article></li>
+<li><article><a href="#addToDB"><b>addToDB</b>(<i>manualName=None, manualDB='manualj9Abbreviations', invert=False</i>)</a></article></li>
 </ol>
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
@@ -245,7 +245,7 @@ The Citation class has the following methods:</h3>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="isJournal"></a><small>Citation.</small><strong><a href="/metaknowledge/docs/Citation#isJournal"><ins>isJournal</ins></a></strong>(<em>dbname=’j9Abbreviations’, manaulDB=’manualj9Abbreviations’, returnDict=’both’, checkIfExcluded=False</em>):</p>
+<p><a name="isJournal"></a><small>Citation.</small><strong><a href="/metaknowledge/docs/Citation#isJournal"><ins>isJournal</ins></a></strong>(<em>dbname=’j9Abbreviations’, manualDB=’manualj9Abbreviations’, returnDict=’both’, checkIfExcluded=False</em>):</p>
 
 <p>Returns <code class="highlighter-rouge">True</code> if the <code class="highlighter-rouge">Citation</code>’s <code class="highlighter-rouge">journal</code> field is a journal abbreviation from the WOS listing found at <a href="http://images.webofknowledge.com/WOK46/help/WOS/A_abrvjt.html">http://images.webofknowledge.com/WOK46/help/WOS/A_abrvjt.html</a>, i.e. checks if the citation is citing a journal.</p>
 
@@ -259,7 +259,7 @@ The Citation class has the following methods:</h3>
 
 <p>The name of the downloaded database file, the default is determined at run time. It is recommended that this remain untouched.</p>
 
-<p><em>manaulDB</em> : <code class="highlighter-rouge">optional [str]</code></p>
+<p><em>manualDB</em> : <code class="highlighter-rouge">optional [str]</code></p>
 
 <p>The name of the manually created database file, the default is determined at run time. It is recommended that this remain untouched.</p>
 
@@ -289,7 +289,7 @@ The Citation class has the following methods:</h3>
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;" />
 
-<p><a name="addToDB"></a><small>Citation.</small><strong><a href="/metaknowledge/docs/Citation#addToDB"><ins>addToDB</ins></a></strong>(<em>manualName=None, manaulDB=’manualj9Abbreviations’, invert=False</em>):</p>
+<p><a name="addToDB"></a><small>Citation.</small><strong><a href="/metaknowledge/docs/Citation#addToDB"><ins>addToDB</ins></a></strong>(<em>manualName=None, manualDB=’manualj9Abbreviations’, invert=False</em>):</p>
 
 <p>Adds the journal of this Citation to the user created database of journals. This will cause <a href="/metaknowledge/docs/Citation#isJournal">isJournal()</a> to return <code class="highlighter-rouge">True</code> for this Citation and all others with its <code class="highlighter-rouge">journal</code>.</p>
 
@@ -301,7 +301,7 @@ The Citation class has the following methods:</h3>
 
 <p>Default <code class="highlighter-rouge">None</code>, the full name of journal to use. If not provided the full name will be the same as the abbreviation.</p>
 
-<p><em>manaulDB</em> : <code class="highlighter-rouge">optional [str]</code></p>
+<p><em>manualDB</em> : <code class="highlighter-rouge">optional [str]</code></p>
 
 <p>The name of the manually created database file, the default is determined at run time. It is recommended that this remain untouched.</p>
 

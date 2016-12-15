@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Full Documentation 3.0.2
+title: Full Documentation 3.1.1
 author:
 - name: Reid McIlroy-Young
   department:
@@ -28,7 +28,7 @@ search_omit: true
 <li><article><a href="#WOSRecord"><b>WOSRecord</b></a>(<i><a href="#ExtendedRecord"><u style="border-bottom: .5px dashed gray;">ExtendedRecord</u></a></i>)<span class="excerpt">The object for containing and processing WOS entries</span></article></li>
 <li><article><a href="#Citation"><b>Citation</b></a>(<i>Hashable</i>)<span class="excerpt">Citation are special, here is how they are handled</span></article></li>
 <li><article><a href="#GrantCollection"><b>GrantCollection</b></a>(<i><a href="#CollectionWithIDs"><u style="border-bottom: .5px dashed gray;">CollectionWithIDs</u></a></i>)<span class="excerpt">A Collection of Grants, this is what does most of the stuff on Grants</span></article></li>
-<li><article><a href="#DefaultGrant"><b>DefaultGrant</b></a>(<i><a href="#Grant"><u style="border-bottom: .5px dashed gray;">Grant</u></a></i>)<span class="excerpt">The Grant used if a file was not identifiable</span></article></li>
+<li><article><a href="#FallbackGrant"><b>FallbackGrant</b></a>(<i><a href="#Grant"><u style="border-bottom: .5px dashed gray;">Grant</u></a></i>)<span class="excerpt">The Grant used if a file was not identifiable</span></article></li>
 <li><article><a href="#Grant"><b>Grant</b></a>(<i><a href="#Record"><u style="border-bottom: .5px dashed gray;">Record</u></a>, MutableMapping</i>)<span class="excerpt">The base for all the other Grants</span></article></li>
 <li><article><a href="#CIHRGrant"><b>CIHRGrant</b></a>(<i><a href="#Grant"><u style="border-bottom: .5px dashed gray;">Grant</u></a></i>)<span class="excerpt">The container for CIHR grant entries</span></article></li>
 <li><article><a href="#MedlineGrant"><b>MedlineGrant</b></a>(<i><a href="#Grant"><u style="border-bottom: .5px dashed gray;">Grant</u></a></i>)<span class="excerpt">The container for grants derived from Medline Records entries</span></article></li>
@@ -46,10 +46,12 @@ search_omit: true
 <h3><a name="fulllist"></a>All the functions and methods of <i>metaknowledge</i> and its objects are as follows:</h3>
 
 <ol class="post-list">
+<li><article><a href="#downloadExtras"><b>downloadExtras</b>()</a></article></li>
 <li><article><a href="#filterNonJournals"><b>filterNonJournals</b>(<i>citesLst, invert=False</i>)</a></article></li>
 <li><article><a href="#diffusionGraph"><b>diffusionGraph</b>(<i>source, target, weighted=True, sourceType='raw', targetType='raw', labelEdgesBy=None</i>)</a></article></li>
 <li><article><a href="#diffusionCount"><b>diffusionCount</b>(<i>source, target, sourceType='raw', extraValue=None, pandasFriendly=False, compareCounts=False, numAuthors=True, useAllAuthors=True, extraMapping=None</i>)</a></article></li>
 <li><article><a href="#diffusionAddCountsFromSource"><b>diffusionAddCountsFromSource</b>(<i>grph, source, target, nodeType='citations', extraType=None, diffusionLabel='DiffusionCount', extraKeys=None, countsDict=None, extraMapping=None</i>)</a></article></li>
+<li><article><a href="#downloadData"><b>downloadData</b>(<i>useUK=False</i>)</a></article></li>
 <li><article><a href="#readGraph"><b>readGraph</b>(<i>edgeList, nodeList=None, directed=False, idKey='ID', eSource='From', eDest='To'</i>)</a></article></li>
 <li><article><a href="#writeEdgeList"><b>writeEdgeList</b>(<i>grph, name, extraInfo=True, allSameAttribute=False</i>)</a></article></li>
 <li><article><a href="#writeNodeAttributeFile"><b>writeNodeAttributeFile</b>(<i>grph, name, allSameAttribute=False</i>)</a></article></li>
@@ -58,8 +60,9 @@ search_omit: true
 <li><article><a href="#dropNodesByDegree"><b>dropNodesByDegree</b>(<i>grph, minDegree=-inf, maxDegree=inf, useWeight=True, parameterName='weight', includeUnweighted=True</i>)</a></article></li>
 <li><article><a href="#dropNodesByCount"><b>dropNodesByCount</b>(<i>grph, minCount=-inf, maxCount=inf, parameterName='count', ignoreMissing=False</i>)</a></article></li>
 <li><article><a href="#mergeGraphs"><b>mergeGraphs</b>(<i>targetGraph, addedGraph, incrementedNodeVal='count', incrementedEdgeVal='weight'</i>)</a></article></li>
-<li><article><a href="#graphStats"><b>graphStats</b>(<i>G, stats=('nodes', 'edges', 'isolates', 'loops', 'density', 'transitivity'), makeString=True</i>)</a></article></li>
+<li><article><a href="#graphStats"><b>graphStats</b>(<i>G, stats=('nodes', 'edges', 'isolates', 'loops', 'density', 'transitivity'), makeString=True, sentenceString=False</i>)</a></article></li>
 <li><article><a href="#writeGraph"><b>writeGraph</b>(<i>grph, name, edgeInfo=True, typing=False, suffix='csv', overwrite=True, allSameAttribute=False</i>)</a></article></li>
+<li><article><a href="#updatej9DB"><b>updatej9DB</b>(<i>dbname='j9Abbreviations', saveRawHTML=False</i>)</a></article></li>
 <li><article><a href="#tagProcessingFunc"><small>WOSRecord</small>.<b>tagProcessingFunc</b>(<i>tag</i>)</a></article></li>
 <li><article><a href="#specialFuncs"><small>WOSRecord</small>.<b>specialFuncs</b>(<i>key</i>)</a></article></li>
 <li><article><a href="#writeRecord"><small>WOSRecord</small>.<b>writeRecord</b>(<i>infile</i>)</a></article></li>
@@ -69,15 +72,15 @@ search_omit: true
 <li><article><a href="#ID"><small>Citation</small>.<b>ID</b>()</a></article></li>
 <li><article><a href="#allButDOI"><small>Citation</small>.<b>allButDOI</b>()</a></article></li>
 <li><article><a href="#Extra"><small>Citation</small>.<b>Extra</b>()</a></article></li>
-<li><article><a href="#isJournal"><small>Citation</small>.<b>isJournal</b>(<i>dbname='j9Abbreviations', manaulDB='manualj9Abbreviations', returnDict='both', checkIfExcluded=False</i>)</a></article></li>
+<li><article><a href="#isJournal"><small>Citation</small>.<b>isJournal</b>(<i>dbname='j9Abbreviations', manualDB='manualj9Abbreviations', returnDict='both', checkIfExcluded=False</i>)</a></article></li>
 <li><article><a href="#FullJournalName"><small>Citation</small>.<b>FullJournalName</b>()</a></article></li>
-<li><article><a href="#addToDB"><small>Citation</small>.<b>addToDB</b>(<i>manualName=None, manaulDB='manualj9Abbreviations', invert=False</i>)</a></article></li>
-<li><article><a href="#networkCoInstitution"><small>GrantCollection</small>.<b>networkCoInstitution</b>(<i>targetTags=None, tagSeperator=';', count=True, weighted=True</i>)</a></article></li>
+<li><article><a href="#addToDB"><small>Citation</small>.<b>addToDB</b>(<i>manualName=None, manualDB='manualj9Abbreviations', invert=False</i>)</a></article></li>
+<li><article><a href="#networkCoInvestigatorInstitution"><small>GrantCollection</small>.<b>networkCoInvestigatorInstitution</b>(<i>targetTags=None, tagSeperator=';', count=True, weighted=True</i>)</a></article></li>
 <li><article><a href="#networkCoInvestigator"><small>GrantCollection</small>.<b>networkCoInvestigator</b>(<i>targetTags=None, tagSeperator=';', count=True, weighted=True</i>)</a></article></li>
 <li><article><a href="#getInvestigators"><small>Grant</small>.<b>getInvestigators</b>(<i>tags=None, seperator=';'</i>)</a></article></li>
 <li><article><a href="#getInstitutions"><small>Grant</small>.<b>getInstitutions</b>(<i>tags=None, seperator=';'</i>)</a></article></li>
 <li><article><a href="#update"><small>Grant</small>.<b>update</b>(<i>other</i>)</a></article></li>
-<li><article><a href="#pop"><small>Grant</small>.<b>pop</b>(<i>key, default=<object object at 0x109308050></i>)</a></article></li>
+<li><article><a href="#pop"><small>Grant</small>.<b>pop</b>(<i>key, default=<object object at 0x10171a050></i>)</a></article></li>
 <li><article><a href="#popitem"><small>Grant</small>.<b>popitem</b>()</a></article></li>
 <li><article><a href="#clear"><small>Grant</small>.<b>clear</b>()</a></article></li>
 <li><article><a href="#setdefault"><small>Grant</small>.<b>setdefault</b>(<i>key, default=None</i>)</a></article></li>
@@ -108,7 +111,7 @@ search_omit: true
 <li><article><a href="#badEntries"><small>CollectionWithIDs</small>.<b>badEntries</b>()</a></article></li>
 <li><article><a href="#dropBadEntries"><small>CollectionWithIDs</small>.<b>dropBadEntries</b>()</a></article></li>
 <li><article><a href="#tags"><small>CollectionWithIDs</small>.<b>tags</b>()</a></article></li>
-<li><article><a href="#glimpse"><small>CollectionWithIDs</small>.<b>glimpse</b>(<i>*tags</i>)</a></article></li>
+<li><article><a href="#glimpse"><small>CollectionWithIDs</small>.<b>glimpse</b>(<i>*tags, compact=False</i>)</a></article></li>
 <li><article><a href="#rankedSeries"><small>CollectionWithIDs</small>.<b>rankedSeries</b>(<i>tag, outputFile=None, giveCounts=True, giveRanks=False, greatestFirst=True, pandasMode=True, limitTo=None</i>)</a></article></li>
 <li><article><a href="#timeSeries"><small>CollectionWithIDs</small>.<b>timeSeries</b>(<i>tag=None, outputFile=None, giveYears=True, greatestFirst=True, limitTo=False, pandasMode=True</i>)</a></article></li>
 <li><article><a href="#cooccurrenceCounts"><small>CollectionWithIDs</small>.<b>cooccurrenceCounts</b>(<i>keyTag, *countedTags</i>)</a></article></li>
@@ -134,8 +137,8 @@ search_omit: true
 <li><article><a href="#tagProcessingFunc"><small>ProQuestRecord</small>.<b>tagProcessingFunc</b>(<i>tag</i>)</a></article></li>
 <li><article><a href="#specialFuncs"><small>ProQuestRecord</small>.<b>specialFuncs</b>(<i>key</i>)</a></article></li>
 <li><article><a href="#writeRecord"><small>ProQuestRecord</small>.<b>writeRecord</b>(<i>infile</i>)</a></article></li>
-<li><article><a href="#networkCoCitation"><small>RecordCollection</small>.<b>networkCoCitation</b>(<i>dropAnon=True, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, keyWords=None, detailedCore=True, detailedCoreAttributes=False, coreOnly=False, expandedCore=False</i>)</a></article></li>
-<li><article><a href="#networkCitation"><small>RecordCollection</small>.<b>networkCitation</b>(<i>dropAnon=False, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, directed=True, keyWords=None, detailedCore=True, detailedCoreAttributes=False, coreOnly=False, expandedCore=False, recordToCite=True</i>)</a></article></li>
+<li><article><a href="#networkCoCitation"><small>RecordCollection</small>.<b>networkCoCitation</b>(<i>dropAnon=True, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, keyWords=None, detailedCore=True, detailedCoreAttributes=False, coreOnly=False, expandedCore=False, addCR=False</i>)</a></article></li>
+<li><article><a href="#networkCitation"><small>RecordCollection</small>.<b>networkCitation</b>(<i>dropAnon=False, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, directed=True, keyWords=None, detailedCore=True, detailedCoreAttributes=False, coreOnly=False, expandedCore=False, recordToCite=True, addCR=False</i>)</a></article></li>
 <li><article><a href="#networkBibCoupling"><small>RecordCollection</small>.<b>networkBibCoupling</b>(<i>weighted=True, fullInfo=False</i>)</a></article></li>
 <li><article><a href="#yearSplit"><small>RecordCollection</small>.<b>yearSplit</b>(<i>startYear, endYear, dropMissingYears=True</i>)</a></article></li>
 <li><article><a href="#localCiteStats"><small>RecordCollection</small>.<b>localCiteStats</b>(<i>pandasFriendly=False, keyType='citation'</i>)</a></article></li>
@@ -147,12 +150,12 @@ search_omit: true
 <li><article><a href="#writeBib"><small>RecordCollection</small>.<b>writeBib</b>(<i>fname=None, maxStringLength=1000, wosMode=False, reducedOutput=False, niceIDs=True</i>)</a></article></li>
 <li><article><a href="#findProbableCopyright"><small>RecordCollection</small>.<b>findProbableCopyright</b>()</a></article></li>
 <li><article><a href="#forBurst"><small>RecordCollection</small>.<b>forBurst</b>(<i>tag, outputFile=None, dropList=None, lower=True, removeNumbers=True, removeNonWords=True, removeWhitespace=True, stemmer=None</i>)</a></article></li>
-<li><article><a href="#forNLP"><small>RecordCollection</small>.<b>forNLP</b>(<i>outputFile=None, extraColumns=None, dropList=None, lower=True, removeNumbers=True, removeNonWords=True, removeWhitespace=True, extractCopyright=False, stemmer=None</i>)</a></article></li>
+<li><article><a href="#forNLP"><small>RecordCollection</small>.<b>forNLP</b>(<i>outputFile=None, extraColumns=None, dropList=None, lower=True, removeNumbers=True, removeNonWords=True, removeWhitespace=True, removeCopyright=False, stemmer=None</i>)</a></article></li>
 <li><article><a href="#makeDict"><small>RecordCollection</small>.<b>makeDict</b>(<i>onlyTheseTags=None, longNames=False, raw=False, numAuthors=True, genderCounts=True</i>)</a></article></li>
-<li><article><a href="#rpys"><small>RecordCollection</small>.<b>rpys</b>(<i>minYear=None, maxYear=None, dropYears=None</i>)</a></article></li>
+<li><article><a href="#rpys"><small>RecordCollection</small>.<b>rpys</b>(<i>minYear=None, maxYear=None, dropYears=None, rankEmptyYears=False</i>)</a></article></li>
 <li><article><a href="#genderStats"><small>RecordCollection</small>.<b>genderStats</b>(<i>asFractions=False</i>)</a></article></li>
 <li><article><a href="#getCitations"><small>RecordCollection</small>.<b>getCitations</b>(<i>field=None, values=None, pandasFriendly=True, counts=True</i>)</a></article></li>
-<li><article><a href="#networkCoAuthor"><small>RecordCollection</small>.<b>networkCoAuthor</b>(<i>detailedInfo=False, weighted=True, dropNonJournals=False, count=True</i>)</a></article></li>
+<li><article><a href="#networkCoAuthor"><small>RecordCollection</small>.<b>networkCoAuthor</b>(<i>detailedInfo=False, weighted=True, dropNonJournals=False, count=True, useShortNames=False</i>)</a></article></li>
 <li><article><a href="#encoding"><small>ScopusRecord</small>.<b>encoding</b>()</a></article></li>
 <li><article><a href="#getAltName"><small>ScopusRecord</small>.<b>getAltName</b>(<i>tag</i>)</a></article></li>
 <li><article><a href="#tagProcessingFunc"><small>ScopusRecord</small>.<b>tagProcessingFunc</b>(<i>tag</i>)</a></article></li>
@@ -386,10 +389,12 @@ Note for those reading the docstrings metaknowledge's docs are written in markdo
 <h3>The functions provided by <i>metaknowledge</i> are:</h3>
 
 <ol class="post-list">
+<li><article><a href="#downloadExtras"><b>downloadExtras</b>()</a></article></li>
 <li><article><a href="#filterNonJournals"><b>filterNonJournals</b>(<i>citesLst, invert=False</i>)</a></article></li>
 <li><article><a href="#diffusionGraph"><b>diffusionGraph</b>(<i>source, target, weighted=True, sourceType='raw', targetType='raw', labelEdgesBy=None</i>)</a></article></li>
 <li><article><a href="#diffusionCount"><b>diffusionCount</b>(<i>source, target, sourceType='raw', extraValue=None, pandasFriendly=False, compareCounts=False, numAuthors=True, useAllAuthors=True, extraMapping=None</i>)</a></article></li>
 <li><article><a href="#diffusionAddCountsFromSource"><b>diffusionAddCountsFromSource</b>(<i>grph, source, target, nodeType='citations', extraType=None, diffusionLabel='DiffusionCount', extraKeys=None, countsDict=None, extraMapping=None</i>)</a></article></li>
+<li><article><a href="#downloadData"><b>downloadData</b>(<i>useUK=False</i>)</a></article></li>
 <li><article><a href="#readGraph"><b>readGraph</b>(<i>edgeList, nodeList=None, directed=False, idKey='ID', eSource='From', eDest='To'</i>)</a></article></li>
 <li><article><a href="#writeEdgeList"><b>writeEdgeList</b>(<i>grph, name, extraInfo=True, allSameAttribute=False</i>)</a></article></li>
 <li><article><a href="#writeNodeAttributeFile"><b>writeNodeAttributeFile</b>(<i>grph, name, allSameAttribute=False</i>)</a></article></li>
@@ -398,8 +403,9 @@ Note for those reading the docstrings metaknowledge's docs are written in markdo
 <li><article><a href="#dropNodesByDegree"><b>dropNodesByDegree</b>(<i>grph, minDegree=-inf, maxDegree=inf, useWeight=True, parameterName='weight', includeUnweighted=True</i>)</a></article></li>
 <li><article><a href="#dropNodesByCount"><b>dropNodesByCount</b>(<i>grph, minCount=-inf, maxCount=inf, parameterName='count', ignoreMissing=False</i>)</a></article></li>
 <li><article><a href="#mergeGraphs"><b>mergeGraphs</b>(<i>targetGraph, addedGraph, incrementedNodeVal='count', incrementedEdgeVal='weight'</i>)</a></article></li>
-<li><article><a href="#graphStats"><b>graphStats</b>(<i>G, stats=('nodes', 'edges', 'isolates', 'loops', 'density', 'transitivity'), makeString=True</i>)</a></article></li>
+<li><article><a href="#graphStats"><b>graphStats</b>(<i>G, stats=('nodes', 'edges', 'isolates', 'loops', 'density', 'transitivity'), makeString=True, sentenceString=False</i>)</a></article></li>
 <li><article><a href="#writeGraph"><b>writeGraph</b>(<i>grph, name, edgeInfo=True, typing=False, suffix='csv', overwrite=True, allSameAttribute=False</i>)</a></article></li>
+<li><article><a href="#updatej9DB"><b>updatej9DB</b>(<i>dbname='j9Abbreviations', saveRawHTML=False</i>)</a></article></li>
 </ol>
 <h3>The Exceptions defined by <i>metaknowledge</i> are:</h3>
 
@@ -425,6 +431,14 @@ Note for those reading the docstrings metaknowledge's docs are written in markdo
 <li><article><b>GrantCollectionException</b>(<i>mkException</i>)</article></li>
 <li><article><b>UnknownFile</b>(<i>mkException</i>)</article></li>
 </ol>
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="downloadExtras"></a><small></small>**[<ins>downloadExtras</ins>]({{ site.baseurl }}{{ page.url }}#downloadExtras)**():
+
+Downloads all the external files used by metaknowledge. This will overwrite exiting files
+    
+
+
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
 <a name="filterNonJournals"></a><small></small>**[<ins>filterNonJournals</ins>]({{ site.baseurl }}{{ page.url }}#filterNonJournals)**(_citesLst, invert=False_):
@@ -574,6 +588,12 @@ _nodeType_ : `optional [str]`
 
  The counts dictioanry used to add values to _grph_. *Note* _grph_ is modified by the function and the return is done in case you need it.
 
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="downloadData"></a><small></small>**[<ins>downloadData</ins>]({{ site.baseurl }}{{ page.url }}#downloadData)**(_useUK=False_):
+
+# Needs to be written
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
@@ -858,11 +878,11 @@ _incrementedEdgeVal_ : `optional [str]`
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="graphStats"></a><small></small>**[<ins>graphStats</ins>]({{ site.baseurl }}{{ page.url }}#graphStats)**(_G, stats=('nodes', 'edges', 'isolates', 'loops', 'density', 'transitivity'), makeString=True_):
+<a name="graphStats"></a><small></small>**[<ins>graphStats</ins>]({{ site.baseurl }}{{ page.url }}#graphStats)**(_G, stats=('nodes', 'edges', 'isolates', 'loops', 'density', 'transitivity'), makeString=True, sentenceString=False_):
 
 Returns a string or list containing statistics about the graph _G_.
 
-**graphStats()** gives 6 different statistics: number of nodes, number of edges, number of isolates, number of loops, density and transitivity. The ones wanted can be given to _stats_. By default a string giving a sentence containing all the requested statistics is returned but the raw values can be accessed instead by setting _makeString_ to `False`.
+**graphStats()** gives 6 different statistics: number of nodes, number of edges, number of isolates, number of loops, density and transitivity. The ones wanted can be given to _stats_. By default a string giving each stat on a different line it can also produce a sentence containing all the requested statistics or the raw values can be accessed instead by setting _makeString_ to `False`.
 
 ###### Parameters
 
@@ -885,6 +905,10 @@ _stats_ : `optional [list or tuple [str]]`
 _makeString_ : `optional [bool]`
 
  Default `True`, if `True` a string is returned if `False` a tuple
+
+_sentenceString_ : `optional [bool]`
+
+Default `False` : if `True` the returned string is a sentce, otherwise each value has a seperate line.
 
 ###### Returns
 
@@ -937,6 +961,23 @@ _suffix_ : `optional [str]`
 _overwrite_ : `optional [bool]`
 
  Default `True`, if `True` files will be overwritten silently, otherwise an `OSError` exception will be raised.
+
+
+<hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
+
+<a name="updatej9DB"></a><small></small>**[<ins>updatej9DB</ins>]({{ site.baseurl }}{{ page.url }}#updatej9DB)**(_dbname='j9Abbreviations', saveRawHTML=False_):
+
+Updates the database of Journal Title Abbreviations. Requires an internet connection. The data base is saved relative to the source file not the working directory.
+
+###### Parameters
+
+_dbname_ : `optional [str]`
+
+ The name of the database file, default is "j9Abbreviations.db"
+
+_saveRawHTML_ : `optional [bool]`
+
+ Determines if the original HTML of the pages is stored, default `False`. If `True` they are saved in a directory inside j9Raws begining with todays date.
 
 
 
@@ -1140,9 +1181,9 @@ The Citation class has the following methods:</h3>
 <li><article><a href="#ID"><b>ID</b>()</a></article></li>
 <li><article><a href="#allButDOI"><b>allButDOI</b>()</a></article></li>
 <li><article><a href="#Extra"><b>Extra</b>()</a></article></li>
-<li><article><a href="#isJournal"><b>isJournal</b>(<i>dbname='j9Abbreviations', manaulDB='manualj9Abbreviations', returnDict='both', checkIfExcluded=False</i>)</a></article></li>
+<li><article><a href="#isJournal"><b>isJournal</b>(<i>dbname='j9Abbreviations', manualDB='manualj9Abbreviations', returnDict='both', checkIfExcluded=False</i>)</a></article></li>
 <li><article><a href="#FullJournalName"><b>FullJournalName</b>()</a></article></li>
-<li><article><a href="#addToDB"><b>addToDB</b>(<i>manualName=None, manaulDB='manualj9Abbreviations', invert=False</i>)</a></article></li>
+<li><article><a href="#addToDB"><b>addToDB</b>(<i>manualName=None, manualDB='manualj9Abbreviations', invert=False</i>)</a></article></li>
 </ol>
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
@@ -1200,7 +1241,7 @@ Returns any `V`, `P`, `DOI` or `misc` values as a string. These are all the valu
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="isJournal"></a><small>Citation.</small>**[<ins>isJournal</ins>]({{ site.baseurl }}{{ page.url }}#isJournal)**(_dbname='j9Abbreviations', manaulDB='manualj9Abbreviations', returnDict='both', checkIfExcluded=False_):
+<a name="isJournal"></a><small>Citation.</small>**[<ins>isJournal</ins>]({{ site.baseurl }}{{ page.url }}#isJournal)**(_dbname='j9Abbreviations', manualDB='manualj9Abbreviations', returnDict='both', checkIfExcluded=False_):
 
 Returns `True` if the `Citation`'s `journal` field is a journal abbreviation from the WOS listing found at [http://images.webofknowledge.com/WOK46/help/WOS/A_abrvjt.html](http://images.webofknowledge.com/WOK46/help/WOS/A_abrvjt.html), i.e. checks if the citation is citing a journal.
 
@@ -1214,7 +1255,7 @@ _dbname_ : `optional [str]`
 
  The name of the downloaded database file, the default is determined at run time. It is recommended that this remain untouched.
 
-_manaulDB_ : `optional [str]`
+_manualDB_ : `optional [str]`
 
  The name of the manually created database file, the default is determined at run time. It is recommended that this remain untouched.
 
@@ -1246,7 +1287,7 @@ Returns the full name of the Citation's journal field. Requires the [j9Abbreviat
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="addToDB"></a><small>Citation.</small>**[<ins>addToDB</ins>]({{ site.baseurl }}{{ page.url }}#addToDB)**(_manualName=None, manaulDB='manualj9Abbreviations', invert=False_):
+<a name="addToDB"></a><small>Citation.</small>**[<ins>addToDB</ins>]({{ site.baseurl }}{{ page.url }}#addToDB)**(_manualName=None, manualDB='manualj9Abbreviations', invert=False_):
 
 Adds the journal of this Citation to the user created database of journals. This will cause [isJournal()]({{ site.baseurl }}{{ page.url }}#isJournal) to return `True` for this Citation and all others with its `journal`.
 
@@ -1258,7 +1299,7 @@ _manualName_ : `optional [str]`
 
  Default `None`, the full name of journal to use. If not provided the full name will be the same as the abbreviation.
 
-_manaulDB_ : `optional [str]`
+_manualDB_ : `optional [str]`
 
  The name of the manually created database file, the default is determined at run time. It is recommended that this remain untouched.
 
@@ -1285,12 +1326,12 @@ As `CollectionWithIDs` is mostly meant to be base for other classes all but one 
 The GrantCollection class has the following methods:</h3>
 
 <ol class="post-list">
-<li><article><a href="#networkCoInstitution"><b>networkCoInstitution</b>(<i>targetTags=None, tagSeperator=';', count=True, weighted=True</i>)</a></article></li>
+<li><article><a href="#networkCoInvestigatorInstitution"><b>networkCoInvestigatorInstitution</b>(<i>targetTags=None, tagSeperator=';', count=True, weighted=True</i>)</a></article></li>
 <li><article><a href="#networkCoInvestigator"><b>networkCoInvestigator</b>(<i>targetTags=None, tagSeperator=';', count=True, weighted=True</i>)</a></article></li>
 </ol>
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="networkCoInstitution"></a><small>GrantCollection.</small>**[<ins>networkCoInstitution</ins>]({{ site.baseurl }}{{ page.url }}#networkCoInstitution)**(_targetTags=None, tagSeperator=';', count=True, weighted=True_):
+<a name="networkCoInvestigatorInstitution"></a><small>GrantCollection.</small>**[<ins>networkCoInvestigatorInstitution</ins>]({{ site.baseurl }}{{ page.url }}#networkCoInvestigatorInstitution)**(_targetTags=None, tagSeperator=';', count=True, weighted=True_):
 
 This works the same as [`networkCoInvestigator()`]({{ site.baseurl }}{{ page.url }}#networkCoInvestigator) see it for details.
 
@@ -1330,12 +1371,12 @@ _weighted_ : `optional bool`
 
 
 ---
-<a name="DefaultGrant"></a>
-<a name="DefaultGrant"></a><small></small>**[<ins>DefaultGrant</ins>](#DefaultGrant)**(_<a href="#Grant"><u style="border-bottom: .5px dashed gray;">Grant</u></a>_):
+<a name="FallbackGrant"></a>
+<a name="FallbackGrant"></a><small></small>**[<ins>FallbackGrant</ins>](#FallbackGrant)**(_<a href="#Grant"><u style="border-bottom: .5px dashed gray;">Grant</u></a>_):
 
-<a name="DefaultGrant.__init__"></a><small></small>**[<ins>DefaultGrant.__init__</ins>](#DefaultGrant.__init__)**(_original, grantdDict, sFile='', sLine=0_):
+<a name="FallbackGrant.__init__"></a><small></small>**[<ins>FallbackGrant.__init__</ins>](#FallbackGrant.__init__)**(_original, grantdDict, sFile='', sLine=0_):
 
-A subclass of [`Grant`](#grant), it has the same attributes and is returned from the default constructor for grants.
+A subclass of [`Grant`](#grant), it has the same attributes and is returned from the fall back constructor for grants.
     
 
 
@@ -2059,7 +2100,7 @@ The CollectionWithIDs class has the following methods:</h3>
 <li><article><a href="#badEntries"><b>badEntries</b>()</a></article></li>
 <li><article><a href="#dropBadEntries"><b>dropBadEntries</b>()</a></article></li>
 <li><article><a href="#tags"><b>tags</b>()</a></article></li>
-<li><article><a href="#glimpse"><b>glimpse</b>(<i>*tags</i>)</a></article></li>
+<li><article><a href="#glimpse"><b>glimpse</b>(<i>*tags, compact=False</i>)</a></article></li>
 <li><article><a href="#rankedSeries"><b>rankedSeries</b>(<i>tag, outputFile=None, giveCounts=True, giveRanks=False, greatestFirst=True, pandasMode=True, limitTo=None</i>)</a></article></li>
 <li><article><a href="#timeSeries"><b>timeSeries</b>(<i>tag=None, outputFile=None, giveYears=True, greatestFirst=True, limitTo=False, pandasMode=True</i>)</a></article></li>
 <li><article><a href="#cooccurrenceCounts"><b>cooccurrenceCounts</b>(<i>keyTag, *countedTags</i>)</a></article></li>
@@ -2206,7 +2247,7 @@ Creates a list of all the tags of the contained items
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="glimpse"></a><small>CollectionWithIDs.</small>**[<ins>glimpse</ins>]({{ site.baseurl }}{{ page.url }}#glimpse)**(_*tags_):
+<a name="glimpse"></a><small>CollectionWithIDs.</small>**[<ins>glimpse</ins>]({{ site.baseurl }}{{ page.url }}#glimpse)**(_*tags, compact=False_):
 
 Creates a printable table with the most frequently occurring values of each of the requested _tags_, or if none are provided the top authors, journals and citations. The table will be as wide and as tall as the terminal (or 80x24 if there is no terminal) so `print(RC.glimpse())`should always create a nice looking table. Below is a table created from some of the testing files:
 
@@ -3132,8 +3173,8 @@ _cached_ : `optional [bool]`
 The RecordCollection class has the following methods:</h3>
 
 <ol class="post-list">
-<li><article><a href="#networkCoCitation"><b>networkCoCitation</b>(<i>dropAnon=True, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, keyWords=None, detailedCore=True, detailedCoreAttributes=False, coreOnly=False, expandedCore=False</i>)</a></article></li>
-<li><article><a href="#networkCitation"><b>networkCitation</b>(<i>dropAnon=False, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, directed=True, keyWords=None, detailedCore=True, detailedCoreAttributes=False, coreOnly=False, expandedCore=False, recordToCite=True</i>)</a></article></li>
+<li><article><a href="#networkCoCitation"><b>networkCoCitation</b>(<i>dropAnon=True, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, keyWords=None, detailedCore=True, detailedCoreAttributes=False, coreOnly=False, expandedCore=False, addCR=False</i>)</a></article></li>
+<li><article><a href="#networkCitation"><b>networkCitation</b>(<i>dropAnon=False, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, directed=True, keyWords=None, detailedCore=True, detailedCoreAttributes=False, coreOnly=False, expandedCore=False, recordToCite=True, addCR=False</i>)</a></article></li>
 <li><article><a href="#networkBibCoupling"><b>networkBibCoupling</b>(<i>weighted=True, fullInfo=False</i>)</a></article></li>
 <li><article><a href="#yearSplit"><b>yearSplit</b>(<i>startYear, endYear, dropMissingYears=True</i>)</a></article></li>
 <li><article><a href="#localCiteStats"><b>localCiteStats</b>(<i>pandasFriendly=False, keyType='citation'</i>)</a></article></li>
@@ -3145,16 +3186,16 @@ The RecordCollection class has the following methods:</h3>
 <li><article><a href="#writeBib"><b>writeBib</b>(<i>fname=None, maxStringLength=1000, wosMode=False, reducedOutput=False, niceIDs=True</i>)</a></article></li>
 <li><article><a href="#findProbableCopyright"><b>findProbableCopyright</b>()</a></article></li>
 <li><article><a href="#forBurst"><b>forBurst</b>(<i>tag, outputFile=None, dropList=None, lower=True, removeNumbers=True, removeNonWords=True, removeWhitespace=True, stemmer=None</i>)</a></article></li>
-<li><article><a href="#forNLP"><b>forNLP</b>(<i>outputFile=None, extraColumns=None, dropList=None, lower=True, removeNumbers=True, removeNonWords=True, removeWhitespace=True, extractCopyright=False, stemmer=None</i>)</a></article></li>
+<li><article><a href="#forNLP"><b>forNLP</b>(<i>outputFile=None, extraColumns=None, dropList=None, lower=True, removeNumbers=True, removeNonWords=True, removeWhitespace=True, removeCopyright=False, stemmer=None</i>)</a></article></li>
 <li><article><a href="#makeDict"><b>makeDict</b>(<i>onlyTheseTags=None, longNames=False, raw=False, numAuthors=True, genderCounts=True</i>)</a></article></li>
-<li><article><a href="#rpys"><b>rpys</b>(<i>minYear=None, maxYear=None, dropYears=None</i>)</a></article></li>
+<li><article><a href="#rpys"><b>rpys</b>(<i>minYear=None, maxYear=None, dropYears=None, rankEmptyYears=False</i>)</a></article></li>
 <li><article><a href="#genderStats"><b>genderStats</b>(<i>asFractions=False</i>)</a></article></li>
 <li><article><a href="#getCitations"><b>getCitations</b>(<i>field=None, values=None, pandasFriendly=True, counts=True</i>)</a></article></li>
-<li><article><a href="#networkCoAuthor"><b>networkCoAuthor</b>(<i>detailedInfo=False, weighted=True, dropNonJournals=False, count=True</i>)</a></article></li>
+<li><article><a href="#networkCoAuthor"><b>networkCoAuthor</b>(<i>detailedInfo=False, weighted=True, dropNonJournals=False, count=True, useShortNames=False</i>)</a></article></li>
 </ol>
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="networkCoCitation"></a><small>RecordCollection.</small>**[<ins>networkCoCitation</ins>]({{ site.baseurl }}{{ page.url }}#networkCoCitation)**(_dropAnon=True, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, keyWords=None, detailedCore=True, detailedCoreAttributes=False, coreOnly=False, expandedCore=False_):
+<a name="networkCoCitation"></a><small>RecordCollection.</small>**[<ins>networkCoCitation</ins>]({{ site.baseurl }}{{ page.url }}#networkCoCitation)**(_dropAnon=True, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, keyWords=None, detailedCore=True, detailedCoreAttributes=False, coreOnly=False, expandedCore=False, addCR=False_):
 
 Creates a co-citation network for the RecordCollection.
 
@@ -3219,7 +3260,7 @@ _expandedCore_ : `optional [bool]`
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="networkCitation"></a><small>RecordCollection.</small>**[<ins>networkCitation</ins>]({{ site.baseurl }}{{ page.url }}#networkCitation)**(_dropAnon=False, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, directed=True, keyWords=None, detailedCore=True, detailedCoreAttributes=False, coreOnly=False, expandedCore=False, recordToCite=True_):
+<a name="networkCitation"></a><small>RecordCollection.</small>**[<ins>networkCitation</ins>]({{ site.baseurl }}{{ page.url }}#networkCitation)**(_dropAnon=False, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, directed=True, keyWords=None, detailedCore=True, detailedCoreAttributes=False, coreOnly=False, expandedCore=False, recordToCite=True, addCR=False_):
 
 Creates a citation network for the RecordCollection.
 
@@ -3235,19 +3276,19 @@ _dropAnon_ : `optional [bool]`
 
 _nodeInfo_ : `optional [bool]`
 
- default `True`, wether an extra piece of information is stored with each node.
+ default `True`, whether an extra piece of information is stored with each node.
 
 _fullInfo_ : `optional [bool]`
 
- default `False`, wether the original citation string is added to the node as an extra value, the attribute is labeled as fullCite
+ default `False`, whether the original citation string is added to the node as an extra value, the attribute is labeled as fullCite
 
 _weighted_ : `optional [bool]`
 
- default `True`, wether the edges are weighted. If `True` the edges are weighted by the number of citations.
+ default `True`, whether the edges are weighted. If `True` the edges are weighted by the number of citations.
 
 _dropNonJournals_ : `optional [bool]`
 
- default `False`, wether to drop citations of non-journals
+ default `False`, whether to drop citations of non-journals
 
 _count_ : `optional [bool]`
 
@@ -3591,7 +3632,7 @@ _stemmer_ : `optional func`
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="forNLP"></a><small>RecordCollection.</small>**[<ins>forNLP</ins>]({{ site.baseurl }}{{ page.url }}#forNLP)**(_outputFile=None, extraColumns=None, dropList=None, lower=True, removeNumbers=True, removeNonWords=True, removeWhitespace=True, extractCopyright=False, stemmer=None_):
+<a name="forNLP"></a><small>RecordCollection.</small>**[<ins>forNLP</ins>]({{ site.baseurl }}{{ page.url }}#forNLP)**(_outputFile=None, extraColumns=None, dropList=None, lower=True, removeNumbers=True, removeNonWords=True, removeWhitespace=True, removeCopyright=False, stemmer=None_):
 
 Creates a pandas friendly dictionary with each row a `Record` in the `RecordCollection` and the columns fields natural language processing uses (id, title, publication year, keywords and the abstract). The abstract is by default is processed to remove non-word, non-space characters and the case is lowered.
 
@@ -3625,7 +3666,7 @@ _removeWhitespace_ : `optional bool`
 
  default `True`, if `True` all whitespace will be converted to a single space (`' '`)
 
-_extractCopyright_ : `optional bool`
+_removeCopyright_ : `optional bool`
 
  default `False`, if `True` the copyright statement at the end of the abstract will be removed and added to a new column. Note this is heuristic based and will not work for all papers.
 
@@ -3665,7 +3706,7 @@ _numAuthors_ : `optional [bool]`
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="rpys"></a><small>RecordCollection.</small>**[<ins>rpys</ins>]({{ site.baseurl }}{{ page.url }}#rpys)**(_minYear=None, maxYear=None, dropYears=None_):
+<a name="rpys"></a><small>RecordCollection.</small>**[<ins>rpys</ins>]({{ site.baseurl }}{{ page.url }}#rpys)**(_minYear=None, maxYear=None, dropYears=None, rankEmptyYears=False_):
 
 This implements _Referenced Publication Years Spectroscopy_ a techinique for finding import years in citation data. The authors of the original papers have a website with more information, found [here](http://www.leydesdorff.net/software/rpys/).
 
@@ -3676,7 +3717,7 @@ The columns returned are:
 1. `'year'`, the years of the counted citations, missing years are inserted with a count of 0, unless they are outside the bounds of the highest year or the lowest year and the default value is used. e.g. if the highest year is 2016, 2017 will not be inserted unless _maxYear_ has been set to 2017 or higher
 2. `'count'`, the number of times the year was cited
 3. `'abs-deviation'`, deviation from the 5-year median. Calculated by taking the absolute deviation of the count from the median of it and the next 2 years and the preceding 2 years
-4. `'rank'`, the rank of the year, the highest ranked year being the one most cited, the second highest being the second highest citation count and so on. All years with 0 count are given the rank 0
+4. `'rank'`, the rank of the year, the highest ranked year being the one with the highest deviation, the second highest being the second highest deviation and so on. All years with 0 count are given the rank 0 by default
 
 ###### Parameters
 
@@ -3691,6 +3732,10 @@ _maxYear_ : `optional int`
 _dropYears_ : `optional int or list[int]`
 
  Default `None`, year or collection of years that will be removed from the returned value, note the dropped years will still be used to calculate the deviation from the 5-year
+
+_rankEmptyYears_ : `optional [bool]`
+
+ Default `False`, if `True` years with 0 count will be ranked according to their deviance, if many 0 count years exist their ordering is not guaranteed to be stable
 
 ###### Returns
 
@@ -3755,7 +3800,7 @@ _counts_ : `optional bool`
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="networkCoAuthor"></a><small>RecordCollection.</small>**[<ins>networkCoAuthor</ins>]({{ site.baseurl }}{{ page.url }}#networkCoAuthor)**(_detailedInfo=False, weighted=True, dropNonJournals=False, count=True_):
+<a name="networkCoAuthor"></a><small>RecordCollection.</small>**[<ins>networkCoAuthor</ins>]({{ site.baseurl }}{{ page.url }}#networkCoAuthor)**(_detailedInfo=False, weighted=True, dropNonJournals=False, count=True, useShortNames=False_):
 
 Creates a coauthorship network for the RecordCollection.
 
@@ -3773,11 +3818,11 @@ _detailedInfo_ : `optional [bool or iterable[WOS tag Strings]]`
 
 _weighted_ : `optional [bool]`
 
- Default `True`, wether the edges are weighted. If `True` the edges are weighted by the number of co-authorships.
+ Default `True`, whether the edges are weighted. If `True` the edges are weighted by the number of co-authorships.
 
 _dropNonJournals_ : `optional [bool]`
 
- Default `False`, wether to drop authors from non-journals
+ Default `False`, whether to drop authors from non-journals
 
 _count_ : `optional [bool]`
 
@@ -6393,7 +6438,7 @@ _dbname_ : `optional [str]`
 
  The name of the downloaded database file, the default is determined at run time. It is recommended that this remain untouched.
 
-_manaulDB_ : `optional [str]`
+_manualDB_ : `optional [str]`
 
  The name of the manually created database file, the default is determined at run time. It is recommended that this remain untouched.
 
@@ -6406,7 +6451,7 @@ _returnDict_ : `optional [str]`
 
 <a name="addToDB"></a><small>journalAbbreviations.</small>**[<ins>addToDB</ins>]({{ site.baseurl }}{{ page.url }}#addToDB)**(_abbr=None, dbname='manualj9Abbreviations'_):
 
-Adds _abbr_ to the database of journals. The database is kept separate from the one scraped from WOS, this supersedes it. The database by default is stored with the WOS one and the name is given by `metaknowledge.journalAbbreviations.manaulDBname`. To create an empty database run **addToDB** without an _abbr_ argument.
+Adds _abbr_ to the database of journals. The database is kept separate from the one scraped from WOS, this supersedes it. The database by default is stored with the WOS one and the name is given by `metaknowledge.journalAbbreviations.manualDBname`. To create an empty database run **addToDB** without an _abbr_ argument.
 
 ###### Parameters
 
@@ -6416,7 +6461,7 @@ _abbr_ : `optional [str or dict[str : str]]`
 
 _dbname_ : `optional [str]`
 
- The name of the database file, default is `metaknowledge.journalAbbreviations.manaulDBname`.
+ The name of the database file, default is `metaknowledge.journalAbbreviations.manualDBname`.
 
 
 

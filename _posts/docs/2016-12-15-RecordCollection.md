@@ -58,8 +58,8 @@ _cached_ : `optional [bool]`
 The RecordCollection class has the following methods:</h3>
 
 <ol class="post-list">
-<li><article><a href="#networkCoCitation"><b>networkCoCitation</b>(<i>dropAnon=True, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, keyWords=None, detailedCore=True, detailedCoreAttributes=False, coreOnly=False, expandedCore=False</i>)</a></article></li>
-<li><article><a href="#networkCitation"><b>networkCitation</b>(<i>dropAnon=False, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, directed=True, keyWords=None, detailedCore=True, detailedCoreAttributes=False, coreOnly=False, expandedCore=False, recordToCite=True</i>)</a></article></li>
+<li><article><a href="#networkCoCitation"><b>networkCoCitation</b>(<i>dropAnon=True, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, keyWords=None, detailedCore=True, detailedCoreAttributes=False, coreOnly=False, expandedCore=False, addCR=False</i>)</a></article></li>
+<li><article><a href="#networkCitation"><b>networkCitation</b>(<i>dropAnon=False, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, directed=True, keyWords=None, detailedCore=True, detailedCoreAttributes=False, coreOnly=False, expandedCore=False, recordToCite=True, addCR=False</i>)</a></article></li>
 <li><article><a href="#networkBibCoupling"><b>networkBibCoupling</b>(<i>weighted=True, fullInfo=False</i>)</a></article></li>
 <li><article><a href="#yearSplit"><b>yearSplit</b>(<i>startYear, endYear, dropMissingYears=True</i>)</a></article></li>
 <li><article><a href="#localCiteStats"><b>localCiteStats</b>(<i>pandasFriendly=False, keyType='citation'</i>)</a></article></li>
@@ -71,16 +71,16 @@ The RecordCollection class has the following methods:</h3>
 <li><article><a href="#writeBib"><b>writeBib</b>(<i>fname=None, maxStringLength=1000, wosMode=False, reducedOutput=False, niceIDs=True</i>)</a></article></li>
 <li><article><a href="#findProbableCopyright"><b>findProbableCopyright</b>()</a></article></li>
 <li><article><a href="#forBurst"><b>forBurst</b>(<i>tag, outputFile=None, dropList=None, lower=True, removeNumbers=True, removeNonWords=True, removeWhitespace=True, stemmer=None</i>)</a></article></li>
-<li><article><a href="#forNLP"><b>forNLP</b>(<i>outputFile=None, extraColumns=None, dropList=None, lower=True, removeNumbers=True, removeNonWords=True, removeWhitespace=True, extractCopyright=False, stemmer=None</i>)</a></article></li>
+<li><article><a href="#forNLP"><b>forNLP</b>(<i>outputFile=None, extraColumns=None, dropList=None, lower=True, removeNumbers=True, removeNonWords=True, removeWhitespace=True, removeCopyright=False, stemmer=None</i>)</a></article></li>
 <li><article><a href="#makeDict"><b>makeDict</b>(<i>onlyTheseTags=None, longNames=False, raw=False, numAuthors=True, genderCounts=True</i>)</a></article></li>
-<li><article><a href="#rpys"><b>rpys</b>(<i>minYear=None, maxYear=None, dropYears=None</i>)</a></article></li>
+<li><article><a href="#rpys"><b>rpys</b>(<i>minYear=None, maxYear=None, dropYears=None, rankEmptyYears=False</i>)</a></article></li>
 <li><article><a href="#genderStats"><b>genderStats</b>(<i>asFractions=False</i>)</a></article></li>
 <li><article><a href="#getCitations"><b>getCitations</b>(<i>field=None, values=None, pandasFriendly=True, counts=True</i>)</a></article></li>
-<li><article><a href="#networkCoAuthor"><b>networkCoAuthor</b>(<i>detailedInfo=False, weighted=True, dropNonJournals=False, count=True</i>)</a></article></li>
+<li><article><a href="#networkCoAuthor"><b>networkCoAuthor</b>(<i>detailedInfo=False, weighted=True, dropNonJournals=False, count=True, useShortNames=False</i>)</a></article></li>
 </ol>
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="networkCoCitation"></a><small>RecordCollection.</small>**[<ins>networkCoCitation</ins>]({{ site.baseurl }}{{ page.url }}#networkCoCitation)**(_dropAnon=True, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, keyWords=None, detailedCore=True, detailedCoreAttributes=False, coreOnly=False, expandedCore=False_):
+<a name="networkCoCitation"></a><small>RecordCollection.</small>**[<ins>networkCoCitation</ins>]({{ site.baseurl }}{{ page.url }}#networkCoCitation)**(_dropAnon=True, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, keyWords=None, detailedCore=True, detailedCoreAttributes=False, coreOnly=False, expandedCore=False, addCR=False_):
 
 Creates a co-citation network for the RecordCollection.
 
@@ -145,7 +145,7 @@ _expandedCore_ : `optional [bool]`
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="networkCitation"></a><small>RecordCollection.</small>**[<ins>networkCitation</ins>]({{ site.baseurl }}{{ page.url }}#networkCitation)**(_dropAnon=False, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, directed=True, keyWords=None, detailedCore=True, detailedCoreAttributes=False, coreOnly=False, expandedCore=False, recordToCite=True_):
+<a name="networkCitation"></a><small>RecordCollection.</small>**[<ins>networkCitation</ins>]({{ site.baseurl }}{{ page.url }}#networkCitation)**(_dropAnon=False, nodeType='full', nodeInfo=True, fullInfo=False, weighted=True, dropNonJournals=False, count=True, directed=True, keyWords=None, detailedCore=True, detailedCoreAttributes=False, coreOnly=False, expandedCore=False, recordToCite=True, addCR=False_):
 
 Creates a citation network for the RecordCollection.
 
@@ -161,19 +161,19 @@ _dropAnon_ : `optional [bool]`
 
 _nodeInfo_ : `optional [bool]`
 
- default `True`, wether an extra piece of information is stored with each node.
+ default `True`, whether an extra piece of information is stored with each node.
 
 _fullInfo_ : `optional [bool]`
 
- default `False`, wether the original citation string is added to the node as an extra value, the attribute is labeled as fullCite
+ default `False`, whether the original citation string is added to the node as an extra value, the attribute is labeled as fullCite
 
 _weighted_ : `optional [bool]`
 
- default `True`, wether the edges are weighted. If `True` the edges are weighted by the number of citations.
+ default `True`, whether the edges are weighted. If `True` the edges are weighted by the number of citations.
 
 _dropNonJournals_ : `optional [bool]`
 
- default `False`, wether to drop citations of non-journals
+ default `False`, whether to drop citations of non-journals
 
 _count_ : `optional [bool]`
 
@@ -517,7 +517,7 @@ _stemmer_ : `optional func`
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="forNLP"></a><small>RecordCollection.</small>**[<ins>forNLP</ins>]({{ site.baseurl }}{{ page.url }}#forNLP)**(_outputFile=None, extraColumns=None, dropList=None, lower=True, removeNumbers=True, removeNonWords=True, removeWhitespace=True, extractCopyright=False, stemmer=None_):
+<a name="forNLP"></a><small>RecordCollection.</small>**[<ins>forNLP</ins>]({{ site.baseurl }}{{ page.url }}#forNLP)**(_outputFile=None, extraColumns=None, dropList=None, lower=True, removeNumbers=True, removeNonWords=True, removeWhitespace=True, removeCopyright=False, stemmer=None_):
 
 Creates a pandas friendly dictionary with each row a `Record` in the `RecordCollection` and the columns fields natural language processing uses (id, title, publication year, keywords and the abstract). The abstract is by default is processed to remove non-word, non-space characters and the case is lowered.
 
@@ -551,7 +551,7 @@ _removeWhitespace_ : `optional bool`
 
  default `True`, if `True` all whitespace will be converted to a single space (`' '`)
 
-_extractCopyright_ : `optional bool`
+_removeCopyright_ : `optional bool`
 
  default `False`, if `True` the copyright statement at the end of the abstract will be removed and added to a new column. Note this is heuristic based and will not work for all papers.
 
@@ -591,7 +591,7 @@ _numAuthors_ : `optional [bool]`
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="rpys"></a><small>RecordCollection.</small>**[<ins>rpys</ins>]({{ site.baseurl }}{{ page.url }}#rpys)**(_minYear=None, maxYear=None, dropYears=None_):
+<a name="rpys"></a><small>RecordCollection.</small>**[<ins>rpys</ins>]({{ site.baseurl }}{{ page.url }}#rpys)**(_minYear=None, maxYear=None, dropYears=None, rankEmptyYears=False_):
 
 This implements _Referenced Publication Years Spectroscopy_ a techinique for finding import years in citation data. The authors of the original papers have a website with more information, found [here](http://www.leydesdorff.net/software/rpys/).
 
@@ -602,7 +602,7 @@ The columns returned are:
 1. `'year'`, the years of the counted citations, missing years are inserted with a count of 0, unless they are outside the bounds of the highest year or the lowest year and the default value is used. e.g. if the highest year is 2016, 2017 will not be inserted unless _maxYear_ has been set to 2017 or higher
 2. `'count'`, the number of times the year was cited
 3. `'abs-deviation'`, deviation from the 5-year median. Calculated by taking the absolute deviation of the count from the median of it and the next 2 years and the preceding 2 years
-4. `'rank'`, the rank of the year, the highest ranked year being the one most cited, the second highest being the second highest citation count and so on. All years with 0 count are given the rank 0
+4. `'rank'`, the rank of the year, the highest ranked year being the one with the highest deviation, the second highest being the second highest deviation and so on. All years with 0 count are given the rank 0 by default
 
 ###### Parameters
 
@@ -617,6 +617,10 @@ _maxYear_ : `optional int`
 _dropYears_ : `optional int or list[int]`
 
  Default `None`, year or collection of years that will be removed from the returned value, note the dropped years will still be used to calculate the deviation from the 5-year
+
+_rankEmptyYears_ : `optional [bool]`
+
+ Default `False`, if `True` years with 0 count will be ranked according to their deviance, if many 0 count years exist their ordering is not guaranteed to be stable
 
 ###### Returns
 
@@ -681,7 +685,7 @@ _counts_ : `optional bool`
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="networkCoAuthor"></a><small>RecordCollection.</small>**[<ins>networkCoAuthor</ins>]({{ site.baseurl }}{{ page.url }}#networkCoAuthor)**(_detailedInfo=False, weighted=True, dropNonJournals=False, count=True_):
+<a name="networkCoAuthor"></a><small>RecordCollection.</small>**[<ins>networkCoAuthor</ins>]({{ site.baseurl }}{{ page.url }}#networkCoAuthor)**(_detailedInfo=False, weighted=True, dropNonJournals=False, count=True, useShortNames=False_):
 
 Creates a coauthorship network for the RecordCollection.
 
@@ -699,11 +703,11 @@ _detailedInfo_ : `optional [bool or iterable[WOS tag Strings]]`
 
 _weighted_ : `optional [bool]`
 
- Default `True`, wether the edges are weighted. If `True` the edges are weighted by the number of co-authorships.
+ Default `True`, whether the edges are weighted. If `True` the edges are weighted by the number of co-authorships.
 
 _dropNonJournals_ : `optional [bool]`
 
- Default `False`, wether to drop authors from non-journals
+ Default `False`, whether to drop authors from non-journals
 
 _count_ : `optional [bool]`
 

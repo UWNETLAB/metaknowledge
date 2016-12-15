@@ -30,7 +30,7 @@ The CollectionWithIDs class has the following methods:</h3>
 <li><article><a href="#badEntries"><b>badEntries</b>()</a></article></li>
 <li><article><a href="#dropBadEntries"><b>dropBadEntries</b>()</a></article></li>
 <li><article><a href="#tags"><b>tags</b>()</a></article></li>
-<li><article><a href="#glimpse"><b>glimpse</b>(<i>*tags</i>)</a></article></li>
+<li><article><a href="#glimpse"><b>glimpse</b>(<i>*tags, compact=False</i>)</a></article></li>
 <li><article><a href="#rankedSeries"><b>rankedSeries</b>(<i>tag, outputFile=None, giveCounts=True, giveRanks=False, greatestFirst=True, pandasMode=True, limitTo=None</i>)</a></article></li>
 <li><article><a href="#timeSeries"><b>timeSeries</b>(<i>tag=None, outputFile=None, giveYears=True, greatestFirst=True, limitTo=False, pandasMode=True</i>)</a></article></li>
 <li><article><a href="#cooccurrenceCounts"><b>cooccurrenceCounts</b>(<i>keyTag, *countedTags</i>)</a></article></li>
@@ -177,7 +177,7 @@ Creates a list of all the tags of the contained items
 
 <hr style="padding: 0;border: none;border-width: 3px;height: 20px;color: #333;text-align: center;border-top-style: solid;border-bottom-style: solid;">
 
-<a name="glimpse"></a><small>CollectionWithIDs.</small>**[<ins>glimpse</ins>]({{ site.baseurl }}{{ page.url }}#glimpse)**(_*tags_):
+<a name="glimpse"></a><small>CollectionWithIDs.</small>**[<ins>glimpse</ins>]({{ site.baseurl }}{{ page.url }}#glimpse)**(_*tags, compact=False_):
 
 Creates a printable table with the most frequently occurring values of each of the requested _tags_, or if none are provided the top authors, journals and citations. The table will be as wide and as tall as the terminal (or 80x24 if there is no terminal) so `print(RC.glimpse())`should always create a nice looking table. Below is a table created from some of the testing files:
 

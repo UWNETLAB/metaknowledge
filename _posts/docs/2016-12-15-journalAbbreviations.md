@@ -37,7 +37,7 @@ _dbname_ : `optional [str]`
 
  The name of the downloaded database file, the default is determined at run time. It is recommended that this remain untouched.
 
-_manaulDB_ : `optional [str]`
+_manualDB_ : `optional [str]`
 
  The name of the manually created database file, the default is determined at run time. It is recommended that this remain untouched.
 
@@ -50,7 +50,7 @@ _returnDict_ : `optional [str]`
 
 <a name="addToDB"></a><small>journalAbbreviations.</small>**[<ins>addToDB</ins>]({{ site.baseurl }}{{ page.url }}#addToDB)**(_abbr=None, dbname='manualj9Abbreviations'_):
 
-Adds _abbr_ to the database of journals. The database is kept separate from the one scraped from WOS, this supersedes it. The database by default is stored with the WOS one and the name is given by `metaknowledge.journalAbbreviations.manaulDBname`. To create an empty database run **addToDB** without an _abbr_ argument.
+Adds _abbr_ to the database of journals. The database is kept separate from the one scraped from WOS, this supersedes it. The database by default is stored with the WOS one and the name is given by `metaknowledge.journalAbbreviations.manualDBname`. To create an empty database run **addToDB** without an _abbr_ argument.
 
 ###### Parameters
 
@@ -60,7 +60,7 @@ _abbr_ : `optional [str or dict[str : str]]`
 
 _dbname_ : `optional [str]`
 
- The name of the database file, default is `metaknowledge.journalAbbreviations.manaulDBname`.
+ The name of the database file, default is `metaknowledge.journalAbbreviations.manualDBname`.
 
 
 

@@ -79,6 +79,8 @@ class RecordCollection(CollectionWithIDs):
             errors = {}
             name = name
             recordTypes = set()
+            if cached:
+                cacheName = None
             if inCollection is None:
                 PBar.updateVal(.5, "Empty RecordCollection created")
                 if not name:
@@ -156,8 +158,11 @@ class RecordCollection(CollectionWithIDs):
                 raise RCTypeError("A RecordCollection cannot be created from {}.".format(inCollection))
             CollectionWithIDs.__init__(self, recordsSet, Record, recordTypes, name, bad, errors)
             if cached:
-                PBar.updateVal(1, "Writing RecordCollection cache to {}".format(cacheName))
-                self._createCache(cacheName, flist, name, extension)
+                if cacheName is None:
+                    pass
+                else:
+                    PBar.updateVal(1, "Writing RecordCollection cache to {}".format(cacheName))
+                    self._createCache(cacheName, flist, name, extension)
             try:
                 PBar.finish("Done making a RecordCollection of {} Records".format(len(self)))
             except AttributeError:

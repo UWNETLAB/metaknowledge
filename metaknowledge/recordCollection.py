@@ -992,7 +992,7 @@ class RecordCollection(CollectionWithIDs):
                 if dropNonJournals and not R.createCitation().isJournal():
                     continue
                 if useShortNames:
-                    R.get('authorsShort', [])
+                    authsList = R.get('authorsShort', [])
                 else:
                     authsList = R.get('authorsFull', [])
                 if authsList:
@@ -1246,7 +1246,7 @@ class RecordCollection(CollectionWithIDs):
             PBar.finish("Done making a citation network from {}".format(self))
         return tmpgrph
 
-    def networkBibCoupling(self, weighted = True, fullInfo = False):
+    def networkBibCoupling(self, weighted = True, fullInfo = False, addCR = False):
         """Creates a bibliographic coupling network based on citations for the RecordCollection.
 
         # Parameters
@@ -1271,7 +1271,7 @@ class RecordCollection(CollectionWithIDs):
         else:
             progKwargs = {'dummy' : True}
         with _ProgressBar(*progArgs, **progKwargs) as PBar:
-            citeGrph = self.networkCitation(weighted = False, directed = True, detailedCore = True, fullInfo = fullInfo, count = False, nodeInfo = True, _quiet = True)
+            citeGrph = self.networkCitation(weighted = False, directed = True, detailedCore = True, fullInfo = fullInfo, count = False, nodeInfo = True, addCR = addCR, _quiet = True)
             pcount = 0
             pmax = len(citeGrph)
             PBar.updateVal(.2, "Starting to classify nodes")

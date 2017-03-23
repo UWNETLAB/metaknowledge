@@ -921,7 +921,7 @@ class RecordCollection(CollectionWithIDs):
         else:
             return list(set(retCites))
 
-    def networkCoAuthor(self, detailedInfo = False, weighted = True, dropNonJournals = False, count = True, useShortNames = False):
+    def networkCoAuthor(self, detailedInfo = False, weighted = True, dropNonJournals = False, count = True, useShortNames = False, citeProfile = False):
         """Creates a coauthorship network for the RecordCollection.
 
         # Parameters
@@ -998,17 +998,35 @@ class RecordCollection(CollectionWithIDs):
                 if authsList:
                     authsList = list(authsList)
                     detailedInfo = attributeMaker(R)
+                    if citeProfile:
+                        citesLst = R.get('citations', [])
                     if len(authsList) > 1:
                         for i, auth1 in enumerate(authsList):
                             if auth1 not in grph:
                                 grph.add_node(auth1, attr_dict = detailedInfo)
+                                if citeProfile:
+                                    grph.node[auth1]['citeProfile'] = {}
                             elif count:
                                 grph.node[auth1]['count'] += 1
+                            if citeProfile:
+                                for c in citesLst:
+                                    try:
+                                        grph.node[auth1]['citeProfile'][c] += 1
+                                    except KeyError:
+                                        grph.node[auth1]['citeProfile'][c] = 1
                             for auth2 in authsList[i + 1:]:
                                 if auth2 not in grph:
                                     grph.add_node(auth2, attr_dict = detailedInfo)
+                                    if citeProfile:
+                                        grph.node[auth2]['citeProfile'] = {}
                                 elif count:
                                     grph.node[auth2]['count'] += 1
+                                if citeProfile:
+                                    for c in citesLst:
+                                        try:
+                                            grph.node[auth2]['citeProfile'][c] += 1
+                                        except KeyError:
+                                            grph.node[auth2]['citeProfile'][c] = 1
                                 if grph.has_edge(auth1, auth2) and weighted:
                                     grph.edge[auth1][auth2]['weight'] += 1
                                 elif weighted:
@@ -1019,8 +1037,16 @@ class RecordCollection(CollectionWithIDs):
                         auth1 = authsList[0]
                         if auth1 not in grph:
                             grph.add_node(auth1, attr_dict = detailedInfo)
+                            if citeProfile:
+                                grph.node[auth1]['citeProfile'] = {}
                         elif count:
                             grph.node[auth1]['count'] += 1
+                        if citeProfile:
+                            for c in citesLst:
+                                try:
+                                    grph.node[auth1]['citeProfile'][c] += 1
+                                except KeyError:
+                                    grph.node[auth1]['citeProfile'][c] = 1
             if PBar:
                 PBar.finish("Done making a co-authorship network from {}".format(self))
         return grph

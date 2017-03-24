@@ -978,12 +978,20 @@ class RecordCollection(CollectionWithIDs):
                         attribsDict[val] = str(recVal).replace(',', '')
                 if count:
                     attribsDict['count'] = 1
+                if citeProfile:
+                    attribsDict['citeProfile'] = {}
                 return attribsDict
         else:
             if count:
-                attributeMaker = lambda x: {'count' : 1}
+                if citeProfile:
+                    attributeMaker = lambda x: {'count' : 1, 'citeProfile' : {}}
+                else:
+                    attributeMaker = lambda x: {'count' : 1}
             else:
-                attributeMaker = lambda x: {}
+                if citeProfile:
+                    attributeMaker = lambda x: {'citeProfile' : {}}
+                else:
+                    attributeMaker = lambda x: {}
         with _ProgressBar(*progArgs, **progKwargs) as PBar:
             for R in self:
                 if PBar:
@@ -1000,45 +1008,9 @@ class RecordCollection(CollectionWithIDs):
                     detailedInfo = attributeMaker(R)
                     if citeProfile:
                         citesLst = R.get('citations', [])
-                    if len(authsList) > 1:
-                        for i, auth1 in enumerate(authsList):
-                            if auth1 not in grph:
-                                grph.add_node(auth1, attr_dict = detailedInfo)
-                                if citeProfile:
-                                    grph.node[auth1]['citeProfile'] = {}
-                            elif count:
-                                grph.node[auth1]['count'] += 1
-                            if citeProfile:
-                                for c in citesLst:
-                                    try:
-                                        grph.node[auth1]['citeProfile'][c] += 1
-                                    except KeyError:
-                                        grph.node[auth1]['citeProfile'][c] = 1
-                            for auth2 in authsList[i + 1:]:
-                                if auth2 not in grph:
-                                    grph.add_node(auth2, attr_dict = detailedInfo)
-                                    if citeProfile:
-                                        grph.node[auth2]['citeProfile'] = {}
-                                elif count:
-                                    grph.node[auth2]['count'] += 1
-                                if citeProfile:
-                                    for c in citesLst:
-                                        try:
-                                            grph.node[auth2]['citeProfile'][c] += 1
-                                        except KeyError:
-                                            grph.node[auth2]['citeProfile'][c] = 1
-                                if grph.has_edge(auth1, auth2) and weighted:
-                                    grph.edge[auth1][auth2]['weight'] += 1
-                                elif weighted:
-                                    grph.add_edge(auth1, auth2, weight = 1)
-                                else:
-                                    grph.add_edge(auth1, auth2)
-                    else:
-                        auth1 = authsList[0]
+                    for i, auth1 in enumerate(authsList):
                         if auth1 not in grph:
-                            grph.add_node(auth1, attr_dict = detailedInfo)
-                            if citeProfile:
-                                grph.node[auth1]['citeProfile'] = {}
+                            grph.add_node(auth1, attr_dict = detailedInfo.copy())
                         elif count:
                             grph.node[auth1]['count'] += 1
                         if citeProfile:
@@ -1047,6 +1019,40 @@ class RecordCollection(CollectionWithIDs):
                                     grph.node[auth1]['citeProfile'][c] += 1
                                 except KeyError:
                                     grph.node[auth1]['citeProfile'][c] = 1
+                        for auth2 in authsList[i + 1:]:
+                            if auth2 not in grph:
+                                grph.add_node(auth2, attr_dict = detailedInfo.copy())
+                            elif count:
+                                grph.node[auth2]['count'] += 1
+                            if citeProfile:
+                                for c in citesLst:
+                                    try:
+                                        grph.node[auth2]['citeProfile'][c] += 1
+                                    except KeyError:
+                                        grph.node[auth2]['citeProfile'][c] = 1
+                            if grph.has_edge(auth1, auth2) and weighted:
+                                grph.edge[auth1][auth2]['weight'] += 1
+                            elif weighted:
+                                grph.add_edge(auth1, auth2, weight = 1)
+                            else:
+                                grph.add_edge(auth1, auth2)
+            if citeProfile:
+                if PBar:
+                    PBar.updateVal(.99, "Extracting citation profiles")
+                previous = {}
+                for n, dat in grph.nodes_iter(data = True):
+                    previous[n] = dat
+                    print(n)
+                    print([n for n, p in previous.items() if p is dat])
+
+                    #zip(*l) undoes zip(l1, l2)
+                    try:
+                        cites, counts = zip(*dat['citeProfile'].items())
+                    except ValueError:
+                        cites, counts = [], []
+                    dat['citeProfileCites'] = '|'.join((str(c) for c in cites))
+                    dat['citeProfileCounts'] = '|'.join((str(c) for c in counts))
+                    del dat['citeProfile']
             if PBar:
                 PBar.finish("Done making a co-authorship network from {}".format(self))
         return grph

@@ -1042,9 +1042,6 @@ class RecordCollection(CollectionWithIDs):
                 previous = {}
                 for n, dat in grph.nodes_iter(data = True):
                     previous[n] = dat
-                    print(n)
-                    print([n for n, p in previous.items() if p is dat])
-
                     #zip(*l) undoes zip(l1, l2)
                     try:
                         cites, counts = zip(*dat['citeProfile'].items())
@@ -1268,8 +1265,6 @@ class RecordCollection(CollectionWithIDs):
                 rCites = R.get('citations')
                 if rCites:
                     filteredCites = filterCites(rCites, nodeType, dropAnon, dropNonJournals, keyWords, coreCites)
-                    # print(getattr(filteredCites[0], 'year'))
-                    # print(R['year'])
                     addToNetwork(tmpgrph, filteredCites, count, weighted, nodeType, nodeInfo, fullInfo, coreCitesDict, coreValues, detailedCoreAttributes, addCR, recordToCite, headNd = reRef)
             if expandedCore:
                 if PBar:

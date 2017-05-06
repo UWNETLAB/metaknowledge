@@ -638,6 +638,10 @@ class RecordCollection(CollectionWithIDs):
             retDict['copyright'] = []
         if extraColumns is None:
             extraColumns = []
+        else:
+            for builtinColumn in ['id', 'year', 'title', 'keywords', 'abstract']:
+                if builtinColumn in extraColumns:
+                    extraColumns.remove(builtinColumn)
         for column in extraColumns:
             retDict[column] = []
         with _ProgressBar(*progArgs, **progKwargs) as PBar:

@@ -638,6 +638,10 @@ class RecordCollection(CollectionWithIDs):
             retDict['copyright'] = []
         if extraColumns is None:
             extraColumns = []
+        else:
+            for builtinColumn in ['id', 'year', 'title', 'keywords', 'abstract']:
+                if builtinColumn in extraColumns:
+                    extraColumns.remove(builtinColumn)
         for column in extraColumns:
             retDict[column] = []
         with _ProgressBar(*progArgs, **progKwargs) as PBar:
@@ -921,7 +925,7 @@ class RecordCollection(CollectionWithIDs):
         else:
             return list(set(retCites))
 
-    def networkCoAuthor(self, detailedInfo = False, weighted = True, dropNonJournals = False, count = True, useShortNames = False):
+    def networkCoAuthor(self, detailedInfo = False, weighted = True, dropNonJournals = False, count = True, useShortNames = False, citeProfile = False):
         """Creates a coauthorship network for the RecordCollection.
 
         # Parameters
@@ -978,12 +982,20 @@ class RecordCollection(CollectionWithIDs):
                         attribsDict[val] = str(recVal).replace(',', '')
                 if count:
                     attribsDict['count'] = 1
+                if citeProfile:
+                    attribsDict['citeProfile'] = {}
                 return attribsDict
         else:
             if count:
-                attributeMaker = lambda x: {'count' : 1}
+                if citeProfile:
+                    attributeMaker = lambda x: {'count' : 1, 'citeProfile' : {}}
+                else:
+                    attributeMaker = lambda x: {'count' : 1}
             else:
-                attributeMaker = lambda x: {}
+                if citeProfile:
+                    attributeMaker = lambda x: {'citeProfile' : {}}
+                else:
+                    attributeMaker = lambda x: {}
         with _ProgressBar(*progArgs, **progKwargs) as PBar:
             for R in self:
                 if PBar:
@@ -992,35 +1004,56 @@ class RecordCollection(CollectionWithIDs):
                 if dropNonJournals and not R.createCitation().isJournal():
                     continue
                 if useShortNames:
-                    R.get('authorsShort', [])
+                    authsList = R.get('authorsShort', [])
                 else:
                     authsList = R.get('authorsFull', [])
                 if authsList:
                     authsList = list(authsList)
                     detailedInfo = attributeMaker(R)
-                    if len(authsList) > 1:
-                        for i, auth1 in enumerate(authsList):
-                            if auth1 not in grph:
-                                grph.add_node(auth1, attr_dict = detailedInfo)
-                            elif count:
-                                grph.node[auth1]['count'] += 1
-                            for auth2 in authsList[i + 1:]:
-                                if auth2 not in grph:
-                                    grph.add_node(auth2, attr_dict = detailedInfo)
-                                elif count:
-                                    grph.node[auth2]['count'] += 1
-                                if grph.has_edge(auth1, auth2) and weighted:
-                                    grph.edge[auth1][auth2]['weight'] += 1
-                                elif weighted:
-                                    grph.add_edge(auth1, auth2, weight = 1)
-                                else:
-                                    grph.add_edge(auth1, auth2)
-                    else:
-                        auth1 = authsList[0]
+                    if citeProfile:
+                        citesLst = R.get('citations', [])
+                    for i, auth1 in enumerate(authsList):
                         if auth1 not in grph:
-                            grph.add_node(auth1, attr_dict = detailedInfo)
+                            grph.add_node(auth1, attr_dict = detailedInfo.copy())
                         elif count:
                             grph.node[auth1]['count'] += 1
+                        if citeProfile:
+                            for c in citesLst:
+                                try:
+                                    grph.node[auth1]['citeProfile'][c] += 1
+                                except KeyError:
+                                    grph.node[auth1]['citeProfile'][c] = 1
+                        for auth2 in authsList[i + 1:]:
+                            if auth2 not in grph:
+                                grph.add_node(auth2, attr_dict = detailedInfo.copy())
+                            elif count:
+                                grph.node[auth2]['count'] += 1
+                            if citeProfile:
+                                for c in citesLst:
+                                    try:
+                                        grph.node[auth2]['citeProfile'][c] += 1
+                                    except KeyError:
+                                        grph.node[auth2]['citeProfile'][c] = 1
+                            if grph.has_edge(auth1, auth2) and weighted:
+                                grph.edge[auth1][auth2]['weight'] += 1
+                            elif weighted:
+                                grph.add_edge(auth1, auth2, weight = 1)
+                            else:
+                                grph.add_edge(auth1, auth2)
+            if citeProfile:
+                if PBar:
+                    PBar.updateVal(.99, "Extracting citation profiles")
+                previous = {}
+                for n, dat in grph.nodes_iter(data = True):
+                    previous[n] = dat
+                    #zip(*l) undoes zip(l1, l2)
+                    try:
+                        cites, counts = zip(*dat['citeProfile'].items())
+                    except ValueError:
+                        cites, counts = [], []
+                    dat['citeProfileCites'] = '|'.join((str(c) for c in cites))
+                    dat['citeProfileCounts'] = '|'.join((str(c) for c in counts))
+                    del dat['citeProfile']
             if PBar:
                 PBar.finish("Done making a co-authorship network from {}".format(self))
         return grph
@@ -1236,8 +1269,6 @@ class RecordCollection(CollectionWithIDs):
                 rCites = R.get('citations')
                 if rCites:
                     filteredCites = filterCites(rCites, nodeType, dropAnon, dropNonJournals, keyWords, coreCites)
-                    # print(getattr(filteredCites[0], 'year'))
-                    # print(R['year'])
                     addToNetwork(tmpgrph, filteredCites, count, weighted, nodeType, nodeInfo, fullInfo, coreCitesDict, coreValues, detailedCoreAttributes, addCR, recordToCite, headNd = reRef)
             if expandedCore:
                 if PBar:
@@ -1246,7 +1277,7 @@ class RecordCollection(CollectionWithIDs):
             PBar.finish("Done making a citation network from {}".format(self))
         return tmpgrph
 
-    def networkBibCoupling(self, weighted = True, fullInfo = False):
+    def networkBibCoupling(self, weighted = True, fullInfo = False, addCR = False):
         """Creates a bibliographic coupling network based on citations for the RecordCollection.
 
         # Parameters
@@ -1271,7 +1302,7 @@ class RecordCollection(CollectionWithIDs):
         else:
             progKwargs = {'dummy' : True}
         with _ProgressBar(*progArgs, **progKwargs) as PBar:
-            citeGrph = self.networkCitation(weighted = False, directed = True, detailedCore = True, fullInfo = fullInfo, count = False, nodeInfo = True, _quiet = True)
+            citeGrph = self.networkCitation(weighted = False, directed = True, detailedCore = True, fullInfo = fullInfo, count = False, nodeInfo = True, addCR = addCR, _quiet = True)
             pcount = 0
             pmax = len(citeGrph)
             PBar.updateVal(.2, "Starting to classify nodes")

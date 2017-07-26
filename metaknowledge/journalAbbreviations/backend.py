@@ -16,7 +16,7 @@ def j9urlGenerator(nameDict = False):
 
     They are of the form:
 
-    > "http://images.webofknowledge.com/WOK46/help/WOS/{VAL}_abrvjt.html"
+    > "https://images.webofknowledge.com/images/help/WOS/{VAL}_abrvjt.html"
     > Where {VAL} is a capital letter or the string "0-9"
 
     # Returns
@@ -25,7 +25,7 @@ def j9urlGenerator(nameDict = False):
 
     > A list of all the url's strings
     """
-    start = "http://images.webofknowledge.com/WOK46/help/WOS/"
+    start = "https://images.webofknowledge.com/images/help/WOS/"
     end = "_abrvjt.html"
     if nameDict:
         urls = {"0-9" : start + "0-9" + end}

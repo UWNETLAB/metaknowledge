@@ -65,6 +65,12 @@ class Grant(Record, collections.abc.MutableMapping):
                         investVal += [t.strip() for t in tval]
                 except KeyError:
                     pass
+                except AttributeError:
+                    tval = [auth.split(seperator)[0] for auth in self[tag]]
+                    if _getTag:
+                        investVal += [(t.strip(), tag) for t in tval]
+                    else:
+                        investVal += [t.strip() for t in tval]
         return investVal
 
     def getInstitutions(self, tags = None, seperator = ";", _getTag = False):

@@ -64,7 +64,7 @@ class TestHelpers(unittest.TestCase):
     def test_dropEdges(self):
         metaknowledge.dropEdges(self.G, minWeight = 1, maxWeight = 3, dropSelfLoops = True)
         self.assertEqual(metaknowledge.graphStats(self.G, sentenceString = True), "The graph has 493 nodes, 12711 edges, 0 isolates, 0 self loops, a density of 0.104809 and a transitivity of 0.588968")
-        self.assertTrue(self.G.edge['Imbert C, 1975, NOUV REV OPT']['Fainman Y, 1984, APPL OPTICS']['weight'] == 1)
+        self.assertTrue(self.G.edges['Imbert C, 1975, NOUV REV OPT', 'Fainman Y, 1984, APPL OPTICS']['weight'] == 1)
 
     def test_dropNodeByCount(self):
         metaknowledge.dropNodesByCount(self.G, minCount = 2, maxCount = 5)
@@ -82,7 +82,7 @@ class TestHelpers(unittest.TestCase):
         G1 = RC1.networkCoCitation()
         G2 = RC2.networkCoCitation()
         metaknowledge.mergeGraphs(G1,G2)
-        for node, attr in G1.nodes_iter(data = True):
+        for node, attr in G1.nodes(data = True):
             self.assertEqual(self.G.node[node]['count'], attr['count'])
         for node1, node2, attr in G1.edges(data = True):
-            self.assertEqual(self.G.edge[node1][node2]['weight'], attr['weight'])
+            self.assertEqual(self.G.edges[node1, node2]['weight'], attr['weight'])

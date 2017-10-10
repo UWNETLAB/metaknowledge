@@ -18,7 +18,7 @@ def blondel(G, weightParameter = None, communityParameter = 'community'):
         PBar = None
     communityDict = {}
     workingGrph = G.copy()
-    for i, n in enumerate(G.nodes_iter()):
+    for i, n in enumerate(G.nodes()):
         workingGrph.node[n][communityParameter] = i
         communityDict[i] = [n]
     Qprevious = -2
@@ -27,7 +27,7 @@ def blondel(G, weightParameter = None, communityParameter = 'community'):
     while Qcurrent > Qprevious:
         m = get_m(G, weightParameter)
         newGrph = workingGrph.copy()
-        for n, nDict in workingGrph.nodes_iter(data = True):
+        for n, nDict in workingGrph.nodes(data = True):
             if PBar:
                 PBar.updateVal(count/len(workingGrph), "Processing sweep {0}, node {1} modularity is {2:.2f}".format(iterations, str(n), Qcurrent))
                 count +=1
@@ -79,8 +79,8 @@ def modularity(G, weightParameter = None, communityParameter = 'community'):
     m = 0
     kktot = 0
     Atot = 0
-    for n_i in G.nodes_iter():
-        for n_j in G.nodes_iter():
+    for n_i in G.nodes():
+        for n_j in G.nodes():
             A_ij = get_edgeVal(G, n_i, n_j, weightParameter)
             m += .5 * A_ij
             if G.node[n_i][communityParameter] == G.node[n_j][communityParameter]:
@@ -101,7 +101,7 @@ def deltaQ(G, n, communitylst, weightParameter = 'weight', mCurrent = None):
     Sigma_tot = get_CommunityWeight(G, communitylst, weightParameter, internal = False)
     k_i = get_kVal(G, n, weightParameter)
     k_i_in = 0
-    for e in G.edges_iter(communitylst, data = True):
+    for e in G.edges(communitylst, data = True):
         if e[1] == n:
             if weightParameter:
                 k_i_in += e[2][weightParameter]
@@ -120,13 +120,13 @@ def deltaQswap(G, n, newCom, comDict, weightParameter, communityParameter, mVal 
     return newDQ - oldDQ
 
 def merge_nodes(G, n1, n2):
-    G.add_edges_from((n1, e[1], e[2]) for e in G.edges_iter(n2, data = True))
+    G.add_edges_from((n1, e[1], e[2]) for e in G.edges(n2, data = True))
     G.remove_node(n2)
 
 def get_m(G, weightParameter):
     m = 0
     if weightParameter:
-        for e in G.edges_iter(data = True):
+        for e in G.edges(data = True):
             m += e[2][weightParameter]
     else:
         return len(G.edges())
@@ -138,7 +138,7 @@ def get_kVal(G, n, weightParameter):
     """
     if weightParameter:
         retk = 0
-        for e in G.edges_iter(n, data = True):
+        for e in G.edges(n, data = True):
             retk += e[2][weightParameter]
     else:
         retk = len(G.edges(n))
@@ -147,7 +147,7 @@ def get_kVal(G, n, weightParameter):
 
 def get_CommunityWeight(G, community, weightParameter, internal = False):
     retTot = 0
-    for e in G.edges_iter(community, data = True):
+    for e in G.edges(community, data = True):
         if internal:
             if e[0] in community and e[1] in community:
                 if weightParameter:
@@ -167,7 +167,7 @@ def get_edgeVal(G, n1, n2, weightParameter):
     """
     if weightParameter:
         try:
-            valDict = G.edge[n1][n2]
+            valDict = G.edges[n1, n2]
         except KeyError:
             return 0
         else:

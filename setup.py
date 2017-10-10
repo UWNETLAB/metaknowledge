@@ -37,7 +37,7 @@ setup(name='metaknowledge',
     'Topic :: Sociology',
     'Topic :: Text Processing',
     ],
-    install_requires= ['networkx'],
+    install_requires= ['networkx >= 2.0'],
     extras_require={'contour' : ['matplotlib', 'scipy', 'numpy']},
     packages = find_packages(),
     entry_points={'console_scripts': [

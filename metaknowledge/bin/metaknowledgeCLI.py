@@ -259,7 +259,7 @@ def getThresholds(clargs, grph):
     ('5', "Remove nodes below some degree"),
     ('6', "Remove nodes above some degree"),
     ])
-    print("The network contains {0} nodes and {1} edges, of which {2} are isolated and {3} are self loops.".format(len(grph.nodes()), len(grph.edges()), len(nx.isolates(grph)), len(grph.selfloop_edges())))
+    print("The network contains {0} nodes and {1} edges, of which {2} are isolated and {3} are self loops.".format(len(list(grph.nodes())), len(list(grph.edges())), len(list(nx.isolates(grph))), len(list(grph.selfloop_edges()))))
     thresID = int(inputMenu(thresDict, header = "What type of filtering to you want? "))
     if thresID == 0:
         return grph

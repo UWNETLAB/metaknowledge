@@ -72,7 +72,7 @@ def readGraph(edgeList, nodeList = None, directed = False, idKey = 'ID', eSource
                 ndID = vals[idKey]
                 del vals[idKey]
                 if len(vals) > 0:
-                    grph.add_node(ndID, attr_dict=vals)
+                    grph.add_node(ndID, **vals)
                 else:
                     grph.add_node(ndID)
             f.close()
@@ -86,7 +86,7 @@ def readGraph(edgeList, nodeList = None, directed = False, idKey = 'ID', eSource
             del vals[eSource]
             del vals[eDest]
             if len(vals) > 0:
-                grph.add_edge(eFrom, eTo, attr_dict = vals)
+                grph.add_edge(eFrom, eTo, **vals)
             else:
                 grph.add_edge(eFrom, eTo)
         PBar.finish("{} nodes and {} edges found".format(len(grph.nodes()), len(grph.edges())))
@@ -213,10 +213,10 @@ def writeEdgeList(grph, name, extraInfo = True, allSameAttribute = False, _progB
         if extraInfo:
             csvHeader = []
             if allSameAttribute:
-                csvHeader = ['From'] +  ['To'] + list(grph.edges_iter(data = True).__next__()[2].keys())
+                csvHeader = ['From'] +  ['To'] + list(grph.edges(data = True).__next__()[2].keys())
             else:
                 extraAttribs = set()
-                for eTuple in grph.edges_iter(data = True):
+                for eTuple in grph.edges(data = True):
                     count += 1
                     if count % 1000 == 0:
                         PBar.updateVal(count / eMax * .10, "Checking over edge: '{}' to '{}'".format(eTuple[0], eTuple[1]))
@@ -233,7 +233,7 @@ def writeEdgeList(grph, name, extraInfo = True, allSameAttribute = False, _progB
         outFile = csv.DictWriter(f, csvHeader, delimiter = ',', quotechar = '"', quoting=csv.QUOTE_NONNUMERIC)
         outFile.writeheader()
         if extraInfo:
-            for e in grph.edges_iter(data = True):
+            for e in grph.edges(data = True):
                 count += 1
                 if count % 1000 == 0:
                     PBar.updateVal(count / eMax * .90 + .10, "Writing edge: '{}' to '{}'".format(e[0], e[1]))
@@ -245,7 +245,7 @@ def writeEdgeList(grph, name, extraInfo = True, allSameAttribute = False, _progB
                 except ValueError:
                     raise ValueError("Some edges in The graph do not have the same attributes")
         else:
-            for e in grph.edges_iter():
+            for e in grph.edges():
                 count += 1
                 if count % 1000 == 0:
                     PBar.updateVal(count / eMax * .90 + .10, "Writing edge: '{}' to '{}'".format(e[0], e[1]))
@@ -296,10 +296,10 @@ def writeNodeAttributeFile(grph, name, allSameAttribute = False, _progBar = None
     else:
         csvHeader = []
         if allSameAttribute:
-            csvHeader = ['ID'] + list(grph.nodes_iter(data = True).__next__()[1].keys())
+            csvHeader = ['ID'] + list(grph.nodes(data = True).__next__()[1].keys())
         else:
             extraAttribs = set()
-            for n, attribs in grph.nodes_iter(data = True):
+            for n, attribs in grph.nodes(data = True):
                 count += 1
                 if count % 100 == 0:
                     PBar.updateVal(count / nMax * .10, "Checking over node: '{}'".format(n))
@@ -313,7 +313,7 @@ def writeNodeAttributeFile(grph, name, allSameAttribute = False, _progBar = None
         f = open(name, 'w')
         outFile = csv.DictWriter(f, csvHeader, delimiter = ',', quotechar = '"', quoting = csv.QUOTE_NONNUMERIC)
         outFile.writeheader()
-        for n in grph.nodes_iter(data = True):
+        for n in grph.nodes(data = True):
             count += 1
             if count % 100 == 0:
                 PBar.updateVal(count / nMax * .90 + .10, "Writing node: '{}'".format(n[0]))
@@ -385,7 +385,7 @@ def writeTnetFile(grph, name, modeNameString, weighted = False, sourceMode = Non
             modes = []
         mode1Set = set()
         PBar.updateVal(.1, "Indexing nodes for tnet")
-        for nodeIndex, node in enumerate(grph.nodes_iter(data = True), start = 1):
+        for nodeIndex, node in enumerate(grph.nodes(data = True), start = 1):
             try:
                 nMode = node[1][modeNameString]
             except KeyError:
@@ -403,7 +403,14 @@ def writeTnetFile(grph, name, modeNameString, weighted = False, sourceMode = Non
         if len(modes) != 2:
             raise RCValueError("Too few modes of '{}' found in the network. There must be exactly 2 modes.".format(modeNameString))
         with open(name, 'w', encoding = 'utf-8') as f:
-            for n1, n2, eDict in grph.edges_iter(data = True):
+            edgesCaller = {'data' : True}
+            if timeString is not None:
+                edgesCaller['keys'] = True
+            for *nodes, eDict in grph.edges(**edgesCaller):
+                if timeString is not None:
+                    n1, n2, keyVal = nodes
+                else:
+                    n1, n2 = nodes
                 count += 1
                 if count % 1000 == 1:
                     PBar.updateVal(count/ eMax * .9 + .1, "writing edge: '{}'-'{}'".format(n1, n2))
@@ -415,7 +422,7 @@ def writeTnetFile(grph, name, modeNameString, weighted = False, sourceMode = Non
                 else:
                     raise RCValueError("The nodes '{}' and '{}' have an edge and the same type. The network must be purely 2-mode.".format(n1, n2))
                 if timeString is not None:
-                    eTimeString = '"{}" '.format(eDict[timeString])
+                    eTimeString = '"{}" '.format(keyVal)
                 else:
                     eTimeString = ''
                 if weighted:
@@ -432,7 +439,7 @@ def getWeight(grph, nd1, nd2, weightString = "weight", returnType = int):
     if not weightString:
         return returnType(1)
     else:
-        return returnType(grph.edge[nd1][nd2][weightString])
+        return returnType(grph.edges[nd1, nd2][weightString])
 
 def getNodeDegrees(grph, weightString = "weight", strictMode = False,  returnType = int, edgeType = 'bi'):
     """
@@ -441,9 +448,9 @@ def getNodeDegrees(grph, weightString = "weight", strictMode = False,  returnTyp
     edgeType, takes in one of three strings: 'bi', 'in', 'out'. 'bi' means both nodes on the edge count it, 'out' mans only the one the edge comes form counts it and 'in' means only the node the edge goes to counts it. 'bi' is the default. Use only on directional graphs as otherwise the selected nodes is random.
     """
     ndsDict = {}
-    for nd in grph.nodes_iter():
+    for nd in grph.nodes():
         ndsDict[nd] = returnType(0)
-    for e in grph.edges_iter(data = True):
+    for e in grph.edges(data = True):
         if weightString:
             try:
                 edgVal = returnType(e[2][weightString])
@@ -515,11 +522,12 @@ def dropEdges(grph, minWeight = - float('inf'), maxWeight = float('inf'), parame
         progKwargs = {'dummy' : True}
     with _ProgressBar(*progArgs, **progKwargs) as PBar:
         if dropSelfLoops:
-            slps = grph.selfloop_edges()
+            slps = list(grph.selfloop_edges())
 
             PBar.updateVal(0, "Dropping self {} loops".format(len(slps)))
             for e in slps:
                 grph.remove_edge(e[0], e[1])
+        edgesToDrop = []
         if minWeight != - float('inf') or maxWeight != float('inf'):
             for e in grph.edges(data = True):
                 try:
@@ -535,7 +543,8 @@ def dropEdges(grph, minWeight = - float('inf'), maxWeight = float('inf'), parame
                     if count % 100000 == 0:
                         PBar.updateVal(count/ total, str(count) + " edges analysed and " + str(total -len(grph.edges())) + " edges dropped")
                     if val > maxWeight or  val < minWeight:
-                        grph.remove_edge(e[0], e[1])
+                        edgesToDrop.append((e[0], e[1]))
+        grph.remove_edges_from(edgesToDrop)
         PBar.finish(str(total - len(grph.edges())) + " edges out of " + str(total) + " dropped, " + str(len(grph.edges())) + " returned")
 
 def dropNodesByDegree(grph, minDegree = -float('inf'), maxDegree = float('inf'), useWeight = True, parameterName = 'weight', includeUnweighted = True):
@@ -580,7 +589,7 @@ def dropNodesByDegree(grph, minDegree = -float('inf'), maxDegree = float('inf'),
         progKwargs = {'dummy' : True}
     with _ProgressBar(*progArgs, **progKwargs) as PBar:
         badNodes = []
-        for n in grph.nodes_iter():
+        for n in grph.nodes():
             if PBar:
                 count += 1
                 if count % 10000 == 0:
@@ -645,7 +654,7 @@ def dropNodesByCount(grph, minCount = -float('inf'), maxCount = float('inf'), pa
         progKwargs = {'dummy' : True}
     with _ProgressBar(*progArgs, **progKwargs) as PBar:
         badNodes = []
-        for n in grph.nodes_iter(data = True):
+        for n in grph.nodes(data = True):
             if PBar:
                 count += 1
                 if count % 10000 == 0:
@@ -690,7 +699,7 @@ def mergeGraphs(targetGraph, addedGraph, incrementedNodeVal = 'count', increment
     > default `'weight'`, the name of the weight attribute for the graph's edges. When merging this attribute will be the sum of the values in the input graphs, instead of _targetGraph_'s value.
     """
 
-    for addedNode, attribs in addedGraph.nodes_iter(data = True):
+    for addedNode, attribs in addedGraph.nodes(data = True):
         if incrementedNodeVal:
             try:
                 targetGraph.node[addedNode][incrementedNodeVal] += attribs[incrementedNodeVal]
@@ -699,10 +708,10 @@ def mergeGraphs(targetGraph, addedGraph, incrementedNodeVal = 'count', increment
         else:
             if not targetGraph.has_node(addedNode):
                 targetGraph.add_node(addedNode, **attribs)
-    for edgeNode1, edgeNode2, attribs in addedGraph.edges_iter(data = True):
+    for edgeNode1, edgeNode2, attribs in addedGraph.edges(data = True):
         if incrementedEdgeVal:
             try:
-                targetGraph.edge[edgeNode1][edgeNode2][incrementedEdgeVal] += attribs[incrementedEdgeVal]
+                targetGraph.edges[edgeNode1, edgeNode2][incrementedEdgeVal] += attribs[incrementedEdgeVal]
             except KeyError:
                 targetGraph.add_edge(edgeNode1, edgeNode2, **attribs)
         else:
@@ -773,19 +782,19 @@ def graphStats(G, stats = ('nodes', 'edges', 'isolates', 'loops', 'density', 'tr
     if 'isolates' in stats:
         if makeString:
             if sentenceString:
-                stsData.append("{:G} isolates".format(len(nx.isolates(G))))
+                stsData.append("{:G} isolates".format(len(list(nx.isolates(G)))))
             else:
-                stsData.append("Isolates: {:G}".format(len(nx.isolates(G))))
+                stsData.append("Isolates: {:G}".format(len(list(nx.isolates(G)))))
         else:
-            stsData['isolates'] = len(nx.isolates(G))
+            stsData['isolates'] = len(list(nx.isolates(G)))
     if 'loops' in stats:
         if makeString:
             if sentenceString:
-                stsData.append("{:G} self loops".format(len(G.selfloop_edges())))
+                stsData.append("{:G} self loops".format(len(list(G.selfloop_edges()))))
             else:
-                stsData.append("Self loops: {:G}".format(len(G.selfloop_edges())))
+                stsData.append("Self loops: {:G}".format(len(list(G.selfloop_edges()))))
         else:
-            stsData['loops'] = len(G.selfloop_edges())
+            stsData['loops'] = len(list(G.selfloop_edges()))
     if 'density' in stats:
         if makeString:
             if sentenceString:

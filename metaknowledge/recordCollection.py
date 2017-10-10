@@ -1014,7 +1014,7 @@ class RecordCollection(CollectionWithIDs):
                         citesLst = R.get('citations', [])
                     for i, auth1 in enumerate(authsList):
                         if auth1 not in grph:
-                            grph.add_node(auth1, attr_dict = detailedInfo.copy())
+                            grph.add_node(auth1, **detailedInfo.copy())
                         elif count:
                             grph.node[auth1]['count'] += 1
                         if citeProfile:
@@ -1025,7 +1025,7 @@ class RecordCollection(CollectionWithIDs):
                                     grph.node[auth1]['citeProfile'][c] = 1
                         for auth2 in authsList[i + 1:]:
                             if auth2 not in grph:
-                                grph.add_node(auth2, attr_dict = detailedInfo.copy())
+                                grph.add_node(auth2, **detailedInfo.copy())
                             elif count:
                                 grph.node[auth2]['count'] += 1
                             if citeProfile:
@@ -1035,7 +1035,7 @@ class RecordCollection(CollectionWithIDs):
                                     except KeyError:
                                         grph.node[auth2]['citeProfile'][c] = 1
                             if grph.has_edge(auth1, auth2) and weighted:
-                                grph.edge[auth1][auth2]['weight'] += 1
+                                grph.edges[auth1, auth2]['weight'] += 1
                             elif weighted:
                                 grph.add_edge(auth1, auth2, weight = 1)
                             else:
@@ -1044,7 +1044,7 @@ class RecordCollection(CollectionWithIDs):
                 if PBar:
                     PBar.updateVal(.99, "Extracting citation profiles")
                 previous = {}
-                for n, dat in grph.nodes_iter(data = True):
+                for n, dat in grph.nodes(data = True):
                     previous[n] = dat
                     #zip(*l) undoes zip(l1, l2)
                     try:
@@ -1308,24 +1308,24 @@ class RecordCollection(CollectionWithIDs):
             PBar.updateVal(.2, "Starting to classify nodes")
             workingGrph = nx.Graph()
             couplingSet = set()
-            for n, d in citeGrph.nodes_iter(data = True):
+            for n, d in citeGrph.nodes(data = True):
                 pcount += 1
                 PBar.updateVal(.2 + .4 * (pcount / pmax), "Classifying: {}".format(n))
                 if d['inCore']:
-                    workingGrph.add_node(n, d)
+                    workingGrph.add_node(n, **d)
                 if citeGrph.in_degree(n) > 0:
                     couplingSet.add(n)
             pcount = 0
             pmax = len(couplingSet)
             for n in couplingSet:
                 PBar.updateVal(.6 + .4 * (pcount / pmax), "Coupling: {}".format(n))
-                citesLst = citeGrph.in_edges(n)
+                citesLst = list(citeGrph.in_edges(n))
                 for i, edgeOuter in enumerate(citesLst):
                     outerNode = edgeOuter[0]
                     for edgeInner in citesLst[i + 1:]:
                         innerNode = edgeInner[0]
                         if weighted and  workingGrph.has_edge(outerNode, innerNode):
-                            workingGrph.edge[outerNode][innerNode]['weight'] += 1
+                            workingGrph.edges[outerNode, innerNode]['weight'] += 1
                         elif weighted:
                             workingGrph.add_edge(outerNode, innerNode, weight = 1)
                         else:
@@ -1611,7 +1611,8 @@ def addToNetwork(grph, nds, count, weighted, nodeType, nodeInfo, fullInfo, coreC
         if nodeType == 'full' or nodeType == 'original':
             hYear = getattr(headNd, "year")
         if hID not in grph:
-            grph.add_node(*makeNodeTuple(headNd, hID, nodeInfo, fullInfo, nodeType, count, coreCitesDict, coreValues, detailedValues, addCR))
+            nodeName, nodeDat = makeNodeTuple(headNd, hID, nodeInfo, fullInfo, nodeType, count, coreCitesDict, coreValues, detailedValues, addCR)
+            grph.add_node(nodeName, **nodeDat)
     else:
         hID = None
     idList = []
@@ -1626,7 +1627,8 @@ def addToNetwork(grph, nds, count, weighted, nodeType, nodeInfo, fullInfo, coreC
             yearList.append(nYear)
 
         if nID not in grph:
-            grph.add_node(*makeNodeTuple(n, nID, nodeInfo, fullInfo, nodeType, count, coreCitesDict, coreValues, detailedValues, addCR))
+            nodeName, nodeDat = makeNodeTuple(n, nID, nodeInfo, fullInfo, nodeType, count, coreCitesDict, coreValues, detailedValues, addCR)
+            grph.add_node(nodeName, **nodeDat)
         elif count:
             grph.node[nID]['count'] += 1
         idList.append(nID)
@@ -1782,18 +1784,18 @@ def expandRecs(G, RecCollect, nodeType, weighted):
                 if citeID1 in G:
                     for citeID2 in fullCiteList[i + 1:]:
                         if citeID2 not in G:
-                            G.add_node(citeID2, attr_dict = G.node[citeID1])
+                            G.add_node(citeID2, **G.node[citeID1])
                             if weighted:
                                 G.add_edge(citeID1, citeID2, weight = 1)
                             else:
                                 G.add_edge(citeID1, citeID2)
                         elif weighted:
                             try:
-                                G.edge[citeID1][citeID2]['weight'] += 1
+                                G.edges[citeID1, citeID2]['weight'] += 1
                             except KeyError:
                                 G.add_edge(citeID1, citeID2, weight = 1)
-                        for e1, e2, data in G.edges_iter(citeID1, data = True):
-                            G.add_edge(citeID2, e2, attr_dict = data)
+                        for e1, e2, data in G.edges(citeID1, data = True):
+                            G.add_edge(citeID2, e2, **data)
 
 
 def findCopyright(inS):

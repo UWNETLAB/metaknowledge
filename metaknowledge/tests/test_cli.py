@@ -118,7 +118,7 @@ class TestCLI(unittest.TestCase):
 
                 m.calledVals = ['3'] + list(self.RC.tags()) + ['']
                 G = metaknowledge.bin.metaknowledgeCLI.getNetwork(None, self.RC)
-                self.assertEqual(metaknowledge.graphStats(G, sentenceString = True), 'The graph has 1186 nodes, 38592 edges, 0 isolates, 56 self loops, a density of 0.0549192 and a transitivity of 0.295384')
+                self.assertEqual(metaknowledge.graphStats(G, sentenceString = True), 'The graph has 1186 nodes, 38564 edges, 0 isolates, 56 self loops, a density of 0.0549192 and a transitivity of 0.295384')
                 self.assertEqual(len(m.calledVals), 0)
 
                 m.calledVals = ['4']
@@ -128,7 +128,7 @@ class TestCLI(unittest.TestCase):
 
                 m.calledVals = ['5']
                 G = metaknowledge.bin.metaknowledgeCLI.getNetwork(None, self.RC)
-                self.assertEqual(metaknowledge.graphStats(G, sentenceString = True), 'The graph has 493 nodes, 13011 edges, 0 isolates, 22 self loops, a density of 0.107282 and a transitivity of 0.611431')
+                self.assertEqual(metaknowledge.graphStats(G, sentenceString = True), 'The graph has 493 nodes, 13000 edges, 0 isolates, 22 self loops, a density of 0.107282 and a transitivity of 0.611431')
                 self.assertEqual(len(m.calledVals), 0)
 
                 m.calledVals = ['6']
@@ -201,7 +201,7 @@ class TestCLI(unittest.TestCase):
                 metaknowledge.bin.metaknowledgeCLI.outputNetwork(named, self.G)
                 #filesize is slightly non deteministic
                 self.assertAlmostEqual(os.path.getsize(fileName + '_edgeList.csv'), 1403, delta = 3)
-                self.assertAlmostEqual(os.path.getsize(fileName + '_nodeAttributes.csv'), 784, delta = 4)
+                self.assertAlmostEqual(os.path.getsize(fileName + '_nodeAttributes.csv'), 779, delta = 4)
                 os.remove(fileName + '_nodeAttributes.csv')
                 os.remove(fileName + '_edgeList.csv')
                 self.assertEqual(len(m.calledVals), 0)
@@ -209,6 +209,6 @@ class TestCLI(unittest.TestCase):
                 m.calledVals = ['4']
                 metaknowledge.bin.metaknowledgeCLI.outputNetwork(named, self.G)
                 #filesize is slightly non deteministic
-                self.assertAlmostEqual(os.path.getsize(fileName + '.graphml'), 7929, delta = 4)
+                self.assertAlmostEqual(os.path.getsize(fileName + '.graphml'), 6817, delta = 4)
                 os.remove(fileName + '.graphml')
                 self.assertEqual(len(m.calledVals), 0)

@@ -208,7 +208,7 @@ class GrantCollection(CollectionWithIDs):
                             elif count:
                                 grph.node[invest2[0]]['count'] += 1
                             if grph.has_edge(invest1[0], invest2[0]) and weighted:
-                                grph.edge[invest1[0]][invest2[0]]['weight'] += 1
+                                grph.edges[invest1[0], invest2[0]]['weight'] += 1
                             elif weighted:
                                 grph.add_edge(invest1[0], invest2[0], weight = 1)
                             else:

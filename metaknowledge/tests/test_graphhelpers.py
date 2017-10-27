@@ -34,10 +34,10 @@ class TestHelpers(unittest.TestCase):
         fName = fileShortName + "_tnet.csv"
         G = self.RC.networkTwoMode('AF', 'WC', edgeAttribute = 'PY')
         metaknowledge.writeTnetFile(G, fName, 'type', weighted = True, timeString = 'key')
-        self.assertAlmostEqual(os.path.getsize(fName), 1220, delta=100)
+        self.assertAlmostEqual(os.path.getsize(fName), 1015, delta=100)
         os.remove(fName)
         metaknowledge.writeTnetFile(G, fName, 'type')
-        self.assertAlmostEqual(os.path.getsize(fName), 480, delta=50)
+        self.assertAlmostEqual(os.path.getsize(fName), 378, delta=50)
         os.remove(fName)
 
     def test_progress(self):
@@ -64,17 +64,17 @@ class TestHelpers(unittest.TestCase):
     def test_dropEdges(self):
         metaknowledge.dropEdges(self.G, minWeight = 1, maxWeight = 3, dropSelfLoops = True)
         self.assertEqual(metaknowledge.graphStats(self.G, sentenceString = True), "The graph has 493 nodes, 12711 edges, 0 isolates, 0 self loops, a density of 0.104809 and a transitivity of 0.588968")
-        self.assertTrue(self.G.edge['Imbert C, 1975, NOUV REV OPT']['Fainman Y, 1984, APPL OPTICS']['weight'] == 1)
+        self.assertTrue(self.G.edges['Imbert C, 1975, NOUV REV OPT', 'Fainman Y, 1984, APPL OPTICS']['weight'] == 1)
 
     def test_dropNodeByCount(self):
         metaknowledge.dropNodesByCount(self.G, minCount = 2, maxCount = 5)
-        self.assertEqual(metaknowledge.graphStats(self.G, sentenceString = True), "The graph has 106 nodes, 1214 edges, 0 isolates, 17 self loops, a density of 0.218149 and a transitivity of 0.751036")
+        self.assertEqual(metaknowledge.graphStats(self.G, sentenceString = True), "The graph has 106 nodes, 1205 edges, 0 isolates, 17 self loops, a density of 0.218149 and a transitivity of 0.751036")
         self.assertTrue(self.G.node['Shih H, 1971, PHYS REV A']['count'] == 2)
 
     def test_dropNodesByDegree(self):
         metaknowledge.dropNodesByDegree(self.G, minDegree = 20, maxDegree = 100)
-        self.assertEqual(metaknowledge.graphStats(self.G, sentenceString = True), "The graph has 385 nodes, 5929 edges, 0 isolates, 11 self loops, a density of 0.0802083 and a transitivity of 0.954487")
-        self.assertTrue(self.G.edge['Mazur P, 1953, MEM ACAD ROY BELG']['Livens Gh, 1948, P CAMB PHILOS SOC']['weight'] == 1)
+        self.assertEqual(metaknowledge.graphStats(self.G, sentenceString = True), "The graph has 385 nodes, 5923 edges, 0 isolates, 11 self loops, a density of 0.0802083 and a transitivity of 0.954487")
+        self.assertTrue(self.G.edges['Mazur P, 1953, MEM ACAD ROY BELG', 'Livens Gh, 1948, P CAMB PHILOS SOC']['weight'] == 1)
 
     def test_mergeGraphs(self):
         RC1 = self.RC.yearSplit(0,1978)
@@ -82,7 +82,7 @@ class TestHelpers(unittest.TestCase):
         G1 = RC1.networkCoCitation()
         G2 = RC2.networkCoCitation()
         metaknowledge.mergeGraphs(G1,G2)
-        for node, attr in G1.nodes_iter(data = True):
+        for node, attr in G1.nodes(data = True):
             self.assertEqual(self.G.node[node]['count'], attr['count'])
         for node1, node2, attr in G1.edges(data = True):
-            self.assertEqual(self.G.edge[node1][node2]['weight'], attr['weight'])
+            self.assertEqual(self.G.edges[node1, node2]['weight'], attr['weight'])

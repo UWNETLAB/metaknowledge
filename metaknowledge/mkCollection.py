@@ -885,7 +885,7 @@ class CollectionWithIDs(Collection):
                                         for edgeVal in edgeVals:
                                             if grph.has_edge(node1, node2, key = edgeVal):
                                                 if edgeWeight:
-                                                    for i, a in grph[node1][node2].items():
+                                                    for i, a in grph.edges[node1, node2].items():
                                                         if a['key'] == edgeVal:
                                                             grph[node1][node2][i]['weight'] += 1
                                                             break
@@ -894,10 +894,10 @@ class CollectionWithIDs(Collection):
                                                     attrDict = {'key' : edgeVal, 'weight' : 1}
                                                 else:
                                                     attrDict = {'key' : edgeVal}
-                                                grph.add_edge(node1, node2, attr_dict = attrDict)
+                                                grph.add_edge(node1, node2, **attrDict)
                                     elif edgeWeight:
                                         try:
-                                            grph.edge[node1][node2]['weight'] += 1
+                                            grph.edges[node1, node2]['weight'] += 1
                                         except KeyError:
                                             grph.add_edge(node1, node2, weight = 1)
                                     else:
@@ -1110,19 +1110,16 @@ class CollectionWithIDs(Collection):
                             for edgeVal in edgeVals:
                                 if grph.has_edge(node1, node2, key = edgeVal):
                                     if edgeWeight:
-                                        for i, a in grph[node1][node2].items():
-                                            if a['key'] == edgeVal:
-                                                grph[node1][node2][i]['weight'] += 1
-                                                break
+                                        grph.edges[node1, node2, edgeVal]['weight'] += 1
                                 else:
                                     if edgeWeight:
                                         attrDict = {'key' : edgeVal, 'weight' : 1}
                                     else:
                                         attrDict = {'key' : edgeVal}
-                                    grph.add_edge(node1, node2, attr_dict = attrDict)
+                                    grph.add_edge(node1, node2, **attrDict)
                         elif edgeWeight:
                             try:
-                                grph.edge[node1][node2]['weight'] += 1
+                                grph.edges[node1, node2]['weight'] += 1
                             except KeyError:
                                 grph.add_edge(node1, node2, weight = 1)
                         else:
@@ -1264,7 +1261,7 @@ class CollectionWithIDs(Collection):
                                     for edgeVal in edgeVals:
                                         if grph.has_edge(node1, node2, key = edgeVal):
                                             if edgeWeight:
-                                                for i, a in grph[node1][node2].items():
+                                                for i, a in grph.edges[node1, node2].items():
                                                     if a['key'] == edgeVal:
                                                         grph[node1][node2][i]['weight'] += 1
                                                         break
@@ -1273,10 +1270,10 @@ class CollectionWithIDs(Collection):
                                                 attrDict = {'key' : edgeVal, 'weight' : 1}
                                             else:
                                                 attrDict = {'key' : edgeVal}
-                                            grph.add_edge(node1, node2, attr_dict = attrDict)
+                                            grph.add_edge(node1, node2, **attrDict)
                                 elif edgeWeight:
                                     try:
-                                        grph.edge[node1][node2]['weight'] += 1
+                                        grph.edges[node1, node2]['weight'] += 1
                                     except KeyError:
                                         grph.add_edge(node1, node2, weight = 1)
                                 else:

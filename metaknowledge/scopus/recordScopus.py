@@ -17,7 +17,7 @@ class ScopusRecord(ExtendedRecord):
 
     This class is an [`ExtendedRecord`](#metaknowledge.ExtendedRecord) capable of generating its own id number. You should not create them directly, but instead use [`scopusParser()`](#metaknowledge.scopusParser) on a scopus **CSV** file.
     """
-    def __init__(self, inRecord, header = None, sFile = "", sLine = 0):
+    def __init__(self, inRecord, sFile = "", sLine = 0):
         bad = False
         error = None
         fieldDict = None
@@ -25,7 +25,7 @@ class ScopusRecord(ExtendedRecord):
             if isinstance(inRecord, dict) or isinstance(inRecord, collections.OrderedDict):
                 fieldDict = collections.OrderedDict(inRecord)
             elif isinstance(inRecord, str):
-                fieldDict = scopusRecordParser(inRecord, header = header)
+                fieldDict = scopusRecordParser(inRecord)
             else:
                 raise RCTypeError("Unsupported input type '{}', ScopusRecords cannot be created from '{}'".format(inRecord, type(inRecord)))
         except (BadScopusRecord, IndexError) as b:
@@ -64,7 +64,7 @@ class ScopusRecord(ExtendedRecord):
 firstQuotingRegex = re.compile(r'("")*"([^"]|"$)')
 innerQuotingRegex = re.compile(r'("")*"([^"|$])')
 
-def scopusRecordParser(record, header = None):
+def scopusRecordParser(record):
     """The parser [`ScopusRecords`](#metaknowledge.ScopusRecord) use. This takes a line from [`scopusParser()`](#metaknowledge.scopusParser) and parses it as a part of the creation of a `ScopusRecord`.
 
     **Note** this is for csv files downloaded from scopus _not_ the text records as those are less complete. Also, Scopus uses double quotes (`"`) to quote strings, such as abstracts, in the csv so double quotes in the string must be escaped. For reasons not fully understandable by mortals they choose to use two double quotes in a row (`""`) to represent an escaped double quote. This parser does not unescape these quotes, but it does correctly handle their interacts with the outer double quotes.
@@ -84,11 +84,7 @@ def scopusRecordParser(record, header = None):
     splitRecord = record[:-1].split(',')
     tagDict = {}
     quoted = False
-    if header is None:
-        keys = reversed(scopusHeader)
-    else:
-        keys = reversed(header)
-    for key in keys:
+    for key in reversed(scopusHeader):
         currentVal = splitRecord.pop()
         if currentVal == '':
             pass

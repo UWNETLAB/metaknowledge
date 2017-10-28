@@ -16,10 +16,11 @@ class TestScopus(unittest.TestCase):
         R = metaknowledge.ScopusRecord(Rstart._fieldDict)
         self.assertEqual(R, Rstart)
         with open("metaknowledge/tests/scopus_testing.csv.scopus") as f:
-            f.readline()
-            R = metaknowledge.ScopusRecord(f.readline())
+            f.read(1)
+            header = f.readline()[:-1].split(',')
+            R = metaknowledge.ScopusRecord(f.readline(), header = header)
             self.assertEqual(R.id, 'EID:2-s2.0-84963944162')
-            R = metaknowledge.ScopusRecord(f.readline())
+            R = metaknowledge.ScopusRecord(f.readline(), header = header)
             self.assertEqual(R.id, 'EID:2-s2.0-84943362392')
         with self.assertRaises(TypeError):
             R = metaknowledge.ScopusRecord(12345678)
@@ -46,11 +47,11 @@ class TestScopus(unittest.TestCase):
                 self.assertIsInstance(v, (str, list, int))
 
     def test_graphs(self):
-        self.assertEqual(metaknowledge.graphStats(self.RC.networkCoAuthor(), sentenceString = True), "The graph has 1798 nodes, 89244 edges, 36 isolates, 15 self loops, a density of 0.0552422 and a transitivity of 0.994673")
+        self.assertEqual(metaknowledge.graphStats(self.RC.networkCoAuthor(), sentenceString = True), "The graph has 1798 nodes, 89236 edges, 36 isolates, 15 self loops, a density of 0.0552422 and a transitivity of 0.994673")
         self.assertEqual(metaknowledge.graphStats(self.RC.networkCitation(), sentenceString = True), "The graph has 10026 nodes, 10362 edges, 0 isolates, 0 self loops, a density of 0.000103094 and a transitivity of 0")
 
     def test_write(self):
         fileName = 'tempFile.scopus.tmp'
         self.RC.writeFile(fileName)
-        self.assertEqual(os.path.getsize(fileName), os.path.getsize("metaknowledge/tests/scopus_testing.csv.scopus") + 10838) #Not quite identical due to double quotes
+        self.assertEqual(os.path.getsize(fileName), os.path.getsize("metaknowledge/tests/scopus_testing.csv.scopus") + 11511) #Not quite identical due to double quotes
         os.remove(fileName)

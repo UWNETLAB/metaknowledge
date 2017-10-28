@@ -2,7 +2,7 @@
 import os
 import sys
 
-__version__ = '3.2.0'
+__version__ = '3.2.1'
 
 commonRecordFields = [
     'year',

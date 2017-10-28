@@ -6,7 +6,7 @@ from .recordScopus import ScopusRecord, scopusHeader
 
 from ..mkExceptions import BadScopusFile
 
-def isScopusFile(infile, checkedLines = 2):
+def isScopusFile(infile, checkedLines = 2, maxHeaderDiff = 3):
     """Determines if _infile_ is the path to a Scopus csv file. A file is considerd to be a Scopus file if it has the correct encoding (`utf-8` with BOM (Byte Order Mark)) and within the first _checkedLines_ a line contains the complete header, the list of all header entries in order is found in [`scopus.scopusHeader`](#metaknowledge.scopus).
 
     **Note** this is for csv files _not_ plain text files from scopus, plain text files are not complete.
@@ -21,6 +21,10 @@ def isScopusFile(infile, checkedLines = 2):
 
     > default 2, the number of lines to check for the header
 
+    _maxHeaderDiff_ : `optional [int]`
+
+    > default 3, maximum number of different entries in the potetial file from the current known header `metaknowledge.scopus.scopusHeader`, if exceeded an `False` will be returned
+
     # Returns
 
     `bool`
@@ -32,7 +36,7 @@ def isScopusFile(infile, checkedLines = 2):
             if openfile.read(1) != "\ufeff":
                 return False
             for i in range(checkedLines):
-                if openfile.readline()[:-1].split(',') == scopusHeader:
+                if len(set(openfile.readline()[:-1].split(',')) ^ set(scopusHeader)) < maxHeaderDiff:
                     return True
     except (StopIteration, UnicodeDecodeError):
         return False
@@ -63,12 +67,15 @@ def scopusParser(scopusFile):
     try:
         with open(scopusFile, 'r', encoding = 'utf-8') as openfile:
             #Get rid of the BOM
-            openfile.readline()
+            openfile.read(1)
+            header = openfile.readline()[:-1].split(',')
+            if len(set(header) ^ set(scopusHeader)) == 0:
+                header = None
             lineNum = 0
             try:
                 for line, row in enumerate(openfile, start = 2):
                     lineNum = line
-                    recSet.add(ScopusRecord(row, sFile = scopusFile, sLine = line))
+                    recSet.add(ScopusRecord(row, header = header, sFile = scopusFile, sLine = line))
             except BadScopusFile as e:
                 if error is None:
                     error = BadScopusFile("The file '{}' becomes unparsable after line: {}, due to the error: {} ".format(scopusFile, lineNum, e))

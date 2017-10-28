@@ -349,17 +349,17 @@ class TestRecordCollection(unittest.TestCase):
         self.assertTrue('info' in list(Gdefault.nodes(data = True))[0][1])
         self.assertTrue('fullCite' in list(Gdefault.nodes(data = True))[0][1])
         self.assertFalse('weight' in list(Gunwei.edges(data = True))[0][2])
-        self.assertEqual(metaknowledge.graphStats(Gdefault, sentenceString = True), "The graph has 493 nodes, 13011 edges, 0 isolates, 22 self loops, a density of 0.107282 and a transitivity of 0.611431")
-        self.assertEqual(metaknowledge.graphStats(Gauths, sentenceString = True), "The graph has 321 nodes, 6733 edges, 1 isolates, 68 self loops, a density of 0.131094 and a transitivity of 0.598575")
-        self.assertEqual(metaknowledge.graphStats(Gyear, sentenceString = True), "The graph has 91 nodes, 1926 edges, 0 isolates, 55 self loops, a density of 0.47033 and a transitivity of 0.702332")
+        self.assertEqual(metaknowledge.graphStats(Gdefault, sentenceString = True), "The graph has 493 nodes, 13000 edges, 0 isolates, 22 self loops, a density of 0.107282 and a transitivity of 0.611431")
+        self.assertEqual(metaknowledge.graphStats(Gauths, sentenceString = True), "The graph has 321 nodes, 6699 edges, 1 isolates, 68 self loops, a density of 0.131094 and a transitivity of 0.598575")
+        self.assertEqual(metaknowledge.graphStats(Gyear, sentenceString = True), "The graph has 91 nodes, 1898 edges, 0 isolates, 55 self loops, a density of 0.47033 and a transitivity of 0.702332")
         if not disableJournChecking:
             self.assertEqual(len(Gjour.nodes()), 85)
             self.assertEqual(len(Gjour.edges()), 1195)
             self.assertTrue('info' in Gjour.nodes(data=True)[0][1])
-        self.assertTrue('info' in Gyear.nodes(data=True)[0][1])
-        self.assertTrue('fullCite' in Gyear.nodes(data = True)[0][1])
+        self.assertTrue('info' in list(Gyear.nodes(data=True))[0][1])
+        self.assertTrue('fullCite' in list(Gyear.nodes(data = True))[0][1])
         self.assertEqual(Gcore.node['Costadebeauregard O, 1975, CAN J PHYS']['info'], 'COSTADEBEAUREGARD O, COSTADEBEAUREGARD O')
-        self.assertEqual(metaknowledge.graphStats(Gexplode, sentenceString = True), "The graph has 73 nodes, 369 edges, 0 isolates, 5 self loops, a density of 0.140411 and a transitivity of 0.523179")
+        self.assertEqual(metaknowledge.graphStats(Gexplode, sentenceString = True), "The graph has 73 nodes, 366 edges, 0 isolates, 5 self loops, a density of 0.140411 and a transitivity of 0.523179")
         self.assertIn('AUDOIN C, 1976, J PHYS E SCI INSTRUM', Gcr.node['Huard S, 1979, CAN J PHYS']['citations'])
 
     def test_coAuth(self):
@@ -410,7 +410,7 @@ class TestRecordCollection(unittest.TestCase):
 
     def test_nLevel(self):
         G = self.RC.networkMultiLevel(*tuple(self.RC.tags()))
-        self.assertEqual(metaknowledge.graphStats(G, sentenceString = True), 'The graph has 1187 nodes, 58761 edges, 0 isolates, 59 self loops, a density of 0.0834803 and a transitivity of 0.493814')
+        self.assertEqual(metaknowledge.graphStats(G, sentenceString = True), 'The graph has 1187 nodes, 58731 edges, 0 isolates, 59 self loops, a density of 0.0834803 and a transitivity of 0.493814')
 
     def test_oneMode(self):
         Gcr  = self.RC.networkOneMode('CR')
@@ -457,8 +457,8 @@ class TestRecordCollection(unittest.TestCase):
     def test_nMode(self):
         G = self.RC.networkMultiMode(metaknowledge.WOS.tagToFullDict.keys())
         Gstem = self.RC.networkMultiMode(metaknowledge.WOS.tagToFullDict.keys(), stemmer = lambda x : x[0])
-        self.assertEqual(metaknowledge.graphStats(G, sentenceString = True), 'The graph has 1186 nodes, 38592 edges, 0 isolates, 56 self loops, a density of 0.0549192 and a transitivity of 0.295384')
-        self.assertEqual(metaknowledge.graphStats(Gstem, sentenceString = True), 'The graph has 50 nodes, 1015 edges, 0 isolates, 35 self loops, a density of 0.828571 and a transitivity of 0.855834')
+        self.assertEqual(metaknowledge.graphStats(G, sentenceString = True), 'The graph has 1186 nodes, 38564 edges, 0 isolates, 56 self loops, a density of 0.0549192 and a transitivity of 0.295384')
+        self.assertEqual(metaknowledge.graphStats(Gstem, sentenceString = True), 'The graph has 50 nodes, 997 edges, 0 isolates, 35 self loops, a density of 0.828571 and a transitivity of 0.855834')
 
     def test_localCiteStats(self):
         d = self.RC.localCiteStats()
@@ -513,6 +513,6 @@ class TestRecordCollection(unittest.TestCase):
         self.assertIn('Top Authors\n', gBasic)
         self.assertIn('1 Gilles, H\n', gBasic)
 
-        self.assertIn('|1 JOURNAL OF THE OPTICAL.|', gCompact)
-        self.assertIn('|Columns are ranked by num. of occurrences and are independent of one another++|', gCompact)
+        self.assertIn('|1 JOURNAL OF THE OPTICA', gCompact)
+        self.assertIn('|Columns are ranked by num. of occurrences and are independent of one another++', gCompact)
         self.assertIn('qwertyhujk', gEmpty)

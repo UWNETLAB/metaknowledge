@@ -16,10 +16,11 @@ class TestScopus(unittest.TestCase):
         R = metaknowledge.ScopusRecord(Rstart._fieldDict)
         self.assertEqual(R, Rstart)
         with open("metaknowledge/tests/scopus_testing.csv.scopus") as f:
-            f.readline()
-            R = metaknowledge.ScopusRecord(f.readline())
+            f.read(1)
+            header = f.readline()[:-1].split(',')
+            R = metaknowledge.ScopusRecord(f.readline(), header = header)
             self.assertEqual(R.id, 'EID:2-s2.0-84963944162')
-            R = metaknowledge.ScopusRecord(f.readline())
+            R = metaknowledge.ScopusRecord(f.readline(), header = header)
             self.assertEqual(R.id, 'EID:2-s2.0-84943362392')
         with self.assertRaises(TypeError):
             R = metaknowledge.ScopusRecord(12345678)
@@ -52,5 +53,5 @@ class TestScopus(unittest.TestCase):
     def test_write(self):
         fileName = 'tempFile.scopus.tmp'
         self.RC.writeFile(fileName)
-        self.assertEqual(os.path.getsize(fileName), os.path.getsize("metaknowledge/tests/scopus_testing.csv.scopus") + 10838) #Not quite identical due to double quotes
+        self.assertEqual(os.path.getsize(fileName), os.path.getsize("metaknowledge/tests/scopus_testing.csv.scopus") + 11511) #Not quite identical due to double quotes
         os.remove(fileName)

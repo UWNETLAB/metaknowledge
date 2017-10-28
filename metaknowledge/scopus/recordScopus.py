@@ -10,14 +10,57 @@ from .tagProcessing.specialFunctions import scopusSpecialTagToFunc
 from ..mkRecord import ExtendedRecord
 from ..mkExceptions import RCTypeError, BadScopusFile, BadScopusRecord
 
-scopusHeader = ['Authors', 'Title', 'Year', 'Source title', 'Volume', 'Issue', 'Art. No.', 'Page start', 'Page end', 'Page count', 'Cited by', 'DOI', 'Link', 'Affiliations', 'Authors with affiliations', 'Abstract', 'Author Keywords', 'Index Keywords', 'Molecular Sequence Numbers', 'Chemicals/CAS', 'Tradenames', 'Manufacturers', 'Funding Details', 'References', 'Correspondence Address', 'Editors', 'Sponsors', 'Publisher', 'Conference name', 'Conference date', 'Conference location', 'Conference code', 'ISSN', 'ISBN', 'CODEN', 'PubMed ID', 'Language of Original Document', 'Abbreviated Source Title', 'Document Type', 'Source', 'EID']
+scopusHeader = [
+    'Authors',
+    'Title',
+    'Year',
+    'Source title',
+    'Volume',
+    'Issue',
+    'Art. No.',
+    'Page start',
+    'Page end',
+    'Page count',
+    'Cited by',
+    'DOI',
+    'Link',
+    'Affiliations',
+    'Authors with affiliations',
+    'Abstract',
+    'Author Keywords',
+    'Index Keywords',
+    'Molecular Sequence Numbers',
+    'Chemicals/CAS',
+    'Tradenames',
+    'Manufacturers',
+    'Funding Details',
+    'Funding Text',
+    'References',
+    'Correspondence Address',
+    'Editors',
+    'Sponsors',
+    'Publisher',
+    'Conference name',
+    'Conference date',
+    'Conference location',
+    'Conference code',
+    'ISSN',
+    'ISBN',
+    'CODEN',
+    'PubMed ID',
+    'Language of Original Document',
+    'Abbreviated Source Title',
+    'Document Type',
+    'Source',
+    'EID'
+ ]
 
 class ScopusRecord(ExtendedRecord):
     """Class for full Scopus entries.
 
     This class is an [`ExtendedRecord`](#metaknowledge.ExtendedRecord) capable of generating its own id number. You should not create them directly, but instead use [`scopusParser()`](#metaknowledge.scopusParser) on a scopus **CSV** file.
     """
-    def __init__(self, inRecord, sFile = "", sLine = 0):
+    def __init__(self, inRecord, sFile = "", sLine = 0, header = None):
         bad = False
         error = None
         fieldDict = None
@@ -25,7 +68,7 @@ class ScopusRecord(ExtendedRecord):
             if isinstance(inRecord, dict) or isinstance(inRecord, collections.OrderedDict):
                 fieldDict = collections.OrderedDict(inRecord)
             elif isinstance(inRecord, str):
-                fieldDict = scopusRecordParser(inRecord)
+                fieldDict = scopusRecordParser(inRecord, header = header)
             else:
                 raise RCTypeError("Unsupported input type '{}', ScopusRecords cannot be created from '{}'".format(inRecord, type(inRecord)))
         except (BadScopusRecord, IndexError) as b:
@@ -64,7 +107,7 @@ class ScopusRecord(ExtendedRecord):
 firstQuotingRegex = re.compile(r'("")*"([^"]|"$)')
 innerQuotingRegex = re.compile(r'("")*"([^"|$])')
 
-def scopusRecordParser(record):
+def scopusRecordParser(record, header = None):
     """The parser [`ScopusRecords`](#metaknowledge.ScopusRecord) use. This takes a line from [`scopusParser()`](#metaknowledge.scopusParser) and parses it as a part of the creation of a `ScopusRecord`.
 
     **Note** this is for csv files downloaded from scopus _not_ the text records as those are less complete. Also, Scopus uses double quotes (`"`) to quote strings, such as abstracts, in the csv so double quotes in the string must be escaped. For reasons not fully understandable by mortals they choose to use two double quotes in a row (`""`) to represent an escaped double quote. This parser does not unescape these quotes, but it does correctly handle their interacts with the outer double quotes.
@@ -81,10 +124,12 @@ def scopusRecordParser(record):
 
     > A dictionary of the key-vaue pairs in the entry
     """
+    if header is None:
+        header = scopusHeader
     splitRecord = record[:-1].split(',')
     tagDict = {}
     quoted = False
-    for key in reversed(scopusHeader):
+    for key in reversed(header):
         currentVal = splitRecord.pop()
         if currentVal == '':
             pass
@@ -94,9 +139,13 @@ def scopusRecordParser(record):
                 currentVal = splitRecord.pop()
                 #double quotes (") are escaped by proceeding them with another double quote
                 #So an entry containing:
+
                 #',"stuff,""quoted"",more stuff,""more quoted""",'
-                # whould be a single string belonging to 1 column that looks like:
+
+                #would be a single string belonging to 1 column that looks like:
+
                 #'stuff,"quoted",more stuff,"more quoted"'
+
                 #We are not going to unescape the quotation marks but we do have to deal with them
                 while re.match(innerQuotingRegex, currentVal) is None:
                     valString = ',' + currentVal + valString

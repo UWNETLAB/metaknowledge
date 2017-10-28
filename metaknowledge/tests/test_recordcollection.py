@@ -513,6 +513,6 @@ class TestRecordCollection(unittest.TestCase):
         self.assertIn('Top Authors\n', gBasic)
         self.assertIn('1 Gilles, H\n', gBasic)
 
-        self.assertIn('|1 JOURNAL OF THE OPTICAL SOCIETY OF AM.', gCompact)
+        self.assertIn('|1 JOURNAL OF THE OPTICA', gCompact)
         self.assertIn('|Columns are ranked by num. of occurrences and are independent of one another++', gCompact)
         self.assertIn('qwertyhujk', gEmpty)

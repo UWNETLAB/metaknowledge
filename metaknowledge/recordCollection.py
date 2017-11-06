@@ -1749,7 +1749,7 @@ def makeNodeTuple(citation, idVal, nodeInfo, fullInfo, nodeType, count, coreCite
 def filterCites(cites, nodeType, dropAnon, dropNonJournals, keyWords, coreCites):
     filteredCites = []
     for c in cites:
-        if nodeType != "full" and not getattr(c, nodeType):
+        if nodeType != "full" and hasattr(c, nodeType) and not getattr(c, nodeType):
             pass
         elif dropNonJournals and not c.isJournal():
             pass

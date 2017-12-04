@@ -242,6 +242,10 @@ def writeEdgeList(grph, name, extraInfo = True, allSameAttribute = False, _progB
                 eDict['To'] = e[1]
                 try:
                     outFile.writerow(eDict)
+                except UnicodeEncodeError:
+                    #Because Windows
+                    newDict = {k.encode('ASCII', errors='ignore').decode('ASCII', errors='ignore') if isinstance(k, str) else k: v.encode('ASCII', errors='ignore').decode('ASCII', errors='ignore') if isinstance(v, str) else v for k, v in eDict.items()}
+                    outFile.writerow(newDict)
                 except ValueError:
                     raise ValueError("Some edges in The graph do not have the same attributes")
         else:
@@ -251,7 +255,12 @@ def writeEdgeList(grph, name, extraInfo = True, allSameAttribute = False, _progB
                     PBar.updateVal(count / eMax * .90 + .10, "Writing edge: '{}' to '{}'".format(e[0], e[1]))
                 eDict['From'] = e[0]
                 eDict['To'] = e[1]
-                outFile.writerow(eDict)
+                try:
+                    outFile.writerow(eDict)
+                except UnicodeEncodeError:
+                    #Because Windows
+                    newDict = {k.encode('ASCII', errors='ignore').decode('ASCII', errors='ignore') if isinstance(k, str) else k: v.encode('ASCII', errors='ignore').decode('ASCII', errors='ignore') if isinstance(v, str) else v for k, v in eDict.items()}
+                    outFile.writerow(newDict)
         PBar.updateVal(1, "Closing {}".format(name))
         f.close()
         if not isinstance(_progBar, _ProgressBar):
@@ -321,6 +330,10 @@ def writeNodeAttributeFile(grph, name, allSameAttribute = False, _progBar = None
             nDict['ID'] = n[0]
             try:
                 outFile.writerow(nDict)
+            except UnicodeEncodeError:
+                #Because Windows
+                newDict = {k.encode('ASCII', errors='ignore').decode('ASCII', errors='ignore') if isinstance(k, str) else k: v.encode('ASCII', errors='ignore').decode('ASCII', errors='ignore') if isinstance(v, str) else v for k, v in nDict.items()}
+                outFile.writerow(newDict)
             except ValueError:
                 raise ValueError("Some nodes in the graph do not have the same attributes")
         PBar.updateVal(1, "Closing {}".format(name))

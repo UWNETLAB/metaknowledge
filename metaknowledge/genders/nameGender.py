@@ -34,8 +34,11 @@ def downloadData(useUK = False):
         namesFile = zipfile.ZipFile(zipFile).open(ukNamesPath)
     else:
         namesFile = zipfile.ZipFile(zipFile).open(americanNamesPath)
-    with open(targetFilePath, 'wb') as f:
-        f.write(namesFile.read())
+    try:
+        with open(targetFilePath, 'wb') as f:
+            f.write(namesFile.read())
+    except PermissionError:
+        raise PermissionError("Can not write to {}, you try rerunning with higher privileges".format(targetFilePath))
 
 def getMapping(useUK = False):
     if not os.path.isfile(targetFilePath):

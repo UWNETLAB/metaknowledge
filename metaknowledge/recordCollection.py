@@ -87,6 +87,7 @@ class RecordCollection(CollectionWithIDs):
                     name = "Empty"
                 recordsSet = set()
             elif isinstance(inCollection, str):
+                inCollection = os.path.realpath(os.path.expanduser(inCollection))
                 if os.path.isfile(inCollection):
                     PBar.updateVal(.2, "RecordCollection from a file started")
                     if not inCollection.endswith(extension):

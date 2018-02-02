@@ -46,7 +46,7 @@ class TestRecordCollection(unittest.TestCase):
         self.assertEqual(self.RCbad | self.RC, self.RCbad | self.RC )
         self.assertEqual(len(self.RCbad | self.RCbad), 32)
         self.assertFalse(self.RCbad == self.RC)
-        self.assertEqual('metaknowledge/tests/badFile.isi', self.RCbad.errors.keys().__iter__().__next__())
+        self.assertEqual('/Users/Reid/Documents/Work/NetworksLab/metaknowledge/metaknowledge/tests/badFile.isi', self.RCbad.errors.keys().__iter__().__next__())
 
     def test_badEntries(self):
         badRecs = self.RC.badEntries()

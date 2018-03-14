@@ -25,6 +25,10 @@ metaknowledge/journalAbbreviations/j9Abbreviations.dir
 metaknowledge/journalAbbreviations/j9Abbreviations.dat
 !savedrecs.txt
 *.bib
+TODO.md
+testing_nb/
+
+*.DS_Store
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

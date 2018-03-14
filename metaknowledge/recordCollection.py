@@ -1756,7 +1756,7 @@ def filterCites(cites, nodeType, dropAnon, dropNonJournals, keyWords, coreCites)
             pass
         elif dropAnon and c.isAnonymous():
             pass
-        elif coreCites and c not in coreCites:
+        elif coreCites is not None and c not in coreCites:
             pass
         elif keyWords:
             found = False

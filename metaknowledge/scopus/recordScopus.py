@@ -132,7 +132,7 @@ class ScopusRecord(ExtendedRecord):
             if self.get("authorsShort", False):
                 valsStr += self['authorsShort'][0].replace(',', '') + ', '
         if self.get("title", False):
-            valsStr += self.get('title') + ' '
+            valsStr += self.get('title').replace('(', '').replace(')', '') + ' '
         if self.get("year", False):
             valsStr += "({}) ".format(self.get('year'))
         if self.get("journal", False):
@@ -142,11 +142,26 @@ class ScopusRecord(ExtendedRecord):
         if self.get("beginningPage", False):
             valsStr += 'PP. ' + str(self.get('beginningPage'))
         if multiCite and len(auths) > 0:
-            return(tuple((Citation(a + valsStr, scopusMode = True) for a in auths)))
+            ret = (tuple((Citation(a + valsStr, scopusMode = True) for a in auths)))
         elif multiCite:
-            return Citation(valsStr, scopusMode = True),
+            ret = Citation(valsStr, scopusMode = True),
         else:
-            return Citation(valsStr, scopusMode = True)
+            ret = Citation(valsStr, scopusMode = True)
+        if multiCite:
+            rL = []
+            for c in ret:
+                if c.bad:
+                    c.year = self.get('year', 0)
+                    c.name = self.get('title', '').upper()
+                    c.journal = self.get("journal", '').upper()
+                rL.append(c)
+            return tuple(rL)
+        else:
+            if ret.bad:
+                ret.year = self.get('year', 0)
+                ret.name = self.get('title', '').upper()
+                ret.journal = self.get("journal", '').upper()
+            return ret
 
 firstQuotingRegex = re.compile(r'("")*"([^"]|"$)')
 innerQuotingRegex = re.compile(r'("")*"([^"|$])')

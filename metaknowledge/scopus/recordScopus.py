@@ -104,6 +104,50 @@ class ScopusRecord(ExtendedRecord):
         else:
             f.write(','.join(('"{}"'.format(self._fieldDict.get(k, '')) for k in scopusHeader)))
 
+    def createCitation(self, multiCite = False):
+        """Overwriting the general [citation creator](#Record.createCitation) to deal with scopus weirdness.
+
+        Creates a citation string, using the same format as other WOS citations, for the [Record](#Record.Record) by reading the relevant special tags (`'year'`, `'J9'`, `'volume'`, `'beginningPage'`, `'DOI'`) and using it to create a [`Citation`](#Citation.Citation) object.
+
+        # Parameters
+
+        _multiCite_ : `optional [bool]`
+
+        > Default `False`, if `True` a tuple of Citations is returned with each having a different one of the records authors as the author
+
+        # Returns
+
+        `Citation`
+
+        > A [`Citation`](#Citation.Citation) object containing a citation for the Record.
+        """
+        #Need to put the import here to avoid circular import issues
+        from ..citation import Citation
+        valsStr = ''
+        if multiCite:
+            auths = []
+            for auth in self.get("authorsShort", []):
+                auths.append(auth.replace(',', ''))
+        else:
+            if self.get("authorsShort", False):
+                valsStr += self['authorsShort'][0].replace(',', '') + ', '
+        if self.get("title", False):
+            valsStr += self.get('title') + ' '
+        if self.get("year", False):
+            valsStr += "({}) ".format(self.get('year'))
+        if self.get("journal", False):
+            valsStr += self.get('journal') + ', '
+        if self.get("volume", False):
+            valsStr += str(self.get('volume')) + ', '
+        if self.get("beginningPage", False):
+            valsStr += 'PP. ' + str(self.get('beginningPage'))
+        if multiCite and len(auths) > 0:
+            return(tuple((Citation(a + valsStr, scopusMode = True) for a in auths)))
+        elif multiCite:
+            return Citation(valsStr, scopusMode = True),
+        else:
+            return Citation(valsStr, scopusMode = True)
+
 firstQuotingRegex = re.compile(r'("")*"([^"]|"$)')
 innerQuotingRegex = re.compile(r'("")*"([^"|$])')
 

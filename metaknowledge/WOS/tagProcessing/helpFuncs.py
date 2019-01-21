@@ -10,12 +10,19 @@ def getMonth(s):
     Season ("%s") --- this gets coerced to use the first month of the given season
     Month Day Year ("%b %d %Y")
     Month Year ("%b %Y")
+    Year Month Day ("%Y %m %d")
     """
     monthOrSeason = s.split('-')[0].upper()
     if monthOrSeason in monthDict:
         return monthDict[monthOrSeason]
     else:
-        raise ValueError("Month format not recognized: " + s)
+        monthOrSeason = s.split('-')[1].upper()
+        if monthOrSeason.isdigit():
+            return monthOrSeason
+        else:
+            return monthDict[monthOrSeason]
+
+    raise ValueError("Month format not recognized: " + s)
 
 def makeBiDirectional(d):
     """

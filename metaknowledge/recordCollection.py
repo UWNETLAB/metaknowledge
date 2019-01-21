@@ -176,6 +176,19 @@ class RecordCollection(CollectionWithIDs):
         except BadRecord as e:
             raise e from None
 
+    def __add__(self, other):
+        self_name = '' if not hasattr(self, 'name') else self.name
+        other_name = '' if not hasattr(other, 'name') else other.name
+
+        new_col = metaknowledge.RecordCollection(name='{} {}'.format(self_name, other_name))
+        for rec in self:
+            new_col.add(rec)
+
+        for rec in other:
+            new_col.add(rec)
+
+        return new_col
+
     def dropNonJournals(self, ptVal = 'J', dropBad = True, invert = False):
         """Drops the non journal type `Records` from the collection, this is done by checking _ptVal_ against the PT tag
 

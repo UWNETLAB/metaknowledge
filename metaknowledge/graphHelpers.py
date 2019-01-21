@@ -229,7 +229,7 @@ def writeEdgeList(grph, name, extraInfo = True, allSameAttribute = False, _progB
             csvHeader = ['From'] +  ['To']
         count = 0
         PBar.updateVal(.01, "Opening file {}".format(name))
-        f = open(os.path.expanduser(os.path.abspath(name)), 'w')
+        f = open(os.path.expanduser(os.path.abspath(name)), 'w', newline = '')
         outFile = csv.DictWriter(f, csvHeader, delimiter = ',', quotechar = '"', quoting=csv.QUOTE_NONNUMERIC)
         outFile.writeheader()
         if extraInfo:
@@ -319,7 +319,7 @@ def writeNodeAttributeFile(grph, name, allSameAttribute = False, _progBar = None
             csvHeader = ['ID'] + list(extraAttribs)
         count = 0
         PBar.updateVal(.10, "Opening '{}'".format(name))
-        f = open(name, 'w')
+        f = open(name, 'w', newline = '')
         outFile = csv.DictWriter(f, csvHeader, delimiter = ',', quotechar = '"', quoting = csv.QUOTE_NONNUMERIC)
         outFile.writeheader()
         for n in grph.nodes(data = True):

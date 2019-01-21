@@ -176,6 +176,19 @@ class RecordCollection(CollectionWithIDs):
         except BadRecord as e:
             raise e from None
 
+    def __add__(self, other):
+        self_name = '' if not hasattr(self, 'name') else self.name
+        other_name = '' if not hasattr(other, 'name') else other.name
+
+        new_col = metaknowledge.RecordCollection(name='{} {}'.format(self_name, other_name))
+        for rec in self:
+            new_col.add(rec)
+
+        for rec in other:
+            new_col.add(rec)
+
+        return new_col
+
     def dropNonJournals(self, ptVal = 'J', dropBad = True, invert = False):
         """Drops the non journal type `Records` from the collection, this is done by checking _ptVal_ against the PT tag
 
@@ -309,7 +322,7 @@ class RecordCollection(CollectionWithIDs):
         if genderCounts:
             csvWriterFields += ['num-Male', 'num-Female', 'num-Unknown']
         if splitByTag is None:
-            f = open(baseFileName, mode = 'w', encoding = 'utf-8')
+            f = open(baseFileName, mode = 'w', encoding = 'utf-8', newline = '')
             csvWriter = csv.DictWriter(f, csvWriterFields, delimiter = csvDelimiter, quotechar = csvQuote, quoting=csv.QUOTE_ALL)
             csvWriter.writeheader()
         else:
@@ -344,7 +357,7 @@ class RecordCollection(CollectionWithIDs):
                         filesDict[sTag][1].writerow(recDict)
                     else:
                         fname = "{}-{}".format(sTag[:200], baseFileName)
-                        f = open(fname, mode = 'w', encoding = 'utf-8')
+                        f = open(fname, mode = 'w', encoding = 'utf-8', newline = '')
                         csvWriter = csv.DictWriter(f, csvWriterFields, delimiter = csvDelimiter, quotechar = csvQuote, quoting=csv.QUOTE_ALL)
                         csvWriter.writeheader()
                         csvWriter.writerow(recDict)
@@ -532,7 +545,7 @@ class RecordCollection(CollectionWithIDs):
 
             if outputFile is not None:
                 PBar.updateVal(.99, "Writing to file: {}".format(outputFile))
-                with open(outputFile, 'w') as f:
+                with open(outputFile, 'w', newline = '') as f:
                     writer = csv.DictWriter(f, ['year', 'word'])
                     for row in range(len(retDict['year'])):
                         writer.writerow({k : retDict[k][row] for k in retDict.keys()})
@@ -668,7 +681,7 @@ class RecordCollection(CollectionWithIDs):
 
             if outputFile is not None:
                 PBar.updateVal(.99, "Writing to file: {}".format(outputFile))
-                with open(outputFile, 'w') as f:
+                with open(outputFile, 'w', newline = '') as f:
                     fieldNames = list(retDict.keys())
                     fieldNames.remove('id')
                     fieldNames.remove('title')

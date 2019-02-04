@@ -11,7 +11,7 @@ from .tagProcessing.tagFunctions import proQuestTagToFunc
 class ProQuestRecord(ExtendedRecord):
     """Class for full ProQuest entries.
 
-    This class is an [`ExtendedRecord`](#metaknowledge.ExtendedRecord) capable of generating its own id number. You should not create them directly, but instead use [`proQuestParser()`](#metaknowledge.proQuestParser) on a ProQuest file.
+    This class is an [ExtendedRecord](./ExtendedRecord.html#metaknowledge.ExtendedRecord) capable of generating its own id number. You should not create them directly, but instead use [proQuestParser()](../modules/proquest.html#metaknowledge.proquest.proQuestHandlers.proQuestParser) on a ProQuest file.
     """
     def __init__(self, inRecord, recNum = None, sFile = "", sLine = 0):
         bad = False
@@ -68,7 +68,7 @@ class ProQuestRecord(ExtendedRecord):
         raise RecordsNotCompatible("ProQuest's data format cannot be written back to file. You can still write out a csv with writeCSV().")
 
 def proQuestRecordParser(enRecordFile, recNum):
-    """The parser [`ProQuestRecords`](#metaknowledge.ProQuestRecord) use. This takes an entry from [`proQuestParser()`](#metaknowledge.proQuestParser) and parses it a part of the creation of a `ProQuestRecord`.
+    """The parser [ProQuestRecords](../classes/ProQuestRecord.html#metaknowledge.proquest.ProQuestRecord) use. This takes an entry from [proQuestParser()](#metaknowledge.proquest.proQuestHandlers.proQuestParser) and parses it a part of the creation of a `ProQuestRecord`.
 
     # Parameters
 

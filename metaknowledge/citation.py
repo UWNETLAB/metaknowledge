@@ -36,7 +36,7 @@ class Citation(collections.abc.Hashable):
 
     # Customizations
 
-    Citation's hashing and equality checking are based on [`ID()`](#Citation.ID) and use the values of `author`, `year` and `journal`.
+    Citation's hashing and equality checking are based on [ID()](#metaknowledge.citation.Citation.ID) and use the values of `author`, `year` and `journal`.
 
     When converted to a string a Citation will return the original string.
 
@@ -44,13 +44,13 @@ class Citation(collections.abc.Hashable):
 
     As noted above, citations are considered to be divided into six distinct fields (`Author`, `Year`, `Journal`, `Volume`, `Page` and `DOI`) with a seventh `misc` for anything not in those. Records thus have an attribute with a name corresponding to each `author`, `year`, `journal`, `V`, `P`, `DOI` and `misc` respectively. These are created if there is anything in the field. So a `Citation` created from the string: `'Nunez R., 1998, MATH COGNITION'` would have `author`, `year` and `journal` defined. While one from `'Nunez R.'` would have only the attribute `misc`.
 
-    If the parsing of a citation string fails the attribute `bad` is set to `True` and the attribute `error` is created to contain said error, which is a [BadCitation](#metaknowledge.BadCitation) object. If no errors occur `bad` is `False`.
+    If the parsing of a citation string fails the attribute `bad` is set to `True` and the attribute `error` is created to contain said error, which is a [BadCitation](../exceptions/index.html#metaknowledge.mkExceptions.BadCitation) object. If no errors occur `bad` is `False`.
 
     The attribute `original` is the unmodified string (_cite_) given to create the Citation, it can also be accessed by converting to a string, e.g. with `str()`.
 
     # \_\_Init\_\_
 
-    Citations can be created by [Records](#metaknowledge.Record) or by giving the initializer a string containing a WOS style citation.
+    Citations can be created by [Records](./Record.html#metaknowledge.Record) or by giving the initializer a string containing a WOS style citation.
 
     # Parameters
 
@@ -173,7 +173,7 @@ class Citation(collections.abc.Hashable):
     #@profile
     def __hash__(self):
         """
-        A hash for Citation that should be equal to the hash of other citations that are equal to it. Based on the values returned by [`ID()`](#Citation.ID).
+        A hash for Citation that should be equal to the hash of other citations that are equal to it. Based on the values returned by [ID()](#metaknowledge.citation.Citation.ID).
         """
         try:
             return self._hash
@@ -207,7 +207,7 @@ class Citation(collections.abc.Hashable):
 
     def ID(self):
         """
-        Returns all of `author`, `year` and `journal` available separated by `' ,'`. It is for shortening labels when creating networks as the resultant strings are often unique. [**Extra**()](#Citation.Extra) gets everything not returned by **ID**().
+        Returns all of `author`, `year` and `journal` available separated by `' ,'`. It is for shortening labels when creating networks as the resultant strings are often unique. [Extra()](#metaknowledge.citation.Citation.Extra) gets everything not returned by **ID**().
 
         This is also used for hashing and equality checking.
 
@@ -221,7 +221,7 @@ class Citation(collections.abc.Hashable):
 
     def allButDOI(self):
         """
-        Returns a string of the normalized values from the Citation excluding the DOI number. Equivalent to getting the ID with [**ID**()](#Citation.ID) then appending the extra values from [**Extra**()](#Citation.Extra) and then removing the substring containing the DOI number.
+        Returns a string of the normalized values from the Citation excluding the DOI number. Equivalent to getting the ID with [ID()](#metaknowledge.citation.Citation.ID) then appending the extra values from [Extra()](#metaknowledge.citation.Citation.Extra) and then removing the substring containing the DOI number.
 
         # Returns
 
@@ -242,7 +242,7 @@ class Citation(collections.abc.Hashable):
 
     def Extra(self):
         """
-        Returns any `V`, `P`, `DOI` or `misc` values as a string. These are all the values not returned by [**ID**()](#Citation.ID), they are separated by `' ,'`.
+        Returns any `V`, `P`, `DOI` or `misc` values as a string. These are all the values not returned by [ID()](#metaknowledge.citation.Citation.ID), they are separated by `' ,'`.
 
         # Returns
 
@@ -263,9 +263,9 @@ class Citation(collections.abc.Hashable):
     def isJournal(self, dbname = abrevDBname, manualDB = manualDBname, returnDict ='both', checkIfExcluded = False):
         """Returns `True` if the `Citation`'s `journal` field is a journal abbreviation from the WOS listing found at [http://images.webofknowledge.com/WOK46/help/WOS/A_abrvjt.html](http://images.webofknowledge.com/WOK46/help/WOS/A_abrvjt.html), i.e. checks if the citation is citing a journal.
 
-        **Note**: Requires the [j9Abbreviations](#journalAbbreviations.getj9dict) database file and will raise an error if it cannot be found.
+        **Note**: Requires the [j9Abbreviations](../modules/journalAbbreviations.html#metaknowledge.journalAbbreviations.backend.getj9dict) database file and will raise an error if it cannot be found.
 
-        **Note**: All parameters are used for getting the data base with  [**getj9dict**()](#journalAbbreviations.getj9dict).
+        **Note**: All parameters are used for getting the data base with [getj9dict](../modules/journalAbbreviations.html#metaknowledge.journalAbbreviations.backend.getj9dict).
 
         # Parameters
 
@@ -311,9 +311,9 @@ class Citation(collections.abc.Hashable):
                 return False
 
     def FullJournalName(self):
-        """Returns the full name of the Citation's journal field. Requires the [j9Abbreviations](#journalAbbreviations.getj9dict) database file.
+        """Returns the full name of the Citation's journal field. Requires the [j9Abbreviations](../modules/journalAbbreviations.html#metaknowledge.journalAbbreviations.backend.getj9dict) database file.
 
-        **Note**: Requires the [j9Abbreviations](#journalAbbreviations.getj9dict) database file and will raise an error if it cannot be found.
+        **Note**: Requires the [j9Abbreviations](../modules/journalAbbreviations.html#metaknowledge.journalAbbreviations.backend.getj9dict) database file and will raise an error if it cannot be found.
 
         # Returns
 
@@ -330,9 +330,9 @@ class Citation(collections.abc.Hashable):
             return None
 
     def addToDB(self, manualName = None, manualDB = manualDBname, invert = False):
-        """Adds the journal of this Citation to the user created database of journals. This will cause [isJournal()](#Citation.isJournal) to return `True` for this Citation and all others with its `journal`.
+        """Adds the journal of this Citation to the user created database of journals. This will cause [isJournal()](#metaknowledge.citation.Citation.isJournal) to return `True` for this Citation and all others with its `journal`.
 
-        **Note**: Requires the [j9Abbreviations](#journalAbbreviations.getj9dict) database file and will raise an error if it cannot be found.
+        **Note**: Requires the [j9Abbreviations](../modules/journalAbbreviations.html#metaknowledge.journalAbbreviations.backend.getj9dict) database file and will raise an error if it cannot be found.
 
         # Parameters
 

@@ -34,9 +34,9 @@ def isWOSFile(infile, checkedLines = 3):
         return False
 
 def wosParser(isifile):
-    """This is function that is used to create [`RecordCollections`](#metaknowledge.RecordCollection) from files.
+    """This is a function that is used to create [RecordCollections](../classes/RecordCollection.html#metaknowledge.RecordCollection) from files.
 
-    **wosParser**() reads the file given by the path isifile, checks that the header is correct then reads until it reaches EF. All WOS records it encounters are parsed with [**recordParser**()](#metaknowledge.recordParser) and converted into [`Records`](#metaknowledge.Record). A list of these `Records` is returned.
+    **wosParser**() reads the file given by the path isifile, checks that the header is correct then reads until it reaches EF. All WOS records it encounters are parsed with [recordParser()](#metaknowledge.WOS.recordWOS.recordParser) and converted into [Records](../classes/Record.html#metaknowledge.Record). A list of these `Records` is returned.
 
     `BadWOSFile` is raised if an issue is found with the file.
 

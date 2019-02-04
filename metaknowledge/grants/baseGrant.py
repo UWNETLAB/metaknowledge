@@ -129,7 +129,7 @@ def csvAndLinesReader(enumeratedFile, *csvArgs, **csvKwargs):
         yield currentData['currentLineNum'], currentData['currentLineString'], row
 
 class FallbackGrant(Grant):
-    """A subclass of [`Grant`](#metaknowledge.grant), it has the same attributes and is returned from the fall back constructor for grants.
+    """A subclass of [Grant](./grants.html#metaknowledge.grants.Grant), it has the same attributes and is returned from the fall back constructor for grants.
     """
     #Making it a subclass so that Grant is never used raw
     #Also make interface simpler

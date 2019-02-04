@@ -27,11 +27,11 @@ import metaknowledge
 class RecordCollection(CollectionWithIDs):
     """A container for a large number of indivual records.
 
-    `RecordCollection` provides ways of creating [`Records`](#Record.Record) from an isi file, string, list of records or directory containing isi files.
+    `RecordCollection` provides ways of creating [Records](./Record.html#metaknowledge.Record) from an isi file, string, list of records or directory containing isi files.
 
     When being created if there are issues the Record collection will be declared bad, `bad` wil be set to `False`, it will then mostly return `None` or False. The attribute `error` contains the exception that occurred.
 
-    They also possess an attribute `name` also accessed accessed with **__repr__**(), this is used to auto generate the names of files and can be set at creation, note though that any operations that modify the RecordCollection's contents will update the name to include what occurred.
+    They also possess an attribute `name` also accessed with `__repr__()`, this is used to auto generate the names of files and can be set at creation, note though that any operations that modify the RecordCollection's contents will update the name to include what occurred.
 
     # Customizations
 
@@ -63,7 +63,7 @@ class RecordCollection(CollectionWithIDs):
 
     > Default `False`, if `True` and the _inCollection_ is a directory (a string giving the path to a directory) then the initialized `RecordCollection` will be saved in the directory as a Python pickle with the suffix `'.mkDirCache'`. Then if the `RecordCollection` is initialized a second time it will be recovered from the file, which is much faster than reprising every file in the directory.
 
-    > _metaknowledge_ saves the names of the parsed files as well as their last modification times and will check these when recreating the `RecordCollection`, so modifying existing files or adding new ones will result in the entire directory being reanalyzed and a new cache file being created. The extension given to **__init__**() is taken into account as well and each suffix is given its own cache.
+    > _metaknowledge_ saves the names of the parsed files as well as their last modification times and will check these when recreating the `RecordCollection`, so modifying existing files or adding new ones will result in the entire directory being reanalyzed and a new cache file being created. The extension given to `__init__()` is taken into account as well and each suffix is given its own cache.
 
     > **Note** The pickle allows for arbitrary python code execution so only use caches that you trust.
     """
@@ -263,7 +263,7 @@ class RecordCollection(CollectionWithIDs):
 
         > Default `None`, if an iterable (list, tuple, etc) only the tags in _onlyTheseTags_ will be used, if not given then all tags in the records are given.
 
-        > If you want to use all known tags pass [`metaknowledge.knownTagsList`](#metaknowledge.tagProcessing).
+        > If you want to use all known tags pass [metaknowledge.knownTagsList](./ExtendedRecord.html#metaknowledge.ExtendedRecord.tagProcessingFunc).
 
         _numAuthors_ : `optional [bool]`
 
@@ -706,7 +706,7 @@ class RecordCollection(CollectionWithIDs):
 
         > Default `None`, if an iterable (list, tuple, etc) only the tags in _onlyTheseTags_ will be used, if not given then all tags in the records are given.
 
-        > If you want to use all known tags pass [`metaknowledge.knownTagsList`](#metaknowledge.tagProcessing).
+        > If you want to use all known tags pass [metaknowledge.knownTagsList](./ExtendedRecord.html#metaknowledge.ExtendedRecord.tagProcessingFunc).
 
         _longNames_ : `optional [bool]`
 
@@ -952,7 +952,7 @@ class RecordCollection(CollectionWithIDs):
 
         > For each of the selected tags an attribute will be added to the node using the values of those tags on the first `Record` encountered. **Warning** iterating over `RecordCollection` objects is not deterministic the first `Record` will not always be same between runs. The node will be given attributes with the names of the WOS tags for each of the selected tags. The attributes will contain strings of containing the values (with commas removed), if multiple values are encountered they will be comma separated.
 
-        > Note: _detailedInfo_ is not identical to the _detailedCore_ argument of [`Recordcollection.networkCoCitation()`](#RecordCollection.networkCoCitation) or [`Recordcollection.networkCitation()`](#RecordCollection.networkCitation)
+        > Note: _detailedInfo_ is not identical to the _detailedCore_ argument of [Recordcollection.networkCoCitation()](#metaknowledge.RecordCollection.networkCoCitation) or [Recordcollection.networkCitation()](#metaknowledge.RecordCollection.networkCitation)
 
         _weighted_ : `optional [bool]`
 
@@ -1079,7 +1079,7 @@ class RecordCollection(CollectionWithIDs):
 
         _nodeType_ : `optional [str]`
 
-        > One of `"full"`, `"original"`, `"author"`, `"journal"` or `"year"`. Specifies the value of the nodes in the graph. The default `"full"` causes the citations to be compared holistically using the [`metaknowledge.Citation`](#Citation.Citation) builtin comparison operators. `"original"` uses the raw original strings of the citations. While `"author"`, `"journal"` and `"year"` each use the author, journal and year respectively.
+        > One of `"full"`, `"original"`, `"author"`, `"journal"` or `"year"`. Specifies the value of the nodes in the graph. The default `"full"` causes the citations to be compared holistically using the [metaknowledge.Citation](./Citation.html#metaknowledge.citation.Citation) builtin comparison operators. `"original"` uses the raw original strings of the citations. While `"author"`, `"journal"` and `"year"` each use the author, journal and year respectively.
 
         _dropAnon_ : `optional [bool]`
 
@@ -1117,7 +1117,7 @@ class RecordCollection(CollectionWithIDs):
 
         > The resultant string is the values of each tag, with commas removed, seperated by `', '`, just like the info given by non-core Citations. Note that for tags like `'AF'` that return lists only the first entry in the list will be used. Also a second attribute is created for all nodes called inCore wich is a boolean describing if the node is in the core or not.
 
-        > Note: _detailedCore_  is not identical to the _detailedInfo_ argument of [`Recordcollection.networkCoAuthor()`](#RecordCollection.networkCoAuthor)
+        > Note: _detailedCore_  is not identical to the _detailedInfo_ argument of [Recordcollection.networkCoAuthor()](#metaknowledge.RecordCollection.networkCoAuthor)
 
         _coreOnly_ : `optional [bool]`
 
@@ -1183,7 +1183,7 @@ class RecordCollection(CollectionWithIDs):
 
         _nodeType_ : `optional [str]`
 
-        > One of `"full"`, `"original"`, `"author"`, `"journal"` or `"year"`. Specifies the value of the nodes in the graph. The default `"full"` causes the citations to be compared holistically using the [`metaknowledge.Citation`](#Citation.Citation) builtin comparison operators. `"original"` uses the raw original strings of the citations. While `"author"`, `"journal"` and `"year"` each use the author, journal and year respectively.
+        > One of `"full"`, `"original"`, `"author"`, `"journal"` or `"year"`. Specifies the value of the nodes in the graph. The default `"full"` causes the citations to be compared holistically using the [metaknowledge.Citation](./Citation.html#metaknowledge.citation.Citation) builtin comparison operators. `"original"` uses the raw original strings of the citations. While `"author"`, `"journal"` and `"year"` each use the author, journal and year respectively.
 
         _dropAnon_ : `optional [bool]`
 
@@ -1225,7 +1225,7 @@ class RecordCollection(CollectionWithIDs):
 
         > The resultant string is the values of each tag, with commas removed, seperated by `', '`, just like the info given by non-core Citations. Note that for tags like `'AF'` that return lists only the first entry in the list will be used. Also a second attribute is created for all nodes called inCore wich is a boolean describing if the node is in the core or not.
 
-        > Note: _detailedCore_  is not identical to the _detailedInfo_ argument of [`Recordcollection.networkCoAuthor()`](#RecordCollection.networkCoAuthor)
+        > Note: _detailedCore_  is not identical to the _detailedInfo_ argument of [Recordcollection.networkCoAuthor()](#metaknowledge.RecordCollection.networkCoAuthor)
 
         _coreOnly_ : `optional [bool]`
 

@@ -51,7 +51,7 @@ class cacheError(mkException):
     pass
 
 class BadWOSRecord(BadRecord):
-    """Exception thrown by the [record parser](#metaknowledge.recordParser) to indicate a mis-formated record. This occurs when some component of the record does not parse. The messages will be any of:
+    """Exception thrown by the [record parser](../modules/WOS.html#metaknowledge.WOS.recordWOS.recordParser) to indicate a mis-formated record. This occurs when some component of the record does not parse. The messages will be any of:
 
         * _Missing field on line (line Number):(line)_, which indicates a line was to short, there should have been a tag followed by information
 

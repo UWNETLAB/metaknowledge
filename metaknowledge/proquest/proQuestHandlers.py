@@ -42,13 +42,13 @@ def isProQuestFile(infile, checkedLines = 2):
 def proQuestParser(proFile):
     """Parses a ProQuest file, _proFile_, to extract the individual entries.
 
-    A ProQuest file has three sections, first a list of the contained entries, second the full metadata and finally a bibtex formatted entry for the record. This parser only uses the first two as the bibtex contains no information the second section does not. Also, the first section is only used to verify the second section. The returned [`ProQuestRecords`](#metaknowledge.ProQuestRecord) contains the data from the second section, with the same key strings as ProQuest uses and the unlabeled sections are called in order, `'Name'`, `'Author'` and `'url'`.
+    A ProQuest file has three sections, first a list of the contained entries, second the full metadata and finally a bibtex formatted entry for the record. This parser only uses the first two as the bibtex contains no information the second section does not. Also, the first section is only used to verify the second section. The returned [ProQuestRecord](../classes/ProQuestRecord.html#metaknowledge.proquest.ProQuestRecord) contains the data from the second section, with the same key strings as ProQuest uses and the unlabeled sections are called in order, `'Name'`, `'Author'` and `'url'`.
 
     # Parameters
 
     _proFile_ : `str`
 
-    > A path to a valid ProQuest file, use [`isProQuestFile`](#metaknowledge.isProQuestFile) to verify
+    > A path to a valid ProQuest file, use [isProQuestFile](#metaknowledge.proquest.proQuestHandlers.isProQuestFile) to verify
 
     # Returns
 

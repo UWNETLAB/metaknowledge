@@ -18,7 +18,7 @@ tagsAndNameSetUpper = set(([c.upper() for c in tagsAndNameSet]))
 knownTagsList = list(tagToFullDict.keys()) #list of all the known tags
 
 def tagToFull(tag):
-    """A wrapper for [`tagToFullDict`](#tagProcessing.tagProcessing) it maps 2 character tags to their full names.
+    """A wrapper for `tagToFullDict`, it maps 2 character tags to their full names.
 
     # Parameters
 

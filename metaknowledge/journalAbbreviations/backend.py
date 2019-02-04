@@ -199,7 +199,7 @@ def addToDB(abbr = None, dbname = manualDBname):
             raise TypeError("abbr must be a str or dict.")
 
 def excludeFromDB(abbr = None, dbname = manualDBname):
-    """Marks _abbr_ to be excluded the database of journals. The database is kept separate from the one scraped from WOS, this supersedes it. The database by default is stored with the WOS one and the name is given by `metaknowledge.journalAbbreviations.manualDBname`. To create an empty database run [**addToDB**()](#journalAbbreviations.addToDB) without an _abbr_ argument.
+    """Marks _abbr_ to be excluded the database of journals. The database is kept separate from the one scraped from WOS, this supersedes it. The database by default is stored with the WOS one and the name is given by `metaknowledge.journalAbbreviations.manualDBname`. To create an empty database run [addToDB()](#metaknowledge.journalAbbreviations.backend.addToDB) without an _abbr_ argument.
 
     # Parameters
 

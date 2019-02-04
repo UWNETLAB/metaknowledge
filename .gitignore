@@ -1,5 +1,6 @@
 #isi Files and logins
 *.txt
+!requirements.txt
 *.sh
 *.graphml
 *.csv
@@ -84,6 +85,8 @@ coverage.xml
 
 # Sphinx documentation
 docs/_build/
+docs/_static/
+docs/_templates
 
 # PyBuilder
 target/

@@ -44,15 +44,15 @@ def isScopusFile(infile, checkedLines = 2, maxHeaderDiff = 3):
         return False
 
 def scopusParser(scopusFile):
-    """Parses a scopus file, _scopusFile_, to extract the individual lines as [`ScopusRecords`](#metaknowledge.ScopusRecord).
+    """Parses a scopus file, _scopusFile_, to extract the individual lines as [ScopusRecords](../classes/ScopusRecord.html#metaknowledge.scopus.ScopusRecord).
 
-    A Scopus file is a csv (Comma-separated values) with a complete header, see [`scopus.scopusHeader`](#metaknowledge.scopus) for the entries, and each line after it containing a record's entry. The string valued entries are quoted with double quotes which means double quotes inside them can cause issues, see [`scopusRecordParser()`](#metaknowledge.scopusRecordParser) for more information.
+    A Scopus file is a csv (Comma-separated values) with a complete header, see [`scopus.scopusHeader`](#metaknowledge.scopus) for the entries, and each line after it containing a record's entry. The string valued entries are quoted with double quotes which means double quotes inside them can cause issues, see [scopusRecordParser()](#metaknowledge.scopus.recordScopus.scopusRecordParser) for more information.
 
     # Parameters
 
     _scopusFile_ : `str`
 
-    > A path to a valid scopus file, use [`isScopusFile()`](#metaknowledge.isScopusFile) to verify
+    > A path to a valid scopus file, use [isScopusFile()](#metaknowledge.scopus.scopusHandlers.isScopusFile) to verify
 
     # Returns
 

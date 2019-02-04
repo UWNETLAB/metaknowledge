@@ -407,11 +407,11 @@ class Collection(collections.abc.MutableSet, collections.abc.Hashable):
             pickle.dump((dat, self), f)
 
 class CollectionWithIDs(Collection):
-    """A [`Collection`](#metaknowledge.Collection) with a few extra methods that assume all the contained items have an id attribute and a bad attribute, e.g. [`Records`](#metaknowledge.Record) or [`Grants`](#metaknowledge.Grant).
+    """A [Collection](./Collection.html#metaknowledge.Collection) with a few extra methods that assume all the contained items have an id attribute and a bad attribute, e.g. [Records](./Record.html#metaknowledge.Record) or [Grants](./Grant.html#metaknowledge.grants.Grant).
 
     \_\_Init\_\_
 
-    As `CollectionWithIDs` is mostly meant to be base for other classes all but one of the arguments in the `__init__` are not optional and the optional one is not used. The `__init__()` function is the same as a [`Collection`](#metaknowledge.Collection).
+    As `CollectionWithIDs` is mostly meant to be base for other classes all but one of the arguments in the `__init__` are not optional and the optional one is not used. The `__init__()` function is the same as a [Collection](./Collection.html#metaknowledge.Collection).
     """
     def __init__(self, inSet, allowedTypes, collectedTypes, name, bad, errors, quietStart = False):
 
@@ -554,7 +554,7 @@ class CollectionWithIDs(Collection):
 
         # Parameters
 
-        _*tags_ : `str, str, ...`
+        _tags_ : `str, str, ...`
 
         > Any number of tag strings to be made into columns in the output table
 
@@ -806,13 +806,13 @@ class CollectionWithIDs(Collection):
         return occurenceDict
 
     def networkMultiLevel(self, *modes, nodeCount = True, edgeWeight = True, stemmer = None, edgeAttribute = None, nodeAttribute = None, _networkTypeString = 'n-level network'):
-        """Creates a network of the objects found by any number of tags _modes_, with edges between all co-occurring values. IF you only want edges between co-occurring values from different tags use [`networkMultiMode()`](#metaknowledge.networkMultiMode).
+        """Creates a network of the objects found by any number of tags _modes_, with edges between all co-occurring values. IF you only want edges between co-occurring values from different tags use [networkMultiMode()](#metaknowledge.CollectionWithIDs.networkMultiMode).
 
         A **networkMultiLevel**() looks are each entry in the collection and extracts its values for the tag given by each of the _modes_, e.g. the `'authorsFull'` tag. Then if multiple are returned an edge is created between them. So in the case of the author tag `'authorsFull'` a co-authorship network is created. Then for each other tag the entries are also added and edges between the first tag's node and theirs are created.
 
         The number of times each object occurs is count if _nodeCount_ is `True` and the edges count the number of co-occurrences if _edgeWeight_ is `True`. Both are`True` by default.
 
-        **Note** Do not use this for the construction of co-citation networks use [Recordcollection.networkCoCitation()](#RecordCollection.networkCoCitation) it is more accurate and has more options.
+        **Note** Do not use this for the construction of co-citation networks use [Recordcollection.networkCoCitation()](./classes/RecordCollection.html#metaknowledge.RecordCollection.networkCoCitation) it is more accurate and has more options.
 
         # Parameters
 
@@ -964,13 +964,13 @@ class CollectionWithIDs(Collection):
 
 
     def networkOneMode(self, mode, nodeCount = True, edgeWeight = True, stemmer = None, edgeAttribute = None, nodeAttribute = None):
-        """Creates a network of the objects found by one tag _mode_. This is the same as [`networkMultiLevel()`](#metaknowledge.networkMultiLevel) with only one tag.
+        """Creates a network of the objects found by one tag _mode_. This is the same as [networkMultiLevel()](#metaknowledge.CollectionWithIDs.networkMultiLevel) with only one tag.
 
         A **networkOneMode**() looks are each entry in the collection and extracts its values for the tag given by _mode_, e.g. the `'authorsFull'` tag. Then if multiple are returned an edge is created between them. So in the case of the author tag `'authorsFull'` a co-authorship network is created.
 
         The number of times each object occurs is count if _nodeCount_ is `True` and the edges count the number of co-occurrences if _edgeWeight_ is `True`. Both are`True` by default.
 
-        **Note** Do not use this for the construction of co-citation networks use [Recordcollection.networkCoCitation()](#RecordCollection.networkCoCitation) it is more accurate and has more options.
+        **Note** Do not use this for the construction of co-citation networks use [Recordcollection.networkCoCitation()](./classes/RecordCollection.html#metaknowledge.RecordCollection.networkCoCitation) it is more accurate and has more options.
 
         # Parameters
 

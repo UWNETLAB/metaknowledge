@@ -506,7 +506,7 @@ def citations(val):
     """
     # The CR Tag
 
-    extracts a list of all the citations in the record, the citations are the [metaknowledge.Citation](#Citation.Citation) class.
+    extracts a list of all the citations in the record, the citations are the [metaknowledge.Citation](../classes/Citation.html#metaknowledge.citation.Citation) class.
 
     # Parameters
 

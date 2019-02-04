@@ -274,11 +274,11 @@ class ExtendedRecord(Record, metaclass = abc.ABCMeta):
 
     # File Handling fields
 
-    The two other required methods `encoding` and `writeRecord` define how the records can be rewritten to a file. `encoding` is should return a string giving the encoding python would use, e.g. `'utf-8'` or `'latin-1'`. This is the same encoding that the files written by `writeRecord` should have, `writeRecord` when called should write the original record to the provided open file, _infile_. The opening, closing, header and footer of the file will be handled by `RecordCollection`'s `writeFile` function which should me modified accordingly. If the order of the fields in a record is important you can use a [`collections.OrderedDict`](https://docs.python.org/3/library/collections.html#collections.OrderedDict) for _fieldDict_.
+    The two other required methods `encoding` and `writeRecord` define how the records can be rewritten to a file. `encoding` is should return a string giving the encoding python would use, e.g. `'utf-8'` or `'latin-1'`. This is the same encoding that the files written by `writeRecord` should have, `writeRecord` when called should write the original record to the provided open file, _infile_. The opening, closing, header and footer of the file will be handled by `RecordCollection`'s `writeFile` function which should me modified accordingly. If the order of the fields in a record is important you can use a [collections.OrderedDict](https://docs.python.org/3/library/collections.html#collections.OrderedDict) for _fieldDict_.
 
     # \_\_Init\_\_
 
-    The `__init__` of `ExtendedRecord` takes the same arguments as [`Record`](#Record.Record)
+    The `__init__` of `ExtendedRecord` takes the same arguments as [Record](./Record.html#metaknowledge.Record)
     """
     #Overwriting the Record attribute
     _documented = ['encoding', 'getAltName', 'specialFuncs', 'tagProcessingFunc', 'writeRecord']
@@ -508,7 +508,7 @@ class ExtendedRecord(Record, metaclass = abc.ABCMeta):
 
         # Returns
 
-        `fucntion`
+        `function`
 
         > The function to process the raw tag
         """
@@ -613,7 +613,7 @@ class ExtendedRecord(Record, metaclass = abc.ABCMeta):
         return retDict
 
     def createCitation(self, multiCite = False):
-        """Creates a citation string, using the same format as other WOS citations, for the [Record](#Record.Record) by reading the relevant special tags (`'year'`, `'J9'`, `'volume'`, `'beginningPage'`, `'DOI'`) and using it to create a [`Citation`](#Citation.Citation) object.
+        """Creates a citation string, using the same format as other WOS citations, for the [Record](./Record.html#metaknowledge.Record) by reading the relevant special tags (`'year'`, `'J9'`, `'volume'`, `'beginningPage'`, `'DOI'`) and using it to create a [Citation](./Citation.html#metaknowledge.citation.Citation) object.
 
         # Parameters
 
@@ -625,7 +625,7 @@ class ExtendedRecord(Record, metaclass = abc.ABCMeta):
 
         `Citation`
 
-        > A [`Citation`](#Citation.Citation) object containing a citation for the Record.
+        > A [Citation](./Citation.html#metaknowledge.citation.Citation) object containing a citation for the Record.
         """
         #Need to put the import here to avoid circular import issues
         from .citation import Citation

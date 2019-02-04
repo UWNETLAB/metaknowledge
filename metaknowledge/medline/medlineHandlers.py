@@ -36,7 +36,7 @@ def isMedlineFile(infile, checkedLines = 2):
         return False
 
 def medlineParser(pubFile):
-    """Parses a medline file, _pubFile_, to extract the individual entries as [`MedlineRecords`](#metaknowledge.MedlineRecord).
+    """Parses a medline file, _pubFile_, to extract the individual entries as [MedlineRecords](#metaknowledge.medline.recordMedline.MedlineRecord).
 
     A medline file is a series of entries, each entry is a series of tags. A tag is a 2 to 4 character string each tag is padded with spaces on the left to make it 4 characters which is followed by a dash and a space (`'- '`). Everything after the tag and on all lines after it not starting with a tag is considered associated with the tag. Each entry's first tag is `PMID`, so a first line looks something like `PMID- 26524502`. Entries end with a single blank line.
 
@@ -44,7 +44,7 @@ def medlineParser(pubFile):
 
     _pubFile_ : `str`
 
-    > A path to a valid medline file, use [`isMedlineFile`](#metaknowledge.isMedlineFile) to verify
+    > A path to a valid medline file, use [isMedlineFile](#metaknowledge.medline.medlineHandlers.isMedlineFile) to verify
 
     # Returns
 

@@ -11,7 +11,7 @@ import metaknowledge
 def readGraph(edgeList, nodeList = None, directed = False, idKey = 'ID', eSource = 'From', eDest = 'To'):
     """Reads the files given by _edgeList_ and _nodeList_ and creates a networkx graph for the files.
 
-    This is designed only for the files produced by metaknowledge and is meant to be the reverse of [writeGraph()](#metaknowledge.writeGraph), if this does not produce the desired results the networkx builtin [networkx.read_edgelist()](https://networkx.github.io/documentation/networkx-1.10/reference/generated/networkx.readwrite.edgelist.read_edgelist.html) could be tried as it is aimed at a more general usage.
+    This is designed only for the files produced by metaknowledge and is meant to be the reverse of [writeGraph()](#metaknowledge.graphHelpers.writeGraph), if this does not produce the desired results the networkx builtin [networkx.read_edgelist()](https://networkx.github.io/documentation/networkx-1.10/reference/generated/networkx.readwrite.edgelist.read_edgelist.html) could be tried as it is aimed at a more general usage.
 
     The read edge list format assumes the column named _eSource_ (default `'From'`) is the source node, then the column _eDest_ (default `'To'`) givens the destination and all other columns are attributes of the edges, e.g. weight.
 
@@ -102,7 +102,7 @@ def writeGraph(grph, name, edgeInfo = True, typing = False, suffix = 'csv', over
 
     Both files are csv's with comma delimiters and double quote quoting characters. The edge list has two columns for the source and destination of the edge, `'From'` and `'To'` respectively, then, if _edgeInfo_ is `True`, for each attribute of the node another column is created. The node list has one column call "ID" with the node ids used by networkx and all other columns are the node attributes.
 
-    To read back these files use [readGraph()](#metaknowledge.readGraph) and to write only one type of lsit use [writeEdgeList()](#metaknowledge.writeEdgeList) or [writeNodeAttributeFile()](#metaknowledge.writeNodeAttributeFile).
+    To read back these files use [readGraph()](#metaknowledge.graphHelpers.readGraph) and to write only one type of lsit use [writeEdgeList()](#metaknowledge.graphHelpers.writeEdgeList) or [writeNodeAttributeFile()](#metaknowledge.graphHelpers.writeNodeAttributeFile).
 
     **Warning**: this function will overwrite files, if they are in the way of the output, to prevent this set _overwrite_ to `False`
 
@@ -342,7 +342,7 @@ def writeNodeAttributeFile(grph, name, allSameAttribute = False, _progBar = None
             PBar.finish("Done node attribute list: {}, {} nodes written.".format(name, count))
 
 def writeTnetFile(grph, name, modeNameString, weighted = False, sourceMode = None, timeString = None, nodeIndexString = 'tnet-ID', weightString = 'weight'):
-    """Writes an edge list designed for reading by the _R_ package [_tnet_](https://toreopsahl.com/tnet/).
+    """Writes an edge list designed for reading by the _R_ package [tnet](https://toreopsahl.com/tnet/).
 
     The _networkx_ graph provided must be a pure two-mode network, the modes must be 2 different values for the node attribute accessed by _modeNameString_ and all edges must be between different node types. Each node will be given an integer id, stored in the attribute given by _nodeIndexString_, these ids are then written to the file as the endpoints of the edges. Unless _sourceMode_ is given which mode is the source (first column) and which the target (second column) is random.
 

@@ -13,7 +13,7 @@ from .tagProcessing.specialFunctions import medlineSpecialTagToFunc
 class MedlineRecord(ExtendedRecord):
     """Class for full Medline(Pubmed) entries.
 
-    This class is an [`ExtendedRecord`](#metaknowledge.ExtendedRecord) capable of generating its own id number. You should not create them directly, but instead use [`medlineParser()`](#metaknowledge.medlineParser) on a medline file.
+    This class is an [ExtendedRecord](./ExtendedRecord.html#metaknowledge.ExtendedRecord) capable of generating its own id number. You should not create them directly, but instead use [medlineParser()](../modules/medline.html#metaknowledge.medline.medlineHandlers.medlineParser) on a medline file.
     """
     def __init__(self, inRecord, sFile = "", sLine = 0):
         bad = False
@@ -88,7 +88,7 @@ class MedlineRecord(ExtendedRecord):
                                 f.write(authVal)
 
 def medlineRecordParser(record):
-    """The parser [`MedlineRecord`](#metaknowledge.MedlineRecord) use. This takes an entry from [`medlineParser()`](#metaknowledge.medlineParser) and parses it a part of the creation of a `MedlineRecord`.
+    """The parser [`MedlineRecord`](../classes/MedlineRecord.html#metaknowledge.medline.MedlineRecord) use. This takes an entry from [medlineParser()](#metaknowledge.medline.medlineHandlers.medlineParser) and parses it a part of the creation of a `MedlineRecord`.
 
     # Parameters
 

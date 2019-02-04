@@ -139,7 +139,7 @@ class GrantCollection(CollectionWithIDs):
                 PBar.finish("Done making a GrantCollection. Warning an error occured.")
 
     def networkCoInvestigatorInstitution(self, targetTags = None, tagSeperator = ';', count = True, weighted = True):
-        """This works the same as [`networkCoInvestigator()`](#GrantCollection.networkCoInvestigator) see it for details."""
+        """This works the same as [networkCoInvestigator()](#metaknowledge.GrantCollection.networkCoInvestigator) see it for details."""
         return self.networkCoInvestigator(targetTags = targetTags, tagSeperator = tagSeperator, count = count, weighted = weighted, _institutionLevel = True)
 
     def networkCoInvestigator(self, targetTags = None, tagSeperator = ';', count = True, weighted = True, _institutionLevel = False):

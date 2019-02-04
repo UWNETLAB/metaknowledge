@@ -40,7 +40,7 @@ def quickVisual(G, showLabel = False):
 def graphDensityContourPlot(G, iters = 50, layout = None, layoutScaleFactor = 1, overlay = False, nodeSize = 10, axisSamples = 100, blurringFactor = .1, contours = 15, graphType = 'coloured'):
     """Creates a 3D plot giving the density of nodes on a 2D plane, as a surface in 3D.
 
-    Most of the options are for tweaking the final appearance. _layout_ and _layoutScaleFactor_ allow a pre-layout graph to be provided. If a layout is not provided the [networkx.**spring_layout**()](https://networkx.github.io/documentation/latest/reference/generated/networkx.drawing.layout.spring_layout.html) is used after _iters_ iterations. Then, once the graph has been laid out a grid of _axisSamples_ cells by _axisSamples_ cells is overlaid and the number of nodes in each cell is determined, a gaussian blur is then applied with a sigma of _blurringFactor_. This then forms a surface in 3 dimensions, which is then plotted.
+    Most of the options are for tweaking the final appearance. _layout_ and _layoutScaleFactor_ allow a pre-layout graph to be provided. If a layout is not provided the [networkx.spring_layout()](https://networkx.github.io/documentation/latest/reference/generated/networkx.drawing.layout.spring_layout.html) is used after _iters_ iterations. Then, once the graph has been laid out a grid of _axisSamples_ cells by _axisSamples_ cells is overlaid and the number of nodes in each cell is determined, a gaussian blur is then applied with a sigma of _blurringFactor_. This then forms a surface in 3 dimensions, which is then plotted.
 
     If you find the resultant image looks too banded raise the the _contours_ number to ~50.
 

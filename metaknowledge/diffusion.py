@@ -9,7 +9,7 @@ from .recordCollection import RecordCollection
 import metaknowledge
 
 def diffusionGraph(source, target, weighted = True, sourceType = "raw", targetType = "raw", labelEdgesBy = None):
-    """Takes in two [`RecordCollections`](#RecordCollection.RecordCollection) and produces a graph of the citations of _source_ by the [`Records`](#Record.Record) in _target_. By default the nodes in the are `Record` objects but this can be changed with the _sourceType_ and _targetType_ keywords. The edges of the graph go from the target to the source.
+    """Takes in two [RecordCollections](../classes/RecordCollection.html#metaknowledge.RecordCollection) and produces a graph of the citations of _source_ by the [Records](../classes/Record.html#metaknowledge.Record) in _target_. By default the nodes in the are `Record` objects but this can be changed with the _sourceType_ and _targetType_ keywords. The edges of the graph go from the target to the source.
 
     Each node on the output graph has two boolean attributes, `"source"` and `"target"` indicating if they are targets or sources. Note, if the types of the sources and targets are different the attributes will not be checked for overlap of the other type. e.g. if the source type is `'TI'` (title) and the target type is `'UT'` (WOS number), and there is some overlap of the targets and sources. Then the Record corresponding to a source node will not be checked for being one of the titles of the targets, only its WOS number will be considered.
 
@@ -137,7 +137,7 @@ def diffusionGraph(source, target, weighted = True, sourceType = "raw", targetTy
     return workingGraph
 
 def diffusionCount(source, target, sourceType = "raw", extraValue = None, pandasFriendly = False,  compareCounts = False, numAuthors = True, useAllAuthors = True, _ProgBar = None, extraMapping = None):
-    """Takes in two [`RecordCollections`](#RecordCollection.RecordCollection) and produces a `dict` counting the citations of _source_ by the [`Records`](#Record.Record) of _target_. By default the `dict` uses `Record` objects as keys but this can be changed with the _sourceType_ keyword to any of the WOS tags.
+    """Takes in two [RecordCollections](../classes/RecordCollection.html#metaknowledge.RecordCollection) and produces a `dict` counting the citations of _source_ by the [Records](../classes/Record.html#metaknowledge.Record) of _target_. By default the `dict` uses `Record` objects as keys but this can be changed with the _sourceType_ keyword to any of the WOS tags.
 
     # Parameters
 
@@ -370,7 +370,7 @@ def makeNodeID(Rec, ndType, extras = None):
     return recID, extraDict
 
 def diffusionAddCountsFromSource(grph, source, target, nodeType = 'citations', extraType = None, diffusionLabel = 'DiffusionCount', extraKeys = None, countsDict = None, extraMapping = None):
-    """Does a diffusion using [`diffusionCount()`](#metaknowledge.diffusionCount) and updates _grph_ with it, using the nodes in the graph as keys in the diffusion, i.e. the source. The name of the attribute the counts are added to is given by _diffusionLabel_. If the graph is not composed of citations from the source and instead is another tag _nodeType_ needs to be given the tag string.
+    """Does a diffusion using [diffusionCount()](#metaknowledge.diffusion.diffusionCount) and updates _grph_ with it, using the nodes in the graph as keys in the diffusion, i.e. the source. The name of the attribute the counts are added to is given by _diffusionLabel_. If the graph is not composed of citations from the source and instead is another tag _nodeType_ needs to be given the tag string.
 
     # Parameters
 

@@ -1030,24 +1030,24 @@ class RecordCollection(CollectionWithIDs):
                         if auth1 not in grph:
                             grph.add_node(auth1, **detailedInfo.copy())
                         elif count:
-                            grph.node[auth1]['count'] += 1
+                            grph.nodes[auth1]['count'] += 1
                         if citeProfile:
                             for c in citesLst:
                                 try:
-                                    grph.node[auth1]['citeProfile'][c] += 1
+                                    grph.nodes[auth1]['citeProfile'][c] += 1
                                 except KeyError:
-                                    grph.node[auth1]['citeProfile'][c] = 1
+                                    grph.nodes[auth1]['citeProfile'][c] = 1
                         for auth2 in authsList[i + 1:]:
                             if auth2 not in grph:
                                 grph.add_node(auth2, **detailedInfo.copy())
                             elif count:
-                                grph.node[auth2]['count'] += 1
+                                grph.nodes[auth2]['count'] += 1
                             if citeProfile:
                                 for c in citesLst:
                                     try:
-                                        grph.node[auth2]['citeProfile'][c] += 1
+                                        grph.nodes[auth2]['citeProfile'][c] += 1
                                     except KeyError:
-                                        grph.node[auth2]['citeProfile'][c] = 1
+                                        grph.nodes[auth2]['citeProfile'][c] = 1
                             if grph.has_edge(auth1, auth2) and weighted:
                                 grph.edges[auth1, auth2]['weight'] += 1
                             elif weighted:
@@ -1644,7 +1644,7 @@ def addToNetwork(grph, nds, count, weighted, nodeType, nodeInfo, fullInfo, coreC
             nodeName, nodeDat = makeNodeTuple(n, nID, nodeInfo, fullInfo, nodeType, count, coreCitesDict, coreValues, detailedValues, addCR)
             grph.add_node(nodeName, **nodeDat)
         elif count:
-            grph.node[nID]['count'] += 1
+            grph.nodes[nID]['count'] += 1
         idList.append(nID)
 
     addedEdges = []
@@ -1798,7 +1798,7 @@ def expandRecs(G, RecCollect, nodeType, weighted):
                 if citeID1 in G:
                     for citeID2 in fullCiteList[i + 1:]:
                         if citeID2 not in G:
-                            G.add_node(citeID2, **G.node[citeID1])
+                            G.add_node(citeID2, **G.nodes[citeID1])
                             if weighted:
                                 G.add_edge(citeID1, citeID2, weight = 1)
                             else:

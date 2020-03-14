@@ -803,11 +803,11 @@ def graphStats(G, stats = ('nodes', 'edges', 'isolates', 'loops', 'density', 'tr
     if 'loops' in stats:
         if makeString:
             if sentenceString:
-                stsData.append("{:G} self loops".format(len(list(G.selfloop_edges()))))
+                stsData.append("{:G} self loops".format(len(list(nx.selfloop_edges(G)))))
             else:
-                stsData.append("Self loops: {:G}".format(len(list(G.selfloop_edges()))))
+                stsData.append("Self loops: {:G}".format(len(list(nx.selfloop_edges(G)))))
         else:
-            stsData['loops'] = len(list(G.selfloop_edges()))
+            stsData['loops'] = len(list(nx.selfloop_edges(G)))
     if 'density' in stats:
         if makeString:
             if sentenceString:

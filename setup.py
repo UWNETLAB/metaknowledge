@@ -6,7 +6,7 @@ from setuptools import setup, find_packages
 with open('metaknowledge/constants.py') as f:
     versionString = re.search(r"__version__ = '(.+)'", f.read()).group(1)
 
-long_descriptionLOC = "README.rst"
+long_descriptionLOC = "README.md"
 if os.path.isfile(long_descriptionLOC):
     long_description = open(long_descriptionLOC).read()
 else:

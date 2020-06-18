@@ -18,6 +18,7 @@ if __name__ == '__main__':
         version = versionString,
         description = "A library for handling Web of science files",
         long_description = long_description,
+        long_description_content_type = 'text/markdown',
         author="Reid McIlroy-Young, John McLevey",
         author_email = "rmcilroy@uwaterloo.ca, john.mclevey@uwaterloo.ca",
         license = 'GPL',

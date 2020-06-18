@@ -8,12 +8,12 @@ from .mkExceptions import RCValueError
 
 import metaknowledge
 
-def readGraph(edgeList, nodeList = None, directed = False, idKey = 'ID', eSource = 'From', eDest = 'To'):
+def readGraph(edgeList, nodeList = None, directed = False, idKey = 'ID', eSource = 'Source', eDest = 'Target'):
     """Reads the files given by _edgeList_ and _nodeList_ and creates a networkx graph for the files.
 
     This is designed only for the files produced by metaknowledge and is meant to be the reverse of [writeGraph()](#metaknowledge.graphHelpers.writeGraph), if this does not produce the desired results the networkx builtin [networkx.read_edgelist()](https://networkx.github.io/documentation/networkx-1.10/reference/generated/networkx.readwrite.edgelist.read_edgelist.html) could be tried as it is aimed at a more general usage.
 
-    The read edge list format assumes the column named _eSource_ (default `'From'`) is the source node, then the column _eDest_ (default `'To'`) givens the destination and all other columns are attributes of the edges, e.g. weight.
+    The read edge list format assumes the column named _eSource_ (default `'Source'`) is the source node, then the column _eDest_ (default `'Target'`) givens the destination and all other columns are attributes of the edges, e.g. weight.
 
     The read node list format assumes the column _idKey_ (default `'ID'`) is the ID of the node for the edge list and the resulting network. All other columns are considered attributes of the node, e.g. count.
 
@@ -41,11 +41,11 @@ def readGraph(edgeList, nodeList = None, directed = False, idKey = 'ID', eSource
 
     _eSource_ : `optional [str]`
 
-    > default `'From'`, the name of the source column in the edge list
+    > default `'Source'`, the name of the source column in the edge list
 
     _eDest_ : `optional [str]`
 
-    > default `'To'`, the name of the destination column in the edge list
+    > default `'Target'`, the name of the destination column in the edge list
 
     # Returns
 
@@ -100,7 +100,7 @@ def writeGraph(grph, name, edgeInfo = True, typing = False, suffix = 'csv', over
 
     >> name_fileType.suffix
 
-    Both files are csv's with comma delimiters and double quote quoting characters. The edge list has two columns for the source and destination of the edge, `'From'` and `'To'` respectively, then, if _edgeInfo_ is `True`, for each attribute of the node another column is created. The node list has one column call "ID" with the node ids used by networkx and all other columns are the node attributes.
+    Both files are csv's with comma delimiters and double quote quoting characters. The edge list has two columns for the source and destination of the edge, `'Source'` and `'Target'` respectively, then, if _edgeInfo_ is `True`, for each attribute of the node another column is created. The node list has one column call "ID" with the node ids used by networkx and all other columns are the node attributes.
 
     To read back these files use [readGraph()](#metaknowledge.graphHelpers.readGraph) and to write only one type of lsit use [writeEdgeList()](#metaknowledge.graphHelpers.writeEdgeList) or [writeNodeAttributeFile()](#metaknowledge.graphHelpers.writeNodeAttributeFile).
 
@@ -172,7 +172,7 @@ def writeGraph(grph, name, edgeInfo = True, typing = False, suffix = 'csv', over
 def writeEdgeList(grph, name, extraInfo = True, allSameAttribute = False, _progBar = None):
     """Writes an edge list of _grph_ at the destination _name_.
 
-    The edge list has two columns for the source and destination of the edge, `'From'` and `'To'` respectively, then, if _edgeInfo_ is `True`, for each attribute of the node another column is created.
+    The edge list has two columns for the source and destination of the edge, `'Source'` and `'Target'` respectively, then, if _edgeInfo_ is `True`, for each attribute of the node another column is created.
 
     **Note**: If any edges are missing an attribute it will be left blank by default, enable _allSameAttribute_ to cause a `KeyError` to be raised.
 
@@ -206,14 +206,14 @@ def writeEdgeList(grph, name, extraInfo = True, allSameAttribute = False, _progB
         PBar = _ProgressBar(0, "Writing edge list {}".format(name), dummy = True)
     if len(grph.edges(data = True)) < 1:
         outFile = open(os.path.expanduser(os.path.abspath(name)), 'w')
-        outFile.write('"From","To"\n')
+        outFile.write('"Source","Target"\n')
         outFile.close()
         PBar.updateVal(1, "Done edge list '{}', 0 edges written.".format(name))
     else:
         if extraInfo:
             csvHeader = []
             if allSameAttribute:
-                csvHeader = ['From'] +  ['To'] + list(grph.edges(data = True).__next__()[2].keys())
+                csvHeader = ['Source'] +  ['Target'] + list(grph.edges(data = True).__next__()[2].keys())
             else:
                 extraAttribs = set()
                 for eTuple in grph.edges(data = True):
@@ -224,9 +224,9 @@ def writeEdgeList(grph, name, extraInfo = True, allSameAttribute = False, _progB
                     if len(s) > 0:
                         for i in s:
                             extraAttribs.add(i)
-                csvHeader = ['From', 'To'] + list(extraAttribs)
+                csvHeader = ['Source', 'Target'] + list(extraAttribs)
         else:
-            csvHeader = ['From'] +  ['To']
+            csvHeader = ['Source'] +  ['Target']
         count = 0
         PBar.updateVal(.01, "Opening file {}".format(name))
         f = open(os.path.expanduser(os.path.abspath(name)), 'w', newline = '')
@@ -238,8 +238,8 @@ def writeEdgeList(grph, name, extraInfo = True, allSameAttribute = False, _progB
                 if count % 1000 == 0:
                     PBar.updateVal(count / eMax * .90 + .10, "Writing edge: '{}' to '{}'".format(e[0], e[1]))
                 eDict = e[2].copy()
-                eDict['From'] = e[0]
-                eDict['To'] = e[1]
+                eDict['Source'] = e[0]
+                eDict['Target'] = e[1]
                 try:
                     outFile.writerow(eDict)
                 except UnicodeEncodeError:
@@ -253,8 +253,8 @@ def writeEdgeList(grph, name, extraInfo = True, allSameAttribute = False, _progB
                 count += 1
                 if count % 1000 == 0:
                     PBar.updateVal(count / eMax * .90 + .10, "Writing edge: '{}' to '{}'".format(e[0], e[1]))
-                eDict['From'] = e[0]
-                eDict['To'] = e[1]
+                eDict['Source'] = e[0]
+                eDict['Target'] = e[1]
                 try:
                     outFile.writerow(eDict)
                 except UnicodeEncodeError:

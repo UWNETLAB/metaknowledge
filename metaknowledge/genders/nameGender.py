@@ -7,7 +7,7 @@ import urllib
 
 from ..mkExceptions import GenderException
 
-dataURL = 'https://github.com/networks-lab/globalnamedata/archive/0.3.zip'
+dataURL = 'https://github.com/UWNETLAB/globalnamedata/archive/0.3.zip'
 americanNamesPath = 'globalnamedata-0.3/assets/usprocessed.csv'
 ukNamesPath = 'globalnamedata-0.3/assets/ukprocessed.csv'
 

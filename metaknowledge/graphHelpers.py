@@ -2,7 +2,7 @@
 import networkx as nx
 import csv
 import os
-
+sel
 from .progressBar import _ProgressBar
 from .mkExceptions import RCValueError
 
@@ -535,7 +535,7 @@ def dropEdges(grph, minWeight = - float('inf'), maxWeight = float('inf'), parame
         progKwargs = {'dummy' : True}
     with _ProgressBar(*progArgs, **progKwargs) as PBar:
         if dropSelfLoops:
-            slps = list(grph.selfloop_edges())
+            slps = list(nx.selfloop_edges(grph))
 
             PBar.updateVal(0, "Dropping self {} loops".format(len(slps)))
             for e in slps:

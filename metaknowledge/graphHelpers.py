@@ -2,7 +2,7 @@
 import networkx as nx
 import csv
 import os
-sel
+
 from .progressBar import _ProgressBar
 from .mkExceptions import RCValueError
 

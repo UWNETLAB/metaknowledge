@@ -16,7 +16,7 @@ def getMonth(s):
     if monthOrSeason in monthDict:
         return monthDict[monthOrSeason]
     else:
-        monthOrSeason = s.split('-')[1].upper()
+        monthOrSeason = s.split('-')[-1].upper()
         if monthOrSeason.isdigit():
             return monthOrSeason
         else:
